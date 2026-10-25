@@ -1,0 +1,58 @@
+{
+  "protocol": "single_actor_reserve_v1",
+  "magic": "0x52535631",
+  "version": 1,
+  "install_message": "WM_APP+0x393",
+  "pulse_message": "WM_APP+0x394",
+  "restore_mask": 63,
+  "hook_count": 6,
+  "layout": {
+    "sample": 240,
+    "event": 312,
+    "tactical": 320464,
+    "events": 976,
+    "period_ms": 20,
+    "fallback_ms": 100,
+    "loss_ms": 1000
+  },
+  "native_binary_sha256": "154c564e21fe5e3dfd24c861fa95828a246120f3e88201d0b220e30adea3bf0c",
+  "native_host_sha256": "faffc9bb0bfcc8939f1e09fca671674a59b0310a0e55ea84f940798a337176cf",
+  "native_source_sha256": "c4b2a7ee6de6139f62e6f122afe63fdd960c0279e14db5918a6c30821d12a6ec",
+  "native_shared_sha256": "be5a228784c113eb69cf3f8162a8ceceb7ac6cc58d989b7d0fad4e1f825bc940",
+  "native_includes_sha256": {
+    "host_pulse.cpp.inc": "51b95747ff223bfc33eb8fecb8ba128df0a903ca7afa3f06de4c624628695a7f",
+    "logic.cpp.inc": "1e9f48af1afb2828e296734302d6031819de874d3b4414603aca1d2c65e55227",
+    "scheduler.cpp.inc": "7106bd1802b507bda9db87bbb2f439cb5269ca6373bb09db1027c34387bb9ff3"
+  },
+  "inert_layout_sha256": "56662959fd4cfc15d8b29a14b398d3047288ed5a86538a4ac63099eeb04b9046",
+  "host_source_sha256": "4e42a7ab31e4c9f0c5c2ccad1b23fcf05c025b43e5d2518fa4f540fe3f3ed6b8",
+  "build_script_sha256": "11b7c69e62dd27f0116ca5ad78397978eceb39b69b1ec3f0499113e5aed7e7dd",
+  "tests": {
+    "test_native.cpp": "5e84564de517f7272d5009babd2af29855ff79f6c5cf561fb7950189d5793aca",
+    "test_scheduler.cpp": "8aee4361f3488988c9eaaebd9082ee3b7220feab44ac9c7a4c0949d4103ad356",
+    "test_native.exe": "6b8f4f6d6959a9cc5b43de6289374374714525fb1094971ee35c40cf3fb764a7",
+    "test_scheduler.exe": "7ef089aa0bbfd0fac0bf6885643cdb58260f5f3c711a2e437f962469b5faa309",
+    "native-positive.bin": "2170a9ba6117e75c1cf70ec1868516918cf26f05ea1d50c0b0185720fec71afa"
+  },
+  "software_checks": {
+    "actual_logic": 57,
+    "actual_scheduler": 26,
+    "field_verified": false
+  },
+  "runtime_capability_authorized": false,
+  "rules": {
+    "admission_consecutive_frames": 3,
+    "admission_deadline_frames": 30,
+    "production_binding_words": 20,
+    "test_stance": 2,
+    "max_sdk_calls": 6,
+    "stop_timeout_frames": 60,
+    "hold_frames": 90,
+    "hold_frame_gap": 1,
+    "mission_frames": 300,
+    "wall_ms": 30000,
+    "period_ms": 20,
+    "fallback_ms": 100,
+    "host_loss_ms": 1000
+  }
+}

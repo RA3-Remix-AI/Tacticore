@@ -1,0 +1,777 @@
+{
+  "status": "no_dispatch_current_pair_or_contact_not_ready",
+  "session_id": "efbff007-1cd0-476f-83af-54cdee41c9f7",
+  "frame": 1970,
+  "paused": 0,
+  "own_fronts": [
+    {
+      "object_id": 792,
+      "xyz": [
+        2784.374755859375,
+        2884.75146484375,
+        210.0
+      ]
+    },
+    {
+      "object_id": 803,
+      "xyz": [
+        2890.268310546875,
+        3124.549560546875,
+        210.0
+      ]
+    },
+    {
+      "object_id": 808,
+      "xyz": [
+        2766.639404296875,
+        2910.311279296875,
+        210.0
+      ]
+    },
+    {
+      "object_id": 814,
+      "xyz": [
+        2790.416259765625,
+        2898.304931640625,
+        210.0
+      ]
+    }
+  ],
+  "own_supports": [
+    {
+      "object_id": 788,
+      "xyz": [
+        2819.309814453125,
+        2890.0,
+        210.0
+      ]
+    },
+    {
+      "object_id": 790,
+      "xyz": [
+        2774.363037109375,
+        2890.0,
+        210.0
+      ]
+    },
+    {
+      "object_id": 798,
+      "xyz": [
+        2882.712158203125,
+        3167.58056640625,
+        210.0
+      ]
+    },
+    {
+      "object_id": 801,
+      "xyz": [
+        2890.0,
+        3101.51904296875,
+        210.0
+      ]
+    },
+    {
+      "object_id": 806,
+      "xyz": [
+        2892.7890625,
+        3145.36962890625,
+        210.0
+      ]
+    },
+    {
+      "object_id": 810,
+      "xyz": [
+        2626.390625,
+        2826.65625,
+        210.0
+      ]
+    }
+  ],
+  "visible_contacts": 0,
+  "errors": [],
+  "owned_combat_snapshot": [
+    {
+      "object_id": 788,
+      "type_hash": "0x2c358c61",
+      "xyz": [
+        2819.309814453125,
+        2890.0,
+        210.0
+      ],
+      "hp": 120.0,
+      "owner_index": 3,
+      "frame": 1970,
+      "role": "infantry",
+      "independently_movable": true,
+      "native_pool": true,
+      "team": "0x444e660",
+      "team_owner": "0x34084d0",
+      "ground_evidence": {
+        "schema_version": 2,
+        "status": "verified_native_surface_sample",
+        "object_id": 788,
+        "address": "0x5994820",
+        "owner": "0x34084d0",
+        "type_hash": "0x2c358c61",
+        "template": "SovietAntiVehicleInfantry",
+        "frame": 1970,
+        "end_frame": 1970,
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "ground160_diagnostic": false,
+        "known_air_state": false,
+        "height_cache_flags": "0x6",
+        "height_cache_valid": true,
+        "cached_height_distance": 0.0,
+        "height_tolerance": 0.5,
+        "xyz": [
+          2819.309814453125,
+          2890.0,
+          210.0
+        ],
+        "hp": 120.0,
+        "holder": "0x0",
+        "ground_positive": true,
+        "grounded_verified": true,
+        "walkable_route_verified": false,
+        "atomic_sample_verified": true,
+        "source": "ground_only_template_plus_valid_native_surface_cache_and_air_exclusions_v2",
+        "mutations": false,
+        "helper_sha256": "70e5f94bac9b1a82beec56053fd43e91f6edaba1500c8dfa840e868be836e6b3",
+        "native_status_helper_sha256": "ad5b758c947843969f2d1ec6e7fc07c0eaec084b1a59e60750d69d881e78a6c0"
+      }
+    },
+    {
+      "object_id": 790,
+      "type_hash": "0x2c358c61",
+      "xyz": [
+        2774.363037109375,
+        2890.0,
+        210.0
+      ],
+      "hp": 120.0,
+      "owner_index": 3,
+      "frame": 1970,
+      "role": "infantry",
+      "independently_movable": true,
+      "native_pool": true,
+      "team": "0x4e6fcf0",
+      "team_owner": "0x34084d0",
+      "ground_evidence": {
+        "schema_version": 2,
+        "status": "verified_native_surface_sample",
+        "object_id": 790,
+        "address": "0x5995220",
+        "owner": "0x34084d0",
+        "type_hash": "0x2c358c61",
+        "template": "SovietAntiVehicleInfantry",
+        "frame": 1970,
+        "end_frame": 1970,
+        "status_words": [
+          "0x4000",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "ground160_diagnostic": false,
+        "known_air_state": false,
+        "height_cache_flags": "0x7",
+        "height_cache_valid": true,
+        "cached_height_distance": 0.0,
+        "height_tolerance": 0.5,
+        "xyz": [
+          2774.363037109375,
+          2890.0,
+          210.0
+        ],
+        "hp": 120.0,
+        "holder": "0x0",
+        "ground_positive": true,
+        "grounded_verified": true,
+        "walkable_route_verified": false,
+        "atomic_sample_verified": true,
+        "source": "ground_only_template_plus_valid_native_surface_cache_and_air_exclusions_v2",
+        "mutations": false,
+        "helper_sha256": "70e5f94bac9b1a82beec56053fd43e91f6edaba1500c8dfa840e868be836e6b3",
+        "native_status_helper_sha256": "ad5b758c947843969f2d1ec6e7fc07c0eaec084b1a59e60750d69d881e78a6c0"
+      }
+    },
+    {
+      "object_id": 792,
+      "type_hash": "0x19ab11af",
+      "xyz": [
+        2784.374755859375,
+        2884.75146484375,
+        210.0
+      ],
+      "hp": 100.0,
+      "owner_index": 3,
+      "frame": 1970,
+      "role": "infantry",
+      "independently_movable": true,
+      "native_pool": true,
+      "team": "0x4e6fcf0",
+      "team_owner": "0x34084d0",
+      "ground_evidence": {
+        "schema_version": 2,
+        "status": "verified_native_surface_sample",
+        "object_id": 792,
+        "address": "0x598e920",
+        "owner": "0x34084d0",
+        "type_hash": "0x19ab11af",
+        "template": "SovietAntiInfantryInfantry",
+        "frame": 1970,
+        "end_frame": 1970,
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x20000000",
+          "0x0",
+          "0x0"
+        ],
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "ground160_diagnostic": false,
+        "known_air_state": false,
+        "height_cache_flags": "0x6",
+        "height_cache_valid": true,
+        "cached_height_distance": 0.0,
+        "height_tolerance": 0.5,
+        "xyz": [
+          2784.374755859375,
+          2884.75146484375,
+          210.0
+        ],
+        "hp": 100.0,
+        "holder": "0x0",
+        "ground_positive": true,
+        "grounded_verified": true,
+        "walkable_route_verified": false,
+        "atomic_sample_verified": true,
+        "source": "ground_only_template_plus_valid_native_surface_cache_and_air_exclusions_v2",
+        "mutations": false,
+        "helper_sha256": "70e5f94bac9b1a82beec56053fd43e91f6edaba1500c8dfa840e868be836e6b3",
+        "native_status_helper_sha256": "ad5b758c947843969f2d1ec6e7fc07c0eaec084b1a59e60750d69d881e78a6c0"
+      }
+    },
+    {
+      "object_id": 798,
+      "type_hash": "0x2c358c61",
+      "xyz": [
+        2882.293701171875,
+        3170.887451171875,
+        210.0
+      ],
+      "hp": 120.0,
+      "owner_index": 3,
+      "frame": 1970,
+      "role": "infantry",
+      "independently_movable": true,
+      "native_pool": true,
+      "team": "0x4e6fcf0",
+      "team_owner": "0x34084d0",
+      "ground_evidence": {
+        "schema_version": 2,
+        "status": "verified_native_surface_sample",
+        "object_id": 798,
+        "address": "0x5996b20",
+        "owner": "0x34084d0",
+        "type_hash": "0x2c358c61",
+        "template": "SovietAntiVehicleInfantry",
+        "frame": 1970,
+        "end_frame": 1970,
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "ground160_diagnostic": false,
+        "known_air_state": false,
+        "height_cache_flags": "0x7",
+        "height_cache_valid": true,
+        "cached_height_distance": 0.0,
+        "height_tolerance": 0.5,
+        "xyz": [
+          2882.293701171875,
+          3170.887451171875,
+          210.0
+        ],
+        "hp": 120.0,
+        "holder": "0x0",
+        "ground_positive": true,
+        "grounded_verified": true,
+        "walkable_route_verified": false,
+        "atomic_sample_verified": true,
+        "source": "ground_only_template_plus_valid_native_surface_cache_and_air_exclusions_v2",
+        "mutations": false,
+        "helper_sha256": "70e5f94bac9b1a82beec56053fd43e91f6edaba1500c8dfa840e868be836e6b3",
+        "native_status_helper_sha256": "ad5b758c947843969f2d1ec6e7fc07c0eaec084b1a59e60750d69d881e78a6c0"
+      }
+    },
+    {
+      "object_id": 801,
+      "type_hash": "0x2c358c61",
+      "xyz": [
+        2890.0,
+        3104.852294921875,
+        210.0
+      ],
+      "hp": 120.0,
+      "owner_index": 3,
+      "frame": 1970,
+      "role": "infantry",
+      "independently_movable": true,
+      "native_pool": true,
+      "team": "0x4e6fcf0",
+      "team_owner": "0x34084d0",
+      "ground_evidence": {
+        "schema_version": 2,
+        "status": "verified_native_surface_sample",
+        "object_id": 801,
+        "address": "0x5997520",
+        "owner": "0x34084d0",
+        "type_hash": "0x2c358c61",
+        "template": "SovietAntiVehicleInfantry",
+        "frame": 1970,
+        "end_frame": 1970,
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "ground160_diagnostic": false,
+        "known_air_state": false,
+        "height_cache_flags": "0x7",
+        "height_cache_valid": true,
+        "cached_height_distance": 0.0,
+        "height_tolerance": 0.5,
+        "xyz": [
+          2890.0,
+          3104.852294921875,
+          210.0
+        ],
+        "hp": 120.0,
+        "holder": "0x0",
+        "ground_positive": true,
+        "grounded_verified": true,
+        "walkable_route_verified": false,
+        "atomic_sample_verified": true,
+        "source": "ground_only_template_plus_valid_native_surface_cache_and_air_exclusions_v2",
+        "mutations": false,
+        "helper_sha256": "70e5f94bac9b1a82beec56053fd43e91f6edaba1500c8dfa840e868be836e6b3",
+        "native_status_helper_sha256": "ad5b758c947843969f2d1ec6e7fc07c0eaec084b1a59e60750d69d881e78a6c0"
+      }
+    },
+    {
+      "object_id": 803,
+      "type_hash": "0x19ab11af",
+      "xyz": [
+        2890.329833984375,
+        3127.88232421875,
+        210.0
+      ],
+      "hp": 100.0,
+      "owner_index": 3,
+      "frame": 1970,
+      "role": "infantry",
+      "independently_movable": true,
+      "native_pool": true,
+      "team": "0x4e6fcf0",
+      "team_owner": "0x34084d0",
+      "ground_evidence": {
+        "schema_version": 2,
+        "status": "verified_native_surface_sample",
+        "object_id": 803,
+        "address": "0x5997f20",
+        "owner": "0x34084d0",
+        "type_hash": "0x19ab11af",
+        "template": "SovietAntiInfantryInfantry",
+        "frame": 1970,
+        "end_frame": 1970,
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "ground160_diagnostic": false,
+        "known_air_state": false,
+        "height_cache_flags": "0x7",
+        "height_cache_valid": true,
+        "cached_height_distance": 0.0,
+        "height_tolerance": 0.5,
+        "xyz": [
+          2890.329833984375,
+          3127.88232421875,
+          210.0
+        ],
+        "hp": 100.0,
+        "holder": "0x0",
+        "ground_positive": true,
+        "grounded_verified": true,
+        "walkable_route_verified": false,
+        "atomic_sample_verified": true,
+        "source": "ground_only_template_plus_valid_native_surface_cache_and_air_exclusions_v2",
+        "mutations": false,
+        "helper_sha256": "70e5f94bac9b1a82beec56053fd43e91f6edaba1500c8dfa840e868be836e6b3",
+        "native_status_helper_sha256": "ad5b758c947843969f2d1ec6e7fc07c0eaec084b1a59e60750d69d881e78a6c0"
+      }
+    },
+    {
+      "object_id": 806,
+      "type_hash": "0x2c358c61",
+      "xyz": [
+        2892.7890625,
+        3145.36962890625,
+        210.0
+      ],
+      "hp": 120.0,
+      "owner_index": 3,
+      "frame": 1970,
+      "role": "infantry",
+      "independently_movable": true,
+      "native_pool": true,
+      "team": "0x4e6fcf0",
+      "team_owner": "0x34084d0",
+      "ground_evidence": {
+        "schema_version": 2,
+        "status": "verified_native_surface_sample",
+        "object_id": 806,
+        "address": "0x5998920",
+        "owner": "0x34084d0",
+        "type_hash": "0x2c358c61",
+        "template": "SovietAntiVehicleInfantry",
+        "frame": 1970,
+        "end_frame": 1970,
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "ground160_diagnostic": false,
+        "known_air_state": false,
+        "height_cache_flags": "0x6",
+        "height_cache_valid": true,
+        "cached_height_distance": 0.0,
+        "height_tolerance": 0.5,
+        "xyz": [
+          2892.7890625,
+          3145.36962890625,
+          210.0
+        ],
+        "hp": 120.0,
+        "holder": "0x0",
+        "ground_positive": true,
+        "grounded_verified": true,
+        "walkable_route_verified": false,
+        "atomic_sample_verified": true,
+        "source": "ground_only_template_plus_valid_native_surface_cache_and_air_exclusions_v2",
+        "mutations": false,
+        "helper_sha256": "70e5f94bac9b1a82beec56053fd43e91f6edaba1500c8dfa840e868be836e6b3",
+        "native_status_helper_sha256": "ad5b758c947843969f2d1ec6e7fc07c0eaec084b1a59e60750d69d881e78a6c0"
+      }
+    },
+    {
+      "object_id": 808,
+      "type_hash": "0x19ab11af",
+      "xyz": [
+        2769.97216796875,
+        2910.37353515625,
+        210.0
+      ],
+      "hp": 100.0,
+      "owner_index": 3,
+      "frame": 1970,
+      "role": "infantry",
+      "independently_movable": true,
+      "native_pool": true,
+      "team": "0x4e6fcf0",
+      "team_owner": "0x34084d0",
+      "ground_evidence": {
+        "schema_version": 2,
+        "status": "verified_native_surface_sample",
+        "object_id": 808,
+        "address": "0x48c5fa0",
+        "owner": "0x34084d0",
+        "type_hash": "0x19ab11af",
+        "template": "SovietAntiInfantryInfantry",
+        "frame": 1970,
+        "end_frame": 1970,
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x20000000",
+          "0x0",
+          "0x0"
+        ],
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "ground160_diagnostic": false,
+        "known_air_state": false,
+        "height_cache_flags": "0x7",
+        "height_cache_valid": true,
+        "cached_height_distance": 0.0,
+        "height_tolerance": 0.5,
+        "xyz": [
+          2769.97216796875,
+          2910.37353515625,
+          210.0
+        ],
+        "hp": 100.0,
+        "holder": "0x0",
+        "ground_positive": true,
+        "grounded_verified": true,
+        "walkable_route_verified": false,
+        "atomic_sample_verified": true,
+        "source": "ground_only_template_plus_valid_native_surface_cache_and_air_exclusions_v2",
+        "mutations": false,
+        "helper_sha256": "70e5f94bac9b1a82beec56053fd43e91f6edaba1500c8dfa840e868be836e6b3",
+        "native_status_helper_sha256": "ad5b758c947843969f2d1ec6e7fc07c0eaec084b1a59e60750d69d881e78a6c0"
+      }
+    },
+    {
+      "object_id": 810,
+      "type_hash": "0x2c358c61",
+      "xyz": [
+        2626.390625,
+        2826.65625,
+        210.0
+      ],
+      "hp": 120.0,
+      "owner_index": 3,
+      "frame": 1970,
+      "role": "infantry",
+      "independently_movable": true,
+      "native_pool": true,
+      "team": "0x4e6fcf0",
+      "team_owner": "0x34084d0",
+      "ground_evidence": {
+        "schema_version": 2,
+        "status": "verified_native_surface_sample",
+        "object_id": 810,
+        "address": "0x5999320",
+        "owner": "0x34084d0",
+        "type_hash": "0x2c358c61",
+        "template": "SovietAntiVehicleInfantry",
+        "frame": 1970,
+        "end_frame": 1970,
+        "status_words": [
+          "0x8000",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x2000",
+          "0x0",
+          "0x0"
+        ],
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "ground160_diagnostic": false,
+        "known_air_state": false,
+        "height_cache_flags": "0x7",
+        "height_cache_valid": true,
+        "cached_height_distance": 0.0,
+        "height_tolerance": 0.5,
+        "xyz": [
+          2626.390625,
+          2826.65625,
+          210.0
+        ],
+        "hp": 120.0,
+        "holder": "0x0",
+        "ground_positive": true,
+        "grounded_verified": true,
+        "walkable_route_verified": false,
+        "atomic_sample_verified": true,
+        "source": "ground_only_template_plus_valid_native_surface_cache_and_air_exclusions_v2",
+        "mutations": false,
+        "helper_sha256": "70e5f94bac9b1a82beec56053fd43e91f6edaba1500c8dfa840e868be836e6b3",
+        "native_status_helper_sha256": "ad5b758c947843969f2d1ec6e7fc07c0eaec084b1a59e60750d69d881e78a6c0"
+      }
+    },
+    {
+      "object_id": 814,
+      "type_hash": "0x19ab11af",
+      "xyz": [
+        2793.046142578125,
+        2896.2646484375,
+        210.0
+      ],
+      "hp": 99.25249481201172,
+      "owner_index": 3,
+      "frame": 1970,
+      "role": "infantry",
+      "independently_movable": true,
+      "native_pool": true,
+      "team": "0x4e6fcf0",
+      "team_owner": "0x34084d0",
+      "ground_evidence": {
+        "schema_version": 2,
+        "status": "verified_native_surface_sample",
+        "object_id": 814,
+        "address": "0x5991120",
+        "owner": "0x34084d0",
+        "type_hash": "0x19ab11af",
+        "template": "SovietAntiInfantryInfantry",
+        "frame": 1970,
+        "end_frame": 1970,
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x20000000",
+          "0x0",
+          "0x0"
+        ],
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "ground160_diagnostic": false,
+        "known_air_state": false,
+        "height_cache_flags": "0x7",
+        "height_cache_valid": true,
+        "cached_height_distance": 0.0,
+        "height_tolerance": 0.5,
+        "xyz": [
+          2793.046142578125,
+          2896.2646484375,
+          210.0
+        ],
+        "hp": 99.25249481201172,
+        "holder": "0x0",
+        "ground_positive": true,
+        "grounded_verified": true,
+        "walkable_route_verified": false,
+        "atomic_sample_verified": true,
+        "source": "ground_only_template_plus_valid_native_surface_cache_and_air_exclusions_v2",
+        "mutations": false,
+        "helper_sha256": "70e5f94bac9b1a82beec56053fd43e91f6edaba1500c8dfa840e868be836e6b3",
+        "native_status_helper_sha256": "ad5b758c947843969f2d1ec6e7fc07c0eaec084b1a59e60750d69d881e78a6c0"
+      }
+    }
+  ],
+  "support_frame": 1970,
+  "route_planning_performed": false,
+  "sdk_calls": 0
+}

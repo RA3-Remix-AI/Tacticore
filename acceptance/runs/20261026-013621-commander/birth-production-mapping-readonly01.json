@@ -1,0 +1,86 @@
+{
+  "birth_source": {
+    "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261026-013621-commander\\continuous-paid-supported12-01.json",
+    "sha256": "a4bfbac95890d9c4853c16f0c04fb7d2844140017a664dd6a2309ccd6aa4ec33",
+    "receipt": {
+      "command_id": "ed64fbe0-f70b-4964-bc23-26df2d69aa64",
+      "task_id": "8ce6a10b-4d7a-4a8c-a2d2-8274fc69802f",
+      "seq": 31,
+      "status": "completed",
+      "accepted": true,
+      "started": true,
+      "completed": true,
+      "reason_code": "native_0",
+      "unit": "conscript",
+      "queue_id": 30,
+      "object_id": 1177,
+      "cost": 85,
+      "paid": 85,
+      "paid_verified": true,
+      "created": true,
+      "completion_observed": true,
+      "live_samples": 2555,
+      "payment_error": 0,
+      "enqueue_frame": 5423,
+      "completion_frame": 5493,
+      "queue_preserved": true
+    },
+    "receipt_sha256": "b528588ace3221e7ec6d05f51980ed0d341c95dfe402beca312122f97a44bd95",
+    "command": {
+      "session_id": "efbff007-1cd0-476f-83af-54cdee41c9f7",
+      "player_id": 3,
+      "commander_id": "57e668b4-4d89-43bd-bc92-0dd436f046ef",
+      "command_id": "ed64fbe0-f70b-4964-bc23-26df2d69aa64",
+      "task_id": "8ce6a10b-4d7a-4a8c-a2d2-8274fc69802f",
+      "seq": 31,
+      "unit": "conscript",
+      "budget": 1000,
+      "reserve": 1000,
+      "expires_frame": 5871
+    }
+  },
+  "production_readonly": {
+    "protocol": "reserve_birth_stopped_production_readonly_v1",
+    "mutations": false,
+    "sdk_calls": 0,
+    "pid": 33860,
+    "session_id": "efbff007-1cd0-476f-83af-54cdee41c9f7",
+    "header_hex": "444d43500100000044840000bca20000d0844003501c6f0420f0d10ed9d96476709e5a11814b4459a764dd01efbff0071cd0476f83af54cdee41c9f757e668b44d8943bdbc920dd436f046efa00f0000e8030000960000001a0300000200000001000000000000009ac4652700000000200000004d49c6d8c8d64d3ebd29332435f606cb1c5ba6a437e64369ae5df8ba34fa5378efbff0071cd0476f83af54cdee41c9f757e668b44d8943bdbc920dd436f046ef618c352ce8030000e803000087170000020000005048632720d59805fd020000ccf6a2061f0000000000000020000000c61500002f150000e8030000200000001f00000000000000bca20000",
+    "receipt_hex": "00000000810a00001f000000ed64fbe0f70b4964bc2326df2d69aa648ce6a10b4d7a4a8ca2d28274fc69802fefbff0071cd0476f83af54cdee41c9f757e668b44d8943bdbc920dd436f046efaf11ab19e8030000e8030000ef160000020000003021632720d59805fd020000ccf6a2060200000000000000010000002f1500001e000000406dbd06550000005500000022050000000000000000000001000000550000003c0000000000000001000000a05f8c0499040000d0844003af11ab190100000075150000fb0900000000fa4200e0674500e03a4566a13645849f3845",
+    "receipt_index": 30,
+    "header_size": 256,
+    "receipt_size": 224,
+    "entries": [
+      {
+        "address": "0x7ba770",
+        "expected": "81ec3c010000f605486bce0001535657",
+        "actual": "81ec3c010000f605486bce0001535657"
+      },
+      {
+        "address": "0x70f440",
+        "expected": "83ec08558b6c241085ed568bf1",
+        "actual": "83ec08558b6c241085ed568bf1"
+      },
+      {
+        "address": "0x849220",
+        "expected": "81ecb4000000568bf18b46148b4e04",
+        "actual": "81ecb4000000568bf18b46148b4e04"
+      },
+      {
+        "address": "0x73e390",
+        "expected": "83ec208b4424248b54242c5355",
+        "actual": "83ec208b4424248b54242c5355"
+      },
+      {
+        "address": "0x789bf0",
+        "expected": "51568bf180be3801000000",
+        "actual": "51568bf180be3801000000"
+      }
+    ],
+    "reader_sha256": "be505422c4ee3d3e06f002162f02dee26b4c6b3ddf99f48395de1ae29b026fdc",
+    "producer_sha256": "337cabd758d9e0bd564f95f3c928454d29388cd80d78fbb15b2e8e4b70708a71",
+    "native_binary_sha256": "4709bb1b2745bfe3cac9b5c27d412197ffc97c67b4e2dd7635ff2434accf5e87",
+    "native_host_sha256": "4bc2f86935f86eab2369818e02111d3b3197a8c73f66fbd324389322bb87dca1"
+  },
+  "borrow_authorized": false
+}

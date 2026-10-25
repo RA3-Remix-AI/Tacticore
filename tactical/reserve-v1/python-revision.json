@@ -1,0 +1,62 @@
+{
+  "native_binary_sha256": "154c564e21fe5e3dfd24c861fa95828a246120f3e88201d0b220e30adea3bf0c",
+  "native_host_sha256": "faffc9bb0bfcc8939f1e09fca671674a59b0310a0e55ea84f940798a337176cf",
+  "native_source_sha256": "c4b2a7ee6de6139f62e6f122afe63fdd960c0279e14db5918a6c30821d12a6ec",
+  "native_shared_sha256": "be5a228784c113eb69cf3f8162a8ceceb7ac6cc58d989b7d0fad4e1f825bc940",
+  "native_revision_sha256": "371dc834688e2bdf0c2d042e023cbe5ee3cf82b804acbe8f67d29e8b4afaab24",
+  "native_includes_sha256": {
+    "host_pulse.cpp.inc": "51b95747ff223bfc33eb8fecb8ba128df0a903ca7afa3f06de4c624628695a7f",
+    "logic.cpp.inc": "1e9f48af1afb2828e296734302d6031819de874d3b4414603aca1d2c65e55227",
+    "scheduler.cpp.inc": "7106bd1802b507bda9db87bbb2f439cb5269ca6373bb09db1027c34387bb9ff3"
+  },
+  "wrapper_sha256": "9a3891b9d3a73db163f7eef80047e7435db1a971cea2a3f9077684309c3cb24a",
+  "native_layout_sha256": "9b61177eb0bcdd462dade908168b4199a44f724675f7f4686764e00e6dd74722",
+  "supplemental_sources": {
+    "reserve_qualification.py": "7f45186e3ba8a9f7aab37beedad73cb820fd8e520b5d94916a108320fb226130",
+    "native_layout.py": "9b61177eb0bcdd462dade908168b4199a44f724675f7f4686764e00e6dd74722",
+    "lease.py": "9a3891b9d3a73db163f7eef80047e7435db1a971cea2a3f9077684309c3cb24a",
+    "preflight.py": "52cccd635e238e19d3509b18aedc645c94de68d79d7b9551fb3ae820edf42928",
+    "birth_source.py": "13f29ca345f6524ce965587110e7ca91a23a5ac9ceff884c9deed74a307c3e80",
+    "inert-layout.json": "56662959fd4cfc15d8b29a14b398d3047288ed5a86538a4ac63099eeb04b9046",
+    "host_pulse.cpp.inc": "51b95747ff223bfc33eb8fecb8ba128df0a903ca7afa3f06de4c624628695a7f",
+    "logic.cpp.inc": "1e9f48af1afb2828e296734302d6031819de874d3b4414603aca1d2c65e55227",
+    "scheduler.cpp.inc": "7106bd1802b507bda9db87bbb2f439cb5269ca6373bb09db1027c34387bb9ff3"
+  },
+  "external_sources": {
+    "tactical/ordered-combo/lease.py": "ea6d8996b7f9358caa53660f31683ccf0aed6f6e4a79c01287f0c46c1f257a9a",
+    "tactical/mission_actor_admission_v2.py": "b62c2fdaa4c959d764109a10d63b31c025673bdc196fc50da81750c0afb4c02b",
+    "tactical/grounded_status_v2.py": "70e5f94bac9b1a82beec56053fd43e91f6edaba1500c8dfa840e868be836e6b3",
+    "tactical/grounded_status.py": "ad5b758c947843969f2d1ec6e7fc07c0eaec084b1a59e60750d69d881e78a6c0",
+    "tactical/mobility_guard.py": "e903f9a10d342e0faa17545727f52992a57d2eb04f69e805030f636bbaa7e14f",
+    "visibility/capability.py": "4049976fd8e93ab816555affa45e5bfa60a4fe020573e878ffd1542b8857f28d",
+    "visibility/collector.py": "4bc61a0a500ed1729b741238c859fdc625e74c004d3df0127404562e08f6d2d5",
+    "visibility/projection.py": "62e48b11ced645a1a2b49acd3db5c51a4e5f7254804e8896ea11d13338e7ab5e",
+    "production/persistent/client.py": "337cabd758d9e0bd564f95f3c928454d29388cd80d78fbb15b2e8e4b70708a71",
+    "production/persistent/shared.h": "299ecae5e88bfdd3e4d803111bff0571e64fd13543d0e828cd9c3ead71efb5a0",
+    "production/persistent/bin-v2/ProductionPersistent.dll": "4709bb1b2745bfe3cac9b5c27d412197ffc97c67b4e2dd7635ff2434accf5e87",
+    "production/persistent/bin-v2/persistent_host.exe": "4bc2f86935f86eab2369818e02111d3b3197a8c73f66fbd324389322bb87dca1"
+  },
+  "actual_host_abi": {
+    "sample": 240,
+    "event": 312,
+    "tactical": 320464,
+    "events": 976,
+    "period_ms": 20,
+    "fallback_ms": 100,
+    "loss_ms": 1000
+  },
+  "schema_version": 1,
+  "created_local": "2026-10-26T02:44:14.796405",
+  "decision": "software_candidate_only_pending_single_field",
+  "execute_enabled": true,
+  "source_capability_granted": false,
+  "reserve_field_verified": false,
+  "mission_handoff_verified": false,
+  "tests": {
+    "native_logic": 57,
+    "native_scheduler": 26,
+    "independent_qualification": 36,
+    "wrapper": 5
+  },
+  "birth_input_protocol": "complete original receipt canonical SHA plus independently read stopped production Header256 Receipt224; ownership admission remains three actual native frames"
+}

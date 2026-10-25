@@ -1,0 +1,7 @@
+# One-actor actual reserve validation plan
+
+Keep all old MFM12/STP assets immutable and leave current settled GUI alone until jointGo. Select one exact paid Conscript/Flak from the same session ledger, join original command/task/seq/queue/birth/paid/created plus canonical complete-receiptSHA256(unpack<8I) and separately producer-report-fileSHA, then perform fresh actual owned roster/ground/admission/module0 and health>=80/96 checks. No target required. Prefer an actor away from currently visible fighting using available own FOV only; absence of visible enemies is not proof of global safety.
+
+Native owns the final three-consecutive-frame real admission and borrows only after kind61. Hold90 strict actual frames after three real stopped frames; no attacking or moving. At most6 explicit calls: Transferfalse,Set2,initialStop1,cleanupStop1,restore0,Transfertrue. Wholecap300f/30s; each Stop3 bound60f, no repairs. Actordeath/sceneclose/parentstop produce truthful failure and identity-safe release only. Do not restart a stopped producer in the same PID, alter attributes/resources/FOV, pull a garrisoned actor, or keep an indefinite reserve.
+
+Collect full immutable raw events, producer receipt binding, header and sixactualentry/timer0/active0 sidecar immediately; report actual borrow stability, hold stability, restore and Return independently. One successfully held actor is a primitive proof only. Later mission handoff must use a separate single-owner protocol and cannot borrow this Source as evidence of mission damage/home.

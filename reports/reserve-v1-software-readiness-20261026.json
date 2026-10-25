@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "created_local": "2026-10-26T02:46:33.321869",
+  "decision": "go_one_paid_unit_bounded_reserve_primitive",
+  "field_holding_verified": false,
+  "mission_handoff_verified": false,
+  "persistent_pool_verified": false,
+  "source_capability_granted": false,
+  "model_requests": 0,
+  "tests": {
+    "native_logic": 57,
+    "native_scheduler": 26,
+    "independent_qualification": 36,
+    "wrapper": 5
+  },
+  "files": {
+    "tactical\\reserve-v1\\lease.py": "9a3891b9d3a73db163f7eef80047e7435db1a971cea2a3f9077684309c3cb24a",
+    "tactical\\reserve-v1\\preflight.py": "52cccd635e238e19d3509b18aedc645c94de68d79d7b9551fb3ae820edf42928",
+    "tactical\\reserve-v1\\native_layout.py": "9b61177eb0bcdd462dade908168b4199a44f724675f7f4686764e00e6dd74722",
+    "tactical\\reserve-v1\\birth_source.py": "13f29ca345f6524ce965587110e7ca91a23a5ac9ceff884c9deed74a307c3e80",
+    "tactical\\reserve-v1\\reserve_qualification.py": "7f45186e3ba8a9f7aab37beedad73cb820fd8e520b5d94916a108320fb226130",
+    "tactical\\reserve-v1\\shared.h": "be5a228784c113eb69cf3f8162a8ceceb7ac6cc58d989b7d0fad4e1f825bc940",
+    "tactical\\reserve-v1\\revision.json": "371dc834688e2bdf0c2d042e023cbe5ee3cf82b804acbe8f67d29e8b4afaab24",
+    "tactical\\reserve-v1\\inert-layout.json": "56662959fd4cfc15d8b29a14b398d3047288ed5a86538a4ac63099eeb04b9046",
+    "tactical\\reserve-v1\\python-revision.json": "dc349032e7ab2dd073c13cee94b1fdd48f493798cb26d41d2aa235a86aac0e95",
+    "acceptance\\calibration\\paid_reserve_probe_v1.py": "2a1ebee4208761abe48e1afbc845262fedfe9835159ac3c80f1f69a4ce99146d"
+  },
+  "native_dll": "154c564e21fe5e3dfd24c861fa95828a246120f3e88201d0b220e30adea3bf0c",
+  "native_revision": "371dc834688e2bdf0c2d042e023cbe5ee3cf82b804acbe8f67d29e8b4afaab24",
+  "production": {
+    "unit": "conscript",
+    "orders": 1,
+    "budget": 85,
+    "reserve": 1000,
+    "stopped_hooks": 5
+  },
+  "reserve": {
+    "hooks": 6,
+    "mask": 63,
+    "admission_unique_consecutive_frames": 3,
+    "hold_frames": 90,
+    "max_sdk_calls": 6,
+    "total_frames": 300,
+    "wall_seconds": 30,
+    "normal_stance_restore_and_pool_return_required": true
+  }
+}
