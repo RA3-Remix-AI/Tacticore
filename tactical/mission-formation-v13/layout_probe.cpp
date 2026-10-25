@@ -1,0 +1,4 @@
+#include "shared.h"
+#include <stdio.h>
+#include <stddef.h>
+int main(){printf("{\"event\":%u,\"lineage\":%u,\"support_offset\":%u,\"legacy_header\":%u,\"input_size\":%u,\"state_size\":%u,\"slot_input\":%u,\"slot_output\":%u,\"commit_body\":%u,\"commit\":%u,\"sample\":%u,\"receipt\":%u,\"input_offset\":%u,\"state_offset\":%u,\"slots_offset\":%u,\"commit_offset\":%u,\"header\":%u,\"tactical\":%u}\n",sizeof(Event),sizeof(MoveLineage),offsetof(Tactical,support),offsetof(Tactical,controller_input),sizeof(ControllerInput13),sizeof(ControllerState13),sizeof(PaidSlotInput13),sizeof(PaidSlotOutput13),sizeof(MissionCommitBody13),sizeof(MissionCommit13),sizeof(ReserveSample13),sizeof(ProductionReceipt13),offsetof(Tactical,controller_input),offsetof(Tactical,controller),offsetof(Tactical,slots),offsetof(Tactical,mission_commit),offsetof(Tactical,events),sizeof(Tactical));}
