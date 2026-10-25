@@ -1,0 +1,24 @@
+{
+  "scope": "MF14_Native_only_software_unexecuted",
+  "checks": {
+    "native_binary_sha256": true,
+    "native_host_sha256": true,
+    "native_source_sha256": true,
+    "native_shared_sha256": true,
+    "includes": true,
+    "old13_nativejoint": true,
+    "tls_proof": true
+  },
+  "controller_cases": 107,
+  "breadcrumb_cases": 65,
+  "pending_cases": 75,
+  "scheduler_cases": 44,
+  "tls_cases": 15,
+  "stance_cases": 23,
+  "total_pure_cases": 329,
+  "actual_split_receipts_fixture_sha256": "a02088912e9cbb09781a807e5bf79b88e2346dd1dd9371d4cf8d0352c102eb32",
+  "wait_trace_sha256": "644643d22baebb16e6fc05368ea648eb8d26a3c48733fe8b182054cc2343bbb6",
+  "native_revision_sha256": "eb647f1d270c504c35fc90fbef3a3f8bcc4a0f96fade2c0217707a47c77d8f05",
+  "field_verified": false,
+  "source_granted": false
+}

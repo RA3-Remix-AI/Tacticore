@@ -1,0 +1,68 @@
+{
+  "scope": "MF14_final_namespace14_Native_only_software_unexecuted",
+  "checks": {
+    "native_binary_sha256": true,
+    "native_host_sha256": true,
+    "native_source_sha256": true,
+    "native_shared_sha256": true,
+    "includes": true
+  },
+  "controller_cases": 107,
+  "breadcrumb_cases": 65,
+  "pending_cases": 75,
+  "scheduler_cases": 44,
+  "tls_cases": 15,
+  "stance_cases": 23,
+  "total_pure_cases": 329,
+  "fixtures": {
+    "controller-pair-ready.bin": {
+      "sha256": "4c85c3aec9a5216a0dffa1ac448d4a4894c6892222575de3dfcfe40b63f6fbc9",
+      "bytes": 13269420,
+      "magic": "4d463134",
+      "version": 14
+    },
+    "controller-commit-accepted.bin": {
+      "sha256": "eec8d72fcbea4ce1bf38549ba05863bb9f19a663fd66bb6512952ca400606ae5",
+      "bytes": 13269420,
+      "magic": "4d463134",
+      "version": 14
+    },
+    "controller-producer-wait.bin": {
+      "sha256": "2383f12174c67a0cd4895b87cb0cdc74690ee8400ecb0e9cac07f416f3087568",
+      "bytes": 13269420,
+      "magic": "4d463134",
+      "version": 14
+    },
+    "origin-hidden-positive.bin": {
+      "sha256": "8a0ae9a081ee98b85dd2dbc3105fbf8f05ae3e3a0be0453a91f585034ddd8fed",
+      "bytes": 13269420,
+      "magic": "4d463134",
+      "version": 14
+    },
+    "origin-visible-positive.bin": {
+      "sha256": "bd8c3a0d7a96ed0c6d2f0c48dbc897bc7d6df79e06b170859f213c479e3416b5",
+      "bytes": 13269420,
+      "magic": "4d463134",
+      "version": 14
+    },
+    "origin-visible-blocked.bin": {
+      "sha256": "f88b4fa8a865760688fe1e2a059a548a86042a0a04c12e3a164555e123dcde47",
+      "bytes": 13269420,
+      "magic": "4d463134",
+      "version": 14
+    }
+  },
+  "actual_split_receipts_fixture_sha256": "a02088912e9cbb09781a807e5bf79b88e2346dd1dd9371d4cf8d0352c102eb32",
+  "test_sources": {
+    "test_breadcrumb_native.cpp": "810960b6bda2f8822a3cc5605d9f16b043910d8280cfc9e0ff288927747e0208",
+    "test_controller_native.cpp": "109a636df37c385a4bdd291bdcf25d4a89b4253c12004c9784874502039003b4",
+    "test_pending_native.cpp": "68b72c4bb0b0c3afea7c3464ca0bc808c620aee7b5fd8c4220cc5c62128d1b2f",
+    "test_scheduler_native.cpp": "d3de32dcd603fd2e6913591ae45e1e40d52157497cccd3fa15b02715a7d6dc12",
+    "test_stance_native.cpp": "fb340099e501a82eab0b57629d9f9ed7b821cacf5ef08bde2f4d0f7c7514620c",
+    "test_tls_alignment_native.cpp": "341ea6e8588b990bf737b3ca4172c2446a49976444b34992465bd567c8c12e42"
+  },
+  "native_revision_sha256": "f508ae04be998d52bf3cd5a7e0b3243e8d0c97d54a9a9503f0f778b10f17c44c",
+  "preseal_namespace13_guard_report_superseded": true,
+  "field_verified": false,
+  "source_granted": false
+}

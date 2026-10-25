@@ -1,0 +1,376 @@
+{
+  "protocol": "running_paid_pair_controller13_calibration_v2",
+  "session_id": "1f0075f1-53e4-4fad-9fb3-0150e119410b",
+  "pid": 52160,
+  "model_requests": 0,
+  "controller_file": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261026-070231-commander\\paid-pair13-02-controller-input.json",
+  "controller_report": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261026-070231-commander\\paid-pair13-02-controller.json",
+  "driver_sha256": "c0fafa6ca424e45d7518abf2726607cf15959773f983fb1872c704302ec31ba8",
+  "production_commands": [
+    {
+      "command": {
+        "session_id": "1f0075f1-53e4-4fad-9fb3-0150e119410b",
+        "player_id": 3,
+        "commander_id": "57e668b4-4d89-43bd-bc92-0dd436f046ef",
+        "command_id": "46742d4e-713e-46de-86bc-08fd0e231fcb",
+        "task_id": "ba9f8bb4-00ee-4109-870d-6c9e96e900db",
+        "seq": 1,
+        "unit": "conscript",
+        "budget": 85,
+        "reserve": 1000,
+        "expires_frame": 1955
+      },
+      "receipt": {
+        "command_id": "46742d4e-713e-46de-86bc-08fd0e231fcb",
+        "task_id": "ba9f8bb4-00ee-4109-870d-6c9e96e900db",
+        "seq": 1,
+        "status": "queued",
+        "accepted": true,
+        "started": true,
+        "completed": false,
+        "reason_code": "native_0",
+        "unit": "conscript",
+        "queue_id": 12,
+        "object_id": null,
+        "cost": 85,
+        "paid": 0,
+        "paid_verified": false,
+        "created": false,
+        "completion_observed": false,
+        "live_samples": 0,
+        "payment_error": 0,
+        "enqueue_frame": 1112,
+        "completion_frame": null,
+        "queue_preserved": true
+      }
+    },
+    {
+      "command": {
+        "session_id": "1f0075f1-53e4-4fad-9fb3-0150e119410b",
+        "player_id": 3,
+        "commander_id": "57e668b4-4d89-43bd-bc92-0dd436f046ef",
+        "command_id": "cb782461-c4a8-4a1c-8c52-a55caf0e859e",
+        "task_id": "1224e9c3-292e-44cd-9b77-ab26bf437818",
+        "seq": 2,
+        "unit": "flak",
+        "budget": 220,
+        "reserve": 1000,
+        "expires_frame": 1955
+      },
+      "receipt": {
+        "command_id": "cb782461-c4a8-4a1c-8c52-a55caf0e859e",
+        "task_id": "1224e9c3-292e-44cd-9b77-ab26bf437818",
+        "seq": 2,
+        "status": "queued",
+        "accepted": true,
+        "started": true,
+        "completed": false,
+        "reason_code": "native_0",
+        "unit": "flak",
+        "queue_id": 13,
+        "object_id": null,
+        "cost": 220,
+        "paid": 0,
+        "paid_verified": false,
+        "created": false,
+        "completion_observed": false,
+        "live_samples": 0,
+        "payment_error": 0,
+        "enqueue_frame": 1264,
+        "completion_frame": null,
+        "queue_preserved": true
+      }
+    }
+  ],
+  "production_budget": 5000,
+  "pair_spend_limit": 305,
+  "reserve_floor": 1000,
+  "status": "controller_terminal",
+  "tactical_native_attempts": 1,
+  "production_status": {
+    "session_id": "1f0075f1-53e4-4fad-9fb3-0150e119410b",
+    "player_id": 3,
+    "commander_id": "57e668b4-4d89-43bd-bc92-0dd436f046ef",
+    "personality_binding_verified": true,
+    "state": "running",
+    "native_phase": 1,
+    "native_error": 0,
+    "restore_mask": 0,
+    "active_callbacks": 0,
+    "spent_committed": 305,
+    "total_budget": 5000,
+    "last_seq": 2,
+    "ledger": [
+      {
+        "command_id": "46742d4e-713e-46de-86bc-08fd0e231fcb",
+        "task_id": "ba9f8bb4-00ee-4109-870d-6c9e96e900db",
+        "seq": 1,
+        "status": "completed",
+        "accepted": true,
+        "started": true,
+        "completed": true,
+        "reason_code": "native_0",
+        "unit": "conscript",
+        "queue_id": 12,
+        "object_id": 803,
+        "cost": 85,
+        "paid": 85,
+        "paid_verified": true,
+        "created": true,
+        "completion_observed": true,
+        "live_samples": 761,
+        "payment_error": 0,
+        "enqueue_frame": 1112,
+        "completion_frame": 1246,
+        "queue_preserved": true
+      },
+      {
+        "command_id": "cb782461-c4a8-4a1c-8c52-a55caf0e859e",
+        "task_id": "1224e9c3-292e-44cd-9b77-ab26bf437818",
+        "seq": 2,
+        "status": "completed",
+        "accepted": true,
+        "started": true,
+        "completed": true,
+        "reason_code": "native_0",
+        "unit": "flak",
+        "queue_id": 13,
+        "object_id": 806,
+        "cost": 220,
+        "paid": 220,
+        "paid_verified": true,
+        "created": true,
+        "completion_observed": true,
+        "live_samples": 643,
+        "payment_error": 0,
+        "enqueue_frame": 1264,
+        "completion_frame": 1364,
+        "queue_preserved": true
+      }
+    ],
+    "local_error": null
+  },
+  "current_controller": {
+    "status": "finished",
+    "controller": {
+      "stage": 5,
+      "error": 75,
+      "reserve_start_frame": 0,
+      "reserve_deadline_frame": 0,
+      "hard_deadline_frame": 0,
+      "lease_issued_frame": 0,
+      "pair_ready_frame": 0,
+      "mission_commit_frame": 0,
+      "approach_frame": 0,
+      "clock_frozen": 0,
+      "bound_mask": 0,
+      "held_mask": 0,
+      "ready_mask": 0,
+      "channel_claimed": 0,
+      "producer_snapshots": 0,
+      "producer_retry_count": 0,
+      "scope_verified": 1,
+      "untasked_cleanup": 1
+    },
+    "slots": [
+      {
+        "stage": 0,
+        "error": 0,
+        "id": 0,
+        "borrow_frame": 0,
+        "ready_frame": 0,
+        "hold_samples": 0,
+        "hold_max_gap": 0,
+        "hold_failed": 0,
+        "restore_verified": 0,
+        "return_verified": 0
+      },
+      {
+        "stage": 0,
+        "error": 0,
+        "id": 0,
+        "borrow_frame": 0,
+        "ready_frame": 0,
+        "hold_samples": 0,
+        "hold_max_gap": 0,
+        "hold_failed": 0,
+        "restore_verified": 0,
+        "return_verified": 0
+      }
+    ],
+    "mission_commit": {
+      "generation": 0,
+      "status": 0,
+      "reason": 0,
+      "ack_frame": 0
+    },
+    "effect_verified": false,
+    "completion_claim": false
+  },
+  "controller_final": {
+    "status": "not_passed",
+    "checks": {
+      "well_formed_raw_evidence": false
+    },
+    "effect_verified": false,
+    "source_damage_amount": 0.0,
+    "approach_verified": false,
+    "long_approach_verified": false,
+    "retreat_verified": false,
+    "long_retreat_verified": false,
+    "restoration_verified": true,
+    "restoration": {
+      "restoration_verified": true,
+      "stance_restoration_verified": true,
+      "control_release_verified": true,
+      "return_verified": false,
+      "disposed_verified": false,
+      "actors": [
+        {
+          "role": 0,
+          "object_id": 0,
+          "returned": false,
+          "disposed": false,
+          "never_held": true,
+          "released": true
+        },
+        {
+          "role": 1,
+          "object_id": 0,
+          "returned": false,
+          "disposed": false,
+          "never_held": true,
+          "released": true
+        }
+      ],
+      "semantics": "independent_native_pool_return_or_readonly_disposal",
+      "completion_claim": false
+    },
+    "control_release_verified": true,
+    "combined_arms_verified": false,
+    "qualified_hits": [],
+    "paired_stages": [],
+    "mission_protocol": "continuous_tactical_v1",
+    "qualification_revision": "mfm13_actual_breadcrumbs_v1"
+  },
+  "controller_release": {
+    "restoration_verified": true,
+    "stance_restoration_verified": true,
+    "control_release_verified": true,
+    "return_verified": false,
+    "disposed_verified": false,
+    "actors": [
+      {
+        "role": 0,
+        "object_id": 0,
+        "returned": false,
+        "disposed": false,
+        "never_held": true,
+        "released": true
+      },
+      {
+        "role": 1,
+        "object_id": 0,
+        "returned": false,
+        "disposed": false,
+        "never_held": true,
+        "released": true
+      }
+    ],
+    "semantics": "independent_native_pool_return_or_readonly_disposal",
+    "completion_claim": false,
+    "source_report": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261026-070231-commander\\paid-pair13-02-controller.json",
+    "source_sha256": "9400efc193e2a2de91eed191d36b321509cb12d0c63fad8def8b56b2a15fc4f6"
+  },
+  "production_stopped": {
+    "session_id": "1f0075f1-53e4-4fad-9fb3-0150e119410b",
+    "player_id": 3,
+    "commander_id": "57e668b4-4d89-43bd-bc92-0dd436f046ef",
+    "personality_binding_verified": true,
+    "state": "stopped",
+    "native_phase": 2,
+    "native_error": 0,
+    "restore_mask": 31,
+    "active_callbacks": 0,
+    "spent_committed": 305,
+    "total_budget": 5000,
+    "last_seq": 2,
+    "ledger": [
+      {
+        "command_id": "46742d4e-713e-46de-86bc-08fd0e231fcb",
+        "task_id": "ba9f8bb4-00ee-4109-870d-6c9e96e900db",
+        "seq": 1,
+        "status": "completed",
+        "accepted": true,
+        "started": true,
+        "completed": true,
+        "reason_code": "native_0",
+        "unit": "conscript",
+        "queue_id": 12,
+        "object_id": 803,
+        "cost": 85,
+        "paid": 85,
+        "paid_verified": true,
+        "created": true,
+        "completion_observed": true,
+        "live_samples": 764,
+        "payment_error": 0,
+        "enqueue_frame": 1112,
+        "completion_frame": 1246,
+        "queue_preserved": true
+      },
+      {
+        "command_id": "cb782461-c4a8-4a1c-8c52-a55caf0e859e",
+        "task_id": "1224e9c3-292e-44cd-9b77-ab26bf437818",
+        "seq": 2,
+        "status": "completed",
+        "accepted": true,
+        "started": true,
+        "completed": true,
+        "reason_code": "native_0",
+        "unit": "flak",
+        "queue_id": 13,
+        "object_id": 806,
+        "cost": 220,
+        "paid": 220,
+        "paid_verified": true,
+        "created": true,
+        "completion_observed": true,
+        "live_samples": 646,
+        "payment_error": 0,
+        "enqueue_frame": 1264,
+        "completion_frame": 1364,
+        "queue_preserved": true
+      }
+    ],
+    "local_error": null
+  },
+  "paid_orders_verified": true,
+  "production_after_entries": [
+    {
+      "address": "0x7ba770",
+      "expected": "81ec3c010000f605486bce0001535657",
+      "actual": "81ec3c010000f605486bce0001535657"
+    },
+    {
+      "address": "0x70f440",
+      "expected": "83ec08558b6c241085ed568bf1",
+      "actual": "83ec08558b6c241085ed568bf1"
+    },
+    {
+      "address": "0x849220",
+      "expected": "81ecb4000000568bf18b46148b4e04",
+      "actual": "81ecb4000000568bf18b46148b4e04"
+    },
+    {
+      "address": "0x73e390",
+      "expected": "83ec208b4424248b54242c5355",
+      "actual": "83ec208b4424248b54242c5355"
+    },
+    {
+      "address": "0x789bf0",
+      "expected": "51568bf180be3801000000",
+      "actual": "51568bf180be3801000000"
+    }
+  ]
+}

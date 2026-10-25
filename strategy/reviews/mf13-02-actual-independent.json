@@ -1,0 +1,602 @@
+{
+  "protocol": "mf13_actual02_independent_readonly_review_v1",
+  "source_report": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261026-070231-commander\\paid-pair13-02-controller.json",
+  "source_sha256": "9400efc193e2a2de91eed191d36b321509cb12d0c63fad8def8b56b2a15fc4f6",
+  "source_manifest": {
+    "formation_mission_qualification.py": "745cb17793723bfc5973bcb2b89de6cb64f6f38a7c6debda72cb98dca93649d7",
+    "reserve_controller_audit.py": "2f2fcb7c5ddfe09d3442171dc4a5477d66151d8ace10feb30b659daaa88615e4",
+    "lease.py": "0d986ca35a3df2c87f69ca984bc5b2f02d6aa97b18380e05eb4397966a0bdb20",
+    "revision.json": "cae6bb786dc49fbe12a7f3f93dca2debdf1d4ed6baab5d657f04ab88e177095c",
+    "paid-pair13-02-producer-poststop.bin": "a02088912e9cbb09781a807e5bf79b88e2346dd1dd9371d4cf8d0352c102eb32",
+    "paid-pair13-02-producer-poststop.json": "be4fb863a7b5b8883c1dee5581f679735ac2320f399c0befce0d44d9d5c569b4",
+    "paid-pair13-02-terminal-boundary.json": "35c7cedfdcf06b1af2c7af152af6bb19c046df3c16bab73809f9a01cc2bde722",
+    "paid-pair13-02-producer-startup-readonly.json": "0cada6962256b29e47bbf73aa807fdd42f94e4de5ce402c028bc6f87ff82adb7"
+  },
+  "source_pins_verified": true,
+  "raw_qualification": {
+    "status": "not_passed",
+    "checks": {
+      "well_formed_raw_evidence": false
+    },
+    "effect_verified": false,
+    "source_damage_amount": 0.0,
+    "approach_verified": false,
+    "long_approach_verified": false,
+    "retreat_verified": false,
+    "long_retreat_verified": false,
+    "restoration_verified": true,
+    "restoration": {
+      "restoration_verified": true,
+      "stance_restoration_verified": true,
+      "control_release_verified": true,
+      "return_verified": false,
+      "disposed_verified": false,
+      "actors": [
+        {
+          "role": 0,
+          "object_id": 0,
+          "returned": false,
+          "disposed": false,
+          "never_held": true,
+          "released": true
+        },
+        {
+          "role": 1,
+          "object_id": 0,
+          "returned": false,
+          "disposed": false,
+          "never_held": true,
+          "released": true
+        }
+      ],
+      "semantics": "independent_native_pool_return_or_readonly_disposal",
+      "completion_claim": false
+    },
+    "control_release_verified": true,
+    "combined_arms_verified": false,
+    "qualified_hits": [],
+    "paired_stages": [],
+    "mission_protocol": "continuous_tactical_v1",
+    "qualification_revision": "mfm13_actual_breadcrumbs_v1"
+  },
+  "control_release": {
+    "restoration_verified": true,
+    "stance_restoration_verified": true,
+    "control_release_verified": true,
+    "return_verified": false,
+    "disposed_verified": false,
+    "actors": [
+      {
+        "role": 0,
+        "object_id": 0,
+        "returned": false,
+        "disposed": false,
+        "never_held": true,
+        "released": true
+      },
+      {
+        "role": 1,
+        "object_id": 0,
+        "returned": false,
+        "disposed": false,
+        "never_held": true,
+        "released": true
+      }
+    ],
+    "semantics": "independent_native_pool_return_or_readonly_disposal",
+    "completion_claim": false
+  },
+  "schedule_audit": {
+    "verified": true,
+    "observed": true,
+    "field_verified": false,
+    "checks": {
+      "actual_sparse_schedule": true,
+      "typed_and_original_binding": true,
+      "first_capture": true,
+      "nonce_fresh_monotonic": true,
+      "actual_unique_advance": true,
+      "fallback_only_after_lost_pulse": true,
+      "one_real_role_sample_per_logical_frame": true,
+      "terminal_original_nonce_state": true,
+      "bounded_sparse_proof_count": true
+    },
+    "captures": [
+      {
+        "seq": 2,
+        "frame": 1110,
+        "origin": 1,
+        "requested_nonce": 0,
+        "acknowledged_nonce": 0,
+        "actual_advance_count": 1,
+        "accepted_pulse_count": 0
+      },
+      {
+        "seq": 3,
+        "frame": 1111,
+        "origin": 2,
+        "requested_nonce": 678598484,
+        "acknowledged_nonce": 678598484,
+        "actual_advance_count": 2,
+        "accepted_pulse_count": 1
+      },
+      {
+        "seq": 4,
+        "frame": 1174,
+        "origin": 2,
+        "requested_nonce": 678602609,
+        "acknowledged_nonce": 678602609,
+        "actual_advance_count": 65,
+        "accepted_pulse_count": 128
+      },
+      {
+        "seq": 5,
+        "frame": 1333,
+        "origin": 2,
+        "requested_nonce": 678613140,
+        "acknowledged_nonce": 678613140,
+        "actual_advance_count": 224,
+        "accepted_pulse_count": 448
+      },
+      {
+        "seq": 6,
+        "frame": 1365,
+        "origin": 2,
+        "requested_nonce": 678615265,
+        "acknowledged_nonce": 678615265,
+        "actual_advance_count": 256,
+        "accepted_pulse_count": 512
+      },
+      {
+        "seq": 7,
+        "frame": 1397,
+        "origin": 2,
+        "requested_nonce": 678617375,
+        "acknowledged_nonce": 678617375,
+        "actual_advance_count": 288,
+        "accepted_pulse_count": 576
+      },
+      {
+        "seq": 8,
+        "frame": 1429,
+        "origin": 2,
+        "requested_nonce": 678619500,
+        "acknowledged_nonce": 678619500,
+        "actual_advance_count": 320,
+        "accepted_pulse_count": 640
+      },
+      {
+        "seq": 9,
+        "frame": 1461,
+        "origin": 2,
+        "requested_nonce": 678621609,
+        "acknowledged_nonce": 678621609,
+        "actual_advance_count": 352,
+        "accepted_pulse_count": 704
+      },
+      {
+        "seq": 10,
+        "frame": 1493,
+        "origin": 2,
+        "requested_nonce": 678623734,
+        "acknowledged_nonce": 678623734,
+        "actual_advance_count": 384,
+        "accepted_pulse_count": 768
+      },
+      {
+        "seq": 11,
+        "frame": 1652,
+        "origin": 2,
+        "requested_nonce": 678634250,
+        "acknowledged_nonce": 678634250,
+        "actual_advance_count": 543,
+        "accepted_pulse_count": 1088
+      },
+      {
+        "seq": 12,
+        "frame": 1716,
+        "origin": 2,
+        "requested_nonce": 678638484,
+        "acknowledged_nonce": 678638484,
+        "actual_advance_count": 607,
+        "accepted_pulse_count": 1216
+      },
+      {
+        "seq": 13,
+        "frame": 1748,
+        "origin": 2,
+        "requested_nonce": 678640593,
+        "acknowledged_nonce": 678640593,
+        "actual_advance_count": 639,
+        "accepted_pulse_count": 1280
+      },
+      {
+        "seq": 14,
+        "frame": 1812,
+        "origin": 2,
+        "requested_nonce": 678644828,
+        "acknowledged_nonce": 678644828,
+        "actual_advance_count": 703,
+        "accepted_pulse_count": 1408
+      },
+      {
+        "seq": 15,
+        "frame": 1844,
+        "origin": 2,
+        "requested_nonce": 678646937,
+        "acknowledged_nonce": 678646937,
+        "actual_advance_count": 735,
+        "accepted_pulse_count": 1472
+      },
+      {
+        "seq": 16,
+        "frame": 1876,
+        "origin": 2,
+        "requested_nonce": 678649062,
+        "acknowledged_nonce": 678649062,
+        "actual_advance_count": 767,
+        "accepted_pulse_count": 1536
+      },
+      {
+        "seq": 17,
+        "frame": 1908,
+        "origin": 2,
+        "requested_nonce": 678651171,
+        "acknowledged_nonce": 678651171,
+        "actual_advance_count": 799,
+        "accepted_pulse_count": 1600
+      },
+      {
+        "seq": 18,
+        "frame": 1940,
+        "origin": 2,
+        "requested_nonce": 678653296,
+        "acknowledged_nonce": 678653296,
+        "actual_advance_count": 831,
+        "accepted_pulse_count": 1664
+      },
+      {
+        "seq": 19,
+        "frame": 1972,
+        "origin": 2,
+        "requested_nonce": 678655421,
+        "acknowledged_nonce": 678655421,
+        "actual_advance_count": 863,
+        "accepted_pulse_count": 1728
+      },
+      {
+        "seq": 20,
+        "frame": 2004,
+        "origin": 2,
+        "requested_nonce": 678657531,
+        "acknowledged_nonce": 678657531,
+        "actual_advance_count": 895,
+        "accepted_pulse_count": 1792
+      }
+    ],
+    "posted_pulse_observed": true,
+    "fallback_observed": false,
+    "paused_counter": 0,
+    "semantics": "scheduling_only_never_stop_arrival_damage_or_sdk_credit"
+  },
+  "producer_at_arm": {
+    "verified": true,
+    "checks": {
+      "header_before_hex": true,
+      "header_after_hex": true,
+      "original_reader_and_readonly_scope": true,
+      "raw_header_continuity": true,
+      "exact_arm_command_and_process": true,
+      "actual_player_runtime": true,
+      "actual_loaded_pe32_identity": true,
+      "all_five_actual_installed_entries": true
+    },
+    "actor_admission_credit": false,
+    "source": "original_producer_rpm_before_controller_arm"
+  },
+  "actual": {
+    "pid": 52160,
+    "session_id": "1f0075f1-53e4-4fad-9fb3-0150e119410b",
+    "phase": 4,
+    "error": 75,
+    "first_capture_frame": 1110,
+    "terminal_frame": 2005,
+    "startup_deadline_frame": 2005,
+    "issued_frame": 0,
+    "controller": {
+      "stage": 5,
+      "error": 75,
+      "reserve_start_frame": 0,
+      "reserve_deadline_frame": 0,
+      "hard_deadline_frame": 0,
+      "lease_issued_frame": 0,
+      "pair_ready_frame": 0,
+      "mission_commit_frame": 0,
+      "approach_frame": 0,
+      "clock_frozen": 0,
+      "bound_mask": 0,
+      "held_mask": 0,
+      "ready_mask": 0,
+      "channel_claimed": 0,
+      "producer_snapshots": 0,
+      "producer_retry_count": 0,
+      "scope_verified": 1,
+      "untasked_cleanup": 1
+    },
+    "event_counts": {
+      "0": 1,
+      "121": 1,
+      "122": 18,
+      "4": 1
+    },
+    "transfer_false_events": 0,
+    "move_calls": 0,
+    "attack_calls": 0,
+    "mission_request": null
+  },
+  "payment_poststop": {
+    "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261026-070231-commander\\paid-pair13-02-producer-poststop.bin",
+    "sha256": "a02088912e9cbb09781a807e5bf79b88e2346dd1dd9371d4cf8d0352c102eb32",
+    "actual_header": {
+      "magic": 1346587972,
+      "version": 1,
+      "pid": 52160,
+      "thread": 60624,
+      "owner": 51410128,
+      "ai": 68528432,
+      "personality": 245489696,
+      "personality_id": 1986320857,
+      "player_template": 288001648,
+      "start_low": 3927360614,
+      "start_high": 31286484,
+      "session": [
+        4050976799,
+        2907694163,
+        1342288799,
+        188815841
+      ],
+      "commander": [
+        3026773591,
+        3175319885,
+        3557659324,
+        4014403638
+      ],
+      "total_budget": 5000,
+      "reserve_floor": 1000,
+      "min_interval": 150,
+      "start_frame": 1103,
+      "phase": 2,
+      "stop_requested": 1,
+      "active": 0,
+      "heartbeat": 678658687,
+      "request_state": 0,
+      "request": {
+        "seq": 2,
+        "id": [
+          1629780171,
+          474654916,
+          1554338444,
+          2659520175
+        ],
+        "task": [
+          3286836242,
+          3443797545,
+          648771483,
+          410534847
+        ],
+        "session": [
+          4050976799,
+          2907694163,
+          1342288799,
+          188815841
+        ],
+        "commander": [
+          3026773591,
+          3175319885,
+          3557659324,
+          4014403638
+        ],
+        "hash": 741706849,
+        "budget": 220,
+        "reserve": 1000,
+        "expires": 1955,
+        "queue_limit": 2,
+        "requested_tick": 678608640,
+        "factory": 90750752,
+        "factory_id": 765,
+        "iface": 109240236
+      },
+      "reply_index": 1,
+      "reply_error": 0,
+      "last_seq": 2,
+      "last_frame": 1264,
+      "last_accepted_frame": 1264,
+      "spent": 305,
+      "count": 2,
+      "restore_mask": 31,
+      "error": 0,
+      "callback_thread": 60624
+    },
+    "receipts": [
+      {
+        "role": 0,
+        "receipt": {
+          "updates": 0,
+          "version": 898,
+          "command": {
+            "seq": 1,
+            "id": [
+              1311601734,
+              3729145457,
+              4245208198,
+              3407815438
+            ],
+            "task": [
+              3029049274,
+              155315712,
+              2657881479,
+              3674270102
+            ],
+            "session": [
+              4050976799,
+              2907694163,
+              1342288799,
+              188815841
+            ],
+            "commander": [
+              3026773591,
+              3175319885,
+              3557659324,
+              4014403638
+            ],
+            "hash": 430641583,
+            "budget": 85,
+            "reserve": 1000,
+            "expires": 1955,
+            "queue_limit": 2,
+            "requested_tick": 678598531,
+            "factory": 90750752,
+            "factory_id": 765,
+            "iface": 109240236
+          },
+          "state": 2,
+          "error": 0,
+          "attempted": 1,
+          "frame": 1112,
+          "queue_id": 12,
+          "node": 112917896,
+          "cost": 85,
+          "quoted_cost": 85,
+          "cash": 3177,
+          "liability": 132,
+          "prior_count": 1,
+          "preserved": 1,
+          "paid": 85,
+          "debit_count": 60,
+          "payment_error": 0,
+          "created": 1,
+          "object": 90795552,
+          "object_id": 803,
+          "object_owner": 51410128,
+          "object_hash": 430641583,
+          "completed": 1,
+          "completion_frame": 1246,
+          "live_samples": 764,
+          "object_hp_bits": 1120403456,
+          "object_x_bits": 1157341653,
+          "object_y_bits": 1160181712,
+          "factory_x_bits": 1161295056,
+          "factory_y_bits": 1161425646
+        },
+        "original_request_bound": true,
+        "actual_paid_cost": 85,
+        "strict13_debit_count_one_predicate": false,
+        "positive_installment_count_mathematically_consistent": true,
+        "original_cash_cover": true,
+        "raw_offset": 256,
+        "scope": "post_stop_original_receipt_not_a_historical_phase1_capture"
+      },
+      {
+        "role": 1,
+        "receipt": {
+          "updates": 0,
+          "version": 839,
+          "command": {
+            "seq": 2,
+            "id": [
+              1629780171,
+              474654916,
+              1554338444,
+              2659520175
+            ],
+            "task": [
+              3286836242,
+              3443797545,
+              648771483,
+              410534847
+            ],
+            "session": [
+              4050976799,
+              2907694163,
+              1342288799,
+              188815841
+            ],
+            "commander": [
+              3026773591,
+              3175319885,
+              3557659324,
+              4014403638
+            ],
+            "hash": 741706849,
+            "budget": 220,
+            "reserve": 1000,
+            "expires": 1955,
+            "queue_limit": 2,
+            "requested_tick": 678608640,
+            "factory": 90750752,
+            "factory_id": 765,
+            "iface": 109240236
+          },
+          "state": 2,
+          "error": 0,
+          "attempted": 1,
+          "frame": 1264,
+          "queue_id": 13,
+          "node": 113080840,
+          "cost": 220,
+          "quoted_cost": 220,
+          "cash": 2562,
+          "liability": 0,
+          "prior_count": 0,
+          "preserved": 1,
+          "paid": 220,
+          "debit_count": 90,
+          "payment_error": 0,
+          "created": 1,
+          "object": 90799392,
+          "object_id": 806,
+          "object_owner": 51410128,
+          "object_hash": 741706849,
+          "completed": 1,
+          "completion_frame": 1364,
+          "live_samples": 646,
+          "object_hp_bits": 1123024896,
+          "object_x_bits": 1157452935,
+          "object_y_bits": 1160223871,
+          "factory_x_bits": 1161295056,
+          "factory_y_bits": 1161425646
+        },
+        "original_request_bound": true,
+        "actual_paid_cost": 220,
+        "strict13_debit_count_one_predicate": false,
+        "positive_installment_count_mathematically_consistent": true,
+        "original_cash_cover": true,
+        "raw_offset": 480,
+        "scope": "post_stop_original_receipt_not_a_historical_phase1_capture"
+      }
+    ],
+    "receipt_count": 2,
+    "total_real_paid": 305,
+    "header_phase_is2": true,
+    "historical_phase1_proven_by_this_snapshot": false
+  },
+  "finding": {
+    "sufficient_terminal_reason": "native_frame_reached_original_startup_deadline_2005_with_no_bound_birth",
+    "sufficient_provenance_rejection_predicate": "each_original_final_receipt.debit_count_is60_or90_not1",
+    "unique_historical_producer_snapshot_failure_cause_proven": false,
+    "note": "No140 was emitted. Post-stop rows independently explain a sufficient strict13 payment mismatch; they are not forged as an earlier phase1 capture."
+  },
+  "scope": {
+    "tactical_source_granted": false,
+    "model_mission_started": false,
+    "actor_ever_borrowed": false,
+    "physical_hold_verified": false,
+    "physical_home_verified": false,
+    "normal_stance_restore_calls_verified": false,
+    "live_pool_return_verified": false,
+    "effect_verified": false,
+    "exclusive_control_released_by_never_held_and_pristine17": true,
+    "production_spend_not_tactical_sdk_success": true,
+    "old13_raw_q_unchanged": true
+  }
+}
