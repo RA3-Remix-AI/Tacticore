@@ -279,6 +279,11 @@ class TacticalBridge:
    if receipt.get('command_id')!=entry['command_id'] or receipt.get('seq')!=entry['seq'] or receipt.get('session_id')!=host.binding.session_id or receipt.get('commander_id')!=host.binding.commander_id or receipt.get('player_id')!=host.binding.player_id:raise ValueError('Tactical receipt binding mismatch')
    if receipt.get('module')!=entry['module'] or receipt.get('purpose')!=entry['purpose']:raise ValueError('Tactical receipt purpose mismatch')
    if receipt.get('object_ids')!=entry.get('object_ids'):raise ValueError('Tactical allocation changed')
+   local_risk=receipt.get('local_risk',{}).get('request')
+   if entry.get('executor_directory')=='mission-formation-v12' and local_risk and local_risk.get('request_written') is True and not entry.get('local_risk_recorded'):
+    host.agent.request_mission_retreat(task,'target_lost')
+    host.event('mission_local_risk_retreat_requested',task_id=task,observed_frame=local_risk.get('observed_frame'),request_frame=local_risk.get('request_frame'),monitor_sha256=local_risk.get('monitor_sha256'),native_acknowledged=False)
+    entry['local_risk_recorded']=True
    if receipt.get('started'):
     execution=execution_from_receipt(receipt,entry)
     if execution['issued_frame']>int(host.last_snapshot['game_time_seconds']*15):

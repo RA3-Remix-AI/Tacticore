@@ -1,0 +1,2011 @@
+{
+  "protocol": "owned_current_state_path_readonly_v2",
+  "pid": 65956,
+  "session_id": "a89f129e-1423-4720-80f8-3deca25499a2",
+  "session_sha256": "ce5dc1d0506ae26cedccf590565dccfdf6045ff2a99aed02e3b678eea69e1380",
+  "frame_start": 5767,
+  "frame_end": 5767,
+  "paused": 3,
+  "rows": [
+    {
+      "object_id": 1,
+      "thing": "0x57d6f80",
+      "type_hash": "0x18d55d",
+      "owner": "0x31404d0",
+      "update": "0x42ecb20",
+      "update_vtable": "0xc48670",
+      "update_backref": "0x57d6f80",
+      "sm": "0x464cd00",
+      "state": "0x464cda8",
+      "state_id": 0,
+      "state_vtable": "0xc52940",
+      "static_name_getter": {
+        "getter": "0x7f0380",
+        "bytes": "b89029c500c3",
+        "address": "0xc52990",
+        "name": "AIIdleState"
+      },
+      "state_owner_sm": "0x464cd00",
+      "sm_owner": "0x57d6f80",
+      "source": 2,
+      "path": "0x0",
+      "team": "0x568a8b0",
+      "default_team": "0x568a8b0",
+      "script_team": "0x56899b0",
+      "update_16c_vtable": "0x0",
+      "update_174_backref": "0x0",
+      "update_1e4_words": [
+        4294967295,
+        0,
+        0,
+        0
+      ],
+      "xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "sm_offset_2c_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "sm_offset_48_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "stance_module": {
+        "address": "0x0"
+      },
+      "hp": 3.5032461608120427e-44,
+      "identity_after": [
+        1,
+        51643600,
+        70175520
+      ],
+      "identity_before": [
+        1,
+        51643600,
+        70175520
+      ],
+      "identity_unchanged": true
+    },
+    {
+      "object_id": 4,
+      "thing": "0x57d7e80",
+      "type_hash": "0x3b1cd6dc",
+      "owner": "0x31404d0",
+      "update": "0x465d1c0",
+      "update_vtable": "0xc48670",
+      "update_backref": "0x57d7e80",
+      "sm": "0x465dcd0",
+      "state": "0x465dd78",
+      "state_id": 0,
+      "state_vtable": "0xc51818",
+      "static_name_getter": {
+        "getter": "0x7eee40",
+        "bytes": "b86818c500c3",
+        "address": "0xc51868",
+        "name": "UnitAIIdleState"
+      },
+      "state_owner_sm": "0x465dcd0",
+      "sm_owner": "0x57d7e80",
+      "source": 2,
+      "path": "0x0",
+      "team": "0x568a8b0",
+      "default_team": "0x568a8b0",
+      "script_team": "0x56899b0",
+      "update_16c_vtable": "0x0",
+      "update_174_backref": "0x0",
+      "update_1e4_words": [
+        4294967295,
+        0,
+        0,
+        0
+      ],
+      "xyz": [
+        2392.197021484375,
+        2351.922607421875,
+        280.0
+      ],
+      "sm_offset_2c_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "sm_offset_48_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "stance_module": {
+        "address": "0x0"
+      },
+      "hp": 3000.0,
+      "identity_after": [
+        4,
+        51643600,
+        73781696
+      ],
+      "identity_before": [
+        4,
+        51643600,
+        73781696
+      ],
+      "identity_unchanged": true
+    },
+    {
+      "object_id": 402,
+      "thing": "0x5854480",
+      "type_hash": "0xa3e28bbe",
+      "owner": "0x31404d0",
+      "update": "0x53bd7e8",
+      "update_vtable": "0xc48670",
+      "update_backref": "0x5854480",
+      "sm": "0x53be4d8",
+      "state": "0x53be580",
+      "state_id": 0,
+      "state_vtable": "0xc51818",
+      "static_name_getter": {
+        "getter": "0x7eee40",
+        "bytes": "b86818c500c3",
+        "address": "0xc51868",
+        "name": "UnitAIIdleState"
+      },
+      "state_owner_sm": "0x53be4d8",
+      "sm_owner": "0x5854480",
+      "source": 2,
+      "path": "0x0",
+      "team": "0x568a8b0",
+      "default_team": "0x568a8b0",
+      "script_team": "0x56899b0",
+      "update_16c_vtable": "0x0",
+      "update_174_backref": "0x0",
+      "update_1e4_words": [
+        4294967295,
+        0,
+        0,
+        0
+      ],
+      "xyz": [
+        1428.088623046875,
+        3016.701416015625,
+        210.0
+      ],
+      "sm_offset_2c_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "sm_offset_48_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "stance_module": {
+        "address": "0x0"
+      },
+      "hp": 1500.0,
+      "identity_after": [
+        402,
+        51643600,
+        87807976
+      ],
+      "identity_before": [
+        402,
+        51643600,
+        87807976
+      ],
+      "identity_unchanged": true
+    },
+    {
+      "object_id": 485,
+      "thing": "0x586e380",
+      "type_hash": "0x6b788e2e",
+      "reason": "no_current_bound_update"
+    },
+    {
+      "object_id": 494,
+      "thing": "0x5871080",
+      "type_hash": "0x6b788e2e",
+      "reason": "no_current_bound_update"
+    },
+    {
+      "object_id": 763,
+      "thing": "0x54a4970",
+      "type_hash": "0xc16ff13f",
+      "owner": "0x31404d0",
+      "update": "0x557a508",
+      "update_vtable": "0xc48670",
+      "update_backref": "0x54a4970",
+      "sm": "0x557bcc0",
+      "state": "0x557bd68",
+      "state_id": 0,
+      "state_vtable": "0xc51818",
+      "static_name_getter": {
+        "getter": "0x7eee40",
+        "bytes": "b86818c500c3",
+        "address": "0xc51868",
+        "name": "UnitAIIdleState"
+      },
+      "state_owner_sm": "0x557bcc0",
+      "sm_owner": "0x54a4970",
+      "source": 2,
+      "path": "0x0",
+      "team": "0x568a8b0",
+      "default_team": "0x568a8b0",
+      "script_team": "0x56899b0",
+      "update_16c_vtable": "0x0",
+      "update_174_backref": "0x0",
+      "update_1e4_words": [
+        4294967295,
+        0,
+        0,
+        0
+      ],
+      "xyz": [
+        1511.4095458984375,
+        1479.6519775390625,
+        210.0
+      ],
+      "sm_offset_2c_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "sm_offset_48_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "stance_module": {
+        "address": "0x0"
+      },
+      "hp": 5000.0,
+      "identity_after": [
+        763,
+        51643600,
+        89629960
+      ],
+      "identity_before": [
+        763,
+        51643600,
+        89629960
+      ],
+      "identity_unchanged": true
+    },
+    {
+      "object_id": 765,
+      "thing": "0x54a5370",
+      "type_hash": "0x80d4ea1e",
+      "owner": "0x31404d0",
+      "update": "0x61bdb10",
+      "update_vtable": "0xc48670",
+      "update_backref": "0x54a5370",
+      "sm": "0x61bcf68",
+      "state": "0x61bc5c0",
+      "state_id": 0,
+      "state_vtable": "0xc51818",
+      "static_name_getter": {
+        "getter": "0x7eee40",
+        "bytes": "b86818c500c3",
+        "address": "0xc51868",
+        "name": "UnitAIIdleState"
+      },
+      "state_owner_sm": "0x61bcf68",
+      "sm_owner": "0x54a5370",
+      "source": 2,
+      "path": "0x0",
+      "team": "0x568a8b0",
+      "default_team": "0x568a8b0",
+      "script_team": "0x56899b0",
+      "update_16c_vtable": "0x0",
+      "update_174_backref": "0x0",
+      "update_1e4_words": [
+        4294967295,
+        0,
+        0,
+        0
+      ],
+      "xyz": [
+        1755.361328125,
+        1744.8170166015625,
+        210.0
+      ],
+      "sm_offset_2c_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "sm_offset_48_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "stance_module": {
+        "address": "0x61bcbc8",
+        "vtable": "0xc37f90",
+        "static_name_getter": {
+          "getter": "0x71d3f0",
+          "bytes": "b84c7ec000c3",
+          "address": "0xc07e4c",
+          "name": "StancesBehavior"
+        },
+        "backref": "0x54a5370",
+        "enum": 0,
+        "data": "0xed669b0",
+        "enum_list": "0xef752f0",
+        "enum_count": 4,
+        "enum_entries": [
+          1,
+          0,
+          0,
+          0,
+          2,
+          0,
+          3,
+          0
+        ]
+      },
+      "hp": 1200.0,
+      "identity_after": [
+        765,
+        51643600,
+        102488848
+      ],
+      "identity_before": [
+        765,
+        51643600,
+        102488848
+      ],
+      "identity_unchanged": true
+    },
+    {
+      "object_id": 767,
+      "thing": "0x54a5d70",
+      "type_hash": "0xcf8d9f20",
+      "owner": "0x31404d0",
+      "update": "0x42d8de0",
+      "update_vtable": "0xc48670",
+      "update_backref": "0x54a5d70",
+      "sm": "0x6163378",
+      "state": "0x5754728",
+      "state_id": 0,
+      "state_vtable": "0xc51818",
+      "static_name_getter": {
+        "getter": "0x7eee40",
+        "bytes": "b86818c500c3",
+        "address": "0xc51868",
+        "name": "UnitAIIdleState"
+      },
+      "state_owner_sm": "0x6163378",
+      "sm_owner": "0x54a5d70",
+      "source": 2,
+      "path": "0x0",
+      "team": "0x568a8b0",
+      "default_team": "0x568a8b0",
+      "script_team": "0x56899b0",
+      "update_16c_vtable": "0x0",
+      "update_174_backref": "0x0",
+      "update_1e4_words": [
+        4294967295,
+        0,
+        0,
+        0
+      ],
+      "xyz": [
+        1819.0013427734375,
+        1320.552978515625,
+        210.0
+      ],
+      "sm_offset_2c_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "sm_offset_48_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "stance_module": {
+        "address": "0x0"
+      },
+      "hp": 1150.0,
+      "identity_after": [
+        767,
+        51643600,
+        70094304
+      ],
+      "identity_before": [
+        767,
+        51643600,
+        70094304
+      ],
+      "identity_unchanged": true
+    },
+    {
+      "object_id": 771,
+      "thing": "0x54a7170",
+      "type_hash": "0xc45aaeab",
+      "owner": "0x31404d0",
+      "update": "0x618b448",
+      "update_vtable": "0xc48670",
+      "update_backref": "0x54a7170",
+      "sm": "0x6188fe0",
+      "state": "0x618a4e0",
+      "state_id": 0,
+      "state_vtable": "0xc51818",
+      "static_name_getter": {
+        "getter": "0x7eee40",
+        "bytes": "b86818c500c3",
+        "address": "0xc51868",
+        "name": "UnitAIIdleState"
+      },
+      "state_owner_sm": "0x6188fe0",
+      "sm_owner": "0x54a7170",
+      "source": 2,
+      "path": "0x0",
+      "team": "0x568a8b0",
+      "default_team": "0x568a8b0",
+      "script_team": "0x56899b0",
+      "update_16c_vtable": "0x0",
+      "update_174_backref": "0x0",
+      "update_1e4_words": [
+        4294967295,
+        0,
+        0,
+        0
+      ],
+      "xyz": [
+        1532.6226806640625,
+        1267.5201416015625,
+        210.0
+      ],
+      "sm_offset_2c_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "sm_offset_48_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "stance_module": {
+        "address": "0x0"
+      },
+      "hp": 2400.0,
+      "identity_after": [
+        771,
+        51643600,
+        102282312
+      ],
+      "identity_before": [
+        771,
+        51643600,
+        102282312
+      ],
+      "identity_unchanged": true
+    },
+    {
+      "object_id": 781,
+      "thing": "0x54aa370",
+      "type_hash": "0xf6dac2a4",
+      "owner": "0x31404d0",
+      "update": "0x6867558",
+      "update_vtable": "0xc48670",
+      "update_backref": "0x54aa370",
+      "sm": "0x491c2e8",
+      "state": "0x491f348",
+      "state_id": 14,
+      "state_vtable": "0xc544c8",
+      "static_name_getter": {
+        "getter": "0x7f3a60",
+        "bytes": "b81c45c500c3",
+        "address": "0xc5451c",
+        "name": "UnitAIDeliverOreState"
+      },
+      "state_owner_sm": "0x491c2e8",
+      "sm_owner": "0x54aa370",
+      "source": 2,
+      "path": "0x6514300",
+      "team": "0x568c1b0",
+      "default_team": "0x568a8b0",
+      "script_team": "0x56899b0",
+      "update_16c_vtable": "0x4497aa2e",
+      "update_174_backref": "0x0",
+      "update_1e4_words": [
+        4294967295,
+        0,
+        0,
+        0
+      ],
+      "xyz": [
+        1486.8082275390625,
+        1222.0548095703125,
+        210.0
+      ],
+      "sm_offset_2c_xyz": [
+        1532.6226806640625,
+        1267.5201416015625,
+        210.0
+      ],
+      "sm_offset_48_xyz": [
+        1532.6226806640625,
+        1267.5201416015625,
+        210.0
+      ],
+      "stance_module": {
+        "address": "0x0"
+      },
+      "hp": 500.0,
+      "identity_after": [
+        781,
+        51643600,
+        109475160
+      ],
+      "identity_before": [
+        781,
+        51643600,
+        109475160
+      ],
+      "identity_unchanged": true
+    },
+    {
+      "object_id": 783,
+      "thing": "0x54aad70",
+      "type_hash": "0xc45aaeab",
+      "owner": "0x31404d0",
+      "update": "0x48f5548",
+      "update_vtable": "0xc48670",
+      "update_backref": "0x54aad70",
+      "sm": "0x685fce0",
+      "state": "0x685fd88",
+      "state_id": 0,
+      "state_vtable": "0xc51818",
+      "static_name_getter": {
+        "getter": "0x7eee40",
+        "bytes": "b86818c500c3",
+        "address": "0xc51868",
+        "name": "UnitAIIdleState"
+      },
+      "state_owner_sm": "0x685fce0",
+      "sm_owner": "0x54aad70",
+      "source": 2,
+      "path": "0x0",
+      "team": "0x568a8b0",
+      "default_team": "0x568a8b0",
+      "script_team": "0x56899b0",
+      "update_16c_vtable": "0x0",
+      "update_174_backref": "0x0",
+      "update_1e4_words": [
+        4294967295,
+        0,
+        0,
+        0
+      ],
+      "xyz": [
+        1299.2777099609375,
+        1712.997314453125,
+        210.0
+      ],
+      "sm_offset_2c_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "sm_offset_48_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "stance_module": {
+        "address": "0x0"
+      },
+      "hp": 2400.0,
+      "identity_after": [
+        783,
+        51643600,
+        76502344
+      ],
+      "identity_before": [
+        783,
+        51643600,
+        76502344
+      ],
+      "identity_unchanged": true
+    },
+    {
+      "object_id": 793,
+      "thing": "0x54adf70",
+      "type_hash": "0xf6dac2a4",
+      "owner": "0x31404d0",
+      "update": "0x65d1988",
+      "update_vtable": "0xc48670",
+      "update_backref": "0x54adf70",
+      "sm": "0x6895888",
+      "state": "0x688f7a8",
+      "state_id": 14,
+      "state_vtable": "0xc544c8",
+      "static_name_getter": {
+        "getter": "0x7f3a60",
+        "bytes": "b81c45c500c3",
+        "address": "0xc5451c",
+        "name": "UnitAIDeliverOreState"
+      },
+      "state_owner_sm": "0x6895888",
+      "sm_owner": "0x54adf70",
+      "source": 2,
+      "path": "0x0",
+      "team": "0x568c1b0",
+      "default_team": "0x568a8b0",
+      "script_team": "0x56899b0",
+      "update_16c_vtable": "0x44d8d6c3",
+      "update_174_backref": "0x0",
+      "update_1e4_words": [
+        4294967295,
+        0,
+        0,
+        0
+      ],
+      "xyz": [
+        1320.423583984375,
+        1735.2646484375,
+        210.0
+      ],
+      "sm_offset_2c_xyz": [
+        1299.2777099609375,
+        1712.997314453125,
+        210.0
+      ],
+      "sm_offset_48_xyz": [
+        1299.2777099609375,
+        1712.997314453125,
+        210.0
+      ],
+      "stance_module": {
+        "address": "0x0"
+      },
+      "hp": 500.0,
+      "identity_after": [
+        793,
+        51643600,
+        106764680
+      ],
+      "identity_before": [
+        793,
+        51643600,
+        106764680
+      ],
+      "identity_unchanged": true
+    },
+    {
+      "object_id": 796,
+      "thing": "0x54aee70",
+      "type_hash": "0xcf8d9f20",
+      "owner": "0x31404d0",
+      "update": "0x65e4800",
+      "update_vtable": "0xc48670",
+      "update_backref": "0x54aee70",
+      "sm": "0x65e5300",
+      "state": "0x65e53a8",
+      "state_id": 0,
+      "state_vtable": "0xc51818",
+      "static_name_getter": {
+        "getter": "0x7eee40",
+        "bytes": "b86818c500c3",
+        "address": "0xc51868",
+        "name": "UnitAIIdleState"
+      },
+      "state_owner_sm": "0x65e5300",
+      "sm_owner": "0x54aee70",
+      "source": 2,
+      "path": "0x0",
+      "team": "0x568a8b0",
+      "default_team": "0x568a8b0",
+      "script_team": "0x56899b0",
+      "update_16c_vtable": "0x0",
+      "update_174_backref": "0x0",
+      "update_1e4_words": [
+        4294967295,
+        0,
+        0,
+        0
+      ],
+      "xyz": [
+        1140.1785888671875,
+        1405.40576171875,
+        210.0
+      ],
+      "sm_offset_2c_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "sm_offset_48_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "stance_module": {
+        "address": "0x0"
+      },
+      "hp": 1150.0,
+      "identity_after": [
+        796,
+        51643600,
+        106842112
+      ],
+      "identity_before": [
+        796,
+        51643600,
+        106842112
+      ],
+      "identity_unchanged": true
+    },
+    {
+      "object_id": 801,
+      "thing": "0x54ac670",
+      "type_hash": "0xd50c222e",
+      "owner": "0x31404d0",
+      "update": "0x65ea638",
+      "update_vtable": "0xc48670",
+      "update_backref": "0x54ac670",
+      "sm": "0x492e128",
+      "state": "0x492e1d0",
+      "state_id": 0,
+      "state_vtable": "0xc51818",
+      "static_name_getter": {
+        "getter": "0x7eee40",
+        "bytes": "b86818c500c3",
+        "address": "0xc51868",
+        "name": "UnitAIIdleState"
+      },
+      "state_owner_sm": "0x492e128",
+      "sm_owner": "0x54ac670",
+      "source": 2,
+      "path": "0x0",
+      "team": "0x568a8b0",
+      "default_team": "0x568a8b0",
+      "script_team": "0x56899b0",
+      "update_16c_vtable": "0x0",
+      "update_174_backref": "0x0",
+      "update_1e4_words": [
+        4294967295,
+        0,
+        0,
+        0
+      ],
+      "xyz": [
+        1818.812255859375,
+        1862.9195556640625,
+        210.0
+      ],
+      "sm_offset_2c_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "sm_offset_48_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "stance_module": {
+        "address": "0x65fe0e0",
+        "vtable": "0xc37f90",
+        "static_name_getter": {
+          "getter": "0x71d3f0",
+          "bytes": "b84c7ec000c3",
+          "address": "0xc07e4c",
+          "name": "StancesBehavior"
+        },
+        "backref": "0x54ac670",
+        "enum": 0,
+        "data": "0xecb3dd0",
+        "enum_list": "0xef752f0",
+        "enum_count": 4,
+        "enum_entries": [
+          1,
+          0,
+          0,
+          0,
+          2,
+          0,
+          3,
+          0
+        ]
+      },
+      "hp": 3000.0,
+      "identity_after": [
+        801,
+        51643600,
+        106866232
+      ],
+      "identity_before": [
+        801,
+        51643600,
+        106866232
+      ],
+      "identity_unchanged": true
+    },
+    {
+      "object_id": 804,
+      "thing": "0x54a9e70",
+      "type_hash": "0x2c358c61",
+      "owner": "0x31404d0",
+      "update": "0x662df28",
+      "update_vtable": "0xc48670",
+      "update_backref": "0x54a9e70",
+      "sm": "0x65f6f58",
+      "state": "0x66063c0",
+      "state_id": 77,
+      "state_vtable": "0xc55050",
+      "static_name_getter": {
+        "getter": "0x7f6120",
+        "bytes": "b8a450c500c3",
+        "address": "0xc550a4",
+        "name": "UnitAIGarrisonedState"
+      },
+      "state_owner_sm": "0x65f6f58",
+      "sm_owner": "0x54a9e70",
+      "source": 0,
+      "path": "0x0",
+      "team": "0x568a8b0",
+      "default_team": "0x568a8b0",
+      "script_team": "0x56899b0",
+      "update_16c_vtable": "0x4507a000",
+      "update_174_backref": "0x0",
+      "update_1e4_words": [
+        4294967295,
+        0,
+        0,
+        0
+      ],
+      "xyz": [
+        2837.7021484375,
+        2177.004150390625,
+        220.0
+      ],
+      "sm_offset_2c_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "sm_offset_48_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "stance_module": {
+        "address": "0x492c720",
+        "vtable": "0xc37f90",
+        "static_name_getter": {
+          "getter": "0x71d3f0",
+          "bytes": "b84c7ec000c3",
+          "address": "0xc07e4c",
+          "name": "StancesBehavior"
+        },
+        "backref": "0x54a9e70",
+        "enum": 0,
+        "data": "0xeda5e80",
+        "enum_list": "0xef752f0",
+        "enum_count": 4,
+        "enum_entries": [
+          1,
+          0,
+          0,
+          0,
+          2,
+          0,
+          3,
+          0
+        ]
+      },
+      "hp": 65.0,
+      "identity_after": [
+        804,
+        51643600,
+        107142952
+      ],
+      "identity_before": [
+        804,
+        51643600,
+        107142952
+      ],
+      "identity_unchanged": true
+    },
+    {
+      "object_id": 812,
+      "thing": "0x54afd70",
+      "type_hash": "0xcf8d9f20",
+      "owner": "0x31404d0",
+      "update": "0x663fff0",
+      "update_vtable": "0xc48670",
+      "update_backref": "0x54afd70",
+      "sm": "0x66408a8",
+      "state": "0x6640950",
+      "state_id": 0,
+      "state_vtable": "0xc51818",
+      "static_name_getter": {
+        "getter": "0x7eee40",
+        "bytes": "b86818c500c3",
+        "address": "0xc51868",
+        "name": "UnitAIIdleState"
+      },
+      "state_owner_sm": "0x66408a8",
+      "sm_owner": "0x54afd70",
+      "source": 2,
+      "path": "0x0",
+      "team": "0x568a8b0",
+      "default_team": "0x568a8b0",
+      "script_team": "0x56899b0",
+      "update_16c_vtable": "0x0",
+      "update_174_backref": "0x0",
+      "update_1e4_words": [
+        4294967295,
+        0,
+        0,
+        0
+      ],
+      "xyz": [
+        1564.4427490234375,
+        1829.6697998046875,
+        210.0
+      ],
+      "sm_offset_2c_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "sm_offset_48_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "stance_module": {
+        "address": "0x0"
+      },
+      "hp": 1150.0,
+      "identity_after": [
+        812,
+        51643600,
+        107216880
+      ],
+      "identity_before": [
+        812,
+        51643600,
+        107216880
+      ],
+      "identity_unchanged": true
+    },
+    {
+      "object_id": 818,
+      "thing": "0x5839180",
+      "type_hash": "0x2c358c61",
+      "owner": "0x31404d0",
+      "update": "0x64f5e60",
+      "update_vtable": "0xc48670",
+      "update_backref": "0x5839180",
+      "sm": "0x5e2dfc8",
+      "state": "0x617d628",
+      "state_id": 77,
+      "state_vtable": "0xc55050",
+      "static_name_getter": {
+        "getter": "0x7f6120",
+        "bytes": "b8a450c500c3",
+        "address": "0xc550a4",
+        "name": "UnitAIGarrisonedState"
+      },
+      "state_owner_sm": "0x5e2dfc8",
+      "sm_owner": "0x5839180",
+      "source": 0,
+      "path": "0x0",
+      "team": "0x56916b0",
+      "default_team": "0x568a8b0",
+      "script_team": "0x56899b0",
+      "update_16c_vtable": "0x451e2000",
+      "update_174_backref": "0x0",
+      "update_1e4_words": [
+        4294967295,
+        0,
+        0,
+        0
+      ],
+      "xyz": [
+        1862.9710693359375,
+        2482.7626953125,
+        260.0
+      ],
+      "sm_offset_2c_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "sm_offset_48_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "stance_module": {
+        "address": "0x68ba750",
+        "vtable": "0xc37f90",
+        "static_name_getter": {
+          "getter": "0x71d3f0",
+          "bytes": "b84c7ec000c3",
+          "address": "0xc07e4c",
+          "name": "StancesBehavior"
+        },
+        "backref": "0x5839180",
+        "enum": 0,
+        "data": "0xeda5e80",
+        "enum_list": "0xef752f0",
+        "enum_count": 4,
+        "enum_entries": [
+          1,
+          0,
+          0,
+          0,
+          2,
+          0,
+          3,
+          0
+        ]
+      },
+      "hp": 120.0,
+      "identity_after": [
+        818,
+        51643600,
+        105864800
+      ],
+      "identity_before": [
+        818,
+        51643600,
+        105864800
+      ],
+      "identity_unchanged": true
+    },
+    {
+      "object_id": 820,
+      "thing": "0x586f780",
+      "type_hash": "0x2c358c61",
+      "owner": "0x31404d0",
+      "update": "0x6502060",
+      "update_vtable": "0xc48670",
+      "update_backref": "0x586f780",
+      "sm": "0x46fdd38",
+      "state": "0x6187048",
+      "state_id": 77,
+      "state_vtable": "0xc55050",
+      "static_name_getter": {
+        "getter": "0x7f6120",
+        "bytes": "b8a450c500c3",
+        "address": "0xc550a4",
+        "name": "UnitAIGarrisonedState"
+      },
+      "state_owner_sm": "0x46fdd38",
+      "sm_owner": "0x586f780",
+      "source": 0,
+      "path": "0x0",
+      "team": "0x56916b0",
+      "default_team": "0x568a8b0",
+      "script_team": "0x56899b0",
+      "update_16c_vtable": "0x4507a000",
+      "update_174_backref": "0x0",
+      "update_1e4_words": [
+        4294967295,
+        0,
+        0,
+        0
+      ],
+      "xyz": [
+        2764.2177734375,
+        2183.209716796875,
+        220.0
+      ],
+      "sm_offset_2c_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "sm_offset_48_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "stance_module": {
+        "address": "0x617bad8",
+        "vtable": "0xc37f90",
+        "static_name_getter": {
+          "getter": "0x71d3f0",
+          "bytes": "b84c7ec000c3",
+          "address": "0xc07e4c",
+          "name": "StancesBehavior"
+        },
+        "backref": "0x586f780",
+        "enum": 0,
+        "data": "0xeda5e80",
+        "enum_list": "0xef752f0",
+        "enum_count": 4,
+        "enum_entries": [
+          1,
+          0,
+          0,
+          0,
+          2,
+          0,
+          3,
+          0
+        ]
+      },
+      "hp": 120.0,
+      "identity_after": [
+        820,
+        51643600,
+        105914464
+      ],
+      "identity_before": [
+        820,
+        51643600,
+        105914464
+      ],
+      "identity_unchanged": true
+    },
+    {
+      "object_id": 827,
+      "thing": "0x54ad570",
+      "type_hash": "0x2c358c61",
+      "owner": "0x31404d0",
+      "update": "0x6880d80",
+      "update_vtable": "0xc48670",
+      "update_backref": "0x54ad570",
+      "sm": "0x64ee118",
+      "state": "0x64ebbd8",
+      "state_id": 77,
+      "state_vtable": "0xc55050",
+      "static_name_getter": {
+        "getter": "0x7f6120",
+        "bytes": "b8a450c500c3",
+        "address": "0xc550a4",
+        "name": "UnitAIGarrisonedState"
+      },
+      "state_owner_sm": "0x64ee118",
+      "sm_owner": "0x54ad570",
+      "source": 0,
+      "path": "0x0",
+      "team": "0x56916b0",
+      "default_team": "0x568a8b0",
+      "script_team": "0x56899b0",
+      "update_16c_vtable": "0x451e2000",
+      "update_174_backref": "0x0",
+      "update_1e4_words": [
+        4294967295,
+        0,
+        0,
+        0
+      ],
+      "xyz": [
+        1995.23193359375,
+        2566.525634765625,
+        260.0
+      ],
+      "sm_offset_2c_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "sm_offset_48_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "stance_module": {
+        "address": "0x6889d18",
+        "vtable": "0xc37f90",
+        "static_name_getter": {
+          "getter": "0x71d3f0",
+          "bytes": "b84c7ec000c3",
+          "address": "0xc07e4c",
+          "name": "StancesBehavior"
+        },
+        "backref": "0x54ad570",
+        "enum": 0,
+        "data": "0xeda5e80",
+        "enum_list": "0xef752f0",
+        "enum_count": 4,
+        "enum_entries": [
+          1,
+          0,
+          0,
+          0,
+          2,
+          0,
+          3,
+          0
+        ]
+      },
+      "hp": 120.0,
+      "identity_after": [
+        827,
+        51643600,
+        109579648
+      ],
+      "identity_before": [
+        827,
+        51643600,
+        109579648
+      ],
+      "identity_unchanged": true
+    },
+    {
+      "object_id": 854,
+      "thing": "0x54b3470",
+      "type_hash": "0x2c358c61",
+      "owner": "0x31404d0",
+      "update": "0x63df968",
+      "update_vtable": "0xc48670",
+      "update_backref": "0x54b3470",
+      "sm": "0x687d8a8",
+      "state": "0x4913df8",
+      "state_id": 77,
+      "state_vtable": "0xc55050",
+      "static_name_getter": {
+        "getter": "0x7f6120",
+        "bytes": "b8a450c500c3",
+        "address": "0xc550a4",
+        "name": "UnitAIGarrisonedState"
+      },
+      "state_owner_sm": "0x687d8a8",
+      "sm_owner": "0x54b3470",
+      "source": 0,
+      "path": "0x0",
+      "team": "0x56916b0",
+      "default_team": "0x568a8b0",
+      "script_team": "0x56899b0",
+      "update_16c_vtable": "0x451e2000",
+      "update_174_backref": "0x0",
+      "update_1e4_words": [
+        4294967295,
+        0,
+        0,
+        0
+      ],
+      "xyz": [
+        1975.8099365234375,
+        2584.48291015625,
+        220.0
+      ],
+      "sm_offset_2c_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "sm_offset_48_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "stance_module": {
+        "address": "0x5dd0770",
+        "vtable": "0xc37f90",
+        "static_name_getter": {
+          "getter": "0x71d3f0",
+          "bytes": "b84c7ec000c3",
+          "address": "0xc07e4c",
+          "name": "StancesBehavior"
+        },
+        "backref": "0x54b3470",
+        "enum": 0,
+        "data": "0xeda5e80",
+        "enum_list": "0xef752f0",
+        "enum_count": 4,
+        "enum_entries": [
+          1,
+          0,
+          0,
+          0,
+          2,
+          0,
+          3,
+          0
+        ]
+      },
+      "hp": 120.0,
+      "identity_after": [
+        854,
+        51643600,
+        104724840
+      ],
+      "identity_before": [
+        854,
+        51643600,
+        104724840
+      ],
+      "identity_unchanged": true
+    },
+    {
+      "object_id": 871,
+      "thing": "0x5810780",
+      "type_hash": "0x522bcb61",
+      "owner": "0x31404d0",
+      "update": "0x6625a98",
+      "update_vtable": "0xc48670",
+      "update_backref": "0x5810780",
+      "sm": "0x61a6e98",
+      "state": "0x48f51c0",
+      "state_id": 16,
+      "state_vtable": "0xc55130",
+      "static_name_getter": {
+        "getter": "0x7f62b0",
+        "bytes": "b88451c500c3",
+        "address": "0xc55184",
+        "name": "UnitAIGuardPositionState"
+      },
+      "state_owner_sm": "0x61a6e98",
+      "sm_owner": "0x5810780",
+      "source": 0,
+      "path": "0x0",
+      "team": "0x56916b0",
+      "default_team": "0x568a8b0",
+      "script_team": "0x56899b0",
+      "update_16c_vtable": "0x4544e000",
+      "update_174_backref": "0x0",
+      "update_1e4_words": [
+        4294967295,
+        0,
+        0,
+        0
+      ],
+      "xyz": [
+        2990.0,
+        3150.0,
+        210.0
+      ],
+      "sm_offset_2c_xyz": [
+        2991.8447265625,
+        3152.98388671875,
+        176.18226623535156
+      ],
+      "sm_offset_48_xyz": [
+        2991.8447265625,
+        3152.98388671875,
+        176.18226623535156
+      ],
+      "stance_module": {
+        "address": "0x663c628",
+        "vtable": "0xc37f90",
+        "static_name_getter": {
+          "getter": "0x71d3f0",
+          "bytes": "b84c7ec000c3",
+          "address": "0xc07e4c",
+          "name": "StancesBehavior"
+        },
+        "backref": "0x5810780",
+        "enum": 0,
+        "data": "0xee569e0",
+        "enum_list": "0xef752f0",
+        "enum_count": 4,
+        "enum_entries": [
+          1,
+          0,
+          0,
+          0,
+          2,
+          0,
+          3,
+          0
+        ]
+      },
+      "hp": 303.4998779296875,
+      "state_20_raw": "0x6871ce0",
+      "state_20_child": {
+        "address": "0x6871ce0",
+        "vtable": "0xc4fa90",
+        "state": "0x4903a60",
+        "state_id": 0,
+        "state_vtable": "0xc515f0",
+        "static_name_getter": {
+          "getter": "0x7eed30",
+          "bytes": "b84016c500c3",
+          "address": "0xc51640",
+          "name": "UnitAIGuardIdleState"
+        }
+      },
+      "identity_after": [
+        871,
+        51643600,
+        107109016
+      ],
+      "identity_before": [
+        871,
+        51643600,
+        107109016
+      ],
+      "identity_unchanged": true
+    },
+    {
+      "object_id": 902,
+      "thing": "0x54a8570",
+      "type_hash": "0x524bbd01",
+      "owner": "0x31404d0",
+      "update": "0x4913110",
+      "update_vtable": "0xc48670",
+      "update_backref": "0x54a8570",
+      "sm": "0x64cc310",
+      "state": "0x61b43a0",
+      "state_id": 0,
+      "state_vtable": "0xc51818",
+      "static_name_getter": {
+        "getter": "0x7eee40",
+        "bytes": "b86818c500c3",
+        "address": "0xc51868",
+        "name": "UnitAIIdleState"
+      },
+      "state_owner_sm": "0x64cc310",
+      "sm_owner": "0x54a8570",
+      "source": 2,
+      "path": "0x0",
+      "team": "0x568a8b0",
+      "default_team": "0x568a8b0",
+      "script_team": "0x56899b0",
+      "update_16c_vtable": "0x0",
+      "update_174_backref": "0x0",
+      "update_1e4_words": [
+        4294967295,
+        0,
+        0,
+        0
+      ],
+      "xyz": [
+        1203.818115234375,
+        1638.7510986328125,
+        210.0
+      ],
+      "sm_offset_2c_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "sm_offset_48_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "stance_module": {
+        "address": "0x0"
+      },
+      "hp": 3400.0,
+      "identity_after": [
+        902,
+        51643600,
+        76624144
+      ],
+      "identity_before": [
+        902,
+        51643600,
+        76624144
+      ],
+      "identity_unchanged": true
+    },
+    {
+      "object_id": 927,
+      "thing": "0x54a8070",
+      "type_hash": "0x33026fa1",
+      "owner": "0x31404d0",
+      "update": "0x6532e18",
+      "update_vtable": "0xc48670",
+      "update_backref": "0x54a8070",
+      "sm": "0x688f7f8",
+      "state": "0x663beb8",
+      "state_id": 16,
+      "state_vtable": "0xc55130",
+      "static_name_getter": {
+        "getter": "0x7f62b0",
+        "bytes": "b88451c500c3",
+        "address": "0xc55184",
+        "name": "UnitAIGuardPositionState"
+      },
+      "state_owner_sm": "0x688f7f8",
+      "sm_owner": "0x54a8070",
+      "source": 0,
+      "path": "0x0",
+      "team": "0x56916b0",
+      "default_team": "0x568a8b0",
+      "script_team": "0x56899b0",
+      "update_16c_vtable": "0x44b54000",
+      "update_174_backref": "0x0",
+      "update_1e4_words": [
+        4294967295,
+        0,
+        0,
+        0
+      ],
+      "xyz": [
+        1570.0,
+        1450.0,
+        210.0
+      ],
+      "sm_offset_2c_xyz": [
+        1542.4735107421875,
+        1454.4522705078125,
+        210.0
+      ],
+      "sm_offset_48_xyz": [
+        1542.4735107421875,
+        1454.4522705078125,
+        210.0
+      ],
+      "stance_module": {
+        "address": "0x661a218",
+        "vtable": "0xc37f90",
+        "static_name_getter": {
+          "getter": "0x71d3f0",
+          "bytes": "b84c7ec000c3",
+          "address": "0xc07e4c",
+          "name": "StancesBehavior"
+        },
+        "backref": "0x54a8070",
+        "enum": 0,
+        "data": "0xee18210",
+        "enum_list": "0xef752f0",
+        "enum_count": 4,
+        "enum_entries": [
+          1,
+          0,
+          0,
+          0,
+          2,
+          0,
+          3,
+          0
+        ]
+      },
+      "hp": 190.0,
+      "state_20_raw": "0x4695e98",
+      "state_20_child": {
+        "address": "0x4695e98",
+        "vtable": "0xc4fa90",
+        "state": "0x5956118",
+        "state_id": 0,
+        "state_vtable": "0xc515f0",
+        "static_name_getter": {
+          "getter": "0x7eed30",
+          "bytes": "b84016c500c3",
+          "address": "0xc51640",
+          "name": "UnitAIGuardIdleState"
+        }
+      },
+      "identity_after": [
+        927,
+        51643600,
+        106114584
+      ],
+      "identity_before": [
+        927,
+        51643600,
+        106114584
+      ],
+      "identity_unchanged": true
+    },
+    {
+      "object_id": 932,
+      "thing": "0x5481970",
+      "type_hash": "0xd25bb962",
+      "owner": "0x31404d0",
+      "update": "0x48f7ae0",
+      "update_vtable": "0xc48670",
+      "update_backref": "0x5481970",
+      "sm": "0x65fda18",
+      "state": "0x4900d40",
+      "state_id": 0,
+      "state_vtable": "0xc51818",
+      "static_name_getter": {
+        "getter": "0x7eee40",
+        "bytes": "b86818c500c3",
+        "address": "0xc51868",
+        "name": "UnitAIIdleState"
+      },
+      "state_owner_sm": "0x65fda18",
+      "sm_owner": "0x5481970",
+      "source": 2,
+      "path": "0x0",
+      "team": "0x568a8b0",
+      "default_team": "0x568a8b0",
+      "script_team": "0x56899b0",
+      "update_16c_vtable": "0x0",
+      "update_174_backref": "0x0",
+      "update_1e4_words": [
+        4294967295,
+        0,
+        0,
+        0
+      ],
+      "xyz": [
+        1267.4576416015625,
+        1235.7003173828125,
+        210.0
+      ],
+      "sm_offset_2c_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "sm_offset_48_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "stance_module": {
+        "address": "0x55ffa68",
+        "vtable": "0xc37f90",
+        "static_name_getter": {
+          "getter": "0x71d3f0",
+          "bytes": "b84c7ec000c3",
+          "address": "0xc07e4c",
+          "name": "StancesBehavior"
+        },
+        "backref": "0x5481970",
+        "enum": 0,
+        "data": "0xea94a00",
+        "enum_list": "0xef752f0",
+        "enum_count": 4,
+        "enum_entries": [
+          1,
+          0,
+          0,
+          0,
+          2,
+          0,
+          3,
+          0
+        ]
+      },
+      "hp": 2000.0,
+      "identity_after": [
+        932,
+        51643600,
+        76511968
+      ],
+      "identity_before": [
+        932,
+        51643600,
+        76511968
+      ],
+      "identity_unchanged": true
+    },
+    {
+      "object_id": 997,
+      "thing": "0x57e2380",
+      "type_hash": "0x2c358c61",
+      "owner": "0x31404d0",
+      "update": "0x63c54e8",
+      "update_vtable": "0xc48670",
+      "update_backref": "0x57e2380",
+      "sm": "0x64f5af0",
+      "state": "0x64ce118",
+      "state_id": 13,
+      "state_vtable": "0xc51020",
+      "static_name_getter": {
+        "getter": "0x7ee850",
+        "bytes": "b87010c500c3",
+        "address": "0xc51070",
+        "name": "UnitAIDeadState"
+      },
+      "state_owner_sm": "0x64f5af0",
+      "sm_owner": "0x57e2380",
+      "source": 0,
+      "path": "0x0",
+      "team": "0x56916b0",
+      "default_team": "0x568a8b0",
+      "script_team": "0x56899b0",
+      "update_16c_vtable": "0x4543a000",
+      "update_174_backref": "0x0",
+      "update_1e4_words": [
+        4294967295,
+        0,
+        0,
+        0
+      ],
+      "xyz": [
+        2929.685546875,
+        3129.37109375,
+        201.84007263183594
+      ],
+      "sm_offset_2c_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "sm_offset_48_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "stance_module": {
+        "address": "0x65ca3a8",
+        "vtable": "0xc37f90",
+        "static_name_getter": {
+          "getter": "0x71d3f0",
+          "bytes": "b84c7ec000c3",
+          "address": "0xc07e4c",
+          "name": "StancesBehavior"
+        },
+        "backref": "0x57e2380",
+        "enum": 0,
+        "data": "0xeda5e80",
+        "enum_list": "0xef752f0",
+        "enum_count": 4,
+        "enum_entries": [
+          1,
+          0,
+          0,
+          0,
+          2,
+          0,
+          3,
+          0
+        ]
+      },
+      "hp": 0.0,
+      "identity_after": [
+        997,
+        51643600,
+        104617192
+      ],
+      "identity_before": [
+        997,
+        51643600,
+        104617192
+      ],
+      "identity_unchanged": true
+    },
+    {
+      "object_id": 1017,
+      "thing": "0x547c970",
+      "type_hash": "0x94b3590b",
+      "owner": "0x31404d0",
+      "update": "0x49232b8",
+      "update_vtable": "0xc48670",
+      "update_backref": "0x547c970",
+      "sm": "0x6512788",
+      "state": "0x64cb338",
+      "state_id": 10,
+      "state_vtable": "0xc548c0",
+      "static_name_getter": {
+        "getter": "0x7f4920",
+        "bytes": "b81449c500c3",
+        "address": "0xc54914",
+        "name": "UnitAIAttackObjectState"
+      },
+      "state_owner_sm": "0x6512788",
+      "sm_owner": "0x547c970",
+      "source": 0,
+      "path": "0x0",
+      "team": "0x56916b0",
+      "default_team": "0x568a8b0",
+      "script_team": "0x56899b0",
+      "update_16c_vtable": "0x4550d000",
+      "update_174_backref": "0x0",
+      "update_1e4_words": [
+        4294967295,
+        0,
+        0,
+        0
+      ],
+      "xyz": [
+        2900.74951171875,
+        3118.469970703125,
+        210.0
+      ],
+      "sm_offset_2c_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "sm_offset_48_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "stance_module": {
+        "address": "0x661f898",
+        "vtable": "0xc37f90",
+        "static_name_getter": {
+          "getter": "0x71d3f0",
+          "bytes": "b84c7ec000c3",
+          "address": "0xc07e4c",
+          "name": "StancesBehavior"
+        },
+        "backref": "0x547c970",
+        "enum": 0,
+        "data": "0xeccfcd8",
+        "enum_list": "0xef752f0",
+        "enum_count": 4,
+        "enum_entries": [
+          1,
+          0,
+          0,
+          0,
+          2,
+          0,
+          3,
+          0
+        ]
+      },
+      "hp": 265.2083435058594,
+      "identity_after": [
+        1017,
+        51643600,
+        76690104
+      ],
+      "identity_before": [
+        1017,
+        51643600,
+        76690104
+      ],
+      "identity_unchanged": true
+    },
+    {
+      "object_id": 1018,
+      "thing": "0x5871a80",
+      "type_hash": "0x9442731",
+      "reason": "no_current_bound_update"
+    },
+    {
+      "object_id": 1019,
+      "thing": "0x583f580",
+      "type_hash": "0x94b3590b",
+      "owner": "0x31404d0",
+      "update": "0x490c2c0",
+      "update_vtable": "0xc48670",
+      "update_backref": "0x583f580",
+      "sm": "0x663bab8",
+      "state": "0x65f6f20",
+      "state_id": 10,
+      "state_vtable": "0xc548c0",
+      "static_name_getter": {
+        "getter": "0x7f4920",
+        "bytes": "b81449c500c3",
+        "address": "0xc54914",
+        "name": "UnitAIAttackObjectState"
+      },
+      "state_owner_sm": "0x663bab8",
+      "sm_owner": "0x583f580",
+      "source": 0,
+      "path": "0x0",
+      "team": "0x56916b0",
+      "default_team": "0x568a8b0",
+      "script_team": "0x56899b0",
+      "update_16c_vtable": "0x453e1000",
+      "update_174_backref": "0x0",
+      "update_1e4_words": [
+        4294967295,
+        0,
+        0,
+        0
+      ],
+      "xyz": [
+        2941.0,
+        3041.0,
+        210.0
+      ],
+      "sm_offset_2c_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "sm_offset_48_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "stance_module": {
+        "address": "0x687ded0",
+        "vtable": "0xc37f90",
+        "static_name_getter": {
+          "getter": "0x71d3f0",
+          "bytes": "b84c7ec000c3",
+          "address": "0xc07e4c",
+          "name": "StancesBehavior"
+        },
+        "backref": "0x583f580",
+        "enum": 0,
+        "data": "0xeccfcd8",
+        "enum_list": "0xef752f0",
+        "enum_count": 4,
+        "enum_entries": [
+          1,
+          0,
+          0,
+          0,
+          2,
+          0,
+          3,
+          0
+        ]
+      },
+      "hp": 650.0,
+      "identity_after": [
+        1019,
+        51643600,
+        76595904
+      ],
+      "identity_before": [
+        1019,
+        51643600,
+        76595904
+      ],
+      "identity_unchanged": true
+    },
+    {
+      "object_id": 1040,
+      "thing": "0x54a8f70",
+      "type_hash": "0xc45aaeab",
+      "owner": "0x31404d0",
+      "update": "0x6639ff8",
+      "update_vtable": "0xc48670",
+      "update_backref": "0x54a8f70",
+      "sm": "0x4914918",
+      "state": "0x653a458",
+      "state_id": 0,
+      "state_vtable": "0xc51818",
+      "static_name_getter": {
+        "getter": "0x7eee40",
+        "bytes": "b86818c500c3",
+        "address": "0xc51868",
+        "name": "UnitAIIdleState"
+      },
+      "state_owner_sm": "0x4914918",
+      "sm_owner": "0x54a8f70",
+      "source": 2,
+      "path": "0x0",
+      "team": "0x568a8b0",
+      "default_team": "0x568a8b0",
+      "script_team": "0x56899b0",
+      "update_16c_vtable": "0x0",
+      "update_174_backref": "0x0",
+      "update_1e4_words": [
+        4294967295,
+        0,
+        0,
+        0
+      ],
+      "xyz": [
+        2487.217041015625,
+        737.18994140625,
+        210.0
+      ],
+      "sm_offset_2c_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "sm_offset_48_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "stance_module": {
+        "address": "0x0"
+      },
+      "hp": 2400.0,
+      "identity_after": [
+        1040,
+        51643600,
+        107192312
+      ],
+      "identity_before": [
+        1040,
+        51643600,
+        107192312
+      ],
+      "identity_unchanged": true
+    }
+  ],
+  "mutations": false,
+  "sdk_calls": 0,
+  "model_input": false,
+  "offset_labels_are_not_claimed_semantics": true
+}

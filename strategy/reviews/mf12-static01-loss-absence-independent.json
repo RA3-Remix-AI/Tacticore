@@ -1,0 +1,25 @@
+{
+  "protocol": "mfm12_loss_absence_independent_sidecar_join_v1",
+  "sidecar": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261026-012024-commander\\mf12-01-loss-absence-readonly.json",
+  "sidecar_sha256": "6302516c5a89806726ceca1de7b4c1df4759011a0adda4ff92079c121855c922",
+  "source_report_sha256": "377aa6e7adc58c6b36afb4cd732d36ee916322c5c2a5f790764a1abdc13fabb8",
+  "checks": {
+    "sealed_sidecar": true,
+    "source_and_session_sealed": true,
+    "readonly_no_claim": true,
+    "stable_double_actual_header": true,
+    "actual_entry_bytes_and_terminal_identity": true,
+    "raw_header_field_binding": true,
+    "two_complete_absence_scans": true
+  },
+  "exclusive_control_released_by_later_readonly_absence": true,
+  "as_of_frame": 5189,
+  "native_original_disposal_flag_unchanged_zero": true,
+  "normal_return_verified": false,
+  "original_stance_restored": false,
+  "effect_verified": false,
+  "home_verified": false,
+  "source_granted": false,
+  "original_qualification_status": "not_passed",
+  "semantics": "later diagnostic disposal/exclusivity closure only; not a return or a retroactive change to the original terminal qualification"
+}

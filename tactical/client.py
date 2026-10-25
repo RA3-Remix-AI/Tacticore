@@ -388,16 +388,30 @@ class TacticalExecutor:
   args=[sys.executable,str(HERE/directory/trusted_filename(schema,'wrapper_filename','lease.py')),'--session',str(self.session_path),'--execute','--front-id',str(r['object_ids'][0]),'--support-id',str(r['object_ids'][1]),'--mission-file',str(mission_file),'--proof-file',r['visibility_proof_path'],'--contact-id',r['target_contact_id'],'--expires-frame',str(r['expires_frame']),'--post-frames','30','--natural',str(self.natural_path),'--command-id',child_command,'--task-id',child_task,'--seq',str(seq),'--output',str(path)]
   with path.with_suffix('.wrapper.log').open('w',encoding='utf-8') as log:
    r['wrapper_attempted']=True;r['dispatch_attempted']=True;child=subprocess.Popen(args,stdout=log,stderr=log)
-   while child.poll() is None:
-    if self.stopping.wait(.1):self._request_native_stop(path)
-    try:self._binding()
-    except Exception:self.stopping.set();self._request_native_stop(path)
-    if path.exists():
-     try:
-      current=json.loads(path.read_text(encoding='utf-8'));cn=current.get('native',{})
-      if bound(current) and cn.get('issued_frame'):
-       with self.lock:r.update(started=True,status='started',issued_frame=r.get('issued_frame') or cn['issued_frame'],mission=qm.progress(current,str(uuid.UUID(str(r['task_id'])))))
-     except (ValueError,OSError):pass
+   risk=None
+   if directory=='mission-formation-v12':
+    from mission_risk_worker import MissionRiskWorker
+    risk=MissionRiskWorker(path,self.session_path,path.with_suffix('.local-risk.json')).start()
+   try:
+    while child.poll() is None:
+     if self.stopping.wait(.1):self._request_native_stop(path)
+     try:self._binding()
+     except Exception:self.stopping.set();self._request_native_stop(path)
+     if risk is not None:
+      observation=risk.status()
+      with self.lock:
+       r['local_risk']=observation
+       if observation['request']:
+        r.update(retreat_request_sent=True,retreat_request_reason='target_lost')
+     if path.exists():
+      try:
+       current=json.loads(path.read_text(encoding='utf-8'));cn=current.get('native',{})
+       if bound(current) and cn.get('issued_frame'):
+        with self.lock:r.update(started=True,status='started',issued_frame=r.get('issued_frame') or cn['issued_frame'],mission=qm.progress(current,str(uuid.UUID(str(r['task_id'])))))
+      except (ValueError,OSError):pass
+   finally:
+    if risk is not None:
+     with self.lock:r['local_risk']=risk.close()
   if not path.exists():raise ValueError('child_no_dispatch_report')
   report=json.loads(path.read_text(encoding='utf-8'));n=report.get('native',{})
   if self._record_pre_native_rejection(r,report,path,child.returncode,child_command,child_task,seq,directory):raise ValueError(report['pre_dispatch']['reason_code'])

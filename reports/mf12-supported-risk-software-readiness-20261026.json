@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "created_local": "2026-10-26T02:00:39.722586",
+  "decision": "go_one_bounded_supported12_with_local_risk_field",
+  "scope": "Software only; actual local-risk flag acknowledgement, physical retreat, effect and complete model-native match remain unverified.",
+  "source_capability_granted": false,
+  "field_effect_verified": false,
+  "risk_field_verified": false,
+  "model_requests": 0,
+  "tests": {
+    "root_tactical": 498,
+    "root_integration": 162,
+    "independent_postunlock_risk_worker_coordinator_source": 24,
+    "actual_source_files": 41
+  },
+  "files": {
+    "acceptance/calibration/field_plan_margin12_supported.py": "f0ebdc386864eadefd22d24a0dbbfca7d979f2000a5edf8cbf1cc9832e9709c2",
+    "acceptance/calibration/continuous_paid_margin12_supported.py": "990e2fd37393de914336a8bda0bd69b38ffadf5c9447c6af0359314e0f385ec6",
+    "acceptance/calibration/support_policy.py": "73b2024cfc70d69c0f8c627296709544ba42d2ac71e5a70e21073276c2312ba7",
+    "acceptance/calibration/field_coordinate_margin12_supported.py": "f13231ee03adcb702ae93478fffd0c4d747d99f7ba2ff2d0979045a151ead8cf",
+    "tactical/local_mission_risk_v1.py": "5062a517eccdb49755f1a1a6f39557b856c0c2bf4aaa856a30ccfd6640f3ea93",
+    "tactical/mission_risk_worker.py": "45f99e928b5485394faf32c44f122fea222f6a72958e0325b011703dae1cda10",
+    "tactical/client.py": "ee8b43e6329830a7bcd753efb511eb1f95e9147f49930441146e4e238799011e",
+    "integration/tactical_bridge.py": "f3a1945dafdaa5262883aa5bef4cf27dc39612438315e5221c394c793967cfdf"
+  },
+  "frozen_formation12": {
+    "dll": "66e26b0e967469d83ba5f92f0e61ba41eb3f8e41a58932cd1a188e14ee192514",
+    "wrapper": "81cfe7692a7ff30984f7f561b2e6a2436bf0a2d6ae2ecaebc8293665ddd72e7b",
+    "qualifier": "224d9f5c724c84dc1f1c93ebfca72e789d199313a0da048c5ec52126e2b14dfe"
+  },
+  "risk": {
+    "period_ms": 50,
+    "max_poll_gap_ms": 200,
+    "max_native_sample_age_ms": 250,
+    "trigger": "current bound owned HP below actual issued71 baseline and target not currently visible during approach",
+    "sole_store": "bound shared retreat_requested=1 once",
+    "outcome_claim": false
+  },
+  "selection": {
+    "target_distance": [
+      600,
+      1300
+    ],
+    "support_radius": 450,
+    "minimum_other_owned_ground_native_combat_support": 2,
+    "decision_observation_age_limit_frames": 4,
+    "support_at_native_issue_guaranteed": false
+  }
+}

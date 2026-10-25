@@ -1,15 +1,16 @@
 {
-  "updated_local": "2026-10-26T01:19:11.364565",
+  "updated_local": "2026-10-26T02:00:39.731333",
   "objective": "Complete real Pydantic LLM commander full match vs active native Oleg with actual attack, raid, coordinated effect and physical retreat; do not finish at dispatch/static tests.",
   "workspace": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe",
   "current": {
-    "pid": 53708,
-    "session_id": "726a9551-d52c-4b07-8f12-3860d563c1c4",
-    "run": "acceptance/runs/20261025-234039-commander",
-    "session_sha256": "95017056f1ca9b32ec148ca7adfb06db9829dfea77940e42bae5466f1e9d4a6d",
-    "paused": true,
+    "pid": 33860,
+    "session_id": "efbff007-1cd0-476f-83af-54cdee41c9f7",
+    "run": "acceptance/runs/20261026-013621-commander",
+    "session_final": false,
+    "started": false,
     "active_sdk": false,
-    "root_recorder": "84994 ended time_limit; drain before new game; do not duplicate same-run recorder"
+    "root_recorder": "none; previous95434 drained game_exited/931samples265points/last5767",
+    "owner": "Native GUI only holds prepared MediumMedium10000 lobby, awaits whole supported+risk Go before final/sessionSHA/Rootarm/Start"
   },
   "owners": {
     "native": "native_ai_interfaces: all GUI/SDK/CPP/host only",
@@ -19,7 +20,7 @@
   },
   "current_candidate": {
     "directory": "tactical/mission-formation-v12",
-    "state": "Postguard all25 Python independent files and parent suites passed; independent Native224 and q125 static checks passed. Ready for one actual field attempt; no effect Source granted.",
+    "state": "First actual field failed: front806 HP72.5 at1915 to0 at1916, lifecycle32 then cleanup52 at2006; 0attack/damage/home. Rear804 restored0/Return1921. No Source.",
     "abi": {
       "event": 1616,
       "lineage": 568,
@@ -77,5 +78,44 @@
     "Run .venv integration/run_native_opponent_match.py --require-mission-effects --library explicitoldpath --model-backend pydantic. FormalHost owns ownroute recorder; Root must not prearm duplicate.",
     "Run wholematch to naturalsettlement. Independently require all3 actualthismatch effects + acceptedrealpostTTL compressedmission context + allleasesrelease; join watcher+native results+naturalsettlement screenshot separately.",
     "Only then goal complete/final; current goal API historically paused cannot be resumed with update_goal tool, human continuation authorized work."
-  ]
+  ],
+  "baseline_commit": "ebd2513",
+  "actual12": {
+    "report": "acceptance/runs/20261026-012024-commander/continuous-paid-margin12-static01-formation.json",
+    "sha256": "377aa6e7adc58c6b36afb4cd732d36ee916322c5c2a5f790764a1abdc13fabb8",
+    "issued": 1438,
+    "terminal_frame": 2006,
+    "error": 52,
+    "front_dead_frame": 1916,
+    "rear_restored_returned": 1921,
+    "physical_stop_gates": 20,
+    "move_chains": 19,
+    "absence_sidecar": "mf12-01-loss-absence-readonly.json",
+    "absence_sha256": "6302516c5a89806726ceca1de7b4c1df4759011a0adda4ff92079c121855c922",
+    "absence_frames": [
+      5188,
+      5189
+    ],
+    "independent_absence_review_pending": false,
+    "source_granted": false,
+    "independent_disposal_review": "strategy/reviews/mf12-static01-loss-absence-independent.json:7joins true, closure only, no Return/restore/Source"
+  },
+  "supported12_next": {
+    "directory": "acceptance/calibration",
+    "selector": "field_plan_margin12_supported.py",
+    "coordinator": "field_coordinate_margin12_supported.py",
+    "driver": "continuous_paid_margin12_supported.py",
+    "policy": "support_policy.py",
+    "scope": "currently owned positive-ground mobile support2 excluding pair within450 of visible economy/structure objective, target600..1300, original actor/FOV/home/Source thresholds unchanged. 4f only final selection fact TTL; issue age measured without claiming support_at_issue.",
+    "q_static_go": "Repaired selection narrow Go6; final independent risk15+worker4+coord2+Source3 postunlock24/24 passed.",
+    "root_tests": {
+      "tactical": 498,
+      "integration": 162,
+      "actual_source_files": 41
+    },
+    "risk": "LIVE_MONITOR_ENABLED=True final5062a517; actualWindows benign64/32 commandline proof; no actual risk branch yet.",
+    "risk_wiring": "Root owns mission_risk_worker.py50ms thread; client starts only12, bridge records target_lost in persistent task memory; external coordinator Popen+sameworker, finalselection-age independent sidecar. No live dispatch yet.",
+    "next": "Finish q risk tests/Root review then unlock with whole software Go; final Native new session hashes once, unique Root recorder, single new bounded field; no model until all3sources.",
+    "state": "Whole software Go given for one bounded new field; pending Native final sessionSHA then unique Root arm"
+  }
 }
