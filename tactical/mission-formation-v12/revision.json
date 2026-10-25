@@ -1,0 +1,34 @@
+{
+  "protocol": "mfm12_native_stance_breadcrumb_v1",
+  "native_binary_sha256": "66e26b0e967469d83ba5f92f0e61ba41eb3f8e41a58932cd1a188e14ee192514",
+  "native_host_sha256": "fa91c75a3a75e6599165639e7891332cc95c89d53f6efac90002c409d5271eb8",
+  "native_source_sha256": "aef8bc0350c4c23d41f24d7aa8448cac0a0a6b64ef9d499c477d86c017c538c2",
+  "native_shared_sha256": "1f92aabe68a1f32e2df5c37574c8dcc6da3e839ac3d4ee87c21dd919d39f8581",
+  "native_includes_sha256": {
+    "breadcrumb.cpp.inc": "979cec158f12b4aa4b485d10a8b89d3a5fb8567b92a69dbe5c51dc31761a48fd",
+    "common.cpp.inc": "a0cd5c5e5a875b6e32af8dc034bda56b62af7ac09037eac3b06d5a67d2ff706e",
+    "event.cpp.inc": "bb5d4a9033cead5e63c0c7feaacbf4a3ea9abb12d95ff1c58799816444250e63",
+    "host_pulse.cpp.inc": "96f9daa73f3dbec04c761a7db540910c9018a1835a8abee9689c3eccdbb4a07d",
+    "mission_state.cpp.inc": "aa092db230b65f315e72da6be4fcc39f6098cb2ebaa4eee038b6a55aa79b49f9",
+    "pending.cpp.inc": "70ba523c7d1bb33513769a5e0e044111610aaabfb9dbaecadafd705ef2413bc3",
+    "scheduler.cpp.inc": "eef8c540a536a9ccb9b4f0e0dc6bbc021b81fadfd4fbc6929d1641416059be17",
+    "stance.cpp.inc": "fc85fd3e6d45d33570c5a3fcf721de7f594614cf73fb9c3ea82cc80032f757e5"
+  },
+  "native_host_source_sha256": "7c9dfb828b3b2d623f9833532900358dfa396ed331e8c3b331e420f57496adf8",
+  "build_script_sha256": "d0b26d12fdfee49fdae67ed54cd1fe51602ec7d8b32c8fcb26ee5fecb092eca7",
+  "native_unexecuted": true,
+  "live_effect_verified": false,
+  "abi": {
+    "event": 1616,
+    "tactical": 13266404,
+    "events": 28132,
+    "unused1": 0,
+    "unused2": 0
+  },
+  "magic": "0x4d463132",
+  "version": 12,
+  "message": "WM_APP+0x391",
+  "hooks_mask": 131071,
+  "nonlethal_source_scope": true,
+  "tls_alignment_proof_sha256": "53aa976f89a470c7068f255f7a4b400b82bcc768158ea1934c6a8c1cd70f369f"
+}

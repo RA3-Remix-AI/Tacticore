@@ -1,0 +1,11 @@
+# MF7 actual01: deferred-move boundary review
+
+**Failed effect/source acceptance. The late call is compatible with delayed delivery, but the existing raw cannot prove command identity. Do not loosen MF7.**
+
+808/810 were leased1640..2156. Ten follow moves physically completed. The eleventh emitted81/50/51/52 at1989 with source1 and no synchronous private10/11. Support stayed at2880.6665/2118, idle16/path0.148frames/9781ms later, private10/11 appeared at2137 with source1, genericcaller6d3b7d and exactly the same three-float goal. No intervening support facade/Stop/Attack/return is recorded. The call then caused actual movement, but the existing native guard correctly treated its unproved lineage as an override candidate and cleaned up38. Zero Attack or damage occurred. Both native pool returns, timer0/8191/active0 and13 original entries are independently present in the raw terminal proof; this is not home retreat or mission completion.
+
+The static dispatcher has a real deferred path:787d36 calls830220 to copy the stack command into Update+310. The consumer7da0ae calls830320 to unpack that stored object into another stack command, dispatches it throughUpdate+24 at7da0d7, then clears the stored opcode. The generic6d3b60 adapter only calls vtable+58; its caller alone cannot certify origin. The original571d90 command pointer dies when its facade call returns, so a future revision needs explicit copy/unpack lineage and a generation, not just pointer or goal equality.
+
+A minimal new proof is one pending generation per actor: establish only on an owned source1/opcode0 facade plus an observed copy to that actor's actual stored slot; bind original81, source/destination identities and full relevant payload. Exact consumer unpack and dispatcher identities must flow through a short-lived TLS entitlement to one private delivery. Stop, Attack, any new facade or stored overwrite, return, identity drift and original deadline invalidate it. Reuse, source0, missing lineage, wrong goal and second consumption remain rejected. All physical follow, damage, retreat and restoration gates stay independent. A new actual trace is required; the old record is not retrospectively accepted.
+
+No MF7 execution source or original raw was edited. No SDK, GUI, game command or provider request was made by this reviewer.

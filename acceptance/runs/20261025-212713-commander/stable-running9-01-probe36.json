@@ -1,0 +1,74 @@
+{
+  "pid": 53124,
+  "session_id": "eea2f953-2534-4722-adfc-1a53ad79aea4",
+  "frame": 6775,
+  "paused": 0,
+  "admitted_fronts": 1,
+  "admitted_supports": 3,
+  "visible_contacts": 13,
+  "candidates": [],
+  "admitted_actor_states": [
+    {
+      "id": 790,
+      "type": "0x2c358c61",
+      "hp": 136.0,
+      "xyz": [
+        1826.1785888671875,
+        2506.1787109375,
+        210.0
+      ],
+      "state": 10
+    },
+    {
+      "id": 792,
+      "type": "0x2c358c61",
+      "hp": 105.0,
+      "xyz": [
+        1812.3570556640625,
+        2487.642822265625,
+        210.0
+      ],
+      "state": 10
+    },
+    {
+      "id": 1254,
+      "type": "0x2c358c61",
+      "hp": 120.0,
+      "xyz": [
+        2371.982666015625,
+        2442.836669921875,
+        280.0
+      ],
+      "state": 10
+    },
+    {
+      "id": 1256,
+      "type": "0x19ab11af",
+      "hp": 100.0,
+      "xyz": [
+        2933.87548828125,
+        2071.525390625,
+        210.0
+      ],
+      "state": 10
+    }
+  ],
+  "rejections": [
+    {
+      "object_id": 775,
+      "type_hash": "0x19ab11af",
+      "status": "verified_owned_actor_state",
+      "reason": null
+    },
+    {
+      "object_id": 798,
+      "type_hash": "0x19ab11af",
+      "status": "verified_owned_actor_state",
+      "reason": null
+    }
+  ],
+  "hard_guard_unchanged": 350,
+  "sdk_calls": 0,
+  "mutations": false,
+  "paused_hint_only": false
+}

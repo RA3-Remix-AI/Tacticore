@@ -1,0 +1,65 @@
+{
+  "status": "software_readiness_only",
+  "game_commands_dispatched": 0,
+  "field_coordination_passed": false,
+  "full_match_passed": false,
+  "checks": {
+    "integration_tests": 156,
+    "tactical_tests": 463,
+    "formation9_and_scene6_targeted_tests": 5,
+    "formation16_and_import_targeted_tests": 12
+  },
+  "files": {
+    "tactical/evidence.py": "1c2fc14007cbc31b03a0d7589dec6841563a1b06c5f555d5f0e07e153e3e02c7",
+    "tactical/client.py": "c100a79db12b6389e6ec9df5fd3f39e6be5f05795cdb1ef0b18351741b991957",
+    "tactical/scene_terminal_release_v6.py": "fab66095168cbb3200da675bc7f670a0427e848d201cea3a03c960dde1869c03",
+    "integration/continuous_evidence.py": "891ba755212221bfd306943b85b2aae7be9216e344290fcb89963b63f25fb7db",
+    "integration/tactical_bridge.py": "8be0109781b920bd36808fc689ba4885a1c7edcf95dc3c9378fbb7b072d7d067",
+    "integration/test_executor_import_boundary.py": "ed1de881bb02ce99fba6d539004d3e3a733a4b47510f5998eee6c5d5f63664ba",
+    "integration/test_formation16_terminal.py": "61a5acde4612b6c650887f5001679b83e97821db8cca0440561ebcaf583a739d",
+    "tactical/test_formation9_client.py": "30d68c5d0d1d39572a7257a98230f8004b1659745fee41a3499595d66602e289",
+    "tactical/test_scene_terminal_release_v6.py": "f07271bd8018670492d7707956a04ea6ce80e9eb35d1551e0a0295bc6c64749f"
+  },
+  "native_revision": {
+    "protocol": "mfm9_native_actual_breadcrumb_v1",
+    "native_binary_sha256": "d23ab28b79e0436b038b86bc78d53f3b95da35d727663de435beca18adc95588",
+    "native_host_sha256": "67147081690a83f50591467309a920b76677c50b8286aa55e4faf6b4e9023565",
+    "native_source_sha256": "3d0eb1c615c1119aa87da43925ac4dceed72cda255860bad86bc53730e28eb0b",
+    "native_shared_sha256": "954683f7b55622e3c350619e229de94b4acc1839df9bfe1a657a8453b763e0a0",
+    "native_includes_sha256": {
+      "breadcrumb.cpp.inc": "979cec158f12b4aa4b485d10a8b89d3a5fb8567b92a69dbe5c51dc31761a48fd",
+      "common.cpp.inc": "4f59fdbc5202c343fea7ed427ad1f302ce9d5844911798b84b6c2ee2b1ce66a8",
+      "event.cpp.inc": "1b9556da9b1b6da389efb3cceff396304f2b8314b0ae6c7daf5d1b898f2960b5",
+      "host_pulse.cpp.inc": "8fd9d4f0399499308d79a69f91fb90b7b41b17543ebdafe4b034e11314977273",
+      "mission_state.cpp.inc": "2d847031c30a1168776d21918427b6877655b44a6353d187693b5f63a9d08830",
+      "pending.cpp.inc": "d6b9e478e1931a8d5cabc30dde684cd6c3347f2ffd0a5ef36999e7d99f06a13d",
+      "scheduler.cpp.inc": "6ba85cdc531dc969e634cd09437a602f367babbdbf2a5a75b5efe452ab1c70be"
+    },
+    "native_host_source_sha256": "b76119b17dc226ca1204594bf7dfb4119b3d90a710fce737a81718493d96a7d3",
+    "build_script_sha256": "bb9f277232e70ecec6dfea0145b28445cd157fe8c350afbcf7b840e8d5e387c7",
+    "native_unexecuted": true,
+    "live_effect_verified": false,
+    "abi": {
+      "event": 1616,
+      "tactical": 13266180,
+      "events": 27908,
+      "unused1": 0,
+      "unused2": 0
+    },
+    "magic": "0x4d464d39",
+    "version": 9,
+    "message": "WM_APP+0x389",
+    "hooks_mask": 65535,
+    "nonlethal_source_scope": true
+  },
+  "limitations": [
+    "Native software cases do not establish movement, damage, physical retreat, or return in a game.",
+    "No normal capability is granted without an independently qualified actual source."
+  ],
+  "native_software_cases": {
+    "breadcrumb": 65,
+    "pending_lineage": 48,
+    "scheduler_and_host": 46,
+    "field_evidence": false
+  }
+}

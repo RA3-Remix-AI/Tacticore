@@ -1,0 +1,63 @@
+{
+  "decision": "one_bounded_standalone_stance_primitive_only",
+  "game_calls_during_review": 0,
+  "execute_guard_reviewed_and_enabled": true,
+  "python_tests_passed": 30,
+  "native_software_cases": 67,
+  "sources": {
+    "native_binary_sha256": "b77eedb0cb7df01c589a1ec1082044d8d10605b3fb635c04d12243ae3a1f081e",
+    "native_host_sha256": "8d6aeed2317a98d44cefeb20f69ebd44b119ab6352be8e3f05ad4a0cb43e2ed9",
+    "native_source_sha256": "5c22c62b0157fc9bb7e02688d084a6fe0fe792ada56980d1c5e06cf0128cd0ba",
+    "native_shared_sha256": "71921d991727efe7010338e8b889935b0e4a29f0f86b260ddd086de839d1daa6",
+    "native_revision_sha256": "53dfd59007eb6f90891bb2d67776f52860dcdd387ab266d5d0cc7fd16494a467",
+    "native_includes_sha256": {
+      "host_pulse.cpp.inc": "51b95747ff223bfc33eb8fecb8ba128df0a903ca7afa3f06de4c624628695a7f",
+      "logic.cpp.inc": "c142590f5ae5076596154302d1b22ece8dd322e647d35644a395a4b09cd8f9d6",
+      "scheduler.cpp.inc": "1e96d029189707e2fe38e48f60c9feeb3e8d4e48155d554691c3dea3f90e51d5"
+    },
+    "wrapper_sha256": "36f66537a1b9e32787c17f62a67a8746584414ea221c834eb761de3dc77cb2f1",
+    "native_layout_sha256": "8e124b9117d09922aa91efaa9f34136bfd5e0bbc448397a7225b22e4f77447e1",
+    "supplemental_sources": {
+      "stance_probe_qualification.py": "5d6c9bdf340bd0274e1c472545445332f28776dacd4d6890f2ebf299e8618a16",
+      "native_layout.py": "8e124b9117d09922aa91efaa9f34136bfd5e0bbc448397a7225b22e4f77447e1",
+      "lease.py": "36f66537a1b9e32787c17f62a67a8746584414ea221c834eb761de3dc77cb2f1",
+      "preflight.py": "d00856789ab8c1939db640d9d89a23cf67f3dc774b912030b63626d49c3767a9",
+      "inert-layout.json": "e8809410ecb2bf8568cf357eb79f71bca1b22be8ff67a19774d1492534b1a83b",
+      "host_pulse.cpp.inc": "51b95747ff223bfc33eb8fecb8ba128df0a903ca7afa3f06de4c624628695a7f",
+      "logic.cpp.inc": "c142590f5ae5076596154302d1b22ece8dd322e647d35644a395a4b09cd8f9d6",
+      "scheduler.cpp.inc": "1e96d029189707e2fe38e48f60c9feeb3e8d4e48155d554691c3dea3f90e51d5"
+    },
+    "external_sources": {
+      "tactical/ordered-combo/lease.py": "ea6d8996b7f9358caa53660f31683ccf0aed6f6e4a79c01287f0c46c1f257a9a",
+      "tactical/mission_actor_admission_v2.py": "b62c2fdaa4c959d764109a10d63b31c025673bdc196fc50da81750c0afb4c02b",
+      "tactical/grounded_status_v2.py": "70e5f94bac9b1a82beec56053fd43e91f6edaba1500c8dfa840e868be836e6b3",
+      "tactical/grounded_status.py": "ad5b758c947843969f2d1ec6e7fc07c0eaec084b1a59e60750d69d881e78a6c0",
+      "tactical/mobility_guard.py": "e903f9a10d342e0faa17545727f52992a57d2eb04f69e805030f636bbaa7e14f",
+      "visibility/capability.py": "4049976fd8e93ab816555affa45e5bfa60a4fe020573e878ffd1542b8857f28d",
+      "visibility/collector.py": "4bc61a0a500ed1729b741238c859fdc625e74c004d3df0127404562e08f6d2d5",
+      "visibility/projection.py": "62e48b11ced645a1a2b49acd3db5c51a4e5f7254804e8896ea11d13338e7ab5e"
+    },
+    "actual_host_abi": {
+      "sample": 240,
+      "event": 312,
+      "tactical": 320124,
+      "events": 636,
+      "period_ms": 20,
+      "fallback_ms": 100,
+      "loss_ms": 1000
+    }
+  },
+  "request_policy": {
+    "test_stance": 2,
+    "explicit_sdk_max": 6,
+    "settle_frames": 60,
+    "hold_frames": 90,
+    "cleanup_frames": 60,
+    "total_frames": 300,
+    "wall_seconds": 30
+  },
+  "tactical_source_granted": false,
+  "field_hold_verified": false,
+  "full_match_passed": false,
+  "preflight_clock_fix": "Use the current native frame immediately before first visibility collect; retain original <=4f final admission and collector freshness."
+}

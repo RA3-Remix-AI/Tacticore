@@ -1,0 +1,619 @@
+{
+  "schema_version": 1,
+  "reviewer": "strategy_service",
+  "created_local": "2026-10-25T23:09:18",
+  "decision": "go_one_bounded_fresh_field_diagnostic_only",
+  "source_capability_granted": false,
+  "live_effect_verified": false,
+  "reviewer_sdk_gui_game_or_model_calls": 0,
+  "guard_removed_after_joint_static_go": true,
+  "after_guard_revalidation": {
+    "stage": "final_post_guard_removal",
+    "files": 24,
+    "tests": 167,
+    "all_pass": true
+  },
+  "abi": {
+    "breadcrumb": 104,
+    "lineage": 568,
+    "event": 1616,
+    "header": 27908,
+    "tactical": 13266180,
+    "pulse_requested_offset": 27900,
+    "pulse_acknowledged_offset": 27904,
+    "hook_count": 16,
+    "restore_mask": 65535,
+    "timer_rva": 120888,
+    "shared_pointer_rva": 120904
+  },
+  "native_revision": {
+    "protocol": "mfm10_native_actual_breadcrumb_v1",
+    "native_binary_sha256": "312d230cb1e4d68d0d8c4db7ae9b5ce5f63029bea4db12e9d55f33283919a560",
+    "native_host_sha256": "a11b5df8cf3aab967f5ab8677179b740579571d250d7876e079ca12dc1608a69",
+    "native_source_sha256": "afdfa4a62b0d1a205d11abf70e345cf83244b111b01f45f9565a097c466a41b3",
+    "native_shared_sha256": "3066e0a7ed94c11b568e8135eb37fbda5eacf16e048b322783d1273bfcc75bd1",
+    "native_includes_sha256": {
+      "breadcrumb.cpp.inc": "979cec158f12b4aa4b485d10a8b89d3a5fb8567b92a69dbe5c51dc31761a48fd",
+      "common.cpp.inc": "4f59fdbc5202c343fea7ed427ad1f302ce9d5844911798b84b6c2ee2b1ce66a8",
+      "event.cpp.inc": "1b9556da9b1b6da389efb3cceff396304f2b8314b0ae6c7daf5d1b898f2960b5",
+      "host_pulse.cpp.inc": "8fd9d4f0399499308d79a69f91fb90b7b41b17543ebdafe4b034e11314977273",
+      "mission_state.cpp.inc": "49b537a8049de44234fbebf72c23c1ecff9c931ca01b934c572a33ba2a8b43a7",
+      "pending.cpp.inc": "e8c553f81579d8be1570eee19d87b48b944f1a396ea26aec824e6882c4384bd6",
+      "scheduler.cpp.inc": "b5c0125ab7869c11f2a3f42e2300dfea26c302b8be7c472d27f7e9d87607ecef"
+    },
+    "native_host_source_sha256": "6a510011d4e995a0e96ba33239282ff5b400fadbb6bb41f7986d8af582cc1109",
+    "build_script_sha256": "79cbe14d724db36ce15c6acae754f200f71effbe3356b8c1e8476d388378b81f",
+    "native_unexecuted": true,
+    "live_effect_verified": false,
+    "abi": {
+      "event": 1616,
+      "tactical": 13266180,
+      "events": 27908,
+      "unused1": 0,
+      "unused2": 0
+    },
+    "magic": "0x4d463130",
+    "version": 10,
+    "message": "WM_APP+0x38b",
+    "hooks_mask": 65535,
+    "nonlethal_source_scope": true,
+    "tls_alignment_proof_sha256": "a8408d6341f64b7a23c88f3b80f245e45bc2cedb2bc81690bf16615103298991"
+  },
+  "native_alignment_proof": {
+    "protocol": "mfm10_actual_compiled_tls_scalar_alignment_v1",
+    "native_binary_sha256": "312d230cb1e4d68d0d8c4db7ae9b5ce5f63029bea4db12e9d55f33283919a560",
+    "pending_source_sha256": "e8c553f81579d8be1570eee19d87b48b944f1a396ea26aec824e6882c4384bd6",
+    "source_file": "pending.cpp.inc",
+    "regression_source_sha256": "007c537fdbab64da9f0f620397f7928b72cb8abf606cbb23e52e7cd5038edcd7",
+    "regression_binary_sha256": "017e00b466b9568fa04c7f043fdfd02df68a72b19f7f219e70229995bdd1e01e",
+    "regression_report_sha256": "a8776cccce52c310e763d1eda628f4f53db86574680597f5fac30f30f70d293f",
+    "disassembly_sha256": "66d4701127d799dd52e4510aff1030a856c2909c0fa3dfa2034688f7e8a743e4",
+    "verifier_sha256": "7b9d03dd738af44a1d439c1eb434de93707755a7c8b526029a1131c4e59fac02",
+    "checks": {
+      "actual_dll_bytes_match": true,
+      "all_eight_accessor_families": true,
+      "no_aligned_simd_tls_access": true,
+      "true_volatile_native_tls": true,
+      "no_aggregate_tls_access": true,
+      "actual_offset_eight": true,
+      "actual_begin_and_prior_restore": true,
+      "actual_thread_isolation": true,
+      "fifteen_real_cases": true,
+      "no_game_or_sdk": true,
+      "compiled_joint_dll": true,
+      "compiled_joint_pending": true
+    },
+    "functions": [
+      {
+        "symbol": "__ZL20clear_dispatch_wordsPVj.constprop.0",
+        "address_rva": 5856,
+        "instructions": [
+          {
+            "rva": 5856,
+            "bytes": "a1d844c66f",
+            "assembly": "mov    0x6fc644d8,%eax"
+          },
+          {
+            "rva": 5861,
+            "bytes": "648b152c000000",
+            "assembly": "mov    %fs:0x2c,%edx"
+          },
+          {
+            "rva": 5868,
+            "bytes": "8b0482",
+            "assembly": "mov    (%edx,%eax,4),%eax"
+          },
+          {
+            "rva": 5871,
+            "bytes": "c7800400000000",
+            "assembly": "movl   $0x0,0x4(%eax)"
+          },
+          {
+            "rva": 5878,
+            "bytes": "000000",
+            "assembly": ""
+          },
+          {
+            "rva": 5881,
+            "bytes": "c7800800000000",
+            "assembly": "movl   $0x0,0x8(%eax)"
+          },
+          {
+            "rva": 5888,
+            "bytes": "000000",
+            "assembly": ""
+          },
+          {
+            "rva": 5891,
+            "bytes": "c7800c00000000",
+            "assembly": "movl   $0x0,0xc(%eax)"
+          },
+          {
+            "rva": 5898,
+            "bytes": "000000",
+            "assembly": ""
+          },
+          {
+            "rva": 5901,
+            "bytes": "c7801000000000",
+            "assembly": "movl   $0x0,0x10(%eax)"
+          },
+          {
+            "rva": 5908,
+            "bytes": "000000",
+            "assembly": ""
+          },
+          {
+            "rva": 5911,
+            "bytes": "c3",
+            "assembly": "ret"
+          },
+          {
+            "rva": 5912,
+            "bytes": "2e8db426000000",
+            "assembly": "lea    %cs:0x0(%esi,%eiz,1),%esi"
+          },
+          {
+            "rva": 5919,
+            "bytes": "00",
+            "assembly": ""
+          }
+        ]
+      },
+      {
+        "symbol": "__ZL18clear_move_contextv",
+        "address_rva": 5920,
+        "instructions": [
+          {
+            "rva": 5920,
+            "bytes": "ebbe",
+            "assembly": "jmp    6fc416e0 <__ZL20clear_dispatch_wordsPVj.constprop.0>"
+          },
+          {
+            "rva": 5922,
+            "bytes": "8db600000000",
+            "assembly": "lea    0x0(%esi),%esi"
+          },
+          {
+            "rva": 5928,
+            "bytes": "2e8db426000000",
+            "assembly": "lea    %cs:0x0(%esi,%eiz,1),%esi"
+          },
+          {
+            "rva": 5935,
+            "bytes": "00",
+            "assembly": ""
+          }
+        ]
+      },
+      {
+        "symbol": "__ZL18set_dispatch_wordsPVjjjjj.constprop.0",
+        "address_rva": 5936,
+        "instructions": [
+          {
+            "rva": 5936,
+            "bytes": "56",
+            "assembly": "push   %esi"
+          },
+          {
+            "rva": 5937,
+            "bytes": "648b352c000000",
+            "assembly": "mov    %fs:0x2c,%esi"
+          },
+          {
+            "rva": 5944,
+            "bytes": "53",
+            "assembly": "push   %ebx"
+          },
+          {
+            "rva": 5945,
+            "bytes": "89c3",
+            "assembly": "mov    %eax,%ebx"
+          },
+          {
+            "rva": 5947,
+            "bytes": "a1d844c66f",
+            "assembly": "mov    0x6fc644d8,%eax"
+          },
+          {
+            "rva": 5952,
+            "bytes": "8b0486",
+            "assembly": "mov    (%esi,%eax,4),%eax"
+          },
+          {
+            "rva": 5955,
+            "bytes": "899804000000",
+            "assembly": "mov    %ebx,0x4(%eax)"
+          },
+          {
+            "rva": 5961,
+            "bytes": "899008000000",
+            "assembly": "mov    %edx,0x8(%eax)"
+          },
+          {
+            "rva": 5967,
+            "bytes": "8b54240c",
+            "assembly": "mov    0xc(%esp),%edx"
+          },
+          {
+            "rva": 5971,
+            "bytes": "89880c000000",
+            "assembly": "mov    %ecx,0xc(%eax)"
+          },
+          {
+            "rva": 5977,
+            "bytes": "899010000000",
+            "assembly": "mov    %edx,0x10(%eax)"
+          },
+          {
+            "rva": 5983,
+            "bytes": "5b",
+            "assembly": "pop    %ebx"
+          },
+          {
+            "rva": 5984,
+            "bytes": "5e",
+            "assembly": "pop    %esi"
+          },
+          {
+            "rva": 5985,
+            "bytes": "c3",
+            "assembly": "ret"
+          },
+          {
+            "rva": 5986,
+            "bytes": "8db600000000",
+            "assembly": "lea    0x0(%esi),%esi"
+          },
+          {
+            "rva": 5992,
+            "bytes": "2e8db426000000",
+            "assembly": "lea    %cs:0x0(%esi,%eiz,1),%esi"
+          },
+          {
+            "rva": 5999,
+            "bytes": "00",
+            "assembly": ""
+          }
+        ]
+      },
+      {
+        "symbol": "__ZL16set_move_contextjjjj",
+        "address_rva": 6000,
+        "instructions": [
+          {
+            "rva": 6000,
+            "bytes": "ebbe",
+            "assembly": "jmp    6fc41730 <__ZL18set_dispatch_wordsPVjjjjj.constprop.0>"
+          },
+          {
+            "rva": 6002,
+            "bytes": "8db600000000",
+            "assembly": "lea    0x0(%esi),%esi"
+          },
+          {
+            "rva": 6008,
+            "bytes": "2e8db426000000",
+            "assembly": "lea    %cs:0x0(%esi,%eiz,1),%esi"
+          },
+          {
+            "rva": 6015,
+            "bytes": "00",
+            "assembly": ""
+          }
+        ]
+      },
+      {
+        "symbol": "__ZL20store_dispatch_wordsPVjRK19MoveDispatchContext.constprop.0",
+        "address_rva": 6016,
+        "instructions": [
+          {
+            "rva": 6016,
+            "bytes": "53",
+            "assembly": "push   %ebx"
+          },
+          {
+            "rva": 6017,
+            "bytes": "89c2",
+            "assembly": "mov    %eax,%edx"
+          },
+          {
+            "rva": 6019,
+            "bytes": "8b08",
+            "assembly": "mov    (%eax),%ecx"
+          },
+          {
+            "rva": 6021,
+            "bytes": "648b1d2c000000",
+            "assembly": "mov    %fs:0x2c,%ebx"
+          },
+          {
+            "rva": 6028,
+            "bytes": "a1d844c66f",
+            "assembly": "mov    0x6fc644d8,%eax"
+          },
+          {
+            "rva": 6033,
+            "bytes": "8b0483",
+            "assembly": "mov    (%ebx,%eax,4),%eax"
+          },
+          {
+            "rva": 6036,
+            "bytes": "898804000000",
+            "assembly": "mov    %ecx,0x4(%eax)"
+          },
+          {
+            "rva": 6042,
+            "bytes": "8b4a04",
+            "assembly": "mov    0x4(%edx),%ecx"
+          },
+          {
+            "rva": 6045,
+            "bytes": "898808000000",
+            "assembly": "mov    %ecx,0x8(%eax)"
+          },
+          {
+            "rva": 6051,
+            "bytes": "8b4a08",
+            "assembly": "mov    0x8(%edx),%ecx"
+          },
+          {
+            "rva": 6054,
+            "bytes": "8b520c",
+            "assembly": "mov    0xc(%edx),%edx"
+          },
+          {
+            "rva": 6057,
+            "bytes": "89880c000000",
+            "assembly": "mov    %ecx,0xc(%eax)"
+          },
+          {
+            "rva": 6063,
+            "bytes": "899010000000",
+            "assembly": "mov    %edx,0x10(%eax)"
+          },
+          {
+            "rva": 6069,
+            "bytes": "5b",
+            "assembly": "pop    %ebx"
+          },
+          {
+            "rva": 6070,
+            "bytes": "c3",
+            "assembly": "ret"
+          },
+          {
+            "rva": 6071,
+            "bytes": "90",
+            "assembly": "nop"
+          },
+          {
+            "rva": 6072,
+            "bytes": "2e8db426000000",
+            "assembly": "lea    %cs:0x0(%esi,%eiz,1),%esi"
+          },
+          {
+            "rva": 6079,
+            "bytes": "00",
+            "assembly": ""
+          }
+        ]
+      },
+      {
+        "symbol": "__ZL20restore_move_contextRK19MoveDispatchContext",
+        "address_rva": 6080,
+        "instructions": [
+          {
+            "rva": 6080,
+            "bytes": "ebbe",
+            "assembly": "jmp    6fc41780 <__ZL20store_dispatch_wordsPVjRK19MoveDispatchContext.constprop.0>"
+          },
+          {
+            "rva": 6082,
+            "bytes": "8db600000000",
+            "assembly": "lea    0x0(%esi),%esi"
+          },
+          {
+            "rva": 6088,
+            "bytes": "2e8db426000000",
+            "assembly": "lea    %cs:0x0(%esi,%eiz,1),%esi"
+          },
+          {
+            "rva": 6095,
+            "bytes": "00",
+            "assembly": ""
+          }
+        ]
+      },
+      {
+        "symbol": "__ZL19load_dispatch_wordsPVKj.constprop.0",
+        "address_rva": 6096,
+        "instructions": [
+          {
+            "rva": 6096,
+            "bytes": "648b0d2c000000",
+            "assembly": "mov    %fs:0x2c,%ecx"
+          },
+          {
+            "rva": 6103,
+            "bytes": "8b15d844c66f",
+            "assembly": "mov    0x6fc644d8,%edx"
+          },
+          {
+            "rva": 6109,
+            "bytes": "8b1491",
+            "assembly": "mov    (%ecx,%edx,4),%edx"
+          },
+          {
+            "rva": 6112,
+            "bytes": "8b8a04000000",
+            "assembly": "mov    0x4(%edx),%ecx"
+          },
+          {
+            "rva": 6118,
+            "bytes": "8908",
+            "assembly": "mov    %ecx,(%eax)"
+          },
+          {
+            "rva": 6120,
+            "bytes": "8b8a08000000",
+            "assembly": "mov    0x8(%edx),%ecx"
+          },
+          {
+            "rva": 6126,
+            "bytes": "894804",
+            "assembly": "mov    %ecx,0x4(%eax)"
+          },
+          {
+            "rva": 6129,
+            "bytes": "8b8a0c000000",
+            "assembly": "mov    0xc(%edx),%ecx"
+          },
+          {
+            "rva": 6135,
+            "bytes": "8b9210000000",
+            "assembly": "mov    0x10(%edx),%edx"
+          },
+          {
+            "rva": 6141,
+            "bytes": "894808",
+            "assembly": "mov    %ecx,0x8(%eax)"
+          },
+          {
+            "rva": 6144,
+            "bytes": "89500c",
+            "assembly": "mov    %edx,0xc(%eax)"
+          },
+          {
+            "rva": 6147,
+            "bytes": "c3",
+            "assembly": "ret"
+          },
+          {
+            "rva": 6148,
+            "bytes": "8d742600",
+            "assembly": "lea    0x0(%esi,%eiz,1),%esi"
+          },
+          {
+            "rva": 6152,
+            "bytes": "2e8db426000000",
+            "assembly": "lea    %cs:0x0(%esi,%eiz,1),%esi"
+          },
+          {
+            "rva": 6159,
+            "bytes": "00",
+            "assembly": ""
+          }
+        ]
+      },
+      {
+        "symbol": "__ZL17load_move_contextv",
+        "address_rva": 6160,
+        "instructions": [
+          {
+            "rva": 6160,
+            "bytes": "e8bbffffff",
+            "assembly": "call   6fc417d0 <__ZL19load_dispatch_wordsPVKj.constprop.0>"
+          },
+          {
+            "rva": 6165,
+            "bytes": "c3",
+            "assembly": "ret"
+          },
+          {
+            "rva": 6166,
+            "bytes": "6690",
+            "assembly": "xchg   %ax,%ax"
+          },
+          {
+            "rva": 6168,
+            "bytes": "2e8db426000000",
+            "assembly": "lea    %cs:0x0(%esi,%eiz,1),%esi"
+          },
+          {
+            "rva": 6175,
+            "bytes": "00",
+            "assembly": ""
+          }
+        ]
+      }
+    ],
+    "actual_instruction_bytes_verified": 320,
+    "field_verified": false,
+    "sdk_calls": 0
+  },
+  "outer_calibration_clones": {
+    "acceptance\\calibration\\field_plan_margin10_static.py": "9da977259d93878e6e8232808ecfcbf0c991d95a2554bcd30950a9ceae8fc5a4",
+    "acceptance\\calibration\\continuous_paid_margin10_static.py": "7a37946cc9a6bf72ee0de33e05a930235d846a43bdfcc84d4963ad1df2576c04"
+  },
+  "scope": [
+    "Independent V10 only; V9 crash artifacts and sources preserved.",
+    "Thread-local context accesses use scalar volatile uint32 helpers, including nested prior save and restore; real eight-mod-sixteen buffer and real OS TLS isolation passed.",
+    "Actual accessor binary disassembly independently confirms scalar memory operations; no aligned aggregate SIMD access.",
+    "No changes to tactical source, role identity/FOV, 60-frame freshness, 350 clearance, pair bounds, physical Stop/arrival, 4500 deadline or restoration gates.",
+    "Original scheduling SCH9 proof remains protocol constant; only DLL identity/message namespace changes to MFM10."
+  ],
+  "limitations": [
+    "All checks are software/static only. Native live AV absence, combat damage, dual physical home return and capability source require new actual raw.",
+    "No capability grant or formal model full-match acceptance."
+  ],
+  "sha256": {
+    "tactical\\mission-formation-v10\\continuous_paid_driver.py": "7d74c63be9b4776d97d37167b2b2b870bb5b4b97afa3a0fda02e591559ee7fae",
+    "tactical\\mission-formation-v10\\field_coordinate.py": "e6e9627f5d2ad3a2c7ba857386bbc897362ffbb4e67c4a36d2fb00dca183a56b",
+    "tactical\\mission-formation-v10\\field_plan.py": "74658fed0dae3e81e3dca3704a117a494fd924179593f04ff789ed28862e0333",
+    "tactical\\mission-formation-v10\\formation_mission_qualification.py": "88e94b1edf109d206225165171d7c8533ead397d958e5437a8d8811385c45ab5",
+    "tactical\\mission-formation-v10\\freeze_native.py": "15ae1b52c160be1fd9330e4eeafcb4a4c39cb1c6f79d3a8afc4ded3d80ae5f8d",
+    "tactical\\mission-formation-v10\\lease.py": "4ebcc596132c3b212e4d0d6a15341d46997991beba83f0dafd8662db05d5d276",
+    "tactical\\mission-formation-v10\\mission_contract.py": "6997d1127e7160433281265eda8a8dbec50ad9749bb4c1aa88cf5cf1e82076e9",
+    "tactical\\mission-formation-v10\\native_layout.py": "b654fc45354f1eb16d3614268b60168769244bf7e8e4f452fe330e376387153c",
+    "tactical\\mission-formation-v10\\pending_lineage.py": "e03de9f135fd341e164c2c57088d46f9e03d3a3ba52bf4beb2d182492873d3bf",
+    "tactical\\mission-formation-v10\\retreat_departure.py": "29130d6c34f0f449d267968374eb8e8815b9ab7a3b6b6f7c6580502306237eed",
+    "tactical\\mission-formation-v10\\test_bounded_readonly.py": "3a9f23087a1b53e264f51c9e5f16e3caab1e1381cbc5468dd291dd9f5808fdb9",
+    "tactical\\mission-formation-v10\\test_candidate_boundary.py": "5d5c98eec07cb2e31a4e18d9e68c0d3dd2902f54d29534f19c5158da8effff37",
+    "tactical\\mission-formation-v10\\test_common_qualification.py": "f7b186ffdf7ab8221536790e0d7286c87e537b5dc6f90cc419882c30392a54e1",
+    "tactical\\mission-formation-v10\\test_complete_qualification.py": "023ba31d7c3d512dbd15ec1c39c466b2f70aab683649c623d2a2e4fcab12308f",
+    "tactical\\mission-formation-v10\\test_disposal_qualification.py": "798479beeda31b268119fa975fb726c7d1eecc82cc80800445f674d1978760bd",
+    "tactical\\mission-formation-v10\\test_effect_qualification.py": "5f1d9f8cba93774a4937fe42ec50f4871fac24e1ded3e68ab7888c2664dbb75c",
+    "tactical\\mission-formation-v10\\test_field_and_pre_dispatch.py": "f6ff0eabfc98e79c4cecc1707b663c3b8e31713ef2fd40398ba5b6e5250123c1",
+    "tactical\\mission-formation-v10\\test_follow_qualification.py": "dd6be6732c1a8754c9a09e082307a9183cdec73c845dff658aeed8ecfb980852",
+    "tactical\\mission-formation-v10\\test_host_lifecycle.py": "3064cfdf779ab68f777e1809cb8684b8150ca057ed02bb1bb8ed0dce245899af",
+    "tactical\\mission-formation-v10\\test_initial_admission.py": "a40c2b99ef90ea4ff6b1594e65b43ef07052956eb7a7369f666f28ab39d74dd9",
+    "tactical\\mission-formation-v10\\test_lineage_capture.py": "6f201004883b9dbfa7ce7a3044209754068c41eb99384fc743bfc0de9265f769",
+    "tactical\\mission-formation-v10\\test_memory_qualification.py": "adfb492c2238e450cf048cf7921c37b87eef974c6b896e6b86e026ed0df366bc",
+    "tactical\\mission-formation-v10\\test_mission_contract.py": "4cd40f7ba4037f1ac3e9a0bd5d096c592def4675d976d70293a31e94c020a403",
+    "tactical\\mission-formation-v10\\test_paid_driver.py": "decb946f5b08980088f6f74742a476de9be1dd4a1d0e1e02f8b32864c115725e",
+    "tactical\\mission-formation-v10\\test_pending_complete_qualification.py": "dc88c6527a25cf220496316d4b203c623135f20e28d9c6ac9e317f23a222a514",
+    "tactical\\mission-formation-v10\\test_pending_lineage.py": "e24369899104d9c120f5e8c81b3a3d258a79e26b0ce3ae0e843f6d74ab5daa00",
+    "tactical\\mission-formation-v10\\test_retreat_departure.py": "9d19501bb09c071d0ac07fa34c78941d77a314aa5e17aa4a6595bc0266d8e4ab",
+    "tactical\\mission-formation-v10\\test_retreat_raw_capture.py": "8ca4d92079c4478dd879619c84f6567c73f2cf43a28409f2211c2a497a5a3d73",
+    "tactical\\mission-formation-v10\\test_schedule_qualification.py": "3ca7cdf4e5105446077835d098c39c3fa6ce951b431d8aecdc21ac9ee3370d24",
+    "tactical\\mission-formation-v10\\test_source_bundle.py": "1b37d4fc3674ac7d63562d7ca26acf1acd794e0d26fe1395464995a0d6fa62cc",
+    "tactical\\mission-formation-v10\\test_tls_source_qualification.py": "541d73aa473f577cbf24673f0cab89c38ba1ee0f75f68e8b598bd4e7925ac79e",
+    "tactical\\mission-formation-v10\\test_wait_anchor_replan.py": "a3791a8c475bebed11b068e09030454cb34259a1697b75ddac01bb2830cda7c9",
+    "tactical\\mission-formation-v10\\test_wrapper_layout.py": "1f1b2f36c8b8c08a68e80cb58a4d6cf47f43c0e8ff4b5f1a8880a2379bdc106f",
+    "tactical\\mission-formation-v10\\test_zero_lease_gate.py": "154288cb772adc8fd1dda1591d61c18ccfbc024b2a1e97a55510a06ed48a98ca",
+    "tactical\\mission-formation-v10\\verify_native_software.py": "c58a36622b8b65f79546d22be5f72f33727151d4e1735d1d38e8560d4472cdf3",
+    "tactical\\mission-formation-v10\\verify_tls_alignment.py": "7b9d03dd738af44a1d439c1eb434de93707755a7c8b526029a1131c4e59fac02",
+    "tactical\\mission-formation-v10\\wait_anchor_replan.py": "df60f6899100a876339afc153c372a485e8ee7ab2dafaca0b5630e6dde11af22",
+    "tactical\\mission-formation-v10\\lease.cpp": "afdfa4a62b0d1a205d11abf70e345cf83244b111b01f45f9565a097c466a41b3",
+    "tactical\\mission-formation-v10\\shared.h": "3066e0a7ed94c11b568e8135eb37fbda5eacf16e048b322783d1273bfcc75bd1",
+    "tactical\\mission-formation-v10\\breadcrumb.cpp.inc": "979cec158f12b4aa4b485d10a8b89d3a5fb8567b92a69dbe5c51dc31761a48fd",
+    "tactical\\mission-formation-v10\\common.cpp.inc": "4f59fdbc5202c343fea7ed427ad1f302ce9d5844911798b84b6c2ee2b1ce66a8",
+    "tactical\\mission-formation-v10\\event.cpp.inc": "1b9556da9b1b6da389efb3cceff396304f2b8314b0ae6c7daf5d1b898f2960b5",
+    "tactical\\mission-formation-v10\\host_pulse.cpp.inc": "8fd9d4f0399499308d79a69f91fb90b7b41b17543ebdafe4b034e11314977273",
+    "tactical\\mission-formation-v10\\mission_state.cpp.inc": "49b537a8049de44234fbebf72c23c1ecff9c931ca01b934c572a33ba2a8b43a7",
+    "tactical\\mission-formation-v10\\pending.cpp.inc": "e8c553f81579d8be1570eee19d87b48b944f1a396ea26aec824e6882c4384bd6",
+    "tactical\\mission-formation-v10\\scheduler.cpp.inc": "b5c0125ab7869c11f2a3f42e2300dfea26c302b8be7c472d27f7e9d87607ecef",
+    "tactical\\mission-formation-v10\\revision.json": "0f08025a6cd5e86afd383111b13b0dff61c8c86acac951bf29ef6b5b13573928",
+    "tactical\\mission-formation-v10\\inert-layout.json": "8a3a19b0577483c17d9348ccb20950020820cd45023e59bd8ec0e081219f4092",
+    "tactical\\mission-formation-v10\\tls-alignment-proof.json": "a8408d6341f64b7a23c88f3b80f245e45bc2cedb2bc81690bf16615103298991",
+    "tactical\\mission-formation-v10\\tls-accessors-disassembly.txt": "66d4701127d799dd52e4510aff1030a856c2909c0fa3dfa2034688f7e8a743e4",
+    "tactical\\mission-formation-v10\\tls-alignment-regression.json": "a8776cccce52c310e763d1eda628f4f53db86574680597f5fac30f30f70d293f",
+    "tactical\\mission-formation-v10\\test_tls_alignment_native.cpp": "007c537fdbab64da9f0f620397f7928b72cb8abf606cbb23e52e7cd5038edcd7",
+    "tactical\\mission-formation-v10\\bin\\test_tls_alignment_native.exe": "017e00b466b9568fa04c7f043fdfd02df68a72b19f7f219e70229995bdd1e01e",
+    "tactical\\mission-formation-v10\\bin\\TacticalMissionFormation10.dll": "312d230cb1e4d68d0d8c4db7ae9b5ce5f63029bea4db12e9d55f33283919a560",
+    "tactical\\mission-formation-v10\\bin\\tactical_host.exe": "a11b5df8cf3aab967f5ab8677179b740579571d250d7876e079ca12dc1608a69",
+    "tactical\\pre_dispatch_formation_v10_contract.py": "600a6211e8d0c706e6ea57fda3fa746ca97ae7dc848022f151edc6380572fa40",
+    "tactical\\mission_formation_v10_gate_no_lease.py": "e66685b6b8e067f1a04db2b4f456abe8344f1229129a6bfba7804c4d09e300fa"
+  }
+}

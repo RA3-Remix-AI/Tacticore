@@ -1,0 +1,112 @@
+6fc416e0 <__ZL20clear_dispatch_wordsPVj.constprop.0>:
+
+6fc416e0:	a1 d8 44 c6 6f       	mov    0x6fc644d8,%eax
+6fc416e5:	64 8b 15 2c 00 00 00 	mov    %fs:0x2c,%edx
+6fc416ec:	8b 04 82             	mov    (%edx,%eax,4),%eax
+6fc416ef:	c7 80 04 00 00 00 00 	movl   $0x0,0x4(%eax)
+6fc416f6:	00 00 00 
+6fc416f9:	c7 80 08 00 00 00 00 	movl   $0x0,0x8(%eax)
+6fc41700:	00 00 00 
+6fc41703:	c7 80 0c 00 00 00 00 	movl   $0x0,0xc(%eax)
+6fc4170a:	00 00 00 
+6fc4170d:	c7 80 10 00 00 00 00 	movl   $0x0,0x10(%eax)
+6fc41714:	00 00 00 
+6fc41717:	c3                   	ret
+6fc41718:	2e 8d b4 26 00 00 00 	lea    %cs:0x0(%esi,%eiz,1),%esi
+6fc4171f:	00 
+
+
+6fc41720 <__ZL18clear_move_contextv>:
+
+6fc41720:	eb be                	jmp    6fc416e0 <__ZL20clear_dispatch_wordsPVj.constprop.0>
+6fc41722:	8d b6 00 00 00 00    	lea    0x0(%esi),%esi
+6fc41728:	2e 8d b4 26 00 00 00 	lea    %cs:0x0(%esi,%eiz,1),%esi
+6fc4172f:	00 
+
+
+6fc41730 <__ZL18set_dispatch_wordsPVjjjjj.constprop.0>:
+
+6fc41730:	56                   	push   %esi
+6fc41731:	64 8b 35 2c 00 00 00 	mov    %fs:0x2c,%esi
+6fc41738:	53                   	push   %ebx
+6fc41739:	89 c3                	mov    %eax,%ebx
+6fc4173b:	a1 d8 44 c6 6f       	mov    0x6fc644d8,%eax
+6fc41740:	8b 04 86             	mov    (%esi,%eax,4),%eax
+6fc41743:	89 98 04 00 00 00    	mov    %ebx,0x4(%eax)
+6fc41749:	89 90 08 00 00 00    	mov    %edx,0x8(%eax)
+6fc4174f:	8b 54 24 0c          	mov    0xc(%esp),%edx
+6fc41753:	89 88 0c 00 00 00    	mov    %ecx,0xc(%eax)
+6fc41759:	89 90 10 00 00 00    	mov    %edx,0x10(%eax)
+6fc4175f:	5b                   	pop    %ebx
+6fc41760:	5e                   	pop    %esi
+6fc41761:	c3                   	ret
+6fc41762:	8d b6 00 00 00 00    	lea    0x0(%esi),%esi
+6fc41768:	2e 8d b4 26 00 00 00 	lea    %cs:0x0(%esi,%eiz,1),%esi
+6fc4176f:	00 
+
+
+6fc41770 <__ZL16set_move_contextjjjj>:
+
+6fc41770:	eb be                	jmp    6fc41730 <__ZL18set_dispatch_wordsPVjjjjj.constprop.0>
+6fc41772:	8d b6 00 00 00 00    	lea    0x0(%esi),%esi
+6fc41778:	2e 8d b4 26 00 00 00 	lea    %cs:0x0(%esi,%eiz,1),%esi
+6fc4177f:	00 
+
+
+6fc41780 <__ZL20store_dispatch_wordsPVjRK19MoveDispatchContext.constprop.0>:
+
+6fc41780:	53                   	push   %ebx
+6fc41781:	89 c2                	mov    %eax,%edx
+6fc41783:	8b 08                	mov    (%eax),%ecx
+6fc41785:	64 8b 1d 2c 00 00 00 	mov    %fs:0x2c,%ebx
+6fc4178c:	a1 d8 44 c6 6f       	mov    0x6fc644d8,%eax
+6fc41791:	8b 04 83             	mov    (%ebx,%eax,4),%eax
+6fc41794:	89 88 04 00 00 00    	mov    %ecx,0x4(%eax)
+6fc4179a:	8b 4a 04             	mov    0x4(%edx),%ecx
+6fc4179d:	89 88 08 00 00 00    	mov    %ecx,0x8(%eax)
+6fc417a3:	8b 4a 08             	mov    0x8(%edx),%ecx
+6fc417a6:	8b 52 0c             	mov    0xc(%edx),%edx
+6fc417a9:	89 88 0c 00 00 00    	mov    %ecx,0xc(%eax)
+6fc417af:	89 90 10 00 00 00    	mov    %edx,0x10(%eax)
+6fc417b5:	5b                   	pop    %ebx
+6fc417b6:	c3                   	ret
+6fc417b7:	90                   	nop
+6fc417b8:	2e 8d b4 26 00 00 00 	lea    %cs:0x0(%esi,%eiz,1),%esi
+6fc417bf:	00 
+
+
+6fc417c0 <__ZL20restore_move_contextRK19MoveDispatchContext>:
+
+6fc417c0:	eb be                	jmp    6fc41780 <__ZL20store_dispatch_wordsPVjRK19MoveDispatchContext.constprop.0>
+6fc417c2:	8d b6 00 00 00 00    	lea    0x0(%esi),%esi
+6fc417c8:	2e 8d b4 26 00 00 00 	lea    %cs:0x0(%esi,%eiz,1),%esi
+6fc417cf:	00 
+
+
+6fc417d0 <__ZL19load_dispatch_wordsPVKj.constprop.0>:
+
+6fc417d0:	64 8b 0d 2c 00 00 00 	mov    %fs:0x2c,%ecx
+6fc417d7:	8b 15 d8 44 c6 6f    	mov    0x6fc644d8,%edx
+6fc417dd:	8b 14 91             	mov    (%ecx,%edx,4),%edx
+6fc417e0:	8b 8a 04 00 00 00    	mov    0x4(%edx),%ecx
+6fc417e6:	89 08                	mov    %ecx,(%eax)
+6fc417e8:	8b 8a 08 00 00 00    	mov    0x8(%edx),%ecx
+6fc417ee:	89 48 04             	mov    %ecx,0x4(%eax)
+6fc417f1:	8b 8a 0c 00 00 00    	mov    0xc(%edx),%ecx
+6fc417f7:	8b 92 10 00 00 00    	mov    0x10(%edx),%edx
+6fc417fd:	89 48 08             	mov    %ecx,0x8(%eax)
+6fc41800:	89 50 0c             	mov    %edx,0xc(%eax)
+6fc41803:	c3                   	ret
+6fc41804:	8d 74 26 00          	lea    0x0(%esi,%eiz,1),%esi
+6fc41808:	2e 8d b4 26 00 00 00 	lea    %cs:0x0(%esi,%eiz,1),%esi
+6fc4180f:	00 
+
+
+6fc41810 <__ZL17load_move_contextv>:
+
+6fc41810:	e8 bb ff ff ff       	call   6fc417d0 <__ZL19load_dispatch_wordsPVKj.constprop.0>
+6fc41815:	c3                   	ret
+6fc41816:	66 90                	xchg   %ax,%ax
+6fc41818:	2e 8d b4 26 00 00 00 	lea    %cs:0x0(%esi,%eiz,1),%esi
+6fc4181f:	00 
+

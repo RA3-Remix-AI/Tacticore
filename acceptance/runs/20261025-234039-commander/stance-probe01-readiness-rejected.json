@@ -1,0 +1,32 @@
+{
+  "protocol": "actual_readonly_invocation_failure_v1",
+  "session_id": "726a9551-d52c-4b07-8f12-3860d563c1c4",
+  "pid": 53708,
+  "requested_mode": "read_only",
+  "execute_argument_present": false,
+  "command": [
+    ".venv/Scripts/python.exe",
+    "tactical/stance-probe-v1/lease.py",
+    "--session",
+    "bridge-probe\\acceptance\\runs\\20261025-234039-commander\\session.json",
+    "--commander",
+    "57e668b4-4d89-43bd-bc92-0dd436f046ef",
+    "--output",
+    "bridge-probe\\acceptance\\runs\\20261025-234039-commander\\stance-probe01-readiness.json",
+    "--seq",
+    "1"
+  ],
+  "exit_code": 1,
+  "exception_type": "ValueError",
+  "exception_message": "Snapshot clock differs from native frame/15; discard stale sample",
+  "failure_site": "preflight.current_selection -> VisibilityCollector.collect(pre[frame]/15)",
+  "native_host_started": false,
+  "native_sdk_calls": 0,
+  "game_commands_issued": 0,
+  "derived_from_actual_tool_return": true,
+  "original_requested_output_created": false,
+  "tactical_source_granted": false,
+  "effect_verified": false,
+  "completion_claim": false,
+  "session_sha256": "95017056f1ca9b32ec148ca7adfb06db9829dfea77940e42bae5466f1e9d4a6d"
+}

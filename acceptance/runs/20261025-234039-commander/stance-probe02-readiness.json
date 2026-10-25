@@ -1,0 +1,738 @@
+{
+  "protocol": "stance_probe_v1",
+  "source": "game_bridge",
+  "session_id": "726a9551-d52c-4b07-8f12-3860d563c1c4",
+  "executable_sha256": "ec230c6ae1eaee30b0b4fa6ba29d417c974ecae46d6715dfbe786a815935c165",
+  "package_sha256": "2d7873e1b2d2c79950ff9da70b5452b1210370a6d6cbec1eaa69201a7d3d0665",
+  "preflight": {
+    "status": "read_only_ready",
+    "session_id": "726a9551-d52c-4b07-8f12-3860d563c1c4",
+    "pid": 53708,
+    "commander_id": "57e668b4-4d89-43bd-bc92-0dd436f046ef",
+    "player_id": 3,
+    "frame": 5002,
+    "paused": 0,
+    "owner": "0x32c74d0",
+    "ai": "0x45b0a08",
+    "personality": "0xebde020",
+    "personality_id": "0x7664d9d9",
+    "player_template": "0x11468e70",
+    "logic": "0x3d6c228",
+    "window_thread": 28656,
+    "script_team": "0x5194770",
+    "default_team": "0x5195670",
+    "eligible_count": 16,
+    "units": [
+      {
+        "address": "0x5853090",
+        "owner_address": "0x32c74d0",
+        "owner_index_candidate": 3,
+        "object_id": 788,
+        "type_hash": "0x2c358c61",
+        "ai_address": "0x689bf40",
+        "xyz": [
+          2745.476318359375,
+          2115.54052734375,
+          220.0
+        ],
+        "catalog": {
+          "name": "防空部队",
+          "template": "SovietAntiVehicleInfantry",
+          "side": 2,
+          "cls": 1,
+          "category": 0
+        },
+        "hp": 120.0,
+        "team": "0x5198d70",
+        "command_source": 0,
+        "eligible": true
+      },
+      {
+        "address": "0x5854490",
+        "owner_address": "0x32c74d0",
+        "owner_index_candidate": 3,
+        "object_id": 792,
+        "type_hash": "0x19ab11af",
+        "ai_address": "0x65d1b78",
+        "xyz": [
+          2815.01025390625,
+          2152.827392578125,
+          240.0
+        ],
+        "catalog": {
+          "name": "征召兵",
+          "template": "SovietAntiInfantryInfantry",
+          "side": 2,
+          "cls": 1,
+          "category": 0
+        },
+        "hp": 100.0,
+        "team": "0x5198d70",
+        "command_source": 0,
+        "eligible": true
+      },
+      {
+        "address": "0x5856290",
+        "owner_address": "0x32c74d0",
+        "owner_index_candidate": 3,
+        "object_id": 798,
+        "type_hash": "0x2c358c61",
+        "ai_address": "0x66032e8",
+        "xyz": [
+          2834.8193359375,
+          2239.312744140625,
+          220.0
+        ],
+        "catalog": {
+          "name": "防空部队",
+          "template": "SovietAntiVehicleInfantry",
+          "side": 2,
+          "cls": 1,
+          "category": 0
+        },
+        "hp": 120.0,
+        "team": "0x5198d70",
+        "command_source": 0,
+        "eligible": true
+      },
+      {
+        "address": "0x5857190",
+        "owner_address": "0x32c74d0",
+        "owner_index_candidate": 3,
+        "object_id": 803,
+        "type_hash": "0x2c358c61",
+        "ai_address": "0x6647c60",
+        "xyz": [
+          2837.7021484375,
+          2177.004150390625,
+          220.0
+        ],
+        "catalog": {
+          "name": "防空部队",
+          "template": "SovietAntiVehicleInfantry",
+          "side": 2,
+          "cls": 1,
+          "category": 0
+        },
+        "hp": 120.0,
+        "team": "0x5198d70",
+        "command_source": 0,
+        "eligible": true
+      },
+      {
+        "address": "0x5859490",
+        "owner_address": "0x32c74d0",
+        "owner_index_candidate": 3,
+        "object_id": 811,
+        "type_hash": "0x19ab11af",
+        "ai_address": "0x651ad88",
+        "xyz": [
+          2808.788330078125,
+          2229.274169921875,
+          240.0
+        ],
+        "catalog": {
+          "name": "征召兵",
+          "template": "SovietAntiInfantryInfantry",
+          "side": 2,
+          "cls": 1,
+          "category": 0
+        },
+        "hp": 100.0,
+        "team": "0x5198d70",
+        "command_source": 0,
+        "eligible": true
+      },
+      {
+        "address": "0x5858090",
+        "owner_address": "0x32c74d0",
+        "owner_index_candidate": 3,
+        "object_id": 823,
+        "type_hash": "0x2c358c61",
+        "ai_address": "0x64e1338",
+        "xyz": [
+          1886.4669189453125,
+          2460.710693359375,
+          220.0
+        ],
+        "catalog": {
+          "name": "防空部队",
+          "template": "SovietAntiVehicleInfantry",
+          "side": 2,
+          "cls": 1,
+          "category": 0
+        },
+        "hp": 120.0,
+        "team": "0x5198d70",
+        "command_source": 0,
+        "eligible": true
+      },
+      {
+        "address": "0x584f990",
+        "owner_address": "0x32c74d0",
+        "owner_index_candidate": 3,
+        "object_id": 841,
+        "type_hash": "0x2c358c61",
+        "ai_address": "0x68822d0",
+        "xyz": [
+          1906.276123046875,
+          2547.196044921875,
+          240.0
+        ],
+        "catalog": {
+          "name": "防空部队",
+          "template": "SovietAntiVehicleInfantry",
+          "side": 2,
+          "cls": 1,
+          "category": 0
+        },
+        "hp": 120.0,
+        "team": "0x5198d70",
+        "command_source": 0,
+        "eligible": true
+      },
+      {
+        "address": "0x5805d90",
+        "owner_address": "0x32c74d0",
+        "owner_index_candidate": 3,
+        "object_id": 863,
+        "type_hash": "0x2c358c61",
+        "ai_address": "0x652c948",
+        "xyz": [
+          3222.572998046875,
+          3225.9013671875,
+          210.0
+        ],
+        "catalog": {
+          "name": "防空部队",
+          "template": "SovietAntiVehicleInfantry",
+          "side": 2,
+          "cls": 1,
+          "category": 0
+        },
+        "hp": 120.0,
+        "team": "0x5198d70",
+        "command_source": 0,
+        "eligible": true
+      },
+      {
+        "address": "0x48182a0",
+        "owner_address": "0x32c74d0",
+        "owner_index_candidate": 3,
+        "object_id": 913,
+        "type_hash": "0x2c358c61",
+        "ai_address": "0x66160a8",
+        "xyz": [
+          3256.84521484375,
+          3143.179931640625,
+          210.0
+        ],
+        "catalog": {
+          "name": "防空部队",
+          "template": "SovietAntiVehicleInfantry",
+          "side": 2,
+          "cls": 1,
+          "category": 0
+        },
+        "hp": 150.0,
+        "team": "0x5198d70",
+        "command_source": 0,
+        "eligible": true
+      },
+      {
+        "address": "0x47b97a0",
+        "owner_address": "0x32c74d0",
+        "owner_index_candidate": 3,
+        "object_id": 944,
+        "type_hash": "0x19ab11af",
+        "ai_address": "0x65d9570",
+        "xyz": [
+          3295.0439453125,
+          3165.811279296875,
+          210.0
+        ],
+        "catalog": {
+          "name": "征召兵",
+          "template": "SovietAntiInfantryInfantry",
+          "side": 2,
+          "cls": 1,
+          "category": 0
+        },
+        "hp": 100.0,
+        "team": "0x5198d70",
+        "command_source": 0,
+        "eligible": true
+      },
+      {
+        "address": "0x5853a90",
+        "owner_address": "0x32c74d0",
+        "owner_index_candidate": 3,
+        "object_id": 946,
+        "type_hash": "0x19ab11af",
+        "ai_address": "0x43f6920",
+        "xyz": [
+          3223.021484375,
+          3197.968505859375,
+          210.0
+        ],
+        "catalog": {
+          "name": "征召兵",
+          "template": "SovietAntiInfantryInfantry",
+          "side": 2,
+          "cls": 1,
+          "category": 0
+        },
+        "hp": 100.0,
+        "team": "0x5198d70",
+        "command_source": 0,
+        "eligible": true
+      },
+      {
+        "address": "0x48173a0",
+        "owner_address": "0x32c74d0",
+        "owner_index_candidate": 3,
+        "object_id": 949,
+        "type_hash": "0x2c358c61",
+        "ai_address": "0x64d6f98",
+        "xyz": [
+          3248.209716796875,
+          3211.580810546875,
+          210.0
+        ],
+        "catalog": {
+          "name": "防空部队",
+          "template": "SovietAntiVehicleInfantry",
+          "side": 2,
+          "cls": 1,
+          "category": 0
+        },
+        "hp": 120.0,
+        "team": "0x5198d70",
+        "command_source": 0,
+        "eligible": true
+      },
+      {
+        "address": "0x47bd3a0",
+        "owner_address": "0x32c74d0",
+        "owner_index_candidate": 3,
+        "object_id": 959,
+        "type_hash": "0x19ab11af",
+        "ai_address": "0x65328a0",
+        "xyz": [
+          3275.72607421875,
+          3178.89501953125,
+          210.0
+        ],
+        "catalog": {
+          "name": "征召兵",
+          "template": "SovietAntiInfantryInfantry",
+          "side": 2,
+          "cls": 1,
+          "category": 0
+        },
+        "hp": 125.0,
+        "team": "0x5198d70",
+        "command_source": 0,
+        "eligible": true
+      },
+      {
+        "address": "0x4796ca0",
+        "owner_address": "0x32c74d0",
+        "owner_index_candidate": 3,
+        "object_id": 964,
+        "type_hash": "0x2c358c61",
+        "ai_address": "0x6889878",
+        "xyz": [
+          3275.46875,
+          3197.228759765625,
+          210.0
+        ],
+        "catalog": {
+          "name": "防空部队",
+          "template": "SovietAntiVehicleInfantry",
+          "side": 2,
+          "cls": 1,
+          "category": 0
+        },
+        "hp": 120.0,
+        "team": "0x5198d70",
+        "command_source": 0,
+        "eligible": true
+      },
+      {
+        "address": "0x4794ea0",
+        "owner_address": "0x32c74d0",
+        "owner_index_candidate": 3,
+        "object_id": 1032,
+        "type_hash": "0x19ab11af",
+        "ai_address": "0x4dad600",
+        "xyz": [
+          2442.372802734375,
+          2870.611328125,
+          210.0
+        ],
+        "catalog": {
+          "name": "征召兵",
+          "template": "SovietAntiInfantryInfantry",
+          "side": 2,
+          "cls": 1,
+          "category": 0
+        },
+        "hp": 100.0,
+        "team": "0x5198d70",
+        "command_source": 0,
+        "eligible": true
+      },
+      {
+        "address": "0x5850390",
+        "owner_address": "0x32c74d0",
+        "owner_index_candidate": 3,
+        "object_id": 1048,
+        "type_hash": "0x2c358c61",
+        "ai_address": "0x5a45ed8",
+        "xyz": [
+          2250.982177734375,
+          2837.350830078125,
+          213.2298126220703
+        ],
+        "catalog": {
+          "name": "防空部队",
+          "template": "SovietAntiVehicleInfantry",
+          "side": 2,
+          "cls": 1,
+          "category": 0
+        },
+        "hp": 120.0,
+        "team": "0x5198d70",
+        "command_source": 0,
+        "eligible": true
+      }
+    ],
+    "selected": {
+      "address": "0x5850390",
+      "owner_address": "0x32c74d0",
+      "owner_index_candidate": 3,
+      "object_id": 1048,
+      "type_hash": "0x2c358c61",
+      "ai_address": "0x5a45ed8",
+      "xyz": [
+        2266.42822265625,
+        2835.52978515625,
+        211.04641723632812
+      ],
+      "catalog": {
+        "name": "防空部队",
+        "template": "SovietAntiVehicleInfantry",
+        "side": 2,
+        "cls": 1,
+        "category": 0
+      },
+      "hp": 120.0,
+      "team": "0x5198d70",
+      "command_source": 0,
+      "eligible": true,
+      "admission": {
+        "protocol": "grounded_idle_normal_move_or_exact_attack_admission_v2",
+        "status": "verified_owned_actor_state",
+        "object_id": 1048,
+        "address": "0x5850390",
+        "owner": "0x32c74d0",
+        "type_hash": "0x2c358c61",
+        "frame": 5002,
+        "end_frame": 5002,
+        "grounded_status": {
+          "schema_version": 2,
+          "status": "verified_native_surface_sample",
+          "object_id": 1048,
+          "address": "0x5850390",
+          "owner": "0x32c74d0",
+          "type_hash": "0x2c358c61",
+          "template": "SovietAntiVehicleInfantry",
+          "frame": 5002,
+          "end_frame": 5002,
+          "status_words": [
+            "0x0",
+            "0x0",
+            "0x0",
+            "0x0",
+            "0x0",
+            "0x0",
+            "0x0"
+          ],
+          "flags": {
+            "AIRBORNE_TARGET": false,
+            "PARACHUTING": false,
+            "GROUND_LOCOMOTOR_ACTIVE": false,
+            "AIR_LOCOMOTOR_ACTIVE": false,
+            "LANDING_IN_PROGRESS": false,
+            "LIFTED_INTO_AIR": false,
+            "INSIDE_GARRISON": false,
+            "IMMOBILE": false
+          },
+          "ground160_diagnostic": false,
+          "known_air_state": false,
+          "height_cache_flags": "0x6",
+          "height_cache_valid": true,
+          "cached_height_distance": 0.0,
+          "height_tolerance": 0.5,
+          "xyz": [
+            2266.42822265625,
+            2835.52978515625,
+            211.04641723632812
+          ],
+          "hp": 120.0,
+          "holder": "0x0",
+          "ground_positive": true,
+          "grounded_verified": true,
+          "walkable_route_verified": false,
+          "atomic_sample_verified": true,
+          "source": "ground_only_template_plus_valid_native_surface_cache_and_air_exclusions_v2",
+          "mutations": false,
+          "helper_sha256": "70e5f94bac9b1a82beec56053fd43e91f6edaba1500c8dfa840e868be836e6b3",
+          "native_status_helper_sha256": "ad5b758c947843969f2d1ec6e7fc07c0eaec084b1a59e60750d69d881e78a6c0"
+        },
+        "state_snapshot": {
+          "update": "0x5a45ed8",
+          "update_vtable": "0xc48670",
+          "facade_vtable": "0xc48528",
+          "update_backref": "0x5850390",
+          "sm": "0x652a3a8",
+          "sm_owner": "0x5850390",
+          "state": "0x4dac810",
+          "state_id": 10,
+          "state_vtable": "0xc548c0",
+          "state_owner_sm": "0x652a3a8",
+          "command_source": 0,
+          "path": "0x6182020",
+          "sm_flags": 65536
+        },
+        "mutations": false,
+        "atomic_sample_verified": true,
+        "helper_sha256": "b62c2fdaa4c959d764109a10d63b31c025673bdc196fc50da81750c0afb4c02b",
+        "ground_helper_sha256": "70e5f94bac9b1a82beec56053fd43e91f6edaba1500c8dfa840e868be836e6b3",
+        "status_helper_sha256": "ad5b758c947843969f2d1ec6e7fc07c0eaec084b1a59e60750d69d881e78a6c0",
+        "admission_verified": true,
+        "checks": {
+          "ground_evidence": true,
+          "source": true,
+          "identity_frame": true,
+          "known_foot_update": true,
+          "state_owner_binding": true,
+          "demonstrated_state_only": true,
+          "exact_attack_state_vtable": true,
+          "no_deferred_command_lock": true,
+          "no_mutations": true
+        }
+      },
+      "stance": {
+        "module": "0x5a56560",
+        "vtable": "0xc37f90",
+        "backref": "0x5850390",
+        "data": "0xef2ce80",
+        "enum": 0,
+        "definition_list": "0xf0fc2f0",
+        "definition_count": 4,
+        "definition_items": "0xf0fc2fc",
+        "definitions": [
+          {
+            "enum": 1,
+            "modifier": "0x0"
+          },
+          {
+            "enum": 0,
+            "modifier": "0x0"
+          },
+          {
+            "enum": 2,
+            "modifier": "0x0"
+          },
+          {
+            "enum": 3,
+            "modifier": "0x0"
+          }
+        ],
+        "getter": "0x71d3f0"
+      },
+      "observed_enemy_clearance": 1060.0141824511818
+    },
+    "restore_semantics": "native_common_pool_not_original_squad",
+    "mutations": false,
+    "selection_rejections": [
+      {
+        "object_id": 788,
+        "reason": "probe_actor_current_admission"
+      },
+      {
+        "object_id": 792,
+        "reason": "probe_actor_current_admission"
+      },
+      {
+        "object_id": 798,
+        "reason": "probe_actor_current_admission"
+      },
+      {
+        "object_id": 803,
+        "reason": "probe_actor_current_admission"
+      },
+      {
+        "object_id": 811,
+        "reason": "probe_actor_current_admission"
+      },
+      {
+        "object_id": 823,
+        "reason": "probe_actor_current_admission"
+      },
+      {
+        "object_id": 841,
+        "reason": "probe_actor_current_admission"
+      },
+      {
+        "object_id": 863,
+        "reason": "probe_origin_current_visible_threat"
+      },
+      {
+        "object_id": 913,
+        "reason": "probe_origin_current_visible_threat"
+      },
+      {
+        "object_id": 944,
+        "reason": "probe_origin_current_visible_threat"
+      },
+      {
+        "object_id": 946,
+        "reason": "probe_origin_current_visible_threat"
+      },
+      {
+        "object_id": 949,
+        "reason": "probe_origin_current_visible_threat"
+      },
+      {
+        "object_id": 959,
+        "reason": "probe_origin_current_visible_threat"
+      },
+      {
+        "object_id": 964,
+        "reason": "probe_origin_current_visible_threat"
+      }
+    ],
+    "current_visibility": {
+      "frame": 5002,
+      "visible_enemy_count": 4,
+      "minimum_observed_enemy_distance": 1056.637182072585,
+      "actual_visible_enemies": [
+        {
+          "object_id": 768,
+          "owner": 53250096,
+          "type_hash": "0xcf8d9f20",
+          "xyz": [
+            3537.270263671875,
+            3293.380859375,
+            210.0
+          ],
+          "observed_frame": 5002,
+          "currently_visible": true
+        },
+        {
+          "object_id": 797,
+          "owner": 53250096,
+          "type_hash": "0x524bbd01",
+          "xyz": [
+            3622.123291015625,
+            3166.1015625,
+            210.0
+          ],
+          "observed_frame": 5002,
+          "currently_visible": true
+        },
+        {
+          "object_id": 808,
+          "owner": 53250096,
+          "type_hash": "0xd25bb962",
+          "xyz": [
+            3558.484130859375,
+            3441.873291015625,
+            210.0
+          ],
+          "observed_frame": 5002,
+          "currently_visible": true
+        },
+        {
+          "object_id": 1098,
+          "owner": 53250096,
+          "type_hash": "0x19ab11af",
+          "xyz": [
+            3120.579345703125,
+            3457.549072265625,
+            210.0
+          ],
+          "observed_frame": 5002,
+          "currently_visible": true
+        }
+      ],
+      "actor_observed_xyz": [
+        2266.42822265625,
+        2835.52978515625,
+        211.04641723632812
+      ],
+      "hard_limit": 350,
+      "preferred_margin": 450,
+      "unknown_enemies_remain_unknown": true
+    },
+    "visibility_proof": {
+      "schema_version": 2,
+      "object_visibility_method": "native_footprint_reconstruction",
+      "footprint_live_verified": true,
+      "session_id": "726a9551-d52c-4b07-8f12-3860d563c1c4",
+      "target_player_id": 3,
+      "package_sha256": "2d7873e1b2d2c79950ff9da70b5452b1210370a6d6cbec1eaa69201a7d3d0665",
+      "build_id": "74538172fdd285ac01f4c82689311ac2a7496cc256438fae55d7c7d340b82210",
+      "terrain_view_live_verified": true,
+      "object_view_live_verified": true,
+      "conservative_stealth_exclusion_reviewed": true,
+      "no_observer_fallback": true,
+      "detection_verified": false,
+      "commander_id": "57e668b4-4d89-43bd-bc92-0dd436f046ef",
+      "handshake": {
+        "game_logic": 64406056,
+        "player": 53245136,
+        "ai_player": 73075208,
+        "shroud_manager": 64303768,
+        "shroud_impl": 64314848,
+        "frame_min": 5001,
+        "own_fully_clear_footprints": 36
+      },
+      "evidence": "Prior exact-build cross-view/footprint transition evidence plus this session native signatures, computer UUID chain and own-footprint query. No UI flag inputs.",
+      "mutations": false
+    },
+    "external_sources": {
+      "tactical/ordered-combo/lease.py": "ea6d8996b7f9358caa53660f31683ccf0aed6f6e4a79c01287f0c46c1f257a9a",
+      "tactical/mission_actor_admission_v2.py": "b62c2fdaa4c959d764109a10d63b31c025673bdc196fc50da81750c0afb4c02b",
+      "tactical/grounded_status_v2.py": "70e5f94bac9b1a82beec56053fd43e91f6edaba1500c8dfa840e868be836e6b3",
+      "tactical/grounded_status.py": "ad5b758c947843969f2d1ec6e7fc07c0eaec084b1a59e60750d69d881e78a6c0",
+      "tactical/mobility_guard.py": "e903f9a10d342e0faa17545727f52992a57d2eb04f69e805030f636bbaa7e14f",
+      "visibility/capability.py": "4049976fd8e93ab816555affa45e5bfa60a4fe020573e878ffd1542b8857f28d",
+      "visibility/collector.py": "4bc61a0a500ed1729b741238c859fdc625e74c004d3df0127404562e08f6d2d5",
+      "visibility/projection.py": "62e48b11ced645a1a2b49acd3db5c51a4e5f7254804e8896ea11d13338e7ab5e"
+    },
+    "start_low": 802622632,
+    "start_high": 31286423
+  },
+  "request": {
+    "command_id": "b0911d21-00e2-432c-8e2e-1d33bcd03fe4",
+    "task_id": "0b0d04ba-ed42-4318-b23e-1b2dacc5df29",
+    "seq": 1,
+    "test_stance": 2,
+    "explicit_sdk_max": 6,
+    "settle_frames": 60,
+    "hold_frames": 90,
+    "total_frames": 300,
+    "wall_seconds": 30
+  },
+  "status": "read_only_ready",
+  "native": {},
+  "events": [],
+  "tactical_source_granted": false,
+  "effect_verified": false,
+  "completion_claim": false,
+  "model_requests": 0
+}

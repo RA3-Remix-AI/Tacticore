@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "reviewer": "strategy_service",
+  "scope": "Actual Pydantic DeepSeek requests with simulated mission context; no real battlefield lifecycle or effects",
+  "source_directory": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\model-probe-pydantic-memory-20261025-01",
+  "checks": {
+    "explicit_pydantic_deepseek": true,
+    "two_provider_requests_responses_no_retries": true,
+    "actual_wire_bounded": true,
+    "exact_context_metadata_in_append_log": true,
+    "each_real_context_joined_to_accepted_request": true,
+    "same_mission_task_target_deadline_across_requests": true,
+    "accepted_late_context_is_after_original_max_ttl": true,
+    "compression_preserves_mission": true,
+    "no_game_or_effect_claim": true,
+    "metadata_logs_no_provider_body_or_credential_fields": true
+  },
+  "real_context_snapshots": [
+    2,
+    40
+  ],
+  "accepted_real_requests": 2,
+  "synthetic_seed_requests": 1,
+  "post_ttl_context": {
+    "snapshot_id": 40,
+    "game_time_seconds": 170,
+    "events_compacted": 20,
+    "mission_id": "734ba8a8-1a2a-4d7c-a180-a1bdfc30bb3b",
+    "task_id": "734ba8a81a2a4d7ca180a1bdfc30bb3b",
+    "deadline_game_seconds": 280
+  },
+  "transport": {
+    "attempts": 2,
+    "retries": 0,
+    "timeouts": 0,
+    "responses": 2,
+    "max_request_bytes": 15457
+  },
+  "offline_stress_suite": {
+    "file": "strategy/test_pydantic_mission_memory.py",
+    "tests_passed": 3,
+    "cases": [
+      "accepted plans preserve same mission across original TTL and compaction plus failed result memory",
+      "single HTTP429 local continuation and later accepted plan without duplicate dispatch",
+      "transport deadline cancellation single attempt and later accepted plan without mission loss"
+    ],
+    "external_network_requests": 0,
+    "game_commands": 0
+  },
+  "limitations": [
+    "The100s seed plan and started/progress feedback are synthetic; only116s and170s use the real provider",
+    "Context metadata hashes and accepted snapshot joins establish bounded context retention, not real game collection or native control",
+    "Full-match accepted postTTL compressed contexts and real effects must still pass mission_audit",
+    "No extra model requests were made by this reviewer; library, credentials, endpoint and request/response bodies are not copied"
+  ],
+  "sha256": {
+    "acceptance\\model-probe-pydantic-memory-20261025-01\\probe-result.json": "9dd109ff8a834764c4c62137a77f5ee82ba3fb4db782838b9f75b8c4738537c1",
+    "acceptance\\model-probe-pydantic-memory-20261025-01\\agent-state.json": "923ea09fbe668ac5d224aafe42ef2d7980c1ca6ed1c13fee271ab7ae7fffe531",
+    "acceptance\\model-probe-pydantic-memory-20261025-01\\agent-state.context-audit.jsonl": "c08616aea9ef8149faa78785fbeca8855ad02dee38849071a1137b131d338d9a",
+    "acceptance\\model-probe-pydantic-memory-20261025-01\\plans.jsonl": "1e7e465d67dad681612f49dcd08cfdc20c8ecaec47fb782f0d58c829165f8641",
+    "integration\\probe_agent_memory.py": "1b0e9fcb0bbd67ae389e8d88c67c95fa654613b44083ef6e463550bf2587b0ea",
+    "strategy\\test_pydantic_mission_memory.py": "d3364a3ac43d226bcb2436ab488d3acea2ca3b7713e96f0c30dfd4991262a5d0",
+    "agent_runtime\\src\\tacticore_agent_runtime\\pydantic_backend.py": "770ce5a17e50ce06be5b31cd19320bb6c7d0b1a587bd47fd3b7ec988d91df7f9",
+    "agent_runtime\\src\\tacticore_agent_runtime\\factory.py": "9f3645d89aec410433bffeffb1b7793d8e528e7675b681636987f52da10d4cbb"
+  },
+  "shutdown_semantics": {
+    "final_stop_is_synthetic_host_stop": true,
+    "active_mission_retained_as_restoration_pending": true,
+    "terminal_status": null,
+    "native_completion_or_release_claimed": false
+  }
+}

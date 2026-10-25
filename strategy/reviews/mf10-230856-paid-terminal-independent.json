@@ -1,0 +1,312 @@
+{
+  "schema_version": 1,
+  "scope": "independent_readonly_actual_calibration_paid_source_tls_schedule_terminal_review",
+  "run": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-230856-commander",
+  "pid": 64064,
+  "session_id": "76c9f9e6-13d8-4d22-8652-c937562b118c",
+  "source_hashes": {
+    "acceptance\\runs\\20261025-230856-commander\\continuous-paid-margin10-static01.json": "d15f22b905b1bd4a2545bf3e3292eacb91ace9582aec6af6d7b8be99f1712455",
+    "acceptance\\runs\\20261025-230856-commander\\continuous-paid-margin10-static01-formation.json": "0262511377afca28c9619a598b5a3a4f596b2e860b390878c15a7806d86d616b",
+    "acceptance\\runs\\20261025-230856-commander\\persistent-production.jsonl": "e89df296ecfe18b00a8fe3521f6bd68128d51128e2b97eb711849ef4ab6edc22",
+    "acceptance\\runs\\20261025-230856-commander\\session.json": "2e528719842313edd47a3f6c63946d12649cf7903360286f4797cbcbaf7de624",
+    "acceptance\\calibration\\continuous_paid_margin10_static.py": "7a37946cc9a6bf72ee0de33e05a930235d846a43bdfcc84d4963ad1df2576c04",
+    "tactical\\mission-formation-v10\\lease.py": "4ebcc596132c3b212e4d0d6a15341d46997991beba83f0dafd8662db05d5d276",
+    "tactical\\mission-formation-v10\\formation_mission_qualification.py": "88e94b1edf109d206225165171d7c8533ead397d958e5437a8d8811385c45ab5",
+    "tactical\\mission-formation-v10\\revision.json": "0f08025a6cd5e86afd383111b13b0dff61c8c86acac951bf29ef6b5b13573928",
+    "tactical\\mission-formation-v10\\tls-alignment-proof.json": "a8408d6341f64b7a23c88f3b80f245e45bc2cedb2bc81690bf16615103298991"
+  },
+  "checks": {
+    "identity_binding": true,
+    "nine_unique_attempts": true,
+    "seven_completed": true,
+    "cost_and_paid_1000": true,
+    "paid_birth_live_checks": true,
+    "two_rejected_without_payment": true,
+    "log_completed_fields": true,
+    "production_five_original_bytes_and_status": true,
+    "selector_source_pin": true,
+    "frozen_driver_pin": true,
+    "production_source_pin": true,
+    "one_child_after_completed_production": true,
+    "compiled_joint_source_pins": true,
+    "sealed_tls_scalar_alignment": true,
+    "bounded_native_scheduler": true,
+    "terminal_actual_sixteen_entries": true,
+    "two_live_native_pool_returns": true,
+    "no_model_calls": true
+  },
+  "all_review_checks": true,
+  "paid": {
+    "attempted": 9,
+    "completed": 7,
+    "rejected": 2,
+    "spent": 1000,
+    "completed_units": {
+      "conscript": 4,
+      "flak": 3
+    },
+    "orders": [
+      {
+        "command_id": "05174169-5c63-4c79-8eb4-9d4680b749ac",
+        "task_id": "8310c582-8c7b-4016-bef2-d84830edd73e",
+        "seq": 1,
+        "unit": "conscript",
+        "status": "completed",
+        "accepted": true,
+        "completed": true,
+        "queue_id": 6,
+        "object_id": 786,
+        "paid": 85,
+        "cost": 85,
+        "live_samples": 1264,
+        "enqueue_frame": 501,
+        "completion_frame": 655
+      },
+      {
+        "command_id": "07217b7d-f3a0-43fb-ac17-a0b1f09fdc8d",
+        "task_id": "bba83cf5-22c1-4b95-a32d-ddfec9987575",
+        "seq": 2,
+        "unit": "flak",
+        "status": "completed",
+        "accepted": true,
+        "completed": true,
+        "queue_id": 8,
+        "object_id": 790,
+        "paid": 220,
+        "cost": 220,
+        "live_samples": 1063,
+        "enqueue_frame": 658,
+        "completion_frame": 856
+      },
+      {
+        "command_id": "88be2d86-98ce-40ee-aa2a-1dcc81beb350",
+        "task_id": "4c301e06-aa3d-4e24-91a8-3a4e654fd23e",
+        "seq": 3,
+        "unit": "conscript",
+        "status": "completed",
+        "accepted": true,
+        "completed": true,
+        "queue_id": 10,
+        "object_id": 798,
+        "paid": 85,
+        "cost": 85,
+        "live_samples": 891,
+        "enqueue_frame": 865,
+        "completion_frame": 1028
+      },
+      {
+        "command_id": "e37d13a8-05b0-4386-81d4-dff8475718b1",
+        "task_id": "6eea0d19-fa17-4641-bb84-4d08fbc5b22f",
+        "seq": 4,
+        "unit": "flak",
+        "status": "completed",
+        "accepted": true,
+        "completed": true,
+        "queue_id": 12,
+        "object_id": 805,
+        "paid": 220,
+        "cost": 220,
+        "live_samples": 690,
+        "enqueue_frame": 1034,
+        "completion_frame": 1229
+      },
+      {
+        "command_id": "4eaddc6a-2d2d-41c0-be36-c25b58005553",
+        "task_id": "ac18d54e-9e25-4d44-a7d9-31d34c86fb53",
+        "seq": 5,
+        "unit": "conscript",
+        "status": "completed",
+        "accepted": true,
+        "completed": true,
+        "queue_id": 13,
+        "object_id": 806,
+        "paid": 85,
+        "cost": 85,
+        "live_samples": 618,
+        "enqueue_frame": 1231,
+        "completion_frame": 1301
+      },
+      {
+        "command_id": "7a2b43dc-9315-4a45-b01f-202e00cf0627",
+        "task_id": "d9b61af1-623e-4af1-882b-674e4b3d4312",
+        "seq": 6,
+        "unit": "flak",
+        "status": "completed",
+        "accepted": true,
+        "completed": true,
+        "queue_id": 14,
+        "object_id": 808,
+        "paid": 220,
+        "cost": 220,
+        "live_samples": 438,
+        "enqueue_frame": 1382,
+        "completion_frame": 1481
+      },
+      {
+        "command_id": "3b7e8363-2b37-46b8-a853-cba91aa0497f",
+        "task_id": "11f7727c-aa71-4528-aafe-02a2ea93f847",
+        "seq": 7,
+        "unit": "conscript",
+        "status": "completed",
+        "accepted": true,
+        "completed": true,
+        "queue_id": 15,
+        "object_id": 809,
+        "paid": 85,
+        "cost": 85,
+        "live_samples": 315,
+        "enqueue_frame": 1533,
+        "completion_frame": 1604
+      },
+      {
+        "command_id": "1b38d8d1-f2a4-46f9-b71a-bb9cd6eae014",
+        "task_id": "5e20dd6a-314b-4781-a6b5-4fb81b318d04",
+        "seq": 8,
+        "unit": "flak",
+        "status": "no_dispatch_rejected",
+        "accepted": false,
+        "completed": false,
+        "queue_id": 0,
+        "object_id": null,
+        "paid": 0,
+        "cost": 220,
+        "live_samples": 0,
+        "enqueue_frame": 1685,
+        "completion_frame": null
+      },
+      {
+        "command_id": "8a589833-7516-4da0-87c0-b7f99a2fa8f2",
+        "task_id": "725edab0-81a4-4bf5-9d47-dade56b69cda",
+        "seq": 9,
+        "unit": "conscript",
+        "status": "no_dispatch_rejected",
+        "accepted": false,
+        "completed": false,
+        "queue_id": 0,
+        "object_id": null,
+        "paid": 0,
+        "cost": 85,
+        "live_samples": 0,
+        "enqueue_frame": 1844,
+        "completion_frame": null
+      }
+    ],
+    "handover": {
+      "phase": 2,
+      "error": 0,
+      "restore_mask": 31,
+      "active": 0,
+      "original_entries": 5
+    }
+  },
+  "tactical": {
+    "status": "not_passed",
+    "phase": 4,
+    "error": 38,
+    "issued_frame": 1944,
+    "returned_frame": 2042,
+    "event_count": 220,
+    "host_exit": 9,
+    "attack_calls": 0,
+    "source_damage": 0,
+    "effect_verified": false,
+    "front_native_move": 4,
+    "support_native_move": 0,
+    "front_actual_travel": 246.55792236328125,
+    "support_actual_travel": 165.41390991210938,
+    "tls_alignment": {
+      "verified": true,
+      "checks": {
+        "sealed_actual_compiled_alignment_proof": true,
+        "all_alignment_evidence_bound": true,
+        "actual_misaligned_buffer_and_real_thread_test": true,
+        "all_actual_accessors_disassembled": true,
+        "true_tls_all_scalar_save_and_restore": true,
+        "software_only_no_capability": true
+      },
+      "field_verified": false,
+      "semantics": "compiled_tls_alignment_repair_only_never_effect_or_home_credit"
+    },
+    "scheduler_verified": true,
+    "scheduler_events": [
+      {
+        "kind": 121,
+        "seq": 2,
+        "frame": 1944
+      },
+      {
+        "kind": 122,
+        "seq": 27,
+        "frame": 1945
+      }
+    ],
+    "pool_returns": [
+      {
+        "role": 0,
+        "object_id": 809,
+        "frame": 2042,
+        "seq": 213,
+        "hp": 100.0,
+        "distance_from_frozen_home": 242.91154793014536,
+        "physical_home_arrivals": 0
+      },
+      {
+        "role": 1,
+        "object_id": 792,
+        "frame": 2042,
+        "seq": 219,
+        "hp": 120.0,
+        "distance_from_frozen_home": 41.774475532791676,
+        "physical_home_arrivals": 0
+      }
+    ],
+    "control_release": {
+      "restoration_verified": true,
+      "control_release_verified": true,
+      "return_verified": true,
+      "disposed_verified": false,
+      "actors": [
+        {
+          "role": 0,
+          "object_id": 809,
+          "returned": true,
+          "disposed": false,
+          "never_held": false,
+          "released": true
+        },
+        {
+          "role": 1,
+          "object_id": 792,
+          "returned": true,
+          "disposed": false,
+          "never_held": false,
+          "released": true
+        }
+      ],
+      "semantics": "independent_native_pool_return_or_readonly_disposal",
+      "completion_claim": false
+    },
+    "failed_checks": [
+      "explicit_actual_retreat_departure",
+      "every_follow_actual_arrival_and_stop",
+      "conditional_branches_if_observed",
+      "lease_scoped_no_native_override",
+      "actual_nonlethal_packet_commit_ammo_support",
+      "both_physical_retreat_origins",
+      "finished_host_and_native",
+      "actual_long_approach",
+      "actual_long_retreat",
+      "frozen_phase_deadlines",
+      "effect_precedes_source_damage_retreat"
+    ],
+    "timer": 0,
+    "actual_original_entry_count": 16
+  },
+  "limitations": [
+    "This specific run reached native phase4/error38 and normal returns without the prior TLS crash; this observation is not universal crash-freedom certification.",
+    "TLS proof is compiled/static software evidence; it never certifies tactical effect.",
+    "Payments are audited against native-client ledger and independent append feedback; reviewer did not make new RPM reads.",
+    "Pool return and code restoration do not imply physical home arrival; both home counters remain zero.",
+    "Zero Attack/zero damage: no coordinated effect source, no formal model full-match acceptance, no next-field authorization is granted."
+  ]
+}

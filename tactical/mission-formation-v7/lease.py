@@ -268,7 +268,6 @@ def main():
   if handle:b.k.CloseHandle(handle)
 
 if __name__=='__main__':
- raise SystemExit('formation7_candidate_disabled_pending_qualification_bundle')
  try:main()
  except Exception as error:
   if ARGS is not None and ARGS.execute and not NATIVE_LAUNCH_INTENT:

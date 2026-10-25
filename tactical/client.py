@@ -85,7 +85,7 @@ class TacticalExecutor:
    if any(g.get('executor_directory') in ['mission-combat','mission-combat-v2','mission-combat-v3','mission-combat-v4','mission-combat-v5','mission-combat-v6','mission-combat-v7'] for g in mission_grants):result['attack']=dict(unit_count=1,max_attack_orders=1,native_burst=True,weapon_mode='normal_conscript_button_prepares_AK',approach_frames=2100,engage_frames=300,retreat_frames=1800,max_approach_moves=12,max_retreat_moves=3 if any(g.get('executor_directory') in ['mission-combat-v3','mission-combat-v4','mission-combat-v5','mission-combat-v6','mission-combat-v7'] for g in mission_grants) else 24,target='current_verified_visible_ground_contact')
   if any(g.get('executor_directory')=='mission-combat-v6' for g in mission_grants):result['attack'].update(pre_approach_loadout='normal_button_AK',engage_frames_is_limit=True,engage_min_frames=180,engage_max_frames=300,engagement_policy='bounded_single_order_native_burst',damage_goal_cap=150.,damage_goal_fraction=.2,engagement_distance_policy=150.,range_and_los='native_order_plus_observed_source_damage')
   if any(g.get('executor_directory')=='mission-combat-v7' for g in mission_grants):result['attack'].update(pre_approach_loadout='normal_button_AK',engage_frames=60,engage_frames_is_limit=True,engage_min_frames=60,engage_max_frames=60,engagement_policy='brief_raid_single_order_native_burst',damage_goal_cap=30.,damage_goal_fraction=.2,retreat_hp_fraction=.8,engagement_distance_policy=150.,range_and_los='native_order_plus_observed_source_damage')
-  if any(g.get('executor_directory') in ('mission-formation-v5','mission-formation-v6') for g in mission_grants):result['coordinate_force']=dict(roles=['infantry','anti_air'],unit_count=2,navigation_mode='native_leader_actual_breadcrumbs',stages=['approach_together','prepare','engage','retreat','restore'],follower_goal_source='verified_actual_owned_breadcrumbs',retreat_goal_source='each_actor_actual_origin',target='current_verified_visible_ground_contact',mission_duration_frames=4500,physical_arrival_samples=3,arrival_distance=15)
+  if any(g.get('executor_directory') in ('mission-formation-v5','mission-formation-v6','mission-formation-v7','mission-formation-v8','mission-formation-v9','mission-formation-v10','mission-formation-v12') for g in mission_grants):result['coordinate_force']=dict(roles=['infantry','anti_air'],unit_count=2,navigation_mode='native_leader_actual_breadcrumbs',stages=['approach_together','prepare','engage','retreat','restore'],follower_goal_source='verified_actual_owned_breadcrumbs',retreat_goal_source='each_actor_actual_origin',target='current_verified_visible_ground_contact',mission_duration_frames=4500,physical_arrival_samples=3,arrival_distance=15)
   return result
  def grant_capability(self,module,purpose,source_report):
   """Trusted host only; evidence is independently recomputed and revision pinned."""
@@ -129,7 +129,7 @@ class TacticalExecutor:
      grant=self.capability_grants.get((module,purpose),{});mission_schema=grant.get('stop_schema',{});continuous=mission_schema.get('mission_protocol')=='continuous_tactical_v1';max_duration=mission_schema.get('mission_duration_frames',0) if continuous else 900
      if type(expiry_frame) is not int or not 300<=expiry_frame-now<=max_duration:raise ValueError('task_expiry_bounds')
      all_live=[u for u in pre['units'] if u['eligible'] and mobility_status(m,int(u['address'],0))['independently_movable']]
-     if continuous and grant.get('executor_directory') in ['mission-combat-v5','mission-combat-v6','mission-combat-v7','mission-formation-v3','mission-formation-v4','mission-formation-v5','mission-formation-v6']:
+     if continuous and grant.get('executor_directory') in ['mission-combat-v5','mission-combat-v6','mission-combat-v7','mission-formation-v3','mission-formation-v4','mission-formation-v5','mission-formation-v6','mission-formation-v7','mission-formation-v8','mission-formation-v9','mission-formation-v10','mission-formation-v12']:
       admission_name=trusted_filename(trusted_executor(grant['executor_directory']),'actor_admission_filename','mission_actor_admission.py')
       all_live=self._surface_ground_candidates(m,all_live,pre['owner']) if admission_name=='mission_actor_admission.py' else self._surface_ground_candidates(m,all_live,pre['owner'],admission_name)
       if not all_live:raise ValueError('native_ground_surface_evidence_unavailable_not_no_army')
@@ -159,7 +159,10 @@ class TacticalExecutor:
       if not candidates:raise ValueError('required_role_ground_surface_or_weapon_evidence_unavailable' if continuous and grant.get('executor_directory') in ['mission-combat-v5','mission-combat-v6','mission-combat-v7'] else 'no_live_actor_for_required_role_or_verified_weapon')
       private_position=self.private_visible_positions.get(contact['contact_id']);selection_point=region_xyz;selection_basis='region_centroid_fallback'
       if private_position and 0<=now-private_position['observed_frame']<=15:selection_point=private_position['xyz'];selection_basis='fresh_private_visible_contact'
-      selected=min(candidates.values(),key=lambda u:math.hypot(u['xyz'][0]-selection_point[0],u['xyz'][1]-selection_point[1]));mission_input=None
+      def actor_priority(unit):
+       distance=math.hypot(unit['xyz'][0]-selection_point[0],unit['xyz'][1]-selection_point[1])
+       return self._origin_selection_priority((unit,),distance,now) if grant.get('executor_directory')=='mission-combat-v7' else (distance,)
+      selected=min(candidates.values(),key=actor_priority);mission_input=None
       if continuous:
        mission_input=dict(self.mission_context or {'schema_version':1},expires_frame=expiry_frame)
        cs=importlib.util.spec_from_file_location('trusted_combat_mission_contract',HERE/grant['executor_directory']/'mission_contract.py');cm=importlib.util.module_from_spec(cs);cs.loader.exec_module(cm);mission_input=cm.validate_mission(mission_input,dict(pre,selected=selected),m,expiry_frame)
@@ -170,18 +173,22 @@ class TacticalExecutor:
        contact=self.contacts.get(task.get('target_contact_id'))
        if not contact or contact.get('region_id')!=region_id or contact.get('role') not in ['infantry','armor','structure','economy'] or not self.visibility_proof_path:raise ValueError('current_visible_ground_target_required')
        context=self.mission_context or {}
-       if grant.get('executor_directory') not in ('mission-formation-v5','mission-formation-v6') and (not isinstance(context.get('formation_history_dir'),str) or not Path(context['formation_history_dir']).is_dir()):raise ValueError('private_formation_history_required')
+       if grant.get('executor_directory') not in ('mission-formation-v5','mission-formation-v6','mission-formation-v7','mission-formation-v8','mission-formation-v9','mission-formation-v10','mission-formation-v12') and (not isinstance(context.get('formation_history_dir'),str) or not Path(context['formation_history_dir']).is_dir()):raise ValueError('private_formation_history_required')
        fronts=[u for u in candidates.values() if int(u['type_hash'],0)==0x19ab11af and u.get('hp',0)>=50];supports=[u for u in candidates.values() if int(u['type_hash'],0)==0x2c358c61 and u.get('hp',0)>=50]
        private_position=self.private_visible_positions.get(contact['contact_id']);point=private_position['xyz'] if private_position and 0<=now-private_position['observed_frame']<=15 else region_xyz
        pairs=[(math.hypot(front['xyz'][0]-point[0],front['xyz'][1]-point[1]),front,support) for front in fronts for support in supports if 25<=math.hypot(front['xyz'][0]-support['xyz'][0],front['xyz'][1]-support['xyz'][1])<=180]
        if not pairs:raise ValueError('no_mission_two_role_pair')
        mission_input=dict(context,schema_version=1,expires_frame=expiry_frame)
-       if grant.get('executor_directory') in ('mission-formation-v4','mission-formation-v5','mission-formation-v6'):
+       if grant.get('executor_directory') in ('mission-formation-v4','mission-formation-v5','mission-formation-v6','mission-formation-v7','mission-formation-v8','mission-formation-v9','mission-formation-v10','mission-formation-v12'):
         # The wrapper plans from the positions proven stopped by the native
         # lease. A route made here would age while actors still follow AI.
         mission_input.pop('route',None)
-        _,front,support=min(pairs,key=lambda pair:self._planning_pair_priority(pair,point))
-        if grant.get('executor_directory') in ('mission-formation-v5','mission-formation-v6'):
+        def pair_priority(pair):
+         ahead=self._planning_pair_priority(pair,point)
+         if grant.get('executor_directory') in ('mission-formation-v8','mission-formation-v9','mission-formation-v10','mission-formation-v12'):return (ahead[0],*self._origin_selection_priority(pair[1:],pair[0],now),*ahead[2:])
+         return ahead
+        _,front,support=min(pairs,key=pair_priority)
+        if grant.get('executor_directory') in ('mission-formation-v5','mission-formation-v6','mission-formation-v7','mission-formation-v8','mission-formation-v9','mission-formation-v10','mission-formation-v12'):
          mission_input=dict(schema_version=1,session_id=self.session['session_id'],pid=self.session['pid'],player_id=3,front_id=front['object_id'],support_id=support['object_id'],target_contact_id=contact['contact_id'],navigation_mode='native_leader_actual_breadcrumbs',expires_frame=expiry_frame)
        elif grant.get('executor_directory')=='mission-formation-v3':
         _,front,support,route_plan=self._role_route_pair(context,pre,point,all_live,pairs);mission_input['route']=route_plan['route'];mission_input['route_planner']='positive_ground_own_positions_role_aware';mission_input['route_planner_sha256']=hashlib.sha256((HERE/'mission-formation-v3/role_route_planner.py').read_bytes()).hexdigest()
@@ -212,6 +219,18 @@ class TacticalExecutor:
    evidence=module.actor_admission(memory,int(unit['address'],0));ground=evidence.get('grounded_status',{})
    if module.verify_evidence(evidence)['verified'] and evidence.get('object_id')==unit['object_id'] and evidence.get('type_hash')==unit['type_hash'] and evidence.get('address')==unit['address'] and evidence.get('owner')==owner:result.append(dict(unit,xyz=list(ground['xyz']),hp=ground['hp'],grounded_status=ground,actor_admission=evidence))
   return result
+ def _origin_selection_priority(self,units,target_distance,now):
+  """Prefer sampling margin; the wrapper independently enforces its 350 gate.
+
+  These are only fresh positions from the current computer-perspective view.
+  Missing, stale and hidden contacts never become a safety certificate.
+  """
+  positions=[point['xyz'] for ident,point in self.private_visible_positions.items() if ident in self.contacts and self.contacts[ident].get('currently_visible') is True and 0<=now-point['observed_frame']<=15]
+  states=[unit.get('actor_admission',{}).get('state_snapshot',{}) for unit in units]
+  busy=sum(not (state.get('state_id')==16 and state.get('path') in (0,'0x0','0')) for state in states)
+  if not positions:return (0,0,busy,target_distance)
+  clearance=min(math.hypot(unit['xyz'][0]-point[0],unit['xyz'][1]-point[1]) for unit in units for point in positions)
+  return (clearance<450,-min(clearance,450),busy,target_distance)
  @staticmethod
  def _planning_pair_priority(pair,point):
   distance,front,support=pair;f,s=front['xyz'],support['xyz']
@@ -345,14 +364,14 @@ class TacticalExecutor:
  def _formation_native_gate(self,directory,report,path):
   """Only a live, independent RPM sidecar can certify a launched zero lease."""
   n=report.get('native',{})
-  if directory not in ['mission-formation-v2','mission-formation-v3','mission-formation-v4','mission-formation-v5','mission-formation-v6'] or n.get('phase')!=4 or n.get('issued_frame'):return None
+  if directory not in ['mission-formation-v2','mission-formation-v3','mission-formation-v4','mission-formation-v5','mission-formation-v6','mission-formation-v7','mission-formation-v8','mission-formation-v9','mission-formation-v10','mission-formation-v12'] or n.get('phase')!=4 or n.get('issued_frame'):return None
   try:
    name=trusted_filename(trusted_executor(directory),'gate_reader','mission_formation_v3_gate_no_lease.py');spec=importlib.util.spec_from_file_location('trusted_formation_native_gate',HERE/name);module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
    return module.collect(path,self.session_path)
   except Exception as error:return dict(no_dispatch_verified=False,no_actor_lease_verified=False,error_type=type(error).__name__)
  def _scene_release(self,directory,report,path):
   n=report.get('native',{})
-  if directory not in ('mission-combat-v7','mission-formation-v4','mission-formation-v5','mission-formation-v6') or n.get('phase')!=4 or n.get('error')!=31 or not n.get('issued_frame'):return None
+  if directory not in ('mission-combat-v7','mission-formation-v4','mission-formation-v5','mission-formation-v6','mission-formation-v7','mission-formation-v8','mission-formation-v9','mission-formation-v10','mission-formation-v12') or n.get('phase')!=4 or n.get('error')!=31 or not n.get('issued_frame'):return None
   try:
    name=trusted_filename(trusted_executor(directory),'scene_release_reader','scene_terminal_release.py');spec=importlib.util.spec_from_file_location('tactical_scene_release_reader',HERE/name);reader=importlib.util.module_from_spec(spec);spec.loader.exec_module(reader)
    return reader.collect(path,self.session_path)
@@ -388,11 +407,11 @@ class TacticalExecutor:
   restoration=qm.control_release(report) if hasattr(qm,'control_release') else dict(restoration_verified=assessment.get('restoration_verified',False),semantics='native_pool_return_if_raw_verified')
   gate_proof=self._formation_native_gate(directory,report,path);r['no_dispatch_verified']=bool(gate_proof and gate_proof.get('no_actor_lease_verified'))
   scene_release=self._scene_release(directory,report,path);r['scene_disposed_control_release_verified']=bool(scene_release and scene_release.get('scene_disposed_control_release') is True)
-  result=dict(report=str(path),assessment=assessment,native=n,expected_restore_mask=8191,batch_restoration=restoration,scene_release=scene_release,native_gate_no_lease=gate_proof,child_exit_code=child.returncode);r['unit_results'].append(result);self._audit(dict(event='formation_mission_feedback',command_id=command,**result))
+  result=dict(report=str(path),assessment=assessment,native=n,expected_restore_mask=schema['restore_mask'],batch_restoration=restoration,scene_release=scene_release,native_gate_no_lease=gate_proof,child_exit_code=child.returncode);r['unit_results'].append(result);self._audit(dict(event='formation_mission_feedback',command_id=command,**result))
   if child.returncode!=0 or assessment.get('status')!=schema['success'] or not restoration.get('restoration_verified'):raise ValueError('formation_mission_not_verified')
   r.update(status='completed',completed=True,goal_observed=True,restoration_verified=True)
  def _execute_formation(self,command,r):
-  if r.get('executor_directory') in ['mission-formation','mission-formation-v2','mission-formation-v3','mission-formation-v4','mission-formation-v5','mission-formation-v6']:return self._execute_formation_mission(command,r)
+  if r.get('executor_directory') in ['mission-formation','mission-formation-v2','mission-formation-v3','mission-formation-v4','mission-formation-v5','mission-formation-v6','mission-formation-v7','mission-formation-v8','mission-formation-v9','mission-formation-v10','mission-formation-v12']:return self._execute_formation_mission(command,r)
   self._validate_task_dispatch(r);self.native_seq+=1;unit_command=uuid.uuid5(uuid.UUID(command),'formation');unit_task=uuid.uuid5(uuid.UUID(r['task_id']),'formation');path=self.run/('tactical-task-'+str(unit_command)+'.json');r['active_report']=str(path)
   if path.exists():raise ValueError('existing_report_requires_recovery')
   directory=r.get('executor_directory','formation');schema,runtime=runtime_backend(directory)

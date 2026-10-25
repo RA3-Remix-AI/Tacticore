@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "baseline": "d8eccb5",
+  "real_provider_probe": {
+    "status": "passed",
+    "source": "simulated",
+    "backend": "pydantic",
+    "provider": "DeepSeek",
+    "checks": {
+      "default_backend": true,
+      "two_actual_requests": true,
+      "two_actual_responses": true,
+      "no_backend_retries": true,
+      "both_decisions_accepted": true,
+      "event_history_compacted": true,
+      "mission_identity_and_deadline_preserved": true,
+      "accepted_post_ttl_context": true,
+      "bounded_actual_wire": true
+    },
+    "attempts": 2,
+    "responses": 2,
+    "retries": 0,
+    "max_actual_wire_bytes": 15457,
+    "compactions": 21,
+    "real_game_commands": 0,
+    "source_report_sha256": "9dd109ff8a834764c4c62137a77f5ee82ba3fb4db782838b9f75b8c4738537c1"
+  },
+  "desktop_windows": {
+    "node": "24.19.0",
+    "npm": "11.6.2",
+    "tests_passed": 32,
+    "typecheck": "passed",
+    "vite_build": "passed",
+    "native_tauri_build": "not_run",
+    "real_game_adapter": "not_implemented"
+  },
+  "scope": "provider_memory_and_frontend_only_not_live_tactical_effect"
+}

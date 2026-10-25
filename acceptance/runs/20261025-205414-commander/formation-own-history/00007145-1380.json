@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "session_id": "dc570f29-e92a-4272-a99f-9f21a13aec55",
+  "pid": 54496,
+  "player_id": 3,
+  "logic_frame_candidate": 7145,
+  "own_objects": [
+    {
+      "object_id": 1380,
+      "type_hash": "0x19ab11af",
+      "xyz": [
+        2309.36083984375,
+        2230.63916015625,
+        280.0
+      ],
+      "hp": 100.0,
+      "status84": "0x0",
+      "grounded_verified": true,
+      "grounded_status": {
+        "schema_version": 2,
+        "status": "verified_native_surface_sample",
+        "object_id": 1380,
+        "address": "0x4716440",
+        "owner": "0x319a4d0",
+        "type_hash": "0x19ab11af",
+        "template": "SovietAntiInfantryInfantry",
+        "frame": 7145,
+        "end_frame": 7145,
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "ground160_diagnostic": false,
+        "known_air_state": false,
+        "height_cache_flags": "0x6",
+        "height_cache_valid": true,
+        "cached_height_distance": 0.0,
+        "height_tolerance": 0.5,
+        "xyz": [
+          2309.36083984375,
+          2230.63916015625,
+          280.0
+        ],
+        "hp": 100.0,
+        "holder": "0x0",
+        "ground_positive": true,
+        "grounded_verified": true,
+        "walkable_route_verified": false,
+        "atomic_sample_verified": true,
+        "source": "ground_only_template_plus_valid_native_surface_cache_and_air_exclusions_v2",
+        "mutations": false,
+        "helper_sha256": "70e5f94bac9b1a82beec56053fd43e91f6edaba1500c8dfa840e868be836e6b3",
+        "native_status_helper_sha256": "ad5b758c947843969f2d1ec6e7fc07c0eaec084b1a59e60750d69d881e78a6c0"
+      }
+    }
+  ],
+  "source_collector_sha256": "6a4b1659706a96e6b1027e9f64f709dd10f833459498bb5f2abbc3b6e0da8118",
+  "ground_reader_sha256": "70e5f94bac9b1a82beec56053fd43e91f6edaba1500c8dfa840e868be836e6b3",
+  "method": "same_frame_owned_position_with_verified_native_surface",
+  "walkable_route_verified": false,
+  "mutations": false,
+  "model_eligible": false
+}

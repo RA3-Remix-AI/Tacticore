@@ -17,11 +17,11 @@ with patch('subprocess.Popen',side_effect=AssertionError('Import must not dispat
  assert qualifier.progress({'native':{},'events':[]},'unused') is None
 print(json.dumps({'event':ctypes.sizeof(runtime.Event),'breadcrumb':ctypes.sizeof(runtime.Breadcrumb),'header':runtime.Tactical.events.offset,'tactical':ctypes.sizeof(runtime.Tactical),'game_commands':0}))
 '''
-  for version in (5,6):
+  for version in (5,6,7,8,9,10,12):
    with self.subTest(version=version):
     fresh_code=code.replace('mf5','mf'+str(version)).replace('formation-v5','formation-v'+str(version))
     result=json.loads(subprocess.check_output([sys.executable,'-c',fresh_code],cwd=ROOT,text=True,encoding='utf-8',creationflags=getattr(subprocess,'CREATE_NO_WINDOW',0)))
-    self.assertEqual(result,dict(event=1048,breadcrumb=104,header=27900,tactical=8613116,game_commands=0))
+    self.assertEqual(result,dict(event=1616 if version>=8 else 1048,breadcrumb=104,header=28132 if version==12 else 27908 if version>=9 else 27900,tactical=13266404 if version==12 else 13266180 if version>=9 else 13266172 if version==8 else 8613116,game_commands=0))
 
  def test_active_formation_metadata_selects_same_wrapper_and_passive_readers(self):
   code='''import ctypes,json

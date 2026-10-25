@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "reviewer": "strategy_service",
+  "source_report": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-194956-commander\\continuous-paid-mf7-01-formation.json",
+  "source_sha256": "b9cfa358b322554bce936570613050b66c2e3a3c3780706692722499082d4219",
+  "conclusion": "MF7 failed; observed chain is compatible with delayed delivery but command identity was not captured",
+  "effect_source_granted": false,
+  "legacy_raw_requalified_as_success": false,
+  "facts": {
+    "session_id": "d51a6045-d791-42e9-b27b-53a9af655d92",
+    "actors": [
+      808,
+      810
+    ],
+    "issued_frame": 1640,
+    "returned_frame": 2156,
+    "phase": 4,
+    "error": 38,
+    "host_exit": 9,
+    "approach_follow_commands": 11,
+    "physical_approach_follow_completions": 10,
+    "attack_calls": 0,
+    "source_damage": 0,
+    "own81_seq": 662,
+    "own_facade50_seq": 663,
+    "own_facade51_seq": 664,
+    "private10_seq": 845,
+    "private11_seq": 846,
+    "delay_logical_frames": 148,
+    "delay_milliseconds": 9781,
+    "goal_exactly_equal": true,
+    "goal": [
+      2804.640869140625,
+      2073.577880859375,
+      210.0
+    ],
+    "late_source": 1,
+    "late_caller": "0x6d3b7d",
+    "late_tag": 0,
+    "support_intervening_command_events": [],
+    "waiting_samples": 90,
+    "support_stationary_idle16_path0_while_waiting": true,
+    "waiting_sm_flags": [
+      65536
+    ],
+    "actual_command_pointer_or_generation_in_old_raw": false
+  },
+  "terminal": {
+    "binding_verified": true,
+    "timer0": true,
+    "actual13_original_entries": true,
+    "both_pool_return": true,
+    "physical_home_or_completion": false
+  },
+  "recomputed_q_status": "not_passed",
+  "recomputed_failed_checks": [
+    "explicit_actual_retreat_departure",
+    "normal_move_chains",
+    "every_follow_actual_arrival_and_stop",
+    "conditional_branches_if_observed",
+    "lease_scoped_no_native_override",
+    "actual_nonlethal_packet_commit_ammo_support",
+    "both_physical_retreat_origins",
+    "finished_host_and_native",
+    "actual_long_approach",
+    "actual_long_retreat",
+    "frozen_phase_deadlines",
+    "effect_precedes_source_damage_retreat"
+  ],
+  "static_chain": {
+    "571d90": "Constructs opcode0 command on its stack; calls facade vtable0, then destroys temporary members and returns ret8. Its pointer cannot identify a command across148frames.",
+    "787500": "Facade dispatcher usesEDI=Command, source=[EDI+4], ownerUpdate=facade-24; immediate opcode0 route787642 ->6d3b60.",
+    "787d36": "Deferred branch calls830220 withthis=facade+2ec=Update+310 and sourceCommand=EDI.",
+    "830220": "Copies opcode/source/XYZ to actor embedded storedcommand; other fields convert IDs/containers, so byte-layout is not identical to original command.",
+    "7da034": "Consumer usesESI=Update+10; pending=(ESI+300)=Update+310.",
+    "7da0ae": "Calls830320(stored,Thing,outStackCommand).",
+    "7da0d7": "Consumerdispatch uses(ESI+14)=Update+24 andthe resultingoutStackCommand via vtable0; caller return7da0d9.",
+    "7da0dd": "Clears storedopcode=-1 after consumerdispatch.",
+    "6d3b60": "Generic adapter to Update.vtable+58, privatecaller6d3b7d; it does not uniquely identify an authorized issuer."
+  },
+  "limits": [
+    "Same goal/source/caller and absence of another observed facade cannot prove that the late call is the same original command",
+    "Old raw hasno copy destination/generation/unpacked command identity and must remain failed",
+    "SMflags65536 gives+79 byte0; do not claim that particular deferred predicate was observed true",
+    "New proof must capture owned facade->store copy->generation->unpack->dispatcher->one private delivery andinvalidate onoverwrites ornewcommands",
+    "Source1 opcode0 only; source0/unmatched/differentgoal/secondconsume remain unauthorized"
+  ],
+  "execution_sources_modified": false,
+  "reviewer_sdk_gui_model_calls": 0
+}

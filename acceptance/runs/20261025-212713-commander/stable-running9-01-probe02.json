@@ -1,0 +1,81 @@
+{
+  "pid": 53124,
+  "session_id": "eea2f953-2534-4722-adfc-1a53ad79aea4",
+  "frame": 5472,
+  "paused": 0,
+  "admitted_fronts": 1,
+  "admitted_supports": 2,
+  "visible_contacts": 5,
+  "candidates": [],
+  "admitted_actor_states": [
+    {
+      "id": 803,
+      "type": "0x2c358c61",
+      "hp": 149.44630432128906,
+      "xyz": [
+        2830.0,
+        2130.0,
+        210.0
+      ],
+      "state": 16
+    },
+    {
+      "id": 805,
+      "type": "0x19ab11af",
+      "hp": 70.0,
+      "xyz": [
+        2810.0,
+        2130.0,
+        210.0
+      ],
+      "state": 16
+    },
+    {
+      "id": 1058,
+      "type": "0x2c358c61",
+      "hp": 120.0,
+      "xyz": [
+        2088.111328125,
+        2618.931884765625,
+        255.23623657226562
+      ],
+      "state": 10
+    }
+  ],
+  "rejections": [
+    {
+      "object_id": 775,
+      "type_hash": "0x19ab11af",
+      "status": "unknown_or_ineligible",
+      "reason": null
+    },
+    {
+      "object_id": 788,
+      "type_hash": "0x2c358c61",
+      "status": "unknown_or_ineligible",
+      "reason": null
+    },
+    {
+      "object_id": 790,
+      "type_hash": "0x2c358c61",
+      "status": "unknown_or_ineligible",
+      "reason": null
+    },
+    {
+      "object_id": 792,
+      "type_hash": "0x2c358c61",
+      "status": "unknown_or_ineligible",
+      "reason": null
+    },
+    {
+      "object_id": 798,
+      "type_hash": "0x19ab11af",
+      "status": "unknown_or_ineligible",
+      "reason": null
+    }
+  ],
+  "hard_guard_unchanged": 350,
+  "sdk_calls": 0,
+  "mutations": false,
+  "paused_hint_only": false
+}

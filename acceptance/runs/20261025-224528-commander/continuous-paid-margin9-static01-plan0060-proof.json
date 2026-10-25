@@ -1,0 +1,26 @@
+{
+  "schema_version": 2,
+  "object_visibility_method": "native_footprint_reconstruction",
+  "footprint_live_verified": true,
+  "session_id": "04cff8e1-54eb-4c0e-8015-1d59172d1f57",
+  "target_player_id": 3,
+  "package_sha256": "2d7873e1b2d2c79950ff9da70b5452b1210370a6d6cbec1eaa69201a7d3d0665",
+  "build_id": "74538172fdd285ac01f4c82689311ac2a7496cc256438fae55d7c7d340b82210",
+  "terrain_view_live_verified": true,
+  "object_view_live_verified": true,
+  "conservative_stealth_exclusion_reviewed": true,
+  "no_observer_fallback": true,
+  "detection_verified": false,
+  "commander_id": "57e668b4-4d89-43bd-bc92-0dd436f046ef",
+  "handshake": {
+    "game_logic": 65303080,
+    "player": 54142160,
+    "ai_player": 73972368,
+    "shroud_manager": 65200792,
+    "shroud_impl": 65211872,
+    "frame_min": 1954,
+    "own_fully_clear_footprints": 28
+  },
+  "evidence": "Prior exact-build cross-view/footprint transition evidence plus this session native signatures, computer UUID chain and own-footprint query. No UI flag inputs.",
+  "mutations": false
+}

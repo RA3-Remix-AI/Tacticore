@@ -1,0 +1,281 @@
+{
+  "schema_version": 1,
+  "mode": "independent_readonly_actual_calibration_review",
+  "run": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-222840-commander",
+  "source_hashes": {
+    "continuous-paid-margin9-01.json": "e0cc847498e5120bbd0b2fe9db1d228b8796a77a91ce8691bfe45b2b57171137",
+    "continuous-paid-margin9-01-formation.json": "f0f5c108c0f83bf1a96804c2d035ccf11062df07c7e811f9ad7d8684fdda4617",
+    "persistent-production.jsonl": "b97d11c28c7bcb9679ebff5df339e2c0afe4a8c188fa888067cee48dcd71a837",
+    "session.json": "3a869fdd8a9e09d3a9a62286d192691e0a7aa60b96e54e746601591a9e7a6ce9",
+    "continuous_paid_margin9.py": "46057dd5ce951b5fa7103c5ba8835155054e9b8f93c309258735c2d8c9fb4680"
+  },
+  "checks": {
+    "session_pid_binding": true,
+    "six_unique_commands": true,
+    "sequences_1_through_6": true,
+    "three_cons_three_flak": true,
+    "exact_native_costs_paid": true,
+    "paid_sum_915": true,
+    "every_command_has_paid_create_live_evidence": true,
+    "six_unique_births": true,
+    "final_ledger_matches_independent_append_log": true,
+    "production_stopped_and_five_original_entries": true,
+    "before_five_entries_exact": true,
+    "source_pins_current_match": true,
+    "one_tactical_child_after_handover": true,
+    "no_model_calls": true,
+    "tactical_compiled_joint_source_pins": true,
+    "terminal_binding_and_actual_16_entries": true,
+    "both_live_native_pool_returns": true
+  },
+  "paid_orders": [
+    {
+      "command_id": "e13f1ea4-fd7f-42c6-be63-9d77ad2393d8",
+      "task_id": "b9a56c87-9d5c-4d3f-992a-c1e5c11e9f49",
+      "seq": 1,
+      "unit": "conscript",
+      "queue_id": 5,
+      "object_id": 779,
+      "cost": 85,
+      "paid": 85,
+      "enqueue_frame": 488,
+      "completion_frame": 569,
+      "live_samples": 882,
+      "log_last_feedback_matches": true,
+      "log_completion_live_samples": 4,
+      "live_samples_semantics": "monotonic ongoing live observations; completion feedback is emitted before final stopped status"
+    },
+    {
+      "command_id": "7b00cc69-b4dc-41e5-addd-f497948da3a5",
+      "task_id": "68882571-3164-424e-ad25-0f01f8b33323",
+      "seq": 2,
+      "unit": "flak",
+      "queue_id": 7,
+      "object_id": 787,
+      "cost": 220,
+      "paid": 220,
+      "enqueue_frame": 639,
+      "completion_frame": 755,
+      "live_samples": 696,
+      "log_last_feedback_matches": true,
+      "log_completion_live_samples": 2,
+      "live_samples_semantics": "monotonic ongoing live observations; completion feedback is emitted before final stopped status"
+    },
+    {
+      "command_id": "53a9a419-b89b-4bf4-9687-111b6fc06f34",
+      "task_id": "44f7f7e8-33bb-45f1-825b-4f89dc2c4638",
+      "seq": 3,
+      "unit": "conscript",
+      "queue_id": 9,
+      "object_id": 791,
+      "cost": 85,
+      "paid": 85,
+      "enqueue_frame": 792,
+      "completion_frame": 927,
+      "live_samples": 524,
+      "log_last_feedback_matches": true,
+      "log_completion_live_samples": 2,
+      "live_samples_semantics": "monotonic ongoing live observations; completion feedback is emitted before final stopped status"
+    },
+    {
+      "command_id": "a73c4837-a6f4-4f89-80d6-09a888a19c2d",
+      "task_id": "55dca689-ad1a-45e4-a98b-cf134b23f745",
+      "seq": 4,
+      "unit": "flak",
+      "queue_id": 11,
+      "object_id": 802,
+      "cost": 220,
+      "paid": 220,
+      "enqueue_frame": 953,
+      "completion_frame": 1128,
+      "live_samples": 323,
+      "log_last_feedback_matches": true,
+      "log_completion_live_samples": 1,
+      "live_samples_semantics": "monotonic ongoing live observations; completion feedback is emitted before final stopped status"
+    },
+    {
+      "command_id": "fd74e031-e1bc-4ab2-8199-0b36662cebec",
+      "task_id": "782493d3-8d3b-4c67-9cad-96c422fced6c",
+      "seq": 5,
+      "unit": "conscript",
+      "queue_id": 13,
+      "object_id": 807,
+      "cost": 85,
+      "paid": 85,
+      "enqueue_frame": 1133,
+      "completion_frame": 1300,
+      "live_samples": 151,
+      "log_last_feedback_matches": true,
+      "log_completion_live_samples": 2,
+      "live_samples_semantics": "monotonic ongoing live observations; completion feedback is emitted before final stopped status"
+    },
+    {
+      "command_id": "5c351d70-3a2d-4113-a86a-ad0f0396cc2c",
+      "task_id": "1cf3ce02-c1e8-49bb-aae4-ff6274fcdb22",
+      "seq": 6,
+      "unit": "flak",
+      "queue_id": 14,
+      "object_id": 810,
+      "cost": 220,
+      "paid": 220,
+      "enqueue_frame": 1305,
+      "completion_frame": 1404,
+      "live_samples": 47,
+      "log_last_feedback_matches": true,
+      "log_completion_live_samples": 2,
+      "live_samples_semantics": "monotonic ongoing live observations; completion feedback is emitted before final stopped status"
+    }
+  ],
+  "paid_verified": true,
+  "paid_total": 915,
+  "production_handover": {
+    "phase": 2,
+    "error": 0,
+    "restore_mask": 31,
+    "active": 0,
+    "signature_count": 5
+  },
+  "tactical": {
+    "status": "not_passed",
+    "effect_verified": false,
+    "damage": 0,
+    "attack_calls": 0,
+    "issued_frame": 1475,
+    "retreat_started": 2609,
+    "returned_frame": 2620,
+    "error": 34,
+    "retreat_reason": 8,
+    "front_actual_travel": 3085.737060546875,
+    "support_actual_travel": 2922.2412109375,
+    "scheduler_verified": true,
+    "scheduler_events": [
+      {
+        "kind": 121,
+        "seq": 2,
+        "frame": 1475
+      },
+      {
+        "kind": 122,
+        "seq": 27,
+        "frame": 1476
+      },
+      {
+        "kind": 122,
+        "seq": 219,
+        "frame": 1580
+      },
+      {
+        "kind": 122,
+        "seq": 441,
+        "frame": 1686
+      },
+      {
+        "kind": 122,
+        "seq": 646,
+        "frame": 1792
+      },
+      {
+        "kind": 122,
+        "seq": 863,
+        "frame": 1898
+      },
+      {
+        "kind": 122,
+        "seq": 1077,
+        "frame": 2004
+      },
+      {
+        "kind": 122,
+        "seq": 1289,
+        "frame": 2110
+      },
+      {
+        "kind": 122,
+        "seq": 1510,
+        "frame": 2216
+      },
+      {
+        "kind": 122,
+        "seq": 1740,
+        "frame": 2322
+      },
+      {
+        "kind": 122,
+        "seq": 1945,
+        "frame": 2428
+      },
+      {
+        "kind": 122,
+        "seq": 2168,
+        "frame": 2534
+      }
+    ],
+    "physical_home_verified": false,
+    "normal_pool_returns": [
+      {
+        "role": 0,
+        "object_id": 807,
+        "frame": 2620,
+        "seq": 2355,
+        "hp": 82.5,
+        "distance_from_frozen_home": 645.7276274905255,
+        "physical_home_arrivals": 0
+      },
+      {
+        "role": 1,
+        "object_id": 810,
+        "frame": 2620,
+        "seq": 2361,
+        "hp": 120.0,
+        "distance_from_frozen_home": 857.8303884696469,
+        "physical_home_arrivals": 0
+      }
+    ],
+    "control_release": {
+      "restoration_verified": true,
+      "control_release_verified": true,
+      "return_verified": true,
+      "disposed_verified": false,
+      "actors": [
+        {
+          "role": 0,
+          "object_id": 807,
+          "returned": true,
+          "disposed": false,
+          "never_held": false,
+          "released": true
+        },
+        {
+          "role": 1,
+          "object_id": 810,
+          "returned": true,
+          "disposed": false,
+          "never_held": false,
+          "released": true
+        }
+      ],
+      "semantics": "independent_native_pool_return_or_readonly_disposal",
+      "completion_claim": false
+    },
+    "terminal_timer": 0,
+    "terminal_entry_count": 16,
+    "failed_qualification_checks": [
+      "explicit_actual_retreat_departure",
+      "every_follow_actual_arrival_and_stop",
+      "conditional_branches_if_observed",
+      "actual_nonlethal_packet_commit_ammo_support",
+      "both_physical_retreat_origins",
+      "finished_host_and_native",
+      "actual_long_approach",
+      "actual_long_retreat",
+      "frozen_phase_deadlines",
+      "effect_precedes_source_damage_retreat"
+    ]
+  },
+  "limitations": [
+    "Actual paid production ledger and append feedback are audited; payment deductions are native-client observations, not a new independent memory read.",
+    "This is one no-model calibration task, not a model-controlled full match.",
+    "Both live native-pool returns and code restoration are verified; neither physical home return nor combat effect is verified.",
+    "No capability source grant follows from this failed case."
+  ]
+}

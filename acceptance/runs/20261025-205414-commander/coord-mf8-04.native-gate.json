@@ -1,0 +1,317 @@
+{
+  "protocol": "native_gate_no_actor_lease_v1",
+  "source_report": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-205414-commander\\coord-mf8-04.json",
+  "source_sha256": "3b50e6eded1c2fc1af9a90dbc6189cc2f09af723e47fc088deb744b24b1f6f8f",
+  "reader_sha256": "04a79969a19050eed4ab26e32e1e4a6092641af6e3b99410d48b3ffa47df09ae",
+  "session_id": "dc570f29-e92a-4272-a99f-9f21a13aec55",
+  "pid": 54496,
+  "commander_id": "57e668b4-4d89-43bd-bc92-0dd436f046ef",
+  "command_id": "f261caf7-f535-423e-a168-983a1af2587e",
+  "task_id": "eb18041c-2da4-4f50-8891-2e6928354db6",
+  "seq": 643689390,
+  "token": 1567045553,
+  "native_host_exit": 9,
+  "snapshots": [
+    {
+      "binding_verified": true,
+      "module_base": "0x7c8f0000",
+      "shared_pointer": "0x45320000",
+      "timer": 0,
+      "phase": 4,
+      "error": 34,
+      "restore_mask": 65535,
+      "active": 0,
+      "pid": 54496,
+      "session_id": "dc570f29-e92a-4272-a99f-9f21a13aec55",
+      "commander_id": "57e668b4-4d89-43bd-bc92-0dd436f046ef",
+      "command_id": "f261caf7-f535-423e-a168-983a1af2587e",
+      "task_id": "eb18041c-2da4-4f50-8891-2e6928354db6",
+      "seq": 643689390,
+      "token": 1567045553,
+      "object_ids": [
+        1389,
+        1418
+      ],
+      "units": [
+        "0x4716940",
+        "0x5753a30"
+      ],
+      "owner": "0x319a4d0",
+      "ai": "0x45622a8",
+      "logic": "0x3c3f228",
+      "thread": 61620,
+      "callback_thread": 61620,
+      "front": {
+        "issued_frame": 0,
+        "returned_frame": 0,
+        "detach_calls": 0,
+        "return_calls": 0,
+        "move_calls": 0,
+        "attack_calls": 0,
+        "attack_facade_calls": 0,
+        "attack_private_calls": 0,
+        "stop_calls": 0,
+        "private_stop_calls": 0,
+        "toggle_calls": 0,
+        "toggle_hook_calls": 0,
+        "return_verified": 0,
+        "leader_move_count": 0,
+        "follow_move_count": 0,
+        "regroup_count": 0,
+        "hold_repair_count": 0
+      },
+      "support": {
+        "detach_calls": 0,
+        "return_calls": 0,
+        "returned": 0,
+        "move_calls": 0,
+        "stop_calls": 0,
+        "private_stop_calls": 0
+      },
+      "entries": [
+        {
+          "address": 7789008,
+          "expected": "568bf1578b7e088bcf",
+          "actual": "568bf1578b7e088bcf"
+        },
+        {
+          "address": 7792272,
+          "expected": "837c24040055568bf18b6e08",
+          "actual": "837c24040055568bf18b6e08"
+        },
+        {
+          "address": 8620064,
+          "expected": "8b818c00000085c0744f568bb190000000",
+          "actual": "8b818c00000085c0744f568bb190000000"
+        },
+        {
+          "address": 9275520,
+          "expected": "83ec24568b74242c8b4604",
+          "actual": "83ec24568b74242c8b4604"
+        },
+        {
+          "address": 9229872,
+          "expected": "83ec3453578b7c24408b4704",
+          "actual": "83ec3453578b7c24408b4704"
+        },
+        {
+          "address": 8200976,
+          "expected": "81ec200100005355568bb42430010000",
+          "actual": "81ec200100005355568bb42430010000"
+        },
+        {
+          "address": 7306336,
+          "expected": "538b5928568b71243bf357",
+          "actual": "538b5928568b71243bf357"
+        },
+        {
+          "address": 7754128,
+          "expected": "8b44240885c0f30f104c2404",
+          "actual": "8b44240885c0f30f104c2404"
+        },
+        {
+          "address": 5550240,
+          "expected": "83ec5c8b442460566a01508bf1",
+          "actual": "83ec5c8b442460566a01508bf1"
+        },
+        {
+          "address": 7477968,
+          "expected": "83ec08558be98b45088b4804",
+          "actual": "83ec08558be98b45088b4804"
+        },
+        {
+          "address": 5710464,
+          "expected": "83ec5c8b442468566a01508bf1",
+          "actual": "83ec5c8b442468566a01508bf1"
+        },
+        {
+          "address": 5709200,
+          "expected": "83ec5c8b442464566a01508bf1",
+          "actual": "83ec5c8b442464566a01508bf1"
+        },
+        {
+          "address": 7932304,
+          "expected": "8b44240c8b5424086a006a006a00",
+          "actual": "8b44240c8b5424086a006a006a00"
+        },
+        {
+          "address": 8585760,
+          "expected": "5355568bf1578b7c2414",
+          "actual": "5355568bf1578b7c2414"
+        },
+        {
+          "address": 8586016,
+          "expected": "83ec0c53568bf18b4614",
+          "actual": "83ec0c53568bf18b4614"
+        },
+        {
+          "address": 7894272,
+          "expected": "83ec6053558bd98b43dc",
+          "actual": "83ec6053558bd98b43dc"
+        }
+      ]
+    },
+    {
+      "binding_verified": true,
+      "module_base": "0x7c8f0000",
+      "shared_pointer": "0x45320000",
+      "timer": 0,
+      "phase": 4,
+      "error": 34,
+      "restore_mask": 65535,
+      "active": 0,
+      "pid": 54496,
+      "session_id": "dc570f29-e92a-4272-a99f-9f21a13aec55",
+      "commander_id": "57e668b4-4d89-43bd-bc92-0dd436f046ef",
+      "command_id": "f261caf7-f535-423e-a168-983a1af2587e",
+      "task_id": "eb18041c-2da4-4f50-8891-2e6928354db6",
+      "seq": 643689390,
+      "token": 1567045553,
+      "object_ids": [
+        1389,
+        1418
+      ],
+      "units": [
+        "0x4716940",
+        "0x5753a30"
+      ],
+      "owner": "0x319a4d0",
+      "ai": "0x45622a8",
+      "logic": "0x3c3f228",
+      "thread": 61620,
+      "callback_thread": 61620,
+      "front": {
+        "issued_frame": 0,
+        "returned_frame": 0,
+        "detach_calls": 0,
+        "return_calls": 0,
+        "move_calls": 0,
+        "attack_calls": 0,
+        "attack_facade_calls": 0,
+        "attack_private_calls": 0,
+        "stop_calls": 0,
+        "private_stop_calls": 0,
+        "toggle_calls": 0,
+        "toggle_hook_calls": 0,
+        "return_verified": 0,
+        "leader_move_count": 0,
+        "follow_move_count": 0,
+        "regroup_count": 0,
+        "hold_repair_count": 0
+      },
+      "support": {
+        "detach_calls": 0,
+        "return_calls": 0,
+        "returned": 0,
+        "move_calls": 0,
+        "stop_calls": 0,
+        "private_stop_calls": 0
+      },
+      "entries": [
+        {
+          "address": 7789008,
+          "expected": "568bf1578b7e088bcf",
+          "actual": "568bf1578b7e088bcf"
+        },
+        {
+          "address": 7792272,
+          "expected": "837c24040055568bf18b6e08",
+          "actual": "837c24040055568bf18b6e08"
+        },
+        {
+          "address": 8620064,
+          "expected": "8b818c00000085c0744f568bb190000000",
+          "actual": "8b818c00000085c0744f568bb190000000"
+        },
+        {
+          "address": 9275520,
+          "expected": "83ec24568b74242c8b4604",
+          "actual": "83ec24568b74242c8b4604"
+        },
+        {
+          "address": 9229872,
+          "expected": "83ec3453578b7c24408b4704",
+          "actual": "83ec3453578b7c24408b4704"
+        },
+        {
+          "address": 8200976,
+          "expected": "81ec200100005355568bb42430010000",
+          "actual": "81ec200100005355568bb42430010000"
+        },
+        {
+          "address": 7306336,
+          "expected": "538b5928568b71243bf357",
+          "actual": "538b5928568b71243bf357"
+        },
+        {
+          "address": 7754128,
+          "expected": "8b44240885c0f30f104c2404",
+          "actual": "8b44240885c0f30f104c2404"
+        },
+        {
+          "address": 5550240,
+          "expected": "83ec5c8b442460566a01508bf1",
+          "actual": "83ec5c8b442460566a01508bf1"
+        },
+        {
+          "address": 7477968,
+          "expected": "83ec08558be98b45088b4804",
+          "actual": "83ec08558be98b45088b4804"
+        },
+        {
+          "address": 5710464,
+          "expected": "83ec5c8b442468566a01508bf1",
+          "actual": "83ec5c8b442468566a01508bf1"
+        },
+        {
+          "address": 5709200,
+          "expected": "83ec5c8b442464566a01508bf1",
+          "actual": "83ec5c8b442464566a01508bf1"
+        },
+        {
+          "address": 7932304,
+          "expected": "8b44240c8b5424086a006a006a00",
+          "actual": "8b44240c8b5424086a006a006a00"
+        },
+        {
+          "address": 8585760,
+          "expected": "5355568bf1578b7c2414",
+          "actual": "5355568bf1578b7c2414"
+        },
+        {
+          "address": 8586016,
+          "expected": "83ec0c53568bf18b4614",
+          "actual": "83ec0c53568bf18b4614"
+        },
+        {
+          "address": 7894272,
+          "expected": "83ec6053558bd98b43dc",
+          "actual": "83ec6053558bd98b43dc"
+        }
+      ]
+    }
+  ],
+  "completed": false,
+  "return_verified": false,
+  "restoration_verified": false,
+  "mutations": false,
+  "assessment": {
+    "no_dispatch_verified": true,
+    "no_actor_lease_verified": true,
+    "exclusive_control_never_held": true,
+    "native_host_launched": true,
+    "restoration_verified": false,
+    "return_verified": false,
+    "completion_claim": false,
+    "checks": {
+      "eligible_exact_native_gate": true,
+      "source_binding": true,
+      "two_native_inert_snapshots": true,
+      "both_actors_owner_thread": true,
+      "sixteen_exact_entries": true,
+      "stable_mapping": true,
+      "no_completion_or_return_claim": true
+    },
+    "protocol": "native_gate_no_actor_lease_v1"
+  }
+}

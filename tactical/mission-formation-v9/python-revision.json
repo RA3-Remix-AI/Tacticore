@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "reviewer": "strategy_service",
+  "created_local": "2026-10-25T22:27:39",
+  "decision": "go_one_bounded_fresh_field_diagnostic_only",
+  "source_capability_granted": false,
+  "live_effect_verified": false,
+  "reviewer_sdk_gui_game_or_model_calls": 0,
+  "guard_removed_after_joint_static_go": true,
+  "after_guard_revalidation": {
+    "python_files_fresh_processes": 22,
+    "tests_passed": 163,
+    "actual_cli_help_exit": 0,
+    "source_bundle_actual_no_mock": true,
+    "host_actual_layout": true
+  },
+  "native_reported_software_cases": {
+    "core": 65,
+    "pending": 48,
+    "scheduler": 46,
+    "scope": "actual C++ software/harness, not field"
+  },
+  "abi": {
+    "breadcrumb": 104,
+    "lineage": 568,
+    "event": 1616,
+    "header": 27908,
+    "tactical": 13266180,
+    "pulse_requested_offset": 27900,
+    "pulse_acknowledged_offset": 27904,
+    "hook_count": 16,
+    "restore_mask": 65535,
+    "timer_rva": 120888,
+    "shared_pointer_rva": 120904
+  },
+  "scheduling_scope": [
+    "Original mission_tick_body immediately after successful install event0 on the same game-window thread",
+    "Host100ms clock-nonce pulses, one outstanding, token/command/task/seq/thread binding and1000ms freshness",
+    "Ack is consumption only; paused/duplicate frame never synthesizes progress",
+    "At most one actual state-machine advance per actual logical frame; WM_TIMER350ms fallback retained",
+    "PostMessage failure, missing ack or host loss requests original stop/cleanup; Python earlyhost loss immediately enters old boundeddrain",
+    "No change to targetTTL60, currentFOV, origin350, pair25..180, Stop3/home15x3,250 motionwatchdog orhard4500 deadline",
+    "Python only initializes pulsefields0, records raw24word121..123 proofs, does not drive/forge pulses",
+    "Native compiled revision/current/report allsource hashes and exacthelpers verified; frozen8 execution fingerprints unchanged"
+  ],
+  "outer_calibration_clones": {
+    "acceptance\\calibration\\field_plan_margin9.py": "778d2c7d8fdbb320872a7668b6493277c19cab771142907108361cc97ef777e8",
+    "acceptance\\calibration\\continuous_paid_margin9.py": "46057dd5ce951b5fa7103c5ba8835155054e9b8f93c309258735c2d8c9fb4680"
+  },
+  "limitations": [
+    "No actual9 effect was established by this static review",
+    "No retroactive acceptance of actual8 neverheld or otherfailed source",
+    "No paused pulse ack, dispatch or poolreturn alone counts as physical effect/homecompletion",
+    "Real model fullmatch accepted contexts, effects and lifecycle require independent actual audit"
+  ],
+  "sha256": {
+    "tactical\\mission-formation-v9\\lease.py": "895b12d611774c660fb044bb63e588bcb74a0c3a6d285745265a2111668be66f",
+    "tactical\\mission-formation-v9\\native_layout.py": "0ba1bc718254b603fe795bdb3da841803d1e54d59486369b157191bf519d31ee",
+    "tactical\\mission-formation-v9\\mission_contract.py": "8c7d908398ae4c19fec721d5fb04c666baf8f60ccc0f2d4fc71e3884b6618d4d",
+    "tactical\\mission-formation-v9\\field_plan.py": "1dd9ef04e4f1d4fd790f39f2237e5a54555a4e3f3a50d05f71fbead317b9a6ae",
+    "tactical\\mission-formation-v9\\field_coordinate.py": "7c004eabbedaacca00ca2c33b5941acaa5a990337164967c0e0591b73a5a9e68",
+    "tactical\\mission-formation-v9\\continuous_paid_driver.py": "7d74c63be9b4776d97d37167b2b2b870bb5b4b97afa3a0fda02e591559ee7fae",
+    "tactical\\mission-formation-v9\\formation_mission_qualification.py": "aaf6bb538e8036e205ea5e3292071212a3f02cc60cf2ff39b9dc29a29cf40521",
+    "tactical\\mission-formation-v9\\wait_anchor_replan.py": "df60f6899100a876339afc153c372a485e8ee7ab2dafaca0b5630e6dde11af22",
+    "tactical\\mission-formation-v9\\retreat_departure.py": "29130d6c34f0f449d267968374eb8e8815b9ab7a3b6b6f7c6580502306237eed",
+    "tactical\\mission-formation-v9\\pending_lineage.py": "e03de9f135fd341e164c2c57088d46f9e03d3a3ba52bf4beb2d182492873d3bf",
+    "tactical\\mission-formation-v9\\revision.json": "60c06a1f41b354676b6c926c02f2edfb560e6f4fe610891c168ad98c3c0242f7",
+    "tactical\\mission-formation-v9\\inert-layout.json": "d5d7ac281d941c2f4b1ab4de504e2e772b0a120f27f5fae97ad5fdbf2323d347",
+    "tactical\\mission-formation-v9\\shared.h": "954683f7b55622e3c350619e229de94b4acc1839df9bfe1a657a8453b763e0a0",
+    "tactical\\mission-formation-v9\\lease.cpp": "3d0eb1c615c1119aa87da43925ac4dceed72cda255860bad86bc53730e28eb0b",
+    "tactical\\mission-formation-v9\\bin\\TacticalMissionFormation9.dll": "d23ab28b79e0436b038b86bc78d53f3b95da35d727663de435beca18adc95588",
+    "tactical\\mission-formation-v9\\bin\\tactical_host.exe": "67147081690a83f50591467309a920b76677c50b8286aa55e4faf6b4e9023565",
+    "tactical\\mission-formation-v9\\breadcrumb.cpp.inc": "979cec158f12b4aa4b485d10a8b89d3a5fb8567b92a69dbe5c51dc31761a48fd",
+    "tactical\\mission-formation-v9\\common.cpp.inc": "4f59fdbc5202c343fea7ed427ad1f302ce9d5844911798b84b6c2ee2b1ce66a8",
+    "tactical\\mission-formation-v9\\event.cpp.inc": "1b9556da9b1b6da389efb3cceff396304f2b8314b0ae6c7daf5d1b898f2960b5",
+    "tactical\\mission-formation-v9\\host_pulse.cpp.inc": "8fd9d4f0399499308d79a69f91fb90b7b41b17543ebdafe4b034e11314977273",
+    "tactical\\mission-formation-v9\\mission_state.cpp.inc": "2d847031c30a1168776d21918427b6877655b44a6353d187693b5f63a9d08830",
+    "tactical\\mission-formation-v9\\pending.cpp.inc": "d6b9e478e1931a8d5cabc30dde684cd6c3347f2ffd0a5ef36999e7d99f06a13d",
+    "tactical\\mission-formation-v9\\scheduler.cpp.inc": "6ba85cdc531dc969e634cd09437a602f367babbdbf2a5a75b5efe452ab1c70be",
+    "tactical\\pre_dispatch_formation_v9_contract.py": "7e1c7236965168e8ae5c64bb6e781bfeeb8ce382f462a305fb8b584a9a5b50a3",
+    "tactical\\mission_formation_v9_gate_no_lease.py": "77e1350759f2135b55792fd7946504a0a601b6b93e8afa8363dd03004b75ee32"
+  },
+  "native_test_artifacts_sha256": {
+    "tactical\\mission-formation-v9\\scheduler-native-positive.json": "045c8b8facda360ec0d3a8e8ae4e138efd244accf13b3d5606d306e72911dde4",
+    "tactical\\mission-formation-v9\\scheduler-regression-results.jsonl": "a1d820713b18aed39bbd5663b589b8e17fe8e0cc18e1d361a844ef3af4fdc039",
+    "tactical\\mission-formation-v9\\scheduler.cpp.inc": "6ba85cdc531dc969e634cd09437a602f367babbdbf2a5a75b5efe452ab1c70be",
+    "tactical\\mission-formation-v9\\test_scheduler_native.cpp": "bd9699c3d58139067066bca02224c26682b8c7c9289d0d4cfe645c83568fa697"
+  }
+}

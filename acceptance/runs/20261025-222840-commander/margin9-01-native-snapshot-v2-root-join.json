@@ -1,0 +1,24 @@
+{
+  "protocol": "independent_ro_snapshot_join_v1",
+  "source_report_sha256": "f0f5c108c0f83bf1a96804c2d035ccf11062df07c7e811f9ad7d8684fdda4617",
+  "snapshot_sha256": "fd5f9031fd41d9931aa44a7d98d4d0699a7a1c83cae12adb31026b390fdad08c",
+  "checks": {
+    "exact_dll": true,
+    "pid": true,
+    "session": true,
+    "commander": true,
+    "command": true,
+    "task": true,
+    "seq_token": true,
+    "actors": true,
+    "stopped": true,
+    "all_sixteen_entries": true,
+    "returns": true,
+    "frames": true
+  },
+  "control_release_crosscheck": true,
+  "physical_home_verified": false,
+  "effect_verified": false,
+  "capability_granted": false,
+  "mutations": false
+}

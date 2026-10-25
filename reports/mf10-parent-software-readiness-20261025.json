@@ -1,0 +1,61 @@
+{
+  "status": "software_readiness_only",
+  "game_commands_dispatched": 0,
+  "field_coordination_passed": false,
+  "full_match_passed": false,
+  "tests": {
+    "integration": 159,
+    "tactical": 468,
+    "formation10_scene7_targeted": 5,
+    "formation16_passive_import_targeted": 15
+  },
+  "files": {
+    "tactical/evidence.py": "683e41db2ad4b51b0333196b99c55d2c97c443b3bc1a2ded3a6dd9f814bab8cf",
+    "tactical/client.py": "f6918061cac616bc7a2697d071b2d29573d7440901f455bdb9643b348dd16c8c",
+    "tactical/scene_terminal_release_v7.py": "3aa7bac5f8893311933ac782c270f80cea1d1b452b64b4495231e3f16f0eded4",
+    "integration/continuous_evidence.py": "048895947f799dc1fa918f5a9d807d388b9816ac3e8a8bb12282fd38b08d1b68",
+    "integration/tactical_bridge.py": "70a829ad24f05984ed0ab2c39b7c6203772a45398eab6fe3ea271753fd52438a",
+    "integration/test_executor_import_boundary.py": "78cf7e17b9a7d3da9bcc418331df5c576387ed0e6603d716a12b9274fa3f35b4",
+    "integration/test_formation16_terminal.py": "6ec33eb97a3c5b91d14e192de7f5c1b402d9d878518c865a38038adcc018c2ae",
+    "tactical/test_formation10_client.py": "3fc1ded8a3c1c5857cbbe026e2c5605022682c81fde09c479911b86752eace9a",
+    "tactical/test_scene_terminal_release_v7.py": "ed8dd47c216e4b3ad2fb8eb495bb9e5748d0a508ae5a95514aecc8eaa90669d6"
+  },
+  "native_revision": {
+    "protocol": "mfm10_native_actual_breadcrumb_v1",
+    "native_binary_sha256": "312d230cb1e4d68d0d8c4db7ae9b5ce5f63029bea4db12e9d55f33283919a560",
+    "native_host_sha256": "a11b5df8cf3aab967f5ab8677179b740579571d250d7876e079ca12dc1608a69",
+    "native_source_sha256": "afdfa4a62b0d1a205d11abf70e345cf83244b111b01f45f9565a097c466a41b3",
+    "native_shared_sha256": "3066e0a7ed94c11b568e8135eb37fbda5eacf16e048b322783d1273bfcc75bd1",
+    "native_includes_sha256": {
+      "breadcrumb.cpp.inc": "979cec158f12b4aa4b485d10a8b89d3a5fb8567b92a69dbe5c51dc31761a48fd",
+      "common.cpp.inc": "4f59fdbc5202c343fea7ed427ad1f302ce9d5844911798b84b6c2ee2b1ce66a8",
+      "event.cpp.inc": "1b9556da9b1b6da389efb3cceff396304f2b8314b0ae6c7daf5d1b898f2960b5",
+      "host_pulse.cpp.inc": "8fd9d4f0399499308d79a69f91fb90b7b41b17543ebdafe4b034e11314977273",
+      "mission_state.cpp.inc": "49b537a8049de44234fbebf72c23c1ecff9c931ca01b934c572a33ba2a8b43a7",
+      "pending.cpp.inc": "e8c553f81579d8be1570eee19d87b48b944f1a396ea26aec824e6882c4384bd6",
+      "scheduler.cpp.inc": "b5c0125ab7869c11f2a3f42e2300dfea26c302b8be7c472d27f7e9d87607ecef"
+    },
+    "native_host_source_sha256": "6a510011d4e995a0e96ba33239282ff5b400fadbb6bb41f7986d8af582cc1109",
+    "build_script_sha256": "79cbe14d724db36ce15c6acae754f200f71effbe3356b8c1e8476d388378b81f",
+    "native_unexecuted": true,
+    "live_effect_verified": false,
+    "abi": {
+      "event": 1616,
+      "tactical": 13266180,
+      "events": 27908,
+      "unused1": 0,
+      "unused2": 0
+    },
+    "magic": "0x4d463130",
+    "version": 10,
+    "message": "WM_APP+0x38b",
+    "hooks_mask": 65535,
+    "nonlethal_source_scope": true,
+    "tls_alignment_proof_sha256": "a8408d6341f64b7a23c88f3b80f245e45bc2cedb2bc81690bf16615103298991"
+  },
+  "known_failure_repaired": "MFM9 TLS MOVAPS destination at 8mod16 caused the captured AV before lease; 10 uses scalar volatile TLS accessors.",
+  "scope": "Software only; actual effect, physical home, return, and complete model/native match remain required.",
+  "native_tls_alignment_software_checks": 12,
+  "native_tls_alignment_regression_cases": 15,
+  "independent_q_fresh_tests": 104
+}

@@ -1,4 +1,4 @@
-# MFM7 native protocol (draft algorithm; ABI fixed)
+# MFM7 native protocol (independent candidate; ABI fixed)
 
 Independent `TacticalMissionFormation7.dll`, `TacticalMissionFormation7Control`, `Local\\RA3TacticalMissionFormation7_<pid>_<token>`, magic `0x4d464d37`, version7, message `WM_APP+0x387`, timer ID `0x52413377`. Exact 13 hooks/signatures from MFM4 remain; restore8191. RVAs are extracted only after final compilation. No live installation authorized until the completed native algorithm, wrapper and qualifier are frozen and audited.
 
@@ -40,3 +40,15 @@ Event96 is emitted BEFORE the leader's new normal Stop. It has motion_state3, ar
 Motion11 waits for three distinct logical frames of the actual normal source1 Stop/idle16/path0 gate. It then repeats actual own-surface sampling in that same frame. Event97 has motion11, the same arg count, leader_hold_xyz equal to the actual new stopped XYZ, and a complete Breadcrumb-shaped actual surface snapshot with published_seq0/index0. This snapshot is not event80, never appended to header crumbs, never used as a follower target and never rewrites old trail records. Motion returns to3 and the existing rear-catching condition resumes. The original home origins/endpoint/combat/support goals remain unchanged.
 
 Unknown surface or unsuccessful Stop within60 frames invokes normal cleanup; count exhaustion in approach invokes actual retreat and in retreat fails safely. Endpoint motion7 still uses the original real92/93 repair back to its fixed anchor (<=2); it cannot reanchor. Public9field phases remain unchanged. Native control-source deviation uses event106 (event96 is now exclusively abandon-anchor).
+
+## Version7 first-retreat departure
+
+The live MFM6 case exposed a circular wait: retreat started at actual gap246.394, the rear leader moved only3.333 before the ordinary240 regroup stop, but the first real breadcrumb could not be assigned until that leader had travelled and cleared25. This revision adds one bounded departure window, without weakening25 source clearance,15x3 arrival, Stop3, or original home points.
+
+After both actual retreat-entry Stop3 gates and the two phase3 origin80 publications, Native captures the immutable first phase3 leader breadcrumb privately. It sets a mission-wide once-only latch, publishes98, and issues the original normal leader85 Move. Events98/99 echo that exact original Breadcrumb, including its true index, published_seq, frame and identity; they do not create80 or modify the trail. Their argument_path is the departure start logical frame, argument_limit the actual initial XY gap, and actual_gap the current physical gap. Event98.arg=0.
+
+While open, the original follower_tick is not invoked, so there is no new81. Only this first departure may defer the ordinary240 regroup stop. It remains bounded by30 logical frames and actual gap<=350. Native publishes99.arg=1 only when both accumulated actual leader path and actual XY clearance from the referenced origin are>=25. Success99 is published before the same tick's ordinary follower_tick/81. The ordinary240-stop/200-resume policy then applies immediately, including a possible same-tick82 followed by real Stop3/83.
+
+Failure99.arg=2 means elapsed>30 or invalid time order,3 means actual gap>350, and4 means the immutable source/role/phase binding is invalid. Each closes the window and invokes normal failed cleanup. No failure, Stop, regroup, or reanchor resets the once-only latch. Generic scene/death/emergency cleanup can terminate an open window without a success99; it cannot count as mission completion.
+
+Each motion phase now permits12 regroups and the whole mission24. Leader Move remains32, follower128, endpoint repair2 and wait reanchor2. Approach2100, retreat1800 and the original4500 deadline remain unchanged. This has65 pure native-function cases and a software2km round trip; neither is field evidence or a capability grant.

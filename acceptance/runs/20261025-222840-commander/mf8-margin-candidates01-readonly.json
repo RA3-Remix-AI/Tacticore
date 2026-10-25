@@ -1,0 +1,151 @@
+{
+  "pid": 23988,
+  "session_id": "53589366-ac4c-4abc-9c5d-be819516d5c0",
+  "frame": 3479,
+  "paused": 3,
+  "admitted_fronts": 1,
+  "admitted_supports": 6,
+  "visible_contacts": 3,
+  "candidates": [
+    {
+      "front_id": 807,
+      "support_id": 893,
+      "front_hp": 82.5,
+      "support_hp": 120.0,
+      "front_state": 1,
+      "support_state": 1,
+      "gap": 109.36620085022066,
+      "minimum_current_visible_enemy_distance": 1297.7761253875244,
+      "target_contact_id": "contact_c12f0ffd9d4092b02b13",
+      "target_object_id": 780,
+      "target_type_hash": "0x33026fa1",
+      "target_hp": 183.75,
+      "target_role": "infantry",
+      "target_distance": 1297.7761253875244,
+      "original_safety_rejection": null,
+      "extra_margin400_hint": true,
+      "extra_margin450_hint": true
+    }
+  ],
+  "admitted_actor_states": [
+    {
+      "id": 807,
+      "type": "0x19ab11af",
+      "hp": 82.5,
+      "xyz": [
+        1822.867919921875,
+        1773.1973876953125,
+        210.0
+      ],
+      "state": 1
+    },
+    {
+      "id": 810,
+      "type": "0x2c358c61",
+      "hp": 120.0,
+      "xyz": [
+        2511.435302734375,
+        2216.074462890625,
+        280.0
+      ],
+      "state": 1
+    },
+    {
+      "id": 815,
+      "type": "0x2c358c61",
+      "hp": 120.0,
+      "xyz": [
+        2292.42041015625,
+        2650.0,
+        279.01025390625
+      ],
+      "state": 1
+    },
+    {
+      "id": 834,
+      "type": "0x2c358c61",
+      "hp": 120.0,
+      "xyz": [
+        2521.754150390625,
+        2236.63720703125,
+        280.0
+      ],
+      "state": 1
+    },
+    {
+      "id": 836,
+      "type": "0x2c358c61",
+      "hp": 112.5,
+      "xyz": [
+        2456.152587890625,
+        2296.2412109375,
+        280.0
+      ],
+      "state": 1
+    },
+    {
+      "id": 853,
+      "type": "0x2c358c61",
+      "hp": 120.0,
+      "xyz": [
+        2413.239990234375,
+        1870.78271484375,
+        210.0
+      ],
+      "state": 1
+    },
+    {
+      "id": 893,
+      "type": "0x2c358c61",
+      "hp": 120.0,
+      "xyz": [
+        1721.0347900390625,
+        1813.08447265625,
+        210.0
+      ],
+      "state": 1
+    }
+  ],
+  "rejections": [
+    {
+      "object_id": 779,
+      "type_hash": "0x19ab11af",
+      "status": "unknown_or_ineligible",
+      "reason": null
+    },
+    {
+      "object_id": 787,
+      "type_hash": "0x2c358c61",
+      "status": "unknown_or_ineligible",
+      "reason": null
+    },
+    {
+      "object_id": 789,
+      "type_hash": "0x2c358c61",
+      "status": "unknown_or_ineligible",
+      "reason": null
+    },
+    {
+      "object_id": 791,
+      "type_hash": "0x19ab11af",
+      "status": "unknown_or_ineligible",
+      "reason": null
+    },
+    {
+      "object_id": 798,
+      "type_hash": "0x2c358c61",
+      "status": "unknown_or_ineligible",
+      "reason": null
+    },
+    {
+      "object_id": 802,
+      "type_hash": "0x2c358c61",
+      "status": "unknown_or_ineligible",
+      "reason": null
+    }
+  ],
+  "hard_guard_unchanged": 350,
+  "sdk_calls": 0,
+  "mutations": false,
+  "paused_hint_only": true
+}

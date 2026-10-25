@@ -8,10 +8,21 @@ from pathlib import Path
 from live_state import atomic_json
 from tactical_bridge import verify_manifest
 from continuous_contract import PROTOCOL,mission_limits
+from battle_host import BACKENDS,DEFAULT_BACKEND,check_backend_available,default_library
+from http_adapter import load_profile
 
 ROOT=Path(__file__).resolve().parent
 COMMANDER='57e668b4-4d89-43bd-bc92-0dd436f046ef'
 REQUIRED={('raid','harass_economy'),('attack','main_attack'),('combined_arms','coordinate_force')}
+
+def model_connection(library,backend):
+ check_backend_available(backend)
+ profile=load_profile(library,COMMANDER)
+ return dict(model_backend=backend,library_path=str(library.resolve()),connection_id=profile.connection_id,provider=profile.provider,credential_available=bool(profile.key))
+
+def host_command(session_path,manifest_path,library,backend):
+ production=ROOT.parent/'acceptance/runs/20261024-183816-commander'
+ return [sys.executable,str(ROOT/'battle_host.py'),'--session',str(session_path),'--commander',COMMANDER,'--player','3','--execute','--with-visibility','--wait-for-match','--max-wall-seconds','3600','--total-budget','4000','--reserve','1000','--library',str(library.resolve()),'--model-backend',backend,'--evidence',str(production/'production-trace-20261024-184048-9696c7b3.json'),'--persistent-evidence',str(production/'persistent-production-status.json'),'--tactical-evidence',str(manifest_path)]
 
 def preflight(session_path,manifest_path,require_missions=False):
  session=json.loads(session_path.read_text(encoding='utf-8-sig'));scenario=session.get('scenario',{})
@@ -34,16 +45,18 @@ def preflight(session_path,manifest_path,require_missions=False):
 def main():
  parser=argparse.ArgumentParser(description=__doc__)
  parser.add_argument('--session',type=Path,required=True);parser.add_argument('--manifest',type=Path,required=True);parser.add_argument('--preflight',action='store_true')
+ parser.add_argument('--library',type=Path,default=default_library(),help='Explicit profile library; no automatic legacy-directory fallback')
+ parser.add_argument('--model-backend',choices=BACKENDS,default=DEFAULT_BACKEND)
  parser.add_argument('--require-mission-effects',action='store_true',help='Require three independently qualified continuous mission capabilities; dispatch counts never establish acceptance')
  args=parser.parse_args();args.session=args.session.resolve();args.manifest=args.manifest.resolve()
  session,grant=preflight(args.session,args.manifest,args.require_mission_effects);run=Path(session['run_directory'])
+ connection=model_connection(args.library,args.model_backend)
  if args.preflight:
-  print(json.dumps(dict(session_id=session['session_id'],ready_to_arm=True,purposes=sorted(REQUIRED),mission_effects_required=args.require_mission_effects,commands_dispatched=0)));return
- production=ROOT.parent/'acceptance/runs/20261024-183816-commander'
- host=[sys.executable,str(ROOT/'battle_host.py'),'--session',str(args.session),'--commander',COMMANDER,'--player','3','--execute','--with-visibility','--wait-for-match','--max-wall-seconds','3600','--total-budget','4000','--reserve','1000','--evidence',str(production/'production-trace-20261024-184048-9696c7b3.json'),'--persistent-evidence',str(production/'persistent-production-status.json'),'--tactical-evidence',str(args.manifest)]
+  print(json.dumps(dict(session_id=session['session_id'],ready_to_arm=True,purposes=sorted(REQUIRED),mission_effects_required=args.require_mission_effects,commands_dispatched=0,model=connection)));return
+ host=host_command(args.session,args.manifest,args.library,args.model_backend)
  watch=[sys.executable,str(ROOT/'watch_match.py'),'--session',str(args.session),'--max-wall-seconds','3700']
  creationflags=getattr(subprocess,'CREATE_NO_WINDOW',0)
- record=dict(session_id=session['session_id'],game_pid=session['pid'],purposes=sorted(REQUIRED),source_reports=[g['source_report'] for g in grant['grants']],mission_effects_required=args.require_mission_effects,mission_protocol=PROTOCOL if args.require_mission_effects else None,mutates_lobby=False,model_host=None,watcher=None,phase='arming')
+ record=dict(session_id=session['session_id'],game_pid=session['pid'],purposes=sorted(REQUIRED),source_reports=[g['source_report'] for g in grant['grants']],mission_effects_required=args.require_mission_effects,mission_protocol=PROTOCOL if args.require_mission_effects else None,model=connection,mutates_lobby=False,model_host=None,watcher=None,phase='arming')
  # Claim ownership before spawning anything; concurrent arm attempts fail closed.
  with (run/'full-match-runner.json').open('x',encoding='utf-8') as claim:
   json.dump(record,claim);claim.flush();os.fsync(claim.fileno())

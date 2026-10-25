@@ -26,7 +26,7 @@ def _executor_filename(directory,key,default):
 def _qualifier(directory,namespace):
     tactical=ROOT.parent/'tactical'
     if str(tactical) not in sys.path:sys.path.insert(0,str(tactical))
-    files={'mission-combat':'mission_combat_qualification.py','mission-combat-v2':'mission_combat_v2_qualification.py','mission-combat-v3':'mission_combat_v3_qualification.py','mission-combat-v4':'mission_combat_v4_qualification.py','mission-combat-v5':'mission_combat_v5_qualification_v2.py','mission-combat-v6':'mission_combat_v6_runtime_qualification.py','mission-combat-v7':'mission_combat_v7_runtime_qualification.py','mission-formation':'mission-formation/formation_mission_qualification.py','mission-formation-v2':'mission-formation-v2/formation_mission_qualification.py','mission-formation-v3':'mission-formation-v3/formation_mission_qualification_v4.py','mission-formation-v4':'mission-formation-v4/formation_mission_qualification_traffic_v2.py','mission-formation-v5':'mission-formation-v5/formation_mission_qualification.py','mission-formation-v6':'mission-formation-v6/formation_mission_qualification.py'}
+    files={'mission-combat':'mission_combat_qualification.py','mission-combat-v2':'mission_combat_v2_qualification.py','mission-combat-v3':'mission_combat_v3_qualification.py','mission-combat-v4':'mission_combat_v4_qualification.py','mission-combat-v5':'mission_combat_v5_qualification_v2.py','mission-combat-v6':'mission_combat_v6_runtime_qualification.py','mission-combat-v7':'mission_combat_v7_runtime_qualification.py','mission-formation':'mission-formation/formation_mission_qualification.py','mission-formation-v2':'mission-formation-v2/formation_mission_qualification.py','mission-formation-v3':'mission-formation-v3/formation_mission_qualification_v4.py','mission-formation-v4':'mission-formation-v4/formation_mission_qualification_traffic_v2.py','mission-formation-v5':'mission-formation-v5/formation_mission_qualification.py','mission-formation-v6':'mission-formation-v6/formation_mission_qualification.py','mission-formation-v7':'mission-formation-v7/formation_mission_qualification.py','mission-formation-v8':'mission-formation-v8/formation_mission_qualification.py','mission-formation-v9':'mission-formation-v9/formation_mission_qualification.py','mission-formation-v10':'mission-formation-v10/formation_mission_qualification.py','mission-formation-v12':'mission-formation-v12/formation_mission_qualification.py'}
     if directory not in files:raise ValueError('Unknown continuous mission executor')
     path=tactical/files[directory]
     schema=_load(tactical/'evidence.py','continuous_trusted_qualifier_schema').executor_schema(directory)
@@ -111,18 +111,22 @@ def terminal_facts(host,receipt,entry):
             raise ValueError('Continuous mission lacks paired role effect')
     else:result=dict(result,restoration_verified=True)
     facts=dict(bound,qualification=result,control_release=release)
-    if directory in ('mission-formation','mission-formation-v2','mission-formation-v3','mission-formation-v4','mission-formation-v5','mission-formation-v6'):verify_formation_release(facts,entry,qualifier)
+    if directory in ('mission-formation','mission-formation-v2','mission-formation-v3','mission-formation-v4','mission-formation-v5','mission-formation-v6','mission-formation-v7','mission-formation-v8','mission-formation-v9','mission-formation-v10','mission-formation-v12'):verify_formation_release(facts,entry,qualifier)
     return facts
 
 
 def verify_formation_release(facts,entry,qualifier=None):
-    """Independently bind role-wise release and the fixed thirteen entry bytes."""
+    """Bind role releases and every entry in the trusted executor's hook set."""
     report=facts['report'];pre=report['preflight'];request=report['request'];native=report['native'];terminal=report.get('terminal_readonly',{})
-    expected=dict(pid=pre['pid'],session_id=report['session_id'],commander_id=pre['commander_id'],command_id=request['command_id'],task_id=request['task_id'],seq=request['seq'],token=request['token'],owner=pre['owner'],logic=pre['logic'],native_binary_sha256=report['native_binary_sha256'])
-    if any(terminal.get(key)!=value or type(terminal.get(key)) is not type(value) for key,value in expected.items()) or terminal.get('mutations') is not False or terminal.get('timer')!=0 or terminal.get('active')!=0 or terminal.get('restore_mask')!=8191:
-        raise ValueError('Continuous formation terminal identity changed')
     directory=entry['executor_directory']
-    if directory not in ('mission-formation','mission-formation-v2','mission-formation-v3','mission-formation-v4','mission-formation-v5','mission-formation-v6'):raise ValueError('Unknown formation release executor')
+    schema=_load(ROOT.parent/'tactical/evidence.py','continuous_formation_release_schema').executor_schema(directory)
+    hooks=schema.get('hook_count',13);mask=schema.get('restore_mask')
+    if schema.get('kind')!='formation' or type(hooks) is not int or hooks not in (13,16,17) or mask!=(1<<hooks)-1:
+        raise ValueError('Unknown trusted formation restoration contract')
+    expected=dict(pid=pre['pid'],session_id=report['session_id'],commander_id=pre['commander_id'],command_id=request['command_id'],task_id=request['task_id'],seq=request['seq'],token=request['token'],owner=pre['owner'],logic=pre['logic'],native_binary_sha256=report['native_binary_sha256'])
+    if any(terminal.get(key)!=value or type(terminal.get(key)) is not type(value) for key,value in expected.items()) or terminal.get('mutations') is not False or terminal.get('timer')!=0 or terminal.get('active')!=0 or terminal.get('restore_mask')!=mask:
+        raise ValueError('Continuous formation terminal identity changed')
+    if directory not in ('mission-formation','mission-formation-v2','mission-formation-v3','mission-formation-v4','mission-formation-v5','mission-formation-v6','mission-formation-v7','mission-formation-v8','mission-formation-v9','mission-formation-v10','mission-formation-v12'):raise ValueError('Unknown formation release executor')
     folder=ROOT.parent/'tactical'/directory
     layout=json.loads((folder/'inert-layout.json').read_text())
     if terminal.get('layout')!=layout or layout.get('dll_sha256')!=report['native_binary_sha256']:raise ValueError('Continuous formation terminal layout changed')
@@ -130,7 +134,7 @@ def verify_formation_release(facts,entry,qualifier=None):
     signatures=re.findall(r'\{(0x[0-9a-f]+),[^\n]*?"((?:\\x[0-9a-f]{2})+)",(\d+),',block)
     trusted={int(address,0):bytes.fromhex(escaped.replace('\\x','')).hex() for address,escaped,size in signatures}
     rows=terminal.get('entries',[])
-    if len(trusted)!=13 or len(rows)!=13 or len({row.get('address') for row in rows})!=13:raise ValueError('Continuous formation terminal entry set incomplete')
+    if len(trusted)!=hooks or len(rows)!=hooks or len({row.get('address') for row in rows})!=hooks:raise ValueError('Continuous formation terminal entry set incomplete')
     for row in rows:
         address=int(row['address'],0)
         if address not in trusted or row.get('expected')!=trusted[address] or row.get('actual')!=trusted[address]:raise ValueError('Continuous formation original entry bytes not restored')
@@ -179,7 +183,7 @@ def pre_dispatch_facts(host,receipt,entry):
     if gate.get('no_actor_lease_verified') is True:
         # The native host DID launch. This is a different boundary from exit64:
         # exact passive header snapshots and restored entry bytes prove no lease.
-        gate_readers={'mission-combat-v3':'mission_v3_gate_no_lease.py','mission-combat-v4':'mission_v4_gate_no_lease.py','mission-combat-v5':'mission_v5_gate_no_lease.py','mission-combat-v6':'mission_v6_gate_no_lease.py','mission-combat-v7':'mission_v7_gate_no_lease.py','mission-formation-v2':'mission_formation_v3_gate_no_lease.py','mission-formation-v3':'mission_formation_v3_admission_v4_gate_no_lease.py','mission-formation-v4':'mission_formation_v4_traffic_v2_gate_no_lease.py','mission-formation-v5':'mission_formation_v5_gate_no_lease.py','mission-formation-v6':'mission_formation_v6_gate_no_lease.py'}
+        gate_readers={'mission-combat-v3':'mission_v3_gate_no_lease.py','mission-combat-v4':'mission_v4_gate_no_lease.py','mission-combat-v5':'mission_v5_gate_no_lease.py','mission-combat-v6':'mission_v6_gate_no_lease.py','mission-combat-v7':'mission_v7_gate_no_lease.py','mission-formation-v2':'mission_formation_v3_gate_no_lease.py','mission-formation-v3':'mission_formation_v3_admission_v4_gate_no_lease.py','mission-formation-v4':'mission_formation_v4_traffic_v2_gate_no_lease.py','mission-formation-v5':'mission_formation_v5_gate_no_lease.py','mission-formation-v6':'mission_formation_v6_gate_no_lease.py','mission-formation-v7':'mission_formation_v7_gate_no_lease.py','mission-formation-v8':'mission_formation_v8_gate_no_lease.py','mission-formation-v9':'mission_formation_v9_gate_no_lease.py','mission-formation-v10':'mission_formation_v10_gate_no_lease.py','mission-formation-v12':'mission_formation_v12_gate_no_lease.py'}
         if entry['executor_directory'] not in gate_readers:raise ValueError('Unknown native gate verifier')
         bound=bound_report(host,receipt,entry)
         evidence_path=Path(gate['evidence_path']).resolve()
@@ -193,7 +197,7 @@ def pre_dispatch_facts(host,receipt,entry):
         return dict(sha256=bound['sha256'],path=path,proof=verified)
     suffix='formation' if entry['module']=='combined_arms' else str(entry['object_ids'][0])
     command=str(uuid.uuid5(uuid.UUID(entry['command_id']),suffix));task=str(uuid.uuid5(uuid.UUID(entry['task_id']),suffix))
-    helper={'mission-combat-v2':'pre_dispatch_v2_contract.py','mission-combat-v3':'pre_dispatch_v3_contract.py','mission-combat-v4':'pre_dispatch_v4_contract.py','mission-combat-v5':'pre_dispatch_v5_contract.py','mission-combat-v6':'pre_dispatch_v6_contract.py','mission-combat-v7':'pre_dispatch_v7_contract.py','mission-formation-v2':'pre_dispatch_formation_v2_contract.py','mission-formation-v3':'pre_dispatch_formation_v3_admission_v4_contract.py','mission-formation-v4':'pre_dispatch_formation_v4_traffic_v2_contract.py','mission-formation-v5':'pre_dispatch_formation_v5_contract.py','mission-formation-v6':'pre_dispatch_formation_v6_contract.py'}.get(entry['executor_directory'],'pre_dispatch_contract.py')
+    helper={'mission-combat-v2':'pre_dispatch_v2_contract.py','mission-combat-v3':'pre_dispatch_v3_contract.py','mission-combat-v4':'pre_dispatch_v4_contract.py','mission-combat-v5':'pre_dispatch_v5_contract.py','mission-combat-v6':'pre_dispatch_v6_contract.py','mission-combat-v7':'pre_dispatch_v7_contract.py','mission-formation-v2':'pre_dispatch_formation_v2_contract.py','mission-formation-v3':'pre_dispatch_formation_v3_admission_v4_contract.py','mission-formation-v4':'pre_dispatch_formation_v4_traffic_v2_contract.py','mission-formation-v5':'pre_dispatch_formation_v5_contract.py','mission-formation-v6':'pre_dispatch_formation_v6_contract.py','mission-formation-v7':'pre_dispatch_formation_v7_contract.py','mission-formation-v8':'pre_dispatch_formation_v8_contract.py','mission-formation-v9':'pre_dispatch_formation_v9_contract.py','mission-formation-v10':'pre_dispatch_formation_v10_contract.py','mission-formation-v12':'pre_dispatch_formation_v12_contract.py'}.get(entry['executor_directory'],'pre_dispatch_contract.py')
     helper=_executor_filename(entry['executor_directory'],'pre_dispatch_helper',helper)
     verifier=_load(ROOT.parent/'tactical'/helper,'continuous_pre_dispatch_verifier_'+entry['executor_directory'].replace('-','_'))
     seq=report.get('request',{}).get('seq')

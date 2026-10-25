@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "decision": "go_outer_calibration_selection_only",
+  "reviewer": "strategy_service",
+  "effect_source_granted": false,
+  "reviewer_game_memory_or_sdk_or_model_calls": 0,
+  "frozen_mfm8_execution_modified": false,
+  "sha256": {
+    "acceptance\\calibration\\field_plan_margin8.py": "a373a24ab8b60d72e8b7b13a219b957fb003b711323bc8c86f635b4771ac9a46",
+    "acceptance\\calibration\\continuous_paid_margin8.py": "3bb72008b227514df5f1e54c5345d18ffd6ae85791beeda7ea5faf40bf0e101f"
+  },
+  "exactdiff_scope": {
+    "selector": [
+      "HERE resolves frozen8 directory",
+      "pair gap tightened60..120",
+      "full current private visible enemy clearance450",
+      "target hard600..2600, soft preference600..1300",
+      "selection metadata records gap and margin"
+    ],
+    "driver": [
+      "HERE resolves8 and explicit margin selector path",
+      "selector and frozen driver fingerprint metadata",
+      "All production control and serial handover code unchanged"
+    ]
+  },
+  "preserved_hard_gates": [
+    "real paid queue/spend/birth/live completion",
+    "4000budget/1000reserve/32order cap",
+    "no pending task before supply stop",
+    "actual five original production entry bytes andphase2/31/active0 before tactical child",
+    "one original8 field_coordinate child using strict actor/contact IDs",
+    "frozen wrapper25..180/origin350/currentFOV/admission/expiry and Native16/currentSource qualifiers"
+  ],
+  "verification": {
+    "actual_new_driver_rebound_paid_boundary_tests": 4,
+    "passed": true,
+    "no_driver_main_execution": true
+  },
+  "limitations": [
+    "Calibration-only opportunity filter; not model decision or effect evidence",
+    "Stricter selection does not guarantee final Native admission or tactical success",
+    "Production commands remain distinct from MFM8 tactical commands; paid supply is not a tactical effect"
+  ]
+}

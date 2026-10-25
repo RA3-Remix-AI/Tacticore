@@ -1,0 +1,83 @@
+{
+  "protocol": "normal_stance_interface_readonly_v1",
+  "mutations": false,
+  "sdk_calls": 0,
+  "executable_sha256": "ec230c6ae1eaee30b0b4fa6ba29d417c974ecae46d6715dfbe786a815935c165",
+  "sdk_sources": {
+    "E:\\RA3Modding\\SDK\\Schemas\\xsd\\Includes\\Stance.xsd": "6e95f736219d34ec529b6e9b9a029b8edab723c6f4342a5c8b5233c09cddb292",
+    "E:\\RA3Modding\\SDK\\Schemas\\xsd\\Modules\\AIUpdate.xsd": "2e42350a2cfd802c167c1876a309cce1cb333f7bac157c2da1f55a1f30bea056",
+    "E:\\RA3Modding\\SDK\\SAGEXML\\GlobalData\\Stances.xml": "106344dd73b7a200da51511b12d5e6e9cdd8234f3f7562e40ed6d47ea10709dd",
+    "E:\\RA3Modding\\SDK\\SAGEXML\\Soviet\\Units\\SovietAntiInfantryInfantry.xml": "da91728d85a06d3d182fc5dd2b869f28cc8174f8734b997e955f64f55955af4f",
+    "E:\\RA3Modding\\SDK\\SAGEXML\\Soviet\\Units\\SovietAntiVehicleInfantry.xml": "ce336f2cade55bcc7ee22cffe8529d2ef2bfb934be5469bf0c295103d3f85030"
+  },
+  "actions": {
+    "unit_set_stance": {
+      "index": 473,
+      "case": "0x5ac089",
+      "unit_wrapper": "0x592730",
+      "module_lookup": "0x6dd950",
+      "module_type_string_address": "0xc07e4c",
+      "module_type_string": "StancesBehavior",
+      "setter": "0x7640f0",
+      "abi": "thiscall bool(StancesBehavior*, enum32), ret4",
+      "current_enum_offset": "0x38",
+      "thing_module_pointer_offset": "0x380",
+      "side_effects": [
+        "Attribute-modifier changes and native callbacks.",
+        "Can issue normal Stop source2 in selected states."
+      ]
+    },
+    "stand_ground": {
+      "index": 376,
+      "case": "0x5aac55",
+      "wrapper": "0x5922f0",
+      "setter": "0x7274c0",
+      "thing_status_bit": "0x47",
+      "separate_from_stance": true
+    }
+  },
+  "unit_state_transition": {
+    "normal_stop_sets_state0": "0x721c5f",
+    "predicate": "0x7f23c0",
+    "condition_table": "0xc590e0",
+    "stance_getter": "0xa81360",
+    "mapping": [
+      {
+        "enum": 0,
+        "name": "GUARD",
+        "state": 16,
+        "vtable": "0xc55130",
+        "runtime_name": "UnitAIGuardPositionState"
+      },
+      {
+        "enum": 1,
+        "name": "AGGRESSIVE",
+        "state": 93,
+        "vtable": "0xc546f0",
+        "runtime_name": "AIAggressiveState"
+      },
+      {
+        "enum": 2,
+        "name": "HOLD_POSITION",
+        "state": 94,
+        "vtable": "0xc551a0",
+        "runtime_name": "UnitAIHoldGroundState"
+      },
+      {
+        "enum": 3,
+        "name": "HOLD_FIRE",
+        "state": 95,
+        "vtable": "0xc51658",
+        "runtime_name": "UnitAIHoldFireState"
+      }
+    ],
+    "scope": "UnitAIStateMachine registration only, not a universal state ID table."
+  },
+  "unknowns": [
+    "No stance setter has been called in this investigation.",
+    "Whether states94/95 suppress the observed autonomous path creation is untested.",
+    "Historical804/806 exact state-vtable/substate and path-write caller were not preserved.",
+    "HordeContain has a bypass-dispatch path writer, but its involvement in the actual failure is unproven."
+  ],
+  "next": "Bounded single-actor normal-SDK stance save/set/observe/restore primitive, no tactical capability grant."
+}
