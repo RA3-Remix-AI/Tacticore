@@ -1,0 +1,153 @@
+{
+  "schema_version": 1,
+  "protocol": "mf13_parent_contract_draft_v1",
+  "updated_local": "2026-10-26T05:02:00.905832",
+  "status": "design_only_waiting_actual6_source_milestone",
+  "owner_decision": "Root explicitly chose a new prebound_paid_pair allocation scope; this does not change historical free-unit runtime scope or old qualification gates.",
+  "no_execution": {
+    "gui": false,
+    "sdk_calls": 0,
+    "game_memory_mutations": false,
+    "field_capability_granted": false,
+    "implementation_started": false
+  },
+  "controller": {
+    "count": 1,
+    "identity_creator": "Trusted Host reserve coordinator before submitting the two budgeted production commands",
+    "controller_id": "Fresh UUID4 for this controller lifecycle",
+    "lease_id": "UUID5(controller_id, lease); fixed before first borrow, never replaced by a later model task UUID",
+    "production_references": "Two predeclared producer command/task UUIDs plus seq, unit hash, actual expected cost, factory identity; object/object_id initially zero until real receipt discovery",
+    "tactical_channel": "Claim the 17-hook tactical channel before install; old MCT7 or other tactical DLL cannot start while controller remains active, including the period without a model task. The existing disjoint five-hook production controller can remain running.",
+    "timing": {
+      "hard_duration_frames": 4500,
+      "reserve_duration_frames": 300,
+      "deadline_freeze": "Before first real borrow, immutable across role arrival, model response, mission commit, hidden target and retry",
+      "no_renew": true,
+      "startup_without_borrow": "Separate bounded startup timeout; no indefinite controller waiting"
+    }
+  },
+  "paid_scope": {
+    "name": "prebound_paid_pair",
+    "maximum_actors": 2,
+    "roles": [
+      "infantry",
+      "anti_air"
+    ],
+    "units": [
+      "conscript",
+      "flak"
+    ],
+    "maximum_actual_paid_total": 305,
+    "reserve_floor": 1000,
+    "required_payment_proof": "Each role has its own exact paid/created/completed producer receipt and current real Native admission; no forged army denominator or free-unit eligibility",
+    "request_force_fraction": 1,
+    "fraction_meaning": "Use the complete exact pair under this already frozen lease. It is a fraction of this real paid pair, not a fraction of the entire free army.",
+    "runtime_allocation_cap": 1,
+    "denominator": "The same two real paid bound actors; partial pair, extra actor or another lease cannot be selected",
+    "old_scope": {
+      "free_units_allocation_cap": 0.5,
+      "mct7_allocation_cap": 0.5,
+      "unchanged": true
+    },
+    "strategy_accounting": "A trusted purpose/formation-specific pair allowance must be separate from the old free-army fractional allowance. Current BattleAgent passes cap=1-plan.reserve to Goals.reconcile; without a dedicated scoped branch, force_fraction=1 is blocked before client dispatch. Preserve ordinary spend and old free force accounting; never rewrite the model fraction into an invented smaller value."
+  },
+  "slot_admission": {
+    "source": "Existing running production mapping, read-only, actual magic 0x50434d44/version1, Header256/Receipt224",
+    "proof": "Stable receipt updates0/version/raw twice, immutable payment/object projection frozen, dynamic live/version/HP/XY allowed as actual historical samples. running_birth_source_v1 is provenance only and cannot replace Native current own actor/ground/health/stance/team checks.",
+    "sequence": "As each original paid role becomes actual and completes its real three-frame admission, the same controller borrows it immediately; do not wait until both are free in a Python snapshot.",
+    "ready": "Each bound slot must pass its actual Stop3/stance/ownership readiness and remain under observed controller control; record exact waiting duration, gaps, drift, path/state, lifecycle and cleanup.",
+    "ninety_frame_rule": "Do not mechanically require both slots to repeat a 90-frame single-actor calibration hold. The old 90-frame primitive gates and old raw reports stay unchanged. MF13 is a distinct mission protocol and needs its own exact real readiness/holding/approach/effect/retreat/release Source evidence.",
+    "failure": "Wrong/missing receipt, loss of control, dead actor, unsafe state or deadline causes ordinary cleanup of every held slot. No substitute actor, renewed deadline or Return/reborrow race."
+  },
+  "public_formation": {
+    "id": "Opaque formation_ + stable UUID5(controller_id, paid_pair) prefix",
+    "version": 1,
+    "schema": [
+      "formation_id",
+      "version",
+      "roles",
+      "region_id",
+      "available"
+    ],
+    "show_only_when": "Both actual roles are admitted and under real controller ownership; only then may the exact pair be offered for model assignment. Never describe future expected units as present.",
+    "private_fields": [
+      "control_owner=mf13",
+      "controller_id",
+      "lease_id",
+      "bound_object_ids",
+      "source_proof_sha256",
+      "original_hard_deadline_frame",
+      "reserve_deadline_frame",
+      "allocation_scope=prebound_paid_pair"
+    ],
+    "scope_visibility": "Trusted model capability manifest explains coordinate_force covers this complete prebound pair with request_force_fraction=1; no controller IDs, native addresses, SDK entry points or coordinates enter model output.",
+    "free_exclusion": "From first slot admission, claim each held ID in controller claim registry and executor reservation set, exclude it from old free formations regardless of apparent team; legacy submit rejects it. Registry refresh must preserve the dedicated private held formation rather than overwrite it.",
+    "on_task_commit": "The same public formation/version becomes unavailable to new jobs; existing mission context retains it through completion and plan refresh."
+  },
+  "model_mission_commit": {
+    "task_id_creator": "Existing Goals/BattleAgent creates the model task UUID only after a real accepted plan selects the visible eligible formation and legal target",
+    "command_id_creator": "TacticalBridge creates the parent command UUID and monotonic sequence immediately before exactly-once commit",
+    "child_identity": "Preserve UUID5(parent command, formation) and UUID5(model task, formation) normal child mapping, recorded in a new MissionCommit block separate from immutable outer controller/lease identity",
+    "ordered_steps": [
+      "Persist controller/lease to task/command/formation mapping and exact bound actor allocation",
+      "Reserve the public formation and commit persistent agent mission with the original controller hard deadline divided by 15",
+      "Publish the one MissionCommit block to the existing controller; do not spawn another DLL/host or Transfer/Return actors",
+      "Native independently verifies current ownership, readiness, budget scope, fresh player FOV, target identity, original deadlines and single-commit state",
+      "Native ACK is telemetry only. Actual approach/effect/physical retreat and final restoration are independently requalified from raw observations"
+    ],
+    "fields": [
+      "controller_id",
+      "lease_id",
+      "parent_command_id",
+      "parent_task_id",
+      "child_command_id",
+      "child_task_id",
+      "seq",
+      "formation_id",
+      "formation_version",
+      "exact_bound_front_and_support_ids",
+      "module=combined_arms",
+      "purpose=coordinate_force",
+      "allocation_scope=prebound_paid_pair",
+      "request_force_fraction=1",
+      "target_contact_id",
+      "target_object_id",
+      "target_type_hash",
+      "target_owner",
+      "fresh_visibility_proof",
+      "original_mission_deadline_frame",
+      "original_reserve_deadline_frame"
+    ],
+    "write_once": "Empty -> published -> accepted/rejected, one exact digest. An identical repeated observation may read the existing ACK; conflicting/replacement targets, changed IDs, extra actors or any deadline extension are rejected. An ambiguous commit is never retried as a fresh command.",
+    "no_model_choice": "No legal model choice/target or timeout requires normal cleanup at the existing deadline; controller must not invent an attack or silently repurpose itself."
+  },
+  "decision_trigger": {
+    "event": "Trusted controller pair-ready/commit-eligible edge plus currently verified visible valid target",
+    "existing_hook": "engine.request_reassessment(capability_changed), without fabricated game events",
+    "required_small_extension": "A once-per-verified-controller-epoch urgent capability request cancels and awaits obsolete pending model work, refreshes the snapshot, bypasses the old 2/15-second minimum hold for that epoch, and issues at most one request at a time. Repeated polls do not trigger repeated network calls.",
+    "stale_response": "Reject if controller/formation version/ownership/target visibility/deadline changed; no effects credited merely for accepted plan or published commit.",
+    "deadline": "If insufficient real time remains for the bounded request and validation, cleanup under the existing reserve deadline rather than extend it."
+  },
+  "audit": {
+    "two_clocks": "Preserve actual lease_issued_frame (may precede model task dispatch) separately from actual mission_commit/approach frame. Do not relabel early borrow as a model-directed issue. New MF13 bound_report must verify outer lease and the actual write-once MissionCommit child identity.",
+    "untasked_controllers": "Every controller, even if no model task ever exists, has a persisted terminal/release audit covering all held roles and the occupied channel. No untasked lease can disappear from the model-only task ledger.",
+    "public_progress": "Reserve startup/slot waiting remains private raw telemetry. Publish standard continuous mission progress once actual approach starts; keep existing mission phase monotonicity and do not weaken reserved-self-loop validation.",
+    "success": "Actual same-match approach, role coordination, damage and physical retreat/release must pass independent raw qualification. Full model match also requires actual accepted post-original-plan-TTL compressed mission context and natural native settlement."
+  },
+  "implementation_files": {
+    "new": [
+      "integration/reserve_controller.py or equivalent Host-owned coordinator",
+      "tactical/mission-formation-v13 Native/Python/qualification/typed MissionCommit"
+    ],
+    "parent_changes": [
+      "integration/battle_host.py: coordinator polling, persistent channel claim, urgent edge and pending-request cancellation",
+      "integration/formations.py and integration/live_state.py: private held overlay, current real public roles and free exclusions",
+      "integration/tactical_bridge.py: exact controller route, frozen expiry, task mapping, reuse same host",
+      "tactical/client.py: special prebound-pair submit/status/retreat/release and explicit cap1 scope; old free branches stay .5",
+      "strategy/battle_agent.py and strategy/engine.py: trusted purpose-specific pair accounting/capability manifest and one-shot urgent epoch, keeping model output and Formation five-field schemas",
+      "tactical/evidence.py and integration/continuous_evidence.py: new scope/pins and real controller+MissionCommit binding",
+      "whole-match audit: untasked controller cleanup and task-linked lease intervals"
+    ]
+  },
+  "waiting_for": "Actual Reserve6 Source milestone and Root selection before MF13 implementation. This file is a design draft and grants no execution capability."
+}

@@ -1,0 +1,189 @@
+{
+  "protocol": "reserve_v6_software_readiness_postguard_v1",
+  "generated_at_utc": "2026-10-25T21:07:24.743785+00:00",
+  "narrow_static_go": true,
+  "software_joint_ready": true,
+  "checks": {
+    "execute_enabled": true,
+    "compiled_source_joint": true,
+    "unchanged_sources": true,
+    "exact_abi": true,
+    "exact_local_source_count": true,
+    "exact_external_source_count": true,
+    "qualifier_frozen": true,
+    "qualification_tests_frozen": true
+  },
+  "source_record": {
+    "native_binary_sha256": "1334aa15354ee9b16f2b97d0d9688a7f22a4dc4e6ad3322b4c625adc3d9be01f",
+    "native_host_sha256": "c46dbe67b82f041e011ffe9abd715bbd185f1f8ba751cfd808b8a54f3d08684c",
+    "native_source_sha256": "5eb3db61305bdb98f569af50bd684bbb3041541c8e5b7872aad7f1e17c63a73d",
+    "native_shared_sha256": "016e71db108d8ff4b927ad14828beb7e49f3d253532b60ef0fbcaf2bd8d21982",
+    "native_revision_sha256": "f60270faeaa7f3dc7e195e32a30f589452caffe25ba9414ec5ef432695080518",
+    "native_includes_sha256": {
+      "host_pulse.cpp.inc": "51b95747ff223bfc33eb8fecb8ba128df0a903ca7afa3f06de4c624628695a7f",
+      "logic.cpp.inc": "dfb2438ef0fea74cfe9ebe470c100d6a0e4884c3e09a7373a319afddd30fadad",
+      "rally.cpp.inc": "3137932476cd4758b4b02bf57805c3975c138585164a8aa33781fc4677a328a1",
+      "scheduler.cpp.inc": "30bc706a74ce2a0441164b02530bba61b0cbbb877e69510530869981d46f9350"
+    },
+    "wrapper_sha256": "dfd22b4d8094fa3e9cf08aaaed9382af83e18a7266dfe361172209d18aed17cc",
+    "native_layout_sha256": "078c3b72921f4cd96039d03ec0824effec34e4fe1aba1dc0a2e462712bc3a1ae",
+    "supplemental_sources": {
+      "reserve_qualification.py": "0489ee6e8894d55f31b8eddd51be573aabd8d512729f003794192a39b66d54ec",
+      "native_layout.py": "078c3b72921f4cd96039d03ec0824effec34e4fe1aba1dc0a2e462712bc3a1ae",
+      "lease.py": "dfd22b4d8094fa3e9cf08aaaed9382af83e18a7266dfe361172209d18aed17cc",
+      "preflight.py": "f31659e467d4422b74d00ebddc4a44e53d2bb8d49db915c234f530e6213ad0d0",
+      "birth_source.py": "4555ef85d6a3d40125f6605d79507d7587b097a3b51e9ef1ddb7ee57994d4a74",
+      "rally_source.py": "a266363432ed279bad236d6d128fa7ffaeff3fd63b035badeac69d95a18e39f6",
+      "inert-layout.json": "f7b5d6064a5ff166842df12db4241358a49337c7837a3e85faf5b4b27c8169c3",
+      "host_pulse.cpp.inc": "51b95747ff223bfc33eb8fecb8ba128df0a903ca7afa3f06de4c624628695a7f",
+      "logic.cpp.inc": "dfb2438ef0fea74cfe9ebe470c100d6a0e4884c3e09a7373a319afddd30fadad",
+      "rally.cpp.inc": "3137932476cd4758b4b02bf57805c3975c138585164a8aa33781fc4677a328a1",
+      "scheduler.cpp.inc": "30bc706a74ce2a0441164b02530bba61b0cbbb877e69510530869981d46f9350"
+    },
+    "external_sources": {
+      "tactical/ordered-combo/lease.py": "ea6d8996b7f9358caa53660f31683ccf0aed6f6e4a79c01287f0c46c1f257a9a",
+      "tactical/mission_actor_admission_v2.py": "b62c2fdaa4c959d764109a10d63b31c025673bdc196fc50da81750c0afb4c02b",
+      "tactical/grounded_status_v2.py": "70e5f94bac9b1a82beec56053fd43e91f6edaba1500c8dfa840e868be836e6b3",
+      "tactical/grounded_status.py": "ad5b758c947843969f2d1ec6e7fc07c0eaec084b1a59e60750d69d881e78a6c0",
+      "tactical/mobility_guard.py": "e903f9a10d342e0faa17545727f52992a57d2eb04f69e805030f636bbaa7e14f",
+      "visibility/capability.py": "4049976fd8e93ab816555affa45e5bfa60a4fe020573e878ffd1542b8857f28d",
+      "visibility/collector.py": "4bc61a0a500ed1729b741238c859fdc625e74c004d3df0127404562e08f6d2d5",
+      "visibility/projection.py": "62e48b11ced645a1a2b49acd3db5c51a4e5f7254804e8896ea11d13338e7ab5e",
+      "production/persistent/client.py": "337cabd758d9e0bd564f95f3c928454d29388cd80d78fbb15b2e8e4b70708a71",
+      "production/persistent/shared.h": "299ecae5e88bfdd3e4d803111bff0571e64fd13543d0e828cd9c3ead71efb5a0",
+      "production/persistent/bin-v2/ProductionPersistent.dll": "4709bb1b2745bfe3cac9b5c27d412197ffc97c67b4e2dd7635ff2434accf5e87",
+      "production/persistent/bin-v2/persistent_host.exe": "4bc2f86935f86eab2369818e02111d3b3197a8c73f66fbd324389322bb87dca1",
+      "integration/own_candidates.py": "7de3cb46f955d2c862c9b3a0bc156d86c2dcb47647fb7786f59a84f8f846a9e4"
+    },
+    "actual_host_abi": {
+      "sample": 240,
+      "event": 352,
+      "tactical": 361624,
+      "events": 1176,
+      "period_ms": 20,
+      "fallback_ms": 100,
+      "loss_ms": 1000
+    },
+    "executable_sha256": "ec230c6ae1eaee30b0b4fa6ba29d417c974ecae46d6715dfbe786a815935c165"
+  },
+  "source_sha256": {
+    "qualifier": "0489ee6e8894d55f31b8eddd51be573aabd8d512729f003794192a39b66d54ec",
+    "wrapper": "dfd22b4d8094fa3e9cf08aaaed9382af83e18a7266dfe361172209d18aed17cc",
+    "driver": "0407e2cf0a546715dea444b9f8c00796786a8c4e7cb202d5312445c53c09f133",
+    "native_revision": "f60270faeaa7f3dc7e195e32a30f589452caffe25ba9414ec5ef432695080518"
+  },
+  "tests": {
+    "passed": 83,
+    "failed": 0,
+    "skipped": 0,
+    "fresh_process": true,
+    "full_suite_executor": "Root independent postguard run; trusted completed result supplied to qualifier",
+    "full_suite_repeated_by_this_source_review": false,
+    "qualifier_preunlock_key_checks_passed": 10,
+    "suites": [
+      {
+        "path": "tactical/reserve-v6/test_readiness_wait.py",
+        "test_methods": 4,
+        "sha256": "9b69892d3f3b72642a6d339ec58620851b14d8794554e9b9234a1372619ad050"
+      },
+      {
+        "path": "tactical/reserve-v6/test_reserve_qualification.py",
+        "test_methods": 67,
+        "sha256": "0e1cfb52f1738996af80ad20c978d2ccad020131b68e7f25e72ac1af9f86279b"
+      },
+      {
+        "path": "tactical/reserve-v6/test_team_binding.py",
+        "test_methods": 5,
+        "sha256": "d37a466cd3103eb941e16058b055c1d789d153be5bfb19fadd91208145529f2c"
+      },
+      {
+        "path": "tactical/reserve-v6/test_team_capture.py",
+        "test_methods": 2,
+        "sha256": "2d0a101d0ab8a63cee248ea922e6bb5e2ff3d23dc468d2378c3211192bf2e71a"
+      },
+      {
+        "path": "tactical/reserve-v6/test_wrapper.py",
+        "test_methods": 5,
+        "sha256": "b1984e718381432e67518a1f5be912410a4be0e3a13b6f4d4ddeee76f71fa910"
+      }
+    ]
+  },
+  "native_software_checks": {
+    "actual_logic": 141,
+    "actual_scheduler": 26,
+    "field_verified": false
+  },
+  "software_traces": {
+    "native-positive.bin": {
+      "sha256": "a61ecef48676d8843b22c96a60aa08713f12288d091ca0613916a6151511dc68",
+      "origin": "actual_compiled_production_cpp_with_fake_engine_memory_and_transport",
+      "raw_modified": false,
+      "field_verified": false,
+      "game_sdk_caller_verified": false
+    },
+    "native-anchor-positive.bin": {
+      "sha256": "7c33c94f43e78a6169afcaf838f70730f6088f7dc1680b2ddb2aae18b66166e3",
+      "origin": "actual_compiled_production_cpp_with_fake_engine_memory_and_transport",
+      "raw_modified": false,
+      "field_verified": false,
+      "game_sdk_caller_verified": false
+    },
+    "native-team-reset-positive.bin": {
+      "sha256": "a01fd8971e0109d64f86a9295d1939b3655c42c839e6886bbb8060e8f0c16571",
+      "origin": "actual_compiled_production_cpp_with_fake_engine_memory_and_transport",
+      "raw_modified": false,
+      "field_verified": false,
+      "game_sdk_caller_verified": false
+    }
+  },
+  "braking_contract": {
+    "proposal_distance": 200,
+    "observed_path_kind": 76,
+    "path_observation_uses_fixed_body_sample": true,
+    "at_most_one_path_freeze": true,
+    "moving_mode": "actual state1/c55598 with the single observed nonzero aligned path/source1",
+    "stable_mode": "actual state94/c551a0 path0/source1",
+    "new_nonzero_path_replacement_rejected": true,
+    "path_zero_natural_finish_allowed": true,
+    "path_allocation_provenance": false,
+    "walkable_route_verified": false,
+    "private_move67_does_not_by_itself_prove_nonzero_path": true,
+    "prebrake_frames": 3,
+    "prebrake_frame_gap": 1,
+    "prebrake_neighbor_limit": 5,
+    "prebrake_is_stop_or_hold_credit": false,
+    "stop8_issued_once_after_fixed_third_trigger": true,
+    "post_stop_three_neighbor_limit": 1,
+    "post_stop_actual94_path0_required": true,
+    "post_stop_commit_within_frozen_trigger": 15,
+    "strict_hold_frames": 90,
+    "strict_hold_frame_gap": 1,
+    "strict_hold_neighbor_limit": 1,
+    "strict_hold_anchor_radius": 15,
+    "no_reanchor": true
+  },
+  "unchanged_limits": {
+    "sdk_max": 8,
+    "completion_observation_age_max": 300,
+    "initial_factory_gap_max": 200,
+    "displacement_min": 60,
+    "candidate_and_commit_factory_gap_min": "max(120, actual_initial_factory_gap)",
+    "navigation_frames": 90,
+    "stop_timeout_frames": 60,
+    "total_frames": 300,
+    "wall_seconds": 30,
+    "no_retry": true,
+    "no_deadline_renewal": true,
+    "team_proof_magic": "0x544d5034"
+  },
+  "scope": "software candidate ready only; one fresh bounded field primitive requires Root wholeGo and actual evidence",
+  "field_success_verified": false,
+  "tactical_source_granted": false,
+  "effect_verified": false,
+  "persistent_pool_verified": false,
+  "reserve_to_mission_handoff_verified": false,
+  "sdk_calls_by_review": 0,
+  "frozen_execution_sources_modified_by_review": false,
+  "old_reserve5_failure_not_requalified": true,
+  "unrelated_running_helper_audit_in_scope": false
+}
