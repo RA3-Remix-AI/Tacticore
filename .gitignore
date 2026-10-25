@@ -42,7 +42,6 @@ secrets*.json
 *.lock
 *.log
 *.jsonl
-/desktop/test-runs/
 /integration/control-leases/
 /integration/model-connection-test*/
 /strategy/runtime*/
@@ -53,3 +52,15 @@ secrets*.json
 /acceptance/runs/**/settlement-watch/
 **/snapshots/
 **/observations/
+
+# Independent desktop UI and decision runtime development
+node_modules/
+dist/
+target/
+.venv/
+.pytest_cache/
+*.egg-info/
+.DS_Store
+!/desktop-ui/src-tauri/Cargo.lock
+!/agent_runtime/requirements-pydantic.lock
+/desktop-ui/src-tauri/gen/

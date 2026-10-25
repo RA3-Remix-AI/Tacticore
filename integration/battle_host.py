@@ -8,7 +8,8 @@ for part in ('strategy','production','production/persistent'):
  sys.path.insert(0,str(ROOT.parent/part))
 from engine import Binding,StrategyEngine,ContractError
 from battle_agent import BattleAgent,BuildEvidence,TacticalEvidence,MissionEvidence
-from http_adapter import ChatAdapter,TransportPool,load_profile,AdapterError
+from http_adapter import load_profile,AdapterError
+from model_backend import BACKENDS,DEFAULT_BACKEND,RuntimeAdapterError,check_backend_available,create_backend
 from service import player_lease
 from assess_trace import assess
 from live_state import LiveBattleState,atomic_json,RetryableSample
@@ -33,7 +34,7 @@ def capability_evidence(path,session):
  if result.get('production_primitive_verified') is not True or not all(result['checks'].values()):raise ValueError('Production evidence incomplete')
  return dict(evidence_id=str(uuid.uuid5(uuid.NAMESPACE_URL,hashlib.sha256(path.read_bytes()+stream.read_bytes()).hexdigest())),supported_foci=('anti_air',),assessment=result,source_report=str(path),report_sha256=hashlib.sha256(path.read_bytes()).hexdigest())
 
-def default_library():return Path(os.environ['LOCALAPPDATA'])/'TriadFrontCommander/library.v2.json'
+def default_library():return Path(os.environ.get('LOCALAPPDATA',Path.home()/'.local/share'))/'Tacticore/library.v2.json'
 
 def mission_admission_filename(tactical):
  grants=[g for g in tactical['grants'] if mission_limits(g)] if tactical else []
@@ -91,7 +92,7 @@ class Host:
   mission_purposes=tuple((name,tuple(sorted(g['purpose'] for g in mission_grants if g['module']==name))) for name in sorted({g['module'] for g in mission_grants}))
   mission_assertion=MissionEvidence(tactical['evidence_id'],self.session['session_id'],args.player,args.commander,'game_bridge',mission_purposes,max(mission_limits(g)['duration_frames'] for g in mission_grants)/15) if mission_grants else None
   self.agent=BattleAgent(self.engine,event_capacity=16,context_budget_bytes=8192,build_evidence=evidence,tactical_evidence=tactical_assertion,mission_evidence=mission_assertion,memory_path=self.output/'agent-state.json',jobs_path=self.output/'jobs.json')
-  self.adapter=ChatAdapter(self.profile,pool=TransportPool(1),total_timeout=args.model_timeout,max_input_bytes=16384,max_tokens=1536)
+  self.adapter=create_backend(self.profile,backend=getattr(args,"model_backend",DEFAULT_BACKEND),max_inflight=1,timeout=args.model_timeout,max_input_bytes=16384,max_tokens=1536)
   self.executor=None;self.executor_ready=False;self.pending=None;self.sent={};self.sequence=0;self.last_snapshot=None;self.last_result=None;self.phase='initializing';self.reason='not_started'
   self.started=time.monotonic();self.counters=dict(dispatches=0,started=0,completed=0,failed=0,blocked=0)
   self.stop_path=self.output/'stop.json';self.journal=self.output/'host-events.jsonl'
@@ -320,6 +321,7 @@ def parser():
  p.add_argument('--with-visibility',action='store_true',help='Require exact-build visibility evidence and per-match computer-perspective handshake')
  p.add_argument('--tactical-evidence',type=Path,help='Purpose-level raw evidence manifest; independently reassessed before any tactical capability is exposed')
  p.add_argument('--total-budget',type=int,default=2000);p.add_argument('--reserve',type=int,default=1500)
+ p.add_argument('--model-backend',choices=BACKENDS,default=DEFAULT_BACKEND,help='pydantic default; legacy explicit rollback')
  p.add_argument('--model-timeout',type=float,default=12);p.add_argument('--interval',type=float,default=3);p.add_argument('--max-wall-seconds',type=int,default=1200)
  return p
 
@@ -327,6 +329,7 @@ def main():
  args=parser().parse_args()
  if not 0<=args.player<=15 or not 220<=args.total_budget<=10000 or not 500<=args.reserve<=10000 or not 2<=args.model_timeout<=30 or not 1<=args.interval<=10 or not 10<=args.max_wall_seconds<=3600:raise ValueError('Invalid host bounds')
  try:
+  check_backend_available(args.model_backend)
   host=Host(args)
   if args.check:
    snapshot=host.collector.collect()
@@ -338,6 +341,8 @@ def main():
    print(json.dumps(result,ensure_ascii=False));return 0 if result['can_start'] else 2
   print(json.dumps(asyncio.run(host.run()),ensure_ascii=False))
  except KeyboardInterrupt:print(json.dumps(dict(state='stopped',reason_code='keyboard_interrupt')))
+ except RuntimeAdapterError as error:
+  print(json.dumps(dict(can_start=False,state='fault',reason_code=str(error))));return 1
  except Exception as error:
   if args.check:print(json.dumps(dict(can_start=False,state='fault',reason_code='waiting_for_active_match' if isinstance(error,ValueError) else type(error).__name__)))
   else:print(json.dumps(dict(state='fault',reason_code=type(error).__name__)))

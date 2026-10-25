@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools==80.9.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tacticore-agent-runtime"
+version = "0.1.0"
+description = "Default PydanticAI policy-call runtime with explicit legacy rollback; no game authority"
+requires-python = ">=3.12"
+dependencies = ["pydantic-ai-slim[openai]==2.61.0"]
+
+[tool.setuptools.packages.find]
+where = ["src"]

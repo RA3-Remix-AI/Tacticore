@@ -1,130 +1,99 @@
 # 弈核 Tacticore
 
-面向《红色警戒 3》的独立智能体指挥系统。将模型的战略判断、持续记忆和战术意图，经过本地规则校验后交给游戏桥接与执行宿主，探索能够观察、计划并持续行动的模型指挥官。
+弈核是独立的 Agent 指挥官程序，探索让通用智能模型观察战况、持续记忆、形成计划并与玩家配合。目前适配《红色警戒 3》，以局内独立指挥官身份参与战局。游戏与 Mod 的适配、指挥官角色、模型连接分别维护，项目名称不绑定 Remix。
 
-弈核是独立开发项目，仓库使用英文名称 **Tacticore**；宣传网站与 Mod 工程分别维护。本地开发目录仍为 `bridge-probe`，历史资料中的“三极战线指挥官”“RA3 独立桥接原型”等名称保留为开发记录，不代表已经完成产品化。
+当前处于早期开发阶段。Windows 侧继续迭代策略、模型交互与实机验证；新桌面负责配置、观察和交互体验。宣传网站、游戏 Mod 与本仓库分开维护。
 
-## 当前进展
+## 当前工程状态
 
-已记录一场模型指挥官对原生电脑的完整遭遇战：工业区、双方中等、初始资金 10000，铁锤战胜奥列格，结算 09:32。同一模型与执行宿主持续到结算，整场链路成立；该场主攻 0/4、骚扰 0/1 完成，协同未派发，**不能据胜负宣称战术效果已通过验收**。
-
-持续任务、接近、交战、撤退与重规划仍在迭代。最新能力范围和失败记录以 [视野与战术验收](acceptance/vision-tactics-status.md)、[阶段状态](acceptance/stage-report.md) 及各模块复核为准；独立原语的成功不等于所有兵种、地图或完整对局都已通过。
-
-## 系统组成
-
-| 模块 | 职责 |
+| 部分 | 当前状态 |
 | --- | --- |
-| `desktop/` | Windows 桌面客户端、模型连接、指挥官档案、会话控制与执行反馈 |
-| `strategy/` | 战略契约、模型适配、持续记忆、任务决策与离线测试 |
-| `integration/` | 会话绑定、生产与战术调度、执行回执、运行状态 |
-| `tactical/` | 受控移动、编队、交战、归还及相关实机证据核验 |
-| `visibility/` | 己方视角的可见敌情与最后目击信息处理 |
-| `production/` | 生产桥接、资源与前置校验 |
-| `native-ai/` | 原生电脑接口研究、前端登记与实验辅助 |
-| `acceptance/`、`reports/` | 验收说明及保留的原始证据；部分本机运行产物不随源码分发 |
-| `benchmark/` | 场景、统计和性格对照的实验工具 |
+| 决策模型层 | `agent_runtime/` 使用 PydanticAI 2.61.0，三个模型 CLI 默认选择 `pydantic`；`legacy` 仅为显式回退 |
+| 战局宿主与策略 | 已有会话绑定、己方视野、持续记忆、任务与受控执行链；新模型后端仍需 Windows 和真实服务商复验 |
+| 桌面 | 唯一桌面工程为 `desktop-ui/` React + Tauri 2；六个工作区已提供本机备战、指挥官工坊、电台素材管理与离线演练，真实宿主接线待实现 |
+| 旧客户端 | 原 `desktop/` WinForms 工程的 15 个源码、脚本与说明文件已删除，不再维护或恢复其构建入口 |
+| 角色通讯 | 局内指挥官与右上角电台入口已存在；新桌面已实现本地视频 / 音频 / 字幕素材库与事件演练，真实局内事件同步待接 |
+| 配置体验 | 备战计划保存 / 导出、四类打法预设、五维五档倾向、行为预览和素材试听已实现；游戏读回与宿主应用待接 |
+
+历史整场记录说明链路曾运行至结算，但不证明本次 PydanticAI 后端、新桌面或所有战术效果已通过。当前能力与失败记录见 [视野与战术验收](acceptance/vision-tactics-status.md) 和 [阶段状态](acceptance/stage-report.md)。
+
+## 先从哪里开始
+
+- **Windows 策略验证与本批合并**：[Windows 验证交接](docs/windows-validation.md)，按环境、离线回归、模型联调、受控实战的顺序推进。
+- **查看本侧改动**：[Unreleased 改动说明](CHANGELOG.md)，包含默认后端变化、旧桌面移除和配置目录变化。
+- **运行新桌面**：[桌面开发说明](desktop-ui/README.md)。
+- **继续产品开发**：[Feature 路线图](docs/desktop-next/feature-roadmap.md) 与 [桌面接入合同](docs/desktop-next/windows-handoff.md)。
+- **查找模块与验收文档**：[文档索引](docs/README.md)。
+
+## 架构与职责
+
+真实决策链由宿主采集并过滤战况，`BattleAgent` 维护记忆和任务，模型运行层请求策略，严格解析器与 `StrategyEngine` 校验结果，执行宿主再依据当前会话与已验证能力派发任务。模型生成策略不等于获得执行权；执行回执反馈给后续决策。
+
+PydanticAI 管理一次有界的模型请求、provider 与取消，不另建一份游戏策略 schema，不接管原有游戏记忆或执行器。当前框架、SDK 和 HTTP 自动重试均为零。具体合同与取舍见 [决策层 ADR](docs/agent-runtime/0001-pydantic-decision-runtime.md)。
+
+| 目录 | 职责 |
+| --- | --- |
+| `agent_runtime/` | 默认模型后端、统一 factory、版本锁、安装脚本与离线框架测试 |
+| `strategy/` | 策略合同、严格解析、决策稳定性、持续记忆、任务生命周期与文件快照服务 |
+| `integration/` | 游戏会话绑定、状态采集、生产和战术调度、宿主控制与执行回执 |
+| `desktop-ui/` | React + Tauri 六工作区、本机配置与媒体存储、离线演练、前端状态契约；真实原生适配器待实现 |
+| `visibility/` | 己方视角可见敌情、最后目击与视野过滤 |
+| `production/`、`tactical/` | 受控生产、移动、交战、撤退与对应能力证据核验 |
+| `native-ai/` | 局内指挥官登记、原生接口研究与适配辅助 |
+| `benchmark/` | 场景、统计与性格对照实验 |
+| `acceptance/`、`reports/` | 带范围与来源的验收记录和历史证据；部分本机产物不随源码分发 |
+| `docs/` | 当前交接、架构决策、体验方案、验证说明与历史文档归档 |
 
 ## 本地开发
 
-目前主要在 Windows、《红色警戒 3》1.12 的 x86 进程与本地单机环境下开发。需要自行准备正版游戏、Python 3.12、.NET Framework 4.x 编译器，以及供原生桥接使用的 x86 C++ 工具链。Mod 打包相关辅助还依赖本机 RA3 SDK；脚本中的本地路径尚未全部参数化，首次复跑需按环境调整。
+### Windows 决策运行时
+
+需要 Python 3.12+。以下命令从仓库根目录运行，明确使用同一虚拟环境解释器安装、测试和后续启动宿主：
 
 ```powershell
-# 构建原生桥接；编译器按 Build.ps1 放入 toolchain/w64devkit
-.\Build.ps1
-
-# 从源码构建桌面客户端
-.\desktop\Build.ps1 -OutputName Tacticore.exe
-
-# 不接入游戏、不调用外部模型的策略核心测试
-Push-Location strategy
-python -m unittest -v test_engine
-Pop-Location
+py -3.12 -m venv .venv
+$tacticorePython = (Resolve-Path '.\.venv\Scripts\python.exe').Path
+.\agent_runtime\Install-Windows.ps1 -Python $tacticorePython
+& $tacticorePython -m unittest discover -s strategy -v
 ```
 
-桌面运行和连接配置说明见 [客户端文档](desktop/README.md)。本次入库没有启动游戏或调用付费模型。真实模型调用由用户配置的连接发起，模型名称与端点由用户选择。
+安装脚本包含新运行时离线测试和 `pip check`，不会启动游戏或请求真实模型。后续运行 `strategy/service.py`、`integration/battle_host.py`、`integration/probe_strategy.py` 时继续使用 `& $tacticorePython`；三者默认使用 PydanticAI，回退需显式传 `--model-backend legacy`。完整命令、失败处理和实战前置见 [Windows 验证交接](docs/windows-validation.md) 与 [运行时说明](agent_runtime/README.md)。
 
-## 数据与源码边界
+真实游戏开发另需正版《红色警戒 3》1.12 的 x86 环境、匹配的适配包与能力证据，以及原生桥接的 x86 C++ 工具链；打包相关辅助可能需要 RA3 SDK。根 `Build.ps1` 是原生桥接构建入口，不能代替桌面构建。部分实验脚本仍需按本机环境配置路径。
 
-密钥、本机连接配置、DPAPI 文件、临时模型流量、运行锁、编译产物、第三方完整参考项目与下载工具链均不提交。密钥只在本机按连接管理；不要将包含真实凭据的配置加入版本控制。
+### 桌面离线预览
 
-保留的验收记录用于说明已观察到的行为，不代表源码克隆后立即具有本机已构建的执行能力。原始报告、二进制校验和会话绑定不满足时，执行宿主仍须拒绝授权。未随仓库提交的本地证据不补造，相关测试可以跳过或要求重新验收。
+需要 Node.js 22.22+。在独立终端运行：
 
-## 参考与归属
+```powershell
+Set-Location desktop-ui
+npm ci
+npm test
+npm run dev
+```
 
-原生接口研究参考了 [Ra3-Copilot](https://github.com/ProbiusOfficial/Ra3-Copilot) 的公开信息，工具链使用 [w64devkit](https://github.com/skeeto/w64devkit)。具体历史提交、工具哈希与实验限制见下方原始记录。游戏、SDK 与第三方资料的权利归其原权利人；本仓库不包含游戏本体或第三方工具链。
+打开 `http://127.0.0.1:5174/`。演示不调用模型、不读游戏、不发送游戏命令，也不需要真实 API Key。`npm run build` 验证 TypeScript 与前端构建。
 
-## 历史开发记录
+原生窗口另需 Rust 稳定工具链；Windows 需要 MSVC C++ 工具链与 WebView2，macOS 需要 Xcode Command Line Tools。进入 `desktop-ui/` 后运行 `npm run tauri -- dev` 或 `npm run tauri -- build --no-bundle`。原生窗口构建成功不代表真实游戏接入成功，详见 [桌面开发说明](desktop-ui/README.md)。
 
-以下保留原有工程说明，部分章节描述早期阶段。阅读时优先参考带日期的当前验收记录。
+## 配置与数据
 
-### RA3 独立桥接原型（历史名称）
+真实宿主默认读取 `%LOCALAPPDATA%/Tacticore/library.v2.json`；非 Windows 为 `~/.local/share/Tacticore/library.v2.json`。可用 `--library` 显式指定配置，不自动迁移旧目录。当前新 UI 的保存仅用于离线演示，不创建真实连接库或写入宿主凭据；真实配置格式和 Windows DPAPI 要求见 [模型服务说明](strategy/HTTP_SERVICE.md)。
 
-正在进行新一轮连续任务开发：有记忆的接近、交战、撤退与重规划；新能力须重新取得实机效果证据后，才与原生电脑再打一整场。当前进度见 [验收记录](acceptance/vision-tactics-status.md)，下方09:32为上一轮结果。
+游戏初始资金、Agent 生产总支出上限和资源保留底线是三个独立概念。当前 `--total-budget` 与 `--reserve` 不设置游戏初始资金。备战室可保存和导出本机计划；工坊可调整五档软偏好并查看人格与摘要映射，旧百分比演示权重已移除。这些本机配置尚未写入游戏或下发给策略宿主，实际生效仍须由 Windows 原生适配器应用并读回。详见 [Feature 路线图](docs/desktop-next/feature-roadmap.md)。
 
-已完成受视野约束的模型指挥官对原生电脑整场实测：工业区、双方中等、10000，铁锤胜奥列格，09:32。模型与执行宿主从开局持续到结算。整场链路通过，战术效果未通过：本场主攻4次、骚扰1次均未达伤害目标，协同0次。详情、原始结算与独立复核见 [视野与战术验收](acceptance/vision-tactics-status.md)。
+电台支持本地视频、音频和字幕通讯，素材与通讯偏好按指挥官保存在当前运行环境的 IndexedDB，不上传远端。单条媒体上限 32 MiB / 90 秒，每位指挥官最多 24 条自定义素材、媒体合计 128 MiB；内置示例字幕不计入条数。浏览器不同 origin（主机名、端口、协议）以及 Tauri 原生窗口的数据相互独立，不会自动共享素材，完整用法见 [桌面说明](desktop-ui/README.md)。
 
-## 当前桌面入口（2026-10-25）
+密钥、DPAPI 文件、本机连接配置、模型流量、运行锁、编译产物、下载工具链与 `node_modules/` 不提交。会话、源码、适配包、执行器或能力证据不满足时，宿主仍须拒绝执行；不能补造历史证据来使检查通过。
 
-运行 `desktop/CommanderDesktop.live.v4.exe`。模型连接库集中管理OpenAI、DeepSeek及自定义端点；具名档案分别引用连接、继承或覆盖模型并选择性格。密钥按连接用Windows DPAPI加密保存，不进入游戏登记清单。实战页增加己方视野、战术任务与执行反馈；启动时重新核验已通过的能力证据。原 `CommanderDesktop.exe` 和live.v2/v3是保留的早期构建。
+## 本批验证与下一步
 
-本轮真实DeepSeek整场有56次请求、48次接受、177次记忆压缩；6单实际生产、归因支付510。三项战术原语已有各自实机证据，但整场任务命中与协同覆盖仍需改进。多电脑同时指挥、多性格对照和玩家盲测尚未通过。此前对闲置本地人类槽位的14单/1595生产联调保留在 [历史报告](acceptance/full-match-result.md)，不计为本轮对战。五项范围见 [阶段状态](acceptance/stage-report.md)。以下是最初移动原型的历史记录。
+本侧 macOS 决策层开发验证记录：运行时 28 项通过；strategy 回归 166 项通过、2 项 Windows DPAPI 测试跳过。本轮桌面测试、构建和交互检查以 [验证记录](docs/desktop-next/verification.md) 为准。**Windows 安装、DPAPI、真实网络取消、模型兼容性、游戏实战和新 GUI 接线仍待验证**。
 
-早期已在本机TriadFront单机遭遇战运行单次移动原型，读取电脑步兵、调用一次移动并记录连续坐标。以下环境、产物和后续优先级保留为该实验的历史记录；完整链路见上方报告。
+本轮已实现备战室、指挥官工坊和战场电台的桌面本机功能。下一步优先完成真实宿主接线、游戏设置读回、偏好下发和局内电台事件，再扩展意图回执、伴随小窗、快速配合、战后复盘与多 Agent。初始资金写入、真实局内通讯和运行中修改策略仍需 Windows 原生适配器支持。
 
-## 环境与产物
+## 历史记录与归属
 
-- 游戏：E:\RedRar3\Data\RA3_1.12.game，版本1.12.3444.25830，PE32/x86。
-- 游戏SHA256：ec230c6ae1eaee30b0b4fa6ba29d417c974ecae46d6715dfbe786a815935c165。
-- 本轮加载已有Mods\TriadFront\TriadFront_1.0.skudef，没有重新编译或修改Mod包。
-- bin/bridge.dll：独立x86 DLL，支持回调探测、单对象读取、一次短距离移动。
-- bin/controller.exe：通过指定游戏窗口线程的WH_GETMESSAGE回调进入游戏，使用本地共享内存传参，无网络监听。
-- probe.py：外部只读扫描，检查目标文件SHA256，输出对象候选快照。
-- test_move.py：接受明确选择的步兵候选，记录2秒基线及12秒命令后坐标，检查目标进程文件SHA256。
+早期移动原型、私有机器环境、旧客户端与工具版本记录已迁至 [README 历史归档](docs/history/readme-development-records.md)。当前开发优先参考本页、带日期的验收记录和 Windows 交接，不按归档中的“后续优先级”执行。
 
-## 实际验证
-
-地图工业区，玩家苏联、简单电脑旭日。电脑正常经营造兵，没有生成作弊单位或改变资金、生命和迷雾。全图内存读取仅用于桥接校准，正式指挥官的视野过滤尚未实现。
-
-| 验证 | 结果与reports目录中的证据 |
-| --- | --- |
-| 参考项目离线特征检查 | 30/30，aob-precheck.txt；不代表全部运行时接口验证 |
-| 移动入口反汇编 | VA 0x6eff70，ECX传this，两个栈参数、ret 8；move-disassembly.txt |
-| 游戏内回调 | 窗口线程与回调线程均为28360；ping.json；尚未确认模拟线程 |
-| 单位读取 | snapshot-20261024-162841.json识别电脑索引候选3的帝国武士、旭日基地和兵营 |
-| DLL读取 | 同一武士哈希0x0fb02c55，归属0x0336b4d0，生命145，与对局配置一致 |
-| 第一次移动 | 调用返回，最近及结束时距目标5.62；move-20261024-162925.json |
-| 第二次移动 | 调用返回，最近距目标31.31，结束距目标523.17；move-20261024-162951.json |
-| 错误归属 | 拒绝，result 13、退出码7；reject-owner.json |
-| 超范围移动 | 拒绝，result 14、退出码7；reject-distance.json |
-| 构建 | 两个x86产物通过，最终构建无警告；artifacts.json保存哈希 |
-
-第一次武士基线正沿X减小方向行进，命令将目标设为当前X加100，随后单位转向并抵达附近。这比函数无异常返回提供了更直接的行为证据。证据为连续内存坐标，没有保存移动时的画面录像，不能声称视觉验收完成。
-
-第二次未能抵达且随后离开，第一次观测窗口之后也恢复行进。这与原生AI重新下令相符，但尚未拦截命令来源，不能排除路径、地形或战斗反应。持续控制权未通过。
-
-## 构建与复跑
-
-在本目录运行Build.ps1即可编译。进入带电脑的本地遭遇战后先查实际PID，再运行：
-
-    python probe.py --pid <实际PID>
-    bin\controller.exe <实际PID> ping
-    python test_move.py --pid <实际PID> --snapshot reports\snapshot-<本轮时间>.json --unit <已核对的步兵地址> --owner-index <已核对的电脑索引>
-
-本机可用Python路径：C:\Users\Administrator\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe。
-
-不要复用上次游戏的PID或地址。扫描不是原子快照，来自日冕参考的目录也不是TriadFront权威资料。直接控制端只检查进程名与内存签名，推荐使用校验文件SHA256的Python实验入口。DLL检查对象vtable、归属、类型、AI接口、生命、有限坐标及150世界单位距离限制。本原型只用于单机探索，没有联机防护或正式会话授权系统。
-
-当前使用游戏窗口消息线程进行实验，没有修改游戏代码段或创建远程线程执行移动。窗口线程不等于已验证的模拟线程；长期运行、存档、换地图和联机未验收。目标缓存生命周期仍需进一步确认，暂不支持并发任务。
-
-## 来源与工具
-
-便携式w64devkit x86 v2.10.1来自https://github.com/skeeto/w64devkit/releases/tag/v2.10.1，解压在toolchain，未更改系统PATH。工具包SHA256：8821e6e4aa42d7eb42bf0cbabd18c4175fb0422bf96f4a178e1530b4ca69c73f（本地记录，不是上游签名认证）。编译器GCC16.2.0，链接只需系统DLL；对外发布前需整理运行库许可。
-
-参考https://github.com/ProbiusOfficial/Ra3-Copilot，提交2d31f7cc0ce47e257a5ecb95cc4f44a8b26f8015，位于reference。本原型独立编写，使用其公开偏移及入口作为假设，参考目录辅助命名，没有编译或加载其完整修改器。
-
-## 后续优先级
-
-1. 找到模拟更新或正常命令派发通道，追踪原生AI命令来源并确认线程。
-2. 研究让指定小队退出原生AI作战管理的方法；不要用每帧重复覆盖命令伪装接管成功。
-3. 引入可靠对象ID、关卡会话标识与低开销枚举，处理死亡、地址复用、暂停和载入。
-4. 稳定接管通过后，接入指挥服务与模型端点。
+原生接口研究参考 [Ra3-Copilot](https://github.com/ProbiusOfficial/Ra3-Copilot) 的公开信息，工具链使用 [w64devkit](https://github.com/skeeto/w64devkit)。游戏、SDK 与第三方资料的权利归其原权利人；本仓库不包含游戏本体或第三方完整工具链。第三方图标说明见 [桌面许可声明](desktop-ui/THIRD_PARTY_NOTICES.md)。

@@ -5,7 +5,8 @@ ROOT=Path(__file__).resolve().parent
 sys.path.insert(0,str(ROOT.parent/'strategy'))
 from battle_agent import BattleAgent,TacticalEvidence,BuildEvidence
 from engine import Binding,StrategyEngine
-from http_adapter import ChatAdapter,TransportPool,load_profile
+from http_adapter import load_profile
+from model_backend import BACKENDS,DEFAULT_BACKEND,RuntimeAdapterError,check_backend_available,create_backend
 from live_state import LiveBattleState,RetryableSample,atomic_json
 from tactical_bridge import verify_manifest,air_scout_authorized
 from battle_host import capability_evidence,conscript_evidence,default_library
@@ -29,7 +30,7 @@ async def run(args):
  tactical_evidence=TacticalEvidence(tactical['evidence_id'],binding.session_id,3,'game_bridge',tactical['supported_purposes'],actor_roles=tactical['actor_roles'])
  build=BuildEvidence(production['evidence_id'],binding.session_id,3,'game_bridge',production['supported_foci']) if production else None
  agent=BattleAgent(engine,build_evidence=build,tactical_evidence=tactical_evidence,event_capacity=16,context_budget_bytes=8192,memory_path=args.output/'agent-state.json',jobs_path=args.output/'jobs.json')
- adapter=ChatAdapter(profile,pool=TransportPool(1),total_timeout=12,max_input_bytes=16384,max_tokens=1536)
+ adapter=create_backend(profile,backend=getattr(args,"model_backend",DEFAULT_BACKEND),max_inflight=1,timeout=12,max_input_bytes=16384,max_tokens=1536)
  agent.observe(snapshot);pending=asyncio.create_task(agent.decide(snapshot,adapter));started=time.monotonic();failures=0
  try:
   while not pending.done():
@@ -51,6 +52,13 @@ async def run(args):
 def main():
  parser=argparse.ArgumentParser(description=__doc__)
  parser.add_argument('--session',type=Path,required=True);parser.add_argument('--commander',required=True);parser.add_argument('--library',type=Path,default=default_library());parser.add_argument('--tactical-evidence',type=Path,required=True);parser.add_argument('--production-evidence',type=Path);parser.add_argument('--persistent-evidence',type=Path);parser.add_argument('--output',type=Path,required=True)
- asyncio.run(run(parser.parse_args()))
+ parser.add_argument('--model-backend',choices=BACKENDS,default=DEFAULT_BACKEND,help='pydantic default; legacy explicit rollback')
+ args=parser.parse_args()
+ try:
+  check_backend_available(args.model_backend)
+  asyncio.run(run(args))
+ except RuntimeAdapterError as error:
+  print(json.dumps(dict(state='fault',reason_code=str(error))));return 2
+ return 0
 
-if __name__=='__main__':main()
+if __name__=='__main__':raise SystemExit(main())

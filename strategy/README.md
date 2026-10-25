@@ -1,76 +1,70 @@
-# 策略服务：离线验收模块
+# 策略层：合同、持续记忆与任务决策
 
-更新（2026-10-25）：本文下方说明最初离线`StrategyEngine/demo.py`，不代表整个项目仍仅离线。持续`BattleAgent`、HTTP适配器及`../integration/battle_host.py`已接通己方视野、真实生产和受控战术任务，并完成铁锤对原生奥列格的完整比赛。模型56次请求、177次记忆压缩，整场链路成立；本场攻击/骚扰目标均未完成。当前证据与限制见 [本轮结果](../acceptance/vision-tactics-status.md) 和 [独立验收](reviews/formal-match-034721-independent.md)。
+`strategy/` 管理指挥实例绑定、可见局势合同、模型策略校验、持续记忆、任务生命周期及本地接续。当前真实模型请求由 `agent_runtime/` 的 **PydanticAI 默认后端**管理，游戏会话与执行由 `integration/` 及原生模块管理。新 React + Tauri 桌面仍是离线预览。
 
-本目录只使用 Python 标准库，负责验收项3的**契约、决策接续和日志**。后续已增加独立HTTP适配器和读取桌面DPAPI配置的文件快照服务，见HTTP_SERVICE.md；下面的demo仍完全离线。没有游戏内存接口、生产执行器或自动接管。即使输入标为 `game_bridge`，执行仍禁用，状态为 `read_only`。不能据此宣称模型在真实战场制定并执行了策略。
+Windows 接收本批变更后，先按 [Windows 同步与策略验证](../docs/windows-validation.md) 安装同一 Python 环境并跑完整回归。模型层改动范围见 [迁移交接](../docs/agent-runtime/migration-handoff.md)。原有算法和合同不应为接入 SDK 而复制到框架或 UI。
 
-## 运行
+## 模块职责
+
+| 模块 | 当前职责 |
+| --- | --- |
+| `engine.py` | 严格快照 / policy 合同、绑定、时效、计划稳定性、暂停、停止、失败接续及审计 |
+| `battle_agent.py`、`missions.py` | 有界持续记忆、摘要与增量、任务与使命的状态接续和执行反馈 |
+| `http_adapter.py` | 连接库 / Windows DPAPI 读取、原 prompt 与诊断；原手写网络传输仅显式 legacy 使用 |
+| `model_backend.py` | 加载本仓库 `agent_runtime/src` 的 bootstrap，转交唯一 factory |
+| `../agent_runtime/` | 默认 PydanticAI 的受限模型调用、预算、严格原始响应检查、取消与遥测 |
+| `service.py` | 文件快照模型服务，只产出经过验证的策略与建议，不包含游戏执行器 |
+| `../integration/battle_host.py` | 真实会话、视野、能力证据、资源与任务执行宿主 |
+| `demo.py`、`fixtures/` | 使用合成数据和适配器的纯离线 Engine 演示 |
+
+默认工厂在三个模型 CLI 中统一使用：`service.py`、`integration/battle_host.py`、`integration/probe_strategy.py`。`--model-backend legacy` 是明确对照或回退，缺依赖不会自动换回旧传输。`service.py --http-retries 1` 仅允许与 legacy 配合。
+
+## 安装与离线验证
+
+核心 Engine 合成演示仍只需标准库；完整模型服务与回归需要 Python 3.12+ 和锁定的 PydanticAI 依赖。不要把“核心演示标准库可跑”理解成整个项目无需安装框架。
+
+从仓库根目录执行，下面 `$tacticorePython` 必须是已经通过安装脚本准备好的完整解释器路径；环境建立步骤见 [Windows 指南](../docs/windows-validation.md)。
 
 ```powershell
-& 'C:\Users\Administrator\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe' -m unittest -v test_engine
-& 'C:\Users\Administrator\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe' .\demo.py --write-fixtures .\fixtures
+$env:PYTHONPATH = (Join-Path $PWD 'agent_runtime\src') + ';' + (Join-Path $PWD 'strategy')
+$env:PYTHONDONTWRITEBYTECODE = '1'
+$env:PYDANTIC_AI_NO_BANNER = '1'
+$env:TACTICORE_REQUIRE_FRAMEWORK = '1'
+& $tacticorePython -m unittest discover -s agent_runtime/tests -v
+& $tacticorePython -m unittest discover -s strategy -p 'test*.py' -v
+& $tacticorePython .\strategy\demo.py --output .\strategy\runtime-offline
 ```
 
-从本目录运行。`demo.py`只使用本地合成适配器，生成 `runtime/status.json`、`runtime/plans.jsonl` 和 `runtime/acceptance.json`。`fixtures/offline-status.json` 可供桌面只读导入，另有空闲和回退状态样例。没有真实服务启动/停止CLI；`StrategyEngine.stop()`只停止本实例决策，不操作游戏进程或其他实例。
+demo 不读取连接库、访问外部模型或游戏，只写独立离线输出；不要用 `--write-fixtures` 覆盖仓库已有样例来替代新验收。框架 demo 见 [运行时 README](../agent_runtime/README.md)。
 
-## 绑定和接口
+本侧基线：macOS 运行时 28 项通过；strategy 168 项中 166 通过、2 项 Windows DPAPI 跳过。Windows 须实际执行这两项，记录实际测试总数与跳过原因，后续新增用例不受历史数量约束。历史实机记录见 [视野与战术验收](../acceptance/vision-tactics-status.md)，不作为本次 PydanticAI 或新 GUI 已实战通过的证据。
 
-`Binding(session_id, player_id, commander_id, commander_name, connection_id)` 对每个实例固定。桌面生成的UUID可直接传入；session_id要求标准UUID格式，player_id要求0至15的整数。`commander_id`、`connection_id`为本地不变标识；指挥官名字可修改但不参与绑定验证。连接ID仅用于本地状态，**不会传给模型适配器**。
+## 实例绑定与模型接口
 
-`engine.observe(snapshot)` 更新结构化局势。快照必须匹配会话/玩家，编号与游戏时间不能回退，同编号内容不能发生冲突，来源不能在同一实例中改变。新对局或读档导致时间倒退时应创建新会话及引擎实例。
+`Binding(session_id, player_id, commander_id, commander_name, connection_id)` 固定一个实例。会话及稳定 ID 使用标准 UUID，`player_id` 为 0 至 15；改显示名不改变身份。新对局、读档导致游戏时间倒退等情况需要重新建立匹配会话，不能让旧结果继续派单。
 
-`await engine.decide(snapshot, adapter)` 返回 `Decision(status, reason_code, plan)`。adapter为异步函数，仅接收局势和commander_id，返回一个策略字典或JSON。多个实例可复用同一个连接adapter；响应必须精确回显各自commander_id、session_id、player_id和请求snapshot_id，避免串流。未来的真实控制宿主还需为一个会话/玩家维护唯一控制租约，本模块不提供游戏执行权。
+`engine.observe(snapshot)` 接收结构化局势；同一快照编号不得冲突，编号与游戏时间不能倒退。`await engine.decide(snapshot, adapter)` 继续消费异步 `context → dict policy` 合同。PydanticAI 仅替代模型请求组装，原 parser 与 Engine 仍审定结果；`BattleAgent` 的 summary / delta / pending decisions 继续承接游戏记忆，不启用 SDK 的第二份长期历史。
 
-适配器示例：
+模型层没有游戏工具、任意命令或执行权。回应必须绑定原请求的 session、player、commander 与 snapshot；响应后重新检查当前事实、目标能力和时效。取消不能变为成功，迟到结果不能复活已停止的实例。
 
-```python
-async def adapter(context):
-    # 未来可在这里调用连接库；不得把密钥、HTTP响应正文或异常文本写入计划日志。
-    return finite_policy_dictionary
-```
+## 局势与策略合同
 
-## 局势契约
+完整离线样例见 `fixtures/snapshot.json` 与 `fixtures/policy.json`。实际可接受字段与约束以当前 `engine.py` 为准；策略与执行扩展必须保留对应测试。
 
-完整可解析样例见 `fixtures/snapshot.json`。允许：
+- 局势包含会话、玩家、游戏时间、暂停与来源、有限资源 / 生产 / 己方职责摘要、注册区域及敌方目击记录。电力 `null` 表示未知；最后目击与当前可见必须区分。可信视野过滤由真实采集端负责，Engine 不能仅凭输入声明证明迷雾公平性。
+- policy 表达有限姿态、生产方向、资源比例、注册区域、有效期及已声明的战术能力。`native_baseline` 是有限本地接续意图，不授予新的执行能力。
+- 资源比例与模型目标属于意图，实际资金、前置、供电、生产设施、控制权与能力证据由宿主和执行器重新核验。游戏初始资金、Agent 总生产支出上限和资源保留底线是不同概念。
+- 严格 JSON 解析与 Engine 合同校验共同拒绝重复键、未知字段、NaN / Infinity、无效绑定与超限内容：parser 处理 JSON、重复键、非有限数值与大小，Engine 继续核验字段和绑定；不让 Pydantic 自动纠正替代原合同。
+- 模型异常优先接续仍有效的旧计划，不延长其到期时间；失效后有限回退。暂停、停止、重大事件、资源预留与持续任务不能因换框架而被绕过。
 
-- 会话、玩家、快照编号、游戏时间、暂停状态、来源。
-- 资金和电力摘要，真实采集器提供的生产队列数量、空闲生产设施数量和己方兵种职责计数。电力显式允许null表示未知，不代表0或停电。
-- 本地注册的生产方向和区域ID。`native_baseline`必须始终可用，表示不干预原生生产逻辑的回退意图。
-- 敌方目击记录必须区分当前可见和最后目击时间，时间不能位于未来。**这不能验证战争迷雾公平性**，采集器必须自己过滤隐藏信息，尚未实现该采集器。
-- 有限事件：基地受袭、发现空军、重大损失、阶段改变。事件应为新事件通知，不应每个快照重复同一告警。
+持续任务具体接口与生命周期见 [BATTLE_AGENT.md](BATTLE_AGENT.md)。新 GUI 的五档倾向、阶段打法和视频电台编排尚在 [Feature 路线图](../docs/desktop-next/feature-roadmap.md)，不是已支持的额外引擎参数。
 
-不接受对象内存地址、未知字段、任意代码、不可注册目标、NaN/Infinity、布尔值冒充整数、负资源或未来情报。
+## 文件服务与执行边界
 
-## 策略契约
+`service.py` 已提供真实模型调用、只读 `--check-profile`、单次或持续文件快照处理及绑定停止。完整参数、schema v2 连接库、DPAPI、输出文件与费用边界见 [HTTP_SERVICE.md](HTTP_SERVICE.md)。使用真实连接启动服务可能联网计费；离线 demo 与测试不会。
 
-完整样例见 `fixtures/policy.json`。允许 `defend/scout/pressure/raid/expand` 姿态，有限生产方向、经济策略、科技策略，注册区域和5至60游戏秒有效期。
+默认连接库为 `%LOCALAPPDATA%/Tacticore/library.v2.json`，非 Windows 为 `~/.local/share/Tacticore/library.v2.json`，支持 `--library`。旧 WinForms 已删除；新 GUI 不写真实库或密钥，不自动迁移历史数据。不要把桌面的演示配置当成宿主配置。
 
-预算为经济、军队、科技、预留四个0至1比例，总和必须为1，预留比例限制在0.05至0.6。**预算是意图，不是批准花费**；未来执行器必须检查真实资金、供电、科技、生产设施及建造空间。引擎不假设原生AI能直接执行策略JSON。
+Engine / 文件服务状态中的 `execution.enabled=false`、`dry_run=true` 与 `computer_verified=false` 表示该层没有独立证明游戏执行与玩家身份；不能据此反推整个项目没有真实宿主。真实控制另经 `integration/` 的可信绑定与证据链。
 
-JSON限制16 KiB，拒绝重复键、未知字段、非有限数值。模型没有自定义plan_id或任意文本日志字段，plan_id由协调器生成。
-
-## 失效与稳定性
-
-- 默认模型期限2秒墙钟，晚返回不能自动提交；超过期限后取消在途请求。
-- 即使适配器拒绝响应取消，也不会无限生成并发请求；在旧任务实际结束前，后续请求使用本地接续。无法强制结束不合作适配器的网络线程，真实HTTP适配器仍必须实现传输层超时。
-- 默认接受最近10游戏秒内、严格绑定原请求的响应；较新快照允许存在，但会重新检查能力/目标及重大新事件。
-- 有效模型计划默认保持至少15游戏秒；重大事件可以提前重评，但最短2游戏秒内不反复请求。相同战略意图的刷新不增加plan_changes指标。
-- 无效回答、超时或异常优先继续仍有效的旧计划，**不延长它的到期时间**；失效后创建10游戏秒的保守 `native_baseline` 回退。基地遭袭时不延续进攻姿态。
-- 暂停不发模型请求，不按墙钟消耗计划寿命；等待中发生暂停不会提交新计划。
-- stop使在途响应失效并清空计划，晚返回不能复活它。停止不是向游戏下达“停止移动”。
-
-## 桌面只读状态协议
-
-`schema_version=1`；`service_state`为 `idle/planning/holding/fallback/stopped`。`mode`为 `simulation` 或 `read_only`。`source`与`provenance`均提供 `kind`、`description`。
-
-`binding`含 session_id、player_id、commander_id、commander_name、connection_id、computer_verified。**本模块始终 computer_verified=false**，因为未连接可信的电脑玩家识别器。
-
-`latest_snapshot`含快照编号、游戏时间、暂停状态；`current_plan`为有限策略与到期时间或null；`last_result`为固定状态和原因码；`execution`始终 `enabled=false`、`dry_run=true`；`metrics`含 requests、accepted、rejected、timeouts、adapter_errors、plan_changes。
-
-状态写入采用同目录临时文件后原子替换，桌面只读，不修改服务文件。多实例应使用独立路径，例如 `runtime/<session>/<player>/<commander>/status.json`，不要共享一个写入目标。
-
-审计是JSONL，只记录协调器允许的字段、枚举、快照编号和内部生成ID。不记录快照全文、模型回答、连接地址、密钥、任意模型原因文本或异常正文。commander_name只在状态中显示，不进入审计。
-
-## 验收范围
-
-22项自动测试覆盖绑定隔离、无效预算/目标/指令、过时响应、能力变化、暂停、停止、超时、取消、计划稳定性、失败接续、双指挥官共享适配器和日志秘密内容排除。验收结果属于本地软件行为，真实队列、资源花费、出厂单位、小队微操和模型实际效果仍由其他验收项完成。
+审计记录协调器允许的字段、枚举、快照及本地生成的 ID；凭据、原始模型正文与任意异常内容不得写入公开状态。UI 应消费脱敏摘要，不能直接解释任意日志文本为执行命令。新桌面接线合同见 [Windows 原生协议](../docs/desktop-next/windows-handoff.md)。

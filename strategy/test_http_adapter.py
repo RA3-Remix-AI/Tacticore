@@ -40,7 +40,7 @@ def library(directory,url,*,remember=False,provider="自定义"):
 
 
 def completion(context):
-    return json.dumps({"choices":[{"finish_reason":"stop","message":{"content":json.dumps(policy(context))}}]}).encode()
+    return json.dumps({"id":"offline-fixture","object":"chat.completion","created":1,"model":"mock-model","choices":[{"index":0,"finish_reason":"stop","message":{"role":"assistant","content":json.dumps(policy(context))}}]}).encode()
 
 
 class Profiles(unittest.TestCase):

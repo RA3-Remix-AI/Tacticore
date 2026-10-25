@@ -11,7 +11,8 @@ import sys
 import uuid
 
 from engine import Binding, ContractError, Snapshot, StrategyEngine
-from http_adapter import AdapterError, ChatAdapter, TransportPool, decode_json, load_profile
+from http_adapter import AdapterError, decode_json, load_profile
+from model_backend import BACKENDS, DEFAULT_BACKEND, RuntimeAdapterError, check_backend_available, create_backend
 from battle_agent import BattleAgent
 
 
@@ -86,13 +87,13 @@ async def serve(args):
     binding=Binding(first.session_id,args.player,profile.commander_id,profile.commander_name,profile.connection_id)
     instance=args.runtime/binding.session_id/("player-"+str(binding.player_id))/binding.commander_id
     with player_lease(args.runtime/"leases",binding):
-        adapter=ChatAdapter(profile,pool=TransportPool(args.max_inflight),total_timeout=args.model_timeout,max_retries=args.http_retries,max_tokens=args.max_tokens,max_input_bytes=args.max_input_bytes)
+        adapter=create_backend(profile,backend=getattr(args,"model_backend",DEFAULT_BACKEND),max_inflight=args.max_inflight,timeout=args.model_timeout,http_retries=args.http_retries,max_tokens=args.max_tokens,max_input_bytes=args.max_input_bytes)
         engine=StrategyEngine(binding,timeout_seconds=args.model_timeout+.25,max_response_age_seconds=args.max_response_age,min_hold_game_seconds=args.min_hold,audit_path=instance/"plans.jsonl",status_path=instance/"status.json",provenance_description="File snapshots and HTTP model adapter; no game actuator is connected.")
         agent=BattleAgent(engine,context_budget_bytes=args.context_bytes,memory_path=instance/"agent-state.json",jobs_path=instance/"jobs.json")
         agent.observe(first)
         pending=None;next_snapshot=raw;last_digest=first_digest;decisions=0;input_error=None
         def health():
-            atomic_json(instance/"service-health.json",{"schema_version":1,"session_id":binding.session_id,"player_id":binding.player_id,"commander_id":binding.commander_id,"state":engine.public_status()["service_state"],"input_error":input_error,"transport":{**adapter.metrics,"last_error_code":adapter.last_error_code},"agent":agent.metrics,"policy_structure":adapter.last_diagnostics,"execution_enabled":False,"dry_run":True})
+            atomic_json(instance/"service-health.json",{"schema_version":1,"session_id":binding.session_id,"player_id":binding.player_id,"commander_id":binding.commander_id,"state":engine.public_status()["service_state"],"input_error":input_error,"model_backend":adapter.backend_name,"transport":{**adapter.metrics,"last_error_code":adapter.last_error_code},"agent":agent.metrics,"policy_structure":adapter.last_diagnostics,"execution_enabled":False,"dry_run":True})
         try:
             while True:
                 if stop_requested(args.stop_file,binding):
@@ -113,7 +114,7 @@ async def serve(args):
                         validated=agent.observe(current)
                         next_snapshot=validated
                         input_error=None
-                except (AdapterError,ContractError) as error:
+                except (AdapterError,ContractError,RuntimeAdapterError) as error:
                     # Local parser/contract error codes only; never file contents.
                     input_error=str(error);health()
                 if pending is None and next_snapshot is not None:
@@ -127,9 +128,9 @@ async def serve(args):
 
 def parser():
     p=argparse.ArgumentParser(description="HTTP model decisions from file snapshots; game execution remains disabled.")
-    default=Path(os.environ.get("LOCALAPPDATA",Path.home()/".local/share"))/"TriadFrontCommander/library.v2.json"
+    default=Path(os.environ.get("LOCALAPPDATA",Path.home()/".local/share"))/"Tacticore/library.v2.json"
     p.add_argument("--library",type=Path,default=default)
-    p.add_argument("--commander",required=True,help="Stable commander UUID from desktop library")
+    p.add_argument("--commander",required=True,help="Stable commander UUID from the configured library")
     p.add_argument("--check-profile",action="store_true",help="Report only redacted readiness; makes no HTTP request")
     p.add_argument("--player",type=int)
     p.add_argument("--session",help="Optional pinned session UUID; first snapshot otherwise pins it")
@@ -142,7 +143,8 @@ def parser():
     p.add_argument("--max-response-age",type=float,default=20)
     p.add_argument("--min-hold",type=float,default=15)
     p.add_argument("--poll-seconds",type=float,default=.25)
-    p.add_argument("--http-retries",type=int,choices=[0,1],default=0)
+    p.add_argument("--model-backend",choices=BACKENDS,default=DEFAULT_BACKEND,help="pydantic is default; legacy is an explicit rollback")
+    p.add_argument("--http-retries",type=int,choices=[0,1],default=0,help="Legacy backend only; pydantic requires zero")
     p.add_argument("--max-inflight",type=int,choices=[1,2,3,4],default=2)
     p.add_argument("--max-tokens",type=int,default=2048)
     p.add_argument("--context-bytes",type=int,default=8192,help="Bounded summary+delta budget; no full map is sent")
@@ -154,20 +156,22 @@ def main():
     args=parser().parse_args()
     if args.check_profile:
         try:
+            check_backend_available(args.model_backend)
             profile=load_profile(args.library,args.commander)
             print(json.dumps({"ready":True,"model_configured":True,"credential_available":bool(profile.key),"keyless_loopback":not bool(profile.key) and profile.endpoint.loopback,"commander_id":profile.commander_id,"connection_id":profile.connection_id,"provider":profile.provider}))
             return 0
-        except (AdapterError,ContractError) as error:
+        except (AdapterError,ContractError,RuntimeAdapterError) as error:
             print(json.dumps({"ready":False,"reason_code":str(error)}));return 2
         except Exception:
             print(json.dumps({"ready":False,"reason_code":"profile_unavailable"}));return 2
     if args.player is None or args.snapshot_file is None or not 0<=args.player<=15 or not .01<=args.poll_seconds<=5 or not .01<=args.model_timeout<=120 or not 0<=args.max_response_age<=60 or not 0<=args.min_hold<=60 or not 0<=args.max_decisions<=1000000 or not 4096<=args.context_bytes<=16384 or not 4096<=args.max_input_bytes<=32768:
         print(json.dumps({"error":"invalid_service_options"}));return 2
     try:
+        check_backend_available(args.model_backend)
         result=asyncio.run(serve(args));print(json.dumps(result,ensure_ascii=False));return 0
     except KeyboardInterrupt:
         print(json.dumps({"state":"stopped","reason_code":"keyboard_interrupt","execution_enabled":False}));return 0
-    except (AdapterError,ContractError) as error:
+    except (AdapterError,ContractError,RuntimeAdapterError) as error:
         print(json.dumps({"error":str(error),"execution_enabled":False}));return 2
     except Exception:
         print(json.dumps({"error":"service_unavailable","execution_enabled":False}));return 2
