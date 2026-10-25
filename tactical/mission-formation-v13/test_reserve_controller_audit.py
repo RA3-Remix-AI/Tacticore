@@ -340,6 +340,10 @@ class ParentEnvelope(unittest.TestCase):
   return r
  def test_original_parent_envelope_not_model_http_proof(self):
   out=q.parent_request_audit(self.fixture());self.assertTrue(out['verified'],out['checks']);self.assertFalse(out['model_http_origin_verified'])
+ def test_original_32hex_parent_task_is_uuid_equivalent_without_rewriting(self):
+  r=self.fixture();mr=r['mission_request'];public=mr['public_command'];public['task_id']=uuid.UUID(public['task_id']).hex;public['command_id']=uuid.UUID(public['command_id']).hex
+  data=json.dumps(public).encode();Path(mr['public_command_path']).write_bytes(data);mr['public_command_sha256']=hashlib.sha256(data).hexdigest();before=copy.deepcopy(r)
+  self.assertTrue(q.parent_request_audit(r)['verified']);self.assertEqual(r,before);self.assertEqual(len(public['task_id']),32)
  def test_public_file_echo_alone_does_not_bind(self):
   r=self.fixture();r['mission_request']['public_command']['force_fraction']=.5
   self.assertFalse(q.parent_request_audit(r)['verified'])
