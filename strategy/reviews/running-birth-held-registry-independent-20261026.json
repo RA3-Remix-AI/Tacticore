@@ -1,0 +1,97 @@
+{
+  "protocol": "running_birth_and_held_registry_independent_software_review_v1",
+  "generated_at_utc": "2026-10-25T21:22:34.133613+00:00",
+  "software_only_narrow_go": true,
+  "source_sha256": {
+    "tactical/running_birth_source_v1.py": "0edd17f816603a2a9a7883bab4bc4d38d2214e2122c83bf5de70ea9c2766f6d8",
+    "tactical/test_running_birth_source_v1.py": "50f95809f7f310b7a30d9e0da837349f8ac85c86a2d7ed2bf264a642b1266df5",
+    "integration/held_formations.py": "48bc9461a4b3458ccd1da292bf02a37ebd2529a7740a2355fd3b05de7e63ac52",
+    "integration/test_held_formations.py": "6f41c50e2facb28f9e0ae71139c565bc243f1e3c9b69bfe01746241157a0d9bc",
+    "integration/formations.py": "b48a12f10d6f0785a3eb350be7c24d44f22a1fb2e588c2970491c08673e833f0",
+    "integration/test_formations.py": "d004a5f001a5e5585991e8c790abdc96be37ccdc5892a569f9ac77db6a66ffca"
+  },
+  "tests": {
+    "fresh_process": true,
+    "passed": 51,
+    "failed": 0,
+    "skipped": 0,
+    "suites": {
+      "tactical/test_running_birth_source_v1.py": 25,
+      "integration/test_held_formations.py": 26
+    },
+    "actual_game_or_sdk_used": false
+  },
+  "running_birth_reader": {
+    "import_does_not_attach": true,
+    "explicit_read_only_channel": true,
+    "process_permissions": "QUERY_INFORMATION | VM_READ",
+    "mapping_access": "FILE_MAP_READ",
+    "actual_layout": {
+      "header": 256,
+      "receipt": 224,
+      "cap": 1024
+    },
+    "producer_protocol_version": 1,
+    "running_header_identity_and_heartbeat_checked": true,
+    "receipt_updates_version_and_double_raw_checked": true,
+    "bounded_attempts_max": 32,
+    "duplicate_command_uuid_rejected": true,
+    "complete_paid_created_object_and_queue_join_checked": true,
+    "immutable_payment_projection_separate_from_dynamic_history": true,
+    "current_actor_liveness_verified": false,
+    "actor_admission_verified": false,
+    "exclusive_output_create_after_validation": true,
+    "prior_snapshot_payment_actor_or_source_change_rejected": true
+  },
+  "held_registry": {
+    "input_trust": "trusted independently verified normalized Host facts only",
+    "no_game_mapping_sdk_filesystem_or_network": true,
+    "global_channel_prearm_before_first_claim": true,
+    "first_borrow_clock_bind_once": true,
+    "offsets": {
+      "reserve": 300,
+      "hard": 4500
+    },
+    "exact_paid_pair_scope": {
+      "front": "conscript",
+      "support": "flak",
+      "max_paid": 305,
+      "reserve_floor": 1000
+    },
+    "duplicate_active_actor_slot_receipt_rejected": true,
+    "claimed_actor_ids_excluded_from_free_allocation": true,
+    "mission_commit_write_once_and_canonical_idempotent": true,
+    "target_current_visibility_is_trusted_host_fact_not_verified_here": true,
+    "terminal_metadata_does_not_release_channel": true,
+    "release_requires_exact_actor_set_and_independent_host_flags": true,
+    "public_formation_schema_does_not_expose_native_ids": true,
+    "physical_capability_verified": false
+  },
+  "required_integration_boundaries": [
+    {
+      "rule": "Prearm owns the whole tactical channel even with zero actor claims.",
+      "reason": "claimed_ids filtering alone is empty during startup; Host must block legacy/free Native dispatch using channel_owner."
+    },
+    {
+      "rule": "Live clock comes from the actual first-borrow Native event.",
+      "reason": "begin_controller is an explicitly documented trusted fixed-clock fixture shortcut; live integration must use prearm_controller and bind_lease_clock."
+    },
+    {
+      "rule": "Raw verifier/Native must independently bind actor liveness, ownership, SDK/hook sources and payment policy.",
+      "reason": "running snapshots contain historical paid provenance; helper does not establish current actor admission, loaded module/hooks, exact catalogue cost85/220, reserve1000 or total305."
+    },
+    {
+      "rule": "Do not pass model-controlled readiness/visibility/terminal/release flags as trusted normalized facts.",
+      "reason": "proof hashes and registry booleans are references/assertions; they are not physical evidence or Native acceptance."
+    }
+  ],
+  "physical_field_verified": false,
+  "tactical_source_granted": false,
+  "mission_completed": false,
+  "persistent_pool_verified": false,
+  "reserve_to_mission_handoff_verified": false,
+  "review_sdk_calls": 0,
+  "gui_used": false,
+  "source_files_modified_by_review": false,
+  "actual_reserve6_milestone_review": "strategy/reviews/reserve6-01-actual-independent.json"
+}

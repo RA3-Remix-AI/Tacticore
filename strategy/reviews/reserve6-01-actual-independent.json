@@ -1,0 +1,786 @@
+{
+  "protocol": "reserve6_01_independent_actual_primitive_review_v1",
+  "source_report": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261026-050813-commander\\paid-reserve6-01-reserve.json",
+  "source_sha256": "988f333758cc8ed213246848725dbf8e4567043276ec681d43cc968674a50c8c",
+  "qualifier_sha256": "0489ee6e8894d55f31b8eddd51be573aabd8d512729f003794192a39b66d54ec",
+  "producer_report_sha256": "8d975becc05066353b9f8327e53f8b766bd66ba5fcf0e08835cd9a9f4a805205",
+  "frozen_qualifier_result": {
+    "status": "reserve_hold_primitive_verified",
+    "checks": {
+      "compiled_source_revision": true,
+      "identity_and_original_thread": true,
+      "fresh_python_team_descriptor_binding": true,
+      "original_readonly_actor_and_stance_join": true,
+      "original_paid_birth_provenance": true,
+      "three_original_pre_sdk_admission_frames": true,
+      "fresh_paid_factory_actor_before_all_sdk": true,
+      "published_bound_raw_samples": true,
+      "fresh_original_admission": true,
+      "fixed_total_deadline": true,
+      "real_unique_frame_progress": true,
+      "observed_active_state26_never_waived": true,
+      "eight_original_sdk_chains": true,
+      "actual_initial_stop_three": true,
+      "actual_rally_geometry_arrival_and_stop": true,
+      "original_owned_factory_source": true,
+      "one_synchronous_original_move_chain": true,
+      "fixed_ninety_real_frames": true,
+      "actual_cleanup_stop_three": true,
+      "original_stance_before_live_pool_return": true,
+      "original_gate_order_no_extra_command_during_hold": true,
+      "actual_eight_original_bytes_and_timer_zero": true,
+      "successful_native_terminal": true
+    },
+    "hold_verified": true,
+    "physical_cleanup_stop_verified": true,
+    "original_stance_restored": true,
+    "live_pool_return_verified": true,
+    "restoration_verified": true,
+    "control_release_verified": true,
+    "no_actor_lease_verified": false,
+    "coverage": {
+      "verified": true,
+      "first_frame": 747,
+      "last_frame": 836,
+      "count": 90,
+      "max_frame_gap": 1,
+      "missing_frame_ids": [],
+      "continuous_all_logic_frames_verified": true,
+      "physical_samples_verified": true,
+      "max_anchor_drift": 0.0,
+      "fixed_start": 746,
+      "fixed_end": 836,
+      "minimum_observed_factory_gap": 125.48105222311469,
+      "factory_radius_during_hold_is_a_hard_gate": false
+    },
+    "sdk_audit": {
+      "verified": true,
+      "checks": {
+        "eight_original_intents_once": true,
+        "typed_nested_original_calls": true,
+        "exact_explicit_call_totals": true,
+        "one_explicit_stop_chain_per_intent": true,
+        "one_setter_and_transfer_each": true
+      },
+      "pre_borrow_passive_event_count": 0,
+      "pre_borrow_passive_sdk_credit": false
+    },
+    "initial_stop": {
+      "verified": true,
+      "frames": [
+        689,
+        690,
+        691
+      ],
+      "gate": {
+        "seq": 32,
+        "kind": 3,
+        "tag": 0,
+        "frame": 691,
+        "tick": 671687250,
+        "thread": 64780,
+        "caller": 0,
+        "self": 0,
+        "arg": 0,
+        "source": 0,
+        "result": 0,
+        "stage": 1,
+        "sdk_calls": 3,
+        "error": 0,
+        "explicit_stops": 1,
+        "private_explicit_stops": 1,
+        "automatic_stop2": 1,
+        "private_automatic_stop2": 1,
+        "sample": {
+          "frame": 691,
+          "thing": 88382848,
+          "id": 786,
+          "type_hash": 430641583,
+          "owner": 52462800,
+          "template_ptr": 249259648,
+          "update": 106192144,
+          "update_vtable": 12879472,
+          "update_backref": 88382848,
+          "team": 90511680,
+          "stance_module": 106188480,
+          "stance_vtable": 12812176,
+          "stance_backref": 88382848,
+          "stance_data": 250871008,
+          "stance": 2,
+          "stance_enum_list": 251908848,
+          "stance_enum_count": 4,
+          "stance_enum_entries": [
+            1,
+            0,
+            0,
+            0,
+            2,
+            0,
+            3,
+            0
+          ],
+          "sm": 106194160,
+          "sm_owner": 88382848,
+          "sm_flags": 65536,
+          "state": 106196992,
+          "state_id": 94,
+          "state_vtable": 12931488,
+          "state_owner_sm": 106194160,
+          "path": 0,
+          "source": 1,
+          "child_sm": 101196784,
+          "child_sm_vtable": 12909408,
+          "child_state": 106226080,
+          "child_state_id": 0,
+          "child_state_vtable": 12916208,
+          "child_state_owner_sm": 101196784,
+          "holder": 0,
+          "status_words": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "height_flags": 7,
+          "height": 0.0,
+          "hp": 100.0,
+          "xyz": [
+            2910.0,
+            2890.0,
+            210.0
+          ],
+          "auto_acquire": 105991992,
+          "auto_acquire_flags_9e": 1,
+          "auto_acquire_24": 0,
+          "auto_acquire_28": 0,
+          "auto_acquire_2c": 0,
+          "auto_acquire_70": 4294967295
+        },
+        "move": {
+          "goal_pointer": 0,
+          "goal_bits": [
+            0,
+            0,
+            0
+          ],
+          "path": 0,
+          "limit_bits": 0,
+          "intent_seq": 0,
+          "facade_seq": 0,
+          "generation": 0,
+          "flags": 0
+        }
+      },
+      "first_stable_xyz": [
+        2910.0,
+        2890.0,
+        210.0
+      ]
+    },
+    "cleanup_stop": {
+      "verified": true,
+      "frames": [
+        837,
+        838,
+        839
+      ],
+      "gate": {
+        "seq": 206,
+        "kind": 3,
+        "tag": 0,
+        "frame": 839,
+        "tick": 671697031,
+        "thread": 64780,
+        "caller": 0,
+        "self": 0,
+        "arg": 0,
+        "source": 0,
+        "result": 0,
+        "stage": 3,
+        "sdk_calls": 6,
+        "error": 0,
+        "explicit_stops": 3,
+        "private_explicit_stops": 3,
+        "automatic_stop2": 1,
+        "private_automatic_stop2": 1,
+        "sample": {
+          "frame": 839,
+          "thing": 88382848,
+          "id": 786,
+          "type_hash": 430641583,
+          "owner": 52462800,
+          "template_ptr": 249259648,
+          "update": 106192144,
+          "update_vtable": 12879472,
+          "update_backref": 88382848,
+          "team": 90511680,
+          "stance_module": 106188480,
+          "stance_vtable": 12812176,
+          "stance_backref": 88382848,
+          "stance_data": 250871008,
+          "stance": 2,
+          "stance_enum_list": 251908848,
+          "stance_enum_count": 4,
+          "stance_enum_entries": [
+            1,
+            0,
+            0,
+            0,
+            2,
+            0,
+            3,
+            0
+          ],
+          "sm": 106194160,
+          "sm_owner": 88382848,
+          "sm_flags": 65536,
+          "state": 106196992,
+          "state_id": 94,
+          "state_vtable": 12931488,
+          "state_owner_sm": 106194160,
+          "path": 0,
+          "source": 1,
+          "child_sm": 71430152,
+          "child_sm_vtable": 12909408,
+          "child_state": 106104464,
+          "child_state_id": 0,
+          "child_state_vtable": 12916208,
+          "child_state_owner_sm": 71430152,
+          "holder": 0,
+          "status_words": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "height_flags": 7,
+          "height": 0.0,
+          "hp": 100.0,
+          "xyz": [
+            3065.77734375,
+            2947.888671875,
+            210.0
+          ],
+          "auto_acquire": 105991992,
+          "auto_acquire_flags_9e": 1,
+          "auto_acquire_24": 0,
+          "auto_acquire_28": 0,
+          "auto_acquire_2c": 0,
+          "auto_acquire_70": 4294967295
+        },
+        "move": {
+          "goal_pointer": 0,
+          "goal_bits": [
+            0,
+            0,
+            0
+          ],
+          "path": 0,
+          "limit_bits": 0,
+          "intent_seq": 0,
+          "facade_seq": 0,
+          "generation": 0,
+          "flags": 0
+        }
+      },
+      "first_stable_xyz": [
+        3065.77734375,
+        2947.888671875,
+        210.0
+      ]
+    },
+    "pre_admission": {
+      "verified": true,
+      "checks": {
+        "exact_three_and_gate": true,
+        "every_actual_frame_eligible": true,
+        "immutable_actor_module_health": true,
+        "all_observed_have_team_evidence": true,
+        "raw_team_owner_chains_and_resets": true,
+        "original_raw_header_join": true,
+        "all_sdk_after_third_frame": true,
+        "actual_borrow_source_is_final_admitted_team": true
+      },
+      "frames": [
+        686,
+        687,
+        688
+      ],
+      "gate_seq": 11,
+      "admitted_team": "0x5658240",
+      "all_observed_frames": [
+        686,
+        687,
+        688
+      ],
+      "all_accepted_frames": [
+        686,
+        687,
+        688
+      ],
+      "cohort_resets": [],
+      "immutable_baseline_frame": 686
+    },
+    "fresh_birth_admission": {
+      "verified": true,
+      "checks": {
+        "exact_pre_sdk_frames": true,
+        "each_observed_completion_age_bounded": true,
+        "each_actual_factory_gap_bounded": true,
+        "initial_sample_and_issued_frame_join": true,
+        "original_native_age_and_initial_gap_outputs": true
+      },
+      "completion_observation_ages": [
+        31,
+        32,
+        33
+      ],
+      "actual_pre_sdk_factory_gaps": [
+        91.4609396909989,
+        91.4609396909989,
+        91.4609396909989
+      ],
+      "initial_factory_gap": 91.4609396909989,
+      "initial_outside_inner_zone": false,
+      "exact_engine_constructor_birth_frame_verified": false
+    },
+    "preflight_team": {
+      "verified": true,
+      "checks": {
+        "same_actual_raw_sample": true,
+        "raw_addresses_and_values": true,
+        "original_input_team_source": true,
+        "current_owned_non_script": true,
+        "same_admission_frame": true
+      },
+      "descriptor_team": "0x5658240",
+      "descriptor_frame": 684
+    },
+    "production_provenance": {
+      "verified": true,
+      "checks": {
+        "current_session_source": true,
+        "original_producer_file": true,
+        "unchanged_complete_original_receipt": true,
+        "original_ledger_command_join": true,
+        "paid_birth_actor_binding": true,
+        "immutable_native_provenance_words": true,
+        "original_producer_and_sidecar_five_bytes": true,
+        "original_stable_native_bytes": true,
+        "raw_native_process_owner_thread": true,
+        "raw_native_exact_command": true,
+        "raw_native_paid_created_complete": true
+      },
+      "producer_report_sha256": "8d975becc05066353b9f8327e53f8b766bd66ba5fcf0e08835cd9a9f4a805205",
+      "receipt_sha256": "e77965ee4c7e7856a1e09afaf979c2cd99068a84371f95617a67c9c10cf92c24",
+      "production_command_id": "87308209-1aaf-4590-b2be-f8f28814679f",
+      "production_task_id": "0fdc465d-a46a-4d56-b86d-06a4c434b246",
+      "production_queue_id": 6,
+      "birth_frame": 655,
+      "holding_is_mission_effect": false
+    },
+    "rally": {
+      "verified": true,
+      "checks": {
+        "unique_proposal_candidate_stop_commit_hold": true,
+        "original_factory_and_stopped_geometry": true,
+        "fixed_left_two_hundred_metre_proposal": true,
+        "initial_stop_then_one_move_then_candidate": true,
+        "post_delivery_observed_path_continuity": true,
+        "actual_candidate_three_no_counter_substitution": true,
+        "first_candidate_frozen_within_original_ninety": true,
+        "navigation_all_actual_positive_and_no_state26": true,
+        "stop8_three_then_actual_commit_opens_hold": true,
+        "truthful_initial_and_boundary_facts": true,
+        "proposal_diagnostic_never_substitutes_actual_anchor": true
+      },
+      "proposal_frame": 691,
+      "candidate_frames": [
+        741,
+        742,
+        743
+      ],
+      "rally_stop": {
+        "verified": true,
+        "frames": [
+          744,
+          745,
+          746
+        ],
+        "gate": {
+          "seq": 104,
+          "kind": 3,
+          "tag": 0,
+          "frame": 746,
+          "tick": 671690890,
+          "thread": 64780,
+          "caller": 0,
+          "self": 0,
+          "arg": 0,
+          "source": 0,
+          "result": 0,
+          "stage": 7,
+          "sdk_calls": 5,
+          "error": 0,
+          "explicit_stops": 2,
+          "private_explicit_stops": 2,
+          "automatic_stop2": 1,
+          "private_automatic_stop2": 1,
+          "sample": {
+            "frame": 746,
+            "thing": 88382848,
+            "id": 786,
+            "type_hash": 430641583,
+            "owner": 52462800,
+            "template_ptr": 249259648,
+            "update": 106192144,
+            "update_vtable": 12879472,
+            "update_backref": 88382848,
+            "team": 90511680,
+            "stance_module": 106188480,
+            "stance_vtable": 12812176,
+            "stance_backref": 88382848,
+            "stance_data": 250871008,
+            "stance": 2,
+            "stance_enum_list": 251908848,
+            "stance_enum_count": 4,
+            "stance_enum_entries": [
+              1,
+              0,
+              0,
+              0,
+              2,
+              0,
+              3,
+              0
+            ],
+            "sm": 106194160,
+            "sm_owner": 88382848,
+            "sm_flags": 65536,
+            "state": 106196992,
+            "state_id": 94,
+            "state_vtable": 12931488,
+            "state_owner_sm": 106194160,
+            "path": 0,
+            "source": 1,
+            "child_sm": 71430152,
+            "child_sm_vtable": 12909408,
+            "child_state": 106226312,
+            "child_state_id": 0,
+            "child_state_vtable": 12916208,
+            "child_state_owner_sm": 71430152,
+            "holder": 0,
+            "status_words": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "height_flags": 7,
+            "height": 0.0,
+            "hp": 100.0,
+            "xyz": [
+              3065.77734375,
+              2947.888671875,
+              210.0
+            ],
+            "auto_acquire": 105991992,
+            "auto_acquire_flags_9e": 1,
+            "auto_acquire_24": 0,
+            "auto_acquire_28": 0,
+            "auto_acquire_2c": 0,
+            "auto_acquire_70": 4294967295
+          },
+          "move": {
+            "goal_pointer": 0,
+            "goal_bits": [
+              0,
+              0,
+              0
+            ],
+            "path": 0,
+            "limit_bits": 0,
+            "intent_seq": 0,
+            "facade_seq": 0,
+            "generation": 0,
+            "flags": 0
+          }
+        },
+        "first_stable_xyz": [
+          3065.77734375,
+          2947.888671875,
+          210.0
+        ]
+      },
+      "candidate_anchor": [
+        3065.77734375,
+        2947.888671875,
+        210.0
+      ],
+      "actual_anchor": [
+        3065.77734375,
+        2947.888671875,
+        210.0
+      ],
+      "proposal_is_ground_observation": false,
+      "proposal_reached": false,
+      "physical_rally_progress": 166.18567675120826,
+      "initial_outside_inner_zone": false,
+      "boundary_crossed": true,
+      "prebrake_neighbor_limit": 5,
+      "prebrake_is_physical_stop_credit": false,
+      "observed_path": {
+        "verified": true,
+        "checks": {
+          "at_most_one_frozen_observation": true,
+          "actual_fixed_sample_path_after_delivery": true,
+          "nonzero_path_never_changes_or_refreezes": true
+        },
+        "path": 106257064,
+        "observation_frame": 692,
+        "observation_seq": 41,
+        "path_allocation_provenance": false,
+        "walkable_route_verified": false
+      }
+    },
+    "rally_source": {
+      "verified": true,
+      "checks": {
+        "source_identity_and_seals": true,
+        "actual_double_sample_unchanged": true,
+        "raw_original_factory_and_own_live_identity": true,
+        "real_factory_position_and_input_words": true,
+        "current_owned_membership_same_frame": true,
+        "actual_native_factory_before_proposal": true
+      },
+      "factory_address": "0x5443480",
+      "factory_id": 765,
+      "source_frame": 684,
+      "proposal_terrain_verified": false,
+      "route_verified": false
+    },
+    "move_audit": {
+      "verified": true,
+      "checks": {
+        "one_intent_and_four_original_steps": true,
+        "pre_borrow_observations_never_move_credit": true,
+        "same_actual_actor_frame_thread_and_scope": true,
+        "immutable_original_goal_generation_and_publication": true,
+        "real_private_arguments_no_path_and_fltmax": true,
+        "observed_owned_scope_once_then_returned": true
+      },
+      "intent_seq": 35,
+      "facade_seq": 36,
+      "private_seq": 37,
+      "deferred_move_credit": false
+    },
+    "reserve_lease_id": "0a39a13e-4533-4a2e-97af-b0aae2582fce",
+    "reserve_actor_id": 786,
+    "reserve_active_after_return": false,
+    "reserve_to_mission_handoff_verified": false,
+    "tactical_source_granted": false,
+    "effect_verified": false,
+    "completion_claim": false
+  },
+  "summary": {
+    "actor_id": 786,
+    "pid": 66932,
+    "normal_terminal_phase": 3,
+    "native_error": 0,
+    "host_exit": 0,
+    "actual_sdk_calls": 8,
+    "sdk_intent_order": [
+      1,
+      2,
+      3,
+      7,
+      8,
+      4,
+      5,
+      6
+    ],
+    "issued_frame": 688,
+    "moving_trigger_frames": [
+      741,
+      742,
+      743
+    ],
+    "stop8_issue_frame": 743,
+    "physical_rally_stop_frames": [
+      744,
+      745,
+      746
+    ],
+    "actual_commit_frame": 746,
+    "hold_anchor_frame": 746,
+    "hold_finished_frame": 836,
+    "hold_frames_elapsed": 90,
+    "actual_hold_samples_including_anchor": 91,
+    "hold_max_gap": 1,
+    "missing_hold_frames": [],
+    "maximum_anchor_drift": 0.0,
+    "minimum_hold_factory_gap": 125.48105222311469,
+    "minimum_hold_hp": 100.0,
+    "cleanup_stop_frames": [
+      837,
+      838,
+      839
+    ],
+    "normal_return_frame": 839,
+    "request_expires_frame": 984,
+    "frames_from_observed_to_return": 155,
+    "preflight_descriptor_team": "0x5658240",
+    "final_admitted_team": "0x5658240",
+    "actual_borrow_pre_team": "0x5658240",
+    "return_event_team": "0x5652840",
+    "default_team": "0x5652840",
+    "immediate_roster_frame": 840,
+    "immediate_roster_team": "0x5658240",
+    "immediate_roster_hp": 100.0,
+    "proposal_reached": false,
+    "actual_anchor_to_proposal": 134.21836506518585,
+    "initial_outside_inner_zone": false,
+    "boundary_crossed": true,
+    "actual_anchor": [
+      3065.77734375,
+      2947.888671875,
+      210.0
+    ],
+    "displacement_from_P": 166.18567675120826,
+    "factory_gap_at_commit": 125.48105222311469
+  },
+  "actual_production": {
+    "command_id": "87308209-1aaf-4590-b2be-f8f28814679f",
+    "task_id": "0fdc465d-a46a-4d56-b86d-06a4c434b246",
+    "queue_id": 6,
+    "object_id": 786,
+    "unit": "conscript",
+    "cost": 85,
+    "paid": 85,
+    "verified_cost_and_debit_source": true,
+    "persistent_header_protocol_version": 1,
+    "persistent_header_spent": 85,
+    "stopped_phase": 2,
+    "active": 0,
+    "restore_mask": 31,
+    "real_five_original_entries_verified": true,
+    "receipt_canonical_sha256": "e77965ee4c7e7856a1e09afaf979c2cd99068a84371f95617a67c9c10cf92c24"
+  },
+  "path_observation": {
+    "seq": 41,
+    "frame": 692,
+    "observed_path": "0x6555aa8",
+    "exactly_once": true,
+    "after_actual_synchronous_delivery": true,
+    "verified": true,
+    "path_allocation_provenance": false,
+    "path_class_or_walkable_route_verified": false
+  },
+  "moving_braking_trigger": {
+    "actual_rows": [
+      {
+        "seq": 91,
+        "frame": 741,
+        "state_id": 1,
+        "state_vtable": "0xc55598",
+        "path": "0x6555aa8",
+        "source": 1,
+        "stance": 2,
+        "xyz": [
+          3059.814453125,
+          2944.9072265625,
+          210.0
+        ],
+        "sampled_neighbor_motion": 3.333357194974052,
+        "displacement_from_actual_P": 159.5593115237357,
+        "factory_gap": 120.38299122941363,
+        "counter": 1
+      },
+      {
+        "seq": 93,
+        "frame": 742,
+        "state_id": 1,
+        "state_vtable": "0xc55598",
+        "path": "0x6555aa8",
+        "source": 1,
+        "stance": 2,
+        "xyz": [
+          3062.7958984375,
+          2946.39794921875,
+          210.0
+        ],
+        "sampled_neighbor_motion": 3.333357194974052,
+        "displacement_from_actual_P": 162.87208249237656,
+        "factory_gap": 122.91325498900137,
+        "counter": 2
+      },
+      {
+        "seq": 95,
+        "frame": 743,
+        "state_id": 1,
+        "state_vtable": "0xc55598",
+        "path": "0x6555aa8",
+        "source": 1,
+        "stance": 2,
+        "xyz": [
+          3065.77734375,
+          2947.888671875,
+          210.0
+        ],
+        "sampled_neighbor_motion": 3.333357194974052,
+        "displacement_from_actual_P": 166.18567675120826,
+        "factory_gap": 125.48105222311469,
+        "counter": 3
+      }
+    ],
+    "all_exact_normal_move_to_goal": true,
+    "trigger_is_stop_credit": false,
+    "third_point_frozen_before_unique_stop8": true
+  },
+  "strict_actual_hold_checks": {
+    "exact_91_actual_samples_including_anchor": true,
+    "all_exact94_path0_source1_stance2": true,
+    "all_same_actor_module_definitions": true,
+    "all_actual_neighbors_at_most_one": true,
+    "all_anchor_distance_at_most_fifteen": true,
+    "all_real_hp100": true
+  },
+  "raw_terminal": {
+    "double_header_bytes": 1176,
+    "double_header_equal": true,
+    "actual_eight_original_entries_verified": true,
+    "timer": 0,
+    "timer_after": 0,
+    "active": 0,
+    "restore_mask": 255,
+    "binding_verified": true
+  },
+  "branch_coverage": {
+    "actual_cohort_reset74_observed": false,
+    "preborrow_passive_observed": false,
+    "preborrow_passive_sdk_credit": false,
+    "path_replacement_failure_observed": false,
+    "proposal_reached_branch_observed": false
+  },
+  "lifetime_limit": "Return839 is proven with an owned live actor;840 own-roster HP100 is separately proven. The different native team on840 is only an observed subsequent team, not evidence of who moved it or a persistent held pool. No liveness after840 is claimed.",
+  "field_reserve_hold_primitive_verified": true,
+  "tactical_source_granted": false,
+  "effect_verified": false,
+  "mission_completed": false,
+  "persistent_pool_verified": false,
+  "reserve_active_after_return": false,
+  "reserve_to_mission_handoff_verified": false,
+  "old_failed_versions_requalified": false,
+  "review_sdk_calls": 0,
+  "gui_used": false,
+  "frozen_sources_or_raw_mutated": false
+}

@@ -1,0 +1,25 @@
+{
+  "command": [
+    "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\.venv\\Scripts\\python.exe",
+    "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\tactical\\reserve-v6\\lease.py",
+    "--session",
+    "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261026-050813-commander\\session.json",
+    "--commander",
+    "57e668b4-4d89-43bd-bc92-0dd436f046ef",
+    "--birth-report",
+    "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261026-050813-commander\\paid-reserve6-01.json",
+    "--actor-id",
+    "786",
+    "--seq",
+    "671684984",
+    "--wait-ready-seconds",
+    "5",
+    "--execute",
+    "--output",
+    "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261026-050813-commander\\paid-reserve6-01-reserve.json"
+  ],
+  "execution_mode": "same_process_preloaded_frozen_wrapper",
+  "attempts": 1,
+  "native_host_spawns_max": 1,
+  "source_sha256": "8d975becc05066353b9f8327e53f8b766bd66ba5fcf0e08835cd9a9f4a805205"
+}

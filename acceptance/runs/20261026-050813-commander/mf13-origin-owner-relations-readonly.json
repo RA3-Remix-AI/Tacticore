@@ -1,0 +1,87 @@
+{
+  "protocol": "owner_relation_metadata_readonly_v1",
+  "session_id": "197022e0-7ea5-417b-9eae-dede7183bc61",
+  "pid": 66932,
+  "frame": 973,
+  "mutations": false,
+  "sdk_calls": 0,
+  "enemy_xyz_or_hp_read": false,
+  "player": "0x32084d0",
+  "nodes": 792,
+  "owners": [
+    {
+      "owner": "0x32084d0",
+      "vtable": "0xc5bce0",
+      "index": 3,
+      "relation": "self",
+      "hash_found": true,
+      "container": "0x3cbce80",
+      "sentinel": "0x5",
+      "buckets": "0x436afb8",
+      "bucket_count": 5,
+      "chain": [
+        {
+          "address": "0x436b478",
+          "key": 3,
+          "value": 2,
+          "next": "0x0"
+        }
+      ],
+      "object_count": 16
+    },
+    {
+      "owner": "0x3209830",
+      "vtable": "0xc5bce0",
+      "index": 4,
+      "relation": "enemy",
+      "hash_found": true,
+      "container": "0x3cbce80",
+      "sentinel": "0x5",
+      "buckets": "0x436afb8",
+      "bucket_count": 5,
+      "chain": [
+        {
+          "address": "0x436b488",
+          "key": 4,
+          "value": 0,
+          "next": "0x0"
+        }
+      ],
+      "object_count": 16
+    },
+    {
+      "owner": "0x3205e10",
+      "vtable": "0xc5bce0",
+      "index": 1,
+      "relation": "neutral",
+      "hash_found": false,
+      "container": "0x3cbce80",
+      "sentinel": "0x5",
+      "buckets": "0x436afb8",
+      "bucket_count": 5,
+      "chain": [],
+      "object_count": 745
+    },
+    {
+      "owner": "0x3204ab0",
+      "vtable": "0xc5bce0",
+      "index": 0,
+      "relation": "neutral",
+      "hash_found": true,
+      "container": "0x3cbce80",
+      "sentinel": "0x5",
+      "buckets": "0x436afb8",
+      "bucket_count": 5,
+      "chain": [
+        {
+          "address": "0x436b4b8",
+          "key": 0,
+          "value": 1,
+          "next": "0x436b4a8"
+        }
+      ],
+      "object_count": 15
+    }
+  ],
+  "helper_sha256": "615c4405e8a0da38ba5f9b5c28266fd53b4d261cc9bde11a8fa5d3035c5ab8f7"
+}
