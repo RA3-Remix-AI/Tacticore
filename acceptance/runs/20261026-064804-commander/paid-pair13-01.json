@@ -1,0 +1,59 @@
+{
+  "protocol": "running_paid_pair_controller13_calibration_v1",
+  "session_id": "8de68fc1-6b82-4892-a949-f7e75d224b14",
+  "pid": 12364,
+  "model_requests": 0,
+  "controller_file": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261026-064804-commander\\paid-pair13-01-controller-input.json",
+  "controller_report": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261026-064804-commander\\paid-pair13-01-controller.json",
+  "driver_sha256": "35266cfef9cc02bf460347e72705e55de10ef8b0b2af97ab7a902a503944cbc9",
+  "production_commands": [],
+  "production_budget": 5000,
+  "pair_spend_limit": 305,
+  "reserve_floor": 1000,
+  "status": "starting",
+  "tactical_native_attempts": 1,
+  "production_stopped": {
+    "session_id": "8de68fc1-6b82-4892-a949-f7e75d224b14",
+    "player_id": 3,
+    "commander_id": "57e668b4-4d89-43bd-bc92-0dd436f046ef",
+    "personality_binding_verified": true,
+    "state": "stopped",
+    "native_phase": 2,
+    "native_error": 0,
+    "restore_mask": 31,
+    "active_callbacks": 0,
+    "spent_committed": 0,
+    "total_budget": 5000,
+    "last_seq": 0,
+    "ledger": [],
+    "local_error": null
+  },
+  "paid_orders_verified": true,
+  "production_after_entries": [
+    {
+      "address": "0x7ba770",
+      "expected": "81ec3c010000f605486bce0001535657",
+      "actual": "81ec3c010000f605486bce0001535657"
+    },
+    {
+      "address": "0x70f440",
+      "expected": "83ec08558b6c241085ed568bf1",
+      "actual": "83ec08558b6c241085ed568bf1"
+    },
+    {
+      "address": "0x849220",
+      "expected": "81ecb4000000568bf18b46148b4e04",
+      "actual": "81ecb4000000568bf18b46148b4e04"
+    },
+    {
+      "address": "0x73e390",
+      "expected": "83ec208b4424248b54242c5355",
+      "actual": "83ec208b4424248b54242c5355"
+    },
+    {
+      "address": "0x789bf0",
+      "expected": "51568bf180be3801000000",
+      "actual": "51568bf180be3801000000"
+    }
+  ]
+}
