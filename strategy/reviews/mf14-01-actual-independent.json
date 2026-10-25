@@ -1,0 +1,663 @@
+{
+  "protocol": "mf14_actual_independent_review_v1",
+  "source_raw": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261026-071801-commander\\paid-pair14-01-controller.json",
+  "source_sha256": "789129a5d283e0273a49edc4963080f0a1475e30319a8a5aa8866bb81e0dfb40",
+  "field_mission_passed": false,
+  "tactical_source_granted": false,
+  "original_qualification": {
+    "status": "not_passed",
+    "checks": {
+      "well_formed_raw_evidence": false
+    },
+    "effect_verified": false,
+    "source_damage_amount": 0.0,
+    "approach_verified": false,
+    "long_approach_verified": false,
+    "retreat_verified": false,
+    "long_retreat_verified": false,
+    "restoration_verified": true,
+    "restoration": {
+      "restoration_verified": true,
+      "stance_restoration_verified": true,
+      "control_release_verified": true,
+      "return_verified": false,
+      "disposed_verified": false,
+      "actors": [
+        {
+          "role": 0,
+          "object_id": 798,
+          "returned": false,
+          "disposed": false,
+          "never_held": true,
+          "released": true
+        },
+        {
+          "role": 1,
+          "object_id": 0,
+          "returned": false,
+          "disposed": false,
+          "never_held": true,
+          "released": true
+        }
+      ],
+      "semantics": "independent_native_pool_return_or_readonly_disposal",
+      "completion_claim": false
+    },
+    "control_release_verified": true,
+    "combined_arms_verified": false,
+    "qualified_hits": [],
+    "paired_stages": [],
+    "mission_protocol": "continuous_tactical_v1",
+    "qualification_revision": "mfm14_actual_breadcrumbs_v1"
+  },
+  "source_pins": true,
+  "scheduler": {
+    "verified": true,
+    "observed": true,
+    "field_verified": false,
+    "checks": {
+      "actual_sparse_schedule": true,
+      "typed_and_original_binding": true,
+      "first_capture": true,
+      "nonce_fresh_monotonic": true,
+      "actual_unique_advance": true,
+      "fallback_only_after_lost_pulse": true,
+      "one_real_role_sample_per_logical_frame": true,
+      "terminal_original_nonce_state": true,
+      "bounded_sparse_proof_count": true
+    },
+    "captures": [
+      {
+        "seq": 2,
+        "frame": 957,
+        "origin": 1,
+        "requested_nonce": 0,
+        "acknowledged_nonce": 0,
+        "actual_advance_count": 1,
+        "accepted_pulse_count": 0
+      },
+      {
+        "seq": 7,
+        "frame": 958,
+        "origin": 2,
+        "requested_nonce": 680259390,
+        "acknowledged_nonce": 680259390,
+        "actual_advance_count": 2,
+        "accepted_pulse_count": 2
+      },
+      {
+        "seq": 14,
+        "frame": 989,
+        "origin": 2,
+        "requested_nonce": 680261421,
+        "acknowledged_nonce": 680261421,
+        "actual_advance_count": 33,
+        "accepted_pulse_count": 64
+      },
+      {
+        "seq": 19,
+        "frame": 1021,
+        "origin": 2,
+        "requested_nonce": 680263546,
+        "acknowledged_nonce": 680263546,
+        "actual_advance_count": 65,
+        "accepted_pulse_count": 128
+      }
+    ],
+    "posted_pulse_observed": true,
+    "fallback_observed": false,
+    "paused_counter": 0,
+    "semantics": "scheduling_only_never_stop_arrival_damage_or_sdk_credit"
+  },
+  "producer_at_arm": {
+    "verified": true,
+    "checks": {
+      "header_before_hex": true,
+      "header_after_hex": true,
+      "original_reader_and_readonly_scope": true,
+      "raw_header_continuity": true,
+      "exact_arm_command_and_process": true,
+      "actual_player_runtime": true,
+      "actual_loaded_pe32_identity": true,
+      "all_five_actual_installed_entries": true
+    },
+    "actor_admission_credit": false,
+    "source": "original_producer_rpm_before_controller_arm"
+  },
+  "one_actual_running_receipt": {
+    "verified": true,
+    "checks": {
+      "original_rpc1_pairs": true,
+      "exact_binding": true,
+      "paid_original_receipts": true,
+      "immutable_payment_projection": true,
+      "header_output_join": true
+    },
+    "observations": [
+      {
+        "role": 0,
+        "frame": 1031,
+        "generation": 1,
+        "receipt_index": 0,
+        "receipt": {
+          "updates": 0,
+          "version": 135,
+          "command": {
+            "seq": 1,
+            "id": [
+              3483420059,
+              2118963692,
+              3693792403,
+              401472189
+            ],
+            "task": [
+              412279273,
+              1732497018,
+              763375757,
+              548462251
+            ],
+            "session": [
+              3920352287,
+              88879495,
+              308195461,
+              3676357856
+            ],
+            "commander": [
+              3026773591,
+              3175319885,
+              3557659324,
+              4014403638
+            ],
+            "hash": 430641583,
+            "budget": 85,
+            "reserve": 1000,
+            "expires": 1801,
+            "queue_limit": 2,
+            "requested_tick": 680259437,
+            "factory": 89672832,
+            "factory_id": 765,
+            "iface": 101176452
+          },
+          "state": 2,
+          "error": 0,
+          "attempted": 1,
+          "frame": 959,
+          "queue_id": 10,
+          "node": 104376640,
+          "cost": 85,
+          "quoted_cost": 85,
+          "cash": 3851,
+          "liability": 0,
+          "prior_count": 1,
+          "preserved": 1,
+          "paid": 85,
+          "debit_count": 60,
+          "payment_error": 0,
+          "created": 1,
+          "object": 89715072,
+          "object_id": 798,
+          "object_owner": 50332880,
+          "object_hash": 430641583,
+          "completed": 1,
+          "completion_frame": 1030,
+          "live_samples": 1,
+          "object_hp_bits": 1120403456,
+          "object_x_bits": 1155126341,
+          "object_y_bits": 1155248496,
+          "factory_x_bits": 1155230608,
+          "factory_y_bits": 1155144229
+        },
+        "seq": 20
+      }
+    ],
+    "scope": "historical_paid_provenance_not_current_actor_admission"
+  },
+  "terminal_summary": {
+    "phase": 4,
+    "error": 76,
+    "host_exit": 9,
+    "events": 24,
+    "finished_frame": 1031,
+    "controller": {
+      "stage": 5,
+      "error": 76,
+      "reserve_start_frame": 0,
+      "reserve_deadline_frame": 0,
+      "hard_deadline_frame": 0,
+      "lease_issued_frame": 0,
+      "pair_ready_frame": 0,
+      "mission_commit_frame": 0,
+      "approach_frame": 0,
+      "clock_frozen": 0,
+      "bound_mask": 1,
+      "held_mask": 0,
+      "ready_mask": 0,
+      "channel_claimed": 0,
+      "producer_snapshots": 1,
+      "producer_retry_count": 148,
+      "scope_verified": 1,
+      "untasked_cleanup": 1
+    }
+  },
+  "admission_sufficient_failure": {
+    "event_seq": 23,
+    "sample": {
+      "frame": 1031,
+      "thing": 89715072,
+      "id": 798,
+      "type_hash": 430641583,
+      "owner": 50332880,
+      "template_ptr": 247129728,
+      "update": 104633632,
+      "update_vtable": 12879472,
+      "update_backref": 89715072,
+      "team": 85792272,
+      "stance_module": 101091088,
+      "stance_vtable": 12812176,
+      "stance_backref": 89715072,
+      "stance_data": 248741088,
+      "stance": 0,
+      "stance_enum_list": 249778928,
+      "stance_enum_count": 4,
+      "stance_enum_entries": [
+        1,
+        0,
+        0,
+        0,
+        2,
+        0,
+        3,
+        0
+      ],
+      "sm": 97140392,
+      "sm_owner": 89715072,
+      "sm_flags": 65536,
+      "state": 77539272,
+      "state_id": 7,
+      "state_vtable": 12941928,
+      "state_owner_sm": 97140392,
+      "path": 104660272,
+      "source": 2,
+      "child_sm": 0,
+      "child_sm_vtable": 0,
+      "child_state": 0,
+      "child_state_id": 0,
+      "child_state_vtable": 0,
+      "child_state_owner_sm": 0,
+      "holder": 0,
+      "status_words": [
+        32768,
+        0,
+        536870912,
+        0,
+        2097152,
+        0,
+        0
+      ],
+      "height_flags": 1,
+      "height": 0.0,
+      "hp": 100.0,
+      "xyz": [
+        1742.6334228515625,
+        1757.544921875,
+        210.0
+      ],
+      "auto_acquire": 74610288,
+      "auto_acquire_flags_9e": 1,
+      "auto_acquire_24": 0,
+      "auto_acquire_28": 0,
+      "auto_acquire_2c": 0,
+      "auto_acquire_70": 4294967295
+    },
+    "factory_raw": [
+      89672832,
+      765,
+      50332880,
+      246900056,
+      2161437214,
+      1031,
+      1155230608,
+      1155144229,
+      1150681088,
+      12901216
+    ],
+    "surface_verified": false,
+    "height_positive_bit4": false,
+    "conclusion": "height_flags=1 lacks required positive grounded bit4. reserve_surface false makes base_good false, sufficient for first141 arg0/error76. State7/source2/path nonzero are facts; do not infer enemy action or prior ground validity."
+  },
+  "pwt_actual": {
+    "verified": false,
+    "error": "original_stack128",
+    "records": [
+      {
+        "seq": 3,
+        "kind": 164,
+        "role": 0,
+        "frame": 957,
+        "arg": 6,
+        "stack_word_count": 68,
+        "stack_prefix": [
+          1398033969,
+          1,
+          0,
+          0,
+          957,
+          957,
+          0,
+          0
+        ]
+      },
+      {
+        "seq": 4,
+        "kind": 165,
+        "role": 0,
+        "frame": 957,
+        "arg": 6,
+        "stack_word_count": 68,
+        "stack_prefix": [
+          1398033969,
+          1,
+          0,
+          0,
+          957,
+          957,
+          0,
+          0
+        ]
+      },
+      {
+        "seq": 5,
+        "kind": 164,
+        "role": 1,
+        "frame": 957,
+        "arg": 6,
+        "stack_word_count": 68,
+        "stack_prefix": [
+          1398033969,
+          1,
+          0,
+          1,
+          957,
+          957,
+          0,
+          0
+        ]
+      },
+      {
+        "seq": 6,
+        "kind": 165,
+        "role": 1,
+        "frame": 957,
+        "arg": 6,
+        "stack_word_count": 68,
+        "stack_prefix": [
+          1398033969,
+          1,
+          0,
+          1,
+          957,
+          957,
+          0,
+          0
+        ]
+      },
+      {
+        "seq": 8,
+        "kind": 164,
+        "role": 0,
+        "frame": 959,
+        "arg": 9,
+        "stack_word_count": 68,
+        "stack_prefix": [
+          1398033969,
+          1,
+          0,
+          0,
+          959,
+          959,
+          0,
+          0
+        ]
+      },
+      {
+        "seq": 9,
+        "kind": 165,
+        "role": 0,
+        "frame": 959,
+        "arg": 9,
+        "stack_word_count": 68,
+        "stack_prefix": [
+          1398033969,
+          1,
+          0,
+          0,
+          959,
+          959,
+          0,
+          0
+        ]
+      },
+      {
+        "seq": 10,
+        "kind": 164,
+        "role": 0,
+        "frame": 988,
+        "arg": 9,
+        "stack_word_count": 68,
+        "stack_prefix": [
+          1398033969,
+          1,
+          0,
+          0,
+          988,
+          988,
+          0,
+          0
+        ]
+      },
+      {
+        "seq": 11,
+        "kind": 165,
+        "role": 0,
+        "frame": 988,
+        "arg": 9,
+        "stack_word_count": 68,
+        "stack_prefix": [
+          1398033969,
+          1,
+          0,
+          0,
+          988,
+          988,
+          0,
+          0
+        ]
+      },
+      {
+        "seq": 12,
+        "kind": 164,
+        "role": 1,
+        "frame": 988,
+        "arg": 6,
+        "stack_word_count": 68,
+        "stack_prefix": [
+          1398033969,
+          1,
+          0,
+          1,
+          988,
+          988,
+          0,
+          0
+        ]
+      },
+      {
+        "seq": 13,
+        "kind": 165,
+        "role": 1,
+        "frame": 988,
+        "arg": 6,
+        "stack_word_count": 68,
+        "stack_prefix": [
+          1398033969,
+          1,
+          0,
+          1,
+          988,
+          988,
+          0,
+          0
+        ]
+      },
+      {
+        "seq": 15,
+        "kind": 164,
+        "role": 0,
+        "frame": 1020,
+        "arg": 9,
+        "stack_word_count": 68,
+        "stack_prefix": [
+          1398033969,
+          1,
+          0,
+          0,
+          1020,
+          1020,
+          0,
+          0
+        ]
+      },
+      {
+        "seq": 16,
+        "kind": 165,
+        "role": 0,
+        "frame": 1020,
+        "arg": 9,
+        "stack_word_count": 68,
+        "stack_prefix": [
+          1398033969,
+          1,
+          0,
+          0,
+          1020,
+          1020,
+          0,
+          0
+        ]
+      },
+      {
+        "seq": 17,
+        "kind": 164,
+        "role": 1,
+        "frame": 1020,
+        "arg": 6,
+        "stack_word_count": 68,
+        "stack_prefix": [
+          1398033969,
+          1,
+          0,
+          1,
+          1020,
+          1020,
+          0,
+          0
+        ]
+      },
+      {
+        "seq": 18,
+        "kind": 165,
+        "role": 1,
+        "frame": 1020,
+        "arg": 6,
+        "stack_word_count": 68,
+        "stack_prefix": [
+          1398033969,
+          1,
+          0,
+          1,
+          1020,
+          1020,
+          0,
+          0
+        ]
+      }
+    ],
+    "production_source_lines": {
+      "diagnostic_copy_range": "event.cpp.inc22 only140..163",
+      "stance_overwrite_exclusion": "event.cpp.inc23 only140..163"
+    },
+    "conclusion": "Actual164/165 are STN1/68words, not PWT1/128. Harness stub copied diagnostic directly and did not exercise production event routing. No original failed-read Header/Receipt can be recovered from these rows; do not retrofill."
+  },
+  "paid_math": {
+    "cost": 85,
+    "paid": 85,
+    "debit_count": 60,
+    "cash": 3851,
+    "liability": 0,
+    "command_reserve": 1000,
+    "cash_required": 1085,
+    "bound_object_id": 798,
+    "completion_frame": 1030,
+    "running_capture_frame": 1031
+  },
+  "terminal_release": {
+    "readonly_audit": true,
+    "entries_verified": true,
+    "double_header_verified": true,
+    "actual_entry_count": 17,
+    "timer": 0,
+    "active": 0,
+    "mask": 131071,
+    "independent": {
+      "restoration_verified": true,
+      "stance_restoration_verified": true,
+      "control_release_verified": true,
+      "return_verified": false,
+      "disposed_verified": false,
+      "actors": [
+        {
+          "role": 0,
+          "object_id": 798,
+          "returned": false,
+          "disposed": false,
+          "never_held": true,
+          "released": true
+        },
+        {
+          "role": 1,
+          "object_id": 0,
+          "returned": false,
+          "disposed": false,
+          "never_held": true,
+          "released": true
+        }
+      ],
+      "semantics": "independent_native_pool_return_or_readonly_disposal",
+      "completion_claim": false
+    },
+    "semantics": "Never borrowed both roles. Vacuous restoration_verified is closure only: no actual stanceRestore or normalPoolReturn occurred."
+  },
+  "coverage": {
+    "real_payment_split_count": true,
+    "actual_namespace14_scheduler": true,
+    "three_frame_admission": false,
+    "borrow": false,
+    "reserve_move": false,
+    "ready": false,
+    "model_commit": false,
+    "attack": false,
+    "damage": false,
+    "physical_home": false,
+    "actual_stance_restore": false,
+    "actual_live_return": false,
+    "pwt_original_raw": false
+  },
+  "source_hashes": {
+    "formation_mission_qualification.py": "8cf87c01a0992eb112cf30c9ac3d32e32a9544206e17870de536f8c9e531947c",
+    "reserve_controller_audit.py": "80ea0f1b35a1d509909e99ee7a5cc7c665dde8a784061e83ace4b2a4c325194e",
+    "event.cpp.inc": "10f81d17a8ed180ff5fc673918add363f53123a280201683ddef40c709176272",
+    "controller.cpp.inc": "976ab3e9119b5e3d442fff2eaff2f1e511e348c90ccbdb809cc6ea2f41a3bb18",
+    "revision.json": "f508ae04be998d52bf3cd5a7e0b3243e8d0c97d54a9a9503f0f778b10f17c44c",
+    "paid-pair14-01-controller.json": "789129a5d283e0273a49edc4963080f0a1475e30319a8a5aa8866bb81e0dfb40"
+  }
+}

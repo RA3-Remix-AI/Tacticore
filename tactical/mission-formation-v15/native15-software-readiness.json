@@ -1,0 +1,40 @@
+{
+  "scope": "MF15_isolated_spawn_wait_actual_event_router_software_only",
+  "checks": {
+    "compiled_joint": true,
+    "all10includes": true,
+    "namespace15_all_fixtures": true,
+    "actual_production_payload_router": true,
+    "controller137": true
+  },
+  "controller_cases": 137,
+  "breadcrumb_cases": 65,
+  "pending_cases": 75,
+  "scheduler_cases": 44,
+  "tls_cases": 15,
+  "stance_cases": 23,
+  "actual_payload_router_cases": 14,
+  "total_pure_cases": 373,
+  "fixtures": {
+    "controller-pair-ready.bin": "c131754d2ffb1337eb07371934f6329cbc40aab98e44d916212004a55edc4582",
+    "controller-commit-accepted.bin": "03c8e454da4ce7c3eb38e4fd7e4f4dafcf7f3cdc21e13b491db6284e48140342",
+    "controller-producer-wait.bin": "d9ea4d704300cde7840bf5382fd485f2fa7359f3bf6101ce5ecd0dfd3ca4ebdc",
+    "controller-spawn-wait.bin": "9a6725ac5365f59e422a5dae6f587e6b9be95eddceb83e1636e21fa1d9f183cd",
+    "origin-hidden-positive.bin": "25c51ed44222a13b89240a1bb68f929cc92dab400159dee6d35093d8d131c145",
+    "origin-visible-positive.bin": "ab87fe54315568a4bd28417bdba650105091032a23cc1fe5944ca9eb45b46871",
+    "origin-visible-blocked.bin": "a93ce903a685d9f7fa51448cd95cee69e7d69167a129478d99730c50202d1c38"
+  },
+  "actual_split_payment_fixture_sha256": "a02088912e9cbb09781a807e5bf79b88e2346dd1dd9371d4cf8d0352c102eb32",
+  "test_sources": {
+    "test_breadcrumb_native.cpp": "810960b6bda2f8822a3cc5605d9f16b043910d8280cfc9e0ff288927747e0208",
+    "test_controller_native.cpp": "31a0c1043d4eb3866525a7934171661ecd1c052875e3f0826e5955a84f545e02",
+    "test_event_payload_native.cpp": "4994b7b0588669888e5fddabeb2dfe8d986e133a6217be80d1690323f46e38ea",
+    "test_pending_native.cpp": "68b72c4bb0b0c3afea7c3464ca0bc808c620aee7b5fd8c4220cc5c62128d1b2f",
+    "test_scheduler_native.cpp": "2643e8e9a89905d33efc9e12ea0980249dd19bb4a852b8ecea10738b08f49723",
+    "test_stance_native.cpp": "fb340099e501a82eab0b57629d9f9ed7b821cacf5ef08bde2f4d0f7c7514620c",
+    "test_tls_alignment_native.cpp": "341ea6e8588b990bf737b3ca4172c2446a49976444b34992465bd567c8c12e42"
+  },
+  "native_revision_sha256": "b1383701747dacce4a1773b31b93b53842bfc99448f39fd143428dddb9265b08",
+  "field_verified": false,
+  "capability_granted": false
+}

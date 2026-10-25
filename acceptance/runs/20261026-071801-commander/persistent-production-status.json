@@ -1,0 +1,40 @@
+{
+  "session_id": "1fd4abe9-8731-4c05-85b0-5e12e0c420db",
+  "player_id": 3,
+  "commander_id": "57e668b4-4d89-43bd-bc92-0dd436f046ef",
+  "personality_binding_verified": true,
+  "state": "stopped",
+  "native_phase": 2,
+  "native_error": 0,
+  "restore_mask": 31,
+  "active_callbacks": 0,
+  "spent_committed": 85,
+  "total_budget": 5000,
+  "last_seq": 1,
+  "ledger": [
+    {
+      "command_id": "9bc5a0cf-ecd1-4c7e-93cc-2adcbdfaed17",
+      "task_id": "e9e19218-7ace-4367-8d30-802dabdeb020",
+      "seq": 1,
+      "status": "completed",
+      "accepted": true,
+      "started": true,
+      "completed": true,
+      "reason_code": "native_0",
+      "unit": "conscript",
+      "queue_id": 10,
+      "object_id": 798,
+      "cost": 85,
+      "paid": 85,
+      "paid_verified": true,
+      "created": true,
+      "completion_observed": true,
+      "live_samples": 7,
+      "payment_error": 0,
+      "enqueue_frame": 959,
+      "completion_frame": 1030,
+      "queue_preserved": true
+    }
+  ],
+  "local_error": null
+}

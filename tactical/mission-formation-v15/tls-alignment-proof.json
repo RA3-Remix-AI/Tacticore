@@ -1,0 +1,483 @@
+{
+  "protocol": "mfm10_actual_compiled_tls_scalar_alignment_v1",
+  "native_binary_sha256": "80c9c60a3325d8293543dc02c1d94c5865272bd290e20a6c4f5b2e039c0b47f1",
+  "pending_source_sha256": "70ba523c7d1bb33513769a5e0e044111610aaabfb9dbaecadafd705ef2413bc3",
+  "source_file": "pending.cpp.inc",
+  "regression_source_sha256": "341ea6e8588b990bf737b3ca4172c2446a49976444b34992465bd567c8c12e42",
+  "regression_binary_sha256": "935b602b33c381ad3e171a0ec10d888848c38bf66e5572f85f4b9bf5ad9cbd72",
+  "regression_report_sha256": "7089a6cb52fca810e6927f75e23a3e0e1a1fe0079d155548d8348bf8a84a5603",
+  "disassembly_sha256": "80a55b3ad8889b003e08f3987731d61cbe1dfbec67a0907bc01a27bf9fc88e9d",
+  "verifier_sha256": "14bd28cc2b42cc3a8b48387b9592e0c34dc3e05c95b2789304bbb535fabfdfaf",
+  "checks": {
+    "actual_dll_bytes_match": true,
+    "all_eight_accessor_families": true,
+    "no_aligned_simd_tls_access": true,
+    "true_volatile_native_tls": true,
+    "no_aggregate_tls_access": true,
+    "actual_offset_eight": true,
+    "actual_begin_and_prior_restore": true,
+    "actual_thread_isolation": true,
+    "fifteen_real_cases": true,
+    "no_game_or_sdk": true,
+    "compiled_joint_dll": true,
+    "compiled_joint_pending": true
+  },
+  "functions": [
+    {
+      "symbol": "__ZL20clear_dispatch_wordsPVj.constprop.0",
+      "address_rva": 6416,
+      "instructions": [
+        {
+          "rva": 6416,
+          "bytes": "a198e4e766",
+          "assembly": "mov    0x66e7e498,%eax"
+        },
+        {
+          "rva": 6421,
+          "bytes": "648b152c000000",
+          "assembly": "mov    %fs:0x2c,%edx"
+        },
+        {
+          "rva": 6428,
+          "bytes": "8b0482",
+          "assembly": "mov    (%edx,%eax,4),%eax"
+        },
+        {
+          "rva": 6431,
+          "bytes": "c7800400000000",
+          "assembly": "movl   $0x0,0x4(%eax)"
+        },
+        {
+          "rva": 6438,
+          "bytes": "000000",
+          "assembly": ""
+        },
+        {
+          "rva": 6441,
+          "bytes": "c7800800000000",
+          "assembly": "movl   $0x0,0x8(%eax)"
+        },
+        {
+          "rva": 6448,
+          "bytes": "000000",
+          "assembly": ""
+        },
+        {
+          "rva": 6451,
+          "bytes": "c7800c00000000",
+          "assembly": "movl   $0x0,0xc(%eax)"
+        },
+        {
+          "rva": 6458,
+          "bytes": "000000",
+          "assembly": ""
+        },
+        {
+          "rva": 6461,
+          "bytes": "c7801000000000",
+          "assembly": "movl   $0x0,0x10(%eax)"
+        },
+        {
+          "rva": 6468,
+          "bytes": "000000",
+          "assembly": ""
+        },
+        {
+          "rva": 6471,
+          "bytes": "c3",
+          "assembly": "ret"
+        },
+        {
+          "rva": 6472,
+          "bytes": "2e8db426000000",
+          "assembly": "lea    %cs:0x0(%esi,%eiz,1),%esi"
+        },
+        {
+          "rva": 6479,
+          "bytes": "00",
+          "assembly": ""
+        }
+      ]
+    },
+    {
+      "symbol": "__ZL18clear_move_contextv",
+      "address_rva": 6480,
+      "instructions": [
+        {
+          "rva": 6480,
+          "bytes": "ebbe",
+          "assembly": "jmp    66e01910 <__ZL20clear_dispatch_wordsPVj.constprop.0>"
+        },
+        {
+          "rva": 6482,
+          "bytes": "8db600000000",
+          "assembly": "lea    0x0(%esi),%esi"
+        },
+        {
+          "rva": 6488,
+          "bytes": "2e8db426000000",
+          "assembly": "lea    %cs:0x0(%esi,%eiz,1),%esi"
+        },
+        {
+          "rva": 6495,
+          "bytes": "00",
+          "assembly": ""
+        }
+      ]
+    },
+    {
+      "symbol": "__ZL18set_dispatch_wordsPVjjjjj.constprop.0",
+      "address_rva": 6496,
+      "instructions": [
+        {
+          "rva": 6496,
+          "bytes": "56",
+          "assembly": "push   %esi"
+        },
+        {
+          "rva": 6497,
+          "bytes": "648b352c000000",
+          "assembly": "mov    %fs:0x2c,%esi"
+        },
+        {
+          "rva": 6504,
+          "bytes": "53",
+          "assembly": "push   %ebx"
+        },
+        {
+          "rva": 6505,
+          "bytes": "89c3",
+          "assembly": "mov    %eax,%ebx"
+        },
+        {
+          "rva": 6507,
+          "bytes": "a198e4e766",
+          "assembly": "mov    0x66e7e498,%eax"
+        },
+        {
+          "rva": 6512,
+          "bytes": "8b0486",
+          "assembly": "mov    (%esi,%eax,4),%eax"
+        },
+        {
+          "rva": 6515,
+          "bytes": "899804000000",
+          "assembly": "mov    %ebx,0x4(%eax)"
+        },
+        {
+          "rva": 6521,
+          "bytes": "899008000000",
+          "assembly": "mov    %edx,0x8(%eax)"
+        },
+        {
+          "rva": 6527,
+          "bytes": "8b54240c",
+          "assembly": "mov    0xc(%esp),%edx"
+        },
+        {
+          "rva": 6531,
+          "bytes": "89880c000000",
+          "assembly": "mov    %ecx,0xc(%eax)"
+        },
+        {
+          "rva": 6537,
+          "bytes": "899010000000",
+          "assembly": "mov    %edx,0x10(%eax)"
+        },
+        {
+          "rva": 6543,
+          "bytes": "5b",
+          "assembly": "pop    %ebx"
+        },
+        {
+          "rva": 6544,
+          "bytes": "5e",
+          "assembly": "pop    %esi"
+        },
+        {
+          "rva": 6545,
+          "bytes": "c3",
+          "assembly": "ret"
+        },
+        {
+          "rva": 6546,
+          "bytes": "8db600000000",
+          "assembly": "lea    0x0(%esi),%esi"
+        },
+        {
+          "rva": 6552,
+          "bytes": "2e8db426000000",
+          "assembly": "lea    %cs:0x0(%esi,%eiz,1),%esi"
+        },
+        {
+          "rva": 6559,
+          "bytes": "00",
+          "assembly": ""
+        }
+      ]
+    },
+    {
+      "symbol": "__ZL16set_move_contextjjjj",
+      "address_rva": 6560,
+      "instructions": [
+        {
+          "rva": 6560,
+          "bytes": "ebbe",
+          "assembly": "jmp    66e01960 <__ZL18set_dispatch_wordsPVjjjjj.constprop.0>"
+        },
+        {
+          "rva": 6562,
+          "bytes": "8db600000000",
+          "assembly": "lea    0x0(%esi),%esi"
+        },
+        {
+          "rva": 6568,
+          "bytes": "2e8db426000000",
+          "assembly": "lea    %cs:0x0(%esi,%eiz,1),%esi"
+        },
+        {
+          "rva": 6575,
+          "bytes": "00",
+          "assembly": ""
+        }
+      ]
+    },
+    {
+      "symbol": "__ZL20store_dispatch_wordsPVjRK19MoveDispatchContext.constprop.0",
+      "address_rva": 6576,
+      "instructions": [
+        {
+          "rva": 6576,
+          "bytes": "53",
+          "assembly": "push   %ebx"
+        },
+        {
+          "rva": 6577,
+          "bytes": "89c2",
+          "assembly": "mov    %eax,%edx"
+        },
+        {
+          "rva": 6579,
+          "bytes": "8b08",
+          "assembly": "mov    (%eax),%ecx"
+        },
+        {
+          "rva": 6581,
+          "bytes": "648b1d2c000000",
+          "assembly": "mov    %fs:0x2c,%ebx"
+        },
+        {
+          "rva": 6588,
+          "bytes": "a198e4e766",
+          "assembly": "mov    0x66e7e498,%eax"
+        },
+        {
+          "rva": 6593,
+          "bytes": "8b0483",
+          "assembly": "mov    (%ebx,%eax,4),%eax"
+        },
+        {
+          "rva": 6596,
+          "bytes": "898804000000",
+          "assembly": "mov    %ecx,0x4(%eax)"
+        },
+        {
+          "rva": 6602,
+          "bytes": "8b4a04",
+          "assembly": "mov    0x4(%edx),%ecx"
+        },
+        {
+          "rva": 6605,
+          "bytes": "898808000000",
+          "assembly": "mov    %ecx,0x8(%eax)"
+        },
+        {
+          "rva": 6611,
+          "bytes": "8b4a08",
+          "assembly": "mov    0x8(%edx),%ecx"
+        },
+        {
+          "rva": 6614,
+          "bytes": "8b520c",
+          "assembly": "mov    0xc(%edx),%edx"
+        },
+        {
+          "rva": 6617,
+          "bytes": "89880c000000",
+          "assembly": "mov    %ecx,0xc(%eax)"
+        },
+        {
+          "rva": 6623,
+          "bytes": "899010000000",
+          "assembly": "mov    %edx,0x10(%eax)"
+        },
+        {
+          "rva": 6629,
+          "bytes": "5b",
+          "assembly": "pop    %ebx"
+        },
+        {
+          "rva": 6630,
+          "bytes": "c3",
+          "assembly": "ret"
+        },
+        {
+          "rva": 6631,
+          "bytes": "90",
+          "assembly": "nop"
+        },
+        {
+          "rva": 6632,
+          "bytes": "2e8db426000000",
+          "assembly": "lea    %cs:0x0(%esi,%eiz,1),%esi"
+        },
+        {
+          "rva": 6639,
+          "bytes": "00",
+          "assembly": ""
+        }
+      ]
+    },
+    {
+      "symbol": "__ZL20restore_move_contextRK19MoveDispatchContext",
+      "address_rva": 6640,
+      "instructions": [
+        {
+          "rva": 6640,
+          "bytes": "ebbe",
+          "assembly": "jmp    66e019b0 <__ZL20store_dispatch_wordsPVjRK19MoveDispatchContext.constprop.0>"
+        },
+        {
+          "rva": 6642,
+          "bytes": "8db600000000",
+          "assembly": "lea    0x0(%esi),%esi"
+        },
+        {
+          "rva": 6648,
+          "bytes": "2e8db426000000",
+          "assembly": "lea    %cs:0x0(%esi,%eiz,1),%esi"
+        },
+        {
+          "rva": 6655,
+          "bytes": "00",
+          "assembly": ""
+        }
+      ]
+    },
+    {
+      "symbol": "__ZL19load_dispatch_wordsPVKj.constprop.0",
+      "address_rva": 6656,
+      "instructions": [
+        {
+          "rva": 6656,
+          "bytes": "648b0d2c000000",
+          "assembly": "mov    %fs:0x2c,%ecx"
+        },
+        {
+          "rva": 6663,
+          "bytes": "8b1598e4e766",
+          "assembly": "mov    0x66e7e498,%edx"
+        },
+        {
+          "rva": 6669,
+          "bytes": "8b1491",
+          "assembly": "mov    (%ecx,%edx,4),%edx"
+        },
+        {
+          "rva": 6672,
+          "bytes": "8b8a04000000",
+          "assembly": "mov    0x4(%edx),%ecx"
+        },
+        {
+          "rva": 6678,
+          "bytes": "8908",
+          "assembly": "mov    %ecx,(%eax)"
+        },
+        {
+          "rva": 6680,
+          "bytes": "8b8a08000000",
+          "assembly": "mov    0x8(%edx),%ecx"
+        },
+        {
+          "rva": 6686,
+          "bytes": "894804",
+          "assembly": "mov    %ecx,0x4(%eax)"
+        },
+        {
+          "rva": 6689,
+          "bytes": "8b8a0c000000",
+          "assembly": "mov    0xc(%edx),%ecx"
+        },
+        {
+          "rva": 6695,
+          "bytes": "8b9210000000",
+          "assembly": "mov    0x10(%edx),%edx"
+        },
+        {
+          "rva": 6701,
+          "bytes": "894808",
+          "assembly": "mov    %ecx,0x8(%eax)"
+        },
+        {
+          "rva": 6704,
+          "bytes": "89500c",
+          "assembly": "mov    %edx,0xc(%eax)"
+        },
+        {
+          "rva": 6707,
+          "bytes": "c3",
+          "assembly": "ret"
+        },
+        {
+          "rva": 6708,
+          "bytes": "8d742600",
+          "assembly": "lea    0x0(%esi,%eiz,1),%esi"
+        },
+        {
+          "rva": 6712,
+          "bytes": "2e8db426000000",
+          "assembly": "lea    %cs:0x0(%esi,%eiz,1),%esi"
+        },
+        {
+          "rva": 6719,
+          "bytes": "00",
+          "assembly": ""
+        }
+      ]
+    },
+    {
+      "symbol": "__ZL17load_move_contextv",
+      "address_rva": 6720,
+      "instructions": [
+        {
+          "rva": 6720,
+          "bytes": "e8bbffffff",
+          "assembly": "call   66e01a00 <__ZL19load_dispatch_wordsPVKj.constprop.0>"
+        },
+        {
+          "rva": 6725,
+          "bytes": "c3",
+          "assembly": "ret"
+        },
+        {
+          "rva": 6726,
+          "bytes": "6690",
+          "assembly": "xchg   %ax,%ax"
+        },
+        {
+          "rva": 6728,
+          "bytes": "2e8db426000000",
+          "assembly": "lea    %cs:0x0(%esi,%eiz,1),%esi"
+        },
+        {
+          "rva": 6735,
+          "bytes": "00",
+          "assembly": ""
+        }
+      ]
+    }
+  ],
+  "actual_instruction_bytes_verified": 320,
+  "field_verified": false,
+  "sdk_calls": 0
+}

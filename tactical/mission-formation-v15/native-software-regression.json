@@ -1,0 +1,48 @@
+{
+  "scope": "pure_cpp_native_function_regression_not_field",
+  "checks": {
+    "no_game_access": true,
+    "all_native_cases": true,
+    "original_normal_return_extracted": true,
+    "forward_budget": true,
+    "retreat_budget": true,
+    "total_original_deadline": true,
+    "phase_regroup_bounds": true,
+    "global_regroup_bound": true,
+    "min_physical_gap": true,
+    "min_source_goal_clearance": true,
+    "both_original_home_arrivals": true
+  },
+  "simulation": {
+    "simulation": "2km_forward_and_return",
+    "forward_frames": 737,
+    "retreat_frames": 783,
+    "forward_regroups": 3,
+    "retreat_regroups": 7,
+    "min_actual_gap": 60.0,
+    "min_source_goal_clear": 25.6,
+    "crumbs": [
+      52,
+      48
+    ],
+    "follower_goals": 47,
+    "home_arrivals": [
+      3,
+      3
+    ]
+  },
+  "cases": {
+    "passed": true,
+    "cases": 65,
+    "sdk_calls": 0,
+    "game_access": false
+  },
+  "source_hashes": {
+    "test_breadcrumb_native.cpp": "810960b6bda2f8822a3cc5605d9f16b043910d8280cfc9e0ff288927747e0208",
+    "test_return_fixture.inc": "ec38879f98ff21cacd15fba0b4c0669e45f4535e712cc84eb88ae4a1d8645db2",
+    "common.cpp.inc": "48bcf06544a933d8bb9ee525b52568937e75a242eadd746174b3b3c6f55dd97c",
+    "breadcrumb.cpp.inc": "979cec158f12b4aa4b485d10a8b89d3a5fb8567b92a69dbe5c51dc31761a48fd",
+    "test_breadcrumb_native.exe": "6f34f5c9ee759bad5f6b59a0d2a3f26eb257369a8046c5db6d44557b672235e7"
+  },
+  "capability_granted": false
+}
