@@ -1,0 +1,77 @@
+{
+  "source_report": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-170331-commander\\continuous-paid-mf4-traffic01-formation.json",
+  "source_sha256": "bfe5dad1afa09546567c0ac10c2809dc8d2ef9ab2135d813414f61ab34865b36",
+  "failed_route_index": 9,
+  "source_point": {
+    "xyz": [
+      1975.5015869140625,
+      2495.50146484375,
+      210.0
+    ],
+    "observed_frame": 1595,
+    "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-170331-commander\\formation-own-history\\00001595-781.json",
+    "own_source_sha256": "138e1b4294a565122075ebb0c6f32aff7b75f2594a6b2ebdceef1aee906f64aa",
+    "own_source_object_id": 781,
+    "traffic_cost": 0
+  },
+  "roles": [
+    {
+      "role": 0,
+      "samples": 182,
+      "first_frame": 2672,
+      "last_frame": 2971,
+      "first_xyz": [
+        1890.0,
+        2369.99267578125,
+        210.0
+      ],
+      "last_xyz": [
+        1970.0,
+        2490.0,
+        210.0
+      ],
+      "minimum_to_front_goal": 7.780332512174589,
+      "last_to_front_goal": 7.780332512174589,
+      "last_state": 16,
+      "last_path": 0,
+      "last_source": 1,
+      "hp": 100.0,
+      "goal": [
+        1975.5015869140625,
+        2495.50146484375,
+        210.0
+      ]
+    },
+    {
+      "role": 1,
+      "samples": 182,
+      "first_frame": 2672,
+      "last_frame": 2971,
+      "first_xyz": [
+        1890.0,
+        2210.0,
+        210.0
+      ],
+      "last_xyz": [
+        1930.0,
+        2210.0,
+        210.0
+      ],
+      "minimum_to_front_goal": 289.10461919454866,
+      "last_to_front_goal": 289.10461919454866,
+      "last_state": 16,
+      "last_path": 0,
+      "last_source": 1,
+      "hp": 120.0,
+      "goal": [
+        1893.6348876953125,
+        2365.148193359375,
+        210.0
+      ]
+    }
+  ],
+  "first_retreat_frame": 2973,
+  "reason": 8,
+  "native": 9,
+  "mutations": false
+}

@@ -46,6 +46,7 @@ class MissionObservations:
     distance_to_goal:float|None=None
     interference:str='none'
     disposed_verified:bool=False
+    scene_closed_verified:bool=False
 
 
 @dataclass(frozen=True)
@@ -148,13 +149,14 @@ class MissionBoard:
     def request_retreat(self,task_id,reason):
         mission=self.active.get(task_id)
         if mission is None or reason not in RETREAT_REASONS:raise ContractError('mission_retreat_request')
+        if mission.observations and mission.observations.scene_closed_verified:return False
         if mission.retreat_requested_reason is None:mission.retreat_requested_reason=reason;return True
         return False
 
     def observe(self,snapshot,plan=None):
         changed=[]
         for task_id,mission in self.active.items():
-            if mission.phase=='restored':continue
+            if mission.phase=='restored' or (mission.observations and mission.observations.scene_closed_verified):continue
             reason=None
             if snapshot.game_time_seconds>=mission.deadline_game_seconds:reason='deadline'
             # New strategic TTL alone does not cancel a mission. An explicit
@@ -172,6 +174,7 @@ class MissionBoard:
         mission=self.active.get(value.task_id)
         if mission is None or value.mission_id!=mission.mission_id or value.source!=self.evidence.source:raise ContractError('mission_progress_binding')
         if mission.observations and mission.observations.disposed_verified:raise ContractError('mission_disposed_lifecycle')
+        if mission.observations and mission.observations.scene_closed_verified:raise ContractError('mission_scene_closed_lifecycle')
         if value.target_contact_id!=mission.target_contact_id or value.formation_versions!=mission.formation_versions or not isinstance(value.formation_versions,tuple):raise ContractError('mission_progress_identity')
         if type(value.progress_seq) is not int or value.progress_seq<1:raise ContractError('mission_progress_sequence')
         if value.progress_seq==mission.progress_seq:
@@ -181,9 +184,10 @@ class MissionBoard:
         number(value.at_game_seconds,mission.updated_at_game_seconds,now,'mission_progress_time')
         if not isinstance(value.evidence_sha256,str) or len(value.evidence_sha256)!=64 or any(c not in '0123456789abcdef' for c in value.evidence_sha256):raise ContractError('mission_progress_evidence')
         o=value.observations
-        for field in ['target_currently_visible','approach_verified','coordination_verified','retreat_verified','restoration_verified','no_dispatch_verified','disposed_verified']:
+        for field in ['target_currently_visible','approach_verified','coordination_verified','retreat_verified','restoration_verified','no_dispatch_verified','disposed_verified','scene_closed_verified']:
             if type(getattr(o,field)) is not bool:raise ContractError('mission_progress_boolean')
         if o.disposed_verified:raise ContractError('mission_disposal_requires_certificate')
+        if o.scene_closed_verified:raise ContractError('mission_scene_closure_requires_certificate')
         number(o.source_damage_amount,0,1e8,'mission_progress_damage')
         if o.distance_to_goal is not None:number(o.distance_to_goal,0,1e7,'mission_progress_distance')
         if o.interference not in {'none','native_ai_override','unknown'}:raise ContractError('mission_progress_interference')
@@ -219,23 +223,44 @@ class MissionBoard:
 
     def certify_not_dispatched(self,task_id,evidence_sha256):
         mission=self.active.get(task_id)
-        if mission is None or mission.phase!='reserved' or mission.progress_seq or mission.last_progress is not None:raise ContractError('mission_not_dispatched_lifecycle')
+        if mission is None or mission.phase!='reserved' or mission.progress_seq or mission.last_progress is not None or (mission.observations and mission.observations.scene_closed_verified):raise ContractError('mission_not_dispatched_lifecycle')
         if not isinstance(evidence_sha256,str) or len(evidence_sha256)!=64 or any(c not in '0123456789abcdef' for c in evidence_sha256):raise ContractError('mission_progress_evidence')
         mission.observations=MissionObservations(False,restoration_verified=True,no_dispatch_verified=True)
         mission.last_evidence_sha256=evidence_sha256
 
     def certify_disposed(self,task_id,evidence_sha256):
         mission=self.active.get(task_id)
-        if mission is None or mission.phase=='restored' or (mission.observations and mission.observations.no_dispatch_verified):raise ContractError('mission_disposed_lifecycle')
+        if mission is None or mission.phase=='restored' or (mission.observations and (mission.observations.no_dispatch_verified or mission.observations.scene_closed_verified)):raise ContractError('mission_disposed_lifecycle')
         if not isinstance(evidence_sha256,str) or len(evidence_sha256)!=64 or any(c not in '0123456789abcdef' for c in evidence_sha256):raise ContractError('mission_progress_evidence')
         from dataclasses import replace
         previous=mission.observations or MissionObservations(False)
         mission.observations=replace(previous,target_currently_visible=False,restoration_verified=True,disposed_verified=True)
         mission.last_evidence_sha256=evidence_sha256
 
-    def validate_terminal(self,task_id,status,restored):
+    def certify_scene_closed(self,task_id,evidence_sha256):
+        """Trusted host's independently requalified scene proof, never a return.
+
+        No native phase/revision is invented, including when the first host poll
+        missed issuance. The proof certifies loss of the scene's control scope.
+        """
+        mission=self.active.get(task_id)
+        if mission is None or mission.phase=='restored' or (mission.observations and (mission.observations.no_dispatch_verified or mission.observations.disposed_verified or mission.observations.restoration_verified)):raise ContractError('mission_scene_closed_lifecycle')
+        if not isinstance(evidence_sha256,str) or len(evidence_sha256)!=64 or any(c not in '0123456789abcdef' for c in evidence_sha256):raise ContractError('mission_progress_evidence')
+        if mission.observations and mission.observations.scene_closed_verified:
+            if mission.last_evidence_sha256!=evidence_sha256:raise ContractError('mission_scene_closed_certificate_changed')
+            return False
+        from dataclasses import replace
+        previous=mission.observations or MissionObservations(False)
+        mission.observations=replace(previous,target_currently_visible=False,scene_closed_verified=True)
+        mission.last_evidence_sha256=evidence_sha256
+        return True
+
+    def validate_terminal(self,task_id,status,restored,goal_observed=False):
         mission=self.active.get(task_id)
         if mission is None:return
+        if mission.observations and mission.observations.scene_closed_verified:
+            if status not in {'failed','cancelled'} or restored is not False or goal_observed is not False:raise ContractError('mission_scene_closure_is_not_completion')
+            return
         if mission.observations and mission.observations.disposed_verified:
             if status not in {'failed','cancelled'} or not restored:raise ContractError('mission_disposal_is_not_completion')
             return
@@ -265,4 +290,8 @@ class MissionBoard:
         active=[{**{key:getattr(m,key) for key in fields},'verified_source_damage':m.observations.source_damage_amount if m.observations else 0} for m in self.active.values()]
         for value,mission in zip(active,self.active.values()):
             if mission.native_progress:value['telemetry']={k:mission.native_progress[k] for k in ('reason','approach_distance','own_hp','damage')}
-        return {'protocol':'continuous_tactical_v1','active':active,'effect_coverage':{m:dict(v) for m,v in self.coverage.items()}}
+            if mission.observations and mission.observations.scene_closed_verified:value['scene_closed_verified']=True
+        result={'protocol':'continuous_tactical_v1','active':active,'effect_coverage':{m:dict(v) for m,v in self.coverage.items()}}
+        closed=[m for m in self.history if (m.get('observations') or {}).get('scene_closed_verified')]
+        if closed:result['recent_scene_closures']=[{**{k:m[k] for k in ('mission_id','task_id','module','purpose','phase','terminal_status')},'scene_closed_verified':True,'verified_source_damage':m['observations']['source_damage_amount']} for m in closed[-3:]]
+        return result

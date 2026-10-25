@@ -1,0 +1,10 @@
+# Frozen executors and raw evidence use byte-level SHA256 bindings.
+# Preserve their original line endings on every platform.
+/tactical/** -text whitespace=cr-at-eol
+# Legacy disassembly text is diagnostic material, not a pinned source bundle.
+# Retain its existing LF Git blobs and Windows CRLF checkout convention.
+/tactical/**/*.txt text eol=crlf
+/acceptance/runs/20261025-170331-commander/** -text whitespace=cr-at-eol
+/acceptance/runs/20261025-182502-commander/** -text whitespace=cr-at-eol
+/acceptance/runs/20261025-185944-commander/** -text whitespace=cr-at-eol
+/acceptance/runs/20261025-164701-commander/continuous-paid-mct7-01-combat-v7.json -text whitespace=cr-at-eol

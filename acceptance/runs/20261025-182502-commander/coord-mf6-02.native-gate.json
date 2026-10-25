@@ -1,0 +1,287 @@
+{
+  "protocol": "native_gate_no_actor_lease_v1",
+  "source_report": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-182502-commander\\coord-mf6-02.json",
+  "source_sha256": "60f867dff7526e4cf42044fe4a697063d1689dd5f350bfe5a13d9eb4ea401bed",
+  "reader_sha256": "212fcef41c3619937655f5424b744ad0ac730a7d039b0cb7b488e62912345f47",
+  "session_id": "25db2a86-ff31-4921-978f-c47f2054a593",
+  "pid": 5352,
+  "commander_id": "57e668b4-4d89-43bd-bc92-0dd436f046ef",
+  "command_id": "844ed7af-18c7-4774-b882-43501400d1a2",
+  "task_id": "ca96f552-df95-426d-a9c2-ac6b515e2600",
+  "seq": 634574500,
+  "token": 3552762864,
+  "native_host_exit": 9,
+  "snapshots": [
+    {
+      "binding_verified": true,
+      "module_base": "0x7b600000",
+      "shared_pointer": "0x45bc0000",
+      "timer": 0,
+      "phase": 4,
+      "error": 34,
+      "restore_mask": 8191,
+      "active": 0,
+      "pid": 5352,
+      "session_id": "25db2a86-ff31-4921-978f-c47f2054a593",
+      "commander_id": "57e668b4-4d89-43bd-bc92-0dd436f046ef",
+      "command_id": "844ed7af-18c7-4774-b882-43501400d1a2",
+      "task_id": "ca96f552-df95-426d-a9c2-ac6b515e2600",
+      "seq": 634574500,
+      "token": 3552762864,
+      "object_ids": [
+        774,
+        781
+      ],
+      "units": [
+        "0x57cda60",
+        "0x57cfd60"
+      ],
+      "owner": "0x31e74d0",
+      "ai": "0x4c80400",
+      "logic": "0x3c8c228",
+      "thread": 47328,
+      "callback_thread": 47328,
+      "front": {
+        "issued_frame": 0,
+        "returned_frame": 0,
+        "detach_calls": 0,
+        "return_calls": 0,
+        "move_calls": 0,
+        "attack_calls": 0,
+        "attack_facade_calls": 0,
+        "attack_private_calls": 0,
+        "stop_calls": 0,
+        "private_stop_calls": 0,
+        "toggle_calls": 0,
+        "toggle_hook_calls": 0,
+        "return_verified": 0,
+        "leader_move_count": 0,
+        "follow_move_count": 0,
+        "regroup_count": 0,
+        "hold_repair_count": 0
+      },
+      "support": {
+        "detach_calls": 0,
+        "return_calls": 0,
+        "returned": 0,
+        "move_calls": 0,
+        "stop_calls": 0,
+        "private_stop_calls": 0
+      },
+      "entries": [
+        {
+          "address": 7789008,
+          "expected": "568bf1578b7e088bcf",
+          "actual": "568bf1578b7e088bcf"
+        },
+        {
+          "address": 7792272,
+          "expected": "837c24040055568bf18b6e08",
+          "actual": "837c24040055568bf18b6e08"
+        },
+        {
+          "address": 8620064,
+          "expected": "8b818c00000085c0744f568bb190000000",
+          "actual": "8b818c00000085c0744f568bb190000000"
+        },
+        {
+          "address": 9275520,
+          "expected": "83ec24568b74242c8b4604",
+          "actual": "83ec24568b74242c8b4604"
+        },
+        {
+          "address": 9229872,
+          "expected": "83ec3453578b7c24408b4704",
+          "actual": "83ec3453578b7c24408b4704"
+        },
+        {
+          "address": 8200976,
+          "expected": "81ec200100005355568bb42430010000",
+          "actual": "81ec200100005355568bb42430010000"
+        },
+        {
+          "address": 7306336,
+          "expected": "538b5928568b71243bf357",
+          "actual": "538b5928568b71243bf357"
+        },
+        {
+          "address": 7754128,
+          "expected": "8b44240885c0f30f104c2404",
+          "actual": "8b44240885c0f30f104c2404"
+        },
+        {
+          "address": 5550240,
+          "expected": "83ec5c8b442460566a01508bf1",
+          "actual": "83ec5c8b442460566a01508bf1"
+        },
+        {
+          "address": 7477968,
+          "expected": "83ec08558be98b45088b4804",
+          "actual": "83ec08558be98b45088b4804"
+        },
+        {
+          "address": 5710464,
+          "expected": "83ec5c8b442468566a01508bf1",
+          "actual": "83ec5c8b442468566a01508bf1"
+        },
+        {
+          "address": 5709200,
+          "expected": "83ec5c8b442464566a01508bf1",
+          "actual": "83ec5c8b442464566a01508bf1"
+        },
+        {
+          "address": 7932304,
+          "expected": "8b44240c8b5424086a006a006a00",
+          "actual": "8b44240c8b5424086a006a006a00"
+        }
+      ]
+    },
+    {
+      "binding_verified": true,
+      "module_base": "0x7b600000",
+      "shared_pointer": "0x45bc0000",
+      "timer": 0,
+      "phase": 4,
+      "error": 34,
+      "restore_mask": 8191,
+      "active": 0,
+      "pid": 5352,
+      "session_id": "25db2a86-ff31-4921-978f-c47f2054a593",
+      "commander_id": "57e668b4-4d89-43bd-bc92-0dd436f046ef",
+      "command_id": "844ed7af-18c7-4774-b882-43501400d1a2",
+      "task_id": "ca96f552-df95-426d-a9c2-ac6b515e2600",
+      "seq": 634574500,
+      "token": 3552762864,
+      "object_ids": [
+        774,
+        781
+      ],
+      "units": [
+        "0x57cda60",
+        "0x57cfd60"
+      ],
+      "owner": "0x31e74d0",
+      "ai": "0x4c80400",
+      "logic": "0x3c8c228",
+      "thread": 47328,
+      "callback_thread": 47328,
+      "front": {
+        "issued_frame": 0,
+        "returned_frame": 0,
+        "detach_calls": 0,
+        "return_calls": 0,
+        "move_calls": 0,
+        "attack_calls": 0,
+        "attack_facade_calls": 0,
+        "attack_private_calls": 0,
+        "stop_calls": 0,
+        "private_stop_calls": 0,
+        "toggle_calls": 0,
+        "toggle_hook_calls": 0,
+        "return_verified": 0,
+        "leader_move_count": 0,
+        "follow_move_count": 0,
+        "regroup_count": 0,
+        "hold_repair_count": 0
+      },
+      "support": {
+        "detach_calls": 0,
+        "return_calls": 0,
+        "returned": 0,
+        "move_calls": 0,
+        "stop_calls": 0,
+        "private_stop_calls": 0
+      },
+      "entries": [
+        {
+          "address": 7789008,
+          "expected": "568bf1578b7e088bcf",
+          "actual": "568bf1578b7e088bcf"
+        },
+        {
+          "address": 7792272,
+          "expected": "837c24040055568bf18b6e08",
+          "actual": "837c24040055568bf18b6e08"
+        },
+        {
+          "address": 8620064,
+          "expected": "8b818c00000085c0744f568bb190000000",
+          "actual": "8b818c00000085c0744f568bb190000000"
+        },
+        {
+          "address": 9275520,
+          "expected": "83ec24568b74242c8b4604",
+          "actual": "83ec24568b74242c8b4604"
+        },
+        {
+          "address": 9229872,
+          "expected": "83ec3453578b7c24408b4704",
+          "actual": "83ec3453578b7c24408b4704"
+        },
+        {
+          "address": 8200976,
+          "expected": "81ec200100005355568bb42430010000",
+          "actual": "81ec200100005355568bb42430010000"
+        },
+        {
+          "address": 7306336,
+          "expected": "538b5928568b71243bf357",
+          "actual": "538b5928568b71243bf357"
+        },
+        {
+          "address": 7754128,
+          "expected": "8b44240885c0f30f104c2404",
+          "actual": "8b44240885c0f30f104c2404"
+        },
+        {
+          "address": 5550240,
+          "expected": "83ec5c8b442460566a01508bf1",
+          "actual": "83ec5c8b442460566a01508bf1"
+        },
+        {
+          "address": 7477968,
+          "expected": "83ec08558be98b45088b4804",
+          "actual": "83ec08558be98b45088b4804"
+        },
+        {
+          "address": 5710464,
+          "expected": "83ec5c8b442468566a01508bf1",
+          "actual": "83ec5c8b442468566a01508bf1"
+        },
+        {
+          "address": 5709200,
+          "expected": "83ec5c8b442464566a01508bf1",
+          "actual": "83ec5c8b442464566a01508bf1"
+        },
+        {
+          "address": 7932304,
+          "expected": "8b44240c8b5424086a006a006a00",
+          "actual": "8b44240c8b5424086a006a006a00"
+        }
+      ]
+    }
+  ],
+  "completed": false,
+  "return_verified": false,
+  "restoration_verified": false,
+  "mutations": false,
+  "assessment": {
+    "no_dispatch_verified": true,
+    "no_actor_lease_verified": true,
+    "exclusive_control_never_held": true,
+    "native_host_launched": true,
+    "restoration_verified": false,
+    "return_verified": false,
+    "completion_claim": false,
+    "checks": {
+      "eligible_exact_native_gate": true,
+      "source_binding": true,
+      "two_native_inert_snapshots": true,
+      "both_actors_owner_thread": true,
+      "thirteen_exact_entries": true,
+      "stable_mapping": true,
+      "no_completion_or_return_claim": true
+    },
+    "protocol": "native_gate_no_actor_lease_v1"
+  }
+}

@@ -3,6 +3,46 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parent
 
 class ExecutorImportBoundary(unittest.TestCase):
+ def test_breadcrumb_backend_abi_import_is_passive_and_empty_evidence_stays_locked(self):
+  code='''import ctypes,json
+from pathlib import Path
+from unittest.mock import patch
+import continuous_evidence as evidence
+from tactical_bridge import module
+with patch('subprocess.Popen',side_effect=AssertionError('Import must not dispatch')):
+ client=module(Path('../tactical/client.py').resolve(),'fresh_mf5_client')
+ schema,runtime=client.runtime_backend('mission-formation-v5')
+ qualifier=evidence._qualifier('mission-formation-v5','fresh_mf5_qualifier')
+ assert qualifier.qualify({'native':{},'events':[]})['status']=='not_passed'
+ assert qualifier.progress({'native':{},'events':[]},'unused') is None
+print(json.dumps({'event':ctypes.sizeof(runtime.Event),'breadcrumb':ctypes.sizeof(runtime.Breadcrumb),'header':runtime.Tactical.events.offset,'tactical':ctypes.sizeof(runtime.Tactical),'game_commands':0}))
+'''
+  for version in (5,6):
+   with self.subTest(version=version):
+    fresh_code=code.replace('mf5','mf'+str(version)).replace('formation-v5','formation-v'+str(version))
+    result=json.loads(subprocess.check_output([sys.executable,'-c',fresh_code],cwd=ROOT,text=True,encoding='utf-8',creationflags=getattr(subprocess,'CREATE_NO_WINDOW',0)))
+    self.assertEqual(result,dict(event=1048,breadcrumb=104,header=27900,tactical=8613116,game_commands=0))
+
+ def test_active_formation_metadata_selects_same_wrapper_and_passive_readers(self):
+  code='''import ctypes,json
+from pathlib import Path
+import continuous_evidence as evidence
+from tactical_bridge import module
+client=module(Path('../tactical/client.py').resolve(),'fresh_active_formation_client')
+schema,runtime=client.runtime_backend('mission-formation-v4')
+qualifier=evidence._qualifier('mission-formation-v4','fresh_active_formation_qualifier')
+assert Path(qualifier.__file__).name==schema['qualifier_filename']
+for key in ('gate_reader','pre_dispatch_helper'):
+ name=evidence._executor_filename('mission-formation-v4',key,'unused.py')
+ assert name==schema[key]
+ module(Path('../tactical')/name,'fresh_active_'+key)
+module(Path('../tactical/scene_terminal_release.py'),'fresh_active_scene_release')
+print(json.dumps({'wrapper':Path(runtime.__file__).name,'qualifier':Path(qualifier.__file__).name,'event_size':ctypes.sizeof(runtime.Event),'events_offset':runtime.Tactical.events.offset,'game_commands':0}))
+'''
+  result=json.loads(subprocess.check_output([sys.executable,'-c',code],cwd=ROOT,text=True,encoding='utf-8',creationflags=getattr(subprocess,'CREATE_NO_WINDOW',0)))
+  self.assertEqual(result['event_size'],880);self.assertEqual(result['events_offset'],1052);self.assertEqual(result['game_commands'],0)
+  self.assertEqual(result['wrapper'],'lease_traffic_retry_v3.py');self.assertEqual(result['qualifier'],'formation_mission_qualification_traffic_retry_v3.py')
+
  def test_mct6_runtime_and_passive_readers_load_from_fresh_host_directory(self):
   code='''import ctypes,hashlib,json
 from pathlib import Path

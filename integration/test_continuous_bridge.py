@@ -138,6 +138,22 @@ class ContinuousHostBoundaries(unittest.IsolatedAsyncioTestCase):
         self.assertTrue(self.host.agent.missions.history[-1]['observations']['disposed_verified'])
         self.assertEqual(self.bridge.counters['attack']['completed'],0)
 
+    async def test_verified_scene_closure_fails_without_inventing_retreat_or_return(self):
+        self.bridge.evidence['grants'][0]['executor_directory']='mission-combat-v7'
+        await self.dispatch();receipt=self.fixture.receipt('failed')
+        receipt['scene_disposed_control_release_verified']=True
+        self.executor.ledger=[receipt]
+        proof=dict(sidecar_sha256='b'*64,source_sha256='a'*64,scene_disposed_control_release=True)
+        with patch.object(self.bridge,'verify_scene_release',return_value=proof):await self.bridge.receive()
+        self.assertEqual(self.task.status,'failed');self.assertFalse(self.fixture.roster.reserved)
+        self.assertTrue(self.bridge.sent[self.task.task_id]['terminal'])
+        history=self.host.agent.missions.history[-1]
+        self.assertTrue(history['observations']['scene_closed_verified'])
+        self.assertFalse(history['observations']['restoration_verified']);self.assertFalse(history['observations']['retreat_verified'])
+        self.assertEqual(self.bridge.counters['attack']['completed'],0)
+        self.assertFalse(receipt['execution']['restoration_verified'])
+        self.assertEqual(len([e for e in self.host.events if e['kind']=='mission_scene_closed_control_release']),1)
+
     async def test_draining_can_record_verified_terminal_after_last_public_snapshot(self):
         await self.dispatch();receipt=self.fixture.receipt('completed')
         receipt['execution']['issued_frame']=1520

@@ -134,6 +134,27 @@ def analyze(session,identity,ledger,receipts,events,contexts,plans,memory):
         scope='Lifecycle metadata only; raw effect/release requalification is reported separately. No victory or economic-suppression claim.')
 
 
+def scene_release_facts(bridge,receipt,entry,events,memory):
+    """Requalify the sidecar, then bind both recorded closure certificates.
+
+    A safe ended-scene failure is neither a retreat nor a normal return. Never
+    promote the receipt's cached scene flag without the independent raw reader.
+    """
+    proof=bridge.verify_scene_release(receipt,entry)
+    if proof is None:return None
+    digest=proof.get('sidecar_sha256')
+    if not isinstance(digest,str) or len(digest)!=64 or any(c not in '0123456789abcdef' for c in digest):raise ValueError('scene_release_certificate_hash')
+    if entry.get('scene_release_evidence_sha256')!=digest:raise ValueError('scene_release_ledger_hash')
+    recorded=[e for e in events if e.get('kind')=='mission_scene_closed_control_release' and e.get('task_id')==entry['task_id']]
+    if len(recorded)!=1 or recorded[0].get('evidence_sha256')!=digest or any(recorded[0].get(k) is not False for k in ('restoration_verified','return_verified','goal_observed')):raise ValueError('scene_release_event_binding')
+    history=memory.get('missions',{}).get('recent_history',[])
+    certified=[m for m in history if m.get('task_id')==entry['task_id']]
+    if len(certified)!=1:raise ValueError('scene_release_strategy_certificate_missing')
+    mission=certified[0];obs=mission.get('observations') or {}
+    if mission.get('terminal_status') not in ('failed','cancelled') or mission.get('last_evidence_sha256')!=digest or obs.get('scene_closed_verified') is not True or obs.get('restoration_verified') is not False:raise ValueError('scene_release_strategy_certificate_binding')
+    return dict(task_id=entry['task_id'],verified=True,kind='verified_scene_closed_not_return',sidecar_sha256=digest,source_sha256=proof['source_sha256'],scene_closed_verified=True,restoration_verified=False,return_verified=False,physical_retreat_verified=False,completed=False)
+
+
 def audit_run(session):
     out=Path(session['run_directory']).resolve()/'battle-host'
     read=lambda name:json.loads((out/name).read_text(encoding='utf-8-sig'))
@@ -152,6 +173,10 @@ def audit_run(session):
         if saved.get('mission_protocol')!=PROTOCOL or not saved.get('terminal'):continue
         entry=dict(saved,task_id=task);receipt=receipts.get(task,{})
         try:
+            scene=scene_release_facts(bridge,receipt,entry,lines(out/'host-events.jsonl'),read('agent-state.json'))
+            if scene:
+                releases.append(scene)
+                continue
             disposed=any(x.get('control_release',{}).get('disposed_verified') is True for x in receipt.get('unit_results',[]))
             if disposed and entry['module'] in ('attack','raid'):bridge.verify_disposals(receipt,entry);kind='verified_disposal_not_return'
             elif not saved.get('started'):pre_dispatch_facts(host,receipt,entry);kind='verified_no_dispatch'

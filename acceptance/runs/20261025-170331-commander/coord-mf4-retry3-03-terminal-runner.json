@@ -1,0 +1,140 @@
+{
+  "clock": {
+    "frame": 5577,
+    "pause": 3
+  },
+  "terminal_readonly": {
+    "pid": 49636,
+    "session_id": "986ef975-07b7-4367-9d7d-db9ddc5c80ec",
+    "commander_id": "57e668b4-4d89-43bd-bc92-0dd436f046ef",
+    "command_id": "84b46891-7b3c-406e-830b-d8c70d135d8d",
+    "task_id": "ef504e42-50eb-424e-b962-272791023163",
+    "seq": 629273093,
+    "token": 1192637546,
+    "owner": "0x31ec4d0",
+    "logic": "0x3c91228",
+    "native_binary_sha256": "1421d30446aa27712654b269edea52fcbe4abf5913e027bd1b45ffd230d948a4",
+    "module_base": "0x7a870000",
+    "shared_pointer": "0x45260000",
+    "layout": {
+      "dll_sha256": "1421d30446aa27712654b269edea52fcbe4abf5913e027bd1b45ffd230d948a4",
+      "timer_rva": 103032,
+      "shared_pointer_rva": 103048
+    },
+    "timer": 0,
+    "binding_verified": true,
+    "phase": 4,
+    "error": 55,
+    "active": 0,
+    "restore_mask": 8191,
+    "front_return_verified": 1,
+    "support_return_verified": 1,
+    "entries": [
+      {
+        "address": "0x76d9d0",
+        "expected": "568bf1578b7e088bcf",
+        "actual": "568bf1578b7e088bcf",
+        "restored": true
+      },
+      {
+        "address": "0x76e690",
+        "expected": "837c24040055568bf18b6e08",
+        "actual": "837c24040055568bf18b6e08",
+        "restored": true
+      },
+      {
+        "address": "0x838820",
+        "expected": "8b818c00000085c0744f568bb190000000",
+        "actual": "8b818c00000085c0744f568bb190000000",
+        "restored": true
+      },
+      {
+        "address": "0x8d8880",
+        "expected": "83ec24568b74242c8b4604",
+        "actual": "83ec24568b74242c8b4604",
+        "restored": true
+      },
+      {
+        "address": "0x8cd630",
+        "expected": "83ec3453578b7c24408b4704",
+        "actual": "83ec3453578b7c24408b4704",
+        "restored": true
+      },
+      {
+        "address": "0x7d2310",
+        "expected": "81ec200100005355568bb42430010000",
+        "actual": "81ec200100005355568bb42430010000",
+        "restored": true
+      },
+      {
+        "address": "0x6f7c60",
+        "expected": "538b5928568b71243bf357",
+        "actual": "538b5928568b71243bf357",
+        "restored": true
+      },
+      {
+        "address": "0x765190",
+        "expected": "8b44240885c0f30f104c2404",
+        "actual": "8b44240885c0f30f104c2404",
+        "restored": true
+      },
+      {
+        "address": "0x54b0a0",
+        "expected": "83ec5c8b442460566a01508bf1",
+        "actual": "83ec5c8b442460566a01508bf1",
+        "restored": true
+      },
+      {
+        "address": "0x721ad0",
+        "expected": "83ec08558be98b45088b4804",
+        "actual": "83ec08558be98b45088b4804",
+        "restored": true
+      },
+      {
+        "address": "0x572280",
+        "expected": "83ec5c8b442468566a01508bf1",
+        "actual": "83ec5c8b442468566a01508bf1",
+        "restored": true
+      },
+      {
+        "address": "0x571d90",
+        "expected": "83ec5c8b442464566a01508bf1",
+        "actual": "83ec5c8b442464566a01508bf1",
+        "restored": true
+      },
+      {
+        "address": "0x790990",
+        "expected": "8b44240c8b5424086a006a006a00",
+        "actual": "8b44240c8b5424086a006a006a00",
+        "restored": true
+      }
+    ],
+    "mutations": false
+  },
+  "release": {
+    "restoration_verified": true,
+    "control_release_verified": true,
+    "return_verified": true,
+    "disposed_verified": false,
+    "actors": [
+      {
+        "role": 0,
+        "object_id": 1287,
+        "returned": true,
+        "disposed": false,
+        "never_held": false,
+        "released": true
+      },
+      {
+        "role": 1,
+        "object_id": 1288,
+        "returned": true,
+        "disposed": false,
+        "never_held": false,
+        "released": true
+      }
+    ],
+    "semantics": "two_independent_native_pool_returns_or_readonly_disposal",
+    "completion_claim": false
+  }
+}

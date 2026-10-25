@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "baseline": "4266530a81233aa34241676e206260ed32c3b718",
+  "platform": "Windows",
+  "python": "3.12.14",
+  "default_model_backend": "pydantic",
+  "dependency_install": "agent_runtime/Install-Windows.ps1",
+  "pip_check": "passed",
+  "tests": {
+    "agent_runtime": 28,
+    "strategy": 179,
+    "integration": 147,
+    "tactical": 449,
+    "formation5_fresh_process": 88,
+    "formation6_fresh_process": 111
+  },
+  "scene_reader4_cases": 3,
+  "real_model_requests": 0,
+  "game_commands": 0,
+  "new_match_started": false,
+  "formation7": {
+    "trusted_executor_registered": false,
+    "cli_enabled": false,
+    "native_recorded_cases": 65,
+    "python_qualification_bundle": "incomplete",
+    "actual_field_source": false
+  },
+  "byte_exact_index_files_checked": 2181,
+  "byte_mismatches": [],
+  "ui_windows_build_tested": false,
+  "live_gui_adapter_implemented": false,
+  "model_and_desktop_baseline": "66edc98d62abc3cf1b9817cf04512584150f1973",
+  "latest_upstream_change": "documentation_screenshots_attributions_only"
+}

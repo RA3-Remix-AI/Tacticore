@@ -364,7 +364,7 @@ class BattleAgent:
         self._write_memory()
 
     def pending_mission_retreats(self):
-        return [{'task_id':m.task_id,'mission_id':m.mission_id,'reason':m.retreat_requested_reason} for m in self.missions.active.values() if m.retreat_requested_reason and m.phase!='restored']
+        return [{'task_id':m.task_id,'mission_id':m.mission_id,'reason':m.retreat_requested_reason} for m in self.missions.active.values() if m.retreat_requested_reason and m.phase!='restored' and not(m.observations and m.observations.scene_closed_verified)]
 
     def capability_manifest(self):
         source=self.latest.source if self.latest else 'simulated';manifest=self.goals.capability_manifest(source)
@@ -428,6 +428,15 @@ class BattleAgent:
         self._event('mission_actor_disposed',self.latest.game_time_seconds,task_id=task_id,reason_code='disposed_verified')
         self._write_memory()
 
+    def certify_mission_scene_closed(self,task_id,*,evidence_sha256):
+        task=next((t for t in self.goals.tasks if t.task_id==task_id),None)
+        if task is None or task.status not in IN_FLIGHT:raise ContractError('mission_scene_closed_lifecycle')
+        changed=self.missions.certify_scene_closed(task_id,evidence_sha256)
+        if changed:
+            self._event('mission_scene_closed',self.latest.game_time_seconds,task_id=task_id,reason_code='scene_closed_verified',evidence_sha256=evidence_sha256)
+            self._write_memory()
+        return changed
+
     def record_feedback(self,raw):
         allowed={"session_id","player_id","commander_id","task_id","status","reason_code","at_game_seconds","source"}
         if isinstance(raw,dict) and "execution" in raw:allowed.add("execution")
@@ -443,7 +452,7 @@ class BattleAgent:
             if task.request.purpose=="native_baseline" or self.goals.build_evidence is None or self.goals.build_evidence.source!=self.latest.source or task.request.focus not in self.goals.build_evidence.supported_foci or "execution" in raw:raise ContractError("feedback_unverified_capability")
         elif not self.goals.verified_tactical(task.request.module,task.request.purpose,self.latest.source):raise ContractError("feedback_unverified_capability")
         else:self._validate_tactical_feedback(raw,task)
-        self.missions.validate_terminal(task.task_id,raw['status'],raw.get('execution',{}).get('restoration_verified',False))
+        self.missions.validate_terminal(task.task_id,raw['status'],raw.get('execution',{}).get('restoration_verified',False),raw.get('execution',{}).get('goal_observed',False))
         if at<task.updated_at_game_seconds or task.status in {"completed","failed","cancelled","unavailable","blocked"}:raise ContractError("feedback_lifecycle")
         status={"started":"active","blocked":"blocked"}.get(raw["status"],raw["status"])
         if task.request.module!="build" and raw["status"]=="started":task.execution_start={**raw["execution"],"formation_versions":dict(raw["execution"]["formation_versions"])}
@@ -632,7 +641,12 @@ class BattleAgent:
     def stop(self):
         self.engine.stop()
         for task in self.goals.tasks:
-            if task.task_id in self.missions.active and not(self.missions.active[task.task_id].observations and self.missions.active[task.task_id].observations.restoration_verified):
+            mission=self.missions.active.get(task.task_id)
+            if mission and mission.observations and mission.observations.scene_closed_verified:
+                task.status='cancelled';task.reason_code='scene_closed_verified'
+                self.goals.quarantined_formations.update(dict(task.request.formation_versions))
+                self.missions.finish(task.task_id,'cancelled',self.latest.game_time_seconds)
+            elif mission and not(mission.observations and mission.observations.restoration_verified):
                 self.missions.request_retreat(task.task_id,'host_stop');task.reason_code='mission_restoration_pending'
                 self.goals.quarantined_formations.update(dict(task.request.formation_versions))
             elif task.status not in {"completed","failed"}:

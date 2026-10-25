@@ -160,3 +160,11 @@ BattleAgent 配置 `memory_path=.../agent-state.json` 时，会在真实 adapter
 审计分别报告：同ID跨原plan TTL、其它新计划被接受期间仍存续、压缩后实际模型请求仍包含该任务、one dispatch、阶段revision单调、actor租约是否重叠，以及终态原始效果/释放。三目的真实效果与至少一个跨TTL/多计划/压缩的任务都存在，且宿主无fault、无未结束/未证实任务时，才可能给出整体验收通过。
 
 旧run缺少context元数据时明确输出observability gap，不以静态代码或最终memory推断当时发出的模型上下文。伤害量不自动等于经济压制或胜利因果。
+
+## Ended-scene exclusive-control release
+
+Trusted host only: `agent.certify_mission_scene_closed(task_id, evidence_sha256=sidecar_sha256)` delegates to `MissionBoard.certify_scene_closed`. Call only after independently verifying the current run's bound scene-terminal proof. It returns True once, False for the identical repeated certificate, and rejects a changed hash or unrelated task. This is not a CLI/status import permission.
+
+The new `MissionObservations.scene_closed_verified` fact is separate from restoration, retreat, normal return, disposal and no-dispatch. It preserves the last actual native phase, revision, telemetry and damage; it does not invent a restored phase. Ordinary progress cannot assert this fact or continue after closure. Only failed/cancelled terminal feedback with execution.restoration_verified=False and goal_observed=False is accepted. Existing formation quarantine remains conservative. Stopping a certified ended-scene task cancels it without requesting new native retreat. History and bounded recent_scene_closures context retain the actual last phase and scene certificate.
+
+The read-only mission audit re-runs TacticalBridge.verify_scene_release, then binds the sidecar hash to the persisted ledger, unique host scene-release event, and strategy mission-history certificate. Its result is verified_scene_closed_not_return, with return/restoration/physical-retreat/completion all False. Actual effect qualification is separate; scene closure never supplies a missing goal or withdrawal.

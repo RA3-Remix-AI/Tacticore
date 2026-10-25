@@ -6,6 +6,7 @@
 - [未发布改动说明](../CHANGELOG.md)：本批源码、框架、桌面与破坏性变化。
 - [Windows 同步与策略验证](windows-validation.md)：Windows 侧合并本侧变更、安装、离线回归、真实模型与实机验收顺序。
 - [参考、借鉴与归属记录](references-and-attributions.md)：研究参考、实际依赖和素材来源的使用范围。
+- [本侧桥接核对与测试计划](windows-bridge-test-plan.md)：基于新桌面与默认后端的 Windows 离线结果、未启用候选及后续实测顺序。
 
 ## 决策层与策略
 

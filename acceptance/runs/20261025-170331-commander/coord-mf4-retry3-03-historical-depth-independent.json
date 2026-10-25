@@ -1,0 +1,318 @@
+{
+  "semantics": "historical_seen_coordinate_only_offline_not_current_fov_or_after_stop_eligibility",
+  "source_report": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-170331-commander\\coord-mf4-retry3-03.json",
+  "source_sha256": "7b54210cf9e4f3f63cb87fce8789296a41efeae46821a566ade312a368ae3124",
+  "source_ready_actual_frame": 5384,
+  "source_planning_history_cutoff": 5387,
+  "session_id": "986ef975-07b7-4367-9d7d-db9ddc5c80ec",
+  "pid": 49636,
+  "front_id": 1287,
+  "support_id": 1288,
+  "actual_stopped_front": [
+    1750.0,
+    1830.0,
+    210.0
+  ],
+  "actual_stopped_support": [
+    1710.0,
+    1810.0,
+    210.0
+  ],
+  "historically_visible_static_target": [
+    3558.483642578125,
+    3314.59423828125,
+    210.0
+  ],
+  "optimistic_no_occupant_geometry_graph": {
+    "status": "optimistic_undirected_geometry_only_not_a_role_route",
+    "nodes": 360,
+    "first_nodes": 10,
+    "goal_nodes": 1,
+    "reachable_nodes_before_first_goal": 360,
+    "optimistic_minimum_legs": 17,
+    "optimistic_connected": true,
+    "proven_depth_lower_bound_exceeds_16": true,
+    "reject_counts": {
+      "source_session_or_frame_cutoff": 10
+    },
+    "hard_occupants": 0,
+    "soft_mobile_traffic": 0,
+    "walkable_route_verified": false
+  },
+  "role_cases": [
+    {
+      "maximum_points": 16,
+      "hard_or_soft_occupants": [],
+      "semantics": "historical_offline_counterfactual_no_native_eligibility",
+      "expansion_limit": 12000,
+      "wall_limit_seconds": 8,
+      "feasible": false,
+      "reason": "no_role_safe_bounded_actual_own_route",
+      "diagnostics": {
+        "phase": "role_graph_search",
+        "source_records": 370,
+        "ground_nodes": 360,
+        "expanded_states": 6902,
+        "reject_reasons": {
+          "source_session_or_clock": 10,
+          "leg_geometry": 232435,
+          "route_source_cycle": 1491
+        },
+        "hard_occupants": 0,
+        "verified_mobile_traffic": 0,
+        "closest_ground_point_to_target": 294.8415003358683,
+        "goal_nodes": 1,
+        "first_leg_candidates": 10,
+        "elapsed_seconds": 0.6560000000754371
+      },
+      "expanded_limit_reached": false
+    },
+    {
+      "maximum_points": 32,
+      "hard_or_soft_occupants": [],
+      "semantics": "historical_offline_counterfactual_no_native_eligibility",
+      "expansion_limit": 12000,
+      "wall_limit_seconds": 8,
+      "feasible": true,
+      "route_points": 17,
+      "route": [
+        {
+          "xyz": [
+            1833.6925048828125,
+            1896.2484130859375,
+            210.0
+          ],
+          "observed_frame": 1051,
+          "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-170331-commander\\formation-own-history\\00001051-781.json",
+          "own_source_sha256": "d281b8d6b30bbf97ada689c22028648e0606c3e7e402b267ea45290852f73592",
+          "own_source_object_id": 781,
+          "traffic_cost": 0
+        },
+        {
+          "xyz": [
+            1898.260498046875,
+            2025.43359375,
+            210.0
+          ],
+          "observed_frame": 1525,
+          "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-170331-commander\\formation-own-history\\00001525-779.json",
+          "own_source_sha256": "fcbc0530d26ff7d4110ba7b1d1701446e0896b4bc417174409347540dee27b51",
+          "own_source_object_id": 779,
+          "traffic_cost": 0
+        },
+        {
+          "xyz": [
+            1883.1072998046875,
+            2178.017822265625,
+            210.0
+          ],
+          "observed_frame": 1571,
+          "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-170331-commander\\formation-own-history\\00001571-779.json",
+          "own_source_sha256": "30f1f4252969ba558c6c5af587bd8c746c1315b21abc26352ef98363376747d4",
+          "own_source_object_id": 779,
+          "traffic_cost": 0
+        },
+        {
+          "xyz": [
+            1881.960693359375,
+            2328.642333984375,
+            210.0
+          ],
+          "observed_frame": 1618,
+          "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-170331-commander\\formation-own-history\\00001618-779.json",
+          "own_source_sha256": "d0e06ab6de531fe1b51888e80a05b212745d109d01781c25a06a4714d2b65868",
+          "own_source_object_id": 779,
+          "traffic_cost": 0
+        },
+        {
+          "xyz": [
+            1947.2174072265625,
+            2467.21728515625,
+            210.0
+          ],
+          "observed_frame": 1583,
+          "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-170331-commander\\formation-own-history\\00001583-781.json",
+          "own_source_sha256": "3fd9b26a915a3ee91c9e3378cd622b1d3d4c391fc745a11b5b91513debf59a0d",
+          "own_source_object_id": 781,
+          "traffic_cost": 0
+        },
+        {
+          "xyz": [
+            2010.0,
+            2577.97607421875,
+            210.0
+          ],
+          "observed_frame": 1629,
+          "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-170331-commander\\formation-own-history\\00001629-781.json",
+          "own_source_sha256": "cf17ead65baacce855de38cbb756f57ddb7590f58af48157b2b9c9055ffa7b41",
+          "own_source_object_id": 781,
+          "traffic_cost": 0
+        },
+        {
+          "xyz": [
+            2086.728759765625,
+            2701.571533203125,
+            227.4825897216797
+          ],
+          "observed_frame": 1676,
+          "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-170331-commander\\formation-own-history\\00001676-781.json",
+          "own_source_sha256": "9fc7178dd4d418421a754e8036664518ac4280f3ada6c4839bc2022118818727",
+          "own_source_object_id": 781,
+          "traffic_cost": 0
+        },
+        {
+          "xyz": [
+            2202.65283203125,
+            2806.957275390625,
+            223.6289825439453
+          ],
+          "observed_frame": 1723,
+          "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-170331-commander\\formation-own-history\\00001723-781.json",
+          "own_source_sha256": "87576166d1f09c181d9f5dc9b7843ffadd251c56cbc823db9d0e1e2f444b8e37",
+          "own_source_object_id": 781,
+          "traffic_cost": 0
+        },
+        {
+          "xyz": [
+            2338.921630859375,
+            2857.657958984375,
+            210.0
+          ],
+          "observed_frame": 1769,
+          "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-170331-commander\\formation-own-history\\00001769-781.json",
+          "own_source_sha256": "2210a64c058a4ab3a71c49777239a0d94ffc83e4814ebffb8285aedc0e8bd7dc",
+          "own_source_object_id": 781,
+          "traffic_cost": 0
+        },
+        {
+          "xyz": [
+            2491.319091796875,
+            2874.591064453125,
+            210.0
+          ],
+          "observed_frame": 1815,
+          "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-170331-commander\\formation-own-history\\00001815-781.json",
+          "own_source_sha256": "656425831674a37bd1cb778d88ad1eb10b32fb69ec3822128c32f369fe927705",
+          "own_source_object_id": 781,
+          "traffic_cost": 0
+        },
+        {
+          "xyz": [
+            2637.4248046875,
+            2851.264892578125,
+            210.0
+          ],
+          "observed_frame": 1941,
+          "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-170331-commander\\formation-own-history\\00001941-779.json",
+          "own_source_sha256": "74ae3cfc96ebb1301ed243981cec2af027ff7a3a46ce05f76ad61de302266b78",
+          "own_source_object_id": 779,
+          "traffic_cost": 0
+        },
+        {
+          "xyz": [
+            2775.422607421875,
+            2908.64404296875,
+            210.0
+          ],
+          "observed_frame": 2323,
+          "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-170331-commander\\formation-own-history\\00002323-771.json",
+          "own_source_sha256": "db7f5e235b805b39e608c44a25f4a973d72a2057fc7db0d2f5c74830011a9cb9",
+          "own_source_object_id": 771,
+          "traffic_cost": 0
+        },
+        {
+          "xyz": [
+            2888.754150390625,
+            3007.093017578125,
+            210.0
+          ],
+          "observed_frame": 2670,
+          "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-170331-commander\\formation-own-history\\00002670-787.json",
+          "own_source_sha256": "b71cfaf1f8f7fd62e0ec077336864a0c6ce73463055766a7a133c3043683447c",
+          "own_source_object_id": 787,
+          "traffic_cost": 0
+        },
+        {
+          "xyz": [
+            3012.479736328125,
+            3101.330810546875,
+            210.0
+          ],
+          "observed_frame": 3191,
+          "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-170331-commander\\formation-own-history\\00003191-771.json",
+          "own_source_sha256": "ad941a390e5bf8ea8dae7237d4a93a66020015f517f55326bd8e5912da8454ce",
+          "own_source_object_id": 771,
+          "traffic_cost": 0
+        },
+        {
+          "xyz": [
+            3127.715087890625,
+            3209.282958984375,
+            210.0
+          ],
+          "observed_frame": 3736,
+          "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-170331-commander\\formation-own-history\\00003736-804.json",
+          "own_source_sha256": "90c62a263b292dfe16b306bf5fd8849d40955f6a74a84345f420da58f3bbe6c5",
+          "own_source_object_id": 804,
+          "traffic_cost": 0
+        },
+        {
+          "xyz": [
+            3259.38134765625,
+            3287.857177734375,
+            210.0
+          ],
+          "observed_frame": 3782,
+          "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-170331-commander\\formation-own-history\\00003782-804.json",
+          "own_source_sha256": "bc41904eb46bc2ca9d16c8196f59b77e03538ab7174de530cae9012fede59e14",
+          "own_source_object_id": 804,
+          "traffic_cost": 0
+        },
+        {
+          "xyz": [
+            3266.0224609375,
+            3351.983642578125,
+            210.0
+          ],
+          "observed_frame": 3805,
+          "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-170331-commander\\formation-own-history\\00003805-799.json",
+          "own_source_sha256": "45bb0d7b4d357ecf9d3931cc5480bea98a6a70e0ff6adb85d3cd3747e3f87101",
+          "own_source_object_id": 799,
+          "traffic_cost": 0
+        }
+      ],
+      "diagnostics": {
+        "phase": "role_graph_search",
+        "source_records": 370,
+        "ground_nodes": 360,
+        "expanded_states": 2721,
+        "reject_reasons": {
+          "source_session_or_clock": 10,
+          "leg_geometry": 104590,
+          "route_source_cycle": 71
+        },
+        "hard_occupants": 0,
+        "verified_mobile_traffic": 0,
+        "closest_ground_point_to_target": 294.8415003358683,
+        "goal_nodes": 1,
+        "first_leg_candidates": 10,
+        "elapsed_seconds": 0.4220000000204891
+      },
+      "full_forward_reverse_role_geometry": true,
+      "expanded_limit_reached": false
+    }
+  ],
+  "conclusion": "A 17-leg optimistic lower bound proves the unchanged 16-point planner cannot reach this goal with this historical node set, even without occupancy. A 32-point simulation is diagnostic only; search success/failure is not Native passability.",
+  "limits": [
+    "optimistic undirected graph ignores turn, held-actor and unique-source constraints, making it a lower bound only",
+    "positive grounded points do not prove path edges walkable",
+    "role search retains existing source-cycle and seen-state pruning and the 12000 expansion cap",
+    "no current hidden enemy coordinates were read",
+    "no simulated route is sent to Native"
+  ],
+  "planner_source_sha256": "2b9cdaf1fb83c334f668a2f28ca838e8f50dfafbfac8e5c7d87d74905d14cf12",
+  "reviewer_sha256": "6a4367b4c35ac727ddc8223643604f792c44d00f3a7153347e137bdb8d4e9f0a",
+  "sdk_calls": 0,
+  "native_plan_eligible": false,
+  "wall_seconds": 1.312999999965541
+}

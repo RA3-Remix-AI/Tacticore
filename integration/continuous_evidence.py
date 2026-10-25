@@ -16,13 +16,24 @@ def _load(path,name):
     value=importlib.util.module_from_spec(spec);sys.modules[name]=value;spec.loader.exec_module(value)
     return value
 
+def _executor_filename(directory,key,default):
+    schema=_load(ROOT.parent/'tactical/evidence.py','continuous_trusted_reader_schema').executor_schema(directory)
+    name=schema.get(key,default)
+    if not isinstance(name,str) or Path(name).name!=name or not name.endswith('.py'):raise ValueError('Invalid trusted executor reader filename')
+    return name
+
 
 def _qualifier(directory,namespace):
     tactical=ROOT.parent/'tactical'
     if str(tactical) not in sys.path:sys.path.insert(0,str(tactical))
-    files={'mission-combat':'mission_combat_qualification.py','mission-combat-v2':'mission_combat_v2_qualification.py','mission-combat-v3':'mission_combat_v3_qualification.py','mission-combat-v4':'mission_combat_v4_qualification.py','mission-combat-v5':'mission_combat_v5_qualification_v2.py','mission-combat-v6':'mission_combat_v6_runtime_qualification.py','mission-combat-v7':'mission_combat_v7_runtime_qualification.py','mission-formation':'mission-formation/formation_mission_qualification.py','mission-formation-v2':'mission-formation-v2/formation_mission_qualification.py','mission-formation-v3':'mission-formation-v3/formation_mission_qualification_v4.py','mission-formation-v4':'mission-formation-v4/formation_mission_qualification_traffic_v2.py'}
+    files={'mission-combat':'mission_combat_qualification.py','mission-combat-v2':'mission_combat_v2_qualification.py','mission-combat-v3':'mission_combat_v3_qualification.py','mission-combat-v4':'mission_combat_v4_qualification.py','mission-combat-v5':'mission_combat_v5_qualification_v2.py','mission-combat-v6':'mission_combat_v6_runtime_qualification.py','mission-combat-v7':'mission_combat_v7_runtime_qualification.py','mission-formation':'mission-formation/formation_mission_qualification.py','mission-formation-v2':'mission-formation-v2/formation_mission_qualification.py','mission-formation-v3':'mission-formation-v3/formation_mission_qualification_v4.py','mission-formation-v4':'mission-formation-v4/formation_mission_qualification_traffic_v2.py','mission-formation-v5':'mission-formation-v5/formation_mission_qualification.py','mission-formation-v6':'mission-formation-v6/formation_mission_qualification.py'}
     if directory not in files:raise ValueError('Unknown continuous mission executor')
     path=tactical/files[directory]
+    schema=_load(tactical/'evidence.py','continuous_trusted_qualifier_schema').executor_schema(directory)
+    if schema.get('kind')=='formation' and schema.get('qualifier_filename'):
+        name=schema['qualifier_filename']
+        if not isinstance(name,str) or Path(name).name!=name or not name.endswith('.py'):raise ValueError('Invalid trusted formation qualifier filename')
+        path=tactical/directory/name
     return _load(path,namespace+'_'+directory.replace('-','_'))
 
 
@@ -100,7 +111,7 @@ def terminal_facts(host,receipt,entry):
             raise ValueError('Continuous mission lacks paired role effect')
     else:result=dict(result,restoration_verified=True)
     facts=dict(bound,qualification=result,control_release=release)
-    if directory in ('mission-formation','mission-formation-v2','mission-formation-v3','mission-formation-v4'):verify_formation_release(facts,entry,qualifier)
+    if directory in ('mission-formation','mission-formation-v2','mission-formation-v3','mission-formation-v4','mission-formation-v5','mission-formation-v6'):verify_formation_release(facts,entry,qualifier)
     return facts
 
 
@@ -111,7 +122,7 @@ def verify_formation_release(facts,entry,qualifier=None):
     if any(terminal.get(key)!=value or type(terminal.get(key)) is not type(value) for key,value in expected.items()) or terminal.get('mutations') is not False or terminal.get('timer')!=0 or terminal.get('active')!=0 or terminal.get('restore_mask')!=8191:
         raise ValueError('Continuous formation terminal identity changed')
     directory=entry['executor_directory']
-    if directory not in ('mission-formation','mission-formation-v2','mission-formation-v3','mission-formation-v4'):raise ValueError('Unknown formation release executor')
+    if directory not in ('mission-formation','mission-formation-v2','mission-formation-v3','mission-formation-v4','mission-formation-v5','mission-formation-v6'):raise ValueError('Unknown formation release executor')
     folder=ROOT.parent/'tactical'/directory
     layout=json.loads((folder/'inert-layout.json').read_text())
     if terminal.get('layout')!=layout or layout.get('dll_sha256')!=report['native_binary_sha256']:raise ValueError('Continuous formation terminal layout changed')
@@ -168,20 +179,22 @@ def pre_dispatch_facts(host,receipt,entry):
     if gate.get('no_actor_lease_verified') is True:
         # The native host DID launch. This is a different boundary from exit64:
         # exact passive header snapshots and restored entry bytes prove no lease.
-        gate_readers={'mission-combat-v3':'mission_v3_gate_no_lease.py','mission-combat-v4':'mission_v4_gate_no_lease.py','mission-combat-v5':'mission_v5_gate_no_lease.py','mission-combat-v6':'mission_v6_gate_no_lease.py','mission-combat-v7':'mission_v7_gate_no_lease.py','mission-formation-v2':'mission_formation_v3_gate_no_lease.py','mission-formation-v3':'mission_formation_v3_admission_v4_gate_no_lease.py','mission-formation-v4':'mission_formation_v4_traffic_v2_gate_no_lease.py'}
+        gate_readers={'mission-combat-v3':'mission_v3_gate_no_lease.py','mission-combat-v4':'mission_v4_gate_no_lease.py','mission-combat-v5':'mission_v5_gate_no_lease.py','mission-combat-v6':'mission_v6_gate_no_lease.py','mission-combat-v7':'mission_v7_gate_no_lease.py','mission-formation-v2':'mission_formation_v3_gate_no_lease.py','mission-formation-v3':'mission_formation_v3_admission_v4_gate_no_lease.py','mission-formation-v4':'mission_formation_v4_traffic_v2_gate_no_lease.py','mission-formation-v5':'mission_formation_v5_gate_no_lease.py','mission-formation-v6':'mission_formation_v6_gate_no_lease.py'}
         if entry['executor_directory'] not in gate_readers:raise ValueError('Unknown native gate verifier')
         bound=bound_report(host,receipt,entry)
         evidence_path=Path(gate['evidence_path']).resolve()
         if not evidence_path.is_relative_to(Path(host.session['run_directory']).resolve()):raise ValueError('Native gate proof outside current match')
         if str(ROOT.parent/'tactical') not in sys.path:sys.path.insert(0,str(ROOT.parent/'tactical'))
-        verifier=_load(ROOT.parent/'tactical'/gate_readers[entry['executor_directory']],'continuous_native_gate_'+entry['executor_directory'].replace('-','_'))
+        gate_name=_executor_filename(entry['executor_directory'],'gate_reader',gate_readers[entry['executor_directory']])
+        verifier=_load(ROOT.parent/'tactical'/gate_name,'continuous_native_gate_'+entry['executor_directory'].replace('-','_'))
         verified=verifier.verify_path(evidence_path,path)
         if verified.get('no_actor_lease_verified') is not True or verified.get('exclusive_control_never_held') is not True or verified.get('completion_claim') is not False or verified.get('return_verified') is not False or receipt.get('started') is not False or receipt.get('issued_frame',0)!=0:
             raise ValueError('Native zero-lease refusal unproven')
         return dict(sha256=bound['sha256'],path=path,proof=verified)
     suffix='formation' if entry['module']=='combined_arms' else str(entry['object_ids'][0])
     command=str(uuid.uuid5(uuid.UUID(entry['command_id']),suffix));task=str(uuid.uuid5(uuid.UUID(entry['task_id']),suffix))
-    helper={'mission-combat-v2':'pre_dispatch_v2_contract.py','mission-combat-v3':'pre_dispatch_v3_contract.py','mission-combat-v4':'pre_dispatch_v4_contract.py','mission-combat-v5':'pre_dispatch_v5_contract.py','mission-combat-v6':'pre_dispatch_v6_contract.py','mission-combat-v7':'pre_dispatch_v7_contract.py','mission-formation-v2':'pre_dispatch_formation_v2_contract.py','mission-formation-v3':'pre_dispatch_formation_v3_admission_v4_contract.py','mission-formation-v4':'pre_dispatch_formation_v4_traffic_v2_contract.py'}.get(entry['executor_directory'],'pre_dispatch_contract.py')
+    helper={'mission-combat-v2':'pre_dispatch_v2_contract.py','mission-combat-v3':'pre_dispatch_v3_contract.py','mission-combat-v4':'pre_dispatch_v4_contract.py','mission-combat-v5':'pre_dispatch_v5_contract.py','mission-combat-v6':'pre_dispatch_v6_contract.py','mission-combat-v7':'pre_dispatch_v7_contract.py','mission-formation-v2':'pre_dispatch_formation_v2_contract.py','mission-formation-v3':'pre_dispatch_formation_v3_admission_v4_contract.py','mission-formation-v4':'pre_dispatch_formation_v4_traffic_v2_contract.py','mission-formation-v5':'pre_dispatch_formation_v5_contract.py','mission-formation-v6':'pre_dispatch_formation_v6_contract.py'}.get(entry['executor_directory'],'pre_dispatch_contract.py')
+    helper=_executor_filename(entry['executor_directory'],'pre_dispatch_helper',helper)
     verifier=_load(ROOT.parent/'tactical'/helper,'continuous_pre_dispatch_verifier_'+entry['executor_directory'].replace('-','_'))
     seq=report.get('request',{}).get('seq')
     if type(seq) is not int or seq<=0:raise ValueError('Continuous refusal native sequence invalid')

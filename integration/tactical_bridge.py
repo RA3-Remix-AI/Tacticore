@@ -3,7 +3,7 @@ import asyncio,hashlib,importlib.util,json,sys,time,uuid
 from pathlib import Path
 from live_state import atomic_json
 from continuous_contract import PROTOCOL,MAX_DURATION_FRAMES,mission_limits,progress_from_receipt
-from continuous_evidence import terminal_facts,progress_evidence,pre_dispatch_facts
+from continuous_evidence import terminal_facts,progress_evidence,pre_dispatch_facts,bound_report
 
 ROOT=Path(__file__).resolve().parent
 
@@ -191,6 +191,25 @@ class TacticalBridge:
    verified=verifier.verify_path(proof,path)
    if verified.get('restoration_verified') is not True or verified.get('disposed_verified') is not True or verified.get('return_verified') is not False or verified.get('completion_claim') is not False:raise ValueError('Disposal control release unproven')
 
+ def verify_scene_release(self,receipt,entry):
+  """Scene closure can release a failed mission, never prove troop restoration."""
+  results=receipt.get('unit_results',[])
+  proofs=[r.get('scene_release') for r in results if r.get('scene_release')]
+  if not proofs:
+   if receipt.get('scene_disposed_control_release_verified'):raise ValueError('Scene release lacks independent proof')
+   return None
+  if len(results)!=1 or len(proofs)!=1 or receipt.get('scene_disposed_control_release_verified') is not True or receipt.get('status') not in ('failed','cancelled') or receipt.get('completed') is not False or receipt.get('goal_observed') is not False or receipt.get('restoration_verified') is not False or execution_from_receipt(receipt,entry)['goal_observed'] is not False or execution_from_receipt(receipt,entry)['restoration_verified'] is not False:raise ValueError('Scene release cannot claim goal or restoration')
+  if entry.get('mission_protocol')!=PROTOCOL or entry.get('executor_directory') not in ('mission-combat-v7','mission-formation-v4','mission-formation-v5','mission-formation-v6') or receipt.get('object_ids')!=entry.get('object_ids'):raise ValueError('Unapproved scene release scope')
+  bound=bound_report(self.host,receipt,entry);proof=proofs[0];path=Path(proof['sidecar_path']).resolve();run=Path(self.host.session['run_directory']).resolve()
+  if not path.is_relative_to(run) or hashlib.sha256(path.read_bytes()).hexdigest()!=proof.get('sidecar_sha256'):raise ValueError('Scene release sidecar outside match or changed')
+  schema=module(ROOT.parent/'tactical/evidence.py','host_scene_release_schema').executor_schema(entry['executor_directory'])
+  name=schema.get('scene_release_reader','scene_terminal_release.py')
+  if not isinstance(name,str) or Path(name).name!=name or not name.endswith('.py'):raise ValueError('Invalid trusted scene reader filename')
+  reader=module(ROOT.parent/'tactical'/name,'host_scene_terminal_release')
+  verified=reader.verify_path(path,bound['path'])
+  if verified.get('source_sha256')!=bound['sha256'] or verified.get('sidecar_sha256')!=proof.get('sidecar_sha256') or verified.get('scene_disposed_control_release') is not True or verified.get('semantics')!='scene_disposed_exclusive_control_released' or any(verified.get(k) is not False for k in ('restoration_verified','return_verified','physical_retreat_verified','completed','goal_observed','completion_claim')):raise ValueError('Scene release actual proof failed')
+  return verified
+
  async def request_mission_retreats(self):
   if self.executor is None:return
   for request in self.host.agent.pending_mission_retreats():
@@ -204,6 +223,11 @@ class TacticalBridge:
  def observe_mission(self,receipt,entry):
   """Phase telemetry stays separate from independently qualified effects."""
   from battle_agent import MissionObservations
+  scene=self.verify_scene_release(receipt,entry)
+  if scene:
+   self.host.agent.certify_mission_scene_closed(entry['task_id'],evidence_sha256=scene['sidecar_sha256'])
+   entry['scene_release_evidence_sha256']=scene['sidecar_sha256']
+   return True
   disposals=[unit.get('control_release',{}) for unit in receipt.get('unit_results',[]) if unit.get('control_release',{}).get('disposed_verified') is True]
   if disposals:
    self.verify_disposals(receipt,entry)
@@ -259,7 +283,8 @@ class TacticalBridge:
     execution=execution_from_receipt(receipt,entry)
     if execution['issued_frame']>int(host.last_snapshot['game_time_seconds']*15):
      if entry.get('mission_protocol')!=PROTOCOL or not getattr(self,'draining',False) or receipt.get('status') not in ('completed','failed','cancelled'):continue
-     if any(unit.get('control_release',{}).get('disposed_verified') is True for unit in receipt.get('unit_results',[])):self.verify_disposals(receipt,entry)
+     if receipt.get('scene_disposed_control_release_verified') is True:self.verify_scene_release(receipt,entry)
+     elif any(unit.get('control_release',{}).get('disposed_verified') is True for unit in receipt.get('unit_results',[])):self.verify_disposals(receipt,entry)
      else:terminal_facts(host,receipt,entry)
     if not entry['started']:
      self.feedback(task,'started','ok',dict(execution,goal_observed=False,restoration_verified=False));entry['started']=True
@@ -270,6 +295,9 @@ class TacticalBridge:
     self.feedback(task,'completed','ok',execution);entry['terminal']=True;host.collector.formations.release(entry['formation_versions'])
    elif receipt.get('status') in ('failed','cancelled'):
     if entry['started']:
+     scene=self.verify_scene_release(receipt,entry)
+     if scene:
+      execution=execution_from_receipt(receipt,entry);self.feedback(task,'failed','goal_unobserved',execution);entry['terminal']=True;host.collector.formations.release(entry['formation_versions']);host.event('mission_scene_closed_control_release',task_id=task,evidence_sha256=scene['sidecar_sha256'],restoration_verified=False,return_verified=False,goal_observed=False);continue
      execution=execution_from_receipt(receipt,entry);reason='goal_unobserved' if execution['restoration_verified'] else 'restoration_unverified'
      if execution['restoration_verified']:self.verify_disposals(receipt,entry)
      self.feedback(task,'failed',reason,execution);entry['terminal']=True

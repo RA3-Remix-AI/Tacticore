@@ -1,0 +1,41 @@
+{
+  "scope": "trusted ended-scene exclusive release only",
+  "tests": {
+    "all_strategy": 179,
+    "new_state_machine": 8,
+    "new_independent_release_audit": 3
+  },
+  "sha256": {
+    "missions.py": "070ff61425dc57df83ac923734f13ee28ced5c95d7ec3c81708255fc10e808e3",
+    "battle_agent.py": "2cdddcfc1ba565514a9953b72085ba3cf0008aa0997dfbe84710a2edfe57bbdc",
+    "mission_audit.py": "c642b2e0dae14a9f57e517e2fa905c630c47b8045493496707ffecd3c3b75fea",
+    "test_scene_closed_missions.py": "07e0553fce43aae3b21b0aece7a88d7506ede2b97f0e90f437c58339a6b3b1a3",
+    "test_scene_release_audit.py": "98d9a9fc9c8e20b1483bb2b290f8bb488c9c77edf9e8fafe06fb5e2fdbf5b899",
+    "MISSION_CONTRACT.md": "befcb62c8aa23523e5afa20e1dec2804d7ecd72ccc38d3dbfcb9b187b1214533"
+  },
+  "no_game_model_calls": true,
+  "preserves": [
+    "last actual native phase",
+    "native progress revision",
+    "raw telemetry",
+    "actual damage"
+  ],
+  "never_implies": [
+    "normal return",
+    "physical retreat",
+    "restoration",
+    "goal",
+    "completion"
+  ],
+  "only_terminal_status": [
+    "failed",
+    "cancelled"
+  ],
+  "audit_independent_bindings": [
+    "current raw sidecar requalified by bridge",
+    "ledger certificateSHA",
+    "unique host scene release eventSHA and false return flags",
+    "strategy mission-history certificateSHA and failed/cancelled status"
+  ],
+  "limitations": "reader has offline coverage only until an actual complete new field scene-release sidecar is captured and independently requalified"
+}

@@ -252,7 +252,14 @@ class HttpTests(unittest.IsolatedAsyncioTestCase):
 
     async def cli(self,root,*extra):
         proc=await asyncio.create_subprocess_exec(sys.executable,str(Path(__file__).with_name("service.py")),"--library",str(root/"library.v2.json"),"--commander",COMMANDER,*extra,stdout=asyncio.subprocess.PIPE,stderr=asyncio.subprocess.PIPE)
-        stdout,stderr=await asyncio.wait_for(proc.communicate(),5)
+        try:
+            stdout,stderr=await asyncio.wait_for(proc.communicate(),15)
+        finally:
+            # A cold framework import on Windows is part of process startup.
+            # Failed/cancelled tests must also close their own service child.
+            if proc.returncode is None:
+                proc.kill()
+                await proc.communicate()
         self.assertNotIn(FAKE_KEY,stdout.decode()+stderr.decode());self.assertNotIn(self.url,stdout.decode()+stderr.decode())
         self.assertEqual(stderr,b"")
         return proc.returncode,json.loads(stdout)
@@ -288,7 +295,7 @@ class HttpTests(unittest.IsolatedAsyncioTestCase):
         with tempfile.TemporaryDirectory() as temp:
             root=Path(temp);library(root,self.url);source=root/"snapshot.json";source.write_text(json.dumps(snapshot()),encoding="utf-8")
             run=asyncio.create_task(self.cli(root,"--player","3","--snapshot-file",str(source),"--runtime",str(root/"runtime"),"--once","--poll-seconds",".01","--max-response-age","10"))
-            await asyncio.wait_for(arrived.wait(),2)
+            await asyncio.wait_for(arrived.wait(),10)
             update=root/"new.json";update.write_text(json.dumps(snapshot(2,112)),encoding="utf-8");update.replace(source)
             await asyncio.sleep(.08);release.set()
             code,result=await run
@@ -304,7 +311,7 @@ class HttpTests(unittest.IsolatedAsyncioTestCase):
         with tempfile.TemporaryDirectory() as temp:
             root=Path(temp);library(root,self.url);source=root/"snapshot.json";source.write_text(json.dumps(snapshot()),encoding="utf-8");stop=root/"stop.json"
             run=asyncio.create_task(self.cli(root,"--player","3","--snapshot-file",str(source),"--runtime",str(root/"runtime"),"--stop-file",str(stop),"--poll-seconds",".01"))
-            await asyncio.wait_for(arrived.wait(),2)
+            await asyncio.wait_for(arrived.wait(),10)
             stop.write_text(json.dumps({"stop":True,"session_id":SESSION,"player_id":3,"commander_id":COMMANDER}),encoding="utf-8")
             code,result=await run
             self.assertEqual(code,0);self.assertEqual(result["state"],"stopped")

@@ -1,0 +1,55 @@
+{
+  "raw_report": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-170331-commander\\coord-mf4-traffic02.json",
+  "source_sha256": "d647382820a63a968ac4891044398bea3fb3e9ee517975ca7f90c328476856ef",
+  "terminal_sha256": "00f5246746246233a6cf7579a087b3e711c4aca6941bbb0cc9a122bc869d9d4e",
+  "decision": "failed_planning_no_effect_safe_dual_return",
+  "planning_error": "planning_actor_pair_not_same_frame",
+  "timeline": {
+    "issued": 4270,
+    "ready": 4275,
+    "returned": 4308
+  },
+  "planning_failure_recomputed": {
+    "planning_failed": true,
+    "no_movement_before_plan": true,
+    "control_release_verified": true,
+    "return_verified": true,
+    "effect_verified": false,
+    "completion_claim": false,
+    "release": {
+      "restoration_verified": true,
+      "control_release_verified": true,
+      "return_verified": true,
+      "disposed_verified": false,
+      "actors": [
+        {
+          "role": 0,
+          "object_id": 1118,
+          "returned": true,
+          "disposed": false,
+          "never_held": false,
+          "released": true
+        },
+        {
+          "role": 1,
+          "object_id": 1158,
+          "returned": true,
+          "disposed": false,
+          "never_held": false,
+          "released": true
+        }
+      ],
+      "semantics": "two_independent_native_pool_returns_or_readonly_disposal",
+      "completion_claim": false
+    }
+  },
+  "terminal_reconstructed": {
+    "bindings": true,
+    "actual13pristine": true,
+    "timer0": true,
+    "normalReturn": true,
+    "inert": true
+  },
+  "next_revision_suggestion": "At most3 retries only for pair-frame sampling mismatch, charged to unchanged original2s/6s/4500 deadlines; no identity/ground/FOV hard-error retry and no deadline reset",
+  "game_model_calls": 0
+}

@@ -1,0 +1,47 @@
+{
+  "decision": "no_blocking_finding_read_only_scene_release_integration_review",
+  "game_sdk_gui_or_model_calls": 0,
+  "field_scene_release_verified": false,
+  "field_boundary": "No new complete scene sidecar; synthetic fixtures and saved RO fragments are not field evidence",
+  "files": {
+    "tactical/client.py": "cde09524517113f3ab1954743bf2f891a360f0e10820a4f5e1b251800ae913a2",
+    "integration/tactical_bridge.py": "259f4eaf5219aeb179bcc290ef387341aaf0c918013e45b0c1b477f5fe59aa50",
+    "integration/continuous_evidence.py": "cfd82a3f346dcdac797e51e2c5706cbf59b59ed77fd396f865f98aee9d99d358",
+    "strategy/missions.py": "070ff61425dc57df83ac923734f13ee28ced5c95d7ec3c81708255fc10e808e3",
+    "strategy/battle_agent.py": "2cdddcfc1ba565514a9953b72085ba3cf0008aa0997dfbe84710a2edfe57bbdc",
+    "tactical/scene_terminal_release.py": "7e88cf2b849dde5e2a8dc651f0f5756b84586c3ce6938f520135c8ef755e5104",
+    "tactical/reviews/scene_bridge_independent_review.py": "140fe8dcf8888a889539234dfe7ac2bf30d134b3a9e7ae480fc4e95e49fa9399"
+  },
+  "independent_tests": {
+    "actual_bridge_and_actual_reader_synthetic_coupling": 8,
+    "existing_outer_binding": 7,
+    "strategy_scene_closed_semantics": 11
+  },
+  "fresh_integration_cwd_import": {
+    "mct7_runtime": "mission-combat-v7/lease.py",
+    "mfm4_runtime": "mission-formation-v4/lease_traffic_retry_v3.py",
+    "scene_reader": "tactical/scene_terminal_release.py",
+    "header_offsets": [
+      1124,
+      1052
+    ],
+    "restore_masks": [
+      16383,
+      8191
+    ],
+    "native_launches": 0,
+    "collect_called": false
+  },
+  "verified_invariants": [
+    "client scene helper is allowlisted to 7/4 terminal error31 with actual issue; normal success and foreign family return None",
+    "scene proof is stored separately from normal control_release or batch_restoration",
+    "native phase4/error31 cannot reach completed branch",
+    "client failure execution retains goal false and restoration false; reserved-unit release uses a separate scene flag",
+    "bridge checks full expected child UUID and source session/player/commander/PID/allocation/deadline/formation versions via actual bound_report and execution verifier",
+    "actual bridge rejects invalid clock, actual sidecar token, foreign raw identities, changed sidecar digest, raw or sidecar path escape, false return/restoration/completion and live-pause evidence",
+    "observe_mission certifies scene_closed separately, without inventing native phase/frame or normal return",
+    "receive emits failed/goal_unobserved with false restoration and goal then releases roster",
+    "MissionBoard terminal validation only allows failed/cancelled false-restored/false-goal for scene certificates"
+  ],
+  "source_changes": false
+}

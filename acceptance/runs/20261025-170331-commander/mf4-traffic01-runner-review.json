@@ -1,0 +1,902 @@
+{
+  "clock": {
+    "frame": 4250,
+    "pause": 3
+  },
+  "terminal_readonly": {
+    "pid": 49636,
+    "session_id": "986ef975-07b7-4367-9d7d-db9ddc5c80ec",
+    "commander_id": "57e668b4-4d89-43bd-bc92-0dd436f046ef",
+    "command_id": "6b787adf-3264-44b7-a585-8af8ac059f9e",
+    "task_id": "a059488a-4e68-441b-8f8a-f4c4ce54290a",
+    "seq": 628297578,
+    "token": 4238511826,
+    "owner": "0x31ec4d0",
+    "logic": "0x3c91228",
+    "native_binary_sha256": "1421d30446aa27712654b269edea52fcbe4abf5913e027bd1b45ffd230d948a4",
+    "module_base": "0x7a870000",
+    "shared_pointer": "0x45260000",
+    "layout": {
+      "dll_sha256": "1421d30446aa27712654b269edea52fcbe4abf5913e027bd1b45ffd230d948a4",
+      "timer_rva": 103032,
+      "shared_pointer_rva": 103048
+    },
+    "timer": 0,
+    "binding_verified": true,
+    "phase": 3,
+    "error": 0,
+    "active": 0,
+    "restore_mask": 8191,
+    "front_return_verified": 1,
+    "support_return_verified": 1,
+    "entries": [
+      {
+        "address": "0x76d9d0",
+        "expected": "568bf1578b7e088bcf",
+        "actual": "568bf1578b7e088bcf",
+        "restored": true
+      },
+      {
+        "address": "0x76e690",
+        "expected": "837c24040055568bf18b6e08",
+        "actual": "837c24040055568bf18b6e08",
+        "restored": true
+      },
+      {
+        "address": "0x838820",
+        "expected": "8b818c00000085c0744f568bb190000000",
+        "actual": "8b818c00000085c0744f568bb190000000",
+        "restored": true
+      },
+      {
+        "address": "0x8d8880",
+        "expected": "83ec24568b74242c8b4604",
+        "actual": "83ec24568b74242c8b4604",
+        "restored": true
+      },
+      {
+        "address": "0x8cd630",
+        "expected": "83ec3453578b7c24408b4704",
+        "actual": "83ec3453578b7c24408b4704",
+        "restored": true
+      },
+      {
+        "address": "0x7d2310",
+        "expected": "81ec200100005355568bb42430010000",
+        "actual": "81ec200100005355568bb42430010000",
+        "restored": true
+      },
+      {
+        "address": "0x6f7c60",
+        "expected": "538b5928568b71243bf357",
+        "actual": "538b5928568b71243bf357",
+        "restored": true
+      },
+      {
+        "address": "0x765190",
+        "expected": "8b44240885c0f30f104c2404",
+        "actual": "8b44240885c0f30f104c2404",
+        "restored": true
+      },
+      {
+        "address": "0x54b0a0",
+        "expected": "83ec5c8b442460566a01508bf1",
+        "actual": "83ec5c8b442460566a01508bf1",
+        "restored": true
+      },
+      {
+        "address": "0x721ad0",
+        "expected": "83ec08558be98b45088b4804",
+        "actual": "83ec08558be98b45088b4804",
+        "restored": true
+      },
+      {
+        "address": "0x572280",
+        "expected": "83ec5c8b442468566a01508bf1",
+        "actual": "83ec5c8b442468566a01508bf1",
+        "restored": true
+      },
+      {
+        "address": "0x571d90",
+        "expected": "83ec5c8b442464566a01508bf1",
+        "actual": "83ec5c8b442464566a01508bf1",
+        "restored": true
+      },
+      {
+        "address": "0x790990",
+        "expected": "8b44240c8b5424086a006a006a00",
+        "actual": "8b44240c8b5424086a006a006a00",
+        "restored": true
+      }
+    ],
+    "mutations": false
+  },
+  "qualification": {
+    "status": "not_passed",
+    "checks": {
+      "two_phase_stopped_route_commit": true,
+      "initial_state_scope_and_clean_stop": true,
+      "finished_and_source_pinned": true,
+      "launch_intent": true,
+      "session_order_actor_binding": true,
+      "explicit_current_ground_contact": true,
+      "published_monotonic_finite": true,
+      "thread_and_role_identity": true,
+      "deadline_and_stage_order": false,
+      "raw_route_and_safe_origin": true,
+      "longer_than_old_primitive": true,
+      "long_approach_actual_displacement": false,
+      "long_retreat_actual_displacement": true,
+      "every_approach_stage_raw": false,
+      "every_retreat_stage_raw": false,
+      "one_new_normal_front_order": false,
+      "front_source_damage_and_support_position": false,
+      "support_never_assigned_ground_attack": true,
+      "normal_moves_have_raw_stop_and_input_chain": false,
+      "no_native_override": true,
+      "two_normal_pool_returns_after_retreat": true,
+      "native_hooks_timer_terminal": true
+    },
+    "effect_verified": false,
+    "source_damage_amount": 0,
+    "approach_verified": false,
+    "long_approach_verified": false,
+    "retreat_verified": false,
+    "long_retreat_verified": true,
+    "restoration_verified": true,
+    "combined_arms_verified": false,
+    "entry_state_audit": {
+      "verified": true,
+      "attack_state_admission_observed": true,
+      "roles": [
+        {
+          "role": 0,
+          "actual_entry_state": 10,
+          "attack_state_observed": true,
+          "normal_stop_verified": true,
+          "verified": true
+        },
+        {
+          "role": 1,
+          "actual_entry_state": 10,
+          "attack_state_observed": true,
+          "normal_stop_verified": true,
+          "verified": true
+        }
+      ]
+    },
+    "planning_commit_audit": {
+      "verified": true,
+      "checks": {
+        "protocol": true,
+        "two_role_ready": true,
+        "ready_pose": true,
+        "two_actual_stops_three_frames": true,
+        "single_generation_commit": true,
+        "atomic_frozen_route_echo": true,
+        "no_move_before_atomic_commit": true,
+        "stopped_while_planning": true,
+        "frozen_deadline_across_planning": true,
+        "planning_time_bound": true,
+        "same_stopped_actor_admission": true,
+        "full_forward_reverse_geometry": true,
+        "all_sources_origin_fov_occupancy": true,
+        "no_planning_failure": true
+      }
+    },
+    "planning_failure_audit": {
+      "planning_failed": false,
+      "no_movement_before_plan": false,
+      "control_release_verified": false,
+      "return_verified": false,
+      "effect_verified": false,
+      "completion_claim": false,
+      "release": {
+        "restoration_verified": true,
+        "control_release_verified": true,
+        "return_verified": true,
+        "disposed_verified": false,
+        "actors": [
+          {
+            "role": 0,
+            "object_id": 791,
+            "returned": true,
+            "disposed": false,
+            "never_held": false,
+            "released": true
+          },
+          {
+            "role": 1,
+            "object_id": 793,
+            "returned": true,
+            "disposed": false,
+            "never_held": false,
+            "released": true
+          }
+        ],
+        "semantics": "two_independent_native_pool_returns_or_readonly_disposal",
+        "completion_claim": false
+      }
+    },
+    "qualified_hits": [],
+    "paired_stages": [
+      {
+        "mission_stage": 1,
+        "route_index": 0,
+        "front_goal": [
+          2613.57666015625,
+          1966.658935546875,
+          216.2469482421875
+        ],
+        "support_goal": [
+          2724.794921875,
+          2018.9581298828125,
+          210.0
+        ],
+        "paired_arrival_run": 3,
+        "held_lead_arrival_run": 3,
+        "completion_records": 2,
+        "role_order_verified": true,
+        "verified": true
+      },
+      {
+        "mission_stage": 1,
+        "route_index": 1,
+        "front_goal": [
+          2520.494384765625,
+          1911.65576171875,
+          222.95556640625
+        ],
+        "support_goal": [
+          2613.57666015625,
+          1966.658935546875,
+          216.2469482421875
+        ],
+        "paired_arrival_run": 3,
+        "held_lead_arrival_run": 3,
+        "completion_records": 2,
+        "role_order_verified": true,
+        "verified": true
+      },
+      {
+        "mission_stage": 1,
+        "route_index": 2,
+        "front_goal": [
+          2369.99365234375,
+          1870.0,
+          210.0
+        ],
+        "support_goal": [
+          2520.494384765625,
+          1911.65576171875,
+          222.95556640625
+        ],
+        "paired_arrival_run": 3,
+        "held_lead_arrival_run": 3,
+        "completion_records": 2,
+        "role_order_verified": true,
+        "verified": true
+      },
+      {
+        "mission_stage": 1,
+        "route_index": 3,
+        "front_goal": [
+          2213.330810546875,
+          1870.0,
+          210.0
+        ],
+        "support_goal": [
+          2369.99365234375,
+          1870.0,
+          210.0
+        ],
+        "paired_arrival_run": 2,
+        "held_lead_arrival_run": 3,
+        "completion_records": 2,
+        "role_order_verified": true,
+        "verified": false
+      },
+      {
+        "mission_stage": 1,
+        "route_index": 4,
+        "front_goal": [
+          2060.001220703125,
+          1870.0,
+          210.0
+        ],
+        "support_goal": [
+          2213.330810546875,
+          1870.0,
+          210.0
+        ],
+        "paired_arrival_run": 3,
+        "held_lead_arrival_run": 3,
+        "completion_records": 2,
+        "role_order_verified": true,
+        "verified": true
+      },
+      {
+        "mission_stage": 1,
+        "route_index": 5,
+        "front_goal": [
+          1920.89892578125,
+          1936.74072265625,
+          210.0
+        ],
+        "support_goal": [
+          2060.001220703125,
+          1870.0,
+          210.0
+        ],
+        "paired_arrival_run": 3,
+        "held_lead_arrival_run": 3,
+        "completion_records": 2,
+        "role_order_verified": true,
+        "verified": true
+      },
+      {
+        "mission_stage": 1,
+        "route_index": 6,
+        "front_goal": [
+          1894.636962890625,
+          2061.9208984375,
+          210.0
+        ],
+        "support_goal": [
+          1920.89892578125,
+          1936.74072265625,
+          210.0
+        ],
+        "paired_arrival_run": 3,
+        "held_lead_arrival_run": 3,
+        "completion_records": 2,
+        "role_order_verified": true,
+        "verified": true
+      },
+      {
+        "mission_stage": 1,
+        "route_index": 7,
+        "front_goal": [
+          1884.5389404296875,
+          2213.535888671875,
+          210.0
+        ],
+        "support_goal": [
+          1894.636962890625,
+          2061.9208984375,
+          210.0
+        ],
+        "paired_arrival_run": 3,
+        "held_lead_arrival_run": 3,
+        "completion_records": 2,
+        "role_order_verified": true,
+        "verified": true
+      },
+      {
+        "mission_stage": 1,
+        "route_index": 8,
+        "front_goal": [
+          1893.6348876953125,
+          2365.148193359375,
+          210.0
+        ],
+        "support_goal": [
+          1884.5389404296875,
+          2213.535888671875,
+          210.0
+        ],
+        "paired_arrival_run": 3,
+        "held_lead_arrival_run": 3,
+        "completion_records": 2,
+        "role_order_verified": true,
+        "verified": true
+      },
+      {
+        "mission_stage": 1,
+        "route_index": 9,
+        "front_goal": [
+          1975.5015869140625,
+          2495.50146484375,
+          210.0
+        ],
+        "support_goal": [
+          1893.6348876953125,
+          2365.148193359375,
+          210.0
+        ],
+        "paired_arrival_run": 0,
+        "held_lead_arrival_run": 0,
+        "completion_records": 0,
+        "role_order_verified": false,
+        "verified": false
+      },
+      {
+        "mission_stage": 1,
+        "route_index": 10,
+        "front_goal": [
+          2010.0,
+          2617.97509765625,
+          211.12246704101562
+        ],
+        "support_goal": [
+          1975.5015869140625,
+          2495.50146484375,
+          210.0
+        ],
+        "paired_arrival_run": 0,
+        "held_lead_arrival_run": 0,
+        "completion_records": 0,
+        "role_order_verified": false,
+        "verified": false
+      },
+      {
+        "mission_stage": 1,
+        "route_index": 11,
+        "front_goal": [
+          2116.326416015625,
+          2728.478515625,
+          226.50717163085938
+        ],
+        "support_goal": [
+          2010.0,
+          2617.97509765625,
+          211.12246704101562
+        ],
+        "paired_arrival_run": 0,
+        "held_lead_arrival_run": 0,
+        "completion_records": 0,
+        "role_order_verified": false,
+        "verified": false
+      },
+      {
+        "mission_stage": 1,
+        "route_index": 12,
+        "front_goal": [
+          2202.65283203125,
+          2806.957275390625,
+          223.6289825439453
+        ],
+        "support_goal": [
+          2116.326416015625,
+          2728.478515625,
+          226.50717163085938
+        ],
+        "paired_arrival_run": 0,
+        "held_lead_arrival_run": 0,
+        "completion_records": 0,
+        "role_order_verified": false,
+        "verified": false
+      },
+      {
+        "mission_stage": 1,
+        "route_index": 13,
+        "front_goal": [
+          2338.921630859375,
+          2857.657958984375,
+          210.0
+        ],
+        "support_goal": [
+          2202.65283203125,
+          2806.957275390625,
+          223.6289825439453
+        ],
+        "paired_arrival_run": 0,
+        "held_lead_arrival_run": 0,
+        "completion_records": 0,
+        "role_order_verified": false,
+        "verified": false
+      },
+      {
+        "mission_stage": 1,
+        "route_index": 14,
+        "front_goal": [
+          2491.319091796875,
+          2874.591064453125,
+          210.0
+        ],
+        "support_goal": [
+          2338.921630859375,
+          2857.657958984375,
+          210.0
+        ],
+        "paired_arrival_run": 0,
+        "held_lead_arrival_run": 0,
+        "completion_records": 0,
+        "role_order_verified": false,
+        "verified": false
+      },
+      {
+        "mission_stage": 3,
+        "route_index": 14,
+        "front_goal": [
+          2338.921630859375,
+          2857.657958984375,
+          210.0
+        ],
+        "support_goal": [
+          2202.65283203125,
+          2806.957275390625,
+          223.6289825439453
+        ],
+        "paired_arrival_run": 0,
+        "held_lead_arrival_run": 0,
+        "completion_records": 0,
+        "role_order_verified": false,
+        "verified": false
+      },
+      {
+        "mission_stage": 3,
+        "route_index": 13,
+        "front_goal": [
+          2202.65283203125,
+          2806.957275390625,
+          223.6289825439453
+        ],
+        "support_goal": [
+          2116.326416015625,
+          2728.478515625,
+          226.50717163085938
+        ],
+        "paired_arrival_run": 0,
+        "held_lead_arrival_run": 0,
+        "completion_records": 0,
+        "role_order_verified": false,
+        "verified": false
+      },
+      {
+        "mission_stage": 3,
+        "route_index": 12,
+        "front_goal": [
+          2116.326416015625,
+          2728.478515625,
+          226.50717163085938
+        ],
+        "support_goal": [
+          2010.0,
+          2617.97509765625,
+          211.12246704101562
+        ],
+        "paired_arrival_run": 0,
+        "held_lead_arrival_run": 0,
+        "completion_records": 0,
+        "role_order_verified": false,
+        "verified": false
+      },
+      {
+        "mission_stage": 3,
+        "route_index": 11,
+        "front_goal": [
+          2010.0,
+          2617.97509765625,
+          211.12246704101562
+        ],
+        "support_goal": [
+          1975.5015869140625,
+          2495.50146484375,
+          210.0
+        ],
+        "paired_arrival_run": 0,
+        "held_lead_arrival_run": 0,
+        "completion_records": 0,
+        "role_order_verified": false,
+        "verified": false
+      },
+      {
+        "mission_stage": 3,
+        "route_index": 10,
+        "front_goal": [
+          1975.5015869140625,
+          2495.50146484375,
+          210.0
+        ],
+        "support_goal": [
+          1893.6348876953125,
+          2365.148193359375,
+          210.0
+        ],
+        "paired_arrival_run": 0,
+        "held_lead_arrival_run": 0,
+        "completion_records": 0,
+        "role_order_verified": false,
+        "verified": false
+      },
+      {
+        "mission_stage": 3,
+        "route_index": 9,
+        "front_goal": [
+          1893.6348876953125,
+          2365.148193359375,
+          210.0
+        ],
+        "support_goal": [
+          1884.5389404296875,
+          2213.535888671875,
+          210.0
+        ],
+        "paired_arrival_run": 0,
+        "held_lead_arrival_run": 0,
+        "completion_records": 0,
+        "role_order_verified": false,
+        "verified": false
+      },
+      {
+        "mission_stage": 3,
+        "route_index": 8,
+        "front_goal": [
+          1884.5389404296875,
+          2213.535888671875,
+          210.0
+        ],
+        "support_goal": [
+          1894.636962890625,
+          2061.9208984375,
+          210.0
+        ],
+        "paired_arrival_run": 3,
+        "held_lead_arrival_run": 3,
+        "completion_records": 2,
+        "role_order_verified": true,
+        "verified": true
+      },
+      {
+        "mission_stage": 3,
+        "route_index": 7,
+        "front_goal": [
+          1894.636962890625,
+          2061.9208984375,
+          210.0
+        ],
+        "support_goal": [
+          1920.89892578125,
+          1936.74072265625,
+          210.0
+        ],
+        "paired_arrival_run": 3,
+        "held_lead_arrival_run": 3,
+        "completion_records": 2,
+        "role_order_verified": true,
+        "verified": true
+      },
+      {
+        "mission_stage": 3,
+        "route_index": 6,
+        "front_goal": [
+          1920.89892578125,
+          1936.74072265625,
+          210.0
+        ],
+        "support_goal": [
+          2060.001220703125,
+          1870.0,
+          210.0
+        ],
+        "paired_arrival_run": 3,
+        "held_lead_arrival_run": 3,
+        "completion_records": 2,
+        "role_order_verified": true,
+        "verified": true
+      },
+      {
+        "mission_stage": 3,
+        "route_index": 5,
+        "front_goal": [
+          2060.001220703125,
+          1870.0,
+          210.0
+        ],
+        "support_goal": [
+          2213.330810546875,
+          1870.0,
+          210.0
+        ],
+        "paired_arrival_run": 3,
+        "held_lead_arrival_run": 3,
+        "completion_records": 2,
+        "role_order_verified": true,
+        "verified": true
+      },
+      {
+        "mission_stage": 3,
+        "route_index": 4,
+        "front_goal": [
+          2213.330810546875,
+          1870.0,
+          210.0
+        ],
+        "support_goal": [
+          2369.99365234375,
+          1870.0,
+          210.0
+        ],
+        "paired_arrival_run": 3,
+        "held_lead_arrival_run": 3,
+        "completion_records": 2,
+        "role_order_verified": true,
+        "verified": true
+      },
+      {
+        "mission_stage": 3,
+        "route_index": 3,
+        "front_goal": [
+          2369.99365234375,
+          1870.0,
+          210.0
+        ],
+        "support_goal": [
+          2520.494384765625,
+          1911.65576171875,
+          222.95556640625
+        ],
+        "paired_arrival_run": 3,
+        "held_lead_arrival_run": 3,
+        "completion_records": 2,
+        "role_order_verified": true,
+        "verified": true
+      },
+      {
+        "mission_stage": 3,
+        "route_index": 2,
+        "front_goal": [
+          2520.494384765625,
+          1911.65576171875,
+          222.95556640625
+        ],
+        "support_goal": [
+          2613.57666015625,
+          1966.658935546875,
+          216.2469482421875
+        ],
+        "paired_arrival_run": 3,
+        "held_lead_arrival_run": 3,
+        "completion_records": 2,
+        "role_order_verified": true,
+        "verified": true
+      },
+      {
+        "mission_stage": 3,
+        "route_index": 1,
+        "front_goal": [
+          2613.57666015625,
+          1966.658935546875,
+          216.2469482421875
+        ],
+        "support_goal": [
+          2724.794921875,
+          2018.9581298828125,
+          210.0
+        ],
+        "paired_arrival_run": 3,
+        "held_lead_arrival_run": 3,
+        "completion_records": 2,
+        "role_order_verified": true,
+        "verified": true
+      },
+      {
+        "mission_stage": 3,
+        "route_index": 0,
+        "front_goal": [
+          2724.794921875,
+          2018.9581298828125,
+          210.0
+        ],
+        "support_goal": [
+          2764.648681640625,
+          2055.9287109375,
+          210.0
+        ],
+        "paired_arrival_run": 3,
+        "held_lead_arrival_run": 3,
+        "completion_records": 2,
+        "role_order_verified": true,
+        "verified": true
+      }
+    ],
+    "role_scope": "Conscript actual direct AK damage; Flak positional following/holding only, no ground firing claim",
+    "source_report": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-170331-commander\\continuous-paid-mf4-traffic01-formation.json",
+    "source_sha256": "bfe5dad1afa09546567c0ac10c2809dc8d2ef9ab2135d813414f61ab34865b36",
+    "qualifier_sha256": "86212d9144e15e4bfc05f0647c45cd13c5cfafba401dc58da870a41790f7afee",
+    "supplemental_sources": [
+      {
+        "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\tactical\\mission-formation-v4\\event.cpp.inc",
+        "sha256": "55ec04bbc355d0ad5d907101885ac5ac26b1e2f8ec0fb5e18a5af0ec93993b04",
+        "purpose": "two_phase_mission_source"
+      },
+      {
+        "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\tactical\\mission-formation-v4\\mission_state.cpp.inc",
+        "sha256": "ac35ef6ebe9516c7be571aafd119f63d8c77915c8dd91377612941730de045ca",
+        "purpose": "two_phase_mission_source"
+      },
+      {
+        "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\tactical\\mission-formation-v4\\planning.cpp.inc",
+        "sha256": "d315b1f7df761f43c5c704ebd4d011a020f6dfcf1a03de9a595305239a5420ec",
+        "purpose": "two_phase_mission_source"
+      },
+      {
+        "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\tactical\\mission-formation-v4\\planning_host_traffic_v2.py",
+        "sha256": "905726db4e7c5a4aa55dbdb457eaa498e741e48ddcb9533d31607fe2c72e1673",
+        "purpose": "two_phase_mission_source"
+      },
+      {
+        "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\tactical\\mission-formation-v4\\route_provenance_traffic_v2.py",
+        "sha256": "36fe63d13a666899ec41daeef31048957a1798cbea6197436425bef2797aff42",
+        "purpose": "two_phase_mission_source"
+      },
+      {
+        "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\tactical\\mission-formation-v4\\role_route_planner_traffic_v2.py",
+        "sha256": "2b9cdaf1fb83c334f668a2f28ca838e8f50dfafbfac8e5c7d87d74905d14cf12",
+        "purpose": "two_phase_mission_source"
+      },
+      {
+        "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\tactical\\mission-formation-v4\\traffic_occupancy_v2.py",
+        "sha256": "43cae2c5886c659adfbc6c5d54ef5c09051118fc8365bd5ff7a9974ee5cf023f",
+        "purpose": "two_phase_mission_source"
+      },
+      {
+        "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\tactical\\mission-formation-v4\\inert-layout.json",
+        "sha256": "096e3894074a1f77b0205bce4eab6e76e76eee04f6a42c84c8aa2c548ac13e2a",
+        "purpose": "two_phase_mission_source"
+      },
+      {
+        "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\tactical\\mission_actor_admission_v2.py",
+        "sha256": "b62c2fdaa4c959d764109a10d63b31c025673bdc196fc50da81750c0afb4c02b",
+        "purpose": "two_phase_mission_source"
+      },
+      {
+        "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\tactical\\grounded_status_v2.py",
+        "sha256": "70e5f94bac9b1a82beec56053fd43e91f6edaba1500c8dfa840e868be836e6b3",
+        "purpose": "two_phase_mission_source"
+      },
+      {
+        "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\tactical\\grounded_status.py",
+        "sha256": "ad5b758c947843969f2d1ec6e7fc07c0eaec084b1a59e60750d69d881e78a6c0",
+        "purpose": "two_phase_mission_source"
+      },
+      {
+        "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\tactical\\ordered_qualification.py",
+        "sha256": "53659d4bd5a464828f07c3748628f8b2e97b7a7eb9b26d4f0f9d2ec6167504e1",
+        "purpose": "two_phase_mission_source"
+      },
+      {
+        "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\tactical\\stop_sequence.py",
+        "sha256": "12495ce626a0325240a1b74adc9cdf0a5218042e3cb5ca8c6c4472196daa5540",
+        "purpose": "two_phase_mission_source"
+      },
+      {
+        "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\tactical\\readonly_disposal.py",
+        "sha256": "7bcfb14010ef9896862c9a68101d5a3402ccd7640869852360c47416a720aa26",
+        "purpose": "two_phase_mission_source"
+      },
+      {
+        "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\integration\\ground_history.py",
+        "sha256": "6a4b1659706a96e6b1027e9f64f709dd10f833459498bb5f2abbc3b6e0da8118",
+        "purpose": "two_phase_mission_source"
+      }
+    ]
+  },
+  "release": {
+    "restoration_verified": true,
+    "control_release_verified": true,
+    "return_verified": true,
+    "disposed_verified": false,
+    "actors": [
+      {
+        "role": 0,
+        "object_id": 791,
+        "returned": true,
+        "disposed": false,
+        "never_held": false,
+        "released": true
+      },
+      {
+        "role": 1,
+        "object_id": 793,
+        "returned": true,
+        "disposed": false,
+        "never_held": false,
+        "released": true
+      }
+    ],
+    "semantics": "two_independent_native_pool_returns_or_readonly_disposal",
+    "completion_claim": false
+  }
+}

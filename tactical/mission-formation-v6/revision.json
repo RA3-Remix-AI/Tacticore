@@ -1,0 +1,29 @@
+{
+  "protocol": "mfm6_native_actual_breadcrumb_v1",
+  "native_binary_sha256": "e3bf3613b2d1677e3e85d8f2193340f746885662c6c66ec9395efc64dda9353e",
+  "native_host_sha256": "9e8e4effbb3ad9b105be96c6ed75819484b420926efd980418df079a1f7e0e1a",
+  "native_source_sha256": "d9996f8a533b2537dd79e14b664f80d99a2f13404810c0270db36a9dc541cfad",
+  "native_shared_sha256": "4b1bb2882c6d20a1eaa32dd4dbe3e17912fcf589d1fce08ecd805b21934d27b4",
+  "native_includes_sha256": {
+    "breadcrumb.cpp.inc": "95b822bd892db3dafc236276fc44b0e77637e02333c7f06ff76a0525aaf10782",
+    "common.cpp.inc": "c8c465d7cc83383bbe140ed7bb34e05fb564c5eb812a9872cbe93462aca325b6",
+    "event.cpp.inc": "17a0470522de42a1a40a4cdd50cd3825b73e4203015d081a4a75bbea501739eb",
+    "mission_state.cpp.inc": "62faaa2710d327bc57d80a81422f73f15ff12c4f965642d72d52caec1670459b"
+  },
+  "native_host_source_sha256": "0f01c7e86eb88082cde8d249623d7f6d61264a5f82b46f05ae9c631267710194",
+  "build_script_sha256": "0eaed039b66be4fd3867516d877529b1f8d69ad1b1657ddbaf7946d2ca3891b5",
+  "native_unexecuted": true,
+  "live_effect_verified": false,
+  "abi": {
+    "event": 1048,
+    "tactical": 8613116,
+    "events": 27900,
+    "unused1": 0,
+    "unused2": 0
+  },
+  "magic": "0x4d464d36",
+  "version": 6,
+  "message": "WM_APP+0x386",
+  "hooks_mask": 8191,
+  "nonlethal_source_scope": true
+}

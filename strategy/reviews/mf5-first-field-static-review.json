@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "review_kind": "independent_static_first_field_diagnostic",
+  "reviewer": "strategy_service",
+  "created_local": "2026-10-25T18:32:28",
+  "decision": "go_first_field_diagnostic_only",
+  "source_capability_granted": false,
+  "live_effect_verified": false,
+  "native_or_game_commands_executed_by_reviewer": 0,
+  "model_api_calls": 0,
+  "abi": {
+    "breadcrumb": 104,
+    "event": 1048,
+    "header": 27900,
+    "tactical": 8613116,
+    "mask": 8191,
+    "version": 5
+  },
+  "tests": {
+    "python_files_separate_processes": 12,
+    "python_tests_passed": 88,
+    "actual_paid_driver_rebound_boundary_tests_passed": 4,
+    "native_core_cases_reported_by_native": 39,
+    "native_core_case_scope": "offline stub; not field"
+  },
+  "checks": [
+    "actual compiled native revision/report/current DLL-host-CPP-shared-all4includes joint identity",
+    "exact supplemental basename/hash set with actual helper files; missing/drift/mixed compiled-source negatives",
+    "strict9field identity and exact CLI expiry; no Python route/history/coordinates or ready handshake",
+    "actual append-only published native events; heartbeat and throttled durable full report",
+    "two actor fresh admission2/currentFOV/350 exclusion before launch; failed guards never launch",
+    "normal source1 command-chain, independent positive ground breadcrumbs, physical distinct-frame follow/hold/retreat gates",
+    "argument-bound actual AK damage plus frozen support position; no command count substitutes for effects",
+    "two actual live return plus original13entry bytes/timer0; disposal/scene closure never completion",
+    "paid exactdiff only two removed routes arguments; real4000/reserve1000/5byte31handover/uniquechild preserved"
+  ],
+  "limitations": [
+    "No MF5 field case existed at review; no effect or source grant",
+    "Directory tests run each file in a fresh process to avoid inherited generic test_mission_contract module-cache collision",
+    "Native early pre-hook install failures without complete13entry restoration remain conservative fault/restart",
+    "Native/q regroup resume200 matches implementation; older ABI prose160 is stale documentation only",
+    "Lethal target effect path remains unsupported; nonlethal exact damage required by current q"
+  ],
+  "sha256": {
+    "bridge-probe\\tactical\\mission-formation-v5\\lease.py": "2ccd82a8c15167cd2d077151eb57ff849e0f0186a21281d302c485cd35444b85",
+    "bridge-probe\\tactical\\mission-formation-v5\\native_layout.py": "c76e064b994c414930009db9f91ee51882faa3937ef4b89c44a3939fe392d21f",
+    "bridge-probe\\tactical\\mission-formation-v5\\mission_contract.py": "379ed6ae6353523b3995df67b10fc1e19b52333901eb88a9b38a75a08cb4fded",
+    "bridge-probe\\tactical\\mission-formation-v5\\field_plan.py": "3be708139e95744943038d742c719efec22c5cb93990f4134fa9fc913af29268",
+    "bridge-probe\\tactical\\mission-formation-v5\\field_coordinate.py": "5e51eaacc9c2e7b01f34380ee4900c37617ace65ba473007b0fd34d0676dd13e",
+    "bridge-probe\\tactical\\mission-formation-v5\\formation_mission_qualification.py": "125010f807677b8d2081dd35133ae7d87b666ccddc8d3d61c89f50ae5b7074c6",
+    "bridge-probe\\tactical\\mission-formation-v5\\continuous_paid_driver.py": "7d74c63be9b4776d97d37167b2b2b870bb5b4b97afa3a0fda02e591559ee7fae",
+    "bridge-probe\\tactical\\mission-formation-v5\\revision.json": "fc8b25f7315fb6899932d64879a57370709920f592f8092240273042b3ff4a9b",
+    "bridge-probe\\tactical\\mission-formation-v5\\inert-layout.json": "c90ddfc61b86dd14e647800588885972ecfea8b0a79b06ef629a864ed94ed916",
+    "bridge-probe\\tactical\\mission-formation-v5\\shared.h": "d4c55df8ad421ceff8e56f23af751218c8952449bbf89d35aed39b2f96cc80c9",
+    "bridge-probe\\tactical\\mission-formation-v5\\lease.cpp": "ececdff20572c79990e852b403064a92a270e4e65e16dce343ba87b531796ae0",
+    "bridge-probe\\tactical\\mission-formation-v5\\bin\\TacticalMissionFormation5.dll": "6896a11b3a3b621239db910a7159217d732c07b4dfdfd1691a19ae4aca4bd613",
+    "bridge-probe\\tactical\\mission-formation-v5\\bin\\tactical_host.exe": "dfed29b15ccc141deaf7480f284eb1c33e4c95150ebfeb5af4d5d5100789f5ad",
+    "bridge-probe\\tactical\\mission-formation-v5\\breadcrumb.cpp.inc": "b3866902010812aecb78ec8b9975c899c3dc7496f1b2757595fa34bc410c5aa1",
+    "bridge-probe\\tactical\\mission-formation-v5\\common.cpp.inc": "c8c465d7cc83383bbe140ed7bb34e05fb564c5eb812a9872cbe93462aca325b6",
+    "bridge-probe\\tactical\\mission-formation-v5\\event.cpp.inc": "4e5f53a4fde9512c05cfdbca7de7b7cbec8b7d211e5b896535e689fcb68529e0",
+    "bridge-probe\\tactical\\mission-formation-v5\\mission_state.cpp.inc": "c74747a9b6ed4421a5f34158501ebc0ecf4cd7cdf473684bb12121119d20c742",
+    "bridge-probe\\tactical\\pre_dispatch_formation_v5_contract.py": "de771eb7a8f5844da96056c78f72e66b5d38918bb3bc432bbb85c7faf4a00dea",
+    "bridge-probe\\tactical\\mission_formation_v5_gate_no_lease.py": "03efc5b1798a43488fedb0db9215db3390b52972620b0808084b0ef83c2aaf4b"
+  }
+}

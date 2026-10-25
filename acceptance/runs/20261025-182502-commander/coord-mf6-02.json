@@ -1,0 +1,3068 @@
+{
+  "session_id": "25db2a86-ff31-4921-978f-c47f2054a593",
+  "executable_sha256": "ec230c6ae1eaee30b0b4fa6ba29d417c974ecae46d6715dfbe786a815935c165",
+  "package_sha256": "2d7873e1b2d2c79950ff9da70b5452b1210370a6d6cbec1eaa69201a7d3d0665",
+  "native_binary_sha256": "e3bf3613b2d1677e3e85d8f2193340f746885662c6c66ec9395efc64dda9353e",
+  "native_host_sha256": "9e8e4effbb3ad9b105be96c6ed75819484b420926efd980418df079a1f7e0e1a",
+  "wrapper_sha256": "316b0f337b5b0ffe86167681563c580d0ef812411dda9dca91e9b62314dcac3e",
+  "native_source_sha256": "d9996f8a533b2537dd79e14b664f80d99a2f13404810c0270db36a9dc541cfad",
+  "native_shared_sha256": "4b1bb2882c6d20a1eaa32dd4dbe3e17912fcf589d1fce08ecd805b21934d27b4",
+  "native_revision_sha256": "4f26bb22bbf32d94ba5aa694b48a8ee175146646122a8da17b28358300692778",
+  "native_includes_sha256": {
+    "breadcrumb.cpp.inc": "95b822bd892db3dafc236276fc44b0e77637e02333c7f06ff76a0525aaf10782",
+    "common.cpp.inc": "c8c465d7cc83383bbe140ed7bb34e05fb564c5eb812a9872cbe93462aca325b6",
+    "event.cpp.inc": "17a0470522de42a1a40a4cdd50cd3825b73e4203015d081a4a75bbea501739eb",
+    "mission_state.cpp.inc": "62faaa2710d327bc57d80a81422f73f15ff12c4f965642d72d52caec1670459b"
+  },
+  "supplemental_sources": {
+    "breadcrumb.cpp.inc": "95b822bd892db3dafc236276fc44b0e77637e02333c7f06ff76a0525aaf10782",
+    "common.cpp.inc": "c8c465d7cc83383bbe140ed7bb34e05fb564c5eb812a9872cbe93462aca325b6",
+    "event.cpp.inc": "17a0470522de42a1a40a4cdd50cd3825b73e4203015d081a4a75bbea501739eb",
+    "mission_state.cpp.inc": "62faaa2710d327bc57d80a81422f73f15ff12c4f965642d72d52caec1670459b",
+    "native_layout.py": "11d3fa9f9833f89a94877a5f8384e474a70d70db3218be236636daf35d91ee79",
+    "mission_contract.py": "657830d82c90255d91037961f812cef958c9399f368a8274ab5616d2cc7bac72",
+    "formation_mission_qualification.py": "647267606cb436896ad6d9e49019ea41ec4e2dcebbc330ab5b9c6543b448547c",
+    "wait_anchor_replan.py": "df60f6899100a876339afc153c372a485e8ee7ab2dafaca0b5630e6dde11af22",
+    "inert-layout.json": "465a01b2b8fb4a96aec316f6d124845308754d34b1037cb7e4395af379ab667b",
+    "mobility_guard.py": "e903f9a10d342e0faa17545727f52992a57d2eb04f69e805030f636bbaa7e14f",
+    "mission_actor_admission_v2.py": "b62c2fdaa4c959d764109a10d63b31c025673bdc196fc50da81750c0afb4c02b",
+    "mission_actor_admission.py": "9635d39a64e65ec95a67a757a4a4212c1835ae539cd00a44ba22a88ed999335b",
+    "grounded_status_v2.py": "70e5f94bac9b1a82beec56053fd43e91f6edaba1500c8dfa840e868be836e6b3",
+    "grounded_status.py": "ad5b758c947843969f2d1ec6e7fc07c0eaec084b1a59e60750d69d881e78a6c0",
+    "lease.py": "ea6d8996b7f9358caa53660f31683ccf0aed6f6e4a79c01287f0c46c1f257a9a",
+    "ordered_qualification.py": "53659d4bd5a464828f07c3748628f8b2e97b7a7eb9b26d4f0f9d2ec6167504e1",
+    "combo_qualification.py": "74ed16345fcde688fae5d6cbf08333d39bae9c2c009c7a62733bd022910fe8cb",
+    "stop_sequence.py": "12495ce626a0325240a1b74adc9cdf0a5218042e3cb5ca8c6c4472196daa5540",
+    "readonly_disposal.py": "7bcfb14010ef9896862c9a68101d5a3402ccd7640869852360c47416a720aa26",
+    "read_own_command_buttons.py": "424e801825357526291e7f1aeca78e8693e428ed190bd88bbc6ff5ddae106d32"
+  },
+  "mission_contract_sha256": "657830d82c90255d91037961f812cef958c9399f368a8274ab5616d2cc7bac72",
+  "native_layout_sha256": "11d3fa9f9833f89a94877a5f8384e474a70d70db3218be236636daf35d91ee79",
+  "preflight": {
+    "status": "read_only_ready",
+    "session_id": "25db2a86-ff31-4921-978f-c47f2054a593",
+    "pid": 5352,
+    "commander_id": "57e668b4-4d89-43bd-bc92-0dd436f046ef",
+    "player_id": 3,
+    "frame": 2596,
+    "paused": 0,
+    "owner": "0x31e74d0",
+    "ai": "0x4c80400",
+    "personality": "0xeafe020",
+    "personality_id": "0x7664d9d9",
+    "player_template": "0x11388e70",
+    "logic": "0x3c8c228",
+    "window_thread": 47328,
+    "script_team": "0x5730990",
+    "default_team": "0x5731890",
+    "eligible_count": 8,
+    "units": [
+      {
+        "address": "0x57ccb60",
+        "owner_address": "0x31e74d0",
+        "owner_index_candidate": 3,
+        "object_id": 771,
+        "type_hash": "0x19ab11af",
+        "ai_address": "0x63bbcd8",
+        "xyz": [
+          2822.1220703125,
+          2853.445556640625,
+          210.0
+        ],
+        "catalog": {
+          "name": "征召兵",
+          "template": "SovietAntiInfantryInfantry",
+          "side": 2,
+          "cls": 1,
+          "category": 0
+        },
+        "hp": 100.0,
+        "team": "0x5734f90",
+        "command_source": 0,
+        "eligible": true
+      },
+      {
+        "address": "0x57cda60",
+        "owner_address": "0x31e74d0",
+        "owner_index_candidate": 3,
+        "object_id": 774,
+        "type_hash": "0x19ab11af",
+        "ai_address": "0x4d13098",
+        "xyz": [
+          2925.411376953125,
+          2599.66259765625,
+          210.0
+        ],
+        "catalog": {
+          "name": "征召兵",
+          "template": "SovietAntiInfantryInfantry",
+          "side": 2,
+          "cls": 1,
+          "category": 0
+        },
+        "hp": 100.0,
+        "team": "0x5734f90",
+        "command_source": 0,
+        "eligible": true,
+        "mission_admission": {
+          "protocol": "grounded_idle_normal_move_or_exact_attack_admission_v2",
+          "status": "verified_owned_actor_state",
+          "object_id": 774,
+          "address": "0x57cda60",
+          "owner": "0x31e74d0",
+          "type_hash": "0x19ab11af",
+          "frame": 2596,
+          "end_frame": 2596,
+          "grounded_status": {
+            "schema_version": 2,
+            "status": "verified_native_surface_sample",
+            "object_id": 774,
+            "address": "0x57cda60",
+            "owner": "0x31e74d0",
+            "type_hash": "0x19ab11af",
+            "template": "SovietAntiInfantryInfantry",
+            "frame": 2596,
+            "end_frame": 2596,
+            "status_words": [
+              "0x0",
+              "0x0",
+              "0x800000",
+              "0x0",
+              "0x0",
+              "0x0",
+              "0x40000000"
+            ],
+            "flags": {
+              "AIRBORNE_TARGET": false,
+              "PARACHUTING": false,
+              "GROUND_LOCOMOTOR_ACTIVE": false,
+              "AIR_LOCOMOTOR_ACTIVE": false,
+              "LANDING_IN_PROGRESS": false,
+              "LIFTED_INTO_AIR": false,
+              "INSIDE_GARRISON": false,
+              "IMMOBILE": false
+            },
+            "ground160_diagnostic": false,
+            "known_air_state": false,
+            "height_cache_flags": "0x6",
+            "height_cache_valid": true,
+            "cached_height_distance": 0.0,
+            "height_tolerance": 0.5,
+            "xyz": [
+              2925.411376953125,
+              2599.66259765625,
+              210.0
+            ],
+            "hp": 100.0,
+            "holder": "0x0",
+            "ground_positive": true,
+            "grounded_verified": true,
+            "walkable_route_verified": false,
+            "atomic_sample_verified": true,
+            "source": "ground_only_template_plus_valid_native_surface_cache_and_air_exclusions_v2",
+            "mutations": false,
+            "helper_sha256": "70e5f94bac9b1a82beec56053fd43e91f6edaba1500c8dfa840e868be836e6b3",
+            "native_status_helper_sha256": "ad5b758c947843969f2d1ec6e7fc07c0eaec084b1a59e60750d69d881e78a6c0"
+          },
+          "state_snapshot": {
+            "update": "0x4d13098",
+            "update_vtable": "0xc48670",
+            "facade_vtable": "0xc48528",
+            "update_backref": "0x57cda60",
+            "sm": "0x6002548",
+            "sm_owner": "0x57cda60",
+            "state": "0x5fff668",
+            "state_id": 10,
+            "state_vtable": "0xc548c0",
+            "state_owner_sm": "0x6002548",
+            "command_source": 0,
+            "path": "0x63a90a0",
+            "sm_flags": 65536
+          },
+          "mutations": false,
+          "atomic_sample_verified": true,
+          "helper_sha256": "b62c2fdaa4c959d764109a10d63b31c025673bdc196fc50da81750c0afb4c02b",
+          "ground_helper_sha256": "70e5f94bac9b1a82beec56053fd43e91f6edaba1500c8dfa840e868be836e6b3",
+          "status_helper_sha256": "ad5b758c947843969f2d1ec6e7fc07c0eaec084b1a59e60750d69d881e78a6c0",
+          "admission_verified": true,
+          "checks": {
+            "ground_evidence": true,
+            "source": true,
+            "identity_frame": true,
+            "known_foot_update": true,
+            "state_owner_binding": true,
+            "demonstrated_state_only": true,
+            "exact_attack_state_vtable": true,
+            "no_deferred_command_lock": true,
+            "no_mutations": true
+          }
+        }
+      },
+      {
+        "address": "0x57cfd60",
+        "owner_address": "0x31e74d0",
+        "owner_index_candidate": 3,
+        "object_id": 781,
+        "type_hash": "0x2c358c61",
+        "ai_address": "0x6c8d5a8",
+        "xyz": [
+          2957.442138671875,
+          2591.73486328125,
+          210.0
+        ],
+        "catalog": {
+          "name": "防空部队",
+          "template": "SovietAntiVehicleInfantry",
+          "side": 2,
+          "cls": 1,
+          "category": 0
+        },
+        "hp": 120.0,
+        "team": "0x5734f90",
+        "command_source": 0,
+        "eligible": true,
+        "mission_admission": {
+          "protocol": "grounded_idle_normal_move_or_exact_attack_admission_v2",
+          "status": "verified_owned_actor_state",
+          "object_id": 781,
+          "address": "0x57cfd60",
+          "owner": "0x31e74d0",
+          "type_hash": "0x2c358c61",
+          "frame": 2596,
+          "end_frame": 2596,
+          "grounded_status": {
+            "schema_version": 2,
+            "status": "verified_native_surface_sample",
+            "object_id": 781,
+            "address": "0x57cfd60",
+            "owner": "0x31e74d0",
+            "type_hash": "0x2c358c61",
+            "template": "SovietAntiVehicleInfantry",
+            "frame": 2596,
+            "end_frame": 2596,
+            "status_words": [
+              "0x0",
+              "0x0",
+              "0x0",
+              "0x0",
+              "0x0",
+              "0x0",
+              "0x0"
+            ],
+            "flags": {
+              "AIRBORNE_TARGET": false,
+              "PARACHUTING": false,
+              "GROUND_LOCOMOTOR_ACTIVE": false,
+              "AIR_LOCOMOTOR_ACTIVE": false,
+              "LANDING_IN_PROGRESS": false,
+              "LIFTED_INTO_AIR": false,
+              "INSIDE_GARRISON": false,
+              "IMMOBILE": false
+            },
+            "ground160_diagnostic": false,
+            "known_air_state": false,
+            "height_cache_flags": "0x6",
+            "height_cache_valid": true,
+            "cached_height_distance": 0.0,
+            "height_tolerance": 0.5,
+            "xyz": [
+              2957.442138671875,
+              2591.73486328125,
+              210.0
+            ],
+            "hp": 120.0,
+            "holder": "0x0",
+            "ground_positive": true,
+            "grounded_verified": true,
+            "walkable_route_verified": false,
+            "atomic_sample_verified": true,
+            "source": "ground_only_template_plus_valid_native_surface_cache_and_air_exclusions_v2",
+            "mutations": false,
+            "helper_sha256": "70e5f94bac9b1a82beec56053fd43e91f6edaba1500c8dfa840e868be836e6b3",
+            "native_status_helper_sha256": "ad5b758c947843969f2d1ec6e7fc07c0eaec084b1a59e60750d69d881e78a6c0"
+          },
+          "state_snapshot": {
+            "update": "0x6c8d5a8",
+            "update_vtable": "0xc48670",
+            "facade_vtable": "0xc48528",
+            "update_backref": "0x57cfd60",
+            "sm": "0x6c959a8",
+            "sm_owner": "0x57cfd60",
+            "state": "0x6c85368",
+            "state_id": 10,
+            "state_vtable": "0xc548c0",
+            "state_owner_sm": "0x6c959a8",
+            "command_source": 0,
+            "path": "0x63d9828",
+            "sm_flags": 65536
+          },
+          "mutations": false,
+          "atomic_sample_verified": true,
+          "helper_sha256": "b62c2fdaa4c959d764109a10d63b31c025673bdc196fc50da81750c0afb4c02b",
+          "ground_helper_sha256": "70e5f94bac9b1a82beec56053fd43e91f6edaba1500c8dfa840e868be836e6b3",
+          "status_helper_sha256": "ad5b758c947843969f2d1ec6e7fc07c0eaec084b1a59e60750d69d881e78a6c0",
+          "admission_verified": true,
+          "checks": {
+            "ground_evidence": true,
+            "source": true,
+            "identity_frame": true,
+            "known_foot_update": true,
+            "state_owner_binding": true,
+            "demonstrated_state_only": true,
+            "exact_attack_state_vtable": true,
+            "no_deferred_command_lock": true,
+            "no_mutations": true
+          }
+        }
+      },
+      {
+        "address": "0x57d0760",
+        "owner_address": "0x31e74d0",
+        "owner_index_candidate": 3,
+        "object_id": 783,
+        "type_hash": "0x19ab11af",
+        "ai_address": "0x6ca7070",
+        "xyz": [
+          2822.17041015625,
+          2835.477783203125,
+          210.0
+        ],
+        "catalog": {
+          "name": "征召兵",
+          "template": "SovietAntiInfantryInfantry",
+          "side": 2,
+          "cls": 1,
+          "category": 0
+        },
+        "hp": 100.0,
+        "team": "0x5734f90",
+        "command_source": 0,
+        "eligible": true
+      },
+      {
+        "address": "0x57d1b60",
+        "owner_address": "0x31e74d0",
+        "owner_index_candidate": 3,
+        "object_id": 787,
+        "type_hash": "0x19ab11af",
+        "ai_address": "0x6cc31c0",
+        "xyz": [
+          2860.16650390625,
+          2873.906494140625,
+          210.0
+        ],
+        "catalog": {
+          "name": "征召兵",
+          "template": "SovietAntiInfantryInfantry",
+          "side": 2,
+          "cls": 1,
+          "category": 0
+        },
+        "hp": 0.0,
+        "team": "0x5734f90",
+        "command_source": 0,
+        "eligible": false
+      },
+      {
+        "address": "0x57cf860",
+        "owner_address": "0x31e74d0",
+        "owner_index_candidate": 3,
+        "object_id": 792,
+        "type_hash": "0x19ab11af",
+        "ai_address": "0x4d35940",
+        "xyz": [
+          2842.395263671875,
+          2832.92333984375,
+          210.0
+        ],
+        "catalog": {
+          "name": "征召兵",
+          "template": "SovietAntiInfantryInfantry",
+          "side": 2,
+          "cls": 1,
+          "category": 0
+        },
+        "hp": 100.0,
+        "team": "0x5734f90",
+        "command_source": 0,
+        "eligible": true
+      },
+      {
+        "address": "0x57d6660",
+        "owner_address": "0x31e74d0",
+        "owner_index_candidate": 3,
+        "object_id": 868,
+        "type_hash": "0x19ab11af",
+        "ai_address": "0x6baa020",
+        "xyz": [
+          2314.6259765625,
+          1860.9893798828125,
+          210.0
+        ],
+        "catalog": {
+          "name": "征召兵",
+          "template": "SovietAntiInfantryInfantry",
+          "side": 2,
+          "cls": 1,
+          "category": 0
+        },
+        "hp": 100.0,
+        "team": "0x5734f90",
+        "command_source": 0,
+        "eligible": true
+      },
+      {
+        "address": "0x57d7a60",
+        "owner_address": "0x31e74d0",
+        "owner_index_candidate": 3,
+        "object_id": 885,
+        "type_hash": "0x19ab11af",
+        "ai_address": "0x6babd78",
+        "xyz": [
+          2185.89990234375,
+          1826.826171875,
+          210.0
+        ],
+        "catalog": {
+          "name": "征召兵",
+          "template": "SovietAntiInfantryInfantry",
+          "side": 2,
+          "cls": 1,
+          "category": 0
+        },
+        "hp": 100.0,
+        "team": "0x5734f90",
+        "command_source": 0,
+        "eligible": true
+      },
+      {
+        "address": "0x57d3460",
+        "owner_address": "0x31e74d0",
+        "owner_index_candidate": 3,
+        "object_id": 922,
+        "type_hash": "0x19ab11af",
+        "ai_address": "0x6c3b358",
+        "xyz": [
+          1690.0,
+          1759.8021240234375,
+          210.0
+        ],
+        "catalog": {
+          "name": "征召兵",
+          "template": "SovietAntiInfantryInfantry",
+          "side": 2,
+          "cls": 1,
+          "category": 0
+        },
+        "hp": 100.0,
+        "team": "0x5734f90",
+        "command_source": 0,
+        "eligible": true
+      }
+    ],
+    "selected": {
+      "address": "0x57cda60",
+      "owner_address": "0x31e74d0",
+      "owner_index_candidate": 3,
+      "object_id": 774,
+      "type_hash": "0x19ab11af",
+      "ai_address": "0x4d13098",
+      "xyz": [
+        2925.411376953125,
+        2599.66259765625,
+        210.0
+      ],
+      "catalog": {
+        "name": "征召兵",
+        "template": "SovietAntiInfantryInfantry",
+        "side": 2,
+        "cls": 1,
+        "category": 0
+      },
+      "hp": 100.0,
+      "team": "0x5734f90",
+      "command_source": 0,
+      "eligible": true,
+      "mission_admission": {
+        "protocol": "grounded_idle_normal_move_or_exact_attack_admission_v2",
+        "status": "verified_owned_actor_state",
+        "object_id": 774,
+        "address": "0x57cda60",
+        "owner": "0x31e74d0",
+        "type_hash": "0x19ab11af",
+        "frame": 2596,
+        "end_frame": 2596,
+        "grounded_status": {
+          "schema_version": 2,
+          "status": "verified_native_surface_sample",
+          "object_id": 774,
+          "address": "0x57cda60",
+          "owner": "0x31e74d0",
+          "type_hash": "0x19ab11af",
+          "template": "SovietAntiInfantryInfantry",
+          "frame": 2596,
+          "end_frame": 2596,
+          "status_words": [
+            "0x0",
+            "0x0",
+            "0x800000",
+            "0x0",
+            "0x0",
+            "0x0",
+            "0x40000000"
+          ],
+          "flags": {
+            "AIRBORNE_TARGET": false,
+            "PARACHUTING": false,
+            "GROUND_LOCOMOTOR_ACTIVE": false,
+            "AIR_LOCOMOTOR_ACTIVE": false,
+            "LANDING_IN_PROGRESS": false,
+            "LIFTED_INTO_AIR": false,
+            "INSIDE_GARRISON": false,
+            "IMMOBILE": false
+          },
+          "ground160_diagnostic": false,
+          "known_air_state": false,
+          "height_cache_flags": "0x6",
+          "height_cache_valid": true,
+          "cached_height_distance": 0.0,
+          "height_tolerance": 0.5,
+          "xyz": [
+            2925.411376953125,
+            2599.66259765625,
+            210.0
+          ],
+          "hp": 100.0,
+          "holder": "0x0",
+          "ground_positive": true,
+          "grounded_verified": true,
+          "walkable_route_verified": false,
+          "atomic_sample_verified": true,
+          "source": "ground_only_template_plus_valid_native_surface_cache_and_air_exclusions_v2",
+          "mutations": false,
+          "helper_sha256": "70e5f94bac9b1a82beec56053fd43e91f6edaba1500c8dfa840e868be836e6b3",
+          "native_status_helper_sha256": "ad5b758c947843969f2d1ec6e7fc07c0eaec084b1a59e60750d69d881e78a6c0"
+        },
+        "state_snapshot": {
+          "update": "0x4d13098",
+          "update_vtable": "0xc48670",
+          "facade_vtable": "0xc48528",
+          "update_backref": "0x57cda60",
+          "sm": "0x6002548",
+          "sm_owner": "0x57cda60",
+          "state": "0x5fff668",
+          "state_id": 10,
+          "state_vtable": "0xc548c0",
+          "state_owner_sm": "0x6002548",
+          "command_source": 0,
+          "path": "0x63a90a0",
+          "sm_flags": 65536
+        },
+        "mutations": false,
+        "atomic_sample_verified": true,
+        "helper_sha256": "b62c2fdaa4c959d764109a10d63b31c025673bdc196fc50da81750c0afb4c02b",
+        "ground_helper_sha256": "70e5f94bac9b1a82beec56053fd43e91f6edaba1500c8dfa840e868be836e6b3",
+        "status_helper_sha256": "ad5b758c947843969f2d1ec6e7fc07c0eaec084b1a59e60750d69d881e78a6c0",
+        "admission_verified": true,
+        "checks": {
+          "ground_evidence": true,
+          "source": true,
+          "identity_frame": true,
+          "known_foot_update": true,
+          "state_owner_binding": true,
+          "demonstrated_state_only": true,
+          "exact_attack_state_vtable": true,
+          "no_deferred_command_lock": true,
+          "no_mutations": true
+        }
+      }
+    },
+    "restore_semantics": "native_common_pool_not_original_squad",
+    "mutations": false,
+    "support": {
+      "address": "0x57cfd60",
+      "owner_address": "0x31e74d0",
+      "owner_index_candidate": 3,
+      "object_id": 781,
+      "type_hash": "0x2c358c61",
+      "ai_address": "0x6c8d5a8",
+      "xyz": [
+        2957.442138671875,
+        2591.73486328125,
+        210.0
+      ],
+      "catalog": {
+        "name": "防空部队",
+        "template": "SovietAntiVehicleInfantry",
+        "side": 2,
+        "cls": 1,
+        "category": 0
+      },
+      "hp": 120.0,
+      "team": "0x5734f90",
+      "command_source": 0,
+      "eligible": true,
+      "mission_admission": {
+        "protocol": "grounded_idle_normal_move_or_exact_attack_admission_v2",
+        "status": "verified_owned_actor_state",
+        "object_id": 781,
+        "address": "0x57cfd60",
+        "owner": "0x31e74d0",
+        "type_hash": "0x2c358c61",
+        "frame": 2596,
+        "end_frame": 2596,
+        "grounded_status": {
+          "schema_version": 2,
+          "status": "verified_native_surface_sample",
+          "object_id": 781,
+          "address": "0x57cfd60",
+          "owner": "0x31e74d0",
+          "type_hash": "0x2c358c61",
+          "template": "SovietAntiVehicleInfantry",
+          "frame": 2596,
+          "end_frame": 2596,
+          "status_words": [
+            "0x0",
+            "0x0",
+            "0x0",
+            "0x0",
+            "0x0",
+            "0x0",
+            "0x0"
+          ],
+          "flags": {
+            "AIRBORNE_TARGET": false,
+            "PARACHUTING": false,
+            "GROUND_LOCOMOTOR_ACTIVE": false,
+            "AIR_LOCOMOTOR_ACTIVE": false,
+            "LANDING_IN_PROGRESS": false,
+            "LIFTED_INTO_AIR": false,
+            "INSIDE_GARRISON": false,
+            "IMMOBILE": false
+          },
+          "ground160_diagnostic": false,
+          "known_air_state": false,
+          "height_cache_flags": "0x6",
+          "height_cache_valid": true,
+          "cached_height_distance": 0.0,
+          "height_tolerance": 0.5,
+          "xyz": [
+            2957.442138671875,
+            2591.73486328125,
+            210.0
+          ],
+          "hp": 120.0,
+          "holder": "0x0",
+          "ground_positive": true,
+          "grounded_verified": true,
+          "walkable_route_verified": false,
+          "atomic_sample_verified": true,
+          "source": "ground_only_template_plus_valid_native_surface_cache_and_air_exclusions_v2",
+          "mutations": false,
+          "helper_sha256": "70e5f94bac9b1a82beec56053fd43e91f6edaba1500c8dfa840e868be836e6b3",
+          "native_status_helper_sha256": "ad5b758c947843969f2d1ec6e7fc07c0eaec084b1a59e60750d69d881e78a6c0"
+        },
+        "state_snapshot": {
+          "update": "0x6c8d5a8",
+          "update_vtable": "0xc48670",
+          "facade_vtable": "0xc48528",
+          "update_backref": "0x57cfd60",
+          "sm": "0x6c959a8",
+          "sm_owner": "0x57cfd60",
+          "state": "0x6c85368",
+          "state_id": 10,
+          "state_vtable": "0xc548c0",
+          "state_owner_sm": "0x6c959a8",
+          "command_source": 0,
+          "path": "0x63d9828",
+          "sm_flags": 65536
+        },
+        "mutations": false,
+        "atomic_sample_verified": true,
+        "helper_sha256": "b62c2fdaa4c959d764109a10d63b31c025673bdc196fc50da81750c0afb4c02b",
+        "ground_helper_sha256": "70e5f94bac9b1a82beec56053fd43e91f6edaba1500c8dfa840e868be836e6b3",
+        "status_helper_sha256": "ad5b758c947843969f2d1ec6e7fc07c0eaec084b1a59e60750d69d881e78a6c0",
+        "admission_verified": true,
+        "checks": {
+          "ground_evidence": true,
+          "source": true,
+          "identity_frame": true,
+          "known_foot_update": true,
+          "state_owner_binding": true,
+          "demonstrated_state_only": true,
+          "exact_attack_state_vtable": true,
+          "no_deferred_command_lock": true,
+          "no_mutations": true
+        }
+      }
+    }
+  },
+  "private_target": {
+    "address": 92065888,
+    "object_id": 772,
+    "type_hash": "0xcf8d9f20",
+    "owner": 52332592,
+    "owner_player_id": 4,
+    "xyz": [
+      2858.447509765625,
+      3378.233642578125,
+      210.0
+    ],
+    "hp": 1150.0,
+    "observed_frame": 2596,
+    "region_id": "region_5_6",
+    "template": 248558056
+  },
+  "request": {
+    "command_id": "844ed7af-18c7-4774-b882-43501400d1a2",
+    "task_id": "ca96f552-df95-426d-a9c2-ac6b515e2600",
+    "seq": 634574500,
+    "token": 3552762864,
+    "front_id": 774,
+    "support_id": 781,
+    "target_contact_id": "contact_7853d366d367b242f125",
+    "target_object_id": 772,
+    "target_role": "structure",
+    "target": [
+      2858.447509765625,
+      3378.233642578125,
+      210.0
+    ],
+    "expires_frame": 7090,
+    "lease_frames": 4496,
+    "combat_frames": 300,
+    "post_frames": 30,
+    "safe_origin": {
+      "front_id": 774,
+      "support_id": 781,
+      "viewer_player_id": 3,
+      "observed_frame": 2596,
+      "front_initial": [
+        2925.411376953125,
+        2599.66259765625,
+        210.0
+      ],
+      "support_initial": [
+        2957.442138671875,
+        2591.73486328125,
+        210.0
+      ],
+      "anchor_distances_diagnostic": [
+        {
+          "object_id": 765,
+          "type_hash": "0x80d4ea1e",
+          "xyz": [
+            1776.57470703125,
+            1766.0302734375,
+            210.0
+          ],
+          "front_distance": 1419.4254281713916,
+          "support_distance": 1440.9149734798932
+        },
+        {
+          "object_id": 763,
+          "type_hash": "0xc16ff13f",
+          "xyz": [
+            1511.4095458984375,
+            1479.6519775390625,
+            210.0
+          ],
+          "front_distance": 1803.8361808660163,
+          "support_distance": 1824.2090352050507
+        },
+        {
+          "object_id": 777,
+          "type_hash": "0xc45aaeab",
+          "xyz": [
+            1299.2777099609375,
+            1712.997314453125,
+            210.0
+          ],
+          "front_distance": 1852.1571281516956,
+          "support_distance": 1876.6163572671776
+        },
+        {
+          "object_id": 769,
+          "type_hash": "0xc45aaeab",
+          "xyz": [
+            1532.6226806640625,
+            1267.5201416015625,
+            210.0
+          ],
+          "front_distance": 1927.2944444827317,
+          "support_distance": 1945.161977067948
+        }
+      ],
+      "currently_visible_enemy_threats_within350": [],
+      "origin_method": "current_verified_owned_movable_positions",
+      "semantics": "observed_own_origin_without_currently_visible_enemy_within350_not_omniscient_safe"
+    },
+    "navigation_mode": "native_leader_actual_breadcrumbs",
+    "visibility_proof_sha256": "5d7cf0e7505377245edc92e7b09df16bfe6d53018b5adb0bd1be006f198dc924",
+    "safety_sha256": "1d14e41e10224fb2a8215a2321a7fbbbeae8434b8c006a80fd314f4a11e7719e",
+    "mission_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-182502-commander\\coord-mf6-02-plan1.json",
+    "mission_source_sha256": "6077bfbedf6803fde9dc92115ce64f0c6ee813d11e8cbc36c81e3b3a5449722c",
+    "mission": {
+      "schema_version": 1,
+      "session_id": "25db2a86-ff31-4921-978f-c47f2054a593",
+      "pid": 5352,
+      "player_id": 3,
+      "front_id": 774,
+      "support_id": 781,
+      "navigation_mode": "native_leader_actual_breadcrumbs",
+      "target_contact_id": "contact_7853d366d367b242f125",
+      "expires_frame": 7090
+    },
+    "button": {
+      "object_id": 774,
+      "unit": "0x57cda60",
+      "owner": "0x31e74d0",
+      "command_set_hash": "0xb74cf71a",
+      "store": "0x355dc48",
+      "tree_node": "0xecba490",
+      "list": "0xecba508",
+      "count": 3,
+      "buttons": [
+        {
+          "index": 0,
+          "entry": "0xecc2298",
+          "schema": "0xecc2340",
+          "asset_header": "0xecc2420",
+          "asset_type": "0x7d464170",
+          "asset_id": "0x5977a798"
+        },
+        {
+          "index": 1,
+          "entry": "0xecd0d20",
+          "schema": "0xecd0e20",
+          "asset_header": "0xecd0d88",
+          "asset_type": "0x7d464170",
+          "asset_id": "0xd6a9f585"
+        },
+        {
+          "index": 2,
+          "entry": "0xecc6af0",
+          "schema": "0xecc6bf0",
+          "asset_header": "0xecc6b58",
+          "asset_type": "0x7d464170",
+          "asset_id": "0xc02eaab1"
+        }
+      ],
+      "toggle": {
+        "index": 0,
+        "entry": "0xecc2298",
+        "schema": "0xecc2340",
+        "asset_header": "0xecc2420",
+        "asset_type": "0x7d464170",
+        "asset_id": "0x5977a798",
+        "name": "Command_ToggleMolotovCocktailSpecialPower"
+      },
+      "ordinary_script_abi": {
+        "entry": "0x790990",
+        "this": "Thing",
+        "stack_arguments": [
+          "CommandButtonInfo*",
+          "FROM_SCRIPT=1",
+          0
+        ],
+        "callee_pop_bytes": 12,
+        "source_caller": "0x590080..0x590087"
+      },
+      "method": "pure_read_mirror_of_native_script_lookup",
+      "mutations": false,
+      "model_eligible": false
+    }
+  },
+  "original_entries": [
+    {
+      "address": "0x76d9d0",
+      "expected": "568bf1578b7e088bcf",
+      "actual": "568bf1578b7e088bcf"
+    },
+    {
+      "address": "0x76e690",
+      "expected": "837c24040055568bf18b6e08",
+      "actual": "837c24040055568bf18b6e08"
+    },
+    {
+      "address": "0x838820",
+      "expected": "8b818c00000085c0744f568bb190000000",
+      "actual": "8b818c00000085c0744f568bb190000000"
+    },
+    {
+      "address": "0x8d8880",
+      "expected": "83ec24568b74242c8b4604",
+      "actual": "83ec24568b74242c8b4604"
+    },
+    {
+      "address": "0x8cd630",
+      "expected": "83ec3453578b7c24408b4704",
+      "actual": "83ec3453578b7c24408b4704"
+    },
+    {
+      "address": "0x7d2310",
+      "expected": "81ec200100005355568bb42430010000",
+      "actual": "81ec200100005355568bb42430010000"
+    },
+    {
+      "address": "0x6f7c60",
+      "expected": "538b5928568b71243bf357",
+      "actual": "538b5928568b71243bf357"
+    },
+    {
+      "address": "0x765190",
+      "expected": "8b44240885c0f30f104c2404",
+      "actual": "8b44240885c0f30f104c2404"
+    },
+    {
+      "address": "0x54b0a0",
+      "expected": "83ec5c8b442460566a01508bf1",
+      "actual": "83ec5c8b442460566a01508bf1"
+    },
+    {
+      "address": "0x721ad0",
+      "expected": "83ec08558be98b45088b4804",
+      "actual": "83ec08558be98b45088b4804"
+    },
+    {
+      "address": "0x572280",
+      "expected": "83ec5c8b442468566a01508bf1",
+      "actual": "83ec5c8b442468566a01508bf1"
+    },
+    {
+      "address": "0x571d90",
+      "expected": "83ec5c8b442464566a01508bf1",
+      "actual": "83ec5c8b442464566a01508bf1"
+    },
+    {
+      "address": "0x790990",
+      "expected": "8b44240c8b5424086a006a006a00",
+      "actual": "8b44240c8b5424086a006a006a00"
+    }
+  ],
+  "status": "finished",
+  "events": [
+    {
+      "seq": 1,
+      "kind": 0,
+      "tag": 0,
+      "frame": 2599,
+      "tick": 634576453,
+      "thread": 47328,
+      "caller": 0,
+      "team": 91443088,
+      "owner": 52327632,
+      "source": 0,
+      "arg": 0,
+      "x": 2929.468505859375,
+      "y": 2608.802490234375,
+      "z": 210.0,
+      "target_id": 0,
+      "damage_source": 0,
+      "damage_before": 0.0,
+      "damage_after": 0.0,
+      "damage_reported": 0.0,
+      "lease_stage": 0,
+      "sm": 100672840,
+      "sm_flags": 65536,
+      "state": 100660840,
+      "state_id": 10,
+      "path": 104501408,
+      "holder": 0,
+      "arg_shots": 0,
+      "arg_source": 0,
+      "requested": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "effective": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "stack_count": 0,
+      "stack": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "stack_word_count": 0,
+      "stack_words_address": 0,
+      "stack_words": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "active_weapon_entry": 89632480,
+      "active_weapon_asset": 1099378380,
+      "active_weapon_ammo": 1,
+      "status84": 0,
+      "unit_id": 774,
+      "role": 0,
+      "mission_stage": 0,
+      "route_index": 0,
+      "nav_step": 0,
+      "target_visible": 0,
+      "mission_deadline_frame": 7090,
+      "mission_reason": 0,
+      "native_error": 0,
+      "own_hp": 100.0,
+      "front_goal": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "support_goal": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "visible_target_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0,
+      "planning_ready": 0,
+      "route_ready": 0,
+      "route_generation": 0,
+      "route_commit_frame": 0,
+      "planning_ready_frame": 0,
+      "committed_route_count": 0,
+      "planning_front": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "planning_support": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "committed_route_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "breadcrumb": {
+        "index": 0,
+        "role": 0,
+        "frame": 0,
+        "published_seq": 0,
+        "thing": 0,
+        "object_id": 0,
+        "type_hash": 0,
+        "owner": 0,
+        "update": 0,
+        "holder": 0,
+        "status_words": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "height_flags": 0,
+        "height": 0.0,
+        "hp": 0.0,
+        "xyz": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "path_distance": 0.0,
+        "mission_stage": 0,
+        "surface_verified": 0
+      },
+      "leader_role": 0,
+      "follower_role": 0,
+      "follow_active": 0,
+      "follow_crumb_role": 0,
+      "follow_crumb_index": 0,
+      "motion_state": 0,
+      "regroup_count": 0,
+      "target_last_seen_frame": 0,
+      "memory_wait_started": 0,
+      "actual_gap": 0.0,
+      "last_seen_target": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "leader_hold_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "seq": 2,
+      "kind": 4,
+      "tag": 0,
+      "frame": 2601,
+      "tick": 634576578,
+      "thread": 47328,
+      "caller": 0,
+      "team": 91443088,
+      "owner": 52327632,
+      "source": 0,
+      "arg": 0,
+      "x": 2930.0,
+      "y": 2615.3564453125,
+      "z": 210.0,
+      "target_id": 0,
+      "damage_source": 0,
+      "damage_before": 0.0,
+      "damage_after": 0.0,
+      "damage_reported": 0.0,
+      "lease_stage": 0,
+      "sm": 100672840,
+      "sm_flags": 65536,
+      "state": 100660840,
+      "state_id": 10,
+      "path": 104501408,
+      "holder": 0,
+      "arg_shots": 2147483647,
+      "arg_source": 0,
+      "requested": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "effective": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "stack_count": 0,
+      "stack": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "stack_word_count": 0,
+      "stack_words_address": 0,
+      "stack_words": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "active_weapon_entry": 89632480,
+      "active_weapon_asset": 1099378380,
+      "active_weapon_ammo": 1,
+      "status84": 0,
+      "unit_id": 774,
+      "role": 0,
+      "mission_stage": 0,
+      "route_index": 0,
+      "nav_step": 0,
+      "target_visible": 0,
+      "mission_deadline_frame": 7090,
+      "mission_reason": 0,
+      "native_error": 34,
+      "own_hp": 100.0,
+      "front_goal": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "support_goal": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "visible_target_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0,
+      "planning_ready": 0,
+      "route_ready": 0,
+      "route_generation": 0,
+      "route_commit_frame": 0,
+      "planning_ready_frame": 0,
+      "committed_route_count": 0,
+      "planning_front": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "planning_support": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "committed_route_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "breadcrumb": {
+        "index": 0,
+        "role": 0,
+        "frame": 0,
+        "published_seq": 0,
+        "thing": 0,
+        "object_id": 0,
+        "type_hash": 0,
+        "owner": 0,
+        "update": 0,
+        "holder": 0,
+        "status_words": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "height_flags": 0,
+        "height": 0.0,
+        "hp": 0.0,
+        "xyz": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "path_distance": 0.0,
+        "mission_stage": 0,
+        "surface_verified": 0
+      },
+      "leader_role": 0,
+      "follower_role": 0,
+      "follow_active": 0,
+      "follow_crumb_role": 0,
+      "follow_crumb_index": 0,
+      "motion_state": 0,
+      "regroup_count": 0,
+      "target_last_seen_frame": 0,
+      "memory_wait_started": 0,
+      "actual_gap": 0.0,
+      "last_seen_target": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "leader_hold_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  ],
+  "native": {
+    "magic": 1296452918,
+    "version": 6,
+    "pid": 5352,
+    "thread": 47328,
+    "owner": 52327632,
+    "ai": 80217088,
+    "personality": 246407200,
+    "personality_id": 1986320857,
+    "player_template": 288919152,
+    "start_low": 410462365,
+    "start_high": 31286379,
+    "token": 3552762864,
+    "seq": 634574500,
+    "unit": 92068448,
+    "object_id": 774,
+    "type_hash": 430641583,
+    "update": 80818328,
+    "logic": 63488552,
+    "original_team": 0,
+    "script_team": 91425168,
+    "default_team": 91429008,
+    "lease_frames": 4496,
+    "post_frames": 30,
+    "target_unit": 92065888,
+    "target_id": 772,
+    "target_hash": 3482165024,
+    "target_owner": 52332592,
+    "target_template": 248558056,
+    "target_observed_frame": 2596,
+    "attack_calls": 0,
+    "damage_count": 0,
+    "weapon_entry": 0,
+    "weapon_template": 0,
+    "weapon_slot": 0,
+    "weapon_ammo": 0,
+    "last_ammo": 0,
+    "last_limit": 0,
+    "limit_before": 0,
+    "limit_after": 0,
+    "shot_samples": 0,
+    "damage_hook_calls": 4,
+    "visible_damage_calls": 0,
+    "commit_hook_calls": 4,
+    "commit_visible_calls": 0,
+    "commit_own_calls": 0,
+    "damage_total": 0.0,
+    "target": [
+      2858.447509765625,
+      3378.233642578125,
+      210.0
+    ],
+    "phase": 4,
+    "stop_requested": 0,
+    "active": 0,
+    "count": 2,
+    "error": 34,
+    "restore_mask": 8191,
+    "callback_thread": 47328,
+    "issued_frame": 0,
+    "returned_frame": 0,
+    "move_calls": 0,
+    "detach_calls": 0,
+    "return_calls": 0,
+    "arrival_samples": 0,
+    "native_move": 0,
+    "native_attack": 0,
+    "native_add": 0,
+    "native_remove": 0,
+    "owner_fail": 0,
+    "lifecycle_fail": 0,
+    "paused_samples": 0,
+    "overflow": 0,
+    "return_verified": 0,
+    "return_pending": 0,
+    "stop_calls": 0,
+    "private_stop_calls": 0,
+    "private_stop_frame": 0,
+    "attack_facade_calls": 0,
+    "attack_private_calls": 0,
+    "attack_issued_frame": 0,
+    "stable_samples": 0,
+    "stop_gate_samples": 0,
+    "last_sample_frame": 0,
+    "lease_stage": 0,
+    "stop_failed": 0,
+    "stop_issue_frame": 0,
+    "post_actor_disposed": 0,
+    "post_scene_changed": 0,
+    "stopped_xyz": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "button": 248259224,
+    "button_schema": 248259392,
+    "command_set": 3075274522,
+    "initial_weapon_asset": 0,
+    "initial_weapon_entry": 0,
+    "toggle_calls": 0,
+    "toggle_hook_calls": 0,
+    "toggle_frame": 0,
+    "ak_samples": 0,
+    "last_ak_frame": 0,
+    "prepare_reconstituted_stops": 0,
+    "observed_weapon_asset": 0,
+    "observed_weapon_entry": 0,
+    "observed_ammo": 0,
+    "total_private_stops": 0,
+    "prepare_gate_frame": 0,
+    "support": {
+      "thing": 92077408,
+      "id": 781,
+      "hash": 741706849,
+      "update": 113825192,
+      "original_team": 0,
+      "detach_calls": 0,
+      "return_calls": 0,
+      "returned": 0,
+      "move_calls": 0,
+      "native_move": 0,
+      "native_attack": 0,
+      "native_add": 0,
+      "native_remove": 0,
+      "native_stop": 0,
+      "stop_calls": 0,
+      "private_stop_calls": 0,
+      "private_stop_frame": 0,
+      "stable_samples": 0,
+      "gate_samples": 0,
+      "last_sample_frame": 0,
+      "disposed_verified": 0,
+      "absence_samples": 0,
+      "last_absence_frame": 0,
+      "stopped_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "route_count": 0,
+    "mission_stage": 0,
+    "route_index": 0,
+    "nav_step": 0,
+    "nav_frame": 0,
+    "nav_arrivals": 0,
+    "nav_paired": 0,
+    "nav_last_frame": 0,
+    "approach_completed": 0,
+    "retreat_completed": 0,
+    "combat_started": 0,
+    "retreat_started": 0,
+    "mission_deadline_frame": 7090,
+    "combat_frames": 300,
+    "retreat_reason": 0,
+    "native_stop": 0,
+    "front_retreat_arrivals": 0,
+    "support_retreat_arrivals": 0,
+    "combat_geometry_samples": 0,
+    "retreat_requested": 0,
+    "heartbeat_tick": 634577484,
+    "front_disposed_verified": 0,
+    "front_absence_samples": 0,
+    "front_last_absence_frame": 0,
+    "cleanup_started": 0,
+    "cleanup_front_stopped": 0,
+    "cleanup_support_stopped": 0,
+    "route": [
+      [
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0
+      ]
+    ],
+    "safe_front": [
+      2925.411376953125,
+      2599.66259765625,
+      210.0
+    ],
+    "safe_support": [
+      2957.442138671875,
+      2591.73486328125,
+      210.0
+    ],
+    "front_goal": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "support_goal": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "front_hold": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "support_hold": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "planning_ready": 0,
+    "route_ready": 0,
+    "planning_ready_frame": 0,
+    "planning_ready_tick": 0,
+    "route_generation": 0,
+    "route_committed_generation": 0,
+    "route_commit_frame": 0,
+    "planning_timeout_ms": 0,
+    "planning_threat_clear": 1,
+    "planning_threat_frame": 2596,
+    "planning_failed": 0,
+    "submitted_front": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "submitted_support": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "planning_front": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "planning_support": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "leader_role": 0,
+    "follower_role": 0,
+    "follow_crumb_role": 0,
+    "follow_crumb_index": 0,
+    "follow_active": 0,
+    "follow_started": 0,
+    "follow_last_progress": 0,
+    "follow_last_frame": 0,
+    "follow_arrivals": 0,
+    "lead_move_started": 0,
+    "leader_hold_started": 0,
+    "leader_hold_settled": 0,
+    "regroup_count": 0,
+    "leader_move_count": 0,
+    "follow_move_count": 0,
+    "crumb_count": [
+      0,
+      0
+    ],
+    "crumb_reject_count": 0,
+    "trail_phase": 0,
+    "home_arrivals": [
+      0,
+      0
+    ],
+    "home_last_frame": [
+      0,
+      0
+    ],
+    "target_last_seen_frame": 0,
+    "memory_wait_started": 0,
+    "memory_ttl_frames": 900,
+    "approach_limit": 2100,
+    "retreat_limit": 1800,
+    "hold_timeout_frames": 60,
+    "motion_state": 0,
+    "motion_frame": 0,
+    "motion_last_tick": 0,
+    "role_motion_mode": [
+      0,
+      0
+    ],
+    "hold_repair_count": 0,
+    "last_seen_target": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "leader_hold_xyz": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "actual_gap": 0.0,
+    "initial_target_distance": 0.0,
+    "approach_distance": 0.0,
+    "front_travel": 0.0,
+    "support_travel": 0.0,
+    "retreat_displacement": [
+      0.0,
+      0.0
+    ],
+    "role_last_xyz": [
+      [
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0
+      ]
+    ],
+    "role_crumb_distance": [
+      0.0,
+      0.0
+    ],
+    "session_id": "25db2a86-ff31-4921-978f-c47f2054a593",
+    "commander_id": "57e668b4-4d89-43bd-bc92-0dd436f046ef",
+    "command_id": "844ed7af-18c7-4774-b882-43501400d1a2",
+    "task_id": "ca96f552-df95-426d-a9c2-ac6b515e2600",
+    "crumbs": [
+      [],
+      []
+    ]
+  },
+  "model_requests": 0,
+  "native_launch_intent_persisted": true,
+  "pre_dispatch_helper_sha256": "4a6b61ce5e6b3e361355c4557a21d1ec2ea99e895734acf6778b5aa09195aec5",
+  "wrapper_revision": "mfm6_dynamic_breadcrumb_v1",
+  "wrapper_filename": "lease.py",
+  "pre_dispatch_helper": "pre_dispatch_formation_v6_contract.py",
+  "initial_preflight": {
+    "status": "read_only_ready",
+    "session_id": "25db2a86-ff31-4921-978f-c47f2054a593",
+    "pid": 5352,
+    "commander_id": "57e668b4-4d89-43bd-bc92-0dd436f046ef",
+    "player_id": 3,
+    "frame": 2593,
+    "paused": 0,
+    "owner": "0x31e74d0",
+    "ai": "0x4c80400",
+    "personality": "0xeafe020",
+    "personality_id": "0x7664d9d9",
+    "player_template": "0x11388e70",
+    "logic": "0x3c8c228",
+    "window_thread": 47328,
+    "script_team": "0x5730990",
+    "default_team": "0x5731890",
+    "eligible_count": 8,
+    "units": [
+      {
+        "address": "0x57ccb60",
+        "owner_address": "0x31e74d0",
+        "owner_index_candidate": 3,
+        "object_id": 771,
+        "type_hash": "0x19ab11af",
+        "ai_address": "0x63bbcd8",
+        "xyz": [
+          2822.1220703125,
+          2853.445556640625,
+          210.0
+        ],
+        "catalog": {
+          "name": "征召兵",
+          "template": "SovietAntiInfantryInfantry",
+          "side": 2,
+          "cls": 1,
+          "category": 0
+        },
+        "hp": 100.0,
+        "team": "0x5734f90",
+        "command_source": 0,
+        "eligible": true
+      },
+      {
+        "address": "0x57cda60",
+        "owner_address": "0x31e74d0",
+        "owner_index_candidate": 3,
+        "object_id": 774,
+        "type_hash": "0x19ab11af",
+        "ai_address": "0x4d13098",
+        "xyz": [
+          2921.354248046875,
+          2590.522705078125,
+          210.0
+        ],
+        "catalog": {
+          "name": "征召兵",
+          "template": "SovietAntiInfantryInfantry",
+          "side": 2,
+          "cls": 1,
+          "category": 0
+        },
+        "hp": 100.0,
+        "team": "0x5734f90",
+        "command_source": 0,
+        "eligible": true
+      },
+      {
+        "address": "0x57cfd60",
+        "owner_address": "0x31e74d0",
+        "owner_index_candidate": 3,
+        "object_id": 781,
+        "type_hash": "0x2c358c61",
+        "ai_address": "0x6c8d5a8",
+        "xyz": [
+          2957.911865234375,
+          2581.74609375,
+          210.0
+        ],
+        "catalog": {
+          "name": "防空部队",
+          "template": "SovietAntiVehicleInfantry",
+          "side": 2,
+          "cls": 1,
+          "category": 0
+        },
+        "hp": 120.0,
+        "team": "0x5734f90",
+        "command_source": 0,
+        "eligible": true
+      },
+      {
+        "address": "0x57d0760",
+        "owner_address": "0x31e74d0",
+        "owner_index_candidate": 3,
+        "object_id": 783,
+        "type_hash": "0x19ab11af",
+        "ai_address": "0x6ca7070",
+        "xyz": [
+          2822.17041015625,
+          2835.477783203125,
+          210.0
+        ],
+        "catalog": {
+          "name": "征召兵",
+          "template": "SovietAntiInfantryInfantry",
+          "side": 2,
+          "cls": 1,
+          "category": 0
+        },
+        "hp": 100.0,
+        "team": "0x5734f90",
+        "command_source": 0,
+        "eligible": true
+      },
+      {
+        "address": "0x57d1b60",
+        "owner_address": "0x31e74d0",
+        "owner_index_candidate": 3,
+        "object_id": 787,
+        "type_hash": "0x19ab11af",
+        "ai_address": "0x6cc31c0",
+        "xyz": [
+          2860.16650390625,
+          2873.906494140625,
+          210.0
+        ],
+        "catalog": {
+          "name": "征召兵",
+          "template": "SovietAntiInfantryInfantry",
+          "side": 2,
+          "cls": 1,
+          "category": 0
+        },
+        "hp": 0.0,
+        "team": "0x5734f90",
+        "command_source": 0,
+        "eligible": false
+      },
+      {
+        "address": "0x57cf860",
+        "owner_address": "0x31e74d0",
+        "owner_index_candidate": 3,
+        "object_id": 792,
+        "type_hash": "0x19ab11af",
+        "ai_address": "0x4d35940",
+        "xyz": [
+          2842.395263671875,
+          2832.92333984375,
+          210.0
+        ],
+        "catalog": {
+          "name": "征召兵",
+          "template": "SovietAntiInfantryInfantry",
+          "side": 2,
+          "cls": 1,
+          "category": 0
+        },
+        "hp": 100.0,
+        "team": "0x5734f90",
+        "command_source": 0,
+        "eligible": true
+      },
+      {
+        "address": "0x57d6660",
+        "owner_address": "0x31e74d0",
+        "owner_index_candidate": 3,
+        "object_id": 868,
+        "type_hash": "0x19ab11af",
+        "ai_address": "0x6baa020",
+        "xyz": [
+          2314.6259765625,
+          1860.9893798828125,
+          210.0
+        ],
+        "catalog": {
+          "name": "征召兵",
+          "template": "SovietAntiInfantryInfantry",
+          "side": 2,
+          "cls": 1,
+          "category": 0
+        },
+        "hp": 100.0,
+        "team": "0x5734f90",
+        "command_source": 0,
+        "eligible": true
+      },
+      {
+        "address": "0x57d7a60",
+        "owner_address": "0x31e74d0",
+        "owner_index_candidate": 3,
+        "object_id": 885,
+        "type_hash": "0x19ab11af",
+        "ai_address": "0x6babd78",
+        "xyz": [
+          2185.89990234375,
+          1826.826171875,
+          210.0
+        ],
+        "catalog": {
+          "name": "征召兵",
+          "template": "SovietAntiInfantryInfantry",
+          "side": 2,
+          "cls": 1,
+          "category": 0
+        },
+        "hp": 100.0,
+        "team": "0x5734f90",
+        "command_source": 0,
+        "eligible": true
+      },
+      {
+        "address": "0x57d3460",
+        "owner_address": "0x31e74d0",
+        "owner_index_candidate": 3,
+        "object_id": 922,
+        "type_hash": "0x19ab11af",
+        "ai_address": "0x6c3b358",
+        "xyz": [
+          1690.0,
+          1759.8021240234375,
+          210.0
+        ],
+        "catalog": {
+          "name": "征召兵",
+          "template": "SovietAntiInfantryInfantry",
+          "side": 2,
+          "cls": 1,
+          "category": 0
+        },
+        "hp": 100.0,
+        "team": "0x5734f90",
+        "command_source": 0,
+        "eligible": true
+      }
+    ],
+    "selected": {
+      "address": "0x57cda60",
+      "owner_address": "0x31e74d0",
+      "owner_index_candidate": 3,
+      "object_id": 774,
+      "type_hash": "0x19ab11af",
+      "ai_address": "0x4d13098",
+      "xyz": [
+        2921.354248046875,
+        2590.522705078125,
+        210.0
+      ],
+      "catalog": {
+        "name": "征召兵",
+        "template": "SovietAntiInfantryInfantry",
+        "side": 2,
+        "cls": 1,
+        "category": 0
+      },
+      "hp": 100.0,
+      "team": "0x5734f90",
+      "command_source": 0,
+      "eligible": true
+    },
+    "restore_semantics": "native_common_pool_not_original_squad",
+    "mutations": false,
+    "support": {
+      "address": "0x57cfd60",
+      "owner_address": "0x31e74d0",
+      "owner_index_candidate": 3,
+      "object_id": 781,
+      "type_hash": "0x2c358c61",
+      "ai_address": "0x6c8d5a8",
+      "xyz": [
+        2957.911865234375,
+        2581.74609375,
+        210.0
+      ],
+      "catalog": {
+        "name": "防空部队",
+        "template": "SovietAntiVehicleInfantry",
+        "side": 2,
+        "cls": 1,
+        "category": 0
+      },
+      "hp": 120.0,
+      "team": "0x5734f90",
+      "command_source": 0,
+      "eligible": true
+    }
+  },
+  "initial_safe_origin": {
+    "front_id": 774,
+    "support_id": 781,
+    "viewer_player_id": 3,
+    "observed_frame": 2593,
+    "front_initial": [
+      2921.354248046875,
+      2590.522705078125,
+      210.0
+    ],
+    "support_initial": [
+      2957.911865234375,
+      2581.74609375,
+      210.0
+    ],
+    "anchor_distances_diagnostic": [
+      {
+        "object_id": 765,
+        "type_hash": "0x80d4ea1e",
+        "xyz": [
+          1776.57470703125,
+          1766.0302734375,
+          210.0
+        ],
+        "front_distance": 1410.7827498805816,
+        "support_distance": 1435.6008431522775
+      },
+      {
+        "object_id": 763,
+        "type_hash": "0xc16ff13f",
+        "xyz": [
+          1511.4095458984375,
+          1479.6519775390625,
+          210.0
+        ],
+        "front_distance": 1794.9868624643502,
+        "support_distance": 1818.510489612588
+      },
+      {
+        "object_id": 777,
+        "type_hash": "0xc45aaeab",
+        "xyz": [
+          1299.2777099609375,
+          1712.997314453125,
+          210.0
+        ],
+        "front_distance": 1844.2296783753422,
+        "support_distance": 1872.375951183266
+      },
+      {
+        "object_id": 769,
+        "type_hash": "0xc45aaeab",
+        "xyz": [
+          1532.6226806640625,
+          1267.5201416015625,
+          210.0
+        ],
+        "front_distance": 1918.048786973647,
+        "support_distance": 1938.720999255327
+      }
+    ],
+    "currently_visible_enemy_threats_within350": [],
+    "origin_method": "current_verified_owned_movable_positions",
+    "semantics": "observed_own_origin_without_currently_visible_enemy_within350_not_omniscient_safe"
+  },
+  "initial_admission": {
+    "frame": 2596,
+    "validated_frame": 2597,
+    "front": {
+      "protocol": "grounded_idle_normal_move_or_exact_attack_admission_v2",
+      "status": "verified_owned_actor_state",
+      "object_id": 774,
+      "address": "0x57cda60",
+      "owner": "0x31e74d0",
+      "type_hash": "0x19ab11af",
+      "frame": 2596,
+      "end_frame": 2596,
+      "grounded_status": {
+        "schema_version": 2,
+        "status": "verified_native_surface_sample",
+        "object_id": 774,
+        "address": "0x57cda60",
+        "owner": "0x31e74d0",
+        "type_hash": "0x19ab11af",
+        "template": "SovietAntiInfantryInfantry",
+        "frame": 2596,
+        "end_frame": 2596,
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x800000",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x40000000"
+        ],
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "ground160_diagnostic": false,
+        "known_air_state": false,
+        "height_cache_flags": "0x6",
+        "height_cache_valid": true,
+        "cached_height_distance": 0.0,
+        "height_tolerance": 0.5,
+        "xyz": [
+          2925.411376953125,
+          2599.66259765625,
+          210.0
+        ],
+        "hp": 100.0,
+        "holder": "0x0",
+        "ground_positive": true,
+        "grounded_verified": true,
+        "walkable_route_verified": false,
+        "atomic_sample_verified": true,
+        "source": "ground_only_template_plus_valid_native_surface_cache_and_air_exclusions_v2",
+        "mutations": false,
+        "helper_sha256": "70e5f94bac9b1a82beec56053fd43e91f6edaba1500c8dfa840e868be836e6b3",
+        "native_status_helper_sha256": "ad5b758c947843969f2d1ec6e7fc07c0eaec084b1a59e60750d69d881e78a6c0"
+      },
+      "state_snapshot": {
+        "update": "0x4d13098",
+        "update_vtable": "0xc48670",
+        "facade_vtable": "0xc48528",
+        "update_backref": "0x57cda60",
+        "sm": "0x6002548",
+        "sm_owner": "0x57cda60",
+        "state": "0x5fff668",
+        "state_id": 10,
+        "state_vtable": "0xc548c0",
+        "state_owner_sm": "0x6002548",
+        "command_source": 0,
+        "path": "0x63a90a0",
+        "sm_flags": 65536
+      },
+      "mutations": false,
+      "atomic_sample_verified": true,
+      "helper_sha256": "b62c2fdaa4c959d764109a10d63b31c025673bdc196fc50da81750c0afb4c02b",
+      "ground_helper_sha256": "70e5f94bac9b1a82beec56053fd43e91f6edaba1500c8dfa840e868be836e6b3",
+      "status_helper_sha256": "ad5b758c947843969f2d1ec6e7fc07c0eaec084b1a59e60750d69d881e78a6c0",
+      "admission_verified": true,
+      "checks": {
+        "ground_evidence": true,
+        "source": true,
+        "identity_frame": true,
+        "known_foot_update": true,
+        "state_owner_binding": true,
+        "demonstrated_state_only": true,
+        "exact_attack_state_vtable": true,
+        "no_deferred_command_lock": true,
+        "no_mutations": true
+      }
+    },
+    "support": {
+      "protocol": "grounded_idle_normal_move_or_exact_attack_admission_v2",
+      "status": "verified_owned_actor_state",
+      "object_id": 781,
+      "address": "0x57cfd60",
+      "owner": "0x31e74d0",
+      "type_hash": "0x2c358c61",
+      "frame": 2596,
+      "end_frame": 2596,
+      "grounded_status": {
+        "schema_version": 2,
+        "status": "verified_native_surface_sample",
+        "object_id": 781,
+        "address": "0x57cfd60",
+        "owner": "0x31e74d0",
+        "type_hash": "0x2c358c61",
+        "template": "SovietAntiVehicleInfantry",
+        "frame": 2596,
+        "end_frame": 2596,
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "ground160_diagnostic": false,
+        "known_air_state": false,
+        "height_cache_flags": "0x6",
+        "height_cache_valid": true,
+        "cached_height_distance": 0.0,
+        "height_tolerance": 0.5,
+        "xyz": [
+          2957.442138671875,
+          2591.73486328125,
+          210.0
+        ],
+        "hp": 120.0,
+        "holder": "0x0",
+        "ground_positive": true,
+        "grounded_verified": true,
+        "walkable_route_verified": false,
+        "atomic_sample_verified": true,
+        "source": "ground_only_template_plus_valid_native_surface_cache_and_air_exclusions_v2",
+        "mutations": false,
+        "helper_sha256": "70e5f94bac9b1a82beec56053fd43e91f6edaba1500c8dfa840e868be836e6b3",
+        "native_status_helper_sha256": "ad5b758c947843969f2d1ec6e7fc07c0eaec084b1a59e60750d69d881e78a6c0"
+      },
+      "state_snapshot": {
+        "update": "0x6c8d5a8",
+        "update_vtable": "0xc48670",
+        "facade_vtable": "0xc48528",
+        "update_backref": "0x57cfd60",
+        "sm": "0x6c959a8",
+        "sm_owner": "0x57cfd60",
+        "state": "0x6c85368",
+        "state_id": 10,
+        "state_vtable": "0xc548c0",
+        "state_owner_sm": "0x6c959a8",
+        "command_source": 0,
+        "path": "0x63d9828",
+        "sm_flags": 65536
+      },
+      "mutations": false,
+      "atomic_sample_verified": true,
+      "helper_sha256": "b62c2fdaa4c959d764109a10d63b31c025673bdc196fc50da81750c0afb4c02b",
+      "ground_helper_sha256": "70e5f94bac9b1a82beec56053fd43e91f6edaba1500c8dfa840e868be836e6b3",
+      "status_helper_sha256": "ad5b758c947843969f2d1ec6e7fc07c0eaec084b1a59e60750d69d881e78a6c0",
+      "admission_verified": true,
+      "checks": {
+        "ground_evidence": true,
+        "source": true,
+        "identity_frame": true,
+        "known_foot_update": true,
+        "state_owner_binding": true,
+        "demonstrated_state_only": true,
+        "exact_attack_state_vtable": true,
+        "no_deferred_command_lock": true,
+        "no_mutations": true
+      }
+    },
+    "target": {
+      "address": 92065888,
+      "object_id": 772,
+      "type_hash": "0xcf8d9f20",
+      "owner": 52332592,
+      "owner_player_id": 4,
+      "xyz": [
+        2858.447509765625,
+        3378.233642578125,
+        210.0
+      ],
+      "hp": 1150.0,
+      "observed_frame": 2596,
+      "region_id": "region_5_6"
+    },
+    "attempts": [
+      {
+        "attempt": 1,
+        "frame": 2596,
+        "records": [
+          {
+            "protocol": "grounded_idle_normal_move_or_exact_attack_admission_v2",
+            "status": "verified_owned_actor_state",
+            "object_id": 774,
+            "address": "0x57cda60",
+            "owner": "0x31e74d0",
+            "type_hash": "0x19ab11af",
+            "frame": 2596,
+            "end_frame": 2596,
+            "grounded_status": {
+              "schema_version": 2,
+              "status": "verified_native_surface_sample",
+              "object_id": 774,
+              "address": "0x57cda60",
+              "owner": "0x31e74d0",
+              "type_hash": "0x19ab11af",
+              "template": "SovietAntiInfantryInfantry",
+              "frame": 2596,
+              "end_frame": 2596,
+              "status_words": [
+                "0x0",
+                "0x0",
+                "0x800000",
+                "0x0",
+                "0x0",
+                "0x0",
+                "0x40000000"
+              ],
+              "flags": {
+                "AIRBORNE_TARGET": false,
+                "PARACHUTING": false,
+                "GROUND_LOCOMOTOR_ACTIVE": false,
+                "AIR_LOCOMOTOR_ACTIVE": false,
+                "LANDING_IN_PROGRESS": false,
+                "LIFTED_INTO_AIR": false,
+                "INSIDE_GARRISON": false,
+                "IMMOBILE": false
+              },
+              "ground160_diagnostic": false,
+              "known_air_state": false,
+              "height_cache_flags": "0x6",
+              "height_cache_valid": true,
+              "cached_height_distance": 0.0,
+              "height_tolerance": 0.5,
+              "xyz": [
+                2925.411376953125,
+                2599.66259765625,
+                210.0
+              ],
+              "hp": 100.0,
+              "holder": "0x0",
+              "ground_positive": true,
+              "grounded_verified": true,
+              "walkable_route_verified": false,
+              "atomic_sample_verified": true,
+              "source": "ground_only_template_plus_valid_native_surface_cache_and_air_exclusions_v2",
+              "mutations": false,
+              "helper_sha256": "70e5f94bac9b1a82beec56053fd43e91f6edaba1500c8dfa840e868be836e6b3",
+              "native_status_helper_sha256": "ad5b758c947843969f2d1ec6e7fc07c0eaec084b1a59e60750d69d881e78a6c0"
+            },
+            "state_snapshot": {
+              "update": "0x4d13098",
+              "update_vtable": "0xc48670",
+              "facade_vtable": "0xc48528",
+              "update_backref": "0x57cda60",
+              "sm": "0x6002548",
+              "sm_owner": "0x57cda60",
+              "state": "0x5fff668",
+              "state_id": 10,
+              "state_vtable": "0xc548c0",
+              "state_owner_sm": "0x6002548",
+              "command_source": 0,
+              "path": "0x63a90a0",
+              "sm_flags": 65536
+            },
+            "mutations": false,
+            "atomic_sample_verified": true,
+            "helper_sha256": "b62c2fdaa4c959d764109a10d63b31c025673bdc196fc50da81750c0afb4c02b",
+            "ground_helper_sha256": "70e5f94bac9b1a82beec56053fd43e91f6edaba1500c8dfa840e868be836e6b3",
+            "status_helper_sha256": "ad5b758c947843969f2d1ec6e7fc07c0eaec084b1a59e60750d69d881e78a6c0",
+            "admission_verified": true,
+            "checks": {
+              "ground_evidence": true,
+              "source": true,
+              "identity_frame": true,
+              "known_foot_update": true,
+              "state_owner_binding": true,
+              "demonstrated_state_only": true,
+              "exact_attack_state_vtable": true,
+              "no_deferred_command_lock": true,
+              "no_mutations": true
+            }
+          },
+          {
+            "protocol": "grounded_idle_normal_move_or_exact_attack_admission_v2",
+            "status": "verified_owned_actor_state",
+            "object_id": 781,
+            "address": "0x57cfd60",
+            "owner": "0x31e74d0",
+            "type_hash": "0x2c358c61",
+            "frame": 2596,
+            "end_frame": 2596,
+            "grounded_status": {
+              "schema_version": 2,
+              "status": "verified_native_surface_sample",
+              "object_id": 781,
+              "address": "0x57cfd60",
+              "owner": "0x31e74d0",
+              "type_hash": "0x2c358c61",
+              "template": "SovietAntiVehicleInfantry",
+              "frame": 2596,
+              "end_frame": 2596,
+              "status_words": [
+                "0x0",
+                "0x0",
+                "0x0",
+                "0x0",
+                "0x0",
+                "0x0",
+                "0x0"
+              ],
+              "flags": {
+                "AIRBORNE_TARGET": false,
+                "PARACHUTING": false,
+                "GROUND_LOCOMOTOR_ACTIVE": false,
+                "AIR_LOCOMOTOR_ACTIVE": false,
+                "LANDING_IN_PROGRESS": false,
+                "LIFTED_INTO_AIR": false,
+                "INSIDE_GARRISON": false,
+                "IMMOBILE": false
+              },
+              "ground160_diagnostic": false,
+              "known_air_state": false,
+              "height_cache_flags": "0x6",
+              "height_cache_valid": true,
+              "cached_height_distance": 0.0,
+              "height_tolerance": 0.5,
+              "xyz": [
+                2957.442138671875,
+                2591.73486328125,
+                210.0
+              ],
+              "hp": 120.0,
+              "holder": "0x0",
+              "ground_positive": true,
+              "grounded_verified": true,
+              "walkable_route_verified": false,
+              "atomic_sample_verified": true,
+              "source": "ground_only_template_plus_valid_native_surface_cache_and_air_exclusions_v2",
+              "mutations": false,
+              "helper_sha256": "70e5f94bac9b1a82beec56053fd43e91f6edaba1500c8dfa840e868be836e6b3",
+              "native_status_helper_sha256": "ad5b758c947843969f2d1ec6e7fc07c0eaec084b1a59e60750d69d881e78a6c0"
+            },
+            "state_snapshot": {
+              "update": "0x6c8d5a8",
+              "update_vtable": "0xc48670",
+              "facade_vtable": "0xc48528",
+              "update_backref": "0x57cfd60",
+              "sm": "0x6c959a8",
+              "sm_owner": "0x57cfd60",
+              "state": "0x6c85368",
+              "state_id": 10,
+              "state_vtable": "0xc548c0",
+              "state_owner_sm": "0x6c959a8",
+              "command_source": 0,
+              "path": "0x63d9828",
+              "sm_flags": 65536
+            },
+            "mutations": false,
+            "atomic_sample_verified": true,
+            "helper_sha256": "b62c2fdaa4c959d764109a10d63b31c025673bdc196fc50da81750c0afb4c02b",
+            "ground_helper_sha256": "70e5f94bac9b1a82beec56053fd43e91f6edaba1500c8dfa840e868be836e6b3",
+            "status_helper_sha256": "ad5b758c947843969f2d1ec6e7fc07c0eaec084b1a59e60750d69d881e78a6c0",
+            "admission_verified": true,
+            "checks": {
+              "ground_evidence": true,
+              "source": true,
+              "identity_frame": true,
+              "known_foot_update": true,
+              "state_owner_binding": true,
+              "demonstrated_state_only": true,
+              "exact_attack_state_vtable": true,
+              "no_deferred_command_lock": true,
+              "no_mutations": true
+            }
+          }
+        ],
+        "matched": true
+      }
+    ],
+    "mutations": false
+  },
+  "progress": null,
+  "capture_metadata": {
+    "published_prefix_count": 2,
+    "header_count": 2,
+    "incremental_decode": true
+  },
+  "host_exit": 9,
+  "terminal_readonly": {
+    "pid": 5352,
+    "session_id": "25db2a86-ff31-4921-978f-c47f2054a593",
+    "commander_id": "57e668b4-4d89-43bd-bc92-0dd436f046ef",
+    "command_id": "844ed7af-18c7-4774-b882-43501400d1a2",
+    "task_id": "ca96f552-df95-426d-a9c2-ac6b515e2600",
+    "seq": 634574500,
+    "token": 3552762864,
+    "owner": "0x31e74d0",
+    "logic": "0x3c8c228",
+    "native_binary_sha256": "e3bf3613b2d1677e3e85d8f2193340f746885662c6c66ec9395efc64dda9353e",
+    "module_base": "0x7b600000",
+    "shared_pointer": "0x45bc0000",
+    "layout": {
+      "dll_sha256": "e3bf3613b2d1677e3e85d8f2193340f746885662c6c66ec9395efc64dda9353e",
+      "timer_rva": 111352,
+      "shared_pointer_rva": 111368
+    },
+    "timer": 0,
+    "binding_verified": true,
+    "phase": 4,
+    "error": 34,
+    "active": 0,
+    "restore_mask": 8191,
+    "front_return_verified": 0,
+    "support_return_verified": 0,
+    "entries": [
+      {
+        "address": "0x76d9d0",
+        "expected": "568bf1578b7e088bcf",
+        "actual": "568bf1578b7e088bcf",
+        "restored": true
+      },
+      {
+        "address": "0x76e690",
+        "expected": "837c24040055568bf18b6e08",
+        "actual": "837c24040055568bf18b6e08",
+        "restored": true
+      },
+      {
+        "address": "0x838820",
+        "expected": "8b818c00000085c0744f568bb190000000",
+        "actual": "8b818c00000085c0744f568bb190000000",
+        "restored": true
+      },
+      {
+        "address": "0x8d8880",
+        "expected": "83ec24568b74242c8b4604",
+        "actual": "83ec24568b74242c8b4604",
+        "restored": true
+      },
+      {
+        "address": "0x8cd630",
+        "expected": "83ec3453578b7c24408b4704",
+        "actual": "83ec3453578b7c24408b4704",
+        "restored": true
+      },
+      {
+        "address": "0x7d2310",
+        "expected": "81ec200100005355568bb42430010000",
+        "actual": "81ec200100005355568bb42430010000",
+        "restored": true
+      },
+      {
+        "address": "0x6f7c60",
+        "expected": "538b5928568b71243bf357",
+        "actual": "538b5928568b71243bf357",
+        "restored": true
+      },
+      {
+        "address": "0x765190",
+        "expected": "8b44240885c0f30f104c2404",
+        "actual": "8b44240885c0f30f104c2404",
+        "restored": true
+      },
+      {
+        "address": "0x54b0a0",
+        "expected": "83ec5c8b442460566a01508bf1",
+        "actual": "83ec5c8b442460566a01508bf1",
+        "restored": true
+      },
+      {
+        "address": "0x721ad0",
+        "expected": "83ec08558be98b45088b4804",
+        "actual": "83ec08558be98b45088b4804",
+        "restored": true
+      },
+      {
+        "address": "0x572280",
+        "expected": "83ec5c8b442468566a01508bf1",
+        "actual": "83ec5c8b442468566a01508bf1",
+        "restored": true
+      },
+      {
+        "address": "0x571d90",
+        "expected": "83ec5c8b442464566a01508bf1",
+        "actual": "83ec5c8b442464566a01508bf1",
+        "restored": true
+      },
+      {
+        "address": "0x790990",
+        "expected": "8b44240c8b5424086a006a006a00",
+        "actual": "8b44240c8b5424086a006a006a00",
+        "restored": true
+      }
+    ],
+    "mutations": false
+  },
+  "disposal_readonly": {},
+  "assessment": {
+    "status": "not_passed",
+    "checks": {
+      "compiled_source_revision": true,
+      "identity_and_public_task": true,
+      "actual_native_pointer_binding": true,
+      "exact_actors": true,
+      "published_monotonic_log": true,
+      "critical_finite": true,
+      "role_thread_and_owner": true,
+      "fixed_navigation_limits": true,
+      "original_deadline": false,
+      "explicit_ground_target": true,
+      "explicit_actual_wait_anchor_replans": false,
+      "actual_breadcrumb_publications": false,
+      "actual_positive_path_motion": false,
+      "normal_move_chains": false,
+      "every_follow_actual_arrival_and_stop": false,
+      "conditional_branches_if_observed": true,
+      "legal_frozen_memory_and_current_fire": false,
+      "lease_scoped_no_native_override": false,
+      "fresh_admission_actual_origins": false,
+      "actual_nonlethal_packet_commit_ammo_support": false,
+      "both_physical_retreat_origins": false,
+      "finished_host_and_native": false,
+      "actual_long_approach": false,
+      "actual_long_retreat": false,
+      "frozen_phase_deadlines": false,
+      "effect_precedes_source_damage_retreat": false,
+      "actual_paired_follow_checkpoints": false,
+      "bounded_actual_commands": false,
+      "two_live_pool_returns_and_actual_pristine_terminal": false
+    },
+    "effect_verified": false,
+    "source_damage_amount": 0,
+    "new_order_fire_association_verified": false,
+    "approach_verified": false,
+    "long_approach_verified": false,
+    "retreat_verified": false,
+    "long_retreat_verified": false,
+    "restoration_verified": true,
+    "combined_arms_verified": false,
+    "qualified_hits": [],
+    "paired_stages": [],
+    "breadcrumb_audit": {
+      "verified": false,
+      "checks": {
+        "actual_surface": false,
+        "immutable_unique_publication": false,
+        "header_matches_all_published": false
+      },
+      "published": {},
+      "roles": {
+        "0": [],
+        "1": []
+      },
+      "observed_count": 0
+    },
+    "motion_audit": {
+      "verified": false,
+      "checks": {
+        "actual_eighty_unit_publications": true,
+        "actual_path_distance": true,
+        "phase_origins_zero": true
+      }
+    },
+    "follow_audit": {
+      "verified": false,
+      "checks": {
+        "prior_actual_crumb": false,
+        "strict_reference_order": true,
+        "actual_leader_one_hundred_ahead": true,
+        "leader_clear_of_goal": true,
+        "normal_follow_input": true,
+        "three_distinct_arrival": true,
+        "stop_before_next": true
+      },
+      "stages": [],
+      "approach_follow_observed": false,
+      "retreat_follow_observed": false
+    },
+    "conditional_branches": {
+      "verified": true,
+      "checks": {
+        "regroup_bounded": true,
+        "all_regroups_raw": true,
+        "repair_bounded": true,
+        "all_repairs_raw": true
+      },
+      "regroup": {
+        "observed": false,
+        "field_verified": false,
+        "events": []
+      },
+      "hold_repair": {
+        "observed": false,
+        "field_verified": false,
+        "events": []
+      }
+    },
+    "wait_anchor_replans": {
+      "verified": false,
+      "observed": false,
+      "field_verified": false,
+      "checks": {
+        "bounded_attempts": true,
+        "pairs_and_order": true,
+        "old_origins_preserved": false,
+        "every_observed_replan": true
+      },
+      "attempts": [],
+      "old_goal_arrival_claim": false,
+      "unobserved_status": "unproven_not_field_certified"
+    },
+    "memory_checks": {
+      "verified": false,
+      "checks": {
+        "legal_visible_updates": true,
+        "hidden_point_frozen": true,
+        "normal_leader_navigation_bound": true,
+        "attack_live_only": true,
+        "loss_reacquisition_sequence": true
+      },
+      "hidden_navigation_observed": false,
+      "reacquisition_observed": false,
+      "memory_ttl_frames": 900,
+      "unobserved_branch_status": "unproven_not_field_certified"
+    },
+    "lease_audit": {
+      "verified": false,
+      "roles": [
+        {
+          "role": 0,
+          "verified": false,
+          "boundaries_verified": false,
+          "override_event_sequences": [],
+          "counters_zero": true
+        },
+        {
+          "role": 1,
+          "verified": false,
+          "boundaries_verified": false,
+          "override_event_sequences": [],
+          "counters_zero": true
+        }
+      ]
+    },
+    "entry_audit": {
+      "verified": false,
+      "checks": {
+        "fresh_positive_actor_admission": true,
+        "current_ground_contact_identity": true,
+        "origin_safety_observation": false,
+        "native_actual_origins_and_initial_stops": false
+      },
+      "roles": [
+        {
+          "role": 0,
+          "verified": false,
+          "origin": [
+            2925.411376953125,
+            2599.66259765625,
+            210.0
+          ],
+          "source_frame": null
+        },
+        {
+          "role": 1,
+          "verified": false,
+          "origin": [
+            2957.442138671875,
+            2591.73486328125,
+            210.0
+          ],
+          "source_frame": null
+        }
+      ],
+      "origin_semantics": "actual_owned_pre_detachment_positions_not_omniscient_safe"
+    },
+    "effect_audit": {
+      "verified": false,
+      "checks": {
+        "one_explicit_normal_script_attack": false,
+        "same_order_packet_commit_ammo_and_support": false,
+        "actual_same_entry_ammo_chain": false,
+        "actual_immutable_ak_asset": false,
+        "normal_prepare_and_two_clean_stops": false,
+        "dual_stop_before_attack": false,
+        "no_support_attack": true
+      },
+      "qualified_hits": [],
+      "source_damage_amount": 0,
+      "prepare_checks": {
+        "exact_toggle_button": true,
+        "prepare_stage_order": false,
+        "optional_normal_toggle": false,
+        "prepare_idle_ak_raw": false,
+        "bounded_prepare_reconstituted_stops": true
+      },
+      "lethal_verified": false,
+      "scope": "nonlethal Conscript direct AK with Flak actual positional support; no Flak ground-fire claim"
+    },
+    "retreat_audit": {
+      "verified": false,
+      "checks": {
+        "two_role_retreat_boundary": false,
+        "last_front_move_after_leader_home_and_follow_stop": false,
+        "both_actual_home_three_frames_and_final_stops": false,
+        "retreat_within_fixed_limit": false,
+        "actual_retreat_follow": false
+      },
+      "roles": [
+        {
+          "role": 0,
+          "verified": false,
+          "home_arrival_frames": [],
+          "retreat_displacement": null
+        },
+        {
+          "role": 1,
+          "verified": false,
+          "home_arrival_frames": [],
+          "retreat_displacement": null
+        }
+      ],
+      "long_retreat_verified": false
+    },
+    "restoration": {
+      "restoration_verified": true,
+      "control_release_verified": true,
+      "return_verified": false,
+      "disposed_verified": false,
+      "actors": [
+        {
+          "role": 0,
+          "object_id": 774,
+          "returned": false,
+          "disposed": false,
+          "never_held": true,
+          "released": true
+        },
+        {
+          "role": 1,
+          "object_id": 781,
+          "returned": false,
+          "disposed": false,
+          "never_held": true,
+          "released": true
+        }
+      ],
+      "semantics": "independent_native_pool_return_or_readonly_disposal",
+      "completion_claim": false
+    },
+    "lethal_verified": false,
+    "role_scope": "Conscript nonlethal direct AK; Flak actual breadcrumb following and idle support, no Flak ground-fire claim",
+    "mission_protocol": "continuous_tactical_v1",
+    "qualification_revision": "mfm6_actual_breadcrumbs_v1"
+  }
+}
