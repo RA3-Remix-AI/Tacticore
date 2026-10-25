@@ -1,0 +1,558 @@
+{
+  "protocol": "rsv2_direct02_independent_raw_review_v1",
+  "source": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261026-032102-commander\\paid-reserve2-direct02.json",
+  "source_sha256": "faabb49be72f1fce49cf05dbdb1c37e49fb6c59d57387f58e3c5d072e4fe9f39",
+  "qualifier_sha256": "ee7c95137b041c7b4132d6818b03a2ae67c0561ca72ab8cb6c711997c3fdf596",
+  "frozen_qualifier_result": {
+    "status": "not_passed",
+    "checks": {
+      "compiled_source_revision": true,
+      "identity_and_original_thread": true,
+      "original_readonly_actor_and_stance_join": true,
+      "original_paid_birth_provenance": true,
+      "three_original_pre_sdk_admission_frames": true,
+      "published_bound_raw_samples": true,
+      "fresh_original_admission": true,
+      "fixed_total_deadline": true,
+      "real_unique_frame_progress": true,
+      "eight_original_sdk_chains": false,
+      "actual_initial_stop_three": true,
+      "actual_rally_geometry_arrival_and_stop": false,
+      "original_owned_factory_source": true,
+      "one_synchronous_original_move_chain": true,
+      "fixed_ninety_real_frames": false,
+      "actual_cleanup_stop_three": true,
+      "original_stance_before_live_pool_return": true,
+      "original_gate_order_no_extra_command_during_hold": false,
+      "actual_eight_original_bytes_and_timer_zero": true,
+      "successful_native_terminal": false
+    },
+    "hold_verified": false,
+    "physical_cleanup_stop_verified": true,
+    "original_stance_restored": true,
+    "live_pool_return_verified": true,
+    "restoration_verified": true,
+    "control_release_verified": true,
+    "no_actor_lease_verified": false,
+    "coverage": {
+      "verified": false,
+      "continuous_all_logic_frames_verified": false
+    },
+    "sdk_audit": {
+      "verified": false,
+      "checks": {
+        "eight_original_intents_once": false,
+        "typed_nested_original_calls": true,
+        "exact_explicit_call_totals": false,
+        "one_explicit_stop_chain_per_intent": false,
+        "one_setter_and_transfer_each": true
+      }
+    },
+    "initial_stop": {
+      "verified": true,
+      "frames": [
+        1224,
+        1225,
+        1226
+      ],
+      "gate": {
+        "seq": 25,
+        "kind": 3,
+        "tag": 0,
+        "frame": 1226,
+        "tick": 665713921,
+        "thread": 61088,
+        "caller": 0,
+        "self": 0,
+        "arg": 0,
+        "source": 0,
+        "result": 0,
+        "stage": 1,
+        "sdk_calls": 3,
+        "error": 0,
+        "explicit_stops": 1,
+        "private_explicit_stops": 1,
+        "automatic_stop2": 0,
+        "private_automatic_stop2": 0,
+        "sample": {
+          "frame": 1226,
+          "thing": 89383120,
+          "id": 781,
+          "type_hash": 430641583,
+          "owner": 52118736,
+          "template_ptr": 248915584,
+          "update": 113553640,
+          "update_vtable": 12879472,
+          "update_backref": 89383120,
+          "team": 91785360,
+          "stance_module": 113553184,
+          "stance_vtable": 12812176,
+          "stance_backref": 89383120,
+          "stance_data": 250526944,
+          "stance": 2,
+          "stance_enum_list": 251564784,
+          "stance_enum_count": 4,
+          "stance_enum_entries": [
+            1,
+            0,
+            0,
+            0,
+            2,
+            0,
+            3,
+            0
+          ],
+          "sm": 113558192,
+          "sm_owner": 89383120,
+          "sm_flags": 65536,
+          "state": 113560400,
+          "state_id": 94,
+          "state_vtable": 12931488,
+          "state_owner_sm": 113558192,
+          "path": 0,
+          "source": 1,
+          "child_sm": 113283984,
+          "child_sm_vtable": 12909408,
+          "child_state": 104424560,
+          "child_state_id": 0,
+          "child_state_vtable": 12916208,
+          "child_state_owner_sm": 113283984,
+          "holder": 0,
+          "status_words": [
+            16384,
+            0,
+            8388608,
+            0,
+            0,
+            0,
+            1073741824
+          ],
+          "height_flags": 7,
+          "height": 0.0,
+          "hp": 100.0,
+          "xyz": [
+            3064.245361328125,
+            2548.6630859375,
+            210.0
+          ],
+          "auto_acquire": 113544232,
+          "auto_acquire_flags_9e": 1,
+          "auto_acquire_24": 0,
+          "auto_acquire_28": 0,
+          "auto_acquire_2c": 0,
+          "auto_acquire_70": 4294967295
+        },
+        "move": {
+          "goal_pointer": 0,
+          "goal_bits": [
+            0,
+            0,
+            0
+          ],
+          "path": 0,
+          "limit_bits": 0,
+          "intent_seq": 0,
+          "facade_seq": 0,
+          "generation": 0,
+          "flags": 0
+        }
+      },
+      "first_stable_xyz": [
+        3064.245361328125,
+        2548.6630859375,
+        210.0
+      ]
+    },
+    "cleanup_stop": {
+      "verified": true,
+      "frames": [
+        1318,
+        1319,
+        1320
+      ],
+      "gate": {
+        "seq": 131,
+        "kind": 3,
+        "tag": 0,
+        "frame": 1320,
+        "tick": 665720125,
+        "thread": 61088,
+        "caller": 0,
+        "self": 0,
+        "arg": 0,
+        "source": 0,
+        "result": 0,
+        "stage": 3,
+        "sdk_calls": 5,
+        "error": 55,
+        "explicit_stops": 2,
+        "private_explicit_stops": 2,
+        "automatic_stop2": 0,
+        "private_automatic_stop2": 0,
+        "sample": {
+          "frame": 1320,
+          "thing": 89383120,
+          "id": 781,
+          "type_hash": 430641583,
+          "owner": 52118736,
+          "template_ptr": 248915584,
+          "update": 113553640,
+          "update_vtable": 12879472,
+          "update_backref": 89383120,
+          "team": 91785360,
+          "stance_module": 113553184,
+          "stance_vtable": 12812176,
+          "stance_backref": 89383120,
+          "stance_data": 250526944,
+          "stance": 2,
+          "stance_enum_list": 251564784,
+          "stance_enum_count": 4,
+          "stance_enum_entries": [
+            1,
+            0,
+            0,
+            0,
+            2,
+            0,
+            3,
+            0
+          ],
+          "sm": 113558192,
+          "sm_owner": 89383120,
+          "sm_flags": 65536,
+          "state": 113560400,
+          "state_id": 94,
+          "state_vtable": 12931488,
+          "state_owner_sm": 113558192,
+          "path": 0,
+          "source": 1,
+          "child_sm": 100390408,
+          "child_sm_vtable": 12909408,
+          "child_state": 113148544,
+          "child_state_id": 0,
+          "child_state_vtable": 12916208,
+          "child_state_owner_sm": 100390408,
+          "holder": 0,
+          "status_words": [
+            0,
+            0,
+            8388608,
+            0,
+            0,
+            0,
+            1073741824
+          ],
+          "height_flags": 7,
+          "height": 0.0,
+          "hp": 100.0,
+          "xyz": [
+            3130.0,
+            2530.0,
+            210.0
+          ],
+          "auto_acquire": 113544232,
+          "auto_acquire_flags_9e": 1,
+          "auto_acquire_24": 0,
+          "auto_acquire_28": 0,
+          "auto_acquire_2c": 0,
+          "auto_acquire_70": 4294967295
+        },
+        "move": {
+          "goal_pointer": 0,
+          "goal_bits": [
+            0,
+            0,
+            0
+          ],
+          "path": 0,
+          "limit_bits": 0,
+          "intent_seq": 0,
+          "facade_seq": 0,
+          "generation": 0,
+          "flags": 0
+        }
+      },
+      "first_stable_xyz": [
+        3130.0,
+        2530.0,
+        210.0
+      ]
+    },
+    "pre_admission": {
+      "verified": true,
+      "checks": {
+        "exact_three_and_gate": true,
+        "every_actual_frame_eligible": true,
+        "immutable_actor_module_health": true,
+        "original_raw_header_join": true,
+        "all_sdk_after_third_frame": true
+      },
+      "frames": [
+        1221,
+        1222,
+        1223
+      ],
+      "gate_seq": 8
+    },
+    "production_provenance": {
+      "verified": true,
+      "checks": {
+        "current_session_source": true,
+        "original_producer_file": true,
+        "unchanged_complete_original_receipt": true,
+        "original_ledger_command_join": true,
+        "paid_birth_actor_binding": true,
+        "immutable_native_provenance_words": true,
+        "original_producer_and_sidecar_five_bytes": true,
+        "original_stable_native_bytes": true,
+        "raw_native_process_owner_thread": true,
+        "raw_native_exact_command": true,
+        "raw_native_paid_created_complete": true
+      },
+      "producer_report_sha256": "f2823ea872f302a1621540bcb8ff555260736d0db5bb870ec7dea43b2ec82e1a",
+      "receipt_sha256": "50d14577fcdb1bc8cfe5ddb8d625e9328d1581172def5a6d8eed6cde1dce7071",
+      "production_command_id": "dde581c5-2b99-4442-804d-949855b057b4",
+      "production_task_id": "ea6effbe-a1ec-4907-9641-bc4e4458b90a",
+      "production_queue_id": 6,
+      "birth_frame": 641,
+      "holding_is_mission_effect": false
+    },
+    "rally": {
+      "verified": false,
+      "checks": {
+        "unique_proposal_arrival_stop_anchor": false
+      }
+    },
+    "rally_source": {
+      "verified": true,
+      "checks": {
+        "source_identity_and_seals": true,
+        "actual_double_sample_unchanged": true,
+        "raw_original_factory_and_own_live_identity": true,
+        "real_factory_position_and_input_words": true,
+        "current_owned_membership_same_frame": true,
+        "actual_native_factory_before_proposal": true
+      },
+      "factory_address": "0x55390d0",
+      "factory_id": 765,
+      "source_frame": 1219,
+      "proposal_terrain_verified": false,
+      "route_verified": false
+    },
+    "move_audit": {
+      "verified": true,
+      "checks": {
+        "one_intent_and_four_original_steps": true,
+        "same_actual_actor_frame_thread_and_scope": true,
+        "immutable_original_goal_generation_and_publication": true,
+        "real_private_arguments_no_path_and_fltmax": true,
+        "observed_owned_scope_once_then_returned": true
+      },
+      "intent_seq": 28,
+      "facade_seq": 29,
+      "private_seq": 30,
+      "deferred_move_credit": false
+    },
+    "reserve_lease_id": "38ecf619-3378-4a04-a260-32f1b92f8c04",
+    "reserve_actor_id": 781,
+    "reserve_active_after_return": false,
+    "reserve_to_mission_handoff_verified": false,
+    "tactical_source_granted": false,
+    "effect_verified": false,
+    "completion_claim": false
+  },
+  "navigation": {
+    "move_intent_frame": 1226,
+    "timeout_frame": 1317,
+    "elapsed_navigation_frames": 91,
+    "nav_sample_count": 91,
+    "max_nav_frame_gap": 1,
+    "minimum_goal_distance": 55.1195329963271,
+    "origin": [
+      3064.245361328125,
+      2548.6630859375,
+      210.0
+    ],
+    "last_nav_xyz": [
+      3130.0,
+      2530.0,
+      210.0
+    ],
+    "actual_euclidean_displacement": 68.35190768061524,
+    "observed_polyline_length_lower_bound": 68.35190768370492,
+    "goal_reached": false,
+    "hold_started": false,
+    "last_nav_state": 94,
+    "last_nav_path": 0,
+    "hp_min": 100.0,
+    "factory_xy": [
+      2943.30078125,
+      2975.18310546875
+    ],
+    "initial_factory_distance": 443.33612362541794,
+    "final_factory_distance": 482.7469271540323,
+    "issued_minus_paid_completion_frames": 582,
+    "first_state94_after_move": 1248,
+    "all_current_navigation_samples_positive": true,
+    "intent_order": [
+      1,
+      2,
+      3,
+      7,
+      4,
+      5,
+      6
+    ]
+  },
+  "markers": [
+    {
+      "seq": 26,
+      "kind": 69,
+      "frame": 1226,
+      "thread": 61088,
+      "tag": 0,
+      "self": 89362640,
+      "source": 0,
+      "caller": 0,
+      "sdk_calls": 3,
+      "error": 0
+    },
+    {
+      "seq": 27,
+      "kind": 62,
+      "frame": 1226,
+      "thread": 61088,
+      "tag": 0,
+      "self": 0,
+      "source": 0,
+      "caller": 0,
+      "sdk_calls": 3,
+      "error": 0
+    },
+    {
+      "seq": 29,
+      "kind": 64,
+      "frame": 1226,
+      "thread": 61088,
+      "tag": 7,
+      "self": 113553676,
+      "source": 1,
+      "caller": 2049924364,
+      "sdk_calls": 4,
+      "error": 0
+    },
+    {
+      "seq": 30,
+      "kind": 66,
+      "frame": 1226,
+      "thread": 61088,
+      "tag": 7,
+      "self": 113553640,
+      "source": 1,
+      "caller": 7158653,
+      "sdk_calls": 4,
+      "error": 0
+    },
+    {
+      "seq": 31,
+      "kind": 67,
+      "frame": 1226,
+      "thread": 61088,
+      "tag": 7,
+      "self": 113553640,
+      "source": 1,
+      "caller": 7158653,
+      "sdk_calls": 4,
+      "error": 0
+    },
+    {
+      "seq": 32,
+      "kind": 65,
+      "frame": 1226,
+      "thread": 61088,
+      "tag": 7,
+      "self": 113553676,
+      "source": 1,
+      "caller": 2049924364,
+      "sdk_calls": 4,
+      "error": 0
+    },
+    {
+      "seq": 132,
+      "kind": 42,
+      "frame": 1320,
+      "thread": 61088,
+      "tag": 0,
+      "self": 0,
+      "source": 0,
+      "caller": 0,
+      "sdk_calls": 5,
+      "error": 55
+    },
+    {
+      "seq": 133,
+      "kind": 44,
+      "frame": 1320,
+      "thread": 61088,
+      "tag": 0,
+      "self": 0,
+      "source": 0,
+      "caller": 0,
+      "sdk_calls": 5,
+      "error": 55
+    },
+    {
+      "seq": 141,
+      "kind": 45,
+      "frame": 1320,
+      "thread": 61088,
+      "tag": 0,
+      "self": 0,
+      "source": 0,
+      "caller": 0,
+      "sdk_calls": 6,
+      "error": 55
+    },
+    {
+      "seq": 142,
+      "kind": 46,
+      "frame": 1320,
+      "thread": 61088,
+      "tag": 0,
+      "self": 0,
+      "source": 0,
+      "caller": 0,
+      "sdk_calls": 6,
+      "error": 55
+    },
+    {
+      "seq": 148,
+      "kind": 47,
+      "frame": 1320,
+      "thread": 61088,
+      "tag": 0,
+      "self": 0,
+      "source": 0,
+      "caller": 0,
+      "sdk_calls": 7,
+      "error": 55
+    },
+    {
+      "seq": 149,
+      "kind": 4,
+      "frame": 1320,
+      "thread": 61088,
+      "tag": 0,
+      "self": 0,
+      "source": 0,
+      "caller": 0,
+      "sdk_calls": 7,
+      "error": 55
+    }
+  ],
+  "review_sdk_calls": 0,
+  "original_raw_or_qualifier_mutated": false,
+  "tactical_source_granted": false,
+  "effect_verified": false,
+  "reserve_to_mission_handoff_verified": false
+}

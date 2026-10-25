@@ -1,0 +1,72 @@
+{
+  "protocol": "single_actor_reserve_v3",
+  "magic": "0x52535633",
+  "version": 3,
+  "install_message": "WM_APP+0x397",
+  "pulse_message": "WM_APP+0x398",
+  "restore_mask": 255,
+  "hook_count": 8,
+  "layout": {
+    "sample": 240,
+    "event": 352,
+    "tactical": 361624,
+    "events": 1176,
+    "period_ms": 20,
+    "fallback_ms": 100,
+    "loss_ms": 1000
+  },
+  "native_binary_sha256": "efcbf78b000f66f5b15ad17358e3b1128254f3604d135273f885d11ad055f7dd",
+  "native_host_sha256": "f7883b001e03d104332a2be582284987faf5ccd51b63a9d5369c1d114074d64c",
+  "native_source_sha256": "0d30ca0efe4303dfd65cca15ce976e3dfe0b5698a5e2003fee8b9ceab9380b92",
+  "native_shared_sha256": "636d96d56ae1f385332e8e8f835c4558a9844c5076ac466e123a2575288e3102",
+  "native_includes_sha256": {
+    "host_pulse.cpp.inc": "51b95747ff223bfc33eb8fecb8ba128df0a903ca7afa3f06de4c624628695a7f",
+    "logic.cpp.inc": "5bad3d665f32c4baa1981fcd71dd24cbf475444643337d6c515b5d1d7929fb66",
+    "rally.cpp.inc": "94bf2285c369df3a0980705290b8166e64af9e2c7fdc142423e4d9b8e9bcf191",
+    "scheduler.cpp.inc": "f9b04259d579e285cccbfa502507cc02da6eb8c557c6f83d3cc4dc923b30e014"
+  },
+  "inert_layout_sha256": "e4d34bb90fa34d2c089482c20a3910049162e098257ce6234baf5c985e104d45",
+  "host_source_sha256": "c0c535696a79ae15d6a15165c04d40350e46a58c5b37ca7873b939a03e43cfb1",
+  "build_script_sha256": "8a9e0a22d68d61a2c9d78d2353ae81bbf4adff671d9456f9a58d80d6ccbff160",
+  "tests": {
+    "test_native.cpp": "edb89d36e1cf96f55b52802dcac79ce7844d1c52dcb76b3bdff09f1cf23eea61",
+    "test_scheduler.cpp": "4bb61205603e16a44ed5b0ae175e0d5a58076ddea68fc721942c0888b0f9534d",
+    "test_native.exe": "b052989746a0757c3690a5e300cbad9d2cdcf9f57e50c71c81d843d0f09d00d6",
+    "test_scheduler.exe": "f6b5a93adf4ded1330ee53843d913328d8e7040b0ed60e8ee113f3180c2cddf4",
+    "native-positive.bin": "f80ae19e0d13dd9d9a79fe15059456a028187bcf370eedd02e85f6a25c0ae58d",
+    "native-anchor-positive.bin": "7931677d1fb78044f5cca3dc67ac67b2667fb86cc60a517962e1b7a919ff40f5"
+  },
+  "software_checks": {
+    "actual_logic": 105,
+    "actual_scheduler": 26,
+    "field_verified": false
+  },
+  "runtime_capability_authorized": false,
+  "rules": {
+    "admission_consecutive_frames": 3,
+    "admission_deadline_frames": 30,
+    "production_binding_words": 20,
+    "test_stance": 2,
+    "max_sdk_calls": 8,
+    "stop_timeout_frames": 60,
+    "rally_navigation_frames": 90,
+    "rally_sideward_distance": 100,
+    "entry_birth_observed_age_max_frames": 300,
+    "entry_factory_gap_max": 200,
+    "candidate_actual_displacement_min": 60,
+    "candidate_factory_gap_min": 120,
+    "candidate_must_not_move_inward": true,
+    "candidate_consecutive_samples": 3,
+    "candidate_sample_gap_max": 1,
+    "candidate_neighbor_motion_max": 1,
+    "candidate_stop_radius": 15,
+    "proposal_reached_required": false,
+    "hold_frames": 90,
+    "hold_frame_gap": 1,
+    "mission_frames": 300,
+    "wall_ms": 30000,
+    "period_ms": 20,
+    "fallback_ms": 100,
+    "host_loss_ms": 1000
+  }
+}

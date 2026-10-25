@@ -1,0 +1,32 @@
+{
+  "protocol": "reserve_next_options_readonly_coverage",
+  "sdk_calls": 0,
+  "mutations": false,
+  "model_input": false,
+  "original_rsv2_remains_not_passed": true,
+  "actual2_age_at_issue": 582,
+  "actual2_factory_initial_distance": 443.33612362541794,
+  "one_existing_prior_ground_waypoint": {
+    "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261026-032102-commander\\formation-own-history\\00000995-789.json",
+    "sha256": "4c1688238f874b61a11e95ff798aca2d905d78e078769c8721df1a74391f97f9",
+    "frame": 995,
+    "object_id": 789,
+    "xyz": [
+      3018.781982421875,
+      2621.218017578125,
+      210.0
+    ],
+    "independent_ground_evidence_verified": true,
+    "distance_from_actual2_origin": 85.6220586469925,
+    "distance_from_factory": 361.92360405998244,
+    "walkable_connection_verified": false,
+    "current_occupancy_verified": false,
+    "actor_admission_or_freshness_not_authorized": true
+  },
+  "early_geometric_coverage_only": {
+    "paid781_positive_ground_samples_age_le300_factorygap_le200": 2,
+    "max_prior_waypoints_60_to140_factorygap_ge120": 0,
+    "actor_state_admission_not_in_this_ground_history": true
+  },
+  "recommendation": "ActualAnchor policy can avoid historical-node dependency; both require independent new Source and field. No code or SDK action proposed by this diagnostic."
+}

@@ -1,0 +1,169 @@
+{
+  "protocol": "current_owned_paid_actor_readonly_diagnostic",
+  "session_id": "c0397ffd-55c2-4ea1-ae63-71e211e5c2a3",
+  "pid": 59668,
+  "session_sha256": "3ea219990004162fc10d010f3a4ddd35df1bd390cfcfc28ecb498d4d60493664",
+  "frame": 1214,
+  "paused": 3,
+  "unit": {
+    "address": "0x553e0d0",
+    "owner_address": "0x31b44d0",
+    "owner_index_candidate": 3,
+    "object_id": 781,
+    "type_hash": "0x19ab11af",
+    "ai_address": "0x6c4b0e8",
+    "xyz": [
+      3065.818603515625,
+      2555.1416015625,
+      210.0
+    ],
+    "catalog": {
+      "name": "\u5f81\u53ec\u5175",
+      "template": "SovietAntiInfantryInfantry",
+      "side": 2,
+      "cls": 1,
+      "category": 0
+    },
+    "hp": 100.0,
+    "team": "0x578c990",
+    "command_source": 0,
+    "eligible": true
+  },
+  "sdk_calls": 0,
+  "mutations": false,
+  "current_observation_is_not_prior_failure_cause": true,
+  "borrow_authorized": false,
+  "admission": {
+    "protocol": "grounded_idle_normal_move_or_exact_attack_admission_v2",
+    "status": "verified_owned_actor_state",
+    "object_id": 781,
+    "address": "0x553e0d0",
+    "owner": "0x31b44d0",
+    "type_hash": "0x19ab11af",
+    "frame": 1214,
+    "end_frame": 1214,
+    "grounded_status": {
+      "schema_version": 2,
+      "status": "verified_native_surface_sample",
+      "object_id": 781,
+      "address": "0x553e0d0",
+      "owner": "0x31b44d0",
+      "type_hash": "0x19ab11af",
+      "template": "SovietAntiInfantryInfantry",
+      "frame": 1214,
+      "end_frame": 1214,
+      "status_words": [
+        "0x0",
+        "0x0",
+        "0x800000",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x40000000"
+      ],
+      "flags": {
+        "AIRBORNE_TARGET": false,
+        "PARACHUTING": false,
+        "GROUND_LOCOMOTOR_ACTIVE": false,
+        "AIR_LOCOMOTOR_ACTIVE": false,
+        "LANDING_IN_PROGRESS": false,
+        "LIFTED_INTO_AIR": false,
+        "INSIDE_GARRISON": false,
+        "IMMOBILE": false
+      },
+      "ground160_diagnostic": false,
+      "known_air_state": false,
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_tolerance": 0.5,
+      "xyz": [
+        3065.818603515625,
+        2555.1416015625,
+        210.0
+      ],
+      "hp": 100.0,
+      "holder": "0x0",
+      "ground_positive": true,
+      "grounded_verified": true,
+      "walkable_route_verified": false,
+      "atomic_sample_verified": true,
+      "source": "ground_only_template_plus_valid_native_surface_cache_and_air_exclusions_v2",
+      "mutations": false,
+      "helper_sha256": "70e5f94bac9b1a82beec56053fd43e91f6edaba1500c8dfa840e868be836e6b3",
+      "native_status_helper_sha256": "ad5b758c947843969f2d1ec6e7fc07c0eaec084b1a59e60750d69d881e78a6c0"
+    },
+    "state_snapshot": {
+      "update": "0x6c4b0e8",
+      "update_vtable": "0xc48670",
+      "facade_vtable": "0xc48528",
+      "update_backref": "0x553e0d0",
+      "sm": "0x6c4c2b0",
+      "sm_owner": "0x553e0d0",
+      "state": "0x6c4c900",
+      "state_id": 10,
+      "state_vtable": "0xc548c0",
+      "state_owner_sm": "0x6c4c2b0",
+      "command_source": 0,
+      "path": "0x6bf5000",
+      "sm_flags": 65536
+    },
+    "mutations": false,
+    "atomic_sample_verified": true,
+    "helper_sha256": "b62c2fdaa4c959d764109a10d63b31c025673bdc196fc50da81750c0afb4c02b",
+    "ground_helper_sha256": "70e5f94bac9b1a82beec56053fd43e91f6edaba1500c8dfa840e868be836e6b3",
+    "status_helper_sha256": "ad5b758c947843969f2d1ec6e7fc07c0eaec084b1a59e60750d69d881e78a6c0",
+    "admission_verified": true,
+    "checks": {
+      "ground_evidence": true,
+      "source": true,
+      "identity_frame": true,
+      "known_foot_update": true,
+      "state_owner_binding": true,
+      "demonstrated_state_only": true,
+      "exact_attack_state_vtable": true,
+      "no_deferred_command_lock": true,
+      "no_mutations": true
+    }
+  },
+  "admission_verified": true,
+  "stance": {
+    "module": "0x6c4af20",
+    "vtable": "0xc37f90",
+    "backref": "0x553e0d0",
+    "data": "0xeeebce0",
+    "enum": 0,
+    "definition_list": "0xefe92f0",
+    "definition_count": 4,
+    "definition_items": "0xefe92fc",
+    "definitions": [
+      {
+        "enum": 1,
+        "modifier": "0x0"
+      },
+      {
+        "enum": 0,
+        "modifier": "0x0"
+      },
+      {
+        "enum": 2,
+        "modifier": "0x0"
+      },
+      {
+        "enum": 3,
+        "modifier": "0x0"
+      }
+    ],
+    "getter": "0x71d3f0"
+  },
+  "mobility": {
+    "object_id": 781,
+    "status_word_plus84": "0x0",
+    "inside_garrison": false,
+    "immobile": false,
+    "independently_movable": true,
+    "source": "native_name_value_table_plus_direct_setter_disassembly",
+    "mutations": false
+  },
+  "eligible_now": true
+}

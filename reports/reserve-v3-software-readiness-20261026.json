@@ -1,0 +1,199 @@
+{
+  "protocol": "reserve_v3_software_readiness_postguard_v1",
+  "generated_at_utc": "2026-10-25T20:08:14.994446+00:00",
+  "narrow_static_go": true,
+  "software_joint_ready": true,
+  "checks": {
+    "execute_guard_unlocked": true,
+    "compiled_source_joint": true,
+    "unchanged_sources": true,
+    "exact_actual_abi": true,
+    "exact_local_source_count": true,
+    "exact_external_source_count": true,
+    "qualifier_frozen": true,
+    "tests_frozen": true,
+    "software_components_native-positive.bin": true,
+    "software_components_native-anchor-positive.bin": true
+  },
+  "source_record": {
+    "native_binary_sha256": "efcbf78b000f66f5b15ad17358e3b1128254f3604d135273f885d11ad055f7dd",
+    "native_host_sha256": "f7883b001e03d104332a2be582284987faf5ccd51b63a9d5369c1d114074d64c",
+    "native_source_sha256": "0d30ca0efe4303dfd65cca15ce976e3dfe0b5698a5e2003fee8b9ceab9380b92",
+    "native_shared_sha256": "636d96d56ae1f385332e8e8f835c4558a9844c5076ac466e123a2575288e3102",
+    "native_revision_sha256": "6e6ba03d76dd5221df0418619a8a8143518c60ed53a4d97c5f69e00b905eb961",
+    "native_includes_sha256": {
+      "host_pulse.cpp.inc": "51b95747ff223bfc33eb8fecb8ba128df0a903ca7afa3f06de4c624628695a7f",
+      "logic.cpp.inc": "5bad3d665f32c4baa1981fcd71dd24cbf475444643337d6c515b5d1d7929fb66",
+      "rally.cpp.inc": "94bf2285c369df3a0980705290b8166e64af9e2c7fdc142423e4d9b8e9bcf191",
+      "scheduler.cpp.inc": "f9b04259d579e285cccbfa502507cc02da6eb8c557c6f83d3cc4dc923b30e014"
+    },
+    "wrapper_sha256": "9866bfced202440568ae30bc306349790fb992bdd81d2b9ef20c05c1548d3d6e",
+    "native_layout_sha256": "623b18d85d24d3a1a9bb87cb47df8ebbad2b21ad1452ed5805d5e20bc2b5fe58",
+    "supplemental_sources": {
+      "reserve_qualification.py": "46d9b8983cd0c52e8410d8b7d32fb004d0d8c61d1decf08c83e36ef5a3856e8a",
+      "native_layout.py": "623b18d85d24d3a1a9bb87cb47df8ebbad2b21ad1452ed5805d5e20bc2b5fe58",
+      "lease.py": "9866bfced202440568ae30bc306349790fb992bdd81d2b9ef20c05c1548d3d6e",
+      "preflight.py": "27fab2c0cc85a8fa8ef0de3b05550c5a200d883726d6161c84fa4e4e9cab11e9",
+      "birth_source.py": "4555ef85d6a3d40125f6605d79507d7587b097a3b51e9ef1ddb7ee57994d4a74",
+      "rally_source.py": "1404ad35af015ad0f04a4f2fa1b09268bcb4f247785882c11ed06e2fca9c6c37",
+      "inert-layout.json": "e4d34bb90fa34d2c089482c20a3910049162e098257ce6234baf5c985e104d45",
+      "host_pulse.cpp.inc": "51b95747ff223bfc33eb8fecb8ba128df0a903ca7afa3f06de4c624628695a7f",
+      "logic.cpp.inc": "5bad3d665f32c4baa1981fcd71dd24cbf475444643337d6c515b5d1d7929fb66",
+      "rally.cpp.inc": "94bf2285c369df3a0980705290b8166e64af9e2c7fdc142423e4d9b8e9bcf191",
+      "scheduler.cpp.inc": "f9b04259d579e285cccbfa502507cc02da6eb8c557c6f83d3cc4dc923b30e014"
+    },
+    "external_sources": {
+      "tactical/ordered-combo/lease.py": "ea6d8996b7f9358caa53660f31683ccf0aed6f6e4a79c01287f0c46c1f257a9a",
+      "tactical/mission_actor_admission_v2.py": "b62c2fdaa4c959d764109a10d63b31c025673bdc196fc50da81750c0afb4c02b",
+      "tactical/grounded_status_v2.py": "70e5f94bac9b1a82beec56053fd43e91f6edaba1500c8dfa840e868be836e6b3",
+      "tactical/grounded_status.py": "ad5b758c947843969f2d1ec6e7fc07c0eaec084b1a59e60750d69d881e78a6c0",
+      "tactical/mobility_guard.py": "e903f9a10d342e0faa17545727f52992a57d2eb04f69e805030f636bbaa7e14f",
+      "visibility/capability.py": "4049976fd8e93ab816555affa45e5bfa60a4fe020573e878ffd1542b8857f28d",
+      "visibility/collector.py": "4bc61a0a500ed1729b741238c859fdc625e74c004d3df0127404562e08f6d2d5",
+      "visibility/projection.py": "62e48b11ced645a1a2b49acd3db5c51a4e5f7254804e8896ea11d13338e7ab5e",
+      "production/persistent/client.py": "337cabd758d9e0bd564f95f3c928454d29388cd80d78fbb15b2e8e4b70708a71",
+      "production/persistent/shared.h": "299ecae5e88bfdd3e4d803111bff0571e64fd13543d0e828cd9c3ead71efb5a0",
+      "production/persistent/bin-v2/ProductionPersistent.dll": "4709bb1b2745bfe3cac9b5c27d412197ffc97c67b4e2dd7635ff2434accf5e87",
+      "production/persistent/bin-v2/persistent_host.exe": "4bc2f86935f86eab2369818e02111d3b3197a8c73f66fbd324389322bb87dca1",
+      "integration/own_candidates.py": "7de3cb46f955d2c862c9b3a0bc156d86c2dcb47647fb7786f59a84f8f846a9e4"
+    },
+    "actual_host_abi": {
+      "sample": 240,
+      "event": 352,
+      "tactical": 361624,
+      "events": 1176,
+      "period_ms": 20,
+      "fallback_ms": 100,
+      "loss_ms": 1000
+    },
+    "executable_sha256": "ec230c6ae1eaee30b0b4fa6ba29d417c974ecae46d6715dfbe786a815935c165"
+  },
+  "revision_sha256": "6e6ba03d76dd5221df0418619a8a8143518c60ed53a4d97c5f69e00b905eb961",
+  "revision_software_checks": {
+    "actual_logic": 105,
+    "actual_scheduler": 26,
+    "field_verified": false
+  },
+  "tests": {
+    "fresh_process": true,
+    "passed": 61,
+    "failed": 0,
+    "skipped": 0,
+    "suites": [
+      {
+        "path": "tactical/reserve-v3/test_reserve_qualification.py",
+        "passed": 53,
+        "sha256": "69f35a93fad7caf0001204a125890374c1b913d9e38c9abecc2dea3c0208382c"
+      },
+      {
+        "path": "tactical/reserve-v3/test_wrapper.py",
+        "passed": 5,
+        "sha256": "acebac8257c5076e632eb2100185aaa10db1db7e1fde3bb367a4a5a607cef09f"
+      },
+      {
+        "path": "tactical/reserve-v3/test_readiness_wait.py",
+        "passed": 3,
+        "sha256": "2521ef1b4dd76b93a5d374fa7f484cc05cf57157df17ce4a651076cf29761fdf"
+      }
+    ]
+  },
+  "source_sha256": {
+    "qualifier": "46d9b8983cd0c52e8410d8b7d32fb004d0d8c61d1decf08c83e36ef5a3856e8a",
+    "wrapper": "9866bfced202440568ae30bc306349790fb992bdd81d2b9ef20c05c1548d3d6e",
+    "driver": "b30e6a8edbb50c4d088fa79b5319f2ea628f4911e3961b4167b526fcbafe4d49",
+    "native_revision": "6e6ba03d76dd5221df0418619a8a8143518c60ed53a4d97c5f69e00b905eb961"
+  },
+  "software_traces": {
+    "native-positive.bin": {
+      "sha256": "f80ae19e0d13dd9d9a79fe15059456a028187bcf370eedd02e85f6a25c0ae58d",
+      "origin": "actual_compiled_production_cpp_with_fake_engine_memory_and_transport",
+      "raw_bytes_modified": false,
+      "components": {
+        "eight_original_sdk_chains": true,
+        "three_actual_admission_frames": true,
+        "fresh_paid_factory_admission": true,
+        "candidate_stop_commit_anchors": true,
+        "ninety_actual_hold_frames": true
+      },
+      "game_sdk_caller_verified": false,
+      "move_audit": {
+        "verified": false,
+        "checks": {
+          "one_intent_and_four_original_steps": true,
+          "same_actual_actor_frame_thread_and_scope": false,
+          "immutable_original_goal_generation_and_publication": true,
+          "real_private_arguments_no_path_and_fltmax": true,
+          "observed_owned_scope_once_then_returned": true
+        },
+        "intent_seq": 33,
+        "facade_seq": 34,
+        "private_seq": 35,
+        "deferred_move_credit": false
+      },
+      "actual_private_caller": "0x943191",
+      "proposal_reached": true,
+      "has_kind63": true,
+      "field_verified": false
+    },
+    "native-anchor-positive.bin": {
+      "sha256": "7931677d1fb78044f5cca3dc67ac67b2667fb86cc60a517962e1b7a919ff40f5",
+      "origin": "actual_compiled_production_cpp_with_fake_engine_memory_and_transport",
+      "raw_bytes_modified": false,
+      "components": {
+        "eight_original_sdk_chains": true,
+        "three_actual_admission_frames": true,
+        "fresh_paid_factory_admission": true,
+        "candidate_stop_commit_anchors": true,
+        "ninety_actual_hold_frames": true
+      },
+      "game_sdk_caller_verified": false,
+      "move_audit": {
+        "verified": false,
+        "checks": {
+          "one_intent_and_four_original_steps": true,
+          "same_actual_actor_frame_thread_and_scope": false,
+          "immutable_original_goal_generation_and_publication": true,
+          "real_private_arguments_no_path_and_fltmax": true,
+          "observed_owned_scope_once_then_returned": true
+        },
+        "intent_seq": 33,
+        "facade_seq": 34,
+        "private_seq": 35,
+        "deferred_move_credit": false
+      },
+      "actual_private_caller": "0x943191",
+      "proposal_reached": false,
+      "has_kind63": false,
+      "field_verified": false
+    }
+  },
+  "driver_review": {
+    "single_paid_conscript": true,
+    "budget": 85,
+    "reserve": 1000,
+    "production_stopped_before_reserve": true,
+    "original_supplier_immutable_after_handover": true,
+    "execution_mode": "same_process_preloaded_frozen_wrapper",
+    "native_host_spawns_max": 1,
+    "readonly_readiness_seconds_max": 5,
+    "pre_sdk_authority": "actual_native_three_frame_admission"
+  },
+  "runtime_limits": {
+    "max_sdk_calls": 8,
+    "navigation_frames": 90,
+    "stop_frames": 60,
+    "strict_hold_frames": 90,
+    "hold_frame_gap": 1,
+    "total_frames": 300,
+    "wall_seconds": 30
+  },
+  "qualification_scope": "software candidate ready; one bounded field primitive only after Root wholeGo; no field success or game SDK source claimed",
+  "field_success_verified": false,
+  "tactical_source_granted": false,
+  "effect_verified": false,
+  "persistent_pool_verified": false,
+  "reserve_to_mission_handoff_verified": false,
+  "sdk_calls_by_review": 0,
+  "frozen_execution_sources_modified_by_review": false,
+  "old_reserve1_reserve2_mfm12_stance_probe_risk_git_diff_empty": true
+}

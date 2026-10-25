@@ -1,0 +1,57 @@
+{
+  "protocol": "reserve2_direct02_native_boundary_readonly",
+  "original_raw_sha256": "faabb49be72f1fce49cf05dbdb1c37e49fb6c59d57387f58e3c5d072e4fe9f39",
+  "source_supplier_sha256": "f2823ea872f302a1621540bcb8ff555260736d0db5bb870ec7dea43b2ec82e1a",
+  "status": "not_passed",
+  "reason": "rally_navigation_90_frame_timeout_before_physical_arrival",
+  "factory_xy": [
+    2943.30078125,
+    2975.18310546875
+  ],
+  "proposal_origin": [
+    3064.245361328125,
+    2548.6630859375,
+    210.0
+  ],
+  "initial_actor_xyz": [
+    3064.245361328125,
+    2548.6630859375,
+    210.0
+  ],
+  "goal": [
+    3160.452392578125,
+    2575.943603515625,
+    210.0
+  ],
+  "move_chain_verified": true,
+  "foreign_move_entries": 0,
+  "navigation_samples": 91,
+  "first_navigation_frame": 1227,
+  "last_navigation_frame": 1317,
+  "last_navigation_xyz": [
+    3130.0,
+    2530.0,
+    210.0
+  ],
+  "last_navigation_state": 94,
+  "last_navigation_path": 0,
+  "minimum_actual_distance_to_goal": 55.1195329963271,
+  "actual_displacement_xy": 68.35190768061524,
+  "arrival_verified": false,
+  "rally_stop_verified": false,
+  "hold_verified": false,
+  "actual_sdk_calls": 7,
+  "cleanup_stop_verified": true,
+  "original_stance_restored": true,
+  "live_pool_return_verified": true,
+  "returned_frame": 1320,
+  "actual_eight_bytes_verified": true,
+  "timer": 0,
+  "active": 0,
+  "mask": 255,
+  "terrain_cause": "unknown_not_inferred_from_local_path_stop",
+  "tactical_source_granted": false,
+  "persistent_pool_verified": false,
+  "mission_handoff_verified": false,
+  "sdk_calls_added": 0
+}
