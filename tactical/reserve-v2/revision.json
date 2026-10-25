@@ -1,0 +1,61 @@
+{
+  "protocol": "single_actor_reserve_v2",
+  "magic": "0x52535632",
+  "version": 2,
+  "install_message": "WM_APP+0x395",
+  "pulse_message": "WM_APP+0x396",
+  "restore_mask": 255,
+  "hook_count": 8,
+  "layout": {
+    "sample": 240,
+    "event": 352,
+    "tactical": 361544,
+    "events": 1096,
+    "period_ms": 20,
+    "fallback_ms": 100,
+    "loss_ms": 1000
+  },
+  "native_binary_sha256": "8e2d1f8eba1c5f711a79f147526367decd895a4a5c65a8d747b8bead3bb241f5",
+  "native_host_sha256": "e5230ca93ca2f17aaa8e29f4020408c2304bbacfce90e8dbb6c6bf58359073c4",
+  "native_source_sha256": "db4f7573ff5bd78d27eae945ab460e748d903eb627fe7f26a2c214c114a758c9",
+  "native_shared_sha256": "d46c2e2961a27ec4adccfaeeea400fc8dcdb7a5aae73cabb747ae4875b2992c7",
+  "native_includes_sha256": {
+    "host_pulse.cpp.inc": "51b95747ff223bfc33eb8fecb8ba128df0a903ca7afa3f06de4c624628695a7f",
+    "logic.cpp.inc": "cfccce8c25bb3c088a325416f42b13442692d58d588c4c3455cfa41616f060ec",
+    "rally.cpp.inc": "0c6c0f887c0743defd41e40fdc3f67d251fc4db264c6a2ec64e4842ba4d07d87",
+    "scheduler.cpp.inc": "84850fb376f600783f4bb0e5da9bc83f7b61880adb7406fff16032e399c30cf2"
+  },
+  "inert_layout_sha256": "c810cc0cc3c53001d29f9b2c3aa2678433d0d077819d1a5595e2e8ad0b022263",
+  "host_source_sha256": "d58383e9e206fc0180916a43bd0c4544a9a072efe5f6c8b7e87b77b611584b58",
+  "build_script_sha256": "3a96d5b8b66366ffde4408001eb46fe8e2f3277508cc76dd70897ef1cf36df5c",
+  "tests": {
+    "test_native.cpp": "eaf47a6cebf982b6ecf630ba443c3c21e7e8af00fbeb928a5ab2121062c3b091",
+    "test_scheduler.cpp": "fa0871386c60586ee5f431e128a777da2b62c55195a0b5f2628f923c70348237",
+    "test_native.exe": "895ea9d1372b56a9cc68903a9fc3722d769c3cdd1d58ad35a04a85735b01277a",
+    "test_scheduler.exe": "dc3cb867acbf2a60581d393c33730cbe67a63505c41a46001a626c48fb3aca75",
+    "native-positive.bin": "278dc5891fcac6ac85844fbcfa3937c262e1ccf2857eaf79f74d345d07510ff3"
+  },
+  "software_checks": {
+    "actual_logic": 83,
+    "actual_scheduler": 26,
+    "field_verified": false
+  },
+  "runtime_capability_authorized": false,
+  "rules": {
+    "admission_consecutive_frames": 3,
+    "admission_deadline_frames": 30,
+    "production_binding_words": 20,
+    "test_stance": 2,
+    "max_sdk_calls": 8,
+    "stop_timeout_frames": 60,
+    "rally_navigation_frames": 90,
+    "rally_sideward_distance": 100,
+    "hold_frames": 90,
+    "hold_frame_gap": 1,
+    "mission_frames": 300,
+    "wall_ms": 30000,
+    "period_ms": 20,
+    "fallback_ms": 100,
+    "host_loss_ms": 1000
+  }
+}

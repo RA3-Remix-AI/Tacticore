@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "created_local": "2026-10-26T03:20:04.828968",
+  "decision": "go_one_bounded_paid_rally_reserve_primitive",
+  "field_verified": false,
+  "mission_handoff_verified": false,
+  "persistent_pool_verified": false,
+  "source_capability_granted": false,
+  "model_requests": 0,
+  "tests": {
+    "native_logic": 83,
+    "native_scheduler": 26,
+    "independent_qualification": 46,
+    "wrapper": 5
+  },
+  "files": {
+    "tactical\\reserve-v2\\lease.py": "5fe17b2f2138319311da6142d2f57142536ff2b816df46dc9f95156a9ec3c39c",
+    "tactical\\reserve-v2\\preflight.py": "2c3aee7760332881b0b694c231392cea4a9540a502bc60f371a0daf2be8d1de5",
+    "tactical\\reserve-v2\\native_layout.py": "b2f848bfb10b290558e3d9c5be334e7dc85c5ccba81c449a502992f0c70fc998",
+    "tactical\\reserve-v2\\birth_source.py": "4555ef85d6a3d40125f6605d79507d7587b097a3b51e9ef1ddb7ee57994d4a74",
+    "tactical\\reserve-v2\\rally_source.py": "905558313bce038f947425aa168c2cb719743c825d820f28a82f8d2aa9a335b1",
+    "tactical\\reserve-v2\\reserve_qualification.py": "ee7c95137b041c7b4132d6818b03a2ae67c0561ca72ab8cb6c711997c3fdf596",
+    "tactical\\reserve-v2\\shared.h": "d46c2e2961a27ec4adccfaeeea400fc8dcdb7a5aae73cabb747ae4875b2992c7",
+    "tactical\\reserve-v2\\revision.json": "b4b7e3ce3bf9d9dc9c38c12912c5b3064b710d9a5e54da768c401d105153d356",
+    "tactical\\reserve-v2\\inert-layout.json": "c810cc0cc3c53001d29f9b2c3aa2678433d0d077819d1a5595e2e8ad0b022263",
+    "tactical\\reserve-v2\\python-revision.json": "793f3afba46e0ee4b8ccfcc44cd1c67240ac34431bc313d0ab77c452a5c6aefd",
+    "acceptance\\calibration\\paid_reserve_probe_v2.py": "27ede372119ffcaa9f225cc4e60e99828fdbc5067897404690211898a9b0dd27",
+    "integration\\record_own_routes.py": "e4d5f335c5f9a1c6568a7098b9e816f2fab1e939645cc20e7826c3d238fca187",
+    "integration\\own_actor_timeline.py": "bf21dcbf258ecd65493b325cb667c3f900cae2bc63eb4df0863c92dd94c39f22"
+  },
+  "native_dll": "8e2d1f8eba1c5f711a79f147526367decd895a4a5c65a8d747b8bead3bb241f5",
+  "native_revision": "b4b7e3ce3bf9d9dc9c38c12912c5b3064b710d9a5e54da768c401d105153d356",
+  "plan": "One85/res1000 paid birth, actual3frameadmission, normal side100m Move+arrival3+Stop3, strict90, normalrestore0/Return,8realbytes/255/timer0. No other side retry or deadline renewal."
+}

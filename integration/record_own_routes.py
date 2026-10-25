@@ -6,6 +6,7 @@ from observe_production import k,w
 from read_selected_personality import inspect_player,resolve_registry
 from session_package import verify_session_package
 from ground_history import record as record_ground_positions
+from own_actor_timeline import sample as sample_own_actor_timeline
 ROOT=Path(__file__).resolve().parent
 ALLOWED={'0x19ab11af','0x2c358c61'}
 
@@ -37,7 +38,8 @@ def main():
  reader_sha=hashlib.sha256(reader_path.read_bytes()).hexdigest()
  atomic_json(output/('ground-status-audit-'+reader_sha[:12]+'.json'),reader.static_proof(session['game']))
  catalog=load_catalog();seen=set();memory=None;last_frame=None;owner_bound=None;samples=points=skips=positive=unknown=0
- started=time.monotonic();published=0;reason='time_limit';status={}
+ started=time.monotonic();published=0;reason='time_limit';status={};timeline_last=None
+ timeline_path=output/'complete-owned-foot-roster.jsonl'
  try:
   memory=Memory(session['pid'],session)
   k.GetExitCodeProcess.argtypes=[w.HANDLE,ctypes.POINTER(w.DWORD)];k.GetExitCodeProcess.restype=w.BOOL
@@ -58,6 +60,11 @@ def main():
      if identity['player_index']!=3 or not binding['personality_binding_verified'] or binding['commander_id']!=args.commander:reason='commander_binding_rejected';break
      owner_bound=owner
     elif owner!=owner_bound:reason='own_player_changed';break
+    if frame!=timeline_last:
+     full=sample_own_actor_timeline(memory,raw)
+     if full['atomic']:
+      with timeline_path.open('a',encoding='utf-8') as stream:stream.write(json.dumps(dict(full,session_id=session['session_id'],pid=session['pid']),allow_nan=False)+'\n')
+      timeline_last=frame
     if len(seen)<16384:
      selected=unseen_candidates(raw,seen)
      outcome=record_ground_positions(memory,session,selected,output,seen,reader.grounded_status,reader_sha)

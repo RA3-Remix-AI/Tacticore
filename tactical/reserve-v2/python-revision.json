@@ -1,0 +1,65 @@
+{
+  "native_binary_sha256": "8e2d1f8eba1c5f711a79f147526367decd895a4a5c65a8d747b8bead3bb241f5",
+  "native_host_sha256": "e5230ca93ca2f17aaa8e29f4020408c2304bbacfce90e8dbb6c6bf58359073c4",
+  "native_source_sha256": "db4f7573ff5bd78d27eae945ab460e748d903eb627fe7f26a2c214c114a758c9",
+  "native_shared_sha256": "d46c2e2961a27ec4adccfaeeea400fc8dcdb7a5aae73cabb747ae4875b2992c7",
+  "native_revision_sha256": "b4b7e3ce3bf9d9dc9c38c12912c5b3064b710d9a5e54da768c401d105153d356",
+  "native_includes_sha256": {
+    "host_pulse.cpp.inc": "51b95747ff223bfc33eb8fecb8ba128df0a903ca7afa3f06de4c624628695a7f",
+    "logic.cpp.inc": "cfccce8c25bb3c088a325416f42b13442692d58d588c4c3455cfa41616f060ec",
+    "rally.cpp.inc": "0c6c0f887c0743defd41e40fdc3f67d251fc4db264c6a2ec64e4842ba4d07d87",
+    "scheduler.cpp.inc": "84850fb376f600783f4bb0e5da9bc83f7b61880adb7406fff16032e399c30cf2"
+  },
+  "wrapper_sha256": "5fe17b2f2138319311da6142d2f57142536ff2b816df46dc9f95156a9ec3c39c",
+  "native_layout_sha256": "b2f848bfb10b290558e3d9c5be334e7dc85c5ccba81c449a502992f0c70fc998",
+  "supplemental_sources": {
+    "reserve_qualification.py": "ee7c95137b041c7b4132d6818b03a2ae67c0561ca72ab8cb6c711997c3fdf596",
+    "native_layout.py": "b2f848bfb10b290558e3d9c5be334e7dc85c5ccba81c449a502992f0c70fc998",
+    "lease.py": "5fe17b2f2138319311da6142d2f57142536ff2b816df46dc9f95156a9ec3c39c",
+    "preflight.py": "2c3aee7760332881b0b694c231392cea4a9540a502bc60f371a0daf2be8d1de5",
+    "birth_source.py": "4555ef85d6a3d40125f6605d79507d7587b097a3b51e9ef1ddb7ee57994d4a74",
+    "rally_source.py": "905558313bce038f947425aa168c2cb719743c825d820f28a82f8d2aa9a335b1",
+    "inert-layout.json": "c810cc0cc3c53001d29f9b2c3aa2678433d0d077819d1a5595e2e8ad0b022263",
+    "host_pulse.cpp.inc": "51b95747ff223bfc33eb8fecb8ba128df0a903ca7afa3f06de4c624628695a7f",
+    "logic.cpp.inc": "cfccce8c25bb3c088a325416f42b13442692d58d588c4c3455cfa41616f060ec",
+    "rally.cpp.inc": "0c6c0f887c0743defd41e40fdc3f67d251fc4db264c6a2ec64e4842ba4d07d87",
+    "scheduler.cpp.inc": "84850fb376f600783f4bb0e5da9bc83f7b61880adb7406fff16032e399c30cf2"
+  },
+  "external_sources": {
+    "tactical/ordered-combo/lease.py": "ea6d8996b7f9358caa53660f31683ccf0aed6f6e4a79c01287f0c46c1f257a9a",
+    "tactical/mission_actor_admission_v2.py": "b62c2fdaa4c959d764109a10d63b31c025673bdc196fc50da81750c0afb4c02b",
+    "tactical/grounded_status_v2.py": "70e5f94bac9b1a82beec56053fd43e91f6edaba1500c8dfa840e868be836e6b3",
+    "tactical/grounded_status.py": "ad5b758c947843969f2d1ec6e7fc07c0eaec084b1a59e60750d69d881e78a6c0",
+    "tactical/mobility_guard.py": "e903f9a10d342e0faa17545727f52992a57d2eb04f69e805030f636bbaa7e14f",
+    "visibility/capability.py": "4049976fd8e93ab816555affa45e5bfa60a4fe020573e878ffd1542b8857f28d",
+    "visibility/collector.py": "4bc61a0a500ed1729b741238c859fdc625e74c004d3df0127404562e08f6d2d5",
+    "visibility/projection.py": "62e48b11ced645a1a2b49acd3db5c51a4e5f7254804e8896ea11d13338e7ab5e",
+    "production/persistent/client.py": "337cabd758d9e0bd564f95f3c928454d29388cd80d78fbb15b2e8e4b70708a71",
+    "production/persistent/shared.h": "299ecae5e88bfdd3e4d803111bff0571e64fd13543d0e828cd9c3ead71efb5a0",
+    "production/persistent/bin-v2/ProductionPersistent.dll": "4709bb1b2745bfe3cac9b5c27d412197ffc97c67b4e2dd7635ff2434accf5e87",
+    "production/persistent/bin-v2/persistent_host.exe": "4bc2f86935f86eab2369818e02111d3b3197a8c73f66fbd324389322bb87dca1",
+    "integration/own_candidates.py": "7de3cb46f955d2c862c9b3a0bc156d86c2dcb47647fb7786f59a84f8f846a9e4"
+  },
+  "actual_host_abi": {
+    "sample": 240,
+    "event": 352,
+    "tactical": 361544,
+    "events": 1096,
+    "period_ms": 20,
+    "fallback_ms": 100,
+    "loss_ms": 1000
+  },
+  "schema_version": 1,
+  "created_local": "2026-10-26T03:20:04.828968",
+  "decision": "go_one_bounded_paid_rally_reserve_primitive",
+  "field_verified": false,
+  "mission_handoff_verified": false,
+  "persistent_pool_verified": false,
+  "source_capability_granted": false,
+  "tests": {
+    "native_logic": 83,
+    "native_scheduler": 26,
+    "independent_qualification": 46,
+    "wrapper": 5
+  }
+}

@@ -1,17 +1,17 @@
 {
-  "updated_local": "2026-10-26T02:46:33.337073",
+  "updated_local": "2026-10-26T03:20:04.845989",
   "objective": "Complete real Pydantic LLM commander full match vs active native Oleg with actual attack, raid, coordinated effect and physical retreat; do not finish at dispatch/static tests.",
   "workspace": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe",
   "current": {
-    "pid": 33860,
-    "session_id": "efbff007-1cd0-476f-83af-54cdee41c9f7",
-    "run": "acceptance/runs/20261026-013621-commander",
+    "pid": 66948,
+    "session_id": "73c239b1-c151-404a-b3b8-3e9a7610efbb",
+    "run": "acceptance/runs/20261026-024703-commander",
+    "session_sha256": "edac12172d37d4e6646115a68c601f1e4128b4d6015996ad273941eba628fc2c",
     "session_final": true,
-    "session_sha256": "de47ac6cdc564d70362882504ddca5065810f612e9fcf8e55ce4124ed0dc1bf2",
-    "started": false,
+    "started": true,
     "active_sdk": false,
-    "root_recorder": "none;25456 drained native_clock_ended/697samples526points/last8044",
-    "scene": "Native holds natural statistics: Iron wins/Oleg loses, modelFalse; no model acceptance"
+    "root_recorder": "36872 single read-only own-route recorder max3700",
+    "scene": "Native paused after RSVP1 failed strict hold; same66948 no pendingSDK"
   },
   "owners": {
     "native": "native_ai_interfaces: all GUI/SDK/CPP/host only",
@@ -80,7 +80,7 @@
     "Run wholematch to naturalsettlement. Independently require all3 actualthismatch effects + acceptedrealpostTTL compressedmission context + allleasesrelease; join watcher+native results+naturalsettlement screenshot separately.",
     "Only then goal complete/final; current goal API historically paused cannot be resumed with update_goal tool, human continuation authorized work."
   ],
-  "baseline_commit": "1716dbd",
+  "baseline_commit": "95fc752",
   "actual12": {
     "report": "acceptance/runs/20261026-012024-commander/continuous-paid-margin12-static01-formation.json",
     "sha256": "377aa6e7adc58c6b36afb4cd732d36ee916322c5c2a5f790764a1abdc13fabb8",
@@ -121,7 +121,7 @@
     "field_result": "No child/no risk runtime.32 production requests:7 completed4Cons3Flak/1000 spent;25 native9 cash/reserve rejections. End afterphase2/error0/31/active0/5actualbytes; no Source. Trace proves some frontline attrition; missing eligible does NOT prove garrison or death."
   },
   "reserve_v1": {
-    "state": "Joint software Go; ready for Native fresh one paid unit reserve primitive",
+    "state": "Actual FAILED strict90:3admit697..699/Stop3_700..702 thenhold702..757=56samples/no gaps/drift0, state26 UnitAIMoveOutOfTheWay, cleanup758..760/restore0/liveReturn/6bytes63timer0 true. Originalq false production.version expected2 is verifierbug; independent review confirms actualversion1 and allotherprovenance. No hold/longpool/handoff/Source.",
     "driver": "acceptance/calibration/paid_reserve_probe_v1.py",
     "driver_sha256": "2a1ebee4208761abe48e1afbc845262fedfe9835159ac3c80f1f69a4ce99146d",
     "report": "reports/reserve-v1-software-readiness-20261026.json",
@@ -138,5 +138,32 @@
     "scope": "Only bounded90-frame hold and restored0+normalReturn. No long-term pool or mission handoff; Source and full model-native match still pending.",
     "birth_source": "canonical original fullreceipt SHA inHeader8u32; original full producer report SHA separate, stopped real Header256+Receipt224 twice and5actualbytes; Source lineage never alone authorizes borrowing.",
     "ownership": "Native allGUI/SDK/C++;Root Python4/paid driver; q qualifier/tests frozen"
+  },
+  "reserve_v2": {
+    "state": "Postguard Rootq46+wrapper5 Source11+13external/1096/352/361544 allpass; Native83+26final. WholeSoftwareGo onefield next",
+    "report": "reports/reserve-v2-software-readiness-20261026.json",
+    "driver": "acceptance/calibration/paid_reserve_probe_v2.py",
+    "driver_sha256": "27ede372119ffcaa9f225cc4e60e99828fdbc5067897404690211898a9b0dd27",
+    "wrapper_sha256": "5fe17b2f2138319311da6142d2f57142536ff2b816df46dc9f95156a9ec3c39c",
+    "q_sha256": "ee7c95137b041c7b4132d6818b03a2ae67c0561ca72ab8cb6c711997c3fdf596",
+    "native_dll": "8e2d1f8eba1c5f711a79f147526367decd895a4a5c65a8d747b8bead3bb241f5",
+    "native_revision": "b4b7e3ce3bf9d9dc9c38c12912c5b3064b710d9a5e54da768c401d105153d356",
+    "namespace": "RSV2/52535632/version2/install395/pulse396",
+    "abi": {
+      "sample": 240,
+      "moveproof": 40,
+      "event": 352,
+      "rally": 120,
+      "header": 1096,
+      "probe": 361544
+    },
+    "scope": "Sideways100m rally from actual known ownfactory+initialB+StopP, one normal synchronousMove; actualarrive15x3+94Stop3 beforestrict90. No persistent pool/handoff/LLM effect."
+  },
+  "own_roster_timeline": {
+    "module": "integration/own_actor_timeline.py",
+    "wired": "record_own_routes.py next new process only",
+    "tests": 4,
+    "full_integration_tests": 166,
+    "scope": "Sample allcurrentownFoot includinggarrison/hp0/ineligible; neveroldaddress/neverabsenceasdeath. Diagnosticonly notleaseadmission."
   }
 }
