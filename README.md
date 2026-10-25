@@ -17,6 +17,42 @@
 
 历史整场记录说明链路曾运行至结算，但不证明本次 PydanticAI 后端、新桌面或所有战术效果已通过。当前能力与失败记录见 [视野与战术验收](acceptance/vision-tactics-status.md) 和 [阶段状态](acceptance/stage-report.md)。
 
+## 桌面界面预览
+
+以下截图来自 2026-10-25 的本机浏览器开发预览，与 Tauri 桌面使用同一套 React 界面。图中展示的是本机配置和离线功能；真实 Windows 游戏宿主尚未接线，不能据截图认定已完成实战接入。
+
+**战前备战室**：选择阵营、指挥官关系与开局资金计划，分别管理生产额度和资源保留底线，保存或导出下一局方案。
+
+![弈核桌面战前备战室：阵营、资金与指挥官配置](docs/images/desktop/preparation.jpg)
+
+<details>
+<summary>展开指挥官工坊与战场电台截图</summary>
+
+**指挥官工坊**：四种打法预设、五维五档倾向与即时行为说明；本机偏好草案尚未下发真实模型。
+
+![弈核桌面指挥官工坊：打法预设和五档倾向](docs/images/desktop/commander-workshop.jpg)
+
+**战场电台**：按指挥官管理本机视频、音频和字幕素材，试听场景通讯，调整频率、音量与字幕模式；局内事件触发待接入。
+
+![弈核桌面战场电台：素材预览和通讯偏好](docs/images/desktop/radio.jpg)
+
+</details>
+
+## 开发 Feature 计划
+
+| 状态 | Feature | 当前交付或后续目标 |
+| --- | --- | --- |
+| 已完成 · 本机 | 战前备战室 | 阵营、地图、初始资金计划、队友 / 对手关系、独立资源限制，支持保存、恢复与导出 |
+| 已完成 · 本机 | 指挥官工坊 | 四种产品预设、五维五档调节、三类行为预览、人格与偏好适配草案 |
+| 已完成 · 本机 | 战场电台 | 视频 / 音频 / 字幕素材库、试听与六类场景演练、频率、冷却、优先级、中断和过期处理 |
+| 下一步 · P0 | Windows 真实宿主接线 | 新 GUI 的档案、检查、启动、观察与停止确认闭环，完成目标环境验收 |
+| 下一步 · P0 | 真实配置与电台事件 | 游戏设置读回、受支持的资金设置、倾向下发与应用回执，连接局内事件和电台播放 |
+| 后续 · P1 | 看懂并配合指挥官 | 可追溯的当前意图与执行回执、战中伴随小窗、受支持的快速配合意图 |
+| 后续 · P1 | 战后复盘与运行状态 | 关键时刻、任务结果和通讯回看，模型延迟、用量与故障解释 |
+| 后续 · P2 | 多 Agent 搭档与对抗 | 在会话、视野、资源与执行隔离验证后，支持多指挥官分工和同场对照 |
+
+本机保存不等于游戏生效；初始资金、Agent 生产支出上限和资源保留底线分别管理。详细交互、依赖和验收条件见 [Feature 路线图](docs/desktop-next/feature-roadmap.md)，Windows 侧按 [验证交接](docs/windows-validation.md) 推进。
+
 ## 先从哪里开始
 
 - **Windows 策略验证与本批合并**：[Windows 验证交接](docs/windows-validation.md)，按环境、离线回归、模型联调、受控实战的顺序推进。
@@ -92,8 +128,25 @@ npm run dev
 
 本轮已实现备战室、指挥官工坊和战场电台的桌面本机功能。下一步优先完成真实宿主接线、游戏设置读回、偏好下发和局内电台事件，再扩展意图回执、伴随小窗、快速配合、战后复盘与多 Agent。初始资金写入、真实局内通讯和运行中修改策略仍需 Windows 原生适配器支持。
 
-## 历史记录与归属
+## 参考、借鉴与依赖工程
+
+下表区分研究参考、实际技术依赖与素材来源。引用不表示上游项目、游戏厂商或 Remix 作者参与开发、授权合作或为弈核的能力背书；各项目及素材保留各自的权利与许可。
+
+| 工程 / 来源 | 关系 | 在弈核中的具体用途 |
+| --- | --- | --- |
+| [Ra3-Copilot](https://github.com/ProbiusOfficial/Ra3-Copilot) | 接口研究参考与局部工具 / 数据复用 | 历史参考提交为 [`2d31f7c`](https://github.com/ProbiusOfficial/Ra3-Copilot/tree/2d31f7cc0ce47e257a5ecb95cc4f44a8b26f8015)。公开偏移、接口入口用于研究假设和结构命名；部分辅助脚本实际加载其 `sage_hash.py`、`battle_catalog.h` 或研究工具。未编译或加载整个上游修改器；局部复用范围见详细归属记录 |
+| [MinHook](https://github.com/TsudaKageyu/minhook) | 实际原生组件依赖 | 多个原生构建脚本从 Ra3-Copilot 参考目录取用 MinHook 1.3.3 源码并编译到实验组件中；部分脚本复制其许可文件，构建和分发须保留相应声明 |
+| [pySAGE / sage_apt](https://github.com/ClementJ18/pySAGE) | 实际离线解析工具依赖 | `native-ai/decompile_frontend.py` 导入 `sage_apt.aptfile`，用于前端 APT 的离线解析 / 转换；不代表弈核运行了其 viewer 或 server |
+| [w64devkit](https://github.com/skeeto/w64devkit) | 实际构建工具链 | 用于 Windows x86 原生桥接与实验程序构建；历史使用的版本和下载哈希留存在开发记录，完整工具链不随本仓库分发 |
+| [PydanticAI](https://github.com/pydantic/pydantic-ai) | 实际模型运行依赖 | 默认通过 `pydantic-ai-slim[openai]` 管理一次有界模型请求；当前固定版本为 2.61.0，策略合同、记忆与执行权仍由弈核模块负责 |
+| [React](https://github.com/facebook/react)、[Vite](https://github.com/vitejs/vite)、[Tauri](https://github.com/tauri-apps/tauri) | 实际桌面技术依赖 | 分别用于界面组件、前端开发 / 构建和原生桌面外壳；实际版本以 `package-lock.json`、`Cargo.lock` 为准 |
+| [Phosphor Icons](https://github.com/phosphor-icons/react) | 实际图标依赖与图标衍生 | 界面图标及 Circuitry 衍生应用图标；原 MIT 许可原文见 [桌面第三方说明](desktop-ui/THIRD_PARTY_NOTICES.md) |
+| RA3 / Remix-Ai 宣传站的阵营参考素材 | 游戏主题与用户提供参考 | 备战室复用宣传站既有阵营图；它们不属于 Phosphor 的 MIT 许可范围，也不表示获得游戏或 Mod 的整体授权 |
+
+游戏、SDK、RA3 阵营标识及相关资料的权利归 Electronic Arts 和相应权利人；Remix 原创 Mod 内容归对应作者与权利人。本仓库不包含游戏本体、第三方完整修改器或完整工具链。以上依赖各自的许可证不能解释为本仓库整体采用同一许可证。更完整的来源、使用范围和许可说明见 [参考与归属记录](docs/references-and-attributions.md)。
+
+本项目仅用于学习、研究与交流，不开展商业化或盈利活动；此用途声明不改变第三方作品各自的权利归属。
+
+## 历史开发记录
 
 早期移动原型、私有机器环境、旧客户端与工具版本记录已迁至 [README 历史归档](docs/history/readme-development-records.md)。当前开发优先参考本页、带日期的验收记录和 Windows 交接，不按归档中的“后续优先级”执行。
-
-原生接口研究参考 [Ra3-Copilot](https://github.com/ProbiusOfficial/Ra3-Copilot) 的公开信息，工具链使用 [w64devkit](https://github.com/skeeto/w64devkit)。游戏、SDK 与第三方资料的权利归其原权利人；本仓库不包含游戏本体或第三方完整工具链。第三方图标说明见 [桌面许可声明](desktop-ui/THIRD_PARTY_NOTICES.md)。
