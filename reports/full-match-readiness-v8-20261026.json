@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "reviewer": "full_match_readiness_v8",
+  "time_local": "2026-10-26T04:10:18.415720",
+  "scope": "Read-only software readiness, no GUI/SDK/production/library/key/network access",
+  "status": "formal_match_not_ready",
+  "tests": {
+    "strategy": {
+      "tests": 38,
+      "status": "passed",
+      "command": "..\\.venv\\Scripts\\python.exe -m unittest test_pydantic_mission_memory test_mission_audit test_missions -q"
+    },
+    "integration": {
+      "tests": 39,
+      "status": "passed",
+      "command": "..\\.venv\\Scripts\\python.exe -m unittest test_mission_match_preflight test_mission_contract test_mission_effect_audit test_battle_host test_formations -q"
+    }
+  },
+  "already_wired": [
+    "Persistent BattleAgent above single-request Pydantic backend; bounded 8192-byte context, 16-event ring, compaction, same committed mission after plan TTL",
+    "Explicit --model-backend pydantic and --library, provider credentials decrypted only in runtime, bounded one inflight/no provider retry",
+    "Fresh formal lobby exact Iron3 vs active native Oleg4 Medium/10000/Industrial, modelTrue calibration0; all three continuous purpose grants required",
+    "Independent watcher/native result candidate/lifecycle-end recording; natural settlement visual review remains separate",
+    "mission_audit joins actual context to unique accepted request; requires accepted post-original-plan-TTL compressed same-mission context and real this-match three-effect requalification"
+  ],
+  "remaining": [
+    "Only attack/raid sources present; coordination actual effect/physical return source missing",
+    "Reserve3 is standalone single-actor prototype ending restore/Return, absent trusted executor registry and all parent integration; its success grants no mission/pool capability",
+    "A new same-owner handoff must preserve actor/session/owner/lease UUID/original stance/hard deadline, avoid Return/reborrow or changed target; dual actors and paid production source have to be bound explicitly",
+    "live_state excludes script_team and original actor admission rejects held mode2; software FormationRegistry.reserve only prevents duplicate bridge allocation, does not prevent native recruiting",
+    "New executor needs evidence schema+qualifier pins; client execution/progress/retreat/release routing; continuous_evidence and TacticalBridge release reader allowlists; held-actor visibility only for bound lease, not globally borrowable script troops",
+    "Reserve stage public reserved progress currently conflicts with strategy/missions.py reserved->reserved prohibition; either keep reserve raw private until approach or deliberately add/test a narrow reserved progress loop",
+    "Formal fresh game must demonstrate all three actual effects and postTTL memory; prior actual endpoint synthetic-context probe and Iron win are not full acceptance"
+  ],
+  "minimum_api_proposal": {
+    "status": "await_native_design",
+    "option": "One new continuous mission executor from reserve startup through approach/engage/retreat/restore, one host, one original mission deadline, no second executor",
+    "input": "Keep existing mission-file/proof/contact/front/support UUID command API; add explicit reserve provenance only if paid birth is actually required",
+    "public_context": "Preserve existing mission/formation IDs, mark held formation unavailable to new jobs, no coordinate/model SDK exposure",
+    "old_verified_runtime": "Leave MCT7 attack/raid and old MF12 binaries/sources/raw immutable; MCT7 capabilities remain usable. New coordination source only adds its own new directory/schema after actual qualification."
+  },
+  "formal_command_template": ".venv\\Scripts\\python.exe integration/run_native_opponent_match.py --session <fresh-final-session.json> --manifest <three-continuous-sources.json> --require-mission-effects --library C:/Users/Administrator/AppData/Local/TriadFrontCommander/library.v2.json --model-backend pydantic",
+  "ownership": "Native alone GUI/SDK; Root owns parent Python/recorder; q independent qualification. Host owns formal route recorder, do not prearm duplicate.",
+  "sha256": {
+    "integration/run_native_opponent_match.py": "8c7fc8379b6867d704a184f9953753c26b3a8318db99e535e96c7d9d30686e60",
+    "integration/battle_host.py": "f0405377a12e273cb90a0b7a13c89a3444560b1b7a9309b127701a633a164909",
+    "integration/tactical_bridge.py": "f3a1945dafdaa5262883aa5bef4cf27dc39612438315e5221c394c793967cfdf",
+    "integration/continuous_contract.py": "30a380a6ce7bd4ee5320727474c783aa7177d43efdc5a19ce154058390e8a7bb",
+    "integration/continuous_evidence.py": "6daeb0ede7ad6ee089c05c1b0ff03ef284de19b9ad0171822bb0dc8bc58f209e",
+    "integration/audit_mission_effects.py": "951f9b89a47a80298f8c7b7ce1d73891dcd9d7ee974180b1c3505bc5ccd8ff77",
+    "integration/watch_match.py": "4ca62d0682291128aad1f08586f208550666006d53ba10e51d424cf4e80e8764",
+    "integration/live_state.py": "df45cb4c50cad60c1cb10ada70c1b3e402373f1c2a5d066a50788c87629074a1",
+    "integration/formations.py": "e3851889add65144dd16a3fd0c27b52061cea9ca58e650c5b5c1e9e87ab7e902",
+    "strategy/battle_agent.py": "2cdddcfc1ba565514a9953b72085ba3cf0008aa0997dfbe84710a2edfe57bbdc",
+    "strategy/missions.py": "2658cd0b1e5994cd0e3a6151b1590dcd0b727b9bb586cbdbcc0c98b5ae9aac8b",
+    "strategy/mission_audit.py": "c34beb8aa7924d5167262bc67a205335ab0160dda0d27312c6e1e04531d09f32",
+    "tactical/client.py": "ee8b43e6329830a7bcd753efb511eb1f95e9147f49930441146e4e238799011e",
+    "tactical/evidence.py": "e984d30685278ef8ec257e59adcf7c20fba9869185af9015ad9d965dcb7b3840",
+    "agent_runtime/src/tacticore_agent_runtime/pydantic_backend.py": "770ce5a17e50ce06be5b31cd19320bb6c7d0b1a587bd47fd3b7ec988d91df7f9",
+    "acceptance/continuous-mission-v7-partial-sources.json": "a79c774169e8fa519b9d3f9d7603140bbf66b13cb691d417680939daf783cb5a"
+  }
+}

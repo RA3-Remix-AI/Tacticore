@@ -1,0 +1,187 @@
+{
+  "protocol": "reserve_v4_software_readiness_postguard_v1",
+  "generated_at_utc": "2026-10-25T20:36:41.575990+00:00",
+  "narrow_static_go": true,
+  "software_joint_ready": true,
+  "checks": {
+    "execute_enabled": true,
+    "compiled_source_joint": true,
+    "unchanged_sources": true,
+    "exact_abi": true,
+    "local_sources": true,
+    "external_sources": true,
+    "qualifier_frozen": true,
+    "qualification_tests_frozen": true
+  },
+  "source_record": {
+    "native_binary_sha256": "8a703398e020ca97ad867abeac55e84f31e67b3a7f2363d640c7a2e22fbc9fbb",
+    "native_host_sha256": "65cc376a35257a5548dd2663072e4000d4760ffb047fa10a12f403fe2e8567c9",
+    "native_source_sha256": "f2e6858fbef40ad262a3e44fbe454d33f6ee7b044f082d38abfe5bb5339c9dad",
+    "native_shared_sha256": "ef46adefbd66654d7e2544b69915970862e5fad87549b7f433f6b6dc3dae69f0",
+    "native_revision_sha256": "890b6cd0e177a93d10780fe6cefebb03fa164c1eeee987de2648415498fc4874",
+    "native_includes_sha256": {
+      "host_pulse.cpp.inc": "51b95747ff223bfc33eb8fecb8ba128df0a903ca7afa3f06de4c624628695a7f",
+      "logic.cpp.inc": "5f0264a9b3ab7fb6a0a31e41a2bd559e12a46acedd7d8c8395fcf530b7fb8c02",
+      "rally.cpp.inc": "54dfc45076880706e0b4993bd3ceaeae798db7a871dcb110e86ba12c69031235",
+      "scheduler.cpp.inc": "f55e6074ab21ab8472543b2ab3901fe2ee84a37fd83587a2b87916107c56ce56"
+    },
+    "wrapper_sha256": "957e4438f031c8c45b0cee84610983d138f292036b9e4740b5186efa39a5db43",
+    "native_layout_sha256": "078c3b72921f4cd96039d03ec0824effec34e4fe1aba1dc0a2e462712bc3a1ae",
+    "supplemental_sources": {
+      "reserve_qualification.py": "d7369786b6d2683ccca18f80339ae2e54d057fbd43c772209473e83935dbbf2f",
+      "native_layout.py": "078c3b72921f4cd96039d03ec0824effec34e4fe1aba1dc0a2e462712bc3a1ae",
+      "lease.py": "957e4438f031c8c45b0cee84610983d138f292036b9e4740b5186efa39a5db43",
+      "preflight.py": "0c3c472798c508ece3560581973125f40f5307b5a92aae7ace28765a9ba298ba",
+      "birth_source.py": "4555ef85d6a3d40125f6605d79507d7587b097a3b51e9ef1ddb7ee57994d4a74",
+      "rally_source.py": "4f92da4d791469b991e0ca4d408812dc99557b4de39a017fd034675bf56a652c",
+      "inert-layout.json": "9adb826e5e81802522145a2f56fdbe9b22b47a59998af6ef3bf91b55653913c4",
+      "host_pulse.cpp.inc": "51b95747ff223bfc33eb8fecb8ba128df0a903ca7afa3f06de4c624628695a7f",
+      "logic.cpp.inc": "5f0264a9b3ab7fb6a0a31e41a2bd559e12a46acedd7d8c8395fcf530b7fb8c02",
+      "rally.cpp.inc": "54dfc45076880706e0b4993bd3ceaeae798db7a871dcb110e86ba12c69031235",
+      "scheduler.cpp.inc": "f55e6074ab21ab8472543b2ab3901fe2ee84a37fd83587a2b87916107c56ce56"
+    },
+    "external_sources": {
+      "tactical/ordered-combo/lease.py": "ea6d8996b7f9358caa53660f31683ccf0aed6f6e4a79c01287f0c46c1f257a9a",
+      "tactical/mission_actor_admission_v2.py": "b62c2fdaa4c959d764109a10d63b31c025673bdc196fc50da81750c0afb4c02b",
+      "tactical/grounded_status_v2.py": "70e5f94bac9b1a82beec56053fd43e91f6edaba1500c8dfa840e868be836e6b3",
+      "tactical/grounded_status.py": "ad5b758c947843969f2d1ec6e7fc07c0eaec084b1a59e60750d69d881e78a6c0",
+      "tactical/mobility_guard.py": "e903f9a10d342e0faa17545727f52992a57d2eb04f69e805030f636bbaa7e14f",
+      "visibility/capability.py": "4049976fd8e93ab816555affa45e5bfa60a4fe020573e878ffd1542b8857f28d",
+      "visibility/collector.py": "4bc61a0a500ed1729b741238c859fdc625e74c004d3df0127404562e08f6d2d5",
+      "visibility/projection.py": "62e48b11ced645a1a2b49acd3db5c51a4e5f7254804e8896ea11d13338e7ab5e",
+      "production/persistent/client.py": "337cabd758d9e0bd564f95f3c928454d29388cd80d78fbb15b2e8e4b70708a71",
+      "production/persistent/shared.h": "299ecae5e88bfdd3e4d803111bff0571e64fd13543d0e828cd9c3ead71efb5a0",
+      "production/persistent/bin-v2/ProductionPersistent.dll": "4709bb1b2745bfe3cac9b5c27d412197ffc97c67b4e2dd7635ff2434accf5e87",
+      "production/persistent/bin-v2/persistent_host.exe": "4bc2f86935f86eab2369818e02111d3b3197a8c73f66fbd324389322bb87dca1",
+      "integration/own_candidates.py": "7de3cb46f955d2c862c9b3a0bc156d86c2dcb47647fb7786f59a84f8f846a9e4"
+    },
+    "actual_host_abi": {
+      "sample": 240,
+      "event": 352,
+      "tactical": 361624,
+      "events": 1176,
+      "period_ms": 20,
+      "fallback_ms": 100,
+      "loss_ms": 1000
+    },
+    "executable_sha256": "ec230c6ae1eaee30b0b4fa6ba29d417c974ecae46d6715dfbe786a815935c165"
+  },
+  "source_sha256": {
+    "qualifier": "d7369786b6d2683ccca18f80339ae2e54d057fbd43c772209473e83935dbbf2f",
+    "wrapper": "957e4438f031c8c45b0cee84610983d138f292036b9e4740b5186efa39a5db43",
+    "driver": "d8de5fc4523e556b394a3d7ca9844bf1803cba4efb887f5ee5dc669ba6c99923",
+    "native_revision": "890b6cd0e177a93d10780fe6cefebb03fa164c1eeee987de2648415498fc4874"
+  },
+  "tests": {
+    "passed": 77,
+    "failed": 0,
+    "skipped": 0,
+    "fresh_process": true,
+    "full_suite_executor": "Root independent postguard run; trusted completed result supplied to qualifier",
+    "full_suite_repeated_by_this_source_review": false,
+    "qualifier_preunlock_key_checks_passed": 18,
+    "suites": [
+      {
+        "path": "tactical/reserve-v4/test_readiness_wait.py",
+        "test_methods": 4,
+        "sha256": "91b7480807365fa1314cbfe099f0404f90691f769b25ae0a5c54347402f46598"
+      },
+      {
+        "path": "tactical/reserve-v4/test_reserve_qualification.py",
+        "test_methods": 61,
+        "sha256": "06d4bf3b191238e9d144425976e4a8935c3d9aa674b95de28483fc05ec177c28"
+      },
+      {
+        "path": "tactical/reserve-v4/test_team_binding.py",
+        "test_methods": 5,
+        "sha256": "ba27daa11c340074708ccbae9bc55985e055d4f0143177e48ea39abc24bcd12a"
+      },
+      {
+        "path": "tactical/reserve-v4/test_team_capture.py",
+        "test_methods": 2,
+        "sha256": "534a86aec633b948ebb636ddb6dd4a68205cdb46b790a0cec5821e56c060f23c"
+      },
+      {
+        "path": "tactical/reserve-v4/test_wrapper.py",
+        "test_methods": 5,
+        "sha256": "fa961418241b97b4e89ec86296e5a6db880187e92af1efd155f19ac9be96ddd5"
+      }
+    ]
+  },
+  "native_software_checks": {
+    "actual_logic": 124,
+    "actual_scheduler": 26,
+    "field_verified": false
+  },
+  "software_traces": {
+    "native-positive.bin": {
+      "sha256": "853424c4bfcbba30c8c87ced3cc2b89cfc0d50d16f9689369865d7685c149710",
+      "origin": "actual_compiled_production_cpp_with_fake_engine_memory_and_transport",
+      "raw_modified": false,
+      "field_verified": false,
+      "game_sdk_caller_verified": false
+    },
+    "native-anchor-positive.bin": {
+      "sha256": "a1c569914cef33da6ddf3010564f8bec85d8eeebad0ae4cce13cb88294c3161d",
+      "origin": "actual_compiled_production_cpp_with_fake_engine_memory_and_transport",
+      "raw_modified": false,
+      "field_verified": false,
+      "game_sdk_caller_verified": false
+    },
+    "native-team-reset-positive.bin": {
+      "sha256": "67028a81367907ccd0150c7670c5f0075ed7154c64400ebf792721b56c31ceab",
+      "origin": "actual_compiled_production_cpp_with_fake_engine_memory_and_transport",
+      "raw_modified": false,
+      "field_verified": false,
+      "game_sdk_caller_verified": false
+    }
+  },
+  "readonly_owner_chain": {
+    "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261026-041100-commander\\reserve4-team-chain-readonly.json",
+    "sha256": "f87305cf9880c10176d769b8c00e6302b5c4f627cb32edd850a15a6c3b5aae07",
+    "checks": {
+      "same_frame": true,
+      "same_raw": true,
+      "actor_id": true,
+      "actor_owner": true,
+      "update": true,
+      "team": true,
+      "definition": true,
+      "team_owner": true,
+      "no_sdk": true
+    },
+    "as_of_frame": 1883,
+    "old_frame671_owner_chain_not_claimed": true,
+    "field_primitive_verified": false
+  },
+  "team_protocol": {
+    "input_original_team_immutable": true,
+    "admitted_team_from_final_cohort_and_transfer_pre": true,
+    "positive_double_owner_chain_required": true,
+    "reason1_resets_only_team_cohort": true,
+    "reason2_discarded_frame_does_not_count": true,
+    "nonteam_identity_health_defs_baseline_never_reset": true,
+    "discarded_observations_preserve_frame_gap_and_original_deadline": true,
+    "preborrow_tag0_passive_events_sdk_credit": false
+  },
+  "limits": {
+    "sdk_max": 8,
+    "native_observed_freshness_frames": 30,
+    "completion_observation_age_frames": 300,
+    "initial_factory_gap_max": 200,
+    "navigation_frames": 90,
+    "hold_frames": 90,
+    "hold_gap": 1,
+    "total_frames": 300,
+    "wall_seconds": 30
+  },
+  "scope": "software candidate ready only; one new bounded field primitive still requires Root wholeGo and actual evidence",
+  "field_success_verified": false,
+  "tactical_source_granted": false,
+  "effect_verified": false,
+  "persistent_pool_verified": false,
+  "reserve_to_mission_handoff_verified": false,
+  "sdk_calls_by_review": 0,
+  "frozen_execution_sources_modified_by_review": false,
+  "old_reserve1_2_3_mfm12_stance_risk_git_diff_empty": true
+}

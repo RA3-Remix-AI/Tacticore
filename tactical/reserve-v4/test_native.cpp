@@ -1,0 +1,136 @@
+// Pure fake-engine harness: includes the actual production state-machine file.
+// It does not attach to a game, load a DLL, or invoke any game address.
+#include "shared.h"
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
+#include <stdlib.h>
+#include <initializer_list>
+static Probe storage,*p=&storage;static Sample current;static uint32_t now,tag,start_tick;
+static bool world_ok,actor_ok,module_ok,sample_ok,stuck,stance_fail,restore_fail;static unsigned passed;static bool factory_ok,deferred_move,duplicate_move,wrong_source,wrong_path,wrong_limit,wrong_goal,blocked_move,nested_facade,goal_read_ok,facade_wrong_source,park_off_proposal;static float park_xyz[3];static uint32_t thread_override,live_factory_x_bits;static bool team_owner_bad,team_probe_race,team_def_unaligned;static unsigned team_read_count;
+static uint32_t fake_tick(){return 10000+now*67;}
+#define GetTickCount fake_tick
+static uint32_t fake_thread(){return thread_override?thread_override:p->thread;}
+#define GetCurrentThreadId fake_thread
+static uint32_t frame(){return now;}
+static bool world(){return world_ok;}static bool actor(){return actor_ok;}static bool module(){return module_ok;}
+static uint32_t word(uint32_t a){if(a==p->owner+0xac)return p->default_team;if(a==p->owner+0x8c)return 0x70000;if(a==0x70010)return p->script_team;if(a==p->thing+0x414){team_read_count++;return team_probe_race&&team_read_count%2==0?0xd000:current.team;}if(a==p->stance_module+0x38)return current.stance;if(a==p->update+8)return p->thing;
+ if(a==p->rally.factory_address)return factory_ok?0xc4db60:0;
+ if(a==p->rally.factory_address+0xdc)return p->rally.factory_id;
+ if(a==p->rally.factory_address+0x418)return p->rally.factory_owner;
+ if(a==p->rally.factory_address+4)return p->rally.factory_template;
+ if(a==p->rally.factory_template+8)return p->rally.factory_type_hash;
+ if(a==p->rally.factory_address+0x38)return live_factory_x_bits;
+ if(a==p->rally.factory_address+0x3c)return p->rally.factory_y_bits;
+ if(a==p->rally.factory_address+0x33c)return 0x170000;
+ if(a==0x170004)return 0x42c80000;
+ for(uint32_t t: {p->original_team,p->default_team,p->script_team,0xd000u,0xe000u,0xd001u}){if(a==t+4)return t+0x100000+(team_def_unaligned?1:0);if(a==t+0x100008+(team_def_unaligned?1:0))return team_owner_bad?0xdead:p->owner;}
+ return 0;}
+static bool finite_xyz(const float* a){return isfinite(a[0])&&isfinite(a[1])&&isfinite(a[2]);}
+static bool read(uint32_t a,void* out,SIZE_T n){if(!a||!goal_read_ok)return false;memcpy(out,(void*)(uintptr_t)a,n);return true;}
+static bool sample(Sample& s){current.frame=now;s=current;return sample_ok;}
+static float distance(const float* a,const float* b){float x=a[0]-b[0],y=a[1]-b[1];return sqrtf(x*x+y*y);}
+static uint32_t emit(uint32_t kind,uint32_t arg=0,uint32_t caller=0,uint32_t self=0,uint32_t source=0,uint32_t result=0,const MoveProof* move=NULL,const Sample* fixed_sample=NULL){if(p->count>=T_CAP)abort();Event& e=p->events[p->count];memset(&e,0,sizeof(e));e.kind=kind;e.arg=arg;e.caller=caller;e.self=self;e.source=source;e.result=result;e.tag=tag;e.frame=now;e.tick=fake_tick();e.thread=p->thread;e.stage=p->stage;e.sdk_calls=p->sdk_calls;e.error=p->error;e.explicit_stops=p->explicit_stops;e.private_explicit_stops=p->private_explicit_stops;e.automatic_stop2=p->automatic_stop2;e.private_automatic_stop2=p->private_automatic_stop2;if(fixed_sample)memcpy(&e.sample,fixed_sample,sizeof(*fixed_sample));else sample(e.sample);if(move)memcpy(&e.move,move,40);e.seq=++p->count;if(kind==64)e.move.facade_seq=e.seq;return e.seq;}
+static uint32_t sdk(uint32_t code,uint32_t value=0){p->sdk_calls++;return emit(50,code,0,0,0,value);}
+static void stop_callbacks(uint32_t source){uint32_t caller=source==2?0x76429b:0x900000;p->automatic_stop2+=source==2;emit(30,0,caller,p->update+0x24,source);emit(32,0,0x787791,p->update,source);current.source=source;current.path=stuck?0x1234:0;current.state_id=current.stance==2?94:16;current.state_vtable=current.stance==2?0xc551a0:0xc55130;if(source==1){p->private_explicit_stops++;p->private_stop_frame=now;}else p->private_automatic_stop2++;emit(33,0,0x787791,p->update,source);emit(31,0,0,p->update+0x24,source);}
+static void stop(uint32_t which){p->stable_samples=0;p->last_sample_frame=0;p->stop_issue_frame=now;memcpy(p->stopped_xyz,current.xyz,12);tag=which;p->explicit_stops++;sdk(which==3?3:which==8?8:4);stop_callbacks(1);tag=0;}
+static bool set_stance(uint32_t value,uint32_t which){tag=which;p->stance_calls++;sdk(which==2?2:5,value);emit(20,value,0x900100,p->stance_module);bool okay=!(which==2?stance_fail:restore_fail);if(okay){current.stance=value;stop_callbacks(2);}emit(21,value,0,p->stance_module,0,okay);tag=0;return okay;}
+static void transfer(uint32_t to_ai){tag=to_ai?6:1;if(to_ai)p->return_calls++;else p->detach_calls++;sdk(to_ai?6:1);emit(10,to_ai,0x900200,p->owner);emit(14,p->ai+0x104,0x838877,p->ai+0x104);emit(15,p->ai+0x104,0,p->ai+0x104);emit(12,p->ai+0x104,0x83885b,p->ai+0x104);current.team=to_ai?p->default_team:p->script_team;emit(13,p->ai+0x104,0,p->ai+0x104);emit(11,to_ai,0,p->owner);tag=0;}
+static void finish(){p->stage=5;emit(4);p->restore_mask=255;p->phase=p->error?4:3;}
+static void cleanup(uint32_t error){if(error&&!p->error)p->error=error;if(p->stage==3||p->stage==4||p->stage==5)return;p->stage=3;p->cleanup_started=now;stop(4);}
+#define RESERVE2_PURE
+#include "rally.cpp.inc"
+static void __attribute__((thiscall)) fake_move(void*,float*,void*,float,uint32_t source){current.source=source;current.path=0x1234;current.state_id=1;}
+static void __attribute__((thiscall)) fake_move_facade(void*,float* goal,uint32_t source){if(deferred_move)return;if(nested_facade){nested_facade=false;move_facade_hook((void*)(uintptr_t)(p->update+0x24),NULL,goal,source);return;}float changed[3];memcpy(changed,goal,12);changed[0]+=wrong_goal?1:0;move_hook((void*)(uintptr_t)p->update,NULL,wrong_goal?changed:goal,wrong_path?(void*)4:NULL,wrong_limit?1:3.402823466e+38F,wrong_source?0:source);if(duplicate_move)move_hook((void*)(uintptr_t)p->update,NULL,goal,NULL,3.402823466e+38F,source);}
+static void test_call_move_facade(float* goal){move_facade_hook((void*)(uintptr_t)(p->update+0x24),NULL,goal,facade_wrong_source?0:1);}
+#include "logic.cpp.inc"
+static void check(bool v,const char* why){if(!v){fprintf(stderr,"FAIL: %s\n",why);exit(1);}passed++;}
+static void reset(){memset(p,0,sizeof(*p));memset(&current,0,sizeof(current));now=100;tag=0;start_tick=fake_tick();world_ok=actor_ok=module_ok=sample_ok=factory_ok=true;deferred_move=duplicate_move=wrong_source=wrong_path=wrong_limit=wrong_goal=blocked_move=nested_facade=facade_wrong_source=park_off_proposal=false;park_xyz[0]=170;park_xyz[1]=250;park_xyz[2]=210;goal_read_ok=true;thread_override=0;team_owner_bad=team_probe_race=team_def_unaligned=false;team_read_count=0;rally_reset();old_move=fake_move;old_move_facade=fake_move_facade;stuck=stance_fail=restore_fail=false;p->magic=T_MAGIC;p->version=4;p->pid=123;p->thread=456;p->token=77;p->seq=1;p->logic=0x1000;p->owner=0x2000;p->ai=0x3000;p->thing=0x4000;p->object_id=10;p->type_hash=0x19ab11af;p->template_ptr=0x5000;p->update=0x6000;p->stance_module=0x8000;p->original_team=0xa000;p->default_team=0xb000;p->script_team=0xc000;p->observed_frame=p->threat_frame=100;p->threat_clear=1;p->expires_frame=400;p->test_stance=2;p->phase=5;p->heartbeat_tick=fake_tick();p->production_command[0]=11;p->production_task[0]=12;p->production_seq=1;p->production_queue_id=7;p->production_birth_frame=99;p->production_paid=85;p->production_receipt_sha256[0]=13;p->rally.factory_address=0x150000;p->rally.factory_id=40;p->rally.factory_owner=p->owner;p->rally.factory_template=0x160000;p->rally.factory_type_hash=0x80d4ea1e;p->rally.factory_source_frame=100;float fx=10,fy=200;memcpy(&p->rally.factory_x_bits,&fx,4);memcpy(&p->rally.factory_y_bits,&fy,4);live_factory_x_bits=p->rally.factory_x_bits;
+ for(unsigned i=0;i<4;i++){p->session[i]=i+1;p->commander[i]=i+10;p->command[i]=i+20;p->task[i]=i+30;}
+ current.thing=p->thing;current.id=p->object_id;current.type_hash=p->type_hash;current.owner=p->owner;current.template_ptr=p->template_ptr;current.update=p->update;current.update_vtable=0xc48670;current.update_backref=p->thing;current.team=p->original_team;current.stance_module=p->stance_module;current.stance_vtable=0xc37f90;current.stance_backref=p->thing;current.stance_data=0xe000;current.stance=0;current.stance_enum_list=0xf000;current.stance_enum_count=4;for(unsigned i=0;i<4;i++)current.stance_enum_entries[2*i]=i;current.sm=0x11000;current.sm_owner=p->thing;current.state=0x12000;current.state_id=16;current.state_vtable=0xc55130;current.state_owner_sm=current.sm;current.source=0;current.height_flags=4;current.hp=100;current.xyz[0]=100;current.xyz[1]=200;current.xyz[2]=210;}
+static void step(uint32_t delta=1){now+=delta;p->heartbeat_tick=fake_tick();if(p->stage==6&&!blocked_move&&current.path){const float* destination=park_off_proposal?park_xyz:p->rally.goal;float d=distance(current.xyz,destination);if(d<=2.5f){memcpy(current.xyz,destination,12);current.path=0;current.state_id=94;current.state_vtable=0xc551a0;}else{current.xyz[0]+=2.5f*(destination[0]-current.xyz[0])/d;current.xyz[1]+=2.5f*(destination[1]-current.xyz[1])/d;}}probe_body();}
+static void through_terminal(){for(unsigned i=0;i<400&&p->phase!=3&&p->phase!=4;i++)step();}
+static void admit(){probe_body();step();step();}
+static void begin_hold(){admit();for(unsigned i=0;i<200&&p->stage!=2&&p->phase!=3&&p->phase!=4;i++)step();check(p->stage==2&&p->initial_stop_verified&&p->rally.rally_stop_verified,"initial and rally real Stop3 after admission3");}
+int main(int argc,char** argv){
+ reset();begin_hold();through_terminal();check(p->phase==3&&p->hold_verified&&p->cleanup_stop_verified,"hold90 and cleanup pass");check(p->sdk_calls==8&&p->detach_calls==1&&p->return_calls==1&&p->stance_calls==2&&p->explicit_stops==3,"exact eight explicit SDK");check(p->automatic_stop2==2&&p->private_automatic_stop2==2&&p->private_explicit_stops==3,"automatic2 distinct from explicit1");check(p->hold_finished-p->hold_started==90&&p->hold_samples==91&&p->hold_max_gap==1&&!p->hold_missing_frames,"fixed90 strictframes");check(p->stance_restored&&p->pool_before_enum==0&&p->return_verified,"saved enum before live pool Return");check(p->admission_verified&&p->admission_samples==3&&p->admission_last_frame-p->admission_first_frame==2,"three real pre-SDK frames");if(argc>1){FILE* f=fopen(argv[1],"wb");if(!f)return 2;fwrite(p,1,sizeof(*p),f);fclose(f);}
+ reset();probe_body();check(!p->sdk_calls&&p->admission_samples==1,"first sample cannot borrow");probe_body();check(!p->sdk_calls&&p->admission_samples==1,"same frame cannot count twice");step();check(!p->sdk_calls&&p->admission_samples==2,"second actual frame cannot borrow");step();check(p->detach_calls==1&&p->admission_verified,"third real frame only borrows");
+ reset();probe_body();step(2);check(p->error==49&&!p->sdk_calls,"pre-admission gap rejects without restart");
+ reset();probe_body();current.hp=99;step();check(p->error==49&&!p->sdk_calls,"HP variation before borrow rejects");
+ reset();probe_body();current.team=0xd000;step();check(!p->sdk_calls&&p->admission_samples==1,"owned team mutation resets rather than borrows");
+ reset();probe_body();current.stance_data++;step();check(p->error==49&&!p->sdk_calls,"definition mutation rejects");
+ reset();probe_body();start_tick=fake_tick()-30001;step();check(p->error==40&&!p->sdk_calls,"admission pause wall timeout cannot borrow");
+ reset();probe_body();p->heartbeat_tick=fake_tick()-2001;now++;probe_body();check(p->error==40&&!p->sdk_calls,"admission lost heartbeat cannot borrow");
+ reset();p->production_seq=0;probe_body();check(p->error==50&&!p->sdk_calls,"unbound production provenance rejected");
+ reset();p->production_birth_frame=101;probe_body();check(p->error==50&&!p->sdk_calls,"future birth rejected");
+ reset();p->production_paid=0;probe_body();check(p->error==50&&!p->sdk_calls,"unpaid receipt rejected");
+ reset();current.hp=79;probe_body();check(p->error==34&&!p->sdk_calls,"Cons79 rejected");reset();current.hp=80;admit();check(p->detach_calls==1,"Cons80 accepted");
+ reset();p->type_hash=current.type_hash=0x2c358c61;p->production_paid=220;current.hp=95;probe_body();check(p->error==34&&!p->sdk_calls,"Flak95 rejected");reset();p->type_hash=current.type_hash=0x2c358c61;p->production_paid=220;current.hp=96;admit();check(p->detach_calls==1,"Flak96 accepted");
+ reset();current.stance=2;probe_body();check(p->error==34&&!p->sdk_calls,"must save actual orig0");reset();current.state_id=54;probe_body();check(p->error==34&&!p->sdk_calls,"pending garrison rejected");reset();current.state_id=77;probe_body();check(p->error==34&&!p->sdk_calls,"garrison rejected");reset();current.holder=1;probe_body();check(p->error==34&&!p->sdk_calls,"holder rejected");reset();current.height_flags=0;probe_body();check(p->error==34&&!p->sdk_calls,"unknown surface rejected");reset();current.sm_flags=1;probe_body();check(p->error==34&&!p->sdk_calls,"command lock rejected");
+ reset();p->threat_clear=0;p->threat_frame=0;admit();check(p->detach_calls==1,"reserve has no enemy target requirement");
+ reset();p->observed_frame=39;probe_body();check(p->error==34&&!p->sdk_calls,"stale observation rejected");
+ reset();admit();step();step();check(p->stage==1&&p->stable_samples==2,"two Stop samples insufficient");probe_body();check(p->stage==1&&p->stable_samples==2,"sameframe no thirdStop");step();check(p->stage==6,"third Stop real frame starts rally not hold");
+ reset();begin_hold();step(2);check(p->stage==3&&!p->hold_verified&&p->hold_missing_frames==1,"missing hold frame fails");through_terminal();check(p->return_verified&&p->stance_restored,"hold failure still restore Return");
+ reset();begin_hold();current.path=1234;step();check(p->stage==3&&!p->hold_verified,"94 with path fails");
+ reset();begin_hold();current.xyz[0]+=1.01f;step();check(p->stage==3&&!p->hold_verified,"path0 displacement fails");
+ reset();begin_hold();for(unsigned i=0;i<16&&p->stage==2;i++){current.xyz[0]+=1;step();}check(p->stage==3&&!p->hold_verified&&p->max_hold_drift>0,"cumulative rally goal or anchor drift fails");
+ reset();stuck=true;admit();through_terminal();check(p->error==41&&!p->initial_stop_verified&&!p->cleanup_stop_verified&&p->return_verified&&p->stance_restored&&p->sdk_calls==6,"Stop failures bounded release");
+ reset();stance_fail=true;admit();through_terminal();check(p->error==36&&!p->hold_verified&&p->return_verified&&p->stance_calls==1,"setter failure no invented restore");
+ reset();begin_hold();restore_fail=true;through_terminal();check(p->error==46&&!p->stance_restored&&p->return_verified,"restore failure truthful");
+ reset();admit();actor_ok=false;step();check(p->phase==4&&p->disposed&&!p->return_calls,"invalid actor no stale Return");
+ reset();admit();module_ok=false;through_terminal();check(p->phase==4&&p->error==36&&!p->stance_restored&&p->return_verified&&p->sdk_calls==5,"invalid module skip stale setter");
+ reset();admit();sample_ok=false;through_terminal();check(p->phase==4&&p->error==33&&p->stance_restored&&p->return_verified&&p->sdk_calls==6,"sample failure bounded release");
+ reset();current.state_owner_sm=0;probe_body();check(p->error==34&&!p->sdk_calls,"broken SM binding rejected");
+ reset();admit();world_ok=false;step();check(p->phase==4&&p->scene_changed&&!p->return_calls,"scene ended no fake Return");
+ reset();begin_hold();p->stop_requested=1;step();through_terminal();check(p->error==40&&p->stance_restored&&p->return_verified&&!p->hold_verified,"host stop bounded cleanup");
+ reset();begin_hold();p->expires_frame=now+1;step();through_terminal();check(p->error==40&&!p->hold_verified&&p->return_verified,"deadline never renewed");
+ reset();admit();for(unsigned i=0;i<3;i++)step();check(p->stage==6&&p->rally.move_intents==1&&p->rally.move_facade_entries==1&&p->rally.move_private_entries==1&&!p->rally.foreign_move_entries,"one synchronous facade/private Move chain");check(fabsf(p->rally.goal[0]-100)<.001f&&fabsf(p->rally.goal[1]-300)<.001f,"sideward100 from actualP away from factory heading");
+ reset();factory_ok=false;probe_body();check(p->error==51&&!p->sdk_calls,"invalid factory before borrow zeroSDK");
+ reset();admit();factory_ok=false;step();through_terminal();check(p->error==51&&p->stance_restored&&p->return_verified,"factory loss after borrow normal cleanup");
+ reset();p->rally.factory_x_bits=live_factory_x_bits=0x42c80000;admit();through_terminal();check(p->error==53&&!p->rally.move_intents&&p->return_verified,"zero factory direction no Move");
+ reset();deferred_move=true;admit();through_terminal();check(p->error==52&&!p->hold_verified&&p->return_verified&&p->sdk_calls==7,"deferred no private delivery no credit");
+ reset();duplicate_move=true;admit();through_terminal();check(p->error==52&&p->rally.foreign_move_entries&&!p->hold_verified,"duplicate private no credit");
+ reset();wrong_source=true;admit();through_terminal();check(p->error==52&&p->rally.foreign_move_entries,"private source0 rejected");
+ reset();wrong_path=true;admit();through_terminal();check(p->error==52&&p->rally.foreign_move_entries,"private nonzero path rejected");
+ reset();wrong_limit=true;admit();through_terminal();check(p->error==52&&p->rally.foreign_move_entries,"private wrong limit rejected");
+ reset();wrong_goal=true;admit();through_terminal();check(p->error==52&&p->rally.foreign_move_entries,"same facade different private goal rejected");
+ reset();blocked_move=true;admit();through_terminal();check(p->error==55&&!p->rally.rally_reached_frame&&p->return_verified,"blocked native navigation bounded90");
+ reset();blocked_move=true;admit();while(p->stage==1)step();now=p->rally.rally_issue_frame+90;p->heartbeat_tick=fake_tick();memcpy(current.xyz,p->rally.goal,12);p->rally.arrival_samples=2;p->rally.last_arrival_frame=now;now++;p->heartbeat_tick=fake_tick();probe_body();check(p->error==55&&!p->rally.rally_reached_frame,"arrival3 at91 cannot bypass90 cap");
+ reset();begin_hold();current.state_id=26;current.state_vtable=0xc553d0;step();through_terminal();check(p->error==57&&!p->hold_verified&&p->return_verified,"MoveOutOfTheWay remains failure");
+ reset();begin_hold();float goal[3];memcpy(goal,p->rally.goal,12);tag=0;move_hook((void*)(uintptr_t)p->update,NULL,goal,NULL,3.402823466e+38F,1);step();through_terminal();check(p->error==52&&p->rally.foreign_move_entries&&!p->hold_verified,"samegoal source1 outside facade scope is foreign");
+ reset();nested_facade=true;admit();through_terminal();check(p->error==52&&p->rally.foreign_move_entries,"nested facade no credit");
+ reset();goal_read_ok=false;admit();through_terminal();check(p->error==52&&p->rally.foreign_move_entries,"unreadable actual Move goal no credit");
+ reset();facade_wrong_source=true;admit();through_terminal();check(p->error==52&&p->rally.foreign_move_entries,"source0 facade no credit");
+ reset();begin_hold();thread_override=999;float foreign_goal[3];memcpy(foreign_goal,p->rally.goal,12);move_hook((void*)(uintptr_t)p->update,NULL,foreign_goal,NULL,3.402823466e+38F,1);thread_override=0;step();through_terminal();check(p->error==52&&p->rally.foreign_move_entries,"wrongthread actual private rejected");
+ reset();admit();live_factory_x_bits++;step();through_terminal();check(p->error==51&&p->return_verified,"samefactory current position changed rejected");
+ reset();admit();while(p->stage==1)step();p->rally.goal[0]+=1;step();through_terminal();check(p->error==53&&!p->hold_verified,"shared goal cannot replace private proposal");
+ reset();begin_hold();uint32_t before_calls=p->sdk_calls;check(!move_rally()&&p->sdk_calls==before_calls&&p->rally.move_intents==1,"one generation cannot issue another Move");
+ reset();park_off_proposal=true;begin_hold();through_terminal();check(p->phase==3&&p->hold_verified&&p->anchor.commit_frame&&p->anchor.candidate_frame,"actual outer anchor committed despite proposal not reached");check(!p->anchor.proposal_reached&&p->anchor.proposal_distance>15&&!p->rally.rally_reached_frame,"proposal failure remains a separate truthful metric");check(p->anchor.boundary_crossed&&!p->anchor.initial_outside_inner_zone,"actual initial inner to outer crossing distinguished");if(argc>1){char path[MAX_PATH];snprintf(path,sizeof(path),"%s",argv[1]);char* slash=strrchr(path,'\\');if(slash)strcpy(slash+1,"native-anchor-positive.bin");else strcpy(path,"native-anchor-positive.bin");FILE* f=fopen(path,"wb");if(!f)return 2;fwrite(p,1,sizeof(*p),f);fclose(f);}
+ reset();now=500;p->observed_frame=p->rally.factory_source_frame=500;p->expires_frame=800;p->production_birth_frame=202;p->heartbeat_tick=start_tick=fake_tick();admit();check(p->admission_verified&&p->detach_calls==1&&p->anchor.admission_age_first==298&&p->anchor.admission_age_last==300,"age300 third actual preframe allowed");
+ reset();now=500;p->observed_frame=p->rally.factory_source_frame=500;p->expires_frame=800;p->production_birth_frame=201;p->heartbeat_tick=start_tick=fake_tick();admit();check(p->error==58&&!p->sdk_calls,"third preframe age301 zeroSDK rejection");
+ reset();now=500;p->observed_frame=p->rally.factory_source_frame=500;p->expires_frame=800;p->production_birth_frame=199;p->heartbeat_tick=start_tick=fake_tick();probe_body();check(p->error==58&&!p->sdk_calls,"old actor age301 never borrowed");
+ reset();float fx=-101;memcpy(&p->rally.factory_x_bits,&fx,4);live_factory_x_bits=p->rally.factory_x_bits;probe_body();check(p->error==58&&!p->sdk_calls,"initial factorygap201 rejected");
+ reset();fx=-98;memcpy(&p->rally.factory_x_bits,&fx,4);live_factory_x_bits=p->rally.factory_x_bits;probe_body();current.xyz[0]=101;step();current.xyz[0]=103;step();check(p->error==58&&!p->sdk_calls,"factorygap checked on every preSDK frame");
+ reset();fx=-30;memcpy(&p->rally.factory_x_bits,&fx,4);live_factory_x_bits=p->rally.factory_x_bits;begin_hold();through_terminal();check(p->phase==3&&p->anchor.initial_outside_inner_zone&&!p->anchor.boundary_crossed,"already outside120 not called boundary crossing");
+ reset();park_off_proposal=true;park_xyz[0]=159.99f;park_xyz[1]=200;admit();through_terminal();check(p->error==55&&!p->anchor.candidate_frame&&!p->hold_verified,"actual displacement below60 no anchor");
+ reset();park_off_proposal=true;park_xyz[0]=100;park_xyz[1]=270;admit();through_terminal();check(p->error==55&&!p->anchor.candidate_frame,"factorygap below120 no anchor");
+ reset();fx=-30;memcpy(&p->rally.factory_x_bits,&fx,4);live_factory_x_bits=p->rally.factory_x_bits;park_off_proposal=true;park_xyz[0]=80;park_xyz[1]=260;admit();through_terminal();check(p->error==55&&!p->anchor.candidate_frame,"factorygap120plus but inward from initial130 rejected");
+ reset();admit();while(p->stage==1)step();blocked_move=true;memcpy(current.xyz,p->rally.goal,12);current.path=0;current.state_id=94;current.state_vtable=0xc551a0;step();check(p->anchor.candidate_samples==1,"candidate first sample");probe_body();check(p->anchor.candidate_samples==1,"candidate sameframe cannot add");step(2);check(p->anchor.candidate_samples==1&&!p->anchor.candidate_frame,"candidate observed gap starts a new run1");step();step();check(p->stage==7&&p->anchor.candidate_samples==3,"candidate only third consecutive sample freezes then oneStop8");
+ reset();admit();while(p->stage!=7&&p->phase!=4)step();p->anchor.candidate_xyz[0]+=100;through_terminal();check(p->error==56&&!p->anchor.commit_frame&&!p->hold_verified,"shared candidate cannot replace private frozen point");
+ reset();begin_hold();p->anchor.actual_anchor[0]+=1;step();through_terminal();check(p->error==59&&!p->hold_verified,"committed actual anchor cannot silently reanchor");
+ reset();admit();while(p->stage==1)step();current.state_id=26;current.state_vtable=0xc553d0;step();through_terminal();check(p->error==57&&!p->hold_verified,"navigation26 also fails not just hold26");
+ reset();current.team=0xd000;begin_hold();through_terminal();check(p->phase==3&&p->hold_verified&&p->initial_sample.team==0xd000&&p->original_team==0xa000,"current owned team may differ from preselected descriptor without input mutation");
+ reset();probe_body();step();current.team=0xd000;step();check(p->admission_samples==1&&!p->sdk_calls&&p->admission_first_sample.team==0xd000,"teamchange after two actual samples restarts current run1");step();step();check(p->detach_calls==1&&p->initial_sample.team==0xd000&&p->admission_first_frame==102,"third new same team sample only borrows");through_terminal();check(p->phase==3&&p->hold_verified&&p->original_team==0xa000,"team-reset full reserve keeps immutable descriptor and succeeds physically");if(argc>1){char path[MAX_PATH];snprintf(path,sizeof(path),"%s",argv[1]);char* slash=strrchr(path,'\\');if(slash)strcpy(slash+1,"native-team-reset-positive.bin");else strcpy(path,"native-team-reset-positive.bin");FILE* f=fopen(path,"wb");if(!f)return 2;fwrite(p,1,sizeof(*p),f);fclose(f);}
+ reset();probe_body();current.team=0xd000;current.hp=99;step();check(p->error==49&&!p->sdk_calls,"team reset cannot rebase health baseline");
+ reset();probe_body();current.team=0xd000;current.stance_data++;step();check(p->error==49&&!p->sdk_calls,"team reset cannot rebase module definition baseline");
+ reset();team_owner_bad=true;probe_body();check(p->error==60&&!p->sdk_calls,"foreign team owner chain hard rejects");
+ reset();current.team=p->script_team;probe_body();check(p->error==60&&!p->sdk_calls,"sample script team hard rejects");
+ reset();current.team=0;probe_body();check(p->error==60&&!p->sdk_calls,"zero team hard rejects");
+ reset();team_probe_race=true;probe_body();check(!p->sdk_calls&&!p->admission_samples,"positive team race does not count");team_probe_race=false;step();step();step();check(p->detach_calls==1&&p->admission_first_frame==101,"race resets only cohort and next real frames borrow");
+ reset();probe_body();team_probe_race=true;step();team_probe_race=false;step(2);check(p->error==49&&!p->sdk_calls,"observed gap remains hard after a team race");
+ reset();probe_body();for(unsigned i=0;i<35&&p->phase==5;i++){current.team=current.team==0xd000?0xe000:0xd000;step();}check(p->error==48&&!p->sdk_calls,"team oscillation cannot renew30f observation window");
+ reset();float pregoal[3]={150,250,210};tag=0;move_facade_hook((void*)(uintptr_t)(p->update+0x24),NULL,pregoal,0);check(!p->rally.move_facade_entries&&!p->rally.move_private_entries&&!p->rally.foreign_move_entries,"preborrow native Move raw does not pollute one owned Move counters");current.state_id=16;current.state_vtable=0xc55130;current.path=0;begin_hold();through_terminal();check(p->phase==3&&p->rally.move_private_entries==1&&p->rally.move_facade_entries==1,"one later real owned Move still verifies after preborrow observation");
+ reset();current.team=0xd001;probe_body();check(p->error==60&&!p->sdk_calls,"unaligned team with matching owner raw must hard reject");
+ reset();team_def_unaligned=true;probe_body();check(p->error==60&&!p->sdk_calls,"unaligned definition with matching owner raw must hard reject");
+ printf("{\"scope\":\"pure_reserve4_actual_logic\",\"tests\":%u,\"passed\":true,\"field_verified\":false}\n",passed);return 0;
+}

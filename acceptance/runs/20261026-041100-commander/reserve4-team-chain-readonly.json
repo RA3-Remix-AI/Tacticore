@@ -1,0 +1,61 @@
+{
+  "protocol": "rsv4_team_chain_readonly_field_check_v1",
+  "session_id": "2977a22c-fd33-48c4-896d-794f08d94882",
+  "pid": 26372,
+  "mutations": false,
+  "sdk_calls": 0,
+  "frame": 1883,
+  "roster_start": 1883,
+  "roster_end": 1883,
+  "actor": {
+    "address": "0x5751090",
+    "owner_address": "0x31c74d0",
+    "owner_index_candidate": 3,
+    "object_id": 781,
+    "type_hash": "0x19ab11af",
+    "ai_address": "0x645d0c8",
+    "xyz": [
+      3001.82861328125,
+      2647.3828125,
+      210.0
+    ],
+    "catalog": {
+      "name": "\u5f81\u53ec\u5175",
+      "template": "SovietAntiInfantryInfantry",
+      "side": 2,
+      "cls": 1,
+      "category": 0
+    }
+  },
+  "team_binding": {
+    "protocol": "rsv4_same_frame_owned_team_v1",
+    "frame": 1883,
+    "team": "0x6036280",
+    "definition": "0x50090b0",
+    "owner": "0x31c74d0",
+    "raw_before": {
+      "0x3c6c278": "5b070000",
+      "0x575116c": "0d030000",
+      "0x57514a8": "d0741c03",
+      "0x5751404": "c8d04506",
+      "0x57514a4": "80620306",
+      "0x6036280": "48bdc500",
+      "0x6036284": "b0900005",
+      "0x50090b0": "d0bec500",
+      "0x50090b8": "d0741c03"
+    },
+    "raw_after": {
+      "0x3c6c278": "5b070000",
+      "0x575116c": "0d030000",
+      "0x57514a8": "d0741c03",
+      "0x5751404": "c8d04506",
+      "0x57514a4": "80620306",
+      "0x6036280": "48bdc500",
+      "0x6036284": "b0900005",
+      "0x50090b0": "d0bec500",
+      "0x50090b8": "d0741c03"
+    },
+    "mutations": false
+  },
+  "helper_sha256": "0c3c472798c508ece3560581973125f40f5307b5a92aae7ace28765a9ba298ba"
+}

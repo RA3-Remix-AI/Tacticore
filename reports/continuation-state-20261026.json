@@ -1,17 +1,17 @@
 {
-  "updated_local": "2026-10-26T04:07:52.441924",
+  "updated_local": "2026-10-26T04:35:31.667517",
   "objective": "Complete real Pydantic LLM commander full match vs active native Oleg with actual attack, raid, coordinated effect and physical retreat; do not finish at dispatch/static tests.",
   "workspace": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe",
   "current": {
-    "pid": 59668,
-    "session_id": "c0397ffd-55c2-4ea1-ae63-71e211e5c2a3",
-    "run": "acceptance/runs/20261026-032102-commander",
-    "session_sha256": "3ea219990004162fc10d010f3a4ddd35df1bd390cfcfc28ecb498d4d60493664",
+    "pid": 26372,
+    "session_id": "2977a22c-fd33-48c4-896d-794f08d94882",
+    "run": "acceptance\\runs\\20261026-041100-commander",
+    "session_sha256": "b7055b347d0da7ac606814138886569045ef565d7aa741db70844e0360a1713b",
     "session_final": true,
     "started": true,
     "active_sdk": false,
-    "root_recorder": "67815 single read-only ownroutes+complete sampled ownfoot roster max3700",
-    "scene": "Native paused after Reserve2 direct02; no activehost/SDK; Root67815 RO only, currentpaid781 no longer fresh."
+    "root_recorder": "45202 RO .75s max3700, old67815 drained game_exited",
+    "scene": "Paused after Reserve3 pre-native team descriptor mismatch; 0SDK/neverborrow/8bytes255/timer0 verified."
   },
   "owners": {
     "native": "native_ai_interfaces: all GUI/SDK/CPP/host only",
@@ -71,7 +71,7 @@
     "result": "2realHTTP/2accepted/0retry, shortmemory+compaction+postTTL synthetic mission continuity passed; no new API needed before wholematch."
   },
   "next": [
-    "Finish independent postguard Source recheck and commit frozen Reserve3 candidate and prior Reserve2 actual failure.",
+    "Finish q postguard Source report then commit Reserve4 and prior Reserve3 failure, Native fresh4 same Medium/Medium10000/Industrial/modelFalse onepaid85; Root old45202 drain then new unique RO after finalsession.",
     "Native owns GUI/SDK: fresh Medium Iron3 vs active Medium Oleg4, 10000, modelFalse; single paid85 birth and Reserve3 attempt. Root single RO recorder after final session, old recorder drains on restart.",
     "Independent actual Reserve3 admission/outer anchor/90 real holding/restore/Return/8entry bytes audit. Does not grant persistent pool or mission handoff.",
     "Implement explicit same-owner reserve-to-mission handoff retaining leaseID/original stance/deadline; verify actual coordination and physical return.",
@@ -191,10 +191,24 @@
   },
   "reserve3": {
     "directory": "tactical/reserve-v3",
-    "state": "postguard tests 61/61; independent final Source recheck pending; no field capability yet",
+    "state": "Actual paid781/85 completed; raw issued0/error34/SDK0: input team descriptor differs actual671 team. Preflight team timestamp unknown; not proven exactly669¡ú671. No hold/Return, noLease/controlrelease true.",
     "native_binary_sha256": "efcbf78b000f66f5b15ad17358e3b1128254f3604d135273f885d11ad055f7dd",
     "wrapper_sha256": "9866bfced202440568ae30bc306349790fb992bdd81d2b9ef20c05c1548d3d6e",
     "driver": "acceptance/calibration/paid_reserve_probe_v3.py",
     "execute_enabled": true
+  },
+  "reserve4": {
+    "state": "Final Native124logic+26scheduler, q narrow Go, Root postguard77/77 no skip. Final q Source report pending then commit/fresh field.",
+    "namespace": "magic52535634/v4/install399/pulse39a/timer52535634",
+    "abi": "1176/352/361624 unchanged; event73/74 TeamProof40 TMP4 in move tail",
+    "ownership": "Root Python7files+driver/tests, Native CPP/host/build, q q/tests",
+    "execute_enabled": true,
+    "wrapper_sha256": "957e4438f031c8c45b0cee84610983d138f292036b9e4740b5186efa39a5db43",
+    "native_binary_sha256": "8a703398e020ca97ad867abeac55e84f31e67b3a7f2363d640c7a2e22fbc9fbb",
+    "native_revision_sha256": "890b6cd0e177a93d10780fe6cefebb03fa164c1eeee987de2648415498fc4874"
+  },
+  "future_unified_controller": {
+    "status": "Design agreed; no Native13 code yet. Fullmatchreadiness agent implements new readonly running_birth_source_v1 helper+tests.",
+    "design": "Existing producer5hooks disjoint with unified17tacticalhooks; RO running mapping v1 Header256/Receipt224 seqlock+frozen immutable payment/object projection, dynamic liveness fields separated. Two pending paid UUID slots individually immediate3frame admission then reserve. Initial4500 harddeadline/reserve300, samelease toapproach, noReturn/reborrow."
   }
 }

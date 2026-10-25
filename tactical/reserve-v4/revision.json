@@ -1,0 +1,73 @@
+{
+  "protocol": "single_actor_reserve_v4",
+  "magic": "0x52535634",
+  "version": 4,
+  "install_message": "WM_APP+0x399",
+  "pulse_message": "WM_APP+0x39a",
+  "restore_mask": 255,
+  "hook_count": 8,
+  "layout": {
+    "sample": 240,
+    "event": 352,
+    "tactical": 361624,
+    "events": 1176,
+    "period_ms": 20,
+    "fallback_ms": 100,
+    "loss_ms": 1000
+  },
+  "native_binary_sha256": "8a703398e020ca97ad867abeac55e84f31e67b3a7f2363d640c7a2e22fbc9fbb",
+  "native_host_sha256": "65cc376a35257a5548dd2663072e4000d4760ffb047fa10a12f403fe2e8567c9",
+  "native_source_sha256": "f2e6858fbef40ad262a3e44fbe454d33f6ee7b044f082d38abfe5bb5339c9dad",
+  "native_shared_sha256": "ef46adefbd66654d7e2544b69915970862e5fad87549b7f433f6b6dc3dae69f0",
+  "native_includes_sha256": {
+    "host_pulse.cpp.inc": "51b95747ff223bfc33eb8fecb8ba128df0a903ca7afa3f06de4c624628695a7f",
+    "logic.cpp.inc": "5f0264a9b3ab7fb6a0a31e41a2bd559e12a46acedd7d8c8395fcf530b7fb8c02",
+    "rally.cpp.inc": "54dfc45076880706e0b4993bd3ceaeae798db7a871dcb110e86ba12c69031235",
+    "scheduler.cpp.inc": "f55e6074ab21ab8472543b2ab3901fe2ee84a37fd83587a2b87916107c56ce56"
+  },
+  "inert_layout_sha256": "9adb826e5e81802522145a2f56fdbe9b22b47a59998af6ef3bf91b55653913c4",
+  "host_source_sha256": "40f0058de0085b9fe2d640df9a66400325f1fa06415d2f1bcd7c76bfc48b5038",
+  "build_script_sha256": "87e5bdc077c0936d1fb1d0f2480907fec7039db62a20e95f5edf300d862a1a31",
+  "tests": {
+    "test_native.cpp": "a30877a302ef627c0860a754ebf5115a019d685aa5be6ac48f6e4167cf470cc4",
+    "test_scheduler.cpp": "c3fa212e06fdddfd1dc6e01a91ad7138fc8efd7938bc27fe538b2370d4195dcb",
+    "test_native.exe": "130955f32d8f76a7eb1a5b2534c72acd5e0fce6fb509ab653547f7133760becf",
+    "test_scheduler.exe": "6e6581342beddd4e1122231904f8b2e694cf21e2899f7f204e1a686a7dfeb12e",
+    "native-positive.bin": "853424c4bfcbba30c8c87ced3cc2b89cfc0d50d16f9689369865d7685c149710",
+    "native-anchor-positive.bin": "a1c569914cef33da6ddf3010564f8bec85d8eeebad0ae4cce13cb88294c3161d",
+    "native-team-reset-positive.bin": "67028a81367907ccd0150c7670c5f0075ed7154c64400ebf792721b56c31ceab"
+  },
+  "software_checks": {
+    "actual_logic": 124,
+    "actual_scheduler": 26,
+    "field_verified": false
+  },
+  "runtime_capability_authorized": false,
+  "rules": {
+    "admission_consecutive_frames": 3,
+    "admission_deadline_frames": 30,
+    "production_binding_words": 20,
+    "test_stance": 2,
+    "max_sdk_calls": 8,
+    "stop_timeout_frames": 60,
+    "rally_navigation_frames": 90,
+    "rally_sideward_distance": 100,
+    "entry_birth_observed_age_max_frames": 300,
+    "entry_factory_gap_max": 200,
+    "candidate_actual_displacement_min": 60,
+    "candidate_factory_gap_min": 120,
+    "candidate_must_not_move_inward": true,
+    "candidate_consecutive_samples": 3,
+    "candidate_sample_gap_max": 1,
+    "candidate_neighbor_motion_max": 1,
+    "candidate_stop_radius": 15,
+    "proposal_reached_required": false,
+    "hold_frames": 90,
+    "hold_frame_gap": 1,
+    "mission_frames": 300,
+    "wall_ms": 30000,
+    "period_ms": 20,
+    "fallback_ms": 100,
+    "host_loss_ms": 1000
+  }
+}
