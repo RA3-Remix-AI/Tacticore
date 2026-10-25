@@ -1,0 +1,399 @@
+{
+  "status": "no_dispatch_route_or_pair_not_ready",
+  "session_id": "a54a5351-2b28-4cf2-b8e9-5e98ae6409fe",
+  "frame": 957,
+  "paused": 0,
+  "own_fronts": [
+    {
+      "object_id": 771,
+      "xyz": [
+        1730.0,
+        1790.0,
+        210.0
+      ]
+    },
+    {
+      "object_id": 772,
+      "xyz": [
+        1810.0,
+        1830.0,
+        210.0
+      ]
+    },
+    {
+      "object_id": 776,
+      "xyz": [
+        1770.0,
+        1850.0,
+        210.0
+      ]
+    },
+    {
+      "object_id": 778,
+      "xyz": [
+        1770.0,
+        1830.0,
+        210.0
+      ]
+    }
+  ],
+  "own_supports": [
+    {
+      "object_id": 773,
+      "xyz": [
+        1790.0,
+        1850.0,
+        210.0
+      ]
+    },
+    {
+      "object_id": 779,
+      "xyz": [
+        1810.0,
+        1850.0,
+        210.0
+      ]
+    }
+  ],
+  "visible_static_contacts": [
+    {
+      "contact_id": "contact_4dfce3fad26d7ae2f0f2",
+      "object_id": 764,
+      "xyz": [
+        3187.2529296875,
+        3240.34814453125,
+        210.0
+      ]
+    },
+    {
+      "contact_id": "contact_06e02c1e1c17df075447",
+      "object_id": 774,
+      "xyz": [
+        3187.252685546875,
+        3431.2666015625,
+        210.0
+      ]
+    },
+    {
+      "contact_id": "contact_79eec2868d7d6a5e85ef",
+      "object_id": 766,
+      "xyz": [
+        2837.234619140625,
+        3399.44677734375,
+        210.0
+      ]
+    }
+  ],
+  "errors": [
+    "no_positive_ground_history_near_explicit_visible_contact"
+  ],
+  "planning_diagnostics": [
+    {
+      "front_id": 772,
+      "support_id": 773,
+      "contact_id": "contact_4dfce3fad26d7ae2f0f2",
+      "phase": "role_graph_search",
+      "source_records": 10,
+      "ground_nodes": 3,
+      "expanded_states": 0,
+      "reject_reasons": {
+        "current_own_occupant": 4,
+        "source_session_or_clock": 3
+      },
+      "closest_ground_point_to_target": 1971.137669601439,
+      "goal_nodes": 0,
+      "first_leg_candidates": 0,
+      "elapsed_seconds": 0.0
+    },
+    {
+      "front_id": 772,
+      "support_id": 773,
+      "contact_id": "contact_06e02c1e1c17df075447",
+      "phase": "role_graph_search",
+      "source_records": 10,
+      "ground_nodes": 3,
+      "expanded_states": 0,
+      "reject_reasons": {
+        "current_own_occupant": 4,
+        "source_session_or_clock": 3
+      },
+      "closest_ground_point_to_target": 2110.1467087586525,
+      "goal_nodes": 0,
+      "first_leg_candidates": 0,
+      "elapsed_seconds": 0.0
+    },
+    {
+      "front_id": 772,
+      "support_id": 773,
+      "contact_id": "contact_79eec2868d7d6a5e85ef",
+      "phase": "role_graph_search",
+      "source_records": 10,
+      "ground_nodes": 3,
+      "expanded_states": 0,
+      "reject_reasons": {
+        "current_own_occupant": 4,
+        "source_session_or_clock": 3
+      },
+      "closest_ground_point_to_target": 1870.1565879218624,
+      "goal_nodes": 0,
+      "first_leg_candidates": 0,
+      "elapsed_seconds": 0.015000000013969839
+    },
+    {
+      "front_id": 776,
+      "support_id": 779,
+      "contact_id": "contact_4dfce3fad26d7ae2f0f2",
+      "phase": "role_graph_search",
+      "source_records": 10,
+      "ground_nodes": 2,
+      "expanded_states": 0,
+      "reject_reasons": {
+        "current_own_occupant": 5,
+        "source_session_or_clock": 3
+      },
+      "closest_ground_point_to_target": 2021.1311507591797,
+      "goal_nodes": 0,
+      "first_leg_candidates": 0,
+      "elapsed_seconds": 0.01600000006146729
+    },
+    {
+      "front_id": 776,
+      "support_id": 779,
+      "contact_id": "contact_06e02c1e1c17df075447",
+      "phase": "role_graph_search",
+      "source_records": 10,
+      "ground_nodes": 2,
+      "expanded_states": 0,
+      "reject_reasons": {
+        "current_own_occupant": 5,
+        "source_session_or_clock": 3
+      },
+      "closest_ground_point_to_target": 2161.395197990798,
+      "goal_nodes": 0,
+      "first_leg_candidates": 0,
+      "elapsed_seconds": 0.0
+    },
+    {
+      "front_id": 776,
+      "support_id": 779,
+      "contact_id": "contact_79eec2868d7d6a5e85ef",
+      "phase": "role_graph_search",
+      "source_records": 10,
+      "ground_nodes": 2,
+      "expanded_states": 0,
+      "reject_reasons": {
+        "current_own_occupant": 5,
+        "source_session_or_clock": 3
+      },
+      "closest_ground_point_to_target": 1923.3224978651033,
+      "goal_nodes": 0,
+      "first_leg_candidates": 0,
+      "elapsed_seconds": 0.0
+    },
+    {
+      "front_id": 778,
+      "support_id": 779,
+      "contact_id": "contact_4dfce3fad26d7ae2f0f2",
+      "phase": "role_graph_search",
+      "source_records": 10,
+      "ground_nodes": 2,
+      "expanded_states": 0,
+      "reject_reasons": {
+        "current_own_occupant": 5,
+        "source_session_or_clock": 3
+      },
+      "closest_ground_point_to_target": 2021.1311507591797,
+      "goal_nodes": 0,
+      "first_leg_candidates": 0,
+      "elapsed_seconds": 0.0
+    },
+    {
+      "front_id": 778,
+      "support_id": 779,
+      "contact_id": "contact_06e02c1e1c17df075447",
+      "phase": "role_graph_search",
+      "source_records": 10,
+      "ground_nodes": 2,
+      "expanded_states": 0,
+      "reject_reasons": {
+        "current_own_occupant": 5,
+        "source_session_or_clock": 3
+      },
+      "closest_ground_point_to_target": 2161.395197990798,
+      "goal_nodes": 0,
+      "first_leg_candidates": 0,
+      "elapsed_seconds": 0.0
+    },
+    {
+      "front_id": 778,
+      "support_id": 779,
+      "contact_id": "contact_79eec2868d7d6a5e85ef",
+      "phase": "role_graph_search",
+      "source_records": 10,
+      "ground_nodes": 2,
+      "expanded_states": 0,
+      "reject_reasons": {
+        "current_own_occupant": 5,
+        "source_session_or_clock": 3
+      },
+      "closest_ground_point_to_target": 1923.3224978651033,
+      "goal_nodes": 0,
+      "first_leg_candidates": 0,
+      "elapsed_seconds": 0.0
+    },
+    {
+      "front_id": 771,
+      "support_id": 779,
+      "contact_id": "contact_4dfce3fad26d7ae2f0f2",
+      "phase": "role_graph_search",
+      "source_records": 10,
+      "ground_nodes": 2,
+      "expanded_states": 0,
+      "reject_reasons": {
+        "current_own_occupant": 5,
+        "source_session_or_clock": 3
+      },
+      "closest_ground_point_to_target": 2021.1311507591797,
+      "goal_nodes": 0,
+      "first_leg_candidates": 0,
+      "elapsed_seconds": 0.0
+    },
+    {
+      "front_id": 771,
+      "support_id": 779,
+      "contact_id": "contact_06e02c1e1c17df075447",
+      "phase": "role_graph_search",
+      "source_records": 10,
+      "ground_nodes": 2,
+      "expanded_states": 0,
+      "reject_reasons": {
+        "current_own_occupant": 5,
+        "source_session_or_clock": 3
+      },
+      "closest_ground_point_to_target": 2161.395197990798,
+      "goal_nodes": 0,
+      "first_leg_candidates": 0,
+      "elapsed_seconds": 0.0
+    },
+    {
+      "front_id": 771,
+      "support_id": 779,
+      "contact_id": "contact_79eec2868d7d6a5e85ef",
+      "phase": "role_graph_search",
+      "source_records": 10,
+      "ground_nodes": 2,
+      "expanded_states": 0,
+      "reject_reasons": {
+        "current_own_occupant": 5,
+        "source_session_or_clock": 3
+      },
+      "closest_ground_point_to_target": 1923.3224978651033,
+      "goal_nodes": 0,
+      "first_leg_candidates": 0,
+      "elapsed_seconds": 0.01600000006146729
+    },
+    {
+      "front_id": 778,
+      "support_id": 773,
+      "contact_id": "contact_4dfce3fad26d7ae2f0f2",
+      "phase": "role_graph_search",
+      "source_records": 10,
+      "ground_nodes": 3,
+      "expanded_states": 0,
+      "reject_reasons": {
+        "current_own_occupant": 4,
+        "source_session_or_clock": 3
+      },
+      "closest_ground_point_to_target": 1971.137669601439,
+      "goal_nodes": 0,
+      "first_leg_candidates": 0,
+      "elapsed_seconds": 0.0
+    },
+    {
+      "front_id": 778,
+      "support_id": 773,
+      "contact_id": "contact_06e02c1e1c17df075447",
+      "phase": "role_graph_search",
+      "source_records": 10,
+      "ground_nodes": 3,
+      "expanded_states": 0,
+      "reject_reasons": {
+        "current_own_occupant": 4,
+        "source_session_or_clock": 3
+      },
+      "closest_ground_point_to_target": 2110.1467087586525,
+      "goal_nodes": 0,
+      "first_leg_candidates": 0,
+      "elapsed_seconds": 0.0
+    },
+    {
+      "front_id": 778,
+      "support_id": 773,
+      "contact_id": "contact_79eec2868d7d6a5e85ef",
+      "phase": "role_graph_search",
+      "source_records": 10,
+      "ground_nodes": 3,
+      "expanded_states": 0,
+      "reject_reasons": {
+        "current_own_occupant": 4,
+        "source_session_or_clock": 3
+      },
+      "closest_ground_point_to_target": 1870.1565879218624,
+      "goal_nodes": 0,
+      "first_leg_candidates": 0,
+      "elapsed_seconds": 0.0
+    },
+    {
+      "front_id": 771,
+      "support_id": 773,
+      "contact_id": "contact_4dfce3fad26d7ae2f0f2",
+      "phase": "role_graph_search",
+      "source_records": 10,
+      "ground_nodes": 3,
+      "expanded_states": 0,
+      "reject_reasons": {
+        "current_own_occupant": 4,
+        "source_session_or_clock": 3
+      },
+      "closest_ground_point_to_target": 1971.137669601439,
+      "goal_nodes": 0,
+      "first_leg_candidates": 0,
+      "elapsed_seconds": 0.0
+    },
+    {
+      "front_id": 771,
+      "support_id": 773,
+      "contact_id": "contact_06e02c1e1c17df075447",
+      "phase": "role_graph_search",
+      "source_records": 10,
+      "ground_nodes": 3,
+      "expanded_states": 0,
+      "reject_reasons": {
+        "current_own_occupant": 4,
+        "source_session_or_clock": 3
+      },
+      "closest_ground_point_to_target": 2110.1467087586525,
+      "goal_nodes": 0,
+      "first_leg_candidates": 0,
+      "elapsed_seconds": 0.0
+    },
+    {
+      "front_id": 771,
+      "support_id": 773,
+      "contact_id": "contact_79eec2868d7d6a5e85ef",
+      "phase": "role_graph_search",
+      "source_records": 10,
+      "ground_nodes": 3,
+      "expanded_states": 0,
+      "reject_reasons": {
+        "current_own_occupant": 4,
+        "source_session_or_clock": 3
+      },
+      "closest_ground_point_to_target": 1870.1565879218624,
+      "goal_nodes": 0,
+      "first_leg_candidates": 0,
+      "elapsed_seconds": 0.015999999945051968
+    }
+  ],
+  "sdk_calls": 0
+}

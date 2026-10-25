@@ -1,0 +1,148 @@
+{
+  "status": "natural_review",
+  "production_primitive_verified": false,
+  "runtime_direction_switch_verified": false,
+  "natural_chains": [
+    {
+      "status": "native_chain_observed",
+      "production_primitive_verified": false,
+      "natural_chain_verified": true,
+      "runtime_direction_switch_verified": false,
+      "checks": {
+        "trace_complete": true,
+        "event_sequence_complete": true,
+        "bridge_enqueue": false,
+        "identity_chain": true,
+        "debit_call_chain": true,
+        "node_paid_accumulator": true,
+        "cost_fully_attributed": true,
+        "native_factory_creation": true,
+        "production_completion": true,
+        "created_object_remains_live": true
+      },
+      "issues": [
+        "bridge_enqueue missing or inconsistent"
+      ],
+      "node": "0x611fcb8",
+      "queue_id": 22,
+      "native_cost": 220,
+      "attributed_debits": 220,
+      "debit_count": 90,
+      "object": "0x52cd8b0",
+      "object_id": 799,
+      "live_samples": 10,
+      "max_live_distance_from_factory": 91.4609396909989,
+      "first_payment_frame": 3751,
+      "creation_frame": 3850,
+      "payment_to_creation_frame_span": 99,
+      "payment_sample_count": 100,
+      "note": "Cost is attributed by synchronous production-node TLS -> original resource debit return -> node+0x68, not global cash deltas. Creation is attributed by production tick context and exact native creation/completion callers. A natural chain is not a bridge enqueue. Macro direction/baseline acceptance remains separate."
+    },
+    {
+      "status": "native_chain_observed",
+      "production_primitive_verified": false,
+      "natural_chain_verified": true,
+      "runtime_direction_switch_verified": false,
+      "checks": {
+        "trace_complete": true,
+        "event_sequence_complete": true,
+        "bridge_enqueue": false,
+        "identity_chain": true,
+        "debit_call_chain": true,
+        "node_paid_accumulator": true,
+        "cost_fully_attributed": true,
+        "native_factory_creation": true,
+        "production_completion": true,
+        "created_object_remains_live": true
+      },
+      "issues": [
+        "bridge_enqueue missing or inconsistent"
+      ],
+      "node": "0x615afd8",
+      "queue_id": 23,
+      "native_cost": 220,
+      "attributed_debits": 220,
+      "debit_count": 90,
+      "object": "0x52cbab0",
+      "object_id": 801,
+      "live_samples": 10,
+      "max_live_distance_from_factory": 91.4609396909989,
+      "first_payment_frame": 3851,
+      "creation_frame": 3950,
+      "payment_to_creation_frame_span": 99,
+      "payment_sample_count": 100,
+      "note": "Cost is attributed by synchronous production-node TLS -> original resource debit return -> node+0x68, not global cash deltas. Creation is attributed by production tick context and exact native creation/completion callers. A natural chain is not a bridge enqueue. Macro direction/baseline acceptance remains separate."
+    },
+    {
+      "status": "native_chain_observed",
+      "production_primitive_verified": false,
+      "natural_chain_verified": true,
+      "runtime_direction_switch_verified": false,
+      "checks": {
+        "trace_complete": true,
+        "event_sequence_complete": true,
+        "bridge_enqueue": false,
+        "identity_chain": true,
+        "debit_call_chain": true,
+        "node_paid_accumulator": true,
+        "cost_fully_attributed": true,
+        "native_factory_creation": true,
+        "production_completion": true,
+        "created_object_remains_live": true
+      },
+      "issues": [
+        "bridge_enqueue missing or inconsistent"
+      ],
+      "node": "0x6165a08",
+      "queue_id": 24,
+      "native_cost": 220,
+      "attributed_debits": 220,
+      "debit_count": 90,
+      "object": "0x52d00b0",
+      "object_id": 803,
+      "live_samples": 5,
+      "max_live_distance_from_factory": 91.4609396909989,
+      "first_payment_frame": 3951,
+      "creation_frame": 4050,
+      "payment_to_creation_frame_span": 99,
+      "payment_sample_count": 100,
+      "note": "Cost is attributed by synchronous production-node TLS -> original resource debit return -> node+0x68, not global cash deltas. Creation is attributed by production tick context and exact native creation/completion callers. A natural chain is not a bridge enqueue. Macro direction/baseline acceptance remains separate."
+    },
+    {
+      "status": "native_chain_observed",
+      "production_primitive_verified": false,
+      "natural_chain_verified": true,
+      "runtime_direction_switch_verified": false,
+      "checks": {
+        "trace_complete": true,
+        "event_sequence_complete": true,
+        "bridge_enqueue": false,
+        "identity_chain": true,
+        "debit_call_chain": true,
+        "node_paid_accumulator": true,
+        "cost_fully_attributed": true,
+        "native_factory_creation": true,
+        "production_completion": true,
+        "created_object_remains_live": true
+      },
+      "issues": [
+        "bridge_enqueue missing or inconsistent"
+      ],
+      "node": "0x6169668",
+      "queue_id": 21,
+      "native_cost": 220,
+      "attributed_debits": 220,
+      "debit_count": 90,
+      "object": "0x52cf1b0",
+      "object_id": 797,
+      "live_samples": 27,
+      "max_live_distance_from_factory": 91.4609396909989,
+      "first_payment_frame": 3472,
+      "creation_frame": 3571,
+      "payment_to_creation_frame_span": 99,
+      "payment_sample_count": 100,
+      "note": "Cost is attributed by synchronous production-node TLS -> original resource debit return -> node+0x68, not global cash deltas. Creation is attributed by production tick context and exact native creation/completion callers. A natural chain is not a bridge enqueue. Macro direction/baseline acceptance remains separate."
+    }
+  ],
+  "verified_natural_chains": 4
+}

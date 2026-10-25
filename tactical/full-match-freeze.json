@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "status": "three_purposes_ready_for_full_match",
+  "scopes": [
+    "attack.main_attack",
+    "raid.harass_economy",
+    "combined_arms.coordinate_force"
+  ],
+  "attack_source_report": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-030636-commander\\combo-economy01.json",
+  "attack_source_sha256": "f1225debb76c9ca0c6ba63260b30cb133b5027a37d9ef222c4b98bc2d563053e",
+  "coordinate_source_report": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261024-234355-commander\\formation-stop-v2-03.json",
+  "qualification_checks": 27,
+  "offline_test_count": 212,
+  "disposal_status": "read_only_software_tested_not_live_casualty_verified",
+  "new_native_calls_since_success": false,
+  "files": {
+    "client.py": "64a856100dea53caa6faaf4f128466e128dcb3d5cefa421baeb909c867cf88a8",
+    "evidence.py": "fc0827d27afed225e1af1c19fc620de786f16aac593c13608fdaec73f9347c89",
+    "combo_qualification.py": "74ed16345fcde688fae5d6cbf08333d39bae9c2c009c7a62733bd022910fe8cb",
+    "readonly_disposal.py": "7bcfb14010ef9896862c9a68101d5a3402ccd7640869852360c47416a720aa26",
+    "mobility_guard.py": "e903f9a10d342e0faa17545727f52992a57d2eb04f69e805030f636bbaa7e14f",
+    "restoration.py": "d288e7b3c49743ec50d4a27b258823c68932ccdd0e0e4f884e3db7742bea56c7",
+    "ordered-combo/lease.py": "ea6d8996b7f9358caa53660f31683ccf0aed6f6e4a79c01287f0c46c1f257a9a",
+    "ordered-combo/lease.cpp": "753013acc32c23b8b814d64b006376619ea6824f01880851e6d866722c4c25ef",
+    "ordered-combo/shared.h": "a269b143c41b40e4d5435de9f59dcd1e9f359fa511fdce9826048a2e90fefafb",
+    "ordered-combo/host.cpp": "2054d444adb36f9bff5ed0e523ea4bd37652d80f06c1415204d40414c5eb2d50",
+    "ordered-combo/bin/TacticalOrderedCombo.dll": "fc04e6675d42983b3fa603fcb402652c73d4637e4cb6d9ae2a9cc280d32d3ebe",
+    "ordered-combo/bin/tactical_host.exe": "1df313b9a2dc368dc4213f2bb02da115bbf944a51fbfa77fce5497119fb09341",
+    "ordered-combo/inert-layout.json": "385b6f2d0c0c50b2991429a6c500779f89138a0b409e3bdcfc779afbad9e9381"
+  }
+}

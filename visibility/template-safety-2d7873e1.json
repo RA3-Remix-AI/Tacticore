@@ -1,0 +1,2512 @@
+{
+  "schema_version": 1,
+  "package_sha256": "2d7873e1b2d2c79950ff9da70b5452b1210370a6d6cbec1eaa69201a7d3d0665",
+  "compiled_manifest_sha256": "aec863b2e91cecaa4031f87a124c8d04e6bd45862d38fa76a823b69e9a8fafc5",
+  "source_audit_only": true,
+  "detection_verified": false,
+  "runtime_invisibility_must_still_be_excluded": true,
+  "templates": {
+    "0xa01d437d": {
+      "template": "SovietCrane",
+      "role": "structure",
+      "physical_role": "structure",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\SovietCrane.xml",
+          "sha256": "01387a1ee42db9056a5dd93c71d6bfc82cc741f969d7584720cb897a503eecd4"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseSovietStructure.xml",
+          "sha256": "f60fb9e973fbb8a683a13db5a9b9792d7a9c2050fc7c0a06489402815b8e4ad7"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseStructure.xml",
+          "sha256": "9624d3272632ba33b5f8cca9d8eb50228c0610ea60db14fe68cb00f823ddaea0"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x28a7f829",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0xa768e216": {
+      "template": "JapanInfiltrationInfantry",
+      "role": "infantry",
+      "physical_role": "infantry",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\JapanInfiltrationInfantry.xml",
+          "sha256": "bce53f1ee0bde0cb69c250d48b32933afaee99cf9b00abec55f7ca46e6b1eaf7"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\bases\\BaseInfantry.xml",
+          "sha256": "734d6d7a46521cc751146b32882c25926a4572a56a5fb21d9ad3aaeeff010f9e"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x49bc95d3",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x8ece261c": {
+      "template": "AlliedRefinery",
+      "role": "structure",
+      "physical_role": "structure",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\AlliedRefinery.xml",
+          "sha256": "b65b6ebb5e6d589db37737c04f88893f0f67221f0b1c4756ef4967aed3e7aa01"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseStructure.xml",
+          "sha256": "9624d3272632ba33b5f8cca9d8eb50228c0610ea60db14fe68cb00f823ddaea0"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0xa96f891",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x9c5d3bb8": {
+      "template": "AlliedAntiVehicleInfantry",
+      "role": "infantry",
+      "physical_role": "infantry",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\AlliedAntiVehicleInfantry.xml",
+          "sha256": "d7df18cd3eebbfa7cb29c2b05cdffaeb54dc11ffe245757865d2d7cc7521bd21"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\bases\\BaseInfantry.xml",
+          "sha256": "734d6d7a46521cc751146b32882c25926a4572a56a5fb21d9ad3aaeeff010f9e"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x9a0ab3db",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x95d6e965": {
+      "template": "AlliedSuperWeaponAdvanced",
+      "role": "structure",
+      "physical_role": "structure",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\AlliedSuperWeaponAdvanced.xml",
+          "sha256": "6086e59845445b6836e5baba5fdded62518f272c26674cb9e4e86925cb022ccc"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseStructure.xml",
+          "sha256": "9624d3272632ba33b5f8cca9d8eb50228c0610ea60db14fe68cb00f823ddaea0"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x839c5283",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0xa82cf003": {
+      "template": "SovietWallPiece",
+      "role": "structure",
+      "physical_role": "structure",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\SovietWallPiece.xml",
+          "sha256": "37761163cee53e127699444793149ed07ba74e8c5e2053f475c7ce39b25d5490"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseWallPiece.xml",
+          "sha256": "103d72eb80186e6cf4265aa934914d0d66761a5615974c064eeaa78040098ab4"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseStructure.xml",
+          "sha256": "9624d3272632ba33b5f8cca9d8eb50228c0610ea60db14fe68cb00f823ddaea0"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0xcf0a8d36",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0xc16ff13f": {
+      "template": "SovietConstructionYard",
+      "role": "structure",
+      "physical_role": "structure",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\SovietConstructionYard.xml",
+          "sha256": "80725f1317dcf4d1dd1fc5577ca1c51e0081f220b113f788bc3230ec8ec1e80a"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseSovietStructure.xml",
+          "sha256": "f60fb9e973fbb8a683a13db5a9b9792d7a9c2050fc7c0a06489402815b8e4ad7"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseStructure.xml",
+          "sha256": "9624d3272632ba33b5f8cca9d8eb50228c0610ea60db14fe68cb00f823ddaea0"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x4f6d830d",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0xc45aaeab": {
+      "template": "SovietRefinery",
+      "role": "economy",
+      "physical_role": "structure",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\SovietRefinery.xml",
+          "sha256": "9b8bbf7bf5e083f1aa1ae90df63526a4c3fdb5af7ce6f7424d9a9cf26f86442a"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseSovietStructure.xml",
+          "sha256": "f60fb9e973fbb8a683a13db5a9b9792d7a9c2050fc7c0a06489402815b8e4ad7"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseStructure.xml",
+          "sha256": "9624d3272632ba33b5f8cca9d8eb50228c0610ea60db14fe68cb00f823ddaea0"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x7663344d",
+      "source_audited_no_intrinsic_stealth": true,
+      "functional_role_evidence": {
+        "classification_revision": "exact_soviet_refinery_v1",
+        "required_effective_kind_of": [
+          "REFINERY",
+          "SUPPLY_GATHERING_CENTER"
+        ],
+        "effective_kind_of": [
+          "ACTIVATE_AFTER_UNPACK",
+          "AUTO_ACQUIRABLE_BY_AI",
+          "CAN_BUILD_ON_DEEP_WATER",
+          "CAN_BUILD_ON_WATER",
+          "CAN_CAST_REFLECTIONS",
+          "COVER",
+          "CRUSHABLE_BUILDING",
+          "FS_MONEY_STORAGE",
+          "IMMOBILE",
+          "NOT_AUTOACQUIRABLE",
+          "REFINERY",
+          "SCORE",
+          "SELECTABLE",
+          "SKIRMISH_AI_CAN_BUILD_DURING_EMERGENCY_NO_INCOME",
+          "STRUCTURE",
+          "SUPPLY_GATHERING_CENTER"
+        ],
+        "scope": "Source functional role only; no live harassment capability granted."
+      }
+    },
+    "0xb7377639": {
+      "template": "SovietTechStructure",
+      "role": "structure",
+      "physical_role": "structure",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\SovietTechStructure.xml",
+          "sha256": "f389febbf0af0484380e454f3a7dedfd9110de9ebd3a58f88d777b22f149e3b5"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseSovietStructure.xml",
+          "sha256": "f60fb9e973fbb8a683a13db5a9b9792d7a9c2050fc7c0a06489402815b8e4ad7"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseStructure.xml",
+          "sha256": "9624d3272632ba33b5f8cca9d8eb50228c0610ea60db14fe68cb00f823ddaea0"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0xb1c8220c",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0xb74f8348": {
+      "template": "AlliedAntiGroundAircraft",
+      "role": "air",
+      "physical_role": "air",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\AlliedAntiGroundAircraft.xml",
+          "sha256": "b738ae1612c8427eb5eef2753f1e5c088de9bcb5b3890fd9c6702c4d4d073ab4"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseVehicle.xml",
+          "sha256": "3f12c296d3daf313acc9809af0ea801b8211772d0edbfd3d33c7c34a9c24af0c"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0xa5d1c91d",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x12e7d7a4": {
+      "template": "JapanScoutInfantry",
+      "role": "armor",
+      "physical_role": "armor",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\JapanScoutInfantry.xml",
+          "sha256": "b8faa568efd72daea5305d190a1c582ac1596bf0f2d47b6a141817381eca4635"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\bases\\BaseInfantry.xml",
+          "sha256": "734d6d7a46521cc751146b32882c25926a4572a56a5fb21d9ad3aaeeff010f9e"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0xad267bb7",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x139cbc97": {
+      "template": "AlliedAntiInfantryInfantry",
+      "role": "infantry",
+      "physical_role": "infantry",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\AlliedAntiInfantryInfantry.xml",
+          "sha256": "448e18de092877fc0450f248902e111b79c5d0de827e5e596fc51b7c6c860efb"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\bases\\BaseInfantry.xml",
+          "sha256": "734d6d7a46521cc751146b32882c25926a4572a56a5fb21d9ad3aaeeff010f9e"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x6287cf8c",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x856c9dd6": {
+      "template": "SovietSuperWeaponAdvanced",
+      "role": "structure",
+      "physical_role": "structure",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\SovietSuperWeaponAdvanced.xml",
+          "sha256": "f174c7c89995e05e582b5f7d3dd00a8f879cc799595b1c2ea8f8e73056e3cd85"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseSovietStructure.xml",
+          "sha256": "f60fb9e973fbb8a683a13db5a9b9792d7a9c2050fc7c0a06489402815b8e4ad7"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseStructure.xml",
+          "sha256": "9624d3272632ba33b5f8cca9d8eb50228c0610ea60db14fe68cb00f823ddaea0"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x4c25ce62",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x83d5a86b": {
+      "template": "AlliedBomberAircraft",
+      "role": "air",
+      "physical_role": "air",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\AlliedBomberAircraft.xml",
+          "sha256": "297a801cd48e176c6e3c6511a34071f52b8f1f9be237cfdcbac5ffbeb1a84e63"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseVehicle.xml",
+          "sha256": "3f12c296d3daf313acc9809af0ea801b8211772d0edbfd3d33c7c34a9c24af0c"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0xccc617e1",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x838e897b": {
+      "template": "TFGigaCore",
+      "role": "armor",
+      "physical_role": "armor",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\new\\TFGigaCore.xml",
+          "sha256": "70b2fcd47f18fec41ae38a2c6f391d7f01953213c09b75c919c58c17c536aa22"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseEgg.xml",
+          "sha256": "1774541d2b86104d8942239a59cbdc13ac20cd948861151073f9b57f67beba73"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseVehicle.xml",
+          "sha256": "3f12c296d3daf313acc9809af0ea801b8211772d0edbfd3d33c7c34a9c24af0c"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0xc162fe6",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0xfb02c55": {
+      "template": "JapanAntiInfantryInfantry",
+      "role": "infantry",
+      "physical_role": "infantry",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\JapanAntiInfantryInfantry.xml",
+          "sha256": "e255a3323a25a3beab30c53bd5db1b2cd04fc68c64cc6e61f869dac83efa479e"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\bases\\BaseInfantry.xml",
+          "sha256": "734d6d7a46521cc751146b32882c25926a4572a56a5fb21d9ad3aaeeff010f9e"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x5ea64f9b",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x89b86e3d": {
+      "template": "AlliedPowerPlant",
+      "role": "structure",
+      "physical_role": "structure",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\AlliedPowerPlant.xml",
+          "sha256": "79e9f691147c1bd525159de973eb9045ba3ee4b9ba94203d728ed422dcfcb9a7"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseStructure.xml",
+          "sha256": "9624d3272632ba33b5f8cca9d8eb50228c0610ea60db14fe68cb00f823ddaea0"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0xaa6b199e",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x89ae48ea": {
+      "template": "JapanBaseDefense",
+      "role": "structure",
+      "physical_role": "structure",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\JapanBaseDefense.xml",
+          "sha256": "28424398b30146e1893124f1f3789cf8348ca959ccca64febf2405ee29fbcc13"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseStructure.xml",
+          "sha256": "9624d3272632ba33b5f8cca9d8eb50228c0610ea60db14fe68cb00f823ddaea0"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x6b1dc83f",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x8aca3f75": {
+      "template": "AlliedAntiNavalScout",
+      "role": "naval",
+      "physical_role": "naval",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\AlliedAntiNavalScout.xml",
+          "sha256": "76a3c4e794761f2eccced6ff4c07415394021ca88b6542b499c41854e09a4e18"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\bases\\BaseInfantry.xml",
+          "sha256": "734d6d7a46521cc751146b32882c25926a4572a56a5fb21d9ad3aaeeff010f9e"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0xe390c75b",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0xc3040ff": {
+      "template": "AlliedOutpost",
+      "role": "structure",
+      "physical_role": "structure",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\AlliedOutPost.xml",
+          "sha256": "0b6fff7c49b9285b47c3def57566a0ce4fcc7a4a09e006cc888e0cf2740a9cfd"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseStructure.xml",
+          "sha256": "9624d3272632ba33b5f8cca9d8eb50228c0610ea60db14fe68cb00f823ddaea0"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x52860e25",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x9442731": {
+      "template": "SovietOutpost",
+      "role": "structure",
+      "physical_role": "structure",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\SovietOutPost.xml",
+          "sha256": "39d3f5b3c4e650231185cc18f0d482a41ae3c1fc7dd7daa62f678e3f90ecf41d"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseSovietStructure.xml",
+          "sha256": "f60fb9e973fbb8a683a13db5a9b9792d7a9c2050fc7c0a06489402815b8e4ad7"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseStructure.xml",
+          "sha256": "9624d3272632ba33b5f8cca9d8eb50228c0610ea60db14fe68cb00f823ddaea0"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0xff71e83e",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x40acad6d": {
+      "template": "SovietAntiGroundAircraft",
+      "role": "air",
+      "physical_role": "air",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\SovietAntiGroundAircraft.xml",
+          "sha256": "51b76b10e5294b3027cedc6a84c0b063fbf7d7c0ca677490f98b88f17b2f2d8a"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseVehicle.xml",
+          "sha256": "3f12c296d3daf313acc9809af0ea801b8211772d0edbfd3d33c7c34a9c24af0c"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x22e9ab18",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x6586a5a0": {
+      "template": "JapanCommandoTech1",
+      "role": "infantry",
+      "physical_role": "infantry",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\JapanCommandoTech1.xml",
+          "sha256": "fd80e057a21c02ab798e17da5b998e3b34554268ff9140c0e1ee1d817cc56d81"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\bases\\BaseInfantry.xml",
+          "sha256": "734d6d7a46521cc751146b32882c25926a4572a56a5fb21d9ad3aaeeff010f9e"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0xd407863b",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x45dde2db": {
+      "template": "JapanBaseDefense_S07",
+      "role": "structure",
+      "physical_role": "structure",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\JapanBaseDefense.xml",
+          "sha256": "28424398b30146e1893124f1f3789cf8348ca959ccca64febf2405ee29fbcc13"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\JapanBaseDefense.xml",
+          "sha256": "28424398b30146e1893124f1f3789cf8348ca959ccca64febf2405ee29fbcc13"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseStructure.xml",
+          "sha256": "9624d3272632ba33b5f8cca9d8eb50228c0610ea60db14fe68cb00f823ddaea0"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x4316160",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x3c82b910": {
+      "template": "AlliedFighterAircraft",
+      "role": "air",
+      "physical_role": "air",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\AlliedFighterAircraft.xml",
+          "sha256": "92468d49f241c0e7ce4447522db369adbe46ea04d1e2bff4cfd08d35711b3832"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseVehicle.xml",
+          "sha256": "3f12c296d3daf313acc9809af0ea801b8211772d0edbfd3d33c7c34a9c24af0c"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x531ae4e",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x6e1abb35": {
+      "template": "SovietNavalYard",
+      "role": "structure",
+      "physical_role": "structure",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\SovietNavalYard.xml",
+          "sha256": "f524fd7a5f063b349a440649a36ebf94c64da04ffd1ce189c5fdf83e05b747e4"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseSovietStructure.xml",
+          "sha256": "f60fb9e973fbb8a683a13db5a9b9792d7a9c2050fc7c0a06489402815b8e4ad7"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseStructure.xml",
+          "sha256": "9624d3272632ba33b5f8cca9d8eb50228c0610ea60db14fe68cb00f823ddaea0"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x660cd2df",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x356fa3a9": {
+      "template": "JapanConstructionYard",
+      "role": "structure",
+      "physical_role": "structure",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\JapanConstructionYard.xml",
+          "sha256": "3c631cdd86160843b15434a29b67cf858f0493ce21804f48b73ef084dec1e61c"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseStructure.xml",
+          "sha256": "9624d3272632ba33b5f8cca9d8eb50228c0610ea60db14fe68cb00f823ddaea0"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x9e63864",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x3e11865d": {
+      "template": "SovietHeavyAntiVehicleInfantry",
+      "role": "infantry",
+      "physical_role": "infantry",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\SovietHeavyAntiVehicleInfantry.xml",
+          "sha256": "ba46a648066bb1b362be08cc09d581eed3387176f0f86c2159609495790baa9c"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\bases\\BaseInfantry.xml",
+          "sha256": "734d6d7a46521cc751146b32882c25926a4572a56a5fb21d9ad3aaeeff010f9e"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x3c200da8",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x69b62705": {
+      "template": "AlliedBaseDefenseAdvanced",
+      "role": "structure",
+      "physical_role": "structure",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\AlliedBaseDefenseAdvanced.xml",
+          "sha256": "df776c27b164215458d042d39737a2d27af125cd39d302832867c9346d6ea436"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseStructure.xml",
+          "sha256": "9624d3272632ba33b5f8cca9d8eb50228c0610ea60db14fe68cb00f823ddaea0"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0xcf1ddb92",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x53e0eb12": {
+      "template": "AlliedCommandoTech1",
+      "role": "infantry",
+      "physical_role": "infantry",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\AlliedCommandoTech1.xml",
+          "sha256": "d50faa5206053bcdbd88115916f02bd794f7bdec7431295ab0900282496b3789"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\bases\\BaseInfantry.xml",
+          "sha256": "734d6d7a46521cc751146b32882c25926a4572a56a5fb21d9ad3aaeeff010f9e"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0xfa8c834",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x5d02b20c": {
+      "template": "JapanRefinery",
+      "role": "structure",
+      "physical_role": "structure",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\JapanRefinery.xml",
+          "sha256": "58c31a0d42b80a0bb4121c6b85355244b53a6f32dccbb73a154fa9d99e2a426e"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseStructure.xml",
+          "sha256": "9624d3272632ba33b5f8cca9d8eb50228c0610ea60db14fe68cb00f823ddaea0"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0xcc5cc229",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x509d5101": {
+      "template": "AlliedSupportAircraft",
+      "role": "air",
+      "physical_role": "air",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\AlliedSupportAircraft.xml",
+          "sha256": "2a579d242cdb7b3b1f99f0163974658ca719e767354712ee1cebaaed5f647ea7"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseVehicle.xml",
+          "sha256": "3f12c296d3daf313acc9809af0ea801b8211772d0edbfd3d33c7c34a9c24af0c"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0xe2d23662",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x509bd329": {
+      "template": "AlliedBarracks",
+      "role": "structure",
+      "physical_role": "structure",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\AlliedBarracks.xml",
+          "sha256": "c74670eac51173ef8b1fa93bc7c7f4985f43aab7b9f45f54026187d9993d9ee1"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseStructure.xml",
+          "sha256": "9624d3272632ba33b5f8cca9d8eb50228c0610ea60db14fe68cb00f823ddaea0"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x1f286637",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x4df5f9c1": {
+      "template": "SovietBaseDefenseGround",
+      "role": "structure",
+      "physical_role": "structure",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\SovietBaseDefenseGround.xml",
+          "sha256": "3e7cea914c94e4e274ea5d12fcf07bb28bbe74e85cec626484cfeed3012f6cc1"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseSovietStructure.xml",
+          "sha256": "f60fb9e973fbb8a683a13db5a9b9792d7a9c2050fc7c0a06489402815b8e4ad7"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseStructure.xml",
+          "sha256": "9624d3272632ba33b5f8cca9d8eb50228c0610ea60db14fe68cb00f823ddaea0"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x53d05151",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x61a093f6": {
+      "template": "AlliedConstructionYard",
+      "role": "structure",
+      "physical_role": "structure",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\AlliedConstructionYard.xml",
+          "sha256": "050ad2b9678db85f74a56e15c20339afa015c51f33537724f6192555a4868c52"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseStructure.xml",
+          "sha256": "9624d3272632ba33b5f8cca9d8eb50228c0610ea60db14fe68cb00f823ddaea0"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x46387e92",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x524bbd01": {
+      "template": "SovietPowerPlantAdvanced",
+      "role": "structure",
+      "physical_role": "structure",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\SovietPowerPlantAdvanced.xml",
+          "sha256": "4c363d35cb762dca4fde8872bcfc6e7cc1aa1e161f2957b5fb9cd89f5c86da2e"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseSovietStructure.xml",
+          "sha256": "f60fb9e973fbb8a683a13db5a9b9792d7a9c2050fc7c0a06489402815b8e4ad7"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseStructure.xml",
+          "sha256": "9624d3272632ba33b5f8cca9d8eb50228c0610ea60db14fe68cb00f823ddaea0"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x71eca581",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x62d03e7c": {
+      "template": "TFSupplyStation",
+      "role": "structure",
+      "physical_role": "structure",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\protocols\\SupplyStation.xml",
+          "sha256": "127cd3bba050ca9d6ace66a116cc9dd8b36f66bd2c5f16fc1f8c2bde644d41c5"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseStructure.xml",
+          "sha256": "9624d3272632ba33b5f8cca9d8eb50228c0610ea60db14fe68cb00f823ddaea0"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0xb6545770",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x33026fa1": {
+      "template": "SovietScoutInfantry",
+      "role": "infantry",
+      "physical_role": "infantry",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\SovietScoutInfantry.xml",
+          "sha256": "17db518cf8afceab0e5487280cb09504dba5aba04427a350e2204fd22aaac5d1"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\bases\\BaseInfantry.xml",
+          "sha256": "734d6d7a46521cc751146b32882c25926a4572a56a5fb21d9ad3aaeeff010f9e"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x9d4c0222",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x80d4ea1e": {
+      "template": "SovietBarracks",
+      "role": "structure",
+      "physical_role": "structure",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\SovietBarracks.xml",
+          "sha256": "656c1845986b315744f85df2532700daaa56389a367c4be27563992f19ce7fcd"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseSovietStructure.xml",
+          "sha256": "f60fb9e973fbb8a683a13db5a9b9792d7a9c2050fc7c0a06489402815b8e4ad7"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseStructure.xml",
+          "sha256": "9624d3272632ba33b5f8cca9d8eb50228c0610ea60db14fe68cb00f823ddaea0"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0xdea32d1b",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x1afc9a6e": {
+      "template": "JapanSuperWeaponAdvanced",
+      "role": "structure",
+      "physical_role": "structure",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\JapanSuperWeaponAdvanced.xml",
+          "sha256": "bdaecdd717e495ae75345eddab5406ebb0416a0596c070a030f7eb2b06d3380a"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseStructure.xml",
+          "sha256": "9624d3272632ba33b5f8cca9d8eb50228c0610ea60db14fe68cb00f823ddaea0"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x2d8c593b",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x20dbdfcc": {
+      "template": "JapanEngineer",
+      "role": "infantry",
+      "physical_role": "infantry",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\JapanEngineer.xml",
+          "sha256": "7b9b2de9ce5e45e1ee51960e98d8ce65dac893422e83a14abe962c9bf0c0c9a9"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\bases\\BaseInfantry.xml",
+          "sha256": "734d6d7a46521cc751146b32882c25926a4572a56a5fb21d9ad3aaeeff010f9e"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0xfbb9ac7f",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x1769be29": {
+      "template": "SovietBaseDefenseAir",
+      "role": "structure",
+      "physical_role": "structure",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\SovietBaseDefenseAir.xml",
+          "sha256": "9a845c862adbe41f57953e3a9d7591336c6bab82b79e004d1f2fdd30001ee551"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseSovietStructure.xml",
+          "sha256": "f60fb9e973fbb8a683a13db5a9b9792d7a9c2050fc7c0a06489402815b8e4ad7"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseStructure.xml",
+          "sha256": "9624d3272632ba33b5f8cca9d8eb50228c0610ea60db14fe68cb00f823ddaea0"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0xb119f7dd",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x174f874f": {
+      "template": "SovietCommandoTech1",
+      "role": "infantry",
+      "physical_role": "infantry",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\SovietCommandoTech1.xml",
+          "sha256": "635404493dd6463ef19f1b254c196cf6965e0a18966ebfdd08b890f402eb4cea"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\bases\\BaseInfantry.xml",
+          "sha256": "734d6d7a46521cc751146b32882c25926a4572a56a5fb21d9ad3aaeeff010f9e"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x81cc01be",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x5b3008b7": {
+      "template": "AlliedAirfield",
+      "role": "structure",
+      "physical_role": "structure",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\AlliedAirfield.xml",
+          "sha256": "47b8b02c27e8d8ec40315aedb2a5cac287d24bc13ff06d65f824b5ab942b3aaa"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseStructure.xml",
+          "sha256": "9624d3272632ba33b5f8cca9d8eb50228c0610ea60db14fe68cb00f823ddaea0"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x90aebd15",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x8209c058": {
+      "template": "AlliedWarFactory",
+      "role": "structure",
+      "physical_role": "structure",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\AlliedWarFactory.xml",
+          "sha256": "22e2cdf2beb6444ec782014024332729da9c12604a03698afeaf4237a55a6ab2"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseStructure.xml",
+          "sha256": "9624d3272632ba33b5f8cca9d8eb50228c0610ea60db14fe68cb00f823ddaea0"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x94669bb7",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x19ab11af": {
+      "template": "SovietAntiInfantryInfantry",
+      "role": "infantry",
+      "physical_role": "infantry",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\SovietAntiInfantryInfantry.xml",
+          "sha256": "b9ffa952bf30200ed5e99744dfed87e7ec0d5071f772ce9039863ab4cbe80841"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\bases\\BaseInfantry.xml",
+          "sha256": "734d6d7a46521cc751146b32882c25926a4572a56a5fb21d9ad3aaeeff010f9e"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x3f9f9fa2",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x2d795eea": {
+      "template": "JapanBaseDefenseAdvanced",
+      "role": "structure",
+      "physical_role": "structure",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\JapanBaseDefenseAdvanced.xml",
+          "sha256": "bb7a94cf75887af44e4f631f34efe7ca46ea08280e96acd726c197fc2fcf35a3"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseStructure.xml",
+          "sha256": "9624d3272632ba33b5f8cca9d8eb50228c0610ea60db14fe68cb00f823ddaea0"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0xac7f1212",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x309480dd": {
+      "template": "JapanPowerPlant",
+      "role": "structure",
+      "physical_role": "structure",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\JapanPowerPlant.xml",
+          "sha256": "1fabbe2923ec8b0a8bf930b1aac501d99034eec98eb1c1aad349be4cd713af33"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseStructure.xml",
+          "sha256": "9624d3272632ba33b5f8cca9d8eb50228c0610ea60db14fe68cb00f823ddaea0"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x65e50248",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x7f54ced1": {
+      "template": "SovietFighterAircraft",
+      "role": "air",
+      "physical_role": "air",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\SovietFighterAircraft.xml",
+          "sha256": "269e8b799660acf61cf86e1654124889190a388e19676ec24de1cb94a76d4c1d"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseVehicle.xml",
+          "sha256": "3f12c296d3daf313acc9809af0ea801b8211772d0edbfd3d33c7c34a9c24af0c"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x964f9722",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x25b1af82": {
+      "template": "TFSalvageCrew",
+      "role": "infantry",
+      "physical_role": "infantry",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\protocols\\SalvageCrew.xml",
+          "sha256": "a0fd46c9e270f6baba67632d73d5b33521684e17c83c6cbac162d35e220834f8"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\bases\\BaseInfantry.xml",
+          "sha256": "734d6d7a46521cc751146b32882c25926a4572a56a5fb21d9ad3aaeeff010f9e"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0xbb4618a8",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x2c358c61": {
+      "template": "SovietAntiVehicleInfantry",
+      "role": "infantry",
+      "physical_role": "infantry",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\SovietAntiVehicleInfantry.xml",
+          "sha256": "5cca74a426d79dddcb395fb575b0c229fc4a0be41a4e167f9aa3bee5735011d4"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\bases\\BaseInfantry.xml",
+          "sha256": "734d6d7a46521cc751146b32882c25926a4572a56a5fb21d9ad3aaeeff010f9e"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x6e7ed8bf",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x7d0549dd": {
+      "template": "JapanAntiVehicleInfantry",
+      "role": "infantry",
+      "physical_role": "infantry",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\JapanAntiVehicleInfantry.xml",
+          "sha256": "0dacd159f7429599f1397bafc21eafdccff5fdf4a9198c975b579e6346d5c477"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\bases\\BaseInfantry.xml",
+          "sha256": "734d6d7a46521cc751146b32882c25926a4572a56a5fb21d9ad3aaeeff010f9e"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x2baf9529",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x296799cf": {
+      "template": "AlliedWallPiece",
+      "role": "structure",
+      "physical_role": "structure",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\AlliedWallPiece.xml",
+          "sha256": "55138cd86d573b6915622aaf8c081960ccc82619992012e3a1fc7d7d50c32499"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseWallPiece.xml",
+          "sha256": "103d72eb80186e6cf4265aa934914d0d66761a5615974c064eeaa78040098ab4"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseStructure.xml",
+          "sha256": "9624d3272632ba33b5f8cca9d8eb50228c0610ea60db14fe68cb00f823ddaea0"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x3dd349dc",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0xf8c50039": {
+      "template": "JapanWallPiece",
+      "role": "structure",
+      "physical_role": "structure",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\JapanWallPiece.xml",
+          "sha256": "21b548c4b6b58e4241fb2020e2407da8c4395c98afcb749aa7aee35861ae3603"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseWallPiece.xml",
+          "sha256": "103d72eb80186e6cf4265aa934914d0d66761a5615974c064eeaa78040098ab4"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseStructure.xml",
+          "sha256": "9624d3272632ba33b5f8cca9d8eb50228c0610ea60db14fe68cb00f823ddaea0"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0xb50176be",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0xee3e07bd": {
+      "template": "AlliedBaseDefense",
+      "role": "structure",
+      "physical_role": "structure",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\AlliedBaseDefense.xml",
+          "sha256": "e07d86eba80f8083f686ccce8c95c2823ffa41418706ae98e249d06269e07136"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseStructure.xml",
+          "sha256": "9624d3272632ba33b5f8cca9d8eb50228c0610ea60db14fe68cb00f823ddaea0"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x30f5eaf3",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0xfa1f6466": {
+      "template": "SovietBaseDefenseAdvanced",
+      "role": "structure",
+      "physical_role": "structure",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\SovietBaseDefenseAdvanced.xml",
+          "sha256": "21e1e980c2b9cb15a40d16b63e91f7a35e7eb473763c98072b1037dca2f13363"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseSovietStructure.xml",
+          "sha256": "f60fb9e973fbb8a683a13db5a9b9792d7a9c2050fc7c0a06489402815b8e4ad7"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseStructure.xml",
+          "sha256": "9624d3272632ba33b5f8cca9d8eb50228c0610ea60db14fe68cb00f823ddaea0"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0xce62fee7",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0xd50c222e": {
+      "template": "SovietWarFactory",
+      "role": "structure",
+      "physical_role": "structure",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\SovietWarFactory.xml",
+          "sha256": "0101b9fed117fe311ee20d12eac91999b7f6d07068ea442330f6674a19121fa4"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseSovietStructure.xml",
+          "sha256": "f60fb9e973fbb8a683a13db5a9b9792d7a9c2050fc7c0a06489402815b8e4ad7"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseStructure.xml",
+          "sha256": "9624d3272632ba33b5f8cca9d8eb50228c0610ea60db14fe68cb00f823ddaea0"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0xe6bad403",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0xddaca5dd": {
+      "template": "JapanAntiVehicleInfantry_Ambush",
+      "role": "infantry",
+      "physical_role": "infantry",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\JapanAntiVehicleInfantry.xml",
+          "sha256": "0dacd159f7429599f1397bafc21eafdccff5fdf4a9198c975b579e6346d5c477"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\JapanAntiVehicleInfantry.xml",
+          "sha256": "0dacd159f7429599f1397bafc21eafdccff5fdf4a9198c975b579e6346d5c477"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\bases\\BaseInfantry.xml",
+          "sha256": "734d6d7a46521cc751146b32882c25926a4572a56a5fb21d9ad3aaeeff010f9e"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x25d42931",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0xe1e9179b": {
+      "template": "AlliedEngineer",
+      "role": "infantry",
+      "physical_role": "infantry",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\AlliedEngineer.xml",
+          "sha256": "7f18c42a9d3ddc862c57544144751060ef5f060416c447a0a5a0027e3d4a1836"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\bases\\BaseInfantry.xml",
+          "sha256": "734d6d7a46521cc751146b32882c25926a4572a56a5fb21d9ad3aaeeff010f9e"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0xc6253255",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0xddfc28de": {
+      "template": "AlliedScoutInfantry",
+      "role": "infantry",
+      "physical_role": "infantry",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\AlliedScoutInfantry.xml",
+          "sha256": "483ef8228aca0fc1907a8f0106096e582840f41086a7bb4e375cf03bbb4e6feb"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\bases\\BaseInfantry.xml",
+          "sha256": "734d6d7a46521cc751146b32882c25926a4572a56a5fb21d9ad3aaeeff010f9e"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x857ebe0a",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0xd741d327": {
+      "template": "SovietScoutVehicle",
+      "role": "infantry",
+      "physical_role": "infantry",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\SovietScoutVehicle.xml",
+          "sha256": "4aa9f53af09444350bfb7fbef973abf8ec198dd5b377d2d64b41804fe333cecc"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\bases\\BaseInfantry.xml",
+          "sha256": "734d6d7a46521cc751146b32882c25926a4572a56a5fb21d9ad3aaeeff010f9e"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x532cdc84",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0xd81c1012": {
+      "template": "JapanAntiVehicleInfantryTech3",
+      "role": "air",
+      "physical_role": "air",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\JapanAntiVehicleInfantryTech3.xml",
+          "sha256": "9289985d8ed23a6e88f86273497f55675b9360700c172460b021edce7720e972"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\bases\\BaseInfantry.xml",
+          "sha256": "734d6d7a46521cc751146b32882c25926a4572a56a5fb21d9ad3aaeeff010f9e"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x112d805b",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0xcf8d9f20": {
+      "template": "SovietPowerPlant",
+      "role": "structure",
+      "physical_role": "structure",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\SovietPowerPlant.xml",
+          "sha256": "b338c05d9ac8032f96888f2c174bdd4e2ef895ce36d9914473f5f416ec7aa183"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseSovietStructure.xml",
+          "sha256": "f60fb9e973fbb8a683a13db5a9b9792d7a9c2050fc7c0a06489402815b8e4ad7"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseStructure.xml",
+          "sha256": "9624d3272632ba33b5f8cca9d8eb50228c0610ea60db14fe68cb00f823ddaea0"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0xda7d1d0f",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0xca9257eb": {
+      "template": "AlliedTechStructure",
+      "role": "structure",
+      "physical_role": "structure",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\AlliedTechStructure.xml",
+          "sha256": "7d6f4bccb29ca8551bc573cf1365e80b3160b44fc74b3a4168fa1556a782fd42"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseStructure.xml",
+          "sha256": "9624d3272632ba33b5f8cca9d8eb50228c0610ea60db14fe68cb00f823ddaea0"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0xdeba55c7",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0xceda61fd": {
+      "template": "JapanNavyScoutShip",
+      "role": "armor",
+      "physical_role": "armor",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\JapanNavyScoutShip.xml",
+          "sha256": "b458e82dfbbe4fa19813a9e287509bb5b3d8d8f5ec25accdae2a725f51d54093"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseVehicle.xml",
+          "sha256": "3f12c296d3daf313acc9809af0ea801b8211772d0edbfd3d33c7c34a9c24af0c"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0xcdb83d79",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0xd20cc8de": {
+      "template": "JapanTechStructure",
+      "role": "structure",
+      "physical_role": "structure",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\JapanTechStructure.xml",
+          "sha256": "a55d8fa5959913b384e0409e97865165137477f3ff817e5fbf0df010df6b6a60"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseStructure.xml",
+          "sha256": "9624d3272632ba33b5f8cca9d8eb50228c0610ea60db14fe68cb00f823ddaea0"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0xe64204c1",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x7848f598": {
+      "template": "AlliedNavalYard",
+      "role": "structure",
+      "physical_role": "structure",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\AlliedNavalYard.xml",
+          "sha256": "c87d2d9b3be7e75fb2c29810d34c033fb247d83265ca722e24b694e0d4338276"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseStructure.xml",
+          "sha256": "9624d3272632ba33b5f8cca9d8eb50228c0610ea60db14fe68cb00f823ddaea0"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0xe8565903",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0xffa811ae": {
+      "template": "SovietBomberAircraft",
+      "role": "air",
+      "physical_role": "air",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\SovietBomberAircraft.xml",
+          "sha256": "ae084cc9a765da6119ab157b7fb4b97dec2e4ed9ea7ae11af95d6676be12abf2"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseVehicle.xml",
+          "sha256": "3f12c296d3daf313acc9809af0ea801b8211772d0edbfd3d33c7c34a9c24af0c"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x4c23aea",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0xd25bb962": {
+      "template": "SovietAirfield",
+      "role": "structure",
+      "physical_role": "structure",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\SovietAirfield.xml",
+          "sha256": "90a207d7b16eb89333783c70663a23a52a527f4b7a220ec374a4405a5c8dded1"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseSovietStructure.xml",
+          "sha256": "f60fb9e973fbb8a683a13db5a9b9792d7a9c2050fc7c0a06489402815b8e4ad7"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseStructure.xml",
+          "sha256": "9624d3272632ba33b5f8cca9d8eb50228c0610ea60db14fe68cb00f823ddaea0"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x63b3e7a8",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x90b81d3c": {
+      "template": "JapanAntiStructureVehicle",
+      "role": "armor",
+      "physical_role": "armor",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\JapanAntiStructureVehicle.xml",
+          "sha256": "6b487211fbe05f8b43b1aca323032d5fb47e7ebf2f6aed4c003a0166154577fc"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseVehicle.xml",
+          "sha256": "3f12c296d3daf313acc9809af0ea801b8211772d0edbfd3d33c7c34a9c24af0c"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x67bda20a",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x5ae534fc": {
+      "template": "AlliedAntiNavyShipTech1",
+      "role": "armor",
+      "physical_role": "armor",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\AlliedAntiNavyShipTech1.xml",
+          "sha256": "2045b82dd9e4b0fd78706276e59d02f32b8147a7aef9c32ed5112d1b1f67f9af"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseVehicle.xml",
+          "sha256": "3f12c296d3daf313acc9809af0ea801b8211772d0edbfd3d33c7c34a9c24af0c"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0xb6b95173",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0xd48ed838": {
+      "template": "AlliedAntiStructureVehicle",
+      "role": "armor",
+      "physical_role": "armor",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\AlliedAntiStructureVehicle.xml",
+          "sha256": "12430aaba032764d7597b9164078a3c5f6c58b789741fb1d366c2cbeef17efc2"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseVehicle.xml",
+          "sha256": "3f12c296d3daf313acc9809af0ea801b8211772d0edbfd3d33c7c34a9c24af0c"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0xe62f9ea1",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x8d0a384a": {
+      "template": "SovietAntiNavyShipTech2",
+      "role": "armor",
+      "physical_role": "armor",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\SovietAntiNavyShipTech2.xml",
+          "sha256": "61f4e6770e94c84b84fe0d055ef8c6be70c3870709a8d4c4232eb3f8c0befed2"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseVehicle.xml",
+          "sha256": "3f12c296d3daf313acc9809af0ea801b8211772d0edbfd3d33c7c34a9c24af0c"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x78317ca4",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0xfc5e3314": {
+      "template": "JapanAntiStructureShip",
+      "role": "naval",
+      "physical_role": "naval",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\JapanAntiStructureShip.xml",
+          "sha256": "6cc1eef6ac118474b549a9ac6978fdff2650034276866b2d54f862d7c04675d9"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseVehicle.xml",
+          "sha256": "3f12c296d3daf313acc9809af0ea801b8211772d0edbfd3d33c7c34a9c24af0c"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x8f897ea4",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0xd6d22475": {
+      "template": "JapanSuperWeapon",
+      "role": "structure",
+      "physical_role": "structure",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\JapanSuperWeapon.xml",
+          "sha256": "2d79d4cbc1130bc7cd555da917406a6a82c92e158c23e1236052bdb04625c1b6"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseStructure.xml",
+          "sha256": "9624d3272632ba33b5f8cca9d8eb50228c0610ea60db14fe68cb00f823ddaea0"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x7ee5dfab",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x4068b3d7": {
+      "template": "AlliedAntiInfantryVehicle_Ground",
+      "role": "armor",
+      "physical_role": "armor",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\AlliedAntiInfantryVehicle.xml",
+          "sha256": "078d8b0fa1af36236fd289cb0cc2894d6ed6d11e735e03ce6ac2d55244d8c8ca"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\AlliedAntiInfantryVehicle.xml",
+          "sha256": "078d8b0fa1af36236fd289cb0cc2894d6ed6d11e735e03ce6ac2d55244d8c8ca"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseVehicle.xml",
+          "sha256": "3f12c296d3daf313acc9809af0ea801b8211772d0edbfd3d33c7c34a9c24af0c"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x93b381e3",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x522bcb61": {
+      "template": "SovietAntiAirShip_Ground",
+      "role": "armor",
+      "physical_role": "armor",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\SovietAntiAirShip.xml",
+          "sha256": "823f9ffc28b128e41eba597d5c1af04632e624af61f55e701feae73e2acd8951"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\SovietAntiAirShip.xml",
+          "sha256": "823f9ffc28b128e41eba597d5c1af04632e624af61f55e701feae73e2acd8951"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseVehicle.xml",
+          "sha256": "3f12c296d3daf313acc9809af0ea801b8211772d0edbfd3d33c7c34a9c24af0c"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x3fd634f4",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x60f0b4e9": {
+      "template": "SovietAntiInfantryVehicle",
+      "role": "armor",
+      "physical_role": "armor",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\SovietAntiInfantryVehicle.xml",
+          "sha256": "ffbff7470ed52f951a10913b1b0973a7c0dd1bd33b0554fe2206c6878345322b"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseVehicle.xml",
+          "sha256": "3f12c296d3daf313acc9809af0ea801b8211772d0edbfd3d33c7c34a9c24af0c"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x83ab9f07",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x9705d80": {
+      "template": "AlliedAntiStructureShip",
+      "role": "naval",
+      "physical_role": "naval",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\AlliedAntiStructureShip.xml",
+          "sha256": "aa1fd832915910a309ebe8f15d9d7a7acfc59ad0d1af38e7ff54e7fc029f7021"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseVehicle.xml",
+          "sha256": "3f12c296d3daf313acc9809af0ea801b8211772d0edbfd3d33c7c34a9c24af0c"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x3cf76b7c",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x1a2ca9ab": {
+      "template": "JapanAntiVehicleShip",
+      "role": "naval",
+      "physical_role": "naval",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\JapanAntiVehicleShip.xml",
+          "sha256": "f441e90b36f1704d352b1097440669a622dbaab777d98f08664bcb5469ff5fec"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseVehicle.xml",
+          "sha256": "3f12c296d3daf313acc9809af0ea801b8211772d0edbfd3d33c7c34a9c24af0c"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0xe8649e15",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x2e211a99": {
+      "template": "AlliedAntiAirShip",
+      "role": "naval",
+      "physical_role": "naval",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\AlliedAntiAirShip.xml",
+          "sha256": "644353a40b1e359e969e6d4ca818a6202dc73ac1e234c3ab1888f8db87be1886"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseVehicle.xml",
+          "sha256": "3f12c296d3daf313acc9809af0ea801b8211772d0edbfd3d33c7c34a9c24af0c"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x69c07b82",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x1c331eb6": {
+      "template": "AlliedAntiInfantryVehicle",
+      "role": "armor",
+      "physical_role": "armor",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\AlliedAntiInfantryVehicle.xml",
+          "sha256": "078d8b0fa1af36236fd289cb0cc2894d6ed6d11e735e03ce6ac2d55244d8c8ca"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseVehicle.xml",
+          "sha256": "3f12c296d3daf313acc9809af0ea801b8211772d0edbfd3d33c7c34a9c24af0c"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0xeb04e8be",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0xbb06395a": {
+      "template": "AlliedAntiAirVehicleTech1",
+      "role": "armor",
+      "physical_role": "armor",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\AlliedAntiAirVehicleTech1.xml",
+          "sha256": "c98d476ef5d877e6df1d251832a5cb2e95d5e00df79a3072eb9f6e2a41663817"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseVehicle.xml",
+          "sha256": "3f12c296d3daf313acc9809af0ea801b8211772d0edbfd3d33c7c34a9c24af0c"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x3fd023b4",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0xccbd2c91": {
+      "template": "SovietAntiAirShip",
+      "role": "armor",
+      "physical_role": "armor",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\SovietAntiAirShip.xml",
+          "sha256": "823f9ffc28b128e41eba597d5c1af04632e624af61f55e701feae73e2acd8951"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseVehicle.xml",
+          "sha256": "3f12c296d3daf313acc9809af0ea801b8211772d0edbfd3d33c7c34a9c24af0c"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x5efbe610",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0xaff62e78": {
+      "template": "SovietAntiNavyShipTech1",
+      "role": "armor",
+      "physical_role": "armor",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\SovietAntiNavyShipTech1.xml",
+          "sha256": "cb58e7c537329e17aef9b67f3ed72a9a667f146174db07f01579e4d08a289168"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseVehicle.xml",
+          "sha256": "3f12c296d3daf313acc9809af0ea801b8211772d0edbfd3d33c7c34a9c24af0c"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0xfbf379d2",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0xbcef51b9": {
+      "template": "SovietAntiStructureShip",
+      "role": "naval",
+      "physical_role": "naval",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\SovietAntiStructureShip.xml",
+          "sha256": "915d9adb675be975d6d991112fd0b983e99b07b341c4ca3e5f7d2c3f62079e2d"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseVehicle.xml",
+          "sha256": "3f12c296d3daf313acc9809af0ea801b8211772d0edbfd3d33c7c34a9c24af0c"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0xbaa80f47",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0xb142dec6": {
+      "template": "JapanAntiAirShip",
+      "role": "armor",
+      "physical_role": "armor",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\JapanAntiAirShip.xml",
+          "sha256": "d7a683310d946bd92b9924c857a54e8a47c6c038fefff055fc7b89df44f948fc"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseVehicle.xml",
+          "sha256": "3f12c296d3daf313acc9809af0ea801b8211772d0edbfd3d33c7c34a9c24af0c"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x5844b849",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0xa08aabd3": {
+      "template": "SovietEngineer",
+      "role": "infantry",
+      "physical_role": "infantry",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\SovietEngineer.xml",
+          "sha256": "a8eefdcbebbcc98ce823b440abd7fa921d792adda8c45b9968ba2a0fdb855f66"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\bases\\BaseInfantry.xml",
+          "sha256": "734d6d7a46521cc751146b32882c25926a4572a56a5fb21d9ad3aaeeff010f9e"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x4550d7d6",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x6e8c5fff": {
+      "template": "JapanAntiAirVehicleTech1",
+      "role": "armor",
+      "physical_role": "armor",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\JapanAntiAirVehicleTech1.xml",
+          "sha256": "db57b0b1c362c45ecb78c06399678a6599e5e96dccaf73d11af5f044462adcac"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseVehicle.xml",
+          "sha256": "3f12c296d3daf313acc9809af0ea801b8211772d0edbfd3d33c7c34a9c24af0c"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0xf4ff30ab",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0xc3986ed4": {
+      "template": "JapanAntiInfantryVehicle",
+      "role": "armor",
+      "physical_role": "armor",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\JapanAntiInfantryVehicle.xml",
+          "sha256": "6e808830d94ba392e92cbe9708761894f1fd2b9a5f1f5b49a480904df2afcbba"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseVehicle.xml",
+          "sha256": "3f12c296d3daf313acc9809af0ea801b8211772d0edbfd3d33c7c34a9c24af0c"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0xc83929f2",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0xd20552e1": {
+      "template": "SovietSuperWeapon",
+      "role": "structure",
+      "physical_role": "structure",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\SovietSuperWeapon.xml",
+          "sha256": "1ffed6a807fc2e41387d1e45eaf2cecd7d517c1822e18a9cf06b144a6e84d314"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseSovietStructure.xml",
+          "sha256": "f60fb9e973fbb8a683a13db5a9b9792d7a9c2050fc7c0a06489402815b8e4ad7"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseStructure.xml",
+          "sha256": "9624d3272632ba33b5f8cca9d8eb50228c0610ea60db14fe68cb00f823ddaea0"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x5752f2d6",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x821381de": {
+      "template": "SovietAntiStructureVehicle",
+      "role": "armor",
+      "physical_role": "armor",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\SovietAntiStructureVehicle.xml",
+          "sha256": "872d55814eba094803a37ef20c456d4d348728549e94dc486d687e4ea0b54d49"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseVehicle.xml",
+          "sha256": "3f12c296d3daf313acc9809af0ea801b8211772d0edbfd3d33c7c34a9c24af0c"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0xf8e28ccc",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0xfd87e82a": {
+      "template": "AlliedSuperWeapon",
+      "role": "structure",
+      "physical_role": "structure",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\AlliedSuperWeapon.xml",
+          "sha256": "5fd62fcf817adea5ecd83b47efe3d4b85364136d9afe908d5d583108b3fea0af"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseStructure.xml",
+          "sha256": "9624d3272632ba33b5f8cca9d8eb50228c0610ea60db14fe68cb00f823ddaea0"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0xa13b7b06",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x6cf14a79": {
+      "template": "TFBalloonBomb",
+      "role": "air",
+      "physical_role": "air",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\protocols\\Balloon.xml",
+          "sha256": "6310f90d43e81f8ff274d49bf1ddd65d08334033d6f83faac79d5c6238678fd8"
+        }
+      ],
+      "compiled_asset_instance_hash": "0xe9e73b3a",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x59908e62": {
+      "template": "JapanAntiVehicleVehicleTech3",
+      "role": "armor",
+      "physical_role": "armor",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\JapanAntiVehicleVehicleTech3.xml",
+          "sha256": "ed2ad5fd7740d3b7aeca4f2e1d3a332d3461091079361f957e6c75af6096d05d"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseVehicle.xml",
+          "sha256": "3f12c296d3daf313acc9809af0ea801b8211772d0edbfd3d33c7c34a9c24af0c"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x8aa61e1b",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0xceb7da1f": {
+      "template": "JapanAntiVehicleVehicleTech1",
+      "role": "armor",
+      "physical_role": "armor",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\JapanAntiVehicleVehicleTech1.xml",
+          "sha256": "09fccab0edb1139e83c3b344a45f5075684e30d91caa56df66300c8bb8aa8621"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseVehicle.xml",
+          "sha256": "3f12c296d3daf313acc9809af0ea801b8211772d0edbfd3d33c7c34a9c24af0c"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x193a5478",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0xba8e535f": {
+      "template": "JapanAntiVehicleVehicleTech1_Naval",
+      "role": "armor",
+      "physical_role": "armor",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\JapanAntiVehicleVehicleTech1.xml",
+          "sha256": "09fccab0edb1139e83c3b344a45f5075684e30d91caa56df66300c8bb8aa8621"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\JapanAntiVehicleVehicleTech1.xml",
+          "sha256": "09fccab0edb1139e83c3b344a45f5075684e30d91caa56df66300c8bb8aa8621"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseVehicle.xml",
+          "sha256": "3f12c296d3daf313acc9809af0ea801b8211772d0edbfd3d33c7c34a9c24af0c"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x4ddf1f22",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0xb7eab835": {
+      "template": "TFGigaPlacement",
+      "role": "structure",
+      "physical_role": "structure",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\new\\TFGigaPlacement.xml",
+          "sha256": "e8fc3694803202725136ac5cc576587a9d21705a0c134de62e739c1aaf614833"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x46875eb2",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x7b91527": {
+      "template": "AlliedAntiVehicleVehicleTech1",
+      "role": "armor",
+      "physical_role": "armor",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\AlliedAntiVehicleVehicleTech1.xml",
+          "sha256": "6d17c68dc9117e5192a3613eb475abf5a0e64669fbd724b4f464fcc5e27e7761"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseVehicle.xml",
+          "sha256": "3f12c296d3daf313acc9809af0ea801b8211772d0edbfd3d33c7c34a9c24af0c"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x7bd726c6",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0xa689b39a": {
+      "template": "JapanWarFactory",
+      "role": "structure",
+      "physical_role": "structure",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\JapanWarFactory.xml",
+          "sha256": "e4561253e3f71d8bcf501a3f4ad75804ec38b0d71682535f3632fef1bb77a63f"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseStructure.xml",
+          "sha256": "9624d3272632ba33b5f8cca9d8eb50228c0610ea60db14fe68cb00f823ddaea0"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x9b1361c1",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x263da9af": {
+      "template": "JapanNavalYard",
+      "role": "structure",
+      "physical_role": "structure",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\JapanNavalYard.xml",
+          "sha256": "4a1c04b8819339014ed540110cc96a6ac041bf1eb069de694f0a81547ad34e1a"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseStructure.xml",
+          "sha256": "9624d3272632ba33b5f8cca9d8eb50228c0610ea60db14fe68cb00f823ddaea0"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x65823707",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x4f32965": {
+      "template": "JapanBarracks",
+      "role": "structure",
+      "physical_role": "structure",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\JapanBarracks.xml",
+          "sha256": "5aba27058b88ffe9eb0c90f7abd8d00efefeb082384aa17d6a74d0ed18494150"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseStructure.xml",
+          "sha256": "9624d3272632ba33b5f8cca9d8eb50228c0610ea60db14fe68cb00f823ddaea0"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x2170e76e",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0xa3ac3c67": {
+      "template": "TFTeslaTank",
+      "role": "armor",
+      "physical_role": "armor",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\new\\TFTeslaTank.xml",
+          "sha256": "048aa7c4ad1bbd858d1cea629b0dd833062ff66541042f1c917520cbe4d3a8c3"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseVehicle.xml",
+          "sha256": "3f12c296d3daf313acc9809af0ea801b8211772d0edbfd3d33c7c34a9c24af0c"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x54a07199",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x913c133b": {
+      "template": "TFCryoLegionnaire",
+      "role": "infantry",
+      "physical_role": "infantry",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\new\\TFCryoLegionnaire.xml",
+          "sha256": "bea1f144487ea279098d617df5c24d2870adb9d0f3b5102100affe38b9dbd98a"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\bases\\BaseInfantry.xml",
+          "sha256": "734d6d7a46521cc751146b32882c25926a4572a56a5fb21d9ad3aaeeff010f9e"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0xeeedf9c",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x10934fbd": {
+      "template": "TFPaladin",
+      "role": "air",
+      "physical_role": "air",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\new\\TFPaladin.xml",
+          "sha256": "31d718a580942b1eef1e295da021ec288c9cfdfcd78e63a9680da6bb1d82997a"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseVehicle.xml",
+          "sha256": "3f12c296d3daf313acc9809af0ea801b8211772d0edbfd3d33c7c34a9c24af0c"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0xa6782200",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0xe87f82a2": {
+      "template": "TFDesolator",
+      "role": "infantry",
+      "physical_role": "infantry",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\new\\TFDesolator.xml",
+          "sha256": "3c88ffc8d99ae355a18c5b13d7ee239e352b55ecec806fb054e0b16aba98ba8a"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\bases\\BaseInfantry.xml",
+          "sha256": "734d6d7a46521cc751146b32882c25926a4572a56a5fb21d9ad3aaeeff010f9e"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x987e7fa7",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x9e45383c": {
+      "template": "SovietAntiVehicleVehicleTech3",
+      "role": "armor",
+      "physical_role": "armor",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\SovietAntiVehicleVehicleTech3.xml",
+          "sha256": "27409f0e05fc8e95b8d70391071bfc51c7e7637f7d49caedd7810b59c2acd5be"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseVehicle.xml",
+          "sha256": "3f12c296d3daf313acc9809af0ea801b8211772d0edbfd3d33c7c34a9c24af0c"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0xd954e4d7",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x49c51dce": {
+      "template": "TFArcherMaiden",
+      "role": "infantry",
+      "physical_role": "infantry",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\new\\TFArcherMaiden.xml",
+          "sha256": "983f85ae557162023373266e28aec422b221a3062e1e8b7852de4e2327a7a044"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\bases\\BaseInfantry.xml",
+          "sha256": "734d6d7a46521cc751146b32882c25926a4572a56a5fb21d9ad3aaeeff010f9e"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x5bd9aa20",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x2a0a199f": {
+      "template": "TFIronFortress",
+      "role": "armor",
+      "physical_role": "armor",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\new\\TFIronFortress.xml",
+          "sha256": "fb4852d695daa8e779ff660f79bd173ae699e24836c0d438c0e7746bcbafb54c"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseVehicle.xml",
+          "sha256": "3f12c296d3daf313acc9809af0ea801b8211772d0edbfd3d33c7c34a9c24af0c"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x7c70d4b0",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x2d71afab": {
+      "template": "TFGigaFortress",
+      "role": "naval",
+      "physical_role": "naval",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\new\\TFGigaFortress.xml",
+          "sha256": "b4ceda3f7db5e71f961be1eb604064072633099ff9d91c6ffe563ceb34fce4b0"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseVehicle.xml",
+          "sha256": "3f12c296d3daf313acc9809af0ea801b8211772d0edbfd3d33c7c34a9c24af0c"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0x744387d6",
+      "source_audited_no_intrinsic_stealth": true
+    },
+    "0x94b3590b": {
+      "template": "SovietAntiVehicleVehicleTech1",
+      "role": "armor",
+      "physical_role": "armor",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\SovietAntiVehicleVehicleTech1.xml",
+          "sha256": "91a8a051efa8d0ae138c2a1b4e354738490d52f5aefa235ba9b0cc595bb5b519"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseVehicle.xml",
+          "sha256": "3f12c296d3daf313acc9809af0ea801b8211772d0edbfd3d33c7c34a9c24af0c"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "compiled_asset_instance_hash": "0xf1b395ee",
+      "source_audited_no_intrinsic_stealth": true
+    }
+  },
+  "rejected": {
+    "TFWreck190": "Not an audited selectable combat/structure class",
+    "JapanWarFactoryEgg": "Not an audited selectable combat/structure class",
+    "TFFieldRepairDrone": "Not an audited selectable combat/structure class",
+    "TFWreck140": "Not an audited selectable combat/structure class",
+    "TFFieldBunker": "capability_attribute:InvisibilityTemplate;capability_module:InvisibilityBehavior",
+    "TFWreck95": "Not an audited selectable combat/structure class",
+    "TFWreck130": "Not an audited selectable combat/structure class",
+    "SovietRepairDrone": "Not an audited selectable combat/structure class",
+    "TFWreck215": "Not an audited selectable combat/structure class",
+    "JapanNavalYardRepairDrone": "Not an audited selectable combat/structure class",
+    "TFRiftWarning": "Not an audited selectable combat/structure class",
+    "AlliedWarFactoryRepairDrone": "Not an audited selectable combat/structure class",
+    "AlliedNavalYardRepairDrone": "Not an audited selectable combat/structure class",
+    "TFWreck200": "Not an audited selectable combat/structure class",
+    "TFWreck90": "Not an audited selectable combat/structure class",
+    "TFWreck240": "Not an audited selectable combat/structure class",
+    "AlliedInfiltrationInfantry": "capability_attribute:InvertStealthOpacity;capability_module:SpecialDisguiseUpdate",
+    "TFWreck225": "Not an audited selectable combat/structure class",
+    "JapanBarracksEgg": "Not an audited selectable combat/structure class",
+    "TFNanoGuard": "Not an audited selectable combat/structure class",
+    "JapanSuperWeaponAdvancedEgg": "Not an audited selectable combat/structure class",
+    "JapanSuperWeaponEgg": "Not an audited selectable combat/structure class",
+    "JapanBaseDefenseEgg": "Not an audited selectable combat/structure class",
+    "JapanBaseDefenseAdvancedEgg": "Not an audited selectable combat/structure class",
+    "JapanWarFactoryRepairDrone": "Not an audited selectable combat/structure class",
+    "TFWreck170": "Not an audited selectable combat/structure class",
+    "JapanTechStructureEgg": "Not an audited selectable combat/structure class",
+    "TFWreck220": "Not an audited selectable combat/structure class",
+    "AlliedAirfieldRepairDrone": "Not an audited selectable combat/structure class",
+    "TFWreck285": "Not an audited selectable combat/structure class",
+    "TFWreck300": "Not an audited selectable combat/structure class",
+    "JapanNavalYardEgg": "Not an audited selectable combat/structure class",
+    "JapanRefineryEgg": "Not an audited selectable combat/structure class",
+    "TFWreck120": "Not an audited selectable combat/structure class",
+    "TFWreck75": "Not an audited selectable combat/structure class",
+    "TFWreck100": "Not an audited selectable combat/structure class",
+    "TFWreck110": "Not an audited selectable combat/structure class",
+    "JapanPowerPlantEgg": "Not an audited selectable combat/structure class",
+    "TFToxicWarning": "Not an audited selectable combat/structure class",
+    "TFLandMine": "Not an audited selectable combat/structure class",
+    "TFAmbushSite": "Not an audited selectable combat/structure class",
+    "TFToxicField": "Not an audited selectable combat/structure class",
+    "TFBalloonWarning": "Not an audited selectable combat/structure class",
+    "JapanLightTransportVehicle": "capability_attribute:InvertStealthOpacity;capability_module:SpecialDisguiseUpdate",
+    "TFMineWorksite": "Not an audited selectable combat/structure class",
+    "TFShieldField": "Not an audited selectable combat/structure class",
+    "NanoSwarmHiveEffect": "Not an audited selectable combat/structure class",
+    "IronCurtainEffect": "Not an audited selectable combat/structure class",
+    "TFArcherProjectile": "Not an audited selectable combat/structure class",
+    "TFCryoField": "Not an audited selectable combat/structure class",
+    "TFFleetEffect": "Not an audited selectable combat/structure class",
+    "TFMobilizeEffect": "Not an audited selectable combat/structure class",
+    "TFOverloadEffect": "Not an audited selectable combat/structure class",
+    "TFRageEffect": "Not an audited selectable combat/structure class",
+    "TFAirLogisticsEffect": "Not an audited selectable combat/structure class",
+    "TFBalloonWave": "Not an audited selectable combat/structure class",
+    "AlliedAntiVehicleVehicleTech3": "capability_attribute:InvertStealthOpacity;capability_attribute:InvisibilityTemplate;capability_module:InvisibilityBroadcastUpdate;capability_module:SpecialDisguiseUpdate;capability_status:AIRBORNE_TARGET BROADCASTING_INVISIBILITY IGNORING_STEALTH;capability_status:GENERIC_TOGGLE_STATE BROADCASTING_INVISIBILITY",
+    "PlayerSpellBook": "Not an audited selectable combat/structure class"
+  },
+  "note": "Source audit is not a decompiler proof of binary capability absence. Requires explicit live-review acceptance for exact package. Unknown/unaudited templates are excluded."
+}

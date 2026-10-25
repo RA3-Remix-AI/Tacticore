@@ -1,0 +1,142 @@
+{
+  "session_id": "95907ea7-26bf-4d4f-9a98-08d92e26273f",
+  "pid": 63904,
+  "frame": 880,
+  "paused": 0,
+  "actor": {
+    "address": "0x569eca0",
+    "owner_address": "0x31174d0",
+    "owner_index_candidate": 3,
+    "object_id": 775,
+    "type_hash": "0x19ab11af",
+    "ai_address": "0x47d2638",
+    "xyz": [
+      2870.454833984375,
+      2870.015625,
+      210.0
+    ],
+    "catalog": {
+      "name": "\u5f81\u53ec\u5175",
+      "template": "SovietAntiInfantryInfantry",
+      "side": 2,
+      "cls": 1,
+      "category": 0
+    },
+    "hp": 100.0,
+    "team": "0x4c0bc20",
+    "command_source": 2,
+    "eligible": true,
+    "mission_admission": {
+      "protocol": "grounded_idle_normal_move_or_exact_attack_admission_v2",
+      "status": "verified_owned_actor_state",
+      "object_id": 775,
+      "address": "0x569eca0",
+      "owner": "0x31174d0",
+      "type_hash": "0x19ab11af",
+      "frame": 885,
+      "end_frame": 885,
+      "grounded_status": {
+        "schema_version": 2,
+        "status": "verified_native_surface_sample",
+        "object_id": 775,
+        "address": "0x569eca0",
+        "owner": "0x31174d0",
+        "type_hash": "0x19ab11af",
+        "template": "SovietAntiInfantryInfantry",
+        "frame": 885,
+        "end_frame": 885,
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x800000",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x40000000"
+        ],
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "ground160_diagnostic": false,
+        "known_air_state": false,
+        "height_cache_flags": "0x6",
+        "height_cache_valid": true,
+        "cached_height_distance": 0.0,
+        "height_tolerance": 0.5,
+        "xyz": [
+          2870.454833984375,
+          2870.015625,
+          210.0
+        ],
+        "hp": 100.0,
+        "holder": "0x0",
+        "ground_positive": true,
+        "grounded_verified": true,
+        "walkable_route_verified": false,
+        "atomic_sample_verified": true,
+        "source": "ground_only_template_plus_valid_native_surface_cache_and_air_exclusions_v2",
+        "mutations": false,
+        "helper_sha256": "70e5f94bac9b1a82beec56053fd43e91f6edaba1500c8dfa840e868be836e6b3",
+        "native_status_helper_sha256": "ad5b758c947843969f2d1ec6e7fc07c0eaec084b1a59e60750d69d881e78a6c0"
+      },
+      "state_snapshot": {
+        "update": "0x47d2638",
+        "update_vtable": "0xc48670",
+        "facade_vtable": "0xc48528",
+        "update_backref": "0x569eca0",
+        "sm": "0x6209738",
+        "sm_owner": "0x569eca0",
+        "state": "0x47e5dd8",
+        "state_id": 16,
+        "state_vtable": "0xc55130",
+        "state_owner_sm": "0x6209738",
+        "command_source": 2,
+        "path": "0x0",
+        "sm_flags": 65536
+      },
+      "mutations": false,
+      "atomic_sample_verified": true,
+      "helper_sha256": "b62c2fdaa4c959d764109a10d63b31c025673bdc196fc50da81750c0afb4c02b",
+      "ground_helper_sha256": "70e5f94bac9b1a82beec56053fd43e91f6edaba1500c8dfa840e868be836e6b3",
+      "status_helper_sha256": "ad5b758c947843969f2d1ec6e7fc07c0eaec084b1a59e60750d69d881e78a6c0",
+      "admission_verified": true,
+      "checks": {
+        "ground_evidence": true,
+        "source": true,
+        "identity_frame": true,
+        "known_foot_update": true,
+        "state_owner_binding": true,
+        "demonstrated_state_only": true,
+        "exact_attack_state_vtable": true,
+        "no_deferred_command_lock": true,
+        "no_mutations": true
+      }
+    }
+  },
+  "target": {
+    "address": 90833056,
+    "object_id": 779,
+    "type_hash": "0xc45aaeab",
+    "owner": 51480624,
+    "owner_player_id": 4,
+    "xyz": [
+      1532.6226806640625,
+      1267.5201416015625,
+      210.0
+    ],
+    "hp": 2400.0,
+    "observed_frame": 884,
+    "region_id": "region_2_2"
+  },
+  "target_contact_id": "contact_246eaaa086e177c49f03",
+  "initial_distance": 2087.5312320466146,
+  "model_requests": 0,
+  "selection_policy": "fresh_player3_full_footprint_static_ground_400_to2600_no_hidden_fallback"
+}

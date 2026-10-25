@@ -1,0 +1,37 @@
+{
+  "status": "no_dispatch_rejected",
+  "session_id": "82dc24e6-8e79-4f04-b7e3-9fb71b043324",
+  "executable_sha256": "ec230c6ae1eaee30b0b4fa6ba29d417c974ecae46d6715dfbe786a815935c165",
+  "package_sha256": "2d7873e1b2d2c79950ff9da70b5452b1210370a6d6cbec1eaa69201a7d3d0665",
+  "native_binary_sha256": "a75cd370cab920f09542e1d1658064a6e326f31b87d887f3174d46f22d881e1e",
+  "native_host_sha256": "a47d80ed19f19f6aac3ebf1702bb7c829d640575ad09c8ea6e103513126dc6e5",
+  "wrapper_sha256": "ef651c171828c8b1d809b81504c54290c742c27cab0da0ba25d5b7d0cf95ee67",
+  "pre_dispatch_helper_sha256": "807b14aee40403dc9a2da53cfd44c61dd733e4a561c46a159008f4495f7b9a61",
+  "host_exit": null,
+  "native_launch_intent_persisted": false,
+  "pre_dispatch": {
+    "protocol": "pre_native_launch_v1",
+    "stage": "pre_native_launch",
+    "native_launch_intent_persisted": false,
+    "sdk_dispatch_possible": false,
+    "reason_code": "selected_unit_not_eligible"
+  },
+  "native": {},
+  "events": [],
+  "preflight": {
+    "pid": 60120,
+    "session_id": "82dc24e6-8e79-4f04-b7e3-9fb71b043324",
+    "player_id": 3,
+    "commander_id": "57e668b4-4d89-43bd-bc92-0dd436f046ef"
+  },
+  "request": {
+    "command_id": "b9fbafc5-57e9-4166-b3c3-aeff66ec60d0",
+    "task_id": "92671e46-db6b-4e17-85c2-04793a4ec1c6",
+    "seq": 9991,
+    "object_ids": [
+      2147483646,
+      2147483645
+    ],
+    "target_contact_id": "contact_offline_rejection"
+  }
+}

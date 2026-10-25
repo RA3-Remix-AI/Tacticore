@@ -1,0 +1,80 @@
+{
+  "calibration_id": "6dde01e4-a832-49b8-88f3-a880e6ca8152",
+  "session_id": "185886d5-50d3-4e3d-8469-485fbf3a6ea0",
+  "pid": 15668,
+  "object_id": 834,
+  "scope": "calibration_only_no_model_purpose",
+  "model_requests": 0,
+  "started": 1792865088.167441,
+  "status": "stopped_on_unverified_move",
+  "steps": [
+    {
+      "report": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-014853-commander\\approach-chain01-move1.json",
+      "sha256": "21bc887561bf4c5d9e3ad8fac561ee7c2cf5abc1dc9fa9d9634528524bfb3979",
+      "controller_exit": 0,
+      "native": {
+        "error": 0,
+        "restore_mask": 255,
+        "callback_thread": 54108,
+        "issued_frame": 5234,
+        "returned_frame": 5685,
+        "move_calls": 1,
+        "detach_calls": 1,
+        "return_calls": 1,
+        "arrival_samples": 0,
+        "native_move": 0,
+        "native_attack": 0,
+        "native_add": 0,
+        "native_remove": 0,
+        "owner_fail": 0,
+        "lifecycle_fail": 0,
+        "paused_samples": 140,
+        "overflow": 0,
+        "return_verified": 1,
+        "return_pending": 0,
+        "stop_calls": 1,
+        "private_stop_calls": 1,
+        "private_stop_frame": 5234,
+        "move_issued_frame": 5239,
+        "stable_samples": 3,
+        "stop_gate_samples": 3,
+        "last_sample_frame": 5239,
+        "last_arrival_frame": 5685,
+        "phase": 3,
+        "active": 0,
+        "count": 313,
+        "lease_frames": 450,
+        "expires_frame": 0,
+        "target": [
+          2417.8671875,
+          1862.9501953125,
+          210.0
+        ],
+        "session_id": "185886d5-50d3-4e3d-8469-485fbf3a6ea0",
+        "commander_id": "57e668b4-4d89-43bd-bc92-0dd436f046ef",
+        "command_id": "54a1ddf9-27b6-48b9-9738-dda6f6a0dd33",
+        "task_id": "b7de1e3b-85b4-44cd-a385-b9fef7f49381",
+        "seq": 574123156
+      },
+      "request": {
+        "command_id": "54a1ddf9-27b6-48b9-9738-dda6f6a0dd33",
+        "task_id": "b7de1e3b-85b4-44cd-a385-b9fef7f49381",
+        "seq": 574123156,
+        "token": 1064365592,
+        "dx": -327.609130859375,
+        "dy": -252.59033203125,
+        "lease_frames": 450,
+        "post_frames": 30,
+        "target": [
+          2417.8671875,
+          1862.9501953125,
+          210.0
+        ],
+        "arrival_radius": 15,
+        "object_id": 834,
+        "expires_frame": 0
+      }
+    }
+  ],
+  "finished": 1792865136.9528997
+}

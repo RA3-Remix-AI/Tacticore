@@ -1,0 +1,731 @@
+{
+  "session_id": "5293a12a-a5df-4c4f-b4e7-341129368bdf",
+  "frame": 2683,
+  "front": 821,
+  "support": 817,
+  "diagnostic_only": true,
+  "safety_gate_still_enforced": true,
+  "sdk_calls": 0,
+  "results": [
+    {
+      "contact": "contact_efbc139fac35fbd854e4",
+      "target": 764,
+      "route_count": 12,
+      "plan": {
+        "schema_version": 1,
+        "session_id": "5293a12a-a5df-4c4f-b4e7-341129368bdf",
+        "pid": 31152,
+        "player_id": 3,
+        "front_id": 821,
+        "support_id": 817,
+        "route": [
+          {
+            "xyz": [
+              2269.38232421875,
+              2856.8408203125,
+              210.00482177734375
+            ],
+            "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\formation-own-history\\00001363-783.json",
+            "own_source_sha256": "678eb6bf06ec4dc53b6fd2b7a9e9b03f153d05ed48f3d114d8e9ee74bdd24f98",
+            "own_source_object_id": 783
+          },
+          {
+            "xyz": [
+              2149.6630859375,
+              2758.0244140625,
+              225.64321899414062
+            ],
+            "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\formation-own-history\\00001409-783.json",
+            "own_source_sha256": "bb48d8c88479ae7dc255b31168c5f30481fc848d38b01eaa6c820cc08aba594e",
+            "own_source_object_id": 783
+          },
+          {
+            "xyz": [
+              2036.6314697265625,
+              2654.412109375,
+              229.20289611816406
+            ],
+            "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\formation-own-history\\00001455-783.json",
+            "own_source_sha256": "9d3311ecaf1a55e660ada47f04ee092242bc37b9da1b7829ba0e67a92da1a057",
+            "own_source_object_id": 783
+          },
+          {
+            "xyz": [
+              1981.265869140625,
+              2501.265869140625,
+              210.0
+            ],
+            "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\formation-own-history\\00001513-783.json",
+            "own_source_sha256": "15f706d7cdefee71cbb1288849fbf504e7acb9339190d7e1a1319be634d3905d",
+            "own_source_object_id": 783
+          },
+          {
+            "xyz": [
+              1900.4281005859375,
+              2378.89111328125,
+              210.0
+            ],
+            "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\formation-own-history\\00001559-783.json",
+            "own_source_sha256": "b500c42b1735cc5b5680f080e9a8f535daa7b2c52fc7725b2880d3eeb5a94b46",
+            "own_source_object_id": 783
+          },
+          {
+            "xyz": [
+              1855.334228515625,
+              2232.33642578125,
+              210.0
+            ],
+            "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\formation-own-history\\00001606-783.json",
+            "own_source_sha256": "0cb4c1f0429efe929af009002a360a104ccde2ef4894bfa27a19c81afc89fdaa",
+            "own_source_object_id": 783
+          },
+          {
+            "xyz": [
+              1841.732666015625,
+              2077.203125,
+              210.0
+            ],
+            "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\formation-own-history\\00002358-792.json",
+            "own_source_sha256": "8122d0b1bc5334a158afc030151f179cae3fdd63fac8aa10f2069d5e93b561e5",
+            "own_source_object_id": 792
+          },
+          {
+            "xyz": [
+              1814.3651123046875,
+              1926.746826171875,
+              210.0
+            ],
+            "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\formation-own-history\\00001698-783.json",
+            "own_source_sha256": "211c58d57686c5e50e0493d227edea43fb1131f736ecfea97fc0abb5529707e9",
+            "own_source_object_id": 783
+          },
+          {
+            "xyz": [
+              1722.86572265625,
+              1799.5062255859375,
+              210.0
+            ],
+            "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\formation-own-history\\00000904-770.json",
+            "own_source_sha256": "2e4416898b7b11d11dad06d5e7225f1ffd09c91b8056d1674ad918c4503417a0",
+            "own_source_object_id": 770
+          },
+          {
+            "xyz": [
+              1656.50341796875,
+              1644.3878173828125,
+              210.0
+            ],
+            "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\formation-own-history\\00001802-783.json",
+            "own_source_sha256": "f9242ff4a6991928df64ea3449f936ac4f8299233bcf13d9289ef27314cd2163",
+            "own_source_object_id": 783
+          },
+          {
+            "xyz": [
+              1621.226318359375,
+              1491.9588623046875,
+              210.0
+            ],
+            "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\formation-own-history\\00000743-768.json",
+            "own_source_sha256": "2100293999958fc51aca48f852efe132693a19babcfb7b9f1cb37291a66d6ac6",
+            "own_source_object_id": 768
+          },
+          {
+            "xyz": [
+              1470.0,
+              1450.0,
+              210.0
+            ],
+            "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\formation-own-history\\00000789-768.json",
+            "own_source_sha256": "99431baf61e9ec78d06227979ce019b9ccabcaf66d12fb5574d8b61f6380dde0",
+            "own_source_object_id": 768
+          }
+        ],
+        "model_eligible": false,
+        "source": "actual_private_own_position_history",
+        "target_selection": "only_high_level_explicit_current_visible_contact"
+      },
+      "status": "route_valid_safety_not_waived"
+    },
+    {
+      "contact": "contact_9841a46166b4f967cfbc",
+      "target": 772,
+      "route_count": 14,
+      "plan": {
+        "schema_version": 1,
+        "session_id": "5293a12a-a5df-4c4f-b4e7-341129368bdf",
+        "pid": 31152,
+        "player_id": 3,
+        "front_id": 821,
+        "support_id": 817,
+        "route": [
+          {
+            "xyz": [
+              2269.38232421875,
+              2856.8408203125,
+              210.00482177734375
+            ],
+            "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\formation-own-history\\00001363-783.json",
+            "own_source_sha256": "678eb6bf06ec4dc53b6fd2b7a9e9b03f153d05ed48f3d114d8e9ee74bdd24f98",
+            "own_source_object_id": 783
+          },
+          {
+            "xyz": [
+              2149.6630859375,
+              2758.0244140625,
+              225.64321899414062
+            ],
+            "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\formation-own-history\\00001409-783.json",
+            "own_source_sha256": "bb48d8c88479ae7dc255b31168c5f30481fc848d38b01eaa6c820cc08aba594e",
+            "own_source_object_id": 783
+          },
+          {
+            "xyz": [
+              2036.6314697265625,
+              2654.412109375,
+              229.20289611816406
+            ],
+            "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\formation-own-history\\00001455-783.json",
+            "own_source_sha256": "9d3311ecaf1a55e660ada47f04ee092242bc37b9da1b7829ba0e67a92da1a057",
+            "own_source_object_id": 783
+          },
+          {
+            "xyz": [
+              1981.265869140625,
+              2501.265869140625,
+              210.0
+            ],
+            "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\formation-own-history\\00001513-783.json",
+            "own_source_sha256": "15f706d7cdefee71cbb1288849fbf504e7acb9339190d7e1a1319be634d3905d",
+            "own_source_object_id": 783
+          },
+          {
+            "xyz": [
+              1900.4281005859375,
+              2378.89111328125,
+              210.0
+            ],
+            "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\formation-own-history\\00001559-783.json",
+            "own_source_sha256": "b500c42b1735cc5b5680f080e9a8f535daa7b2c52fc7725b2880d3eeb5a94b46",
+            "own_source_object_id": 783
+          },
+          {
+            "xyz": [
+              1855.334228515625,
+              2232.33642578125,
+              210.0
+            ],
+            "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\formation-own-history\\00001606-783.json",
+            "own_source_sha256": "0cb4c1f0429efe929af009002a360a104ccde2ef4894bfa27a19c81afc89fdaa",
+            "own_source_object_id": 783
+          },
+          {
+            "xyz": [
+              1841.732666015625,
+              2077.203125,
+              210.0
+            ],
+            "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\formation-own-history\\00002358-792.json",
+            "own_source_sha256": "8122d0b1bc5334a158afc030151f179cae3fdd63fac8aa10f2069d5e93b561e5",
+            "own_source_object_id": 792
+          },
+          {
+            "xyz": [
+              1814.3651123046875,
+              1926.746826171875,
+              210.0
+            ],
+            "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\formation-own-history\\00001698-783.json",
+            "own_source_sha256": "211c58d57686c5e50e0493d227edea43fb1131f736ecfea97fc0abb5529707e9",
+            "own_source_object_id": 783
+          },
+          {
+            "xyz": [
+              1866.82861328125,
+              1766.45556640625,
+              210.0
+            ],
+            "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\formation-own-history\\00000678-768.json",
+            "own_source_sha256": "04fdee2d27f4d1e960316a4e8d66edb9b16070f9777a30894f6de0be5cd9fe9e",
+            "own_source_object_id": 768
+          },
+          {
+            "xyz": [
+              1753.473876953125,
+              1639.764892578125,
+              210.0
+            ],
+            "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\formation-own-history\\00000708-768.json",
+            "own_source_sha256": "dbef320a5bce8355e80e02f36a6dadc7dbf3ca5f99e58f6836d0a8a407c21dc5",
+            "own_source_object_id": 768
+          },
+          {
+            "xyz": [
+              1626.4423828125,
+              1531.6590576171875,
+              210.0
+            ],
+            "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\formation-own-history\\00001837-783.json",
+            "own_source_sha256": "62712fa708ca84874c156197a29a268330fd4c0e70f09200cc13e2ed03bcb079",
+            "own_source_object_id": 783
+          },
+          {
+            "xyz": [
+              1543.0635986328125,
+              1391.907470703125,
+              210.0
+            ],
+            "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\formation-own-history\\00001895-783.json",
+            "own_source_sha256": "f4e35c303e71ee29793dd2c1e3dc3e116f44b3046b2cecd0304d0437ad225d09",
+            "own_source_object_id": 783
+          },
+          {
+            "xyz": [
+              1673.259765625,
+              1290.17626953125,
+              210.0
+            ],
+            "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\formation-own-history\\00001860-787.json",
+            "own_source_sha256": "f34a83cdf570f77fef3c8383d69af21e8d427c75b6d18625d651dda50a57fb1f",
+            "own_source_object_id": 787
+          },
+          {
+            "xyz": [
+              1782.3447265625,
+              1218.8515625,
+              210.0
+            ],
+            "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\formation-own-history\\00001837-787.json",
+            "own_source_sha256": "86269b3a7388f51ecbec5f15f3565631c1ccd7ae72cccf3644e99d3861db3dad",
+            "own_source_object_id": 787
+          }
+        ],
+        "model_eligible": false,
+        "source": "actual_private_own_position_history",
+        "target_selection": "only_high_level_explicit_current_visible_contact"
+      },
+      "status": "route_valid_safety_not_waived"
+    },
+    {
+      "contact": "contact_bc22b40ae1a15b601d01",
+      "target": 778,
+      "route_count": 12,
+      "plan": {
+        "schema_version": 1,
+        "session_id": "5293a12a-a5df-4c4f-b4e7-341129368bdf",
+        "pid": 31152,
+        "player_id": 3,
+        "front_id": 821,
+        "support_id": 817,
+        "route": [
+          {
+            "xyz": [
+              2269.38232421875,
+              2856.8408203125,
+              210.00482177734375
+            ],
+            "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\formation-own-history\\00001363-783.json",
+            "own_source_sha256": "678eb6bf06ec4dc53b6fd2b7a9e9b03f153d05ed48f3d114d8e9ee74bdd24f98",
+            "own_source_object_id": 783
+          },
+          {
+            "xyz": [
+              2149.6630859375,
+              2758.0244140625,
+              225.64321899414062
+            ],
+            "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\formation-own-history\\00001409-783.json",
+            "own_source_sha256": "bb48d8c88479ae7dc255b31168c5f30481fc848d38b01eaa6c820cc08aba594e",
+            "own_source_object_id": 783
+          },
+          {
+            "xyz": [
+              2036.6314697265625,
+              2654.412109375,
+              229.20289611816406
+            ],
+            "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\formation-own-history\\00001455-783.json",
+            "own_source_sha256": "9d3311ecaf1a55e660ada47f04ee092242bc37b9da1b7829ba0e67a92da1a057",
+            "own_source_object_id": 783
+          },
+          {
+            "xyz": [
+              1981.265869140625,
+              2501.265869140625,
+              210.0
+            ],
+            "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\formation-own-history\\00001513-783.json",
+            "own_source_sha256": "15f706d7cdefee71cbb1288849fbf504e7acb9339190d7e1a1319be634d3905d",
+            "own_source_object_id": 783
+          },
+          {
+            "xyz": [
+              1900.4281005859375,
+              2378.89111328125,
+              210.0
+            ],
+            "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\formation-own-history\\00001559-783.json",
+            "own_source_sha256": "b500c42b1735cc5b5680f080e9a8f535daa7b2c52fc7725b2880d3eeb5a94b46",
+            "own_source_object_id": 783
+          },
+          {
+            "xyz": [
+              1855.334228515625,
+              2232.33642578125,
+              210.0
+            ],
+            "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\formation-own-history\\00001606-783.json",
+            "own_source_sha256": "0cb4c1f0429efe929af009002a360a104ccde2ef4894bfa27a19c81afc89fdaa",
+            "own_source_object_id": 783
+          },
+          {
+            "xyz": [
+              1841.732666015625,
+              2077.203125,
+              210.0
+            ],
+            "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\formation-own-history\\00002358-792.json",
+            "own_source_sha256": "8122d0b1bc5334a158afc030151f179cae3fdd63fac8aa10f2069d5e93b561e5",
+            "own_source_object_id": 792
+          },
+          {
+            "xyz": [
+              1814.3651123046875,
+              1926.746826171875,
+              210.0
+            ],
+            "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\formation-own-history\\00001698-783.json",
+            "own_source_sha256": "211c58d57686c5e50e0493d227edea43fb1131f736ecfea97fc0abb5529707e9",
+            "own_source_object_id": 783
+          },
+          {
+            "xyz": [
+              1722.86572265625,
+              1799.5062255859375,
+              210.0
+            ],
+            "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\formation-own-history\\00000904-770.json",
+            "own_source_sha256": "2e4416898b7b11d11dad06d5e7225f1ffd09c91b8056d1674ad918c4503417a0",
+            "own_source_object_id": 770
+          },
+          {
+            "xyz": [
+              1656.50341796875,
+              1644.3878173828125,
+              210.0
+            ],
+            "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\formation-own-history\\00001802-783.json",
+            "own_source_sha256": "f9242ff4a6991928df64ea3449f936ac4f8299233bcf13d9289ef27314cd2163",
+            "own_source_object_id": 783
+          },
+          {
+            "xyz": [
+              1621.226318359375,
+              1491.9588623046875,
+              210.0
+            ],
+            "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\formation-own-history\\00000743-768.json",
+            "own_source_sha256": "2100293999958fc51aca48f852efe132693a19babcfb7b9f1cb37291a66d6ac6",
+            "own_source_object_id": 768
+          },
+          {
+            "xyz": [
+              1564.175048828125,
+              1361.5009765625,
+              210.0
+            ],
+            "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\formation-own-history\\00001883-787.json",
+            "own_source_sha256": "6cdd48952554a79a96f8b2f53291dd9438878c2ef14803f5bcefbe3f3152a861",
+            "own_source_object_id": 787
+          }
+        ],
+        "model_eligible": false,
+        "source": "actual_private_own_position_history",
+        "target_selection": "only_high_level_explicit_current_visible_contact"
+      },
+      "status": "route_valid_safety_not_waived"
+    },
+    {
+      "contact": "contact_43def2a0ea3478254988",
+      "target": 797,
+      "error": "no_known_own_route_near_explicit_visible_contact"
+    },
+    {
+      "contact": "contact_f495905d129e79deb678",
+      "target": 816,
+      "route_count": 14,
+      "plan": {
+        "schema_version": 1,
+        "session_id": "5293a12a-a5df-4c4f-b4e7-341129368bdf",
+        "pid": 31152,
+        "player_id": 3,
+        "front_id": 821,
+        "support_id": 817,
+        "route": [
+          {
+            "xyz": [
+              2269.38232421875,
+              2856.8408203125,
+              210.00482177734375
+            ],
+            "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\formation-own-history\\00001363-783.json",
+            "own_source_sha256": "678eb6bf06ec4dc53b6fd2b7a9e9b03f153d05ed48f3d114d8e9ee74bdd24f98",
+            "own_source_object_id": 783
+          },
+          {
+            "xyz": [
+              2149.6630859375,
+              2758.0244140625,
+              225.64321899414062
+            ],
+            "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\formation-own-history\\00001409-783.json",
+            "own_source_sha256": "bb48d8c88479ae7dc255b31168c5f30481fc848d38b01eaa6c820cc08aba594e",
+            "own_source_object_id": 783
+          },
+          {
+            "xyz": [
+              2036.6314697265625,
+              2654.412109375,
+              229.20289611816406
+            ],
+            "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\formation-own-history\\00001455-783.json",
+            "own_source_sha256": "9d3311ecaf1a55e660ada47f04ee092242bc37b9da1b7829ba0e67a92da1a057",
+            "own_source_object_id": 783
+          },
+          {
+            "xyz": [
+              1981.265869140625,
+              2501.265869140625,
+              210.0
+            ],
+            "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\formation-own-history\\00001513-783.json",
+            "own_source_sha256": "15f706d7cdefee71cbb1288849fbf504e7acb9339190d7e1a1319be634d3905d",
+            "own_source_object_id": 783
+          },
+          {
+            "xyz": [
+              1900.4281005859375,
+              2378.89111328125,
+              210.0
+            ],
+            "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\formation-own-history\\00001559-783.json",
+            "own_source_sha256": "b500c42b1735cc5b5680f080e9a8f535daa7b2c52fc7725b2880d3eeb5a94b46",
+            "own_source_object_id": 783
+          },
+          {
+            "xyz": [
+              1855.334228515625,
+              2232.33642578125,
+              210.0
+            ],
+            "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\formation-own-history\\00001606-783.json",
+            "own_source_sha256": "0cb4c1f0429efe929af009002a360a104ccde2ef4894bfa27a19c81afc89fdaa",
+            "own_source_object_id": 783
+          },
+          {
+            "xyz": [
+              1841.732666015625,
+              2077.203125,
+              210.0
+            ],
+            "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\formation-own-history\\00002358-792.json",
+            "own_source_sha256": "8122d0b1bc5334a158afc030151f179cae3fdd63fac8aa10f2069d5e93b561e5",
+            "own_source_object_id": 792
+          },
+          {
+            "xyz": [
+              1814.3651123046875,
+              1926.746826171875,
+              210.0
+            ],
+            "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\formation-own-history\\00001698-783.json",
+            "own_source_sha256": "211c58d57686c5e50e0493d227edea43fb1131f736ecfea97fc0abb5529707e9",
+            "own_source_object_id": 783
+          },
+          {
+            "xyz": [
+              1866.82861328125,
+              1766.45556640625,
+              210.0
+            ],
+            "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\formation-own-history\\00000678-768.json",
+            "own_source_sha256": "04fdee2d27f4d1e960316a4e8d66edb9b16070f9777a30894f6de0be5cd9fe9e",
+            "own_source_object_id": 768
+          },
+          {
+            "xyz": [
+              1753.473876953125,
+              1639.764892578125,
+              210.0
+            ],
+            "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\formation-own-history\\00000708-768.json",
+            "own_source_sha256": "dbef320a5bce8355e80e02f36a6dadc7dbf3ca5f99e58f6836d0a8a407c21dc5",
+            "own_source_object_id": 768
+          },
+          {
+            "xyz": [
+              1626.4423828125,
+              1531.6590576171875,
+              210.0
+            ],
+            "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\formation-own-history\\00001837-783.json",
+            "own_source_sha256": "62712fa708ca84874c156197a29a268330fd4c0e70f09200cc13e2ed03bcb079",
+            "own_source_object_id": 783
+          },
+          {
+            "xyz": [
+              1543.0635986328125,
+              1391.907470703125,
+              210.0
+            ],
+            "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\formation-own-history\\00001895-783.json",
+            "own_source_sha256": "f4e35c303e71ee29793dd2c1e3dc3e116f44b3046b2cecd0304d0437ad225d09",
+            "own_source_object_id": 783
+          },
+          {
+            "xyz": [
+              1673.259765625,
+              1290.17626953125,
+              210.0
+            ],
+            "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\formation-own-history\\00001860-787.json",
+            "own_source_sha256": "f34a83cdf570f77fef3c8383d69af21e8d427c75b6d18625d651dda50a57fb1f",
+            "own_source_object_id": 787
+          },
+          {
+            "xyz": [
+              1782.3447265625,
+              1218.8515625,
+              210.0
+            ],
+            "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\formation-own-history\\00001837-787.json",
+            "own_source_sha256": "86269b3a7388f51ecbec5f15f3565631c1ccd7ae72cccf3644e99d3861db3dad",
+            "own_source_object_id": 787
+          }
+        ],
+        "model_eligible": false,
+        "source": "actual_private_own_position_history",
+        "target_selection": "only_high_level_explicit_current_visible_contact"
+      },
+      "status": "route_valid_safety_not_waived"
+    },
+    {
+      "contact": "contact_2a8caff6858e2b6f4e07",
+      "target": 842,
+      "route_count": 10,
+      "plan": {
+        "schema_version": 1,
+        "session_id": "5293a12a-a5df-4c4f-b4e7-341129368bdf",
+        "pid": 31152,
+        "player_id": 3,
+        "front_id": 821,
+        "support_id": 817,
+        "route": [
+          {
+            "xyz": [
+              2269.38232421875,
+              2856.8408203125,
+              210.00482177734375
+            ],
+            "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\formation-own-history\\00001363-783.json",
+            "own_source_sha256": "678eb6bf06ec4dc53b6fd2b7a9e9b03f153d05ed48f3d114d8e9ee74bdd24f98",
+            "own_source_object_id": 783
+          },
+          {
+            "xyz": [
+              2149.6630859375,
+              2758.0244140625,
+              225.64321899414062
+            ],
+            "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\formation-own-history\\00001409-783.json",
+            "own_source_sha256": "bb48d8c88479ae7dc255b31168c5f30481fc848d38b01eaa6c820cc08aba594e",
+            "own_source_object_id": 783
+          },
+          {
+            "xyz": [
+              2036.6314697265625,
+              2654.412109375,
+              229.20289611816406
+            ],
+            "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\formation-own-history\\00001455-783.json",
+            "own_source_sha256": "9d3311ecaf1a55e660ada47f04ee092242bc37b9da1b7829ba0e67a92da1a057",
+            "own_source_object_id": 783
+          },
+          {
+            "xyz": [
+              1981.265869140625,
+              2501.265869140625,
+              210.0
+            ],
+            "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\formation-own-history\\00001513-783.json",
+            "own_source_sha256": "15f706d7cdefee71cbb1288849fbf504e7acb9339190d7e1a1319be634d3905d",
+            "own_source_object_id": 783
+          },
+          {
+            "xyz": [
+              1900.4281005859375,
+              2378.89111328125,
+              210.0
+            ],
+            "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\formation-own-history\\00001559-783.json",
+            "own_source_sha256": "b500c42b1735cc5b5680f080e9a8f535daa7b2c52fc7725b2880d3eeb5a94b46",
+            "own_source_object_id": 783
+          },
+          {
+            "xyz": [
+              1855.334228515625,
+              2232.33642578125,
+              210.0
+            ],
+            "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\formation-own-history\\00001606-783.json",
+            "own_source_sha256": "0cb4c1f0429efe929af009002a360a104ccde2ef4894bfa27a19c81afc89fdaa",
+            "own_source_object_id": 783
+          },
+          {
+            "xyz": [
+              1841.732666015625,
+              2077.203125,
+              210.0
+            ],
+            "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\formation-own-history\\00002358-792.json",
+            "own_source_sha256": "8122d0b1bc5334a158afc030151f179cae3fdd63fac8aa10f2069d5e93b561e5",
+            "own_source_object_id": 792
+          },
+          {
+            "xyz": [
+              1814.3651123046875,
+              1926.746826171875,
+              210.0
+            ],
+            "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\formation-own-history\\00001698-783.json",
+            "own_source_sha256": "211c58d57686c5e50e0493d227edea43fb1131f736ecfea97fc0abb5529707e9",
+            "own_source_object_id": 783
+          },
+          {
+            "xyz": [
+              1866.82861328125,
+              1766.45556640625,
+              210.0
+            ],
+            "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\formation-own-history\\00000678-768.json",
+            "own_source_sha256": "04fdee2d27f4d1e960316a4e8d66edb9b16070f9777a30894f6de0be5cd9fe9e",
+            "own_source_object_id": 768
+          },
+          {
+            "xyz": [
+              1810.8372802734375,
+              1718.232666015625,
+              210.0
+            ],
+            "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\formation-own-history\\00002527-773.json",
+            "own_source_sha256": "fb5bc4f163b48e10982fe21ad0fb63e5986a4003d15c1a9b3ef333522abbaecb",
+            "own_source_object_id": 773
+          }
+        ],
+        "model_eligible": false,
+        "source": "actual_private_own_position_history",
+        "target_selection": "only_high_level_explicit_current_visible_contact"
+      },
+      "status": "route_valid_safety_not_waived"
+    }
+  ]
+}

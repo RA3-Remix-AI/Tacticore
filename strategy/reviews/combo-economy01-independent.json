@@ -1,0 +1,99 @@
+{
+  "verified": true,
+  "checks": {
+    "finished": true,
+    "binding": true,
+    "owner_thread": true,
+    "ordered_log": true,
+    "finite_critical": true,
+    "exact_refinery": true,
+    "normal_bounded_ownership": true,
+    "normal_inputs": true,
+    "hooks_restored": true,
+    "no_lease_override": true,
+    "raw_stop_0": true,
+    "raw_stop_4": true,
+    "raw_stop_2": true,
+    "normal_button_and_pack": true,
+    "three_distinct_idle_ak": true,
+    "only_bounded_reconstituted_stop": true,
+    "unique_fresh_script_attack": true,
+    "single_bound_actual_damage": true,
+    "exact_current_damage_info": true,
+    "actual_setter_and_body": true,
+    "same_ak_entry_near_tick_ammo": true,
+    "normal_native_pool_return": true,
+    "actual_getter_asset_binding": true,
+    "frozen_build": true,
+    "exact_safety_role": true,
+    "viewer3_footprint_proof": true,
+    "exact_exe_package": true
+  },
+  "stop_boundaries": {
+    "0": {
+      "frames": [
+        2862,
+        2863,
+        2865
+      ],
+      "gate_seq": 15
+    },
+    "4": {
+      "frames": [
+        2887,
+        2888,
+        2890
+      ],
+      "gate_seq": 42
+    },
+    "2": {
+      "frames": [
+        2986,
+        2987,
+        2989
+      ],
+      "gate_seq": 232
+    }
+  },
+  "prepare_ak_frames": [
+    2882,
+    2883,
+    2885
+  ],
+  "button_frame": 2865,
+  "reconstituted_stop_frames": [
+    2881
+  ],
+  "attack_frame": 2890,
+  "hit": {
+    "frame": 2983,
+    "actor": 804,
+    "target": 778,
+    "hp_before": 2285.625,
+    "hp_after": 2280.625,
+    "ammo_frame": 2984,
+    "damage_to_ammo_poll_ms": 63,
+    "packet": [
+      {
+        "argument_address": "0x1af18c",
+        "word_offset": 32,
+        "asset": "0x447ea26e",
+        "source": 804,
+        "damage_type": 21,
+        "amount": 5.0
+      }
+    ]
+  },
+  "return_frame": 2989,
+  "post_return_native_attacks": [
+    3011
+  ],
+  "scope": "main_attack_and_harass_economy:Conscript_normal_prepare_AK_direct_ground_only",
+  "flak_or_molotov_attack_granted": false,
+  "source_report": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-030636-commander\\combo-economy01.json",
+  "source_sha256": "f1225debb76c9ca0c6ba63260b30cb133b5027a37d9ef222c4b98bc2d563053e",
+  "negative_cases": 6,
+  "game_or_api_access": false,
+  "capabilities_granted": [],
+  "grant_recommendation": "Both purposes may use this exact verified primitive after trusted host re-verifies current frozen runtime; no broader weapon/actor/target class grant."
+}

@@ -1,0 +1,179 @@
+{
+  "status": "no_dispatch_route_or_pair_not_ready",
+  "session_id": "e7900bbc-d79b-4a11-8385-a8fd46c23684",
+  "frame": 3260,
+  "paused": 0,
+  "own_fronts": [
+    {
+      "object_id": 781,
+      "xyz": [
+        1732.5462646484375,
+        1444.9072265625,
+        210.0
+      ]
+    },
+    {
+      "object_id": 783,
+      "xyz": [
+        1718.9949951171875,
+        1413.8505859375,
+        210.0
+      ]
+    },
+    {
+      "object_id": 793,
+      "xyz": [
+        1780.0887451171875,
+        1433.0400390625,
+        210.0
+      ]
+    },
+    {
+      "object_id": 797,
+      "xyz": [
+        1745.6072998046875,
+        1454.9495849609375,
+        210.0
+      ]
+    },
+    {
+      "object_id": 838,
+      "xyz": [
+        1735.1754150390625,
+        1635.1754150390625,
+        210.0
+      ]
+    },
+    {
+      "object_id": 840,
+      "xyz": [
+        1705.8021240234375,
+        1636.8515625,
+        210.0
+      ]
+    },
+    {
+      "object_id": 850,
+      "xyz": [
+        1691.55908203125,
+        1613.1181640625,
+        210.0
+      ]
+    },
+    {
+      "object_id": 874,
+      "xyz": [
+        1965.640380859375,
+        1788.9710693359375,
+        210.0
+      ]
+    },
+    {
+      "object_id": 947,
+      "xyz": [
+        2884.84228515625,
+        3004.84228515625,
+        210.0
+      ]
+    }
+  ],
+  "own_supports": [
+    {
+      "object_id": 961,
+      "xyz": [
+        2962.927490234375,
+        2908.087646484375,
+        210.0
+      ]
+    }
+  ],
+  "visible_static_contacts": [
+    {
+      "contact_id": "contact_831ce2cc33513249825e",
+      "object_id": 865,
+      "xyz": [
+        1299.2777099609375,
+        1712.997314453125,
+        210.0
+      ]
+    },
+    {
+      "contact_id": "contact_2afab428634852e390dd",
+      "object_id": 764,
+      "xyz": [
+        1511.4095458984375,
+        1479.6519775390625,
+        210.0
+      ]
+    },
+    {
+      "contact_id": "contact_8421db0d2b40c49ca9bf",
+      "object_id": 946,
+      "xyz": [
+        1776.5745849609375,
+        1744.8170166015625,
+        210.0
+      ]
+    }
+  ],
+  "errors": [
+    "no_positive_ground_history_near_explicit_visible_contact",
+    "no_role_safe_bounded_actual_own_route"
+  ],
+  "planning_diagnostics": [
+    {
+      "front_id": 947,
+      "support_id": 961,
+      "contact_id": "contact_831ce2cc33513249825e",
+      "phase": "role_graph_search",
+      "source_records": 277,
+      "ground_nodes": 267,
+      "expanded_states": 0,
+      "reject_reasons": {
+        "current_own_occupant": 7,
+        "source_session_or_clock": 3
+      },
+      "closest_ground_point_to_target": 390.3012250885356,
+      "goal_nodes": 0,
+      "first_leg_candidates": 3,
+      "elapsed_seconds": 0.9529999999795109
+    },
+    {
+      "front_id": 947,
+      "support_id": 961,
+      "contact_id": "contact_2afab428634852e390dd",
+      "phase": "role_graph_search",
+      "source_records": 277,
+      "ground_nodes": 267,
+      "expanded_states": 47,
+      "reject_reasons": {
+        "current_own_occupant": 7,
+        "source_session_or_clock": 3,
+        "leg_geometry": 737
+      },
+      "closest_ground_point_to_target": 77.93157385596214,
+      "goal_nodes": 27,
+      "first_leg_candidates": 3,
+      "elapsed_seconds": 0.10900000005494803
+    },
+    {
+      "front_id": 947,
+      "support_id": 961,
+      "contact_id": "contact_8421db0d2b40c49ca9bf",
+      "phase": "role_graph_search",
+      "source_records": 277,
+      "ground_nodes": 267,
+      "expanded_states": 47,
+      "reject_reasons": {
+        "current_own_occupant": 7,
+        "source_session_or_clock": 3,
+        "leg_geometry": 737
+      },
+      "closest_ground_point_to_target": 49.18432134351125,
+      "goal_nodes": 40,
+      "first_leg_candidates": 3,
+      "elapsed_seconds": 0.10899999993853271
+    }
+  ],
+  "sdk_calls": 0
+}

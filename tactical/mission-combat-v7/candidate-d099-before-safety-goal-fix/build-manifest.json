@@ -1,0 +1,55 @@
+{
+  "directory": "mission-combat-v7",
+  "magic": "0x4d435437",
+  "version": 15,
+  "message": "WM_APP+0x384",
+  "dll": "TacticalMissionCombat7.dll",
+  "mapping_prefix": "RA3TacticalMissionCombat7_",
+  "restore_mask": 16383,
+  "layout": {
+    "event": 852,
+    "tactical": 3490916,
+    "events": 1124,
+    "unused1": 0,
+    "unused2": 0
+  },
+  "revision": {
+    "native_binary_sha256": "d099ea95de6e741d470164cd8785086df38e056c124e0b88158114f086ffa462",
+    "native_host_sha256": "20ede705bc3a0d360fcc817c3eae15b709b37d6b9805477b4a78c87ebbd92b7c",
+    "wrapper_sha256": "552b31fe38f1898548080049a7d3d589068a120db3e4bc8fe17a2ca27acf59af",
+    "native_source_sha256": "c2b8fa479b54252602f692b0ad4100285e4ea59ab304949e84f3422146dfca17",
+    "native_shared_sha256": "7bb35b2f6e47c49e181ff9a85245dd1cff8b227f585e79a29db081a4fad02b1d",
+    "mission_contract_sha256": "a7899c9147edeb684ab015b4c4cb0a4176e6e3031bc6d94ba63159fa5644153f",
+    "origin_resolution_helper_sha256": "0c3a23586b82420e420ef6dfa8a3c2e130625292508654e3cadfd2e4d6b63107",
+    "pre_dispatch_helper_sha256": "28c13e74910b40d09a6558b20b50cf255c4c8037bb42ff05c41fb9deb3e73a64",
+    "native_includes_sha256": {
+      "mission_tick.inc": "70071d16b2e0dbe72082dbd02a3968999cc89e006065ad25c72b9423e315f73a"
+    },
+    "qualification_dependencies_sha256": {
+      "mission_actor_admission_v2.py": "b62c2fdaa4c959d764109a10d63b31c025673bdc196fc50da81750c0afb4c02b",
+      "grounded_status_v2.py": "70e5f94bac9b1a82beec56053fd43e91f6edaba1500c8dfa840e868be836e6b3",
+      "grounded_status.py": "ad5b758c947843969f2d1ec6e7fc07c0eaec084b1a59e60750d69d881e78a6c0",
+      "combo_qualification.py": "74ed16345fcde688fae5d6cbf08333d39bae9c2c009c7a62733bd022910fe8cb",
+      "stop_sequence.py": "12495ce626a0325240a1b74adc9cdf0a5218042e3cb5ca8c6c4472196daa5540"
+    }
+  },
+  "qualifier_sha256": "fd448a975f40a49ec5f1241ac101a25a775578abd1356a9f3b160c21b2d88e44",
+  "gate_reader_sha256": "4477d35abe2dd1230279bc67d3d7a51cc60e0e2bbf0364814e91ef9d309e337e",
+  "disposal_reader_sha256": "bb882ec7ecf689bbb375e8daeca0d81fa1d372afb9f5d2984158da53048fc6f8",
+  "status": "offline_only_no_field_capability",
+  "runtime_qualifier_sha256": "fbd84dd31aac3d9e62823736cc33e3112af92dd0a0326ca358e48e6cfcd1209a",
+  "profile": {
+    "name": "brief_raid_single_order_native_burst",
+    "damage_goal_cap": 30.0,
+    "damage_goal_fraction": 0.2,
+    "engage_frames": 60,
+    "engage_frames_is_limit": true,
+    "default_retreat_hp_fraction": 0.8
+  },
+  "admission_scope": [
+    1,
+    10,
+    16
+  ],
+  "field_state10_effect_capability": false
+}

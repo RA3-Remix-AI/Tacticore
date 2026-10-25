@@ -1,0 +1,12 @@
+{
+  "status": "synthetic_offline_only",
+  "full_same_tick_goal_low_hp_and_return": true,
+  "preserved_reason": "low_hp",
+  "missing_final_ammo_result": "not_passed",
+  "missing_final_ammo_failed_checks": [
+    "direct_source_effect",
+    "damage_goal_raw"
+  ],
+  "native_core_test": "Actual old and new functions compiled against own-memory/clock stubs; no Windows/game APIs",
+  "game_or_sdk_calls": 0
+}

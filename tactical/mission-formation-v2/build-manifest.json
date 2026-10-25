@@ -1,0 +1,38 @@
+{
+  "external_dependencies": {
+    "mobility_guard.py": "e903f9a10d342e0faa17545727f52992a57d2eb04f69e805030f636bbaa7e14f",
+    "pre_dispatch_formation_v2_contract.py": "807b14aee40403dc9a2da53cfd44c61dd733e4a561c46a159008f4495f7b9a61"
+  },
+  "schema_version": 1,
+  "native_unexecuted": true,
+  "live_effect_verified": false,
+  "abi": {
+    "event": 820,
+    "tactical": 6718400,
+    "events": 960,
+    "unused1": 0,
+    "unused2": 0
+  },
+  "layout": {
+    "dll_sha256": "a75cd370cab920f09542e1d1658064a6e326f31b87d887f3174d46f22d881e1e",
+    "timer_rva": 94840,
+    "shared_pointer_rva": 94856
+  },
+  "files": {
+    "lease.cpp": "4b927cb3a59e1a68b471a439f139062d1781fd6f1525a7ea5feb01197f4599a6",
+    "shared.h": "268b739df6856540e85e5521ee76d4d7865be04926c30dba18d3a01c935b5499",
+    "host.cpp": "9f1e9bd920b7172dab8d4640aa345667114bc391a28bc5de869cde3f91da72b6",
+    "lease.py": "ef651c171828c8b1d809b81504c54290c742c27cab0da0ba25d5b7d0cf95ee67",
+    "formation_mission_qualification.py": "aeb25162f344f1b0934dc07717bff8d9443d289d9f7fb8e12e0f540c4b6470fa",
+    "mission_route.py": "3ccdef8d733f1212dcb07c1590fff3f3370bec0b233c856543a638b829a5411c",
+    "prepare_sources.py": "2f1d2f5c96b58187472621d4185197a084defb6879d8d51809ee5e0dbe85cc8f",
+    "freeze_build.py": "d6432cbca1799f2d850fe303d124b3b9180c51e8718d9f9b06fd9e1eba7f3cfd",
+    "inert-layout.json": "9ae310c138cc90045a6f1943c46288eba568fc11044bea4fa21e572428658276",
+    "event.cpp.inc": "bbed67c10916e76ef4add4e68cf775e0eaf615fd26178c92103516b0db9043a9",
+    "mission_state.cpp.inc": "3459b7cd66a42eb62eb3ed26674af9b123e5fdca285efc093588433dae628230",
+    "movement.cpp.inc": "6edebdbf7b99421bf6a92216919f7ccab8533bc907544aadc7b26a9be2908186",
+    "stops.cpp.inc": "e38251a778c486598c58376ce8cb3ebf58a32412a47b931c8c8f48ae2c84641b",
+    "bin\\TacticalMissionFormation2.dll": "a75cd370cab920f09542e1d1658064a6e326f31b87d887f3174d46f22d881e1e",
+    "bin\\tactical_host.exe": "a47d80ed19f19f6aac3ebf1702bb7c829d640575ad09c8ea6e103513126dc6e5"
+  }
+}

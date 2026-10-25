@@ -1,0 +1,147 @@
+{
+  "stream": "E:\\RA3Modding\\SDK\\BuiltMods\\mods\\CommanderLab\\data\\mod.manifest",
+  "manifest_refs_hex": "0173616765786d6c5c7374617469632e6d616e6966657374000173616765786d6c5c676c6f62616c2e6d616e6966657374000173616765786d6c5c617564696f2e6d616e696665737400",
+  "manifest_refs_text": "\u0001sagexml\\static.manifest\u0000\u0001sagexml\\global.manifest\u0000\u0001sagexml\\audio.manifest\u0000",
+  "records": [
+    {
+      "name": "AIPersonalityDefinition:4TFLLMAllied",
+      "side_count": 2,
+      "sides": [
+        {
+          "offset": "0x224",
+          "serialized_import_index": 1,
+          "offset_in_imp": true,
+          "reference_key": [
+            "0xf231d60d",
+            "0x86051f0d"
+          ],
+          "target": "PlayerTemplate:Allies",
+          "valid": true
+        },
+        {
+          "offset": "0x228",
+          "serialized_import_index": 2,
+          "offset_in_imp": true,
+          "reference_key": [
+            "0xf231d60d",
+            "0x86051f0d"
+          ],
+          "target": "PlayerTemplate:Allies",
+          "valid": true
+        }
+      ],
+      "binary_sha256": "c504ff5b3cef7eaf1c4c4bdf92efe02f5e960c74b496901ca64557f06cc5e337",
+      "imports_sha256": "ce528f56c9750b2cf95506e0c5e0afdd90ba09e25c79fadba8dea6ce9fe114cb",
+      "references_sha256": "68bdd4db534382337755c4f1a96fe3664670812186c064fd033679e67bd7eb02"
+    },
+    {
+      "name": "AIPersonalityDefinition:4TFLLMJapan",
+      "side_count": 2,
+      "sides": [
+        {
+          "offset": "0x220",
+          "serialized_import_index": 1,
+          "offset_in_imp": true,
+          "reference_key": [
+            "0xf231d60d",
+            "0x3d6743e8"
+          ],
+          "target": "PlayerTemplate:Japan",
+          "valid": true
+        },
+        {
+          "offset": "0x224",
+          "serialized_import_index": 2,
+          "offset_in_imp": true,
+          "reference_key": [
+            "0xf231d60d",
+            "0x3d6743e8"
+          ],
+          "target": "PlayerTemplate:Japan",
+          "valid": true
+        }
+      ],
+      "binary_sha256": "f5d165caa52276ee2d167ee0bbbc402454784771e8f5833fc7e339f04dfd09c5",
+      "imports_sha256": "faf90f11cbf0f541c5997362f564a199f9d8a7c3ffd85cf52be527b02ee68ba2",
+      "references_sha256": "1fe2e8e2339e667a33e705509e5edcd03b329aae6ff437863063cd63e1f64cad"
+    },
+    {
+      "name": "AIPersonalityDefinition:4TFLLMSoviet",
+      "side_count": 2,
+      "sides": [
+        {
+          "offset": "0x224",
+          "serialized_import_index": 1,
+          "offset_in_imp": true,
+          "reference_key": [
+            "0xf231d60d",
+            "0xb610276b"
+          ],
+          "target": "PlayerTemplate:Soviet",
+          "valid": true
+        },
+        {
+          "offset": "0x228",
+          "serialized_import_index": 2,
+          "offset_in_imp": true,
+          "reference_key": [
+            "0xf231d60d",
+            "0xb610276b"
+          ],
+          "target": "PlayerTemplate:Soviet",
+          "valid": true
+        }
+      ],
+      "binary_sha256": "ce98355084b76a05b822fc304d7c3556dc9da9aa91817cf89260ba4c1e6b230f",
+      "imports_sha256": "a4e832d18a0912b4a4f858118b9e07c1eead139ef828d23bf373a94fde3615be",
+      "references_sha256": "d4385c5f675bb424f8c9213c12dfcbdad2c1e205918ceffc582d3a8f1e777885"
+    },
+    {
+      "name": "AIPersonalityDefinition:4TFLLMRandom",
+      "side_count": 1,
+      "sides": [
+        {
+          "offset": "0x224",
+          "serialized_import_index": 1,
+          "offset_in_imp": true,
+          "reference_key": [
+            "0xf231d60d",
+            "0x17052fac"
+          ],
+          "target": "PlayerTemplate:Null",
+          "valid": true
+        }
+      ],
+      "binary_sha256": "29583244800728107fc260948eebdb862ebd440064817ed9decaf26471795f41",
+      "imports_sha256": "c9fa01f52f3c731d98da5ee7f3a0fd1c316cde77d3c6da6749be12cf03e1a778",
+      "references_sha256": "5b555192d1c54194e5d24391a82d4c84d77bec579edfd46163478eacb71f0d43"
+    }
+  ],
+  "comparison": {
+    "stream": "E:\\RA3Modding\\SDK\\BuiltMods\\mods\\CommanderLab\\data\\AdditionalMaps\\mapmetadata_commander.manifest",
+    "manifest_refs_identical": true,
+    "records": [
+      {
+        "name": "AIPersonalityDefinition:4TFLLMAllied",
+        "serialized_sides_identical": true,
+        "binary_identical": true,
+        "imports_identical": true,
+        "references_identical": true
+      },
+      {
+        "name": "AIPersonalityDefinition:4TFLLMJapan",
+        "serialized_sides_identical": true,
+        "binary_identical": true,
+        "imports_identical": true,
+        "references_identical": true
+      },
+      {
+        "name": "AIPersonalityDefinition:4TFLLMSoviet",
+        "serialized_sides_identical": true,
+        "binary_identical": true,
+        "imports_identical": true,
+        "references_identical": true
+      }
+    ]
+  }
+}

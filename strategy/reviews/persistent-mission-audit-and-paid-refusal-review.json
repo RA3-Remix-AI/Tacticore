@@ -1,0 +1,86 @@
+{
+  "reviewed_at_utc": "2026-10-25T06:08:06.451790+00:00",
+  "mutations_to_game_or_source_run": false,
+  "scope": "strategy persistence fix, anonymized request-context audit, read-only full-match audit and real pre-native refusal",
+  "file_sha256": {
+    "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\strategy\\battle_agent.py": "42a0e2008dd0fc6ddbc699c6a8ce004bd0aa480388728ffa48974a2f92fabd21",
+    "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\strategy\\mission_audit.py": "9642f2953b3eb83c5296863571d166929fce04de40007af16f6a250ae7b7b4fa",
+    "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\strategy\\test_inflight_reservations.py": "b1a59dd2497a0fe3fb3b4a47486b8208bed2a5660cf0aa881d6d276ab1dd3707",
+    "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\strategy\\test_mission_audit.py": "153cf6d55271d0785120a8e4908674cba2e2784732b748a75f306b225c6875a9",
+    "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\strategy\\MISSION_CONTRACT.md": "4b01c652f40e0f082e42fdb6f4899c17756df8bc3be926bf882c6a0fd5cb5248",
+    "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-135011-commander\\continuous-paid-formation01-formation.json": "0456c8b32ab0ae825d893094b32044e22e3685a10a7fd38d2b1bcbf4354d0ccd",
+    "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-135011-commander\\continuous-paid-formation01.json": "3d75eb7fbdfa60fc50658c2b04bccd558726bdfea3678ab6f7f18949e748cada"
+  },
+  "strategy_fix": {
+    "problem": "A refreshed plan retaining an in-flight request did not pre-reserve it; a higher-priority new task could claim its same formation first.",
+    "result": "All in-flight roster/resource/budget reservations are counted before sorting requests, and repeated held tasks are not charged twice.",
+    "real_control_limit": "Trusted executor reservations already prevented actual duplicate allocation; this fixes the planning contract."
+  },
+  "request_context_metadata": {
+    "path": "battle-host/agent-state.context-audit.jsonl",
+    "emitted_only_before_actual_adapter_call": true,
+    "fields_scope": "opaque task/mission/target IDs, phase/deadline/revision, compaction/context counts, snapshot/game clock, payload hash/bytes",
+    "no_body_coordinates_endpoint_or_secret": true,
+    "not_a_claim_of_actual_paid_model_call": "A context attempt can still end in timeout/transport failure; correlate plans and transport records.",
+    "accepted_plan_correlation": "unique exact (snapshot_id,game_time_seconds) context -> request_id -> accepted plan, on same post-TTL compacted record"
+  },
+  "tests": {
+    "strategy_unittest_discover": {
+      "passed": 168
+    },
+    "integration_test_continuous_bridge": {
+      "passed": 12
+    },
+    "new_cases": [
+      "retained task repeated plus higher-priority formation or force conflict",
+      "held request not charged twice",
+      "same mission in two actual local adapter contexts after 50 progress updates and deterministic compaction",
+      "missing mission from actual request rejected",
+      "foreign identity/deadline/target/context mismatch rejected",
+      "duplicate dispatch/progress regression rejected",
+      "queued actor reservation overlap rejected",
+      "no context evidence on historical run remains unproved",
+      "post-TTL failed request cannot borrow a pre-TTL accepted plan to establish full acceptance",
+      "duplicate request/context snapshot+clock key is ambiguous and cannot prove an accepted context"
+    ]
+  },
+  "old_real_fullmatch_counterexample": {
+    "run": "20261025-034721-commander",
+    "full_acceptance_verified": false,
+    "actual_three_effects_verified": false,
+    "total_verified_damage": 0,
+    "observability_gaps": [
+      "request_context_metadata_unavailable",
+      "no_continuous_mission_records"
+    ],
+    "original_files_unchanged": true
+  },
+  "real_paid_refusal": {
+    "run": "20261025-135011-commander",
+    "child": "continuous-paid-formation01-formation.json",
+    "status": "no_dispatch_rejected",
+    "exit_code": 64,
+    "reason": "last_role_route_geometry_rejected",
+    "independent_pre_dispatch_checks_all_true": true,
+    "native_launch_intent_persisted": false,
+    "native": {},
+    "events": [],
+    "host_exit": null,
+    "exclusive_control_never_held": true,
+    "restoration_verified": false,
+    "completion_claim": false,
+    "parent_paid_verified": true,
+    "parent_real_entry_restoration_verified": true,
+    "accepted_orders": 9,
+    "rejected_orders": 8,
+    "spent_committed": 1305,
+    "unique_restored_entry_addresses": 5
+  },
+  "cli": "python bridge-probe/strategy/mission_audit.py --session <run/session.json>",
+  "limits": [
+    "Only prints audit JSON; no game/mapping/network connections.",
+    "Synthetic classes/fixtures prove guards, not gameplay effects.",
+    "A qualified damage amount does not establish economic suppression or victory causation.",
+    "Current legacy semantic route remains unused by Host/client and does not auto-enable V5/V6."
+  ]
+}

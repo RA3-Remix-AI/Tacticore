@@ -1,0 +1,108 @@
+{
+  "source_report": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-105617-commander\\main-mct3-01.json",
+  "source_sha256": "c4a0b8b8a788f2301e07ddbee2475614a66ae84d99d858c24d99162edd9e6613",
+  "pid": 60120,
+  "session_id": "82dc24e6-8e79-4f04-b7e3-9fb71b043324",
+  "native_binary_sha256": "8b6cf5c7a60a281e82817c7d78dd2264b781436e54640aecdfdbb868415d2468",
+  "module_base": "0x7a130000",
+  "shared_pointer": "0x40c50000",
+  "timer": 0,
+  "phase": 4,
+  "error": 49,
+  "restore_mask": 16383,
+  "active": 0,
+  "return_verified": 0,
+  "entries": [
+    {
+      "address": 7274352,
+      "expected": "568bf18b4e3c8b018b5038ffd2",
+      "actual": "568bf18b4e3c8b018b5038ffd2",
+      "restored": true
+    },
+    {
+      "address": 7792272,
+      "expected": "837c24040055568bf18b6e08",
+      "actual": "837c24040055568bf18b6e08",
+      "restored": true
+    },
+    {
+      "address": 8620064,
+      "expected": "8b818c00000085c0744f568bb190000000",
+      "actual": "8b818c00000085c0744f568bb190000000",
+      "restored": true
+    },
+    {
+      "address": 9275520,
+      "expected": "83ec24568b74242c8b4604",
+      "actual": "83ec24568b74242c8b4604",
+      "restored": true
+    },
+    {
+      "address": 9229872,
+      "expected": "83ec3453578b7c24408b4704",
+      "actual": "83ec3453578b7c24408b4704",
+      "restored": true
+    },
+    {
+      "address": 8200976,
+      "expected": "81ec200100005355568bb42430010000",
+      "actual": "81ec200100005355568bb42430010000",
+      "restored": true
+    },
+    {
+      "address": 7306336,
+      "expected": "538b5928568b71243bf357",
+      "actual": "538b5928568b71243bf357",
+      "restored": true
+    },
+    {
+      "address": 7754128,
+      "expected": "8b44240885c0f30f104c2404",
+      "actual": "8b44240885c0f30f104c2404",
+      "restored": true
+    },
+    {
+      "address": 5550240,
+      "expected": "83ec5c8b442460566a01508bf1",
+      "actual": "83ec5c8b442460566a01508bf1",
+      "restored": true
+    },
+    {
+      "address": 7477968,
+      "expected": "83ec08558be98b45088b4804",
+      "actual": "83ec08558be98b45088b4804",
+      "restored": true
+    },
+    {
+      "address": 5710464,
+      "expected": "83ec5c8b442468566a01508bf1",
+      "actual": "83ec5c8b442468566a01508bf1",
+      "restored": true
+    },
+    {
+      "address": 7932304,
+      "expected": "8b44240c8b5424086a006a006a00",
+      "actual": "8b44240c8b5424086a006a006a00",
+      "restored": true
+    },
+    {
+      "address": 7789008,
+      "expected": "568bf1578b7e088bcf",
+      "actual": "568bf1578b7e088bcf",
+      "restored": true
+    },
+    {
+      "address": 5709200,
+      "expected": "83ec5c8b442464566a01508bf1",
+      "actual": "83ec5c8b442464566a01508bf1",
+      "restored": true
+    }
+  ],
+  "checks": {
+    "timer_zero": true,
+    "native_terminal": false,
+    "fourteen_entry_bytes": true,
+    "same_command": true
+  },
+  "mutations": false
+}

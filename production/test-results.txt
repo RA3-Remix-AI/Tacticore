@@ -1,0 +1,53 @@
+test_bad_backlink_rejected (test_observation.ObservationGuardTests.test_bad_backlink_rejected) ... ok
+test_cycle_rejected (test_observation.ObservationGuardTests.test_cycle_rejected) ... ok
+test_empty_is_not_production_success (test_observation.ObservationGuardTests.test_empty_is_not_production_success) ... ok
+test_linked_unit_template_observation (test_observation.ObservationGuardTests.test_linked_unit_template_observation) ... ok
+test_literal_this_adjustor (test_observation.ObservationGuardTests.test_literal_this_adjustor) ... ok
+test_missing_endpoint_rejected (test_observation.ObservationGuardTests.test_missing_endpoint_rejected) ... ok
+test_unknown_code_never_assumes_base_object (test_observation.ObservationGuardTests.test_unknown_code_never_assumes_base_object) ... ok
+test_unknown_kind_rejected (test_observation.ObservationGuardTests.test_unknown_kind_rejected) ... ok
+test_wrong_tail_rejected (test_observation.ObservationGuardTests.test_wrong_tail_rejected) ... ok
+test_invalid_result_does_not_infer_success_from_exit_zero (test_dispatch_evidence.DispatchEvidenceTests.test_invalid_result_does_not_infer_success_from_exit_zero) ... ok
+test_launch_failure_is_not_a_game_call (test_dispatch_evidence.DispatchEvidenceTests.test_launch_failure_is_not_a_game_call) ... ok
+test_timeout_preserves_unknown_and_partial_output (test_dispatch_evidence.DispatchEvidenceTests.test_timeout_preserves_unknown_and_partial_output) ... ok
+test_valid_result_retained_without_spend_inference (test_dispatch_evidence.DispatchEvidenceTests.test_valid_result_retained_without_spend_inference) ... ok
+test_complete_chain_only_proves_primitive (test_trace_correlation.CorrelationTests.test_complete_chain_only_proves_primitive) ... ok
+test_dropped_events_prevent_pass (test_trace_correlation.CorrelationTests.test_dropped_events_prevent_pass) ... ok
+test_natural_chain_can_never_be_bridge_success (test_trace_correlation.CorrelationTests.test_natural_chain_can_never_be_bridge_success) ... ok
+test_net_cash_drop_does_not_replace_resource_call (test_trace_correlation.CorrelationTests.test_net_cash_drop_does_not_replace_resource_call) ... ok
+test_other_object_id_rejects_live_unit (test_trace_correlation.CorrelationTests.test_other_object_id_rejects_live_unit) ... ok
+test_other_payment_caller_is_not_attributed (test_trace_correlation.CorrelationTests.test_other_payment_caller_is_not_attributed) ... ok
+test_other_thread_breaks_identity_chain (test_trace_correlation.CorrelationTests.test_other_thread_breaks_identity_chain) ... ok
+test_previous_payment_not_observed_is_incomplete (test_trace_correlation.CorrelationTests.test_previous_payment_not_observed_is_incomplete) ... ok
+test_scan_discovery_does_not_replace_factory_creation (test_trace_correlation.CorrelationTests.test_scan_discovery_does_not_replace_factory_creation) ... ok
+test_unknown_enqueue_never_passes (test_trace_correlation.CorrelationTests.test_unknown_enqueue_never_passes) ... ok
+test_explicit_package (test_session_package.PackageTests.test_explicit_package) ... ok
+test_hash_mismatch_rejected (test_session_package.PackageTests.test_hash_mismatch_rejected) ... ok
+test_multiple_packages_rejected (test_session_package.PackageTests.test_multiple_packages_rejected) ... ok
+test_nested_derived_package_rejected (test_session_package.PackageTests.test_nested_derived_package_rejected) ... ok
+test_quoted_modconfig_argument (test_session_package.PackageTests.test_quoted_modconfig_argument) ... ok
+test_traversal_rejected (test_session_package.PackageTests.test_traversal_rejected) ... ok
+test_unique_adjacent_package (test_session_package.PackageTests.test_unique_adjacent_package) ... ok
+test_default_zero_rejects_existing_queue (test_queue_append.AppendTests.test_default_zero_rejects_existing_queue) ... ok
+test_duplicate_production_id_rejected (test_queue_append.AppendTests.test_duplicate_production_id_rejected) ... ok
+test_paid_above_cost_rejected (test_queue_append.AppendTests.test_paid_above_cost_rejected) ... ok
+test_three_existing_orders_rejected (test_queue_append.AppendTests.test_three_existing_orders_rejected) ... ok
+test_two_existing_orders_are_allowed_only_explicitly (test_queue_append.AppendTests.test_two_existing_orders_are_allowed_only_explicitly) ... ok
+test_unknown_template_rejected (test_queue_append.AppendTests.test_unknown_template_rejected) ... ok
+test_wrong_module_rejected (test_queue_append.AppendTests.test_wrong_module_rejected) ... ok
+test_active_detour_rejected (test_natural_evidence.EvidenceTests.test_active_detour_rejected) ... ok
+test_missing_cost (test_natural_evidence.EvidenceTests.test_missing_cost) ... ok
+test_missing_node (test_natural_evidence.EvidenceTests.test_missing_node) ... ok
+test_missing_queue_id (test_natural_evidence.EvidenceTests.test_missing_queue_id) ... ok
+test_nonzero_tail (test_natural_evidence.EvidenceTests.test_nonzero_tail) ... ok
+test_observed_source_pairs (test_natural_evidence.EvidenceTests.test_observed_source_pairs) ... ok
+test_pid_mismatch (test_natural_evidence.EvidenceTests.test_pid_mismatch) ... ok
+test_unknown_caller (test_natural_evidence.EvidenceTests.test_unknown_caller) ... ok
+test_unknown_flag (test_natural_evidence.EvidenceTests.test_unknown_flag) ... ok
+test_wrong_sentinel (test_natural_evidence.EvidenceTests.test_wrong_sentinel) ... ok
+test_wrong_thread (test_natural_evidence.EvidenceTests.test_wrong_thread) ... ok
+
+----------------------------------------------------------------------
+Ran 48 tests in 0.131s
+
+OK

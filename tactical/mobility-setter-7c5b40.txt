@@ -1,0 +1,87 @@
+
+E:\RedRar3\Data\RA3_1.12.game:     file format pei-i386
+
+
+Disassembly of section .text:
+
+007c5b40 <.text+0x3c4b40>:
+  7c5b40:	8b 44 24 08          	mov    eax,DWORD PTR [esp+0x8]
+  7c5b44:	83 ec 1c             	sub    esp,0x1c
+  7c5b47:	56                   	push   esi
+  7c5b48:	57                   	push   edi
+  7c5b49:	8b 7c 24 28          	mov    edi,DWORD PTR [esp+0x28]
+  7c5b4d:	50                   	push   eax
+  7c5b4e:	57                   	push   edi
+  7c5b4f:	8b f1                	mov    esi,ecx
+  7c5b51:	e8 6a b7 f8 ff       	call   0x7512c0
+  7c5b56:	8b 87 14 04 00 00    	mov    eax,DWORD PTR [edi+0x414]
+  7c5b5c:	85 c0                	test   eax,eax
+  7c5b5e:	74 14                	je     0x7c5b74
+  7c5b60:	83 b8 f8 01 00 00 00 	cmp    DWORD PTR [eax+0x1f8],0x0
+  7c5b67:	75 0b                	jne    0x7c5b74
+  7c5b69:	8b 8f 18 04 00 00    	mov    ecx,DWORD PTR [edi+0x418]
+  7c5b6f:	e8 9c 2c 07 00       	call   0x838810
+  7c5b74:	8b 48 08             	mov    ecx,DWORD PTR [eax+0x8]
+  7c5b77:	8b 86 28 01 00 00    	mov    eax,DWORD PTR [esi+0x128]
+  7c5b7d:	85 c0                	test   eax,eax
+  7c5b7f:	75 06                	jne    0x7c5b87
+  7c5b81:	8b 86 24 01 00 00    	mov    eax,DWORD PTR [esi+0x124]
+  7c5b87:	3b c8                	cmp    ecx,eax
+  7c5b89:	74 13                	je     0x7c5b9e
+  7c5b8b:	8b 16                	mov    edx,DWORD PTR [esi]
+  7c5b8d:	8b 42 60             	mov    eax,DWORD PTR [edx+0x60]
+  7c5b90:	6a 00                	push   0x0
+  7c5b92:	8b ce                	mov    ecx,esi
+  7c5b94:	ff d0                	call   eax
+  7c5b96:	8b 4e e4             	mov    ecx,DWORD PTR [esi-0x1c]
+  7c5b99:	e8 e2 7d f3 ff       	call   0x6fd980
+  7c5b9e:	53                   	push   ebx
+  7c5b9f:	8b 5e e4             	mov    ebx,DWORD PTR [esi-0x1c]
+  7c5ba2:	68 ff ff ff 3f       	push   0x3fffffff
+  7c5ba7:	6a 03                	push   0x3
+  7c5ba9:	8b cf                	mov    ecx,edi
+  7c5bab:	e8 b0 8c fe ff       	call   0x7ae860
+  7c5bb0:	8b 87 84 00 00 00    	mov    eax,DWORD PTR [edi+0x84]
+  7c5bb6:	81 8f 84 00 00 00 00 	or     DWORD PTR [edi+0x84],0x20000000
+  7c5bbd:	00 00 20 
+  7c5bc0:	c1 e8 1d             	shr    eax,0x1d
+  7c5bc3:	f6 d0                	not    al
+  7c5bc5:	24 01                	and    al,0x1
+  7c5bc7:	84 c0                	test   al,al
+  7c5bc9:	74 0b                	je     0x7c5bd6
+  7c5bcb:	6a 01                	push   0x1
+  7c5bcd:	6a 3d                	push   0x3d
+  7c5bcf:	8b cf                	mov    ecx,edi
+  7c5bd1:	e8 9a 17 f6 ff       	call   0x727370
+  7c5bd6:	8b 83 80 00 00 00    	mov    eax,DWORD PTR [ebx+0x80]
+  7c5bdc:	83 8b 80 00 00 00 02 	or     DWORD PTR [ebx+0x80],0x2
+  7c5be3:	d1 e8                	shr    eax,1
+  7c5be5:	f6 d0                	not    al
+  7c5be7:	24 01                	and    al,0x1
+  7c5be9:	84 c0                	test   al,al
+  7c5beb:	74 0b                	je     0x7c5bf8
+  7c5bed:	6a 01                	push   0x1
+  7c5bef:	6a 01                	push   0x1
+  7c5bf1:	8b cb                	mov    ecx,ebx
+  7c5bf3:	e8 78 17 f6 ff       	call   0x727370
+  7c5bf8:	8b 16                	mov    edx,DWORD PTR [esi]
+  7c5bfa:	8b 92 ac 00 00 00    	mov    edx,DWORD PTR [edx+0xac]
+  7c5c00:	6a 00                	push   0x0
+  7c5c02:	8d 44 24 10          	lea    eax,[esp+0x10]
+  7c5c06:	50                   	push   eax
+  7c5c07:	8b ce                	mov    ecx,esi
+  7c5c09:	ff d2                	call   edx
+  7c5c0b:	f6 40 08 01          	test   BYTE PTR [eax+0x8],0x1
+  7c5c0f:	5b                   	pop    ebx
+  7c5c10:	74 0d                	je     0x7c5c1f
+  7c5c12:	8b 8f f4 00 00 00    	mov    ecx,DWORD PTR [edi+0xf4]
+  7c5c18:	6a 01                	push   0x1
+  7c5c1a:	e8 61 36 d6 ff       	call   0x529280
+  7c5c1f:	8b 06                	mov    eax,DWORD PTR [esi]
+  7c5c21:	8b 50 58             	mov    edx,DWORD PTR [eax+0x58]
+  7c5c24:	8b ce                	mov    ecx,esi
+  7c5c26:	ff d2                	call   edx
+  7c5c28:	5f                   	pop    edi
+  7c5c29:	5e                   	pop    esi
+  7c5c2a:	83 c4 1c             	add    esp,0x1c
+  7c5c2d:	c2 08 00             	ret    0x8

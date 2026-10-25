@@ -1,0 +1,151 @@
+{
+  "status": "no_dispatch_route_or_pair_not_ready",
+  "session_id": "2b9cf61e-445a-4acd-b42d-38b970731242",
+  "frame": 3174,
+  "paused": 0,
+  "own_fronts": [
+    {
+      "object_id": 771,
+      "xyz": [
+        3103.775390625,
+        3057.843994140625,
+        210.0
+      ]
+    },
+    {
+      "object_id": 772,
+      "xyz": [
+        3069.72314453125,
+        3091.687744140625,
+        210.0
+      ]
+    },
+    {
+      "object_id": 780,
+      "xyz": [
+        3183.041748046875,
+        3032.591796875,
+        210.0
+      ]
+    },
+    {
+      "object_id": 784,
+      "xyz": [
+        3122.84716796875,
+        3048.295166015625,
+        210.0
+      ]
+    },
+    {
+      "object_id": 827,
+      "xyz": [
+        1659.7685546875,
+        1702.094970703125,
+        210.0
+      ]
+    },
+    {
+      "object_id": 895,
+      "xyz": [
+        1818.1429443359375,
+        1905.945556640625,
+        210.0
+      ]
+    }
+  ],
+  "own_supports": [
+    {
+      "object_id": 776,
+      "xyz": [
+        3123.33349609375,
+        3070.0,
+        210.0
+      ]
+    },
+    {
+      "object_id": 778,
+      "xyz": [
+        3053.51123046875,
+        3148.32763671875,
+        210.0
+      ]
+    },
+    {
+      "object_id": 779,
+      "xyz": [
+        3089.888671875,
+        3161.8193359375,
+        210.0
+      ]
+    },
+    {
+      "object_id": 805,
+      "xyz": [
+        3062.2451171875,
+        3169.272705078125,
+        210.0
+      ]
+    }
+  ],
+  "visible_static_contacts": [
+    {
+      "contact_id": "contact_35ad2fe44600a5358b31",
+      "object_id": 800,
+      "xyz": [
+        3537.270263671875,
+        3335.807373046875,
+        210.0
+      ]
+    },
+    {
+      "contact_id": "contact_63be7a5b57212f5abe52",
+      "object_id": 774,
+      "xyz": [
+        3187.252685546875,
+        3431.2666015625,
+        210.0
+      ]
+    },
+    {
+      "contact_id": "contact_33c65980016d4b240e07",
+      "object_id": 766,
+      "xyz": [
+        2837.234619140625,
+        3399.44677734375,
+        210.0
+      ]
+    }
+  ],
+  "errors": [
+    "role_route_search_budget_exhausted"
+  ],
+  "planning_diagnostics": [
+    {
+      "front_id": 780,
+      "support_id": 776,
+      "contact_id": "contact_35ad2fe44600a5358b31",
+      "phase": "load_sources",
+      "source_records": 140,
+      "ground_nodes": 0,
+      "expanded_states": 0,
+      "reject_reasons": {
+        "current_own_occupant": 6
+      },
+      "elapsed_seconds": 1.0
+    },
+    {
+      "front_id": 780,
+      "support_id": 776,
+      "contact_id": "contact_63be7a5b57212f5abe52",
+      "phase": "load_sources",
+      "source_records": 274,
+      "ground_nodes": 0,
+      "expanded_states": 0,
+      "reject_reasons": {
+        "current_own_occupant": 6
+      },
+      "elapsed_seconds": 0.984000000054948
+    }
+  ],
+  "sdk_calls": 0
+}

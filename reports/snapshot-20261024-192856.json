@@ -1,0 +1,85 @@
+{
+  "pid": 47332,
+  "executable": "E:\\RedRar3\\Data\\ra3_1.12.game",
+  "sha256": "ec230c6ae1eaee30b0b4fa6ba29d417c974ecae46d6715dfbe786a815935c165",
+  "owner_index_filter": 3,
+  "elapsed_seconds": 1.2,
+  "scanned_bytes": 775725056,
+  "candidate_count": 4,
+  "candidates": [
+    {
+      "address": "0x5582fe0",
+      "owner_address": "0x33224d0",
+      "owner_index_candidate": 3,
+      "type_hash": "0xc16ff13f",
+      "ai_address": "0x5a722a0",
+      "xyz": [
+        3187.2529296875,
+        3240.34814453125,
+        210.0
+      ],
+      "catalog": {
+        "name": "建造基地",
+        "template": "SovietConstructionYard",
+        "side": 2,
+        "cls": 5,
+        "category": 1
+      }
+    },
+    {
+      "address": "0x55834e0",
+      "owner_address": "0x33224d0",
+      "owner_index_candidate": 3,
+      "type_hash": "0x80d4ea1e",
+      "ai_address": "0x6248c68",
+      "xyz": [
+        2964.513671875,
+        2996.396240234375,
+        210.0
+      ],
+      "catalog": {
+        "name": "军营",
+        "template": "SovietBarracks",
+        "side": 2,
+        "cls": 5,
+        "category": 1
+      }
+    },
+    {
+      "address": "0x55839e0",
+      "owner_address": "0x33224d0",
+      "owner_index_candidate": 3,
+      "type_hash": "0xcf8d9f20",
+      "ai_address": "0x624da60",
+      "xyz": [
+        3516.056884765625,
+        3314.593994140625,
+        210.0
+      ],
+      "catalog": {
+        "name": "反应堆",
+        "template": "SovietPowerPlant",
+        "side": 2,
+        "cls": 5,
+        "category": 1
+      }
+    },
+    {
+      "address": "0x5839400",
+      "owner_address": "0x33224d0",
+      "owner_index_candidate": 3,
+      "type_hash": "0x18d55d",
+      "ai_address": "0x4cf9448",
+      "xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "catalog": {}
+    }
+  ],
+  "status": "read_only_candidates",
+  "ai_ownership_verified": false,
+  "movement_tested": false,
+  "note": "Non-atomic read; stale objects and uncertain fields are possible. Catalog is a Corona reference, not a verified catalog of the active mod."
+}

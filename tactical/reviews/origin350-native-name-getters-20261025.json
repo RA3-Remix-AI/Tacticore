@@ -1,0 +1,100 @@
+{
+  "executable_sha256": "ec230c6ae1eaee30b0b4fa6ba29d417c974ecae46d6715dfbe786a815935c165",
+  "name_getters": [
+    {
+      "name": "WeaponSetUpdate",
+      "name_address": "0xc45a70",
+      "getter": "0x775900",
+      "getter_bytes": "b8705ac400c3",
+      "candidate_primary_vtables": [
+        "0xc45a18"
+      ],
+      "name_getter_vtable_offset": "0x8"
+    },
+    {
+      "name": "GarrisonContain",
+      "name_address": "0xc484fc",
+      "getter": "0x794b00",
+      "getter_bytes": "b8fc84c400c3",
+      "candidate_primary_vtables": [
+        "0xc48450"
+      ],
+      "name_getter_vtable_offset": "0x8"
+    },
+    {
+      "name": "OpenContain",
+      "name_address": "0xc46280",
+      "getter": "0x782a70",
+      "getter_bytes": "b88062c400c3",
+      "candidate_primary_vtables": [
+        "0xc461e0"
+      ],
+      "name_getter_vtable_offset": "0x8"
+    },
+    {
+      "name": "HordeGarrisonContain",
+      "name_address": "0xc4d03c",
+      "getter": "0x7b3280",
+      "getter_bytes": "b83cd0c400c3",
+      "candidate_primary_vtables": [
+        "0xc4cf80"
+      ],
+      "name_getter_vtable_offset": "0x8"
+    },
+    {
+      "name": "ContestableGarrisonContain",
+      "name_address": "0xc4d4a4",
+      "getter": "0x7b37d0",
+      "getter_bytes": "b8a4d4c400c3",
+      "candidate_primary_vtables": [
+        "0xc4d3f8"
+      ],
+      "name_getter_vtable_offset": "0x8"
+    },
+    {
+      "name": "EngineerContain",
+      "name_address": "0xc31268",
+      "getter": "0x7078c0",
+      "getter_bytes": "b86812c300c3",
+      "candidate_primary_vtables": [
+        "0xc31210"
+      ],
+      "name_getter_vtable_offset": "0x8"
+    },
+    {
+      "name": "InfiltratorContain",
+      "name_address": "0xc24e28",
+      "getter": "0x6e8760",
+      "getter_bytes": "b8284ec200c3",
+      "candidate_primary_vtables": [
+        "0xc24dd0"
+      ],
+      "name_getter_vtable_offset": "0x8"
+    },
+    {
+      "name": "TransportContain",
+      "name_address": "0xc467a0",
+      "getter": "0x782ec0",
+      "getter_bytes": "b8a067c400c3",
+      "candidate_primary_vtables": [
+        "0xc466f0"
+      ],
+      "name_getter_vtable_offset": "0x8"
+    },
+    {
+      "name": "HordeContain",
+      "name_address": "0xc48124",
+      "getter": "0x7939e0",
+      "getter_bytes": "b82481c400c3",
+      "candidate_primary_vtables": [
+        "0xc48058"
+      ],
+      "name_getter_vtable_offset": "0x8"
+    }
+  ],
+  "thing_vtable_literal_refs": [
+    "0x7c1cfb",
+    "0x7c270b"
+  ],
+  "warning": "Primary vtable candidates derived from literal name getter references at +8. WeaponSet candidate c45a18 independently matches live 3280 sample. Other names require live or constructor controls."
+}

@@ -1,0 +1,557 @@
+{
+  "schema_version": 1,
+  "kind": "independent_formal_match_audit",
+  "source_run": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-034721-commander",
+  "session_id": "6c3b60f0-690b-4c36-be08-221b4838b467",
+  "pid": 46744,
+  "host_pid": 54712,
+  "method": "Existing files only; no game/GUI/API/model calls. Only new independent audit files written.",
+  "lifecycle": {
+    "checks": {
+      "one_host_start": true,
+      "one_match_entry": true,
+      "one_host_stop": true,
+      "no_host_fault": true,
+      "same_session_player_commander": true,
+      "decision_snapshots_contiguous": true,
+      "decision_game_clock_strict": true,
+      "all_requests_have_decision_outcome": true,
+      "last_request_accepted": true,
+      "native_candidate_then_stop": true,
+      "watch_saw_result_and_lifecycle_exit": true,
+      "all_tactical_terminal": true,
+      "all_tactical_released_safely": true
+    },
+    "verified": true,
+    "first_model_game_seconds": 0.8666666666666667,
+    "last_model_game_seconds": 561.0666666666667,
+    "last_observation_game_seconds": 564.4,
+    "native_result_frame": 8461,
+    "native_result_game_seconds": 564.0666666666667,
+    "decisions": 177,
+    "max_decision_game_gap_seconds": 3.6000000000000014,
+    "max_decision_wall_gap_seconds": 5.29406,
+    "retryable_sample_events": 1,
+    "watch_samples": 6037
+  },
+  "model": {
+    "engine_metrics": {
+      "requests": 56,
+      "accepted": 48,
+      "rejected": 2,
+      "timeouts": 0,
+      "adapter_errors": 6,
+      "plan_changes": 37
+    },
+    "transport_metrics": {
+      "attempts": 56,
+      "retries": 0,
+      "timeouts": 0,
+      "responses": 55,
+      "max_request_bytes": 15307
+    },
+    "guard_counts": {
+      "context_tactical_region": 4,
+      "tactical_actor_roles": 1
+    },
+    "engine_rejection_counts": {
+      "tactical_force_total": 1,
+      "tactical_formations": 1
+    },
+    "unattributed_adapter_errors": [
+      {
+        "snapshot_id": 81,
+        "game_time_seconds": 256.2,
+        "status": "fallback_continuing"
+      }
+    ],
+    "outcome_counts": {
+      "accepted": 48,
+      "fallback_continuing": 8
+    },
+    "plan_changes_per_game_minute": 3.933380581148122,
+    "response_counter_semantics": "Decoded complete policy JSON, not every HTTP response. One adapter-internal failure subtype not persisted. Last request accepted; no final cancellation evidence."
+  },
+  "memory": {
+    "metrics": {
+      "context_builds": 56,
+      "compactions": 177,
+      "max_payload_bytes": 8188,
+      "expired_enemy_facts": 0,
+      "context_rejections": 0,
+      "post_response_guard_rejections": 5
+    },
+    "ring_length": 16,
+    "ring_event_ids": [
+      178,
+      179,
+      180,
+      181,
+      182,
+      183,
+      184,
+      185,
+      186,
+      187,
+      188,
+      189,
+      190,
+      191,
+      192,
+      193
+    ],
+    "dialogue_length": 2,
+    "summary": {
+      "events_compacted": 177,
+      "counts_by_kind": {
+        "session_observed": 1,
+        "decision": 49,
+        "execution_feedback": 39,
+        "contact_observed": 38,
+        "host_commit": 5,
+        "policy_guard_rejected": 5,
+        "contact_expired": 37,
+        "economy_change": 3
+      },
+      "completed_tasks": {
+        "build": 6,
+        "raid": 0,
+        "attack": 0,
+        "combined_arms": 0
+      },
+      "failed_tasks": {
+        "build": 13,
+        "raid": 1,
+        "attack": 4,
+        "combined_arms": 0
+      },
+      "last_compacted_game_time": 483.46666666666664
+    },
+    "failure_memory": [
+      {
+        "module": "build",
+        "purpose": "production_focus",
+        "focus": "balanced",
+        "reason_code": "execution_error",
+        "at_game_seconds": 561.0666666666667,
+        "retry_after_game_seconds": 581.0666666666667
+      },
+      {
+        "module": "attack",
+        "purpose": "main_attack",
+        "focus": null,
+        "reason_code": "goal_unobserved",
+        "at_game_seconds": 425.0,
+        "retry_after_game_seconds": 445.0
+      },
+      {
+        "module": "raid",
+        "purpose": "harass_economy",
+        "focus": null,
+        "reason_code": "goal_unobserved",
+        "at_game_seconds": 122.6,
+        "retry_after_game_seconds": 142.6
+      }
+    ],
+    "feedback_length": 8,
+    "boundary": "Final memory plus live monitoring checkpoints support continuity. Complete wire prompts/responses intentionally not retained; historical per-message reconstruction unavailable.",
+    "summary_plus_ring_terminal_counts": {
+      "completed": {
+        "build": 6,
+        "raid": 0,
+        "attack": 0,
+        "combined_arms": 0
+      },
+      "failed": {
+        "build": 15,
+        "raid": 1,
+        "attack": 4,
+        "combined_arms": 0
+      }
+    },
+    "summary_plus_ring_events": 193
+  },
+  "visibility": {
+    "viewer_player_id": 3,
+    "observer_player_id": 2,
+    "proof_verified": true,
+    "proof_session_bound": true,
+    "object_visibility_method": "native_footprint_reconstruction",
+    "current_contacts": 0,
+    "last_seen_contacts": 4,
+    "unknown_power_is_null": true,
+    "boundary": "Player3 verified viewer observed during monitoring, separate from observer2. Not an exhaustive archive of every public snapshot."
+  },
+  "tactical": {
+    "counters": {
+      "attack": {
+        "accepted": 4,
+        "started": 4,
+        "completed": 0,
+        "failed": 4,
+        "cancelled": 0,
+        "rejected": 0
+      },
+      "combined_arms": {
+        "accepted": 0,
+        "started": 0,
+        "completed": 0,
+        "failed": 0,
+        "cancelled": 0,
+        "rejected": 0
+      },
+      "raid": {
+        "accepted": 1,
+        "started": 1,
+        "completed": 0,
+        "failed": 1,
+        "cancelled": 0,
+        "rejected": 0
+      }
+    },
+    "accepted_native_leases": 5,
+    "actual_script_attack_orders": 3,
+    "qualified_goal_completions": 0,
+    "combined_arms_tasks": 0,
+    "source_damage_amount": 0.0,
+    "safe_returns": 5,
+    "cases": [
+      {
+        "task_id": "00d4385bc23640eca94b147fa04861c6",
+        "module": "attack",
+        "purpose": "main_attack",
+        "actor_id": 779,
+        "target_id": 777,
+        "target_role": "infantry",
+        "source_report": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-034721-commander\\tactical-task-5f99a35e-da40-5e81-81b6-17fb12dc4645.json",
+        "source_sha256": "96c9d187e91702aba1be1b1f7635537ea1f54d9a1ae81e0f70d2c415784f6d00",
+        "checks": {
+          "single_actor_allocation": true,
+          "session_player_commander": true,
+          "child_command_task_seq": true,
+          "native_event_sequence": true,
+          "within_public_dispatch_expiry": true,
+          "native_order_count": true,
+          "no_native_override_during_lease": true,
+          "owner_thread_bound": true,
+          "goal_not_falsely_completed": true,
+          "actual_damage_absent": true,
+          "actual_native_return": true,
+          "normal_clean_finish": true,
+          "target_identity_scope": true,
+          "target_sample_fresh": true,
+          "source_exe_package": true,
+          "pinned_executor": true,
+          "post_stop_three_distinct_clean": true
+        },
+        "failed_checks": [],
+        "raw_frame": {
+          "dispatch": 880,
+          "issued": 896,
+          "toggle": 901,
+          "prepared": 921,
+          "attack": 926,
+          "stop": 1076,
+          "returned": 1081,
+          "public_expiry": 1507
+        },
+        "lease_frames": 180,
+        "elapsed_lease_frames": 185,
+        "attack_frames_to_stop": 150,
+        "ammo": [
+          3,
+          3
+        ],
+        "damage_total": 0.0,
+        "post_stop_clean_frames": [
+          1078,
+          1080,
+          1081
+        ],
+        "initial_distance_to_dispatch_position": 1079.78,
+        "last_distance_to_dispatch_position": 896.543,
+        "distance_caveat": "Dispatch-position distance; moving targets may subsequently move.",
+        "root_cause_class": "bounded_chase_without_shot_or_bound_damage",
+        "cause_boundary": "180-frame bound includes preparation; no AK shot before stop; distance does not prove path feasibility."
+      },
+      {
+        "task_id": "45e856cde1cb4fd1b1607511edcc171e",
+        "module": "attack",
+        "purpose": "main_attack",
+        "actor_id": 779,
+        "target_id": 803,
+        "target_role": "infantry",
+        "source_report": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-034721-commander\\tactical-task-3b073518-de93-5b2a-9c27-097d199e79f7.json",
+        "source_sha256": "4d049df27824d03d6baef6fae9f121d87e243e18e9ade765b8b39fc260e5d022",
+        "checks": {
+          "single_actor_allocation": true,
+          "session_player_commander": true,
+          "child_command_task_seq": true,
+          "native_event_sequence": true,
+          "within_public_dispatch_expiry": true,
+          "native_order_count": true,
+          "no_native_override_during_lease": true,
+          "owner_thread_bound": true,
+          "goal_not_falsely_completed": true,
+          "actual_damage_absent": true,
+          "actual_native_return": true,
+          "normal_clean_finish": true,
+          "target_identity_scope": true,
+          "target_sample_fresh": true,
+          "source_exe_package": true,
+          "pinned_executor": true,
+          "post_stop_three_distinct_clean": true
+        },
+        "failed_checks": [],
+        "raw_frame": {
+          "dispatch": 1345,
+          "issued": 1362,
+          "toggle": 1367,
+          "prepared": 0,
+          "attack": 0,
+          "stop": 1372,
+          "returned": 1376,
+          "public_expiry": 1971
+        },
+        "lease_frames": 180,
+        "elapsed_lease_frames": 14,
+        "attack_frames_to_stop": null,
+        "ammo": [
+          0,
+          0
+        ],
+        "damage_total": 0.0,
+        "post_stop_clean_frames": [
+          1373,
+          1375,
+          1376
+        ],
+        "initial_distance_to_dispatch_position": 1087.507,
+        "last_distance_to_dispatch_position": 1087.507,
+        "distance_caveat": "Dispatch-position distance; moving targets may subsequently move.",
+        "root_cause_class": "preparation_early_exit_without_attack",
+        "cause_boundary": "No explicit termination reason. Visibility/target-validity guard fits early exit; exact operand not recoverable."
+      },
+      {
+        "task_id": "1b8819131cd84e308d62f49f8a0aca35",
+        "module": "raid",
+        "purpose": "harass_economy",
+        "actor_id": 804,
+        "target_id": 772,
+        "target_role": "economy",
+        "source_report": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-034721-commander\\tactical-task-c3afc755-725a-573d-bcf4-637e93f1648a.json",
+        "source_sha256": "dd66644a7529e130d0be15462fb30f5f3134b0365dc23cebb8b07c4daa1a36cc",
+        "checks": {
+          "single_actor_allocation": true,
+          "session_player_commander": true,
+          "child_command_task_seq": true,
+          "native_event_sequence": true,
+          "within_public_dispatch_expiry": true,
+          "native_order_count": true,
+          "no_native_override_during_lease": true,
+          "owner_thread_bound": true,
+          "goal_not_falsely_completed": true,
+          "actual_damage_absent": true,
+          "actual_native_return": true,
+          "normal_clean_finish": true,
+          "target_identity_scope": true,
+          "target_sample_fresh": true,
+          "source_exe_package": true,
+          "pinned_executor": true,
+          "post_stop_three_distinct_clean": true
+        },
+        "failed_checks": [],
+        "raw_frame": {
+          "dispatch": 1520,
+          "issued": 1537,
+          "toggle": 1542,
+          "prepared": 1562,
+          "attack": 1566,
+          "stop": 1717,
+          "returned": 1722,
+          "public_expiry": 2146
+        },
+        "lease_frames": 180,
+        "elapsed_lease_frames": 185,
+        "attack_frames_to_stop": 151,
+        "ammo": [
+          3,
+          3
+        ],
+        "damage_total": 0.0,
+        "post_stop_clean_frames": [
+          1719,
+          1720,
+          1722
+        ],
+        "initial_distance_to_dispatch_position": 2097.954,
+        "last_distance_to_dispatch_position": 1724.519,
+        "distance_caveat": "Dispatch-position distance; moving targets may subsequently move.",
+        "root_cause_class": "bounded_chase_without_shot_or_bound_damage",
+        "cause_boundary": "180-frame bound includes preparation; no AK shot before stop; distance does not prove path feasibility."
+      },
+      {
+        "task_id": "fad56c2a50374421ae91d0edd1f99dc6",
+        "module": "attack",
+        "purpose": "main_attack",
+        "actor_id": 1039,
+        "target_id": 796,
+        "target_role": "structure",
+        "source_report": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-034721-commander\\tactical-task-1df49651-fba7-5a1e-a19f-59e14a98e48c.json",
+        "source_sha256": "2d5a7457428398a595651ab7d7bfdb3f6dd2df64373db195cfdda967d4fb68bb",
+        "checks": {
+          "single_actor_allocation": true,
+          "session_player_commander": true,
+          "child_command_task_seq": true,
+          "native_event_sequence": true,
+          "within_public_dispatch_expiry": true,
+          "native_order_count": true,
+          "no_native_override_during_lease": true,
+          "owner_thread_bound": true,
+          "goal_not_falsely_completed": true,
+          "actual_damage_absent": true,
+          "actual_native_return": true,
+          "normal_clean_finish": true,
+          "target_identity_scope": true,
+          "target_sample_fresh": true,
+          "source_exe_package": true,
+          "pinned_executor": true,
+          "post_stop_three_distinct_clean": true
+        },
+        "failed_checks": [],
+        "raw_frame": {
+          "dispatch": 5642,
+          "issued": 5659,
+          "toggle": 5663,
+          "prepared": 0,
+          "attack": 0,
+          "stop": 5667,
+          "returned": 5672,
+          "public_expiry": 6269
+        },
+        "lease_frames": 180,
+        "elapsed_lease_frames": 13,
+        "attack_frames_to_stop": null,
+        "ammo": [
+          0,
+          0
+        ],
+        "damage_total": 0.0,
+        "post_stop_clean_frames": [
+          5669,
+          5670,
+          5672
+        ],
+        "initial_distance_to_dispatch_position": 2136.171,
+        "last_distance_to_dispatch_position": 2136.171,
+        "distance_caveat": "Dispatch-position distance; moving targets may subsequently move.",
+        "root_cause_class": "preparation_early_exit_without_attack",
+        "cause_boundary": "No explicit termination reason. Visibility/target-validity guard fits early exit; exact operand not recoverable."
+      },
+      {
+        "task_id": "71b1d9c0ecc3447883365802cfacfb28",
+        "module": "attack",
+        "purpose": "main_attack",
+        "actor_id": 1039,
+        "target_id": 807,
+        "target_role": "structure",
+        "source_report": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-034721-commander\\tactical-task-4be61b8f-6f71-587d-8ae5-2f975a4b4efe.json",
+        "source_sha256": "089ed6e57e89201bb2f9401b6f77d7db08a5eb30227567a149d3e9e91900e64f",
+        "checks": {
+          "single_actor_allocation": true,
+          "session_player_commander": true,
+          "child_command_task_seq": true,
+          "native_event_sequence": true,
+          "within_public_dispatch_expiry": true,
+          "native_order_count": true,
+          "no_native_override_during_lease": true,
+          "owner_thread_bound": true,
+          "goal_not_falsely_completed": true,
+          "actual_damage_absent": true,
+          "actual_native_return": true,
+          "normal_clean_finish": true,
+          "target_identity_scope": true,
+          "target_sample_fresh": true,
+          "source_exe_package": true,
+          "pinned_executor": true,
+          "post_stop_three_distinct_clean": true
+        },
+        "failed_checks": [],
+        "raw_frame": {
+          "dispatch": 6058,
+          "issued": 6074,
+          "toggle": 6079,
+          "prepared": 6099,
+          "attack": 6104,
+          "stop": 6255,
+          "returned": 6260,
+          "public_expiry": 6685
+        },
+        "lease_frames": 180,
+        "elapsed_lease_frames": 186,
+        "attack_frames_to_stop": 151,
+        "ammo": [
+          3,
+          3
+        ],
+        "damage_total": 0.0,
+        "post_stop_clean_frames": [
+          6256,
+          6258,
+          6260
+        ],
+        "initial_distance_to_dispatch_position": 1236.076,
+        "last_distance_to_dispatch_position": 808.437,
+        "distance_caveat": "Dispatch-position distance; moving targets may subsequently move.",
+        "root_cause_class": "bounded_chase_without_shot_or_bound_damage",
+        "cause_boundary": "180-frame bound includes preparation; no AK shot before stop; distance does not prove path feasibility."
+      }
+    ]
+  },
+  "settlement": {
+    "native_result_frame": 8461,
+    "native_participants": [
+      {
+        "player_index": 3,
+        "defeated_flag_raw": 0
+      },
+      {
+        "player_index": 4,
+        "defeated_flag_raw": 1
+      }
+    ],
+    "ui_source": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-034721-commander\\settlement-units.png",
+    "ui_sha256": "7cc588535c208ac851da1d9c5abd6d4cbe70c7a5291e4fcc46dea442a9cc1553",
+    "ui_independently_viewed": true,
+    "ui_iron_hammer": "victory",
+    "ui_oleg": "defeat",
+    "winner_based_on_ui_and_native_mapping": true,
+    "llm_causal_victory_claim": false
+  },
+  "conclusion": {
+    "full_match_agent_lifecycle_verified": true,
+    "model_vs_native_match_reached_visual_settlement": true,
+    "all_three_purposes_effectiveness_passed": false,
+    "calibration_evidence_separate": true,
+    "production_audit_delegated": true,
+    "limitations": [
+      "Main attack 0/4, economy harassment 0/1, coordinate_force not executed in this match.",
+      "Three actual ScriptAttack orders, no observed shot or source-linked damage; two preparation early exits.",
+      "No causal attribution of victory to LLM. Native AI performed local control and most combat.",
+      "Early-stop exact guard operand unavailable. One adapter-internal failure subtype unavailable."
+    ]
+  },
+  "source_fingerprints": {
+    "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-034721-commander\\battle-host\\host-status.json": "b1b86f5231cec20a76bf9d7c57aac51501daf9ea249a1622492981b8d33d4d27",
+    "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-034721-commander\\battle-host\\agent-state.json": "ab1ca129227fb4aaa54392967914229d6ad8c2b063888b9ce7b139d4fb78fe11",
+    "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-034721-commander\\battle-host\\plans.jsonl": "c23572a62122efdb5a3db1eb7ebfe42fa90f01eff4d1f9b095fd04f18d149993",
+    "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-034721-commander\\battle-host\\host-events.jsonl": "630c99e20b3b06b54e3f18966a5fa465b60be2a77ed45a557fe21011473001f4",
+    "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-034721-commander\\battle-host\\tactical-dispatch-ledger.json": "b761d66095a05dd0855df12d4d60551f247fdc4a90c0cf7159eea7760a466b8a",
+    "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-034721-commander\\battle-host\\visibility-proof.json": "be824d4c468bcd2d558b6ff1c16c9f82b70d35e23e4a79fd340ad39750df9b92",
+    "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-034721-commander\\battle-host\\participants.json": "b1d1d90928de2760146e2af01e11390a694ccbe347615c5a9fa1f2a838a930fa",
+    "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-034721-commander\\battle-host\\match-state.json": "dd0c0c9aadd39dd8833cdad2a0a93e21b7a3a001f216d85f99d31990ea392d74",
+    "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-034721-commander\\tactical-executor.jsonl": "708ad0eff4f35a2c21c96c373163e2f3807b87713230f310a0a54a094e3b8d56",
+    "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-034721-commander\\settlement-watch\\status.json": "8f782398797d6152c22e68d432ecdc1edc512ac76ca606e64a2f1e44b37f3334",
+    "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-034721-commander\\settlement-units.png": "7cc588535c208ac851da1d9c5abd6d4cbe70c7a5291e4fcc46dea442a9cc1553"
+  }
+}

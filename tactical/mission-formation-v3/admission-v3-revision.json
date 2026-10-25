@@ -1,0 +1,30 @@
+{
+  "wrapper_revision": "mfm3_admission_v3",
+  "wrapper_filename": "lease_admission_v3.py",
+  "qualifier_filename": "formation_mission_qualification_v3.py",
+  "pre_dispatch_helper": "pre_dispatch_formation_v3_admission_v3_contract.py",
+  "gate_reader": "mission_formation_v3_admission_v3_gate_no_lease.py",
+  "actor_admission_filename": "mission_actor_admission_v2.py",
+  "native_abi_unchanged": true,
+  "actual_allowed_entry_states": [
+    1,
+    10,
+    16
+  ],
+  "state10_required_vtable": "0xc548c0",
+  "hashes": {
+    "bridge-probe\\tactical\\mission-formation-v3\\lease_admission_v3.py": "f0afc02b4cfe599f46ecb9bc997126bc1985e7d7abe28a7df380116d089a0c2c",
+    "bridge-probe\\tactical\\mission-formation-v3\\formation_mission_qualification_v3.py": "b5e1b88131a75b5a1a8d25136e97f2d212d6dee960e98242a44518c807905b5c",
+    "bridge-probe\\tactical\\pre_dispatch_formation_v3_admission_v3_contract.py": "ce48f8bf408ef5cb5eb1073ba374798a5d48de7a9e2cdd9dbadb244743e6a8b4",
+    "bridge-probe\\tactical\\mission_formation_v3_admission_v3_gate_no_lease.py": "5aec8d01b375ad37ae4258b38f4dda61e5585c6d9aa278b2ded505462b26d61f",
+    "bridge-probe\\tactical\\mission-formation-v3\\field_plan_admission_v3.py": "5812aa6a09bf76158ff143875765cd6ff7a442d0be7eaaaf39110ce782bb8c93",
+    "bridge-probe\\tactical\\mission-formation-v3\\field_coordinate_admission_v3.py": "6df9a1a573b58a3583771add58ed7c6eccdabb7aadaba8fce684cadf921bfd04",
+    "bridge-probe\\tactical\\mission-formation-v3\\role_route_planner.py": "897fea98260b4a81122da9da03e120584dc427c35cf99a9f5504b3015cbad9bf",
+    "bridge-probe\\tactical\\mission_actor_admission_v2.py": "b62c2fdaa4c959d764109a10d63b31c025673bdc196fc50da81750c0afb4c02b",
+    "bridge-probe\\tactical\\mission_actor_admission.py": "9635d39a64e65ec95a67a757a4a4212c1835ae539cd00a44ba22a88ed999335b",
+    "bridge-probe\\tactical\\grounded_status_v2.py": "70e5f94bac9b1a82beec56053fd43e91f6edaba1500c8dfa840e868be836e6b3",
+    "bridge-probe\\tactical\\grounded_status.py": "ad5b758c947843969f2d1ec6e7fc07c0eaec084b1a59e60750d69d881e78a6c0",
+    "bridge-probe\\tactical\\mission-formation-v3\\bin\\TacticalMissionFormation3.dll": "632400b1cbe1cc9e59c7f360f17633bef13251c72a3a8e04ef940f850321de5f",
+    "bridge-probe\\tactical\\mission-formation-v3\\bin\\tactical_host.exe": "e3348a5eb7aad71ba1d51f1e0539f3d13cae978c52fd29b3afb1c6d5f8ffaf6b"
+  }
+}

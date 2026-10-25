@@ -1,0 +1,77 @@
+
+E:/RedRar3/Data/RA3_1.12.game:     file format pei-i386
+
+
+Disassembly of section .text:
+
+00600600 <.text+0x1ff600>:
+  600600:	8b 44 24 04          	mov    eax,DWORD PTR [esp+0x4]
+  600604:	83 f8 05             	cmp    eax,0x5
+  600607:	77 09                	ja     0x600612
+  600609:	c1 e0 05             	shl    eax,0x5
+  60060c:	05 78 33 ce 00       	add    eax,0xce3378
+  600611:	c3                   	ret
+  600612:	33 c0                	xor    eax,eax
+  600614:	c3                   	ret
+  600615:	cc                   	int3
+  600616:	cc                   	int3
+  600617:	cc                   	int3
+  600618:	cc                   	int3
+  600619:	cc                   	int3
+  60061a:	cc                   	int3
+  60061b:	cc                   	int3
+  60061c:	cc                   	int3
+  60061d:	cc                   	int3
+  60061e:	cc                   	int3
+  60061f:	cc                   	int3
+  600620:	b8 7c 33 ce 00       	mov    eax,0xce337c
+  600625:	33 c9                	xor    ecx,ecx
+  600627:	ba ff 00 00 00       	mov    edx,0xff
+  60062c:	8d 64 24 00          	lea    esp,[esp+0x0]
+  600630:	c6 40 10 01          	mov    BYTE PTR [eax+0x10],0x1
+  600634:	89 08                	mov    DWORD PTR [eax],ecx
+  600636:	89 48 04             	mov    DWORD PTR [eax+0x4],ecx
+  600639:	89 48 08             	mov    DWORD PTR [eax+0x8],ecx
+  60063c:	89 48 0c             	mov    DWORD PTR [eax+0xc],ecx
+  60063f:	89 48 fc             	mov    DWORD PTR [eax-0x4],ecx
+  600642:	89 50 14             	mov    DWORD PTR [eax+0x14],edx
+  600645:	83 c0 20             	add    eax,0x20
+  600648:	3d 3c 34 ce 00       	cmp    eax,0xce343c
+  60064d:	7c e1                	jl     0x600630
+  60064f:	c3                   	ret
+  600650:	8b 44 24 04          	mov    eax,DWORD PTR [esp+0x4]
+  600654:	83 f8 05             	cmp    eax,0x5
+  600657:	77 12                	ja     0x60066b
+  600659:	8b 0d e4 8c cd 00    	mov    ecx,DWORD PTR ds:0xcd8ce4
+  60065f:	8b 51 50             	mov    edx,DWORD PTR [ecx+0x50]
+  600662:	c1 e0 05             	shl    eax,0x5
+  600665:	89 90 80 33 ce 00    	mov    DWORD PTR [eax+0xce3380],edx
+  60066b:	c3                   	ret
+  60066c:	cc                   	int3
+  60066d:	cc                   	int3
+  60066e:	cc                   	int3
+  60066f:	cc                   	int3
+  600670:	8b 44 24 04          	mov    eax,DWORD PTR [esp+0x4]
+  600674:	83 f8 05             	cmp    eax,0x5
+  600677:	77 12                	ja     0x60068b
+  600679:	8b 0d e4 8c cd 00    	mov    ecx,DWORD PTR ds:0xcd8ce4
+  60067f:	8b 51 50             	mov    edx,DWORD PTR [ecx+0x50]
+  600682:	c1 e0 05             	shl    eax,0x5
+  600685:	89 90 84 33 ce 00    	mov    DWORD PTR [eax+0xce3384],edx
+  60068b:	c3                   	ret
+  60068c:	cc                   	int3
+  60068d:	cc                   	int3
+  60068e:	cc                   	int3
+  60068f:	cc                   	int3
+  600690:	8b 44 24 04          	mov    eax,DWORD PTR [esp+0x4]
+  600694:	83 f8 05             	cmp    eax,0x5
+  600697:	77 12                	ja     0x6006ab
+  600699:	8b 0d e4 8c cd 00    	mov    ecx,DWORD PTR ds:0xcd8ce4
+  60069f:	8b 51 50             	mov    edx,DWORD PTR [ecx+0x50]
+  6006a2:	c1 e0 05             	shl    eax,0x5
+  6006a5:	89 90 88 33 ce 00    	mov    DWORD PTR [eax+0xce3388],edx
+  6006ab:	c3                   	ret
+  6006ac:	cc                   	int3
+  6006ad:	cc                   	int3
+  6006ae:	cc                   	int3
+  6006af:	cc                   	int3

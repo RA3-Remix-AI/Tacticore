@@ -1,0 +1,71 @@
+{
+  "source_report": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-131138-commander\\harass-mct5-03.json",
+  "source_sha256": "ac854d9cc915a04eef090d2faa8c5ccb6da7a2947a5ad55079405a7e25a80939",
+  "sdk_source": "E:\\RA3Modding\\SDK\\SAGEXML\\GlobalData\\Weapon.xml",
+  "sdk_file_sha256": "7a82e52aa6142f96271173195366227b21a552657bd683f7a33a22e770e1bad1",
+  "ak_element_sha256": "7a7332f479e5ae6ac34562620bd62c6547bf949b6724ddc105af9347008cee92",
+  "ak_attributes": {
+    "id": "SovietAntiInfantryInfantryAK47",
+    "AttackRange": "150.0",
+    "WeaponSpeed": "999999.0",
+    "FireSoundPerClip": "SOV_Conscript_GunFireMS",
+    "FireFX": "FX_MuzzleSoviet",
+    "FireVeteranFX": "FX_MuzzleSoviet",
+    "RadiusDamageAffects": "ENEMIES",
+    "ClipSize": "3",
+    "Flags": "ATTACK_NEEDS_LINE_OF_SIGHT",
+    "RequiredAntiMask": "ANTI_WATER ANTI_GROUND ANTI_STRUCTURE",
+    "AcceptableAimDelta": "10d",
+    "CanFireWhileMoving": "false",
+    "ReAcquireDetailType": "PER_CLIP"
+  },
+  "frozen_approach_policy_threshold": 125,
+  "attack_orders": 0,
+  "range_or_los_engine_failure_proved": false,
+  "actual_rows": [
+    {
+      "frame": 2430,
+      "hp": 100.0,
+      "actual_weapon_asset": "0x41872ecc",
+      "ammo": 1,
+      "current_visible": 1,
+      "xy_distance": 152.05369420881811,
+      "own_z": 210.0,
+      "visible_target_z": 210.0
+    },
+    {
+      "frame": 2432,
+      "hp": 70.0,
+      "actual_weapon_asset": "0x41872ecc",
+      "ammo": 1,
+      "current_visible": 1,
+      "xy_distance": 146.96782661811412,
+      "own_z": 210.0,
+      "visible_target_z": 210.0
+    },
+    {
+      "frame": 2433,
+      "hp": 70.0,
+      "actual_weapon_asset": "0x41872ecc",
+      "ammo": 1,
+      "current_visible": 1,
+      "xy_distance": 144.47322101180941,
+      "own_z": 210.0,
+      "visible_target_z": 210.0
+    },
+    {
+      "frame": 2435,
+      "hp": 40.0,
+      "actual_weapon_asset": "0x41872ecc",
+      "ammo": 1,
+      "current_visible": 1,
+      "xy_distance": 139.58874313242976,
+      "own_z": 210.0,
+      "visible_target_z": 210.0
+    }
+  ],
+  "interpretation": "No Attack was issued; actor still used Molotov and hit low-HP retreat before AK preparation. This does not establish a native AK150 range/LOS failure.",
+  "lethal_observation_gap": "Frozen hooks recheck HP>0 after native call, so a lethal commit can be omitted; no old report is reclassified.",
+  "mutations": false,
+  "sdk_calls": 0
+}

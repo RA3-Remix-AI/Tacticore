@@ -1,0 +1,124 @@
+{
+  "status": "read_only_admission_verified",
+  "source_report": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-131138-commander\\admission-early01.json",
+  "source_sha256": "61a912fc4f8314f993d82632e41fb59f7bb1e2d23ee1709e2f039c606b153333",
+  "helper_sha256": "9635d39a64e65ec95a67a757a4a4212c1835ae539cd00a44ba22a88ed999335b",
+  "session_id": "a54a5351-2b28-4cf2-b8e9-5e98ae6409fe",
+  "pid": 64012,
+  "rows": [
+    {
+      "object_id": 771,
+      "matches_nested_id": true,
+      "state_id": 16,
+      "path": "0x0",
+      "ground160_diagnostic": false,
+      "cache_valid": true,
+      "cache_height": 0.0,
+      "frame": 768,
+      "verified": true,
+      "checks": {
+        "ground_evidence": true,
+        "source": true,
+        "identity_frame": true,
+        "known_foot_update": true,
+        "state_owner_binding": true,
+        "demonstrated_state_only": true,
+        "no_deferred_command_lock": true,
+        "no_mutations": true,
+        "positive_claim": true
+      }
+    },
+    {
+      "object_id": 772,
+      "matches_nested_id": true,
+      "state_id": 16,
+      "path": "0x0",
+      "ground160_diagnostic": false,
+      "cache_valid": true,
+      "cache_height": 0.0,
+      "frame": 768,
+      "verified": true,
+      "checks": {
+        "ground_evidence": true,
+        "source": true,
+        "identity_frame": true,
+        "known_foot_update": true,
+        "state_owner_binding": true,
+        "demonstrated_state_only": true,
+        "no_deferred_command_lock": true,
+        "no_mutations": true,
+        "positive_claim": true
+      }
+    },
+    {
+      "object_id": 773,
+      "matches_nested_id": true,
+      "state_id": 16,
+      "path": "0x0",
+      "ground160_diagnostic": false,
+      "cache_valid": true,
+      "cache_height": 0.0,
+      "frame": 768,
+      "verified": true,
+      "checks": {
+        "ground_evidence": true,
+        "source": true,
+        "identity_frame": true,
+        "known_foot_update": true,
+        "state_owner_binding": true,
+        "demonstrated_state_only": true,
+        "no_deferred_command_lock": true,
+        "no_mutations": true,
+        "positive_claim": true
+      }
+    },
+    {
+      "object_id": 776,
+      "matches_nested_id": true,
+      "state_id": 16,
+      "path": "0x0",
+      "ground160_diagnostic": false,
+      "cache_valid": true,
+      "cache_height": 0.0,
+      "frame": 768,
+      "verified": true,
+      "checks": {
+        "ground_evidence": true,
+        "source": true,
+        "identity_frame": true,
+        "known_foot_update": true,
+        "state_owner_binding": true,
+        "demonstrated_state_only": true,
+        "no_deferred_command_lock": true,
+        "no_mutations": true,
+        "positive_claim": true
+      }
+    },
+    {
+      "object_id": 778,
+      "matches_nested_id": true,
+      "state_id": 16,
+      "path": "0x0",
+      "ground160_diagnostic": false,
+      "cache_valid": true,
+      "cache_height": 0.0,
+      "frame": 768,
+      "verified": true,
+      "checks": {
+        "ground_evidence": true,
+        "source": true,
+        "identity_frame": true,
+        "known_foot_update": true,
+        "state_owner_binding": true,
+        "demonstrated_state_only": true,
+        "no_deferred_command_lock": true,
+        "no_mutations": true,
+        "positive_claim": true
+      }
+    }
+  ],
+  "mutations": false,
+  "sdk_calls": 0,
+  "proves_tactical_effect": false,
+  "scope": "five actual idle16 foot actors pass the readonly same-frame admission; no native ownership guarantee after snapshot"
+}

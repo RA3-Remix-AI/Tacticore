@@ -1,0 +1,220 @@
+{
+  "status": "verified",
+  "checks": {
+    "session_unchanged": true,
+    "source_unchanged": true,
+    "hash_pinned": true,
+    "native_binding": true,
+    "timer_inert": true,
+    "terminal": true,
+    "all_entries_restored": true
+  },
+  "source_report": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-095141-commander\\main-mission04.json",
+  "source_sha256": "52d1de2a627fac62a94454d1ad0cc984b8ee330ba7e0463d2948400324f4d929",
+  "session_id": "478a4a5d-b18e-4d03-9bea-9415f4d02256",
+  "pid": 63320,
+  "timer": 0,
+  "phase": 3,
+  "error": 0,
+  "active": 0,
+  "restore_mask": 16383,
+  "module_base": "0x7a070000",
+  "shared_pointer": "0x3fbc0000",
+  "entries": [
+    {
+      "address": 7274352,
+      "expected": "568bf18b4e3c8b018b5038ffd2",
+      "actual": "568bf18b4e3c8b018b5038ffd2",
+      "file_bytes": "568bf18b4e3c8b018b5038ffd2"
+    },
+    {
+      "address": 7792272,
+      "expected": "837c24040055568bf18b6e08",
+      "actual": "837c24040055568bf18b6e08",
+      "file_bytes": "837c24040055568bf18b6e08"
+    },
+    {
+      "address": 8620064,
+      "expected": "8b818c00000085c0744f568bb190000000",
+      "actual": "8b818c00000085c0744f568bb190000000",
+      "file_bytes": "8b818c00000085c0744f568bb190000000"
+    },
+    {
+      "address": 9275520,
+      "expected": "83ec24568b74242c8b4604",
+      "actual": "83ec24568b74242c8b4604",
+      "file_bytes": "83ec24568b74242c8b4604"
+    },
+    {
+      "address": 9229872,
+      "expected": "83ec3453578b7c24408b4704",
+      "actual": "83ec3453578b7c24408b4704",
+      "file_bytes": "83ec3453578b7c24408b4704"
+    },
+    {
+      "address": 8200976,
+      "expected": "81ec200100005355568bb42430010000",
+      "actual": "81ec200100005355568bb42430010000",
+      "file_bytes": "81ec200100005355568bb42430010000"
+    },
+    {
+      "address": 7306336,
+      "expected": "538b5928568b71243bf357",
+      "actual": "538b5928568b71243bf357",
+      "file_bytes": "538b5928568b71243bf357"
+    },
+    {
+      "address": 7754128,
+      "expected": "8b44240885c0f30f104c2404",
+      "actual": "8b44240885c0f30f104c2404",
+      "file_bytes": "8b44240885c0f30f104c2404"
+    },
+    {
+      "address": 5550240,
+      "expected": "83ec5c8b442460566a01508bf1",
+      "actual": "83ec5c8b442460566a01508bf1",
+      "file_bytes": "83ec5c8b442460566a01508bf1"
+    },
+    {
+      "address": 7477968,
+      "expected": "83ec08558be98b45088b4804",
+      "actual": "83ec08558be98b45088b4804",
+      "file_bytes": "83ec08558be98b45088b4804"
+    },
+    {
+      "address": 5710464,
+      "expected": "83ec5c8b442468566a01508bf1",
+      "actual": "83ec5c8b442468566a01508bf1",
+      "file_bytes": "83ec5c8b442468566a01508bf1"
+    },
+    {
+      "address": 7932304,
+      "expected": "8b44240c8b5424086a006a006a00",
+      "actual": "8b44240c8b5424086a006a006a00",
+      "file_bytes": "8b44240c8b5424086a006a006a00"
+    },
+    {
+      "address": 7789008,
+      "expected": "568bf1578b7e088bcf",
+      "actual": "568bf1578b7e088bcf",
+      "file_bytes": "568bf1578b7e088bcf"
+    },
+    {
+      "address": 5709200,
+      "expected": "83ec5c8b442464566a01508bf1",
+      "actual": "83ec5c8b442464566a01508bf1",
+      "file_bytes": "83ec5c8b442464566a01508bf1"
+    }
+  ],
+  "mutations": false,
+  "assessment": {
+    "status": "continuous_ak_combat_mission_verified",
+    "checks": {
+      "certified_revision": true,
+      "launch_intent": true,
+      "finished": true,
+      "binding": true,
+      "actor_target_scope": true,
+      "ordered_log": true,
+      "thread_owner": true,
+      "critical_finite": true,
+      "clean_restore": true,
+      "mission_deadline": true,
+      "phase_limits": true,
+      "stage_sequence": true,
+      "success_reason": true,
+      "stop_0": true,
+      "stop_6": true,
+      "stop_4": true,
+      "stop_7": true,
+      "stop_2": true,
+      "normal_stop_counts": true,
+      "button_identity": true,
+      "optional_prepare": true,
+      "normal_move_chains": true,
+      "waypoint_arrival_raw": true,
+      "approach_live_start": true,
+      "approach_effect": true,
+      "retreat_effect": true,
+      "normal_script_attack": true,
+      "stop_prepare_attack_retreat_order": true,
+      "private_stop_pairs": true,
+      "direct_source_effect": true,
+      "same_entry_ammo": true,
+      "immutable_ak_asset": true,
+      "no_native_override": true,
+      "native_pool_return": true
+    },
+    "effect_verified": true,
+    "approach_verified": true,
+    "long_approach_verified": true,
+    "long_retreat_verified": true,
+    "retreat_verified": true,
+    "restoration_verified": true,
+    "new_order_fire_association_verified": true,
+    "source_damage_amount": 5.0,
+    "qualified_hits": [
+      {
+        "body_event_seq": 137,
+        "commit_event_seq": 136,
+        "ammo_event_seq": 139,
+        "body_frame": 3531,
+        "damage": 5.0,
+        "packet": {
+          "argument_address": "0x1af18c",
+          "source_actor_id": 830,
+          "weapon_asset_id": "0x447ea26e",
+          "warhead_asset_id": "0x447ea26e",
+          "damage_type": "GUN",
+          "damage_type_id": 21,
+          "requested_damage": 5.0,
+          "actual_damage": 5.0,
+          "packet_word_offset": 32,
+          "caller_return": "0x78e313"
+        }
+      }
+    ],
+    "harass_economy_verified": true,
+    "actor_roles": [
+      "infantry"
+    ],
+    "restoration": {
+      "restoration_verified": true,
+      "control_release_verified": true,
+      "return_verified": true,
+      "disposed_verified": false,
+      "semantics": "native_pool_return",
+      "completion_claim": false
+    },
+    "reason_code": "source_damage",
+    "mission_protocol": "continuous_tactical_v1",
+    "source_report": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-095141-commander\\main-mission04.json",
+    "source_sha256": "52d1de2a627fac62a94454d1ad0cc984b8ee330ba7e0463d2948400324f4d929",
+    "qualifier_sha256": "bea306b96ede34097bf5716db59f7f462d8e1f1c30c86fec5df0de829daa3247",
+    "supplemental_sources": [
+      {
+        "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\tactical\\mission-combat\\mission_tick.inc",
+        "sha256": "9e865c69e8e27981e7ed0f4c3b936948b3836202cf7e183a8a80c491ef4791d6",
+        "purpose": "immutable_mission_source"
+      },
+      {
+        "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\tactical\\mission-combat\\mission_contract.py",
+        "sha256": "ab8dae01f76e3626affc930b642e668dc9b481cf998783fb2597c6991930b901",
+        "purpose": "immutable_mission_source"
+      },
+      {
+        "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\tactical\\pre_dispatch_contract.py",
+        "sha256": "d07ce70e224b10be824add239eda1dcaa36b2142cd7dc005839d29916da5b380",
+        "purpose": "pre_native_launch_boundary"
+      }
+    ],
+    "sdk_source": {
+      "name": "SovietAntiInfantryInfantryAK47",
+      "source_sha256": "7a82e52aa6142f96271173195366227b21a552657bd683f7a33a22e770e1bad1",
+      "clip_size": 3,
+      "damage_type": "GUN",
+      "damage_delay_seconds": 0.0,
+      "projectile_nugget": false
+    }
+  }
+}

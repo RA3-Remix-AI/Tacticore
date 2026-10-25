@@ -1,0 +1,40 @@
+
+E:\RedRar3\Data\RA3_1.12.game:     file format pei-i386
+
+
+Disassembly of section .text:
+
+00790732 <.text+0x38f732>:
+  790732:	8b 49 14             	mov    0x14(%ecx),%ecx
+  790735:	85 c9                	test   %ecx,%ecx
+  790737:	74 04                	je     0x79073d
+  790739:	8b 01                	mov    (%ecx),%eax
+  79073b:	eb 02                	jmp    0x79073f
+  79073d:	33 c0                	xor    %eax,%eax
+  79073f:	83 be 10 03 00 00 00 	cmpl   $0x0,0x310(%esi)
+  790746:	0f 84 f9 01 00 00    	je     0x790945
+  79074c:	83 be c0 03 00 00 00 	cmpl   $0x0,0x3c0(%esi)
+  790753:	0f 84 ec 01 00 00    	je     0x790945
+  790759:	8b 8e b4 03 00 00    	mov    0x3b4(%esi),%ecx
+  79075f:	8b 49 14             	mov    0x14(%ecx),%ecx
+  790762:	85 c9                	test   %ecx,%ecx
+  790764:	0f 84 db 01 00 00    	je     0x790945
+  79076a:	85 c0                	test   %eax,%eax
+  79076c:	0f 84 d3 01 00 00    	je     0x790945
+  790772:	8b 11                	mov    (%ecx),%edx
+  790774:	6a 00                	push   $0x0
+  790776:	6a 00                	push   $0x0
+  790778:	6a 00                	push   $0x0
+  79077a:	6a 00                	push   $0x0
+  79077c:	6a 00                	push   $0x0
+  79077e:	68 84 7e cd 00       	push   $0xcd7e84
+  790783:	6a 00                	push   $0x0
+  790785:	50                   	push   %eax
+  790786:	8b 42 24             	mov    0x24(%edx),%eax
+  790789:	ff d0                	call   *%eax
+  79078b:	5f                   	pop    %edi
+  79078c:	5e                   	pop    %esi
+  79078d:	5d                   	pop    %ebp
+  79078e:	5b                   	pop    %ebx
+  79078f:	83 c4 14             	add    $0x14,%esp
+  790792:	c2 18 00             	ret    $0x18

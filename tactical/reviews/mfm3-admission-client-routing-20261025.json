@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "scope": "trusted_mfm3_alternate_python_wrapper_routing",
+  "status": "offline_verified",
+  "sdk_calls": 0,
+  "native_changes": false,
+  "raw_reports_modified": false,
+  "tests": {
+    "targeted": 10,
+    "tactical_total": 348
+  },
+  "source_sha256": {
+    "client.py": "7d03fe05adb559ec052b0e41ff74aa827c86e25941c0d622cdf1b9b1fbc450b6",
+    "test_formation_wrapper_selection.py": "3a150c23e3d21a0ef52de909d728bf55d29dcdb007aa9686352ddb71a3a1cd04",
+    "test_formation_gate_client.py": "006115c9c4ba648b0a49fbe5fd5f38d9e3cd19ab1f64bcfb9a8a9088e1c0fcc2"
+  },
+  "actual_imports": [
+    {
+      "directory": "mission-formation-v2",
+      "wrapper": "lease.py",
+      "qualifier": "formation_mission_qualification.py",
+      "shared_size": 6718400
+    },
+    {
+      "directory": "mission-formation-v3",
+      "wrapper": "lease_admission_v2.py",
+      "qualifier": "formation_mission_qualification_v2.py",
+      "shared_size": 6718400
+    },
+    {
+      "directory": "mission-combat-v5",
+      "wrapper": "lease.py",
+      "shared_size": 3310656
+    }
+  ],
+  "checks": [
+    "registry_only_file_names",
+    "basename_python_paths_only",
+    "actual_popen_matches_trusted_wrapper",
+    "grant_sha_checks_actual_wrapper",
+    "progress_qualification_release_share_trusted_qualifier",
+    "pre_dispatch_and_gate_use_trusted_helpers",
+    "legacy_defaults_preserved"
+  ],
+  "limitations": [
+    "No field execution or capability grant is implied.",
+    "Existing in-flight receipts are not migrated."
+  ]
+}

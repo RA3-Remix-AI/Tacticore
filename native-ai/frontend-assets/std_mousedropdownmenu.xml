@@ -1,0 +1,686 @@
+<?xml version="1.0" encoding="utf-8"?>
+<aptdata>
+  <movieclip>
+    <imports>
+      <import name="std_mouseScrollingListboxSymbol" movie="../cafe/mouseComponents/std_mouseScrollingListbox" character="21"/>
+      <import name="std_mouseScrollbarSymbol" movie="../cafe/mouseComponents/std_mouseScrollbar" character="22"/>
+      <import name="std_MousebuttonSymbol" movie="../cafe/mouseComponents/std_MouseButton" character="23"/>
+      <import name="std_mouseListboxEntryRenderImageElementSymbol" movie="../cafe/mouseComponents/std_mouseScrollingListbox" character="24"/>
+      <import name="std_mouseListboxEntryColorSwatchElementSymbol" movie="../cafe/mouseComponents/std_mouseScrollingListbox" character="26"/>
+      <import name="std_mouseListboxEntryTextElementSymbol" movie="../cafe/mouseComponents/std_mouseScrollingListbox" character="28"/>
+    </imports>
+    <exports>
+      <export name="DropdownButtonHitRegion" character="5"/>
+      <export name="DropdownButtonHitRegion" character="5"/>
+      <export name="DropdownButtonHitRegion" character="5"/>
+      <export name="DropdownButtonHitRegion" character="5"/>
+      <export name="DropdownButtonHitRegion" character="5"/>
+      <export name="DropdownButtonHitRegion" character="5"/>
+      <export name="DropdownButtonHitRegion" character="5"/>
+      <export name="DropdownButtonHitRegion" character="5"/>
+      <export name="DropdownButtonHitRegion" character="5"/>
+      <export name="DropdownButtonHitRegion" character="5"/>
+      <export name="DropdownButtonHitRegion" character="5"/>
+      <export name="DropdownButtonHitRegion" character="5"/>
+      <export name="DropdownButtonHitRegion" character="5"/>
+      <export name="DropdownButtonHitRegion" character="5"/>
+      <export name="DropdownButtonHitRegion" character="5"/>
+      <export name="DropdownButtonHitRegion" character="5"/>
+      <export name="DropdownButtonHitRegion" character="5"/>
+      <export name="DropdownButtonHitRegion" character="5"/>
+      <export name="DropdownButtonHitRegion" character="5"/>
+      <export name="DropdownButtonHitRegion" character="5"/>
+      <export name="DropdownButtonHitRegion" character="5"/>
+      <export name="DropdownButtonHitRegion" character="5"/>
+      <export name="DropdownButtonContent" character="9"/>
+      <export name="std_mouseDropdownMenuVisRef" character="13"/>
+      <export name="std_mouseDropDownMenuSymbol" character="14"/>
+      <export name="std_mouseDropdownMenuVisRef" character="13"/>
+      <export name="RenderImageDropdownContentSymbol" character="25"/>
+      <export name="ColorSwatchDropdownContentSymbol" character="27"/>
+      <export name="TextDropdownMenuContentSymbol" character="29"/>
+      <export name="DropdownButtonHitRegion" character="5"/>
+    </exports>
+    <frames>
+      <frame id="0">
+        <background color="4288256409"/>
+      </frame>
+    </frames>
+  </movieclip>
+  <empty id="0"/>
+  <image id="1" image="1"/>
+  <shape id="2" top="0" left="0" bottom="25" right="25" geometry="2"/>
+  <sprite id="3">
+    <frames>
+      <frame id="0">
+        <placeobject depth="2" character="2" rotm00="1" rotm01="0" rotm10="0" rotm11="1" tx="0" ty="0" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasMatrix"/>
+        </placeobject>
+      </frame>
+    </frames>
+  </sprite>
+  <shape id="4" top="0" left="0" bottom="20" right="20" geometry="4"/>
+  <button id="5" top="0" left="0" bottom="20" right="20">
+    <vertexes>
+      <vertex x="0" y="20"/>
+      <vertex x="0" y="0"/>
+      <vertex x="20" y="0"/>
+      <vertex x="20" y="20"/>
+    </vertexes>
+    <triangles>
+      <triangle v1="0" v2="1" v3="2"/>
+      <triangle v1="2" v2="3" v3="0"/>
+    </triangles>
+    <buttonrecords>
+      <buttonrecord character="4" depth="1" rotm00="1" rotm01="0" rotm10="0" rotm11="1" tx="0" ty="0">
+        <buttonflags value="ButtonStateHitTest"/>
+      </buttonrecord>
+    </buttonrecords>
+  </button>
+  <image id="6" image="6"/>
+  <shape id="7" top="0" left="0" bottom="25" right="25" geometry="7"/>
+  <sprite id="8">
+    <frames>
+      <frame id="0">
+        <placeobject depth="1" character="7" rotm00="1" rotm01="0" rotm10="0" rotm11="1" tx="0" ty="0" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasMatrix"/>
+        </placeobject>
+      </frame>
+    </frames>
+  </sprite>
+  <sprite id="9">
+    <frames>
+      <frame id="0">
+        <action>
+          <end/>
+        </action>
+        <framelabel label="_disable" frame="0"/>
+        <placeobject depth="1" character="3" rotm00="1" rotm01="0" rotm10="0" rotm11="1" tx="0" ty="0" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasMatrix"/>
+        </placeobject>
+        <placeobject depth="4" character="5" rotm00="1.2500153" rotm01="0" rotm10="0" rotm11="1.2500153" tx="0" ty="0" red="255" green="255" blue="255" alpha="0" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasColorTransform|HasMatrix|HasName"/>
+          <poname name="hitRegion"/>
+        </placeobject>
+      </frame>
+      <frame id="1"/>
+      <frame id="2"/>
+      <frame id="3">
+        <action>
+          <noarg action="7"/>
+          <end/>
+        </action>
+      </frame>
+      <frame id="4">
+        <removeobject depth="1"/>
+        <framelabel label="_selected" frame="4"/>
+        <placeobject depth="1" character="8" rotm00="1" rotm01="0" rotm10="0" rotm11="-1" tx="0" ty="25" red="255" green="255" blue="255" alpha="255" ratio="6.1035156e-05" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasMatrix|HasRatio"/>
+        </placeobject>
+      </frame>
+      <frame id="5"/>
+      <frame id="6">
+        <action>
+          <noarg action="7"/>
+          <end/>
+        </action>
+      </frame>
+      <frame id="7">
+        <framelabel label="_unselected" frame="7"/>
+        <placeobject depth="1" character="-1" rotm00="1" rotm01="0" rotm10="0" rotm11="1" tx="0" ty="0" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasMatrix|Move"/>
+        </placeobject>
+      </frame>
+      <frame id="8"/>
+      <frame id="9">
+        <action>
+          <noarg action="7"/>
+          <end/>
+        </action>
+      </frame>
+      <frame id="10">
+        <framelabel label="_selectedRollover" frame="10"/>
+        <placeobject depth="1" character="-1" rotm00="1" rotm01="0" rotm10="0" rotm11="-1" tx="0" ty="25" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasMatrix|Move"/>
+        </placeobject>
+      </frame>
+      <frame id="11"/>
+      <frame id="12">
+        <action>
+          <noarg action="7"/>
+          <end/>
+        </action>
+      </frame>
+      <frame id="13">
+        <framelabel label="_unselectedRollover" frame="13"/>
+        <placeobject depth="1" character="-1" rotm00="1" rotm01="0" rotm10="0" rotm11="1" tx="0" ty="0" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasMatrix|Move"/>
+        </placeobject>
+      </frame>
+      <frame id="14"/>
+      <frame id="15">
+        <action>
+          <noarg action="7"/>
+          <end/>
+        </action>
+      </frame>
+      <frame id="16">
+        <framelabel label="_intro" frame="16"/>
+      </frame>
+      <frame id="17"/>
+      <frame id="18">
+        <action>
+          <pushzero/>
+          <pushthis/>
+          <getstringmember str="_parent"/>
+          <pushstring str="introComplete"/>
+          <noarg action="93"/>
+          <noarg action="7"/>
+          <end/>
+        </action>
+      </frame>
+      <frame id="19">
+        <framelabel label="_outtro" frame="19"/>
+      </frame>
+      <frame id="20"/>
+      <frame id="21">
+        <action>
+          <pushzero/>
+          <pushthis/>
+          <getstringmember str="_parent"/>
+          <pushstring str="outtroComplete"/>
+          <noarg action="93"/>
+          <noarg action="7"/>
+          <end/>
+        </action>
+      </frame>
+    </frames>
+  </sprite>
+  <shape id="10" top="0.69999999" left="151.3" bottom="22.700001" right="173.3" geometry="10"/>
+  <font id="11" name="Red Alert"/>
+  <edittext id="12" top="-2" left="-2" bottom="22.1" right="148" font="11" alignment="0" red="255" green="0" blue="0" alpha="0" height="18" readonly="1" multiline="0" wordwrap="0">
+    <ettext text="Dropdown Menu"/>
+    <etvar variable=""/>
+  </edittext>
+  <sprite id="13">
+    <frames>
+      <frame id="0">
+        <placeobject depth="1" character="10" rotm00="1" rotm01="0" rotm10="0" rotm11="1" tx="0" ty="0" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasMatrix"/>
+        </placeobject>
+        <placeobject depth="2" character="12" rotm00="1" rotm01="0" rotm10="0" rotm11="1" tx="2" ty="2" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasMatrix"/>
+        </placeobject>
+      </frame>
+    </frames>
+  </sprite>
+  <sprite id="14">
+    <frames>
+      <frame id="0">
+        <placeobject depth="1" character="13" rotm00="1" rotm01="0" rotm10="0" rotm11="1" tx="0" ty="0" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasMatrix|HasName"/>
+          <poname name="visRefMC"/>
+        </placeobject>
+      </frame>
+    </frames>
+  </sprite>
+  <shape id="15" top="0" left="0" bottom="29" right="9.5" geometry="15"/>
+  <sprite id="16">
+    <frames>
+      <frame id="0">
+        <placeobject depth="1" character="15" rotm00="1" rotm01="0" rotm10="0" rotm11="1" tx="0" ty="0" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasMatrix"/>
+        </placeobject>
+      </frame>
+    </frames>
+  </sprite>
+  <shape id="17" top="0" left="0" bottom="29" right="31" geometry="17"/>
+  <sprite id="18">
+    <frames>
+      <frame id="0">
+        <placeobject depth="1" character="17" rotm00="1" rotm01="0" rotm10="0" rotm11="1" tx="0" ty="0" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasMatrix"/>
+        </placeobject>
+      </frame>
+    </frames>
+  </sprite>
+  <shape id="19" top="0" left="0" bottom="29" right="9.5" geometry="19"/>
+  <sprite id="20">
+    <frames>
+      <frame id="0">
+        <placeobject depth="2" character="19" rotm00="1" rotm01="0" rotm10="0" rotm11="1" tx="0" ty="0" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasMatrix"/>
+        </placeobject>
+      </frame>
+    </frames>
+  </sprite>
+  <empty id="21"/>
+  <empty id="22"/>
+  <empty id="23"/>
+  <empty id="24"/>
+  <sprite id="25">
+    <frames>
+      <frame id="0">
+        <action>
+          <noarg action="7"/>
+          <end/>
+        </action>
+        <placeobject depth="1" character="16" rotm00="1" rotm01="0" rotm10="0" rotm11="1" tx="0" ty="-2" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasMatrix|HasName"/>
+          <poname name="BGImgLeft"/>
+        </placeobject>
+        <placeobject depth="3" character="18" rotm00="1" rotm01="0" rotm10="0" rotm11="1" tx="17.5" ty="-2" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasMatrix|HasName"/>
+          <poname name="BGImgMiddle"/>
+        </placeobject>
+        <placeobject depth="5" character="20" rotm00="1" rotm01="0" rotm10="0" rotm11="1" tx="191.3" ty="-2" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasMatrix|HasName"/>
+          <poname name="BGImgRight"/>
+        </placeobject>
+        <placeobject depth="8" character="21" rotm00="1" rotm01="0" rotm10="0" rotm11="1" tx="4" ty="29" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasClipActions|HasMatrix|HasName"/>
+          <poname name="listbox"/>
+          <clipactions>
+            <clipaction flags="262144" flags2="0">
+              <constantpool>
+                <constant id="0" string="m_focusDirs"/>
+                <constant id="1" string="Up/Down"/>
+                <constant id="2" string="m_numEntries"/>
+                <constant id="3" string="m_vPadding"/>
+                <constant id="4" string="m_bEnabled"/>
+                <constant id="5" string="m_refFM"/>
+                <constant id="6" string="_root.gFM"/>
+                <constant id="7" string="m_initiallySelected"/>
+                <constant id="8" string="m_tabIndex"/>
+                <constant id="9" string="m_bVisible"/>
+                <constant id="10" string="m_scrollbarOffset"/>
+              </constantpool>
+              <pushconstant val="0"/>
+              <pushconstant val="1"/>
+              <setvariable/>
+              <pushconstant val="2"/>
+              <pushbyte val="5"/>
+              <setvariable/>
+              <pushconstant val="3"/>
+              <pushbyte val="5"/>
+              <setvariable/>
+              <pushconstant val="4"/>
+              <pushtrue/>
+              <setvariable/>
+              <pushconstant val="5"/>
+              <pushconstant val="6"/>
+              <setvariable/>
+              <pushconstant val="7"/>
+              <pushfalse/>
+              <setvariable/>
+              <pushconstant val="8"/>
+              <pushbyte val="255"/>
+              <setvariable/>
+              <pushconstant val="9"/>
+              <pushfalse/>
+              <setvariable/>
+              <pushconstant val="10"/>
+              <pushzero/>
+              <noarg action="66"/>
+              <setvariable/>
+              <pushvalue val="10"/>
+              <pushzero/>
+              <pushbyte val="10"/>
+              <setmember/>
+              <pushvalue val="10"/>
+              <pushone/>
+              <pushzero/>
+              <setmember/>
+              <end/>
+            </clipaction>
+          </clipactions>
+        </placeobject>
+        <placeobject depth="16" character="22" rotm00="1" rotm01="0" rotm10="0" rotm11="1" tx="103" ty="57" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasClipActions|HasMatrix|HasName"/>
+          <poname name="scrollbar"/>
+          <clipactions>
+            <clipaction flags="262144" flags2="0">
+              <pushstring str="m_nLength"/>
+              <pushbyte val="100"/>
+              <setvariable/>
+              <pushstring str="m_nMax"/>
+              <pushbyte val="10"/>
+              <setvariable/>
+              <pushstring str="m_nMin"/>
+              <noarg action="114"/>
+              <pushstring str="m_nValue"/>
+              <noarg action="114"/>
+              <end/>
+            </clipaction>
+          </clipactions>
+        </placeobject>
+        <placeobject depth="30" character="23" rotm00="1" rotm01="0" rotm10="0" rotm11="1" tx="102" ty="0" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasClipActions|HasMatrix|HasName"/>
+          <poname name="button"/>
+          <clipactions>
+            <clipaction flags="262144" flags2="0">
+              <pushstring str="m_focusDirs"/>
+              <setstringvar str="Up/Down"/>
+              <pushstring str="m_bEnabled"/>
+              <pushtrue/>
+              <setvariable/>
+              <pushstring str="m_refFM"/>
+              <setstringvar str="_root.gFM"/>
+              <pushstring str="m_initiallySelected"/>
+              <pushfalse/>
+              <setvariable/>
+              <pushstring str="m_tabIndex"/>
+              <pushbyte val="255"/>
+              <setvariable/>
+              <pushstring str="m_bVisible"/>
+              <pushtrue/>
+              <setvariable/>
+              <pushstring str="m_label"/>
+              <setstringvar str=""/>
+              <pushstring str="m_contentSymbol"/>
+              <setstringvar str="DropdownButtonContent"/>
+              <end/>
+            </clipaction>
+          </clipactions>
+        </placeobject>
+        <placeobject depth="32" character="24" rotm00="1" rotm01="0" rotm10="0" rotm11="1" tx="0" ty="2" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasMatrix|HasName"/>
+          <poname name="currentSelection"/>
+        </placeobject>
+      </frame>
+    </frames>
+  </sprite>
+  <empty id="26"/>
+  <sprite id="27">
+    <frames>
+      <frame id="0">
+        <action>
+          <noarg action="7"/>
+          <end/>
+        </action>
+        <placeobject depth="1" character="16" rotm00="1" rotm01="0" rotm10="0" rotm11="1" tx="0" ty="-2" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasMatrix|HasName"/>
+          <poname name="BGImgLeft"/>
+        </placeobject>
+        <placeobject depth="3" character="18" rotm00="1" rotm01="0" rotm10="0" rotm11="1" tx="17.5" ty="-2" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasMatrix|HasName"/>
+          <poname name="BGImgMiddle"/>
+        </placeobject>
+        <placeobject depth="5" character="20" rotm00="1" rotm01="0" rotm10="0" rotm11="1" tx="191.3" ty="-2" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasMatrix|HasName"/>
+          <poname name="BGImgRight"/>
+        </placeobject>
+        <placeobject depth="8" character="21" rotm00="1" rotm01="0" rotm10="0" rotm11="1" tx="4" ty="29" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasClipActions|HasMatrix|HasName"/>
+          <poname name="listbox"/>
+          <clipactions>
+            <clipaction flags="262144" flags2="0">
+              <constantpool>
+                <constant id="0" string="m_focusDirs"/>
+                <constant id="1" string="Up/Down"/>
+                <constant id="2" string="m_numEntries"/>
+                <constant id="3" string="m_vPadding"/>
+                <constant id="4" string="m_bEnabled"/>
+                <constant id="5" string="m_refFM"/>
+                <constant id="6" string="_root.gFM"/>
+                <constant id="7" string="m_initiallySelected"/>
+                <constant id="8" string="m_tabIndex"/>
+                <constant id="9" string="m_bVisible"/>
+                <constant id="10" string="m_scrollbarOffset"/>
+              </constantpool>
+              <pushconstant val="0"/>
+              <pushconstant val="1"/>
+              <setvariable/>
+              <pushconstant val="2"/>
+              <pushbyte val="5"/>
+              <setvariable/>
+              <pushconstant val="3"/>
+              <pushbyte val="5"/>
+              <setvariable/>
+              <pushconstant val="4"/>
+              <pushtrue/>
+              <setvariable/>
+              <pushconstant val="5"/>
+              <pushconstant val="6"/>
+              <setvariable/>
+              <pushconstant val="7"/>
+              <pushfalse/>
+              <setvariable/>
+              <pushconstant val="8"/>
+              <pushbyte val="255"/>
+              <setvariable/>
+              <pushconstant val="9"/>
+              <pushfalse/>
+              <setvariable/>
+              <pushconstant val="10"/>
+              <pushzero/>
+              <noarg action="66"/>
+              <setvariable/>
+              <pushvalue val="10"/>
+              <pushzero/>
+              <pushbyte val="10"/>
+              <setmember/>
+              <pushvalue val="10"/>
+              <pushone/>
+              <pushzero/>
+              <setmember/>
+              <end/>
+            </clipaction>
+          </clipactions>
+        </placeobject>
+        <placeobject depth="16" character="22" rotm00="1" rotm01="0" rotm10="0" rotm11="1" tx="103" ty="57" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasClipActions|HasMatrix|HasName"/>
+          <poname name="scrollbar"/>
+          <clipactions>
+            <clipaction flags="262144" flags2="0">
+              <pushstring str="m_nLength"/>
+              <pushbyte val="100"/>
+              <setvariable/>
+              <pushstring str="m_nMax"/>
+              <pushbyte val="10"/>
+              <setvariable/>
+              <pushstring str="m_nMin"/>
+              <noarg action="114"/>
+              <pushstring str="m_nValue"/>
+              <noarg action="114"/>
+              <end/>
+            </clipaction>
+          </clipactions>
+        </placeobject>
+        <placeobject depth="30" character="23" rotm00="1" rotm01="0" rotm10="0" rotm11="1" tx="102" ty="0" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasClipActions|HasMatrix|HasName"/>
+          <poname name="button"/>
+          <clipactions>
+            <clipaction flags="262144" flags2="0">
+              <pushstring str="m_focusDirs"/>
+              <setstringvar str="Up/Down"/>
+              <pushstring str="m_bEnabled"/>
+              <pushtrue/>
+              <setvariable/>
+              <pushstring str="m_refFM"/>
+              <setstringvar str="_root.gFM"/>
+              <pushstring str="m_initiallySelected"/>
+              <pushfalse/>
+              <setvariable/>
+              <pushstring str="m_tabIndex"/>
+              <pushbyte val="255"/>
+              <setvariable/>
+              <pushstring str="m_bVisible"/>
+              <pushtrue/>
+              <setvariable/>
+              <pushstring str="m_label"/>
+              <setstringvar str=""/>
+              <pushstring str="m_contentSymbol"/>
+              <setstringvar str="DropdownButtonContent"/>
+              <end/>
+            </clipaction>
+          </clipactions>
+        </placeobject>
+        <placeobject depth="32" character="26" rotm00="1" rotm01="0" rotm10="0" rotm11="1" tx="0" ty="1" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasMatrix|HasName"/>
+          <poname name="currentSelection"/>
+        </placeobject>
+      </frame>
+    </frames>
+  </sprite>
+  <empty id="28"/>
+  <sprite id="29">
+    <frames>
+      <frame id="0">
+        <action>
+          <noarg action="7"/>
+          <end/>
+        </action>
+        <placeobject depth="1" character="16" rotm00="1" rotm01="0" rotm10="0" rotm11="1" tx="0" ty="-2" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasMatrix|HasName"/>
+          <poname name="BGImgLeft"/>
+        </placeobject>
+        <placeobject depth="3" character="18" rotm00="1" rotm01="0" rotm10="0" rotm11="1" tx="17.5" ty="-2" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasMatrix|HasName"/>
+          <poname name="BGImgMiddle"/>
+        </placeobject>
+        <placeobject depth="5" character="20" rotm00="1" rotm01="0" rotm10="0" rotm11="1" tx="191.3" ty="-2" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasMatrix|HasName"/>
+          <poname name="BGImgRight"/>
+        </placeobject>
+        <placeobject depth="8" character="21" rotm00="1" rotm01="0" rotm10="0" rotm11="1" tx="3" ty="28" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasClipActions|HasMatrix|HasName"/>
+          <poname name="listbox"/>
+          <clipactions>
+            <clipaction flags="262144" flags2="0">
+              <constantpool>
+                <constant id="0" string="m_focusDirs"/>
+                <constant id="1" string="Up/Down"/>
+                <constant id="2" string="m_numEntries"/>
+                <constant id="3" string="m_vPadding"/>
+                <constant id="4" string="m_bEnabled"/>
+                <constant id="5" string="m_refFM"/>
+                <constant id="6" string="_root.gFM"/>
+                <constant id="7" string="m_initiallySelected"/>
+                <constant id="8" string="m_tabIndex"/>
+                <constant id="9" string="m_bVisible"/>
+                <constant id="10" string="m_scrollbarOffset"/>
+                <constant id="11" string="m_BgVisible"/>
+                <constant id="12" string="m_renderWidth"/>
+                <constant id="13" string="m_renderHeight"/>
+                <constant id="14" string="m_backgroundMargin"/>
+                <constant id="15" string="m_useHighlights"/>
+                <constant id="16" string="m_alternateBackgroundColors"/>
+                <constant id="17" string="m_backgroundColor1"/>
+                <constant id="18" string="m_backgroundColor2"/>
+              </constantpool>
+              <pushconstant val="0"/>
+              <pushconstant val="1"/>
+              <setvariable/>
+              <pushconstant val="2"/>
+              <pushbyte val="5"/>
+              <setvariable/>
+              <pushconstant val="3"/>
+              <noarg action="114"/>
+              <pushconstant val="4"/>
+              <pushtrue/>
+              <setvariable/>
+              <pushconstant val="5"/>
+              <pushconstant val="6"/>
+              <setvariable/>
+              <pushconstant val="7"/>
+              <pushfalse/>
+              <setvariable/>
+              <pushconstant val="8"/>
+              <pushbyte val="255"/>
+              <setvariable/>
+              <pushconstant val="9"/>
+              <pushtrue/>
+              <setvariable/>
+              <pushconstant val="10"/>
+              <pushzero/>
+              <noarg action="66"/>
+              <setvariable/>
+              <pushvalue val="10"/>
+              <pushzero/>
+              <pushbyte val="10"/>
+              <setmember/>
+              <pushvalue val="10"/>
+              <pushone/>
+              <pushzero/>
+              <setmember/>
+              <pushconstant val="11"/>
+              <pushtrue/>
+              <setvariable/>
+              <pushconstant val="12"/>
+              <noarg action="114"/>
+              <pushconstant val="13"/>
+              <noarg action="114"/>
+              <pushconstant val="14"/>
+              <pushbyte val="2"/>
+              <setvariable/>
+              <pushconstant val="15"/>
+              <pushtrue/>
+              <setvariable/>
+              <pushconstant val="16"/>
+              <pushfalse/>
+              <setvariable/>
+              <pushconstant val="17"/>
+              <noarg action="114"/>
+              <pushconstant val="18"/>
+              <noarg action="114"/>
+              <end/>
+            </clipaction>
+          </clipactions>
+        </placeobject>
+        <placeobject depth="16" character="22" rotm00="1" rotm01="0" rotm10="0" rotm11="1" tx="223" ty="57" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasClipActions|HasMatrix|HasName"/>
+          <poname name="scrollbar"/>
+          <clipactions>
+            <clipaction flags="262144" flags2="0">
+              <pushstring str="m_nLength"/>
+              <pushbyte val="100"/>
+              <setvariable/>
+              <pushstring str="m_nMax"/>
+              <pushbyte val="10"/>
+              <setvariable/>
+              <pushstring str="m_nMin"/>
+              <noarg action="114"/>
+              <pushstring str="m_nValue"/>
+              <noarg action="114"/>
+              <end/>
+            </clipaction>
+          </clipactions>
+        </placeobject>
+        <placeobject depth="30" character="23" rotm00="1" rotm01="0" rotm10="0" rotm11="1" tx="223" ty="0" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasClipActions|HasMatrix|HasName"/>
+          <poname name="button"/>
+          <clipactions>
+            <clipaction flags="262144" flags2="0">
+              <pushstring str="m_focusDirs"/>
+              <setstringvar str="Up/Down"/>
+              <pushstring str="m_bEnabled"/>
+              <pushtrue/>
+              <setvariable/>
+              <pushstring str="m_refFM"/>
+              <setstringvar str="_root.gFM"/>
+              <pushstring str="m_initiallySelected"/>
+              <pushfalse/>
+              <setvariable/>
+              <pushstring str="m_tabIndex"/>
+              <pushbyte val="255"/>
+              <setvariable/>
+              <pushstring str="m_bVisible"/>
+              <pushtrue/>
+              <setvariable/>
+              <pushstring str="m_label"/>
+              <setstringvar str=""/>
+              <pushstring str="m_contentSymbol"/>
+              <setstringvar str="DropdownButtonContent"/>
+              <end/>
+            </clipaction>
+          </clipactions>
+        </placeobject>
+        <placeobject depth="32" character="28" rotm00="1" rotm01="0" rotm10="0" rotm11="1" tx="3" ty="0.1" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasMatrix|HasName"/>
+          <poname name="currentSelection"/>
+        </placeobject>
+      </frame>
+    </frames>
+  </sprite>
+</aptdata>

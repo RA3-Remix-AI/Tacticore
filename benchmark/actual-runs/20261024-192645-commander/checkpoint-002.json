@@ -1,0 +1,269 @@
+{
+  "schema_version": 1,
+  "reviewed_at_utc": "2026-10-24T11:30:34.539738+00:00",
+  "source_kind": "live_game_host_artifact_review",
+  "binding": {
+    "session_id": "9feb4b8b-b7d5-450a-b80c-5cd1f944ccfd",
+    "player_id": 3,
+    "commander_id": "57e668b4-4d89-43bd-bc92-0dd436f046ef"
+  },
+  "trial_kind": "prearmed_whole_match_integration_candidate",
+  "attempt_scope": null,
+  "opponent": "local_human_slot_idle_integration",
+  "whole_match_acceptance_passed": false,
+  "personality_comparison_passed": false,
+  "result_finalized": false,
+  "host": {
+    "host_pid": 44932,
+    "state": "running",
+    "reason_code": "observing",
+    "execution": {
+      "enabled": true,
+      "dry_run": false,
+      "executor_connected": true,
+      "remaining_budget": 4170
+    }
+  },
+  "model": {
+    "requests": 9,
+    "accepted": 8,
+    "rejected": 0,
+    "invalid_policy_rate": 0.0,
+    "timeouts": 0,
+    "adapter_errors": 1,
+    "held_decisions": 23,
+    "transport": {
+      "attempts": 9,
+      "retries": 0,
+      "timeouts": 0,
+      "responses": 8,
+      "max_request_bytes": 9452
+    }
+  },
+  "strategy": {
+    "engine_plan_changes_including_initial": 2,
+    "intent_transitions_excluding_initial": 1,
+    "retained_full_intent_observations": 2,
+    "retained_full_intent_transitions": 0,
+    "full_intent_history_complete": false,
+    "first_host_match_game_seconds": 0.8666666666666667,
+    "first_model_request_game_seconds": 0.8666666666666667,
+    "first_logged_game_seconds": 0.8666666666666667,
+    "last_logged_game_seconds": 136.8
+  },
+  "context": {
+    "memory_metrics": {
+      "context_builds": 9,
+      "compactions": 5,
+      "max_payload_bytes": 5089,
+      "expired_enemy_facts": 0
+    },
+    "compressed_history": {
+      "events_compacted": 5,
+      "counts_by_kind": {
+        "session_observed": 1,
+        "decision": 4
+      },
+      "completed_tasks": {
+        "build": 0,
+        "raid": 0,
+        "attack": 0,
+        "combined_arms": 0
+      },
+      "failed_tasks": {
+        "build": 0,
+        "raid": 0,
+        "attack": 0,
+        "combined_arms": 0
+      },
+      "last_compacted_game_time": 40.0
+    },
+    "retained_full_intents": [
+      {
+        "stance": "expand",
+        "production_focus": "balanced",
+        "economy_policy": "expand_if_defensible",
+        "tech_policy": "advance_if_affordable",
+        "budget": {
+          "army": 0.4,
+          "economy": 0.4,
+          "reserve": 0.1,
+          "tech": 0.1
+        },
+        "objective_region": "home_base",
+        "expires_at_game_seconds": 140.4,
+        "origin": "model"
+      },
+      {
+        "stance": "expand",
+        "production_focus": "balanced",
+        "economy_policy": "expand_if_defensible",
+        "tech_policy": "advance_if_affordable",
+        "budget": {
+          "army": 0.4,
+          "economy": 0.4,
+          "reserve": 0.1,
+          "tech": 0.1
+        },
+        "objective_region": "home_base",
+        "expires_at_game_seconds": 158.06666666666666,
+        "origin": "model"
+      }
+    ],
+    "per_request_input_bytes": null,
+    "note": "Only retained maxima and counters are logged; no per-request byte series or compression ratio can be reconstructed."
+  },
+  "tasks": {
+    "host_counters": {
+      "dispatches": 6,
+      "started": 6,
+      "completed": 5,
+      "failed": 0,
+      "blocked": 0
+    },
+    "unique_retained_tasks_by_status": {
+      "planned": 2,
+      "unavailable": 8,
+      "completed": 5,
+      "active": 1
+    },
+    "observed_started": 6,
+    "host_reported_completed": 5,
+    "observed_started_failed": 0,
+    "prestart_rejections_not_failed_tasks": 0,
+    "completion_rate_known_started_outcomes": 1.0,
+    "note": "Planned, unavailable, cancelled and pending tasks are not failures; host completion requires independent production correlation."
+  },
+  "production": {
+    "same_session_package_preflight": true,
+    "fully_verified_units": 5,
+    "verified_paid_credits": 830,
+    "units": [
+      {
+        "task_id": "594c070dbe124c0db3128371af9d8087",
+        "command_id": "93694e35-c04a-4a5b-9f31-2c22d79348cf",
+        "seq": 1,
+        "unit": "flak",
+        "queue_id": 1,
+        "object_id": 768,
+        "cost": 220,
+        "paid": 220,
+        "enqueue_frame": 670,
+        "completion_frame": 769
+      },
+      {
+        "task_id": "0ab92c099c7b49828b084c0bf5682cb3",
+        "command_id": "5d59b15c-5369-4edf-b215-d8619eb68248",
+        "seq": 2,
+        "unit": "conscript",
+        "queue_id": 5,
+        "object_id": 772,
+        "cost": 85,
+        "paid": 85,
+        "enqueue_frame": 936,
+        "completion_frame": 1053
+      },
+      {
+        "task_id": "fe94838c73704c79959089e4bf3c54fc",
+        "command_id": "b03cd706-2155-441f-a16d-e26868bcc5d1",
+        "seq": 3,
+        "unit": "conscript",
+        "queue_id": 6,
+        "object_id": 774,
+        "cost": 85,
+        "paid": 85,
+        "enqueue_frame": 1200,
+        "completion_frame": 1271
+      },
+      {
+        "task_id": "ef7c8de2a43548bab1cc34118650a14d",
+        "command_id": "fdde84d2-af78-404c-9ee8-1802ba570bd3",
+        "seq": 4,
+        "unit": "flak",
+        "queue_id": 10,
+        "object_id": 778,
+        "cost": 220,
+        "paid": 220,
+        "enqueue_frame": 1461,
+        "completion_frame": 1584
+      },
+      {
+        "task_id": "9e100c481a764ca7813a0d21d60faf13",
+        "command_id": "6c87332c-d130-407e-b226-a2048bd12974",
+        "seq": 5,
+        "unit": "flak",
+        "queue_id": 14,
+        "object_id": 783,
+        "cost": 220,
+        "paid": 220,
+        "enqueue_frame": 1790,
+        "completion_frame": 1964
+      }
+    ],
+    "host_completed_tasks_with_production_proof": [
+      "0ab92c099c7b49828b084c0bf5682cb3",
+      "594c070dbe124c0db3128371af9d8087",
+      "9e100c481a764ca7813a0d21d60faf13",
+      "ef7c8de2a43548bab1cc34118650a14d",
+      "fe94838c73704c79959089e4bf3c54fc"
+    ]
+  },
+  "natural_production": {
+    "native_calls": 1,
+    "mutates_arguments": false,
+    "note": "Passive native baseline observation is not model-dispatched spending or completion evidence."
+  },
+  "outcome": {
+    "native_candidates": [],
+    "native_verified_flag": false,
+    "gui_confirmation": null,
+    "note": "Await root native/GUI outcome evidence before finalizing. Host stopped/fault does not mean match ended."
+  },
+  "sources": {
+    "session.json": {
+      "sha256": "aef04a560ad2d8f4556ae3449a02df209edfc49b8e3da2ef96bdf51239d9b8a6",
+      "bytes": 1575
+    },
+    "natural-production.json": {
+      "sha256": "41fd3e3f2c45901c47856a393b6af93aad2fe11db46892125268f8f8331f40b8",
+      "bytes": 641
+    },
+    "persistent-production.jsonl": {
+      "sha256": "956e1f2b287165966ce557f41cc85cfe3736f9473daa767c2ccd356dacf60fec",
+      "bytes": 39059
+    },
+    "persistent-production-status.json": {
+      "sha256": "bc7e4457713f8fcf3a7b4b3dcec0498a50bb78aba3a2c85aab43daf69e3d130c",
+      "bytes": 4228
+    },
+    "battle-host/host-events.jsonl": {
+      "sha256": "c8e7242eff08a4e897cab9dbf5ef86d1d28ad4bdccc08c318b6db4b711259446",
+      "bytes": 12753
+    },
+    "battle-host/plans.jsonl": {
+      "sha256": "192fee4d166ece5ed65b6d5e317156e7245353b603a0fdb05b4306765fe3f775",
+      "bytes": 17757
+    },
+    "battle-host/host-status.json": {
+      "sha256": "1aefeb28e979ef4430745f9ed1398fc8fda5089e9e374ce2ff078962d7b8cdae",
+      "bytes": 3901
+    },
+    "battle-host/agent-state.json": {
+      "sha256": "8254c53e4695ee0b5a6cff29442f5aaa022341ce95403cd7e2571a306c3599c2",
+      "bytes": 16860
+    },
+    "battle-host/jobs.json": {
+      "sha256": "d6796cdfde755bcad637b28c23922ba270395a098f7fae5318d55e276dbe2bc4",
+      "bytes": 1746
+    },
+    "battle-host/match-state.json": {
+      "sha256": "600988bb0e71cf651cf0932dbf14d36f567ac9e7b039fa721d9c99dded628280",
+      "bytes": 2825
+    },
+    "battle-host/dispatch-ledger.json": {
+      "sha256": "c9a17b8dc4af49f2718996d53a6683bdf75fd7ace746c7cda71305711fdfabc2",
+      "bytes": 985
+    }
+  },
+  "warnings": []
+}

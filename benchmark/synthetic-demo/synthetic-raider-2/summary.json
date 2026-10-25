@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "run_id": "synthetic-raider-2",
+  "source_kind": "synthetic",
+  "real_game_acceptance_claim": false,
+  "metrics": {
+    "decision_requests": 2,
+    "accepted_decisions": 1,
+    "rejected_decisions": 1,
+    "invalid_decision_rate_among_validated": 0.5,
+    "pending_decisions": 0,
+    "timeouts": 0,
+    "adapter_errors": 0,
+    "plan_activations": 1,
+    "strategy_changes_excluding_initial": 0,
+    "strategy_changes_per_game_minute": 0.0,
+    "production_requested": 1,
+    "production_queued": 1,
+    "production_confirmed": 1,
+    "production_explicit_failures": 0,
+    "production_pending": 0,
+    "production_unstarted": 0,
+    "produced_but_cost_unverified": 0,
+    "production_completion_rate_known_outcomes": 1.0,
+    "confirmed_output_per_queued_request": 1.0,
+    "verified_production_spend": 300,
+    "tasks_planned": 2,
+    "tasks_unstarted": 1,
+    "tasks_pending": 0,
+    "tasks_completed": 1,
+    "tasks_failed": 0,
+    "tasks_cancelled": 0,
+    "task_completion_rate_known_outcomes": 1.0,
+    "blind_votes": 0,
+    "blind_correct": 0,
+    "blind_recognition_rate": null
+  },
+  "limits": [
+    "Provenance labels and artifact hashes are integrity checks, not proof that telemetry semantics or live control are correct.",
+    "Unknown outcomes remain pending/null; strategy changes require canonical intent fingerprints from a trusted producer."
+  ]
+}

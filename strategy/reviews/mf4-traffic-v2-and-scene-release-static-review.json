@@ -1,0 +1,67 @@
+{
+  "review": "independent_static_only",
+  "no_game_model_calls": true,
+  "traffic_decision": "first_diagnostic_go_only_no_coordination_effect",
+  "traffic_revision": {
+    "wrapper_revision": "mfm4_verified_mobile_traffic_v2",
+    "wrapper_filename": "lease_traffic_v2.py",
+    "qualifier_filename": "formation_mission_qualification_traffic_v2.py",
+    "pre_dispatch_helper": "pre_dispatch_formation_v4_traffic_v2_contract.py",
+    "gate_reader": "mission_formation_v4_traffic_v2_gate_no_lease.py",
+    "actor_admission_filename": "mission_actor_admission_v2.py",
+    "native_abi_unchanged": true,
+    "origin350_unchanged": true,
+    "field_dispatches": 0,
+    "hashes": {
+      "bridge-probe\\tactical\\mission-formation-v4\\lease_traffic_v2.py": "a3f058a2412364eec378f2462cefffda328003fb345020fd607bff2dad5ea3e5",
+      "bridge-probe\\tactical\\mission-formation-v4\\formation_mission_qualification_traffic_v2.py": "86212d9144e15e4bfc05f0647c45cd13c5cfafba401dc58da870a41790f7afee",
+      "bridge-probe\\tactical\\mission-formation-v4\\planning_host_traffic_v2.py": "905726db4e7c5a4aa55dbdb457eaa498e741e48ddcb9533d31607fe2c72e1673",
+      "bridge-probe\\tactical\\mission-formation-v4\\field_coordinate_traffic_v2.py": "8458444874e1088babd8177b836cb277281c4ad5fa3bf61d207ae43767bfada8",
+      "bridge-probe\\tactical\\mission-formation-v4\\traffic_occupancy_v2.py": "43cae2c5886c659adfbc6c5d54ef5c09051118fc8365bd5ff7a9974ee5cf023f",
+      "bridge-probe\\tactical\\mission-formation-v4\\role_route_planner_traffic_v2.py": "2b9cdaf1fb83c334f668a2f28ca838e8f50dfafbfac8e5c7d87d74905d14cf12",
+      "bridge-probe\\tactical\\mission-formation-v4\\route_provenance_traffic_v2.py": "36fe63d13a666899ec41daeef31048957a1798cbea6197436425bef2797aff42",
+      "bridge-probe\\tactical\\mission-formation-v4\\test_traffic_wrapper_v2.py": "5dcbffd94cbfaa1cb6e812a0e885be1009e74fab3135e767c186559c73aa97eb",
+      "bridge-probe\\tactical\\mission-formation-v4\\bin\\TacticalMissionFormation4.dll": "1421d30446aa27712654b269edea52fcbe4abf5913e027bd1b45ffd230d948a4",
+      "bridge-probe\\tactical\\mission-formation-v4\\bin\\tactical_host.exe": "2487f693f7ac71a746335258a019674243df36abe02ab7297474ef282758b531",
+      "bridge-probe\\tactical\\pre_dispatch_formation_v4_traffic_v2_contract.py": "396733a2beb377494eec1d801aaf15cb4bc4c32ffecbe065f99e76297292e80b",
+      "bridge-probe\\tactical\\mission_formation_v4_traffic_v2_gate_no_lease.py": "f364c7aee6bc8c31e5ed03776df3e14e077e22b863ef93ca9ac30e453be4b33c"
+    }
+  },
+  "traffic_pins12_match": true,
+  "tests": {
+    "root_traffic_module": 5,
+    "actual_alternate_wrapper_source_chain": 24,
+    "scene_release": 14
+  },
+  "traffic_scope": {
+    "soft_only": "exact owned Cons/Flak full admission2 positive with bound identity/ground/owner/current census",
+    "other_objects": "hard",
+    "soft_cost_walkability_claim": false,
+    "role25_clearance_and_forward_reverse_geometry_unchanged": true,
+    "ready72_commit73_route74_before_move_unchanged": true,
+    "same_native_binary_1421": true,
+    "whole_scan_to_submission_frame_limit": 4,
+    "initial_issue_found": "classify-only window failed to bound older hard-object reads from own_candidates",
+    "issue_fixed": "host905726db and q86212d91 both bound own scan start through submitted within4; slow_scan and late_submit counterexamples rejected"
+  },
+  "paid_driver": {
+    "sha256": "67b333272acec58dd6ca5263e0c7c831722c9e5356066dd2685046970ee834a4",
+    "diff": "one field_coordinate_ready_v2.py to field_coordinate_traffic_v2.py; LF-to-CRLF only other bytes",
+    "payment_and_31_0_five_pristine_and_one_child_unchanged": true
+  },
+  "scene_release": {
+    "sha256": "7e88cf2b849dde5e2a8dc651f0f5756b84586c3ce6938f520135c8ef755e5104",
+    "read_only": true,
+    "fixed_profiles": [
+      "c510MCT7",
+      "1421MFM4"
+    ],
+    "two_snapshot_and_before_after_binding": true,
+    "actual_unique13or14_pristine_bytes": true,
+    "scene_condition": "frame0/head0/mode9/ownerAI0 with original GameLogic and owner identity, phase4/error31/timer0/active0",
+    "semantics": "scene_disposed_exclusive_control_released",
+    "return_restoration_retreat_goal_completion": false,
+    "actual_new_field_sidecar_verified": false,
+    "outer_host_required": "expected lease identity/session/player/actors/command/task and currentrun/source+sidecar SHA"
+  }
+}

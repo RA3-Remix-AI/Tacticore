@@ -1,0 +1,88 @@
+{
+  "source_report": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-114145-commander\\main-mct5-01.json",
+  "source_sha256": "ae204f942f4ae47c541df4fed6bdd4cf9af55585209d88d0bb722d542e4ee9bd",
+  "status": "not_passed",
+  "reason": "approach_stalled",
+  "actual_effect": false,
+  "hidden_approach_samples": 0,
+  "target": {
+    "object_id": 881,
+    "type_hash": "0xfa1f6466",
+    "template": "SovietBaseDefenseAdvanced",
+    "xyz": [
+      2816.021484375,
+      2932.756591796875,
+      210.0
+    ]
+  },
+  "motion": {
+    "initial": [
+      1923.8121337890625,
+      2410.790283203125,
+      210.0
+    ],
+    "last": [
+      2030.0,
+      2570.0,
+      210.0
+    ],
+    "max_net_xy": 192.05368972573137,
+    "target_remaining_xy": 865.6916996201147,
+    "late_idle_samples": 57,
+    "late_idle_first_frame": 3531,
+    "late_idle_last_frame": 3623
+  },
+  "normal_move_accepted": {
+    "pre_state": 16,
+    "post_state": 1,
+    "requested": [
+      2816.021484375,
+      2932.756591796875,
+      210.0
+    ],
+    "effective": [
+      2816.021484375,
+      2932.756591796875,
+      210.0
+    ],
+    "expected_goal": [
+      2816.021484375,
+      2932.756591796875,
+      210.0
+    ],
+    "source": 1
+  },
+  "guards": {
+    "status84_values": [
+      0
+    ],
+    "holder_values": [
+      0
+    ],
+    "sm_low16_values": [
+      0
+    ],
+    "native_override_counts": {
+      "native_move": 0,
+      "native_attack": 0,
+      "native_add": 0,
+      "native_remove": 0
+    }
+  },
+  "safe_return": {
+    "issued": 3307,
+    "returned": 3691,
+    "phase": 3,
+    "error": 0,
+    "mask": 16383,
+    "active": 0,
+    "return_verified": 1
+  },
+  "conclusion": "Normal Move accepted the exact goal and entered path state1. It subsequently stopped far from that goal at idle16/path0. Garrison, known immobile, holder, low16 command lock and external order override are not observed causes. The raw does not identify why native pathfinding ended. No hidden navigation, attack or damage occurred.",
+  "unknowns": [
+    "No terrain/passability/occupancy or native path-failure reason was captured.",
+    "No claim that all actors or all paths to the target are unreachable.",
+    "Later own airborne-looking trajectory is not proof of a walkable path."
+  ],
+  "mutations": false
+}

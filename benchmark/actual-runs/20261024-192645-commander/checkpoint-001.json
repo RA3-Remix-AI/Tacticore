@@ -1,0 +1,227 @@
+{
+  "schema_version": 1,
+  "reviewed_at_utc": "2026-10-24T11:29:39.493631+00:00",
+  "source_kind": "live_game_host_artifact_review",
+  "binding": {
+    "session_id": "9feb4b8b-b7d5-450a-b80c-5cd1f944ccfd",
+    "player_id": 3,
+    "commander_id": "57e668b4-4d89-43bd-bc92-0dd436f046ef"
+  },
+  "trial_kind": "prearmed_whole_match_integration_candidate",
+  "attempt_scope": null,
+  "opponent": "local_human_slot_idle_integration",
+  "whole_match_acceptance_passed": false,
+  "personality_comparison_passed": false,
+  "result_finalized": false,
+  "host": {
+    "host_pid": 44932,
+    "state": "running",
+    "reason_code": "observing",
+    "execution": {
+      "enabled": true,
+      "dry_run": false,
+      "executor_connected": true,
+      "remaining_budget": 4695
+    }
+  },
+  "model": {
+    "requests": 6,
+    "accepted": 5,
+    "rejected": 0,
+    "invalid_policy_rate": 0.0,
+    "timeouts": 0,
+    "adapter_errors": 1,
+    "held_decisions": 13,
+    "transport": {
+      "attempts": 6,
+      "retries": 0,
+      "timeouts": 0,
+      "responses": 5,
+      "max_request_bytes": 8668
+    }
+  },
+  "strategy": {
+    "engine_plan_changes_including_initial": 2,
+    "intent_transitions_excluding_initial": 1,
+    "retained_full_intent_observations": 2,
+    "retained_full_intent_transitions": 0,
+    "full_intent_history_complete": false,
+    "first_host_match_game_seconds": 0.8666666666666667,
+    "first_model_request_game_seconds": 0.8666666666666667,
+    "first_logged_game_seconds": 0.8666666666666667,
+    "last_logged_game_seconds": 79.93333333333334
+  },
+  "context": {
+    "memory_metrics": {
+      "context_builds": 6,
+      "compactions": 0,
+      "max_payload_bytes": 4429,
+      "expired_enemy_facts": 0
+    },
+    "compressed_history": {
+      "events_compacted": 0,
+      "counts_by_kind": {},
+      "completed_tasks": {
+        "build": 0,
+        "raid": 0,
+        "attack": 0,
+        "combined_arms": 0
+      },
+      "failed_tasks": {
+        "build": 0,
+        "raid": 0,
+        "attack": 0,
+        "combined_arms": 0
+      },
+      "last_compacted_game_time": null
+    },
+    "retained_full_intents": [
+      {
+        "stance": "expand",
+        "production_focus": "balanced",
+        "economy_policy": "expand_if_defensible",
+        "tech_policy": "advance_if_affordable",
+        "budget": {
+          "army": 0.4,
+          "economy": 0.4,
+          "reserve": 0.1,
+          "tech": 0.1
+        },
+        "objective_region": "home_base",
+        "expires_at_game_seconds": 87.93333333333334,
+        "origin": "model"
+      },
+      {
+        "stance": "expand",
+        "production_focus": "balanced",
+        "economy_policy": "expand_if_defensible",
+        "tech_policy": "advance_if_affordable",
+        "budget": {
+          "army": 0.4,
+          "economy": 0.4,
+          "reserve": 0.1,
+          "tech": 0.1
+        },
+        "objective_region": "home_base",
+        "expires_at_game_seconds": 105.66666666666667,
+        "origin": "model"
+      }
+    ],
+    "per_request_input_bytes": null,
+    "note": "Only retained maxima and counters are logged; no per-request byte series or compression ratio can be reconstructed."
+  },
+  "tasks": {
+    "host_counters": {
+      "dispatches": 3,
+      "started": 3,
+      "completed": 2,
+      "failed": 0,
+      "blocked": 0
+    },
+    "unique_retained_tasks_by_status": {
+      "planned": 2,
+      "unavailable": 5,
+      "completed": 2,
+      "active": 1
+    },
+    "observed_started": 3,
+    "host_reported_completed": 2,
+    "observed_started_failed": 0,
+    "prestart_rejections_not_failed_tasks": 0,
+    "completion_rate_known_started_outcomes": 1.0,
+    "note": "Planned, unavailable, cancelled and pending tasks are not failures; host completion requires independent production correlation."
+  },
+  "production": {
+    "same_session_package_preflight": true,
+    "fully_verified_units": 2,
+    "verified_paid_credits": 305,
+    "units": [
+      {
+        "task_id": "594c070dbe124c0db3128371af9d8087",
+        "command_id": "93694e35-c04a-4a5b-9f31-2c22d79348cf",
+        "seq": 1,
+        "unit": "flak",
+        "queue_id": 1,
+        "object_id": 768,
+        "cost": 220,
+        "paid": 220,
+        "enqueue_frame": 670,
+        "completion_frame": 769
+      },
+      {
+        "task_id": "0ab92c099c7b49828b084c0bf5682cb3",
+        "command_id": "5d59b15c-5369-4edf-b215-d8619eb68248",
+        "seq": 2,
+        "unit": "conscript",
+        "queue_id": 5,
+        "object_id": 772,
+        "cost": 85,
+        "paid": 85,
+        "enqueue_frame": 936,
+        "completion_frame": 1053
+      }
+    ],
+    "host_completed_tasks_with_production_proof": [
+      "0ab92c099c7b49828b084c0bf5682cb3",
+      "594c070dbe124c0db3128371af9d8087"
+    ]
+  },
+  "natural_production": {
+    "native_calls": 1,
+    "mutates_arguments": false,
+    "note": "Passive native baseline observation is not model-dispatched spending or completion evidence."
+  },
+  "outcome": {
+    "native_candidates": [],
+    "native_verified_flag": false,
+    "gui_confirmation": null,
+    "note": "Await root native/GUI outcome evidence before finalizing. Host stopped/fault does not mean match ended."
+  },
+  "sources": {
+    "session.json": {
+      "sha256": "aef04a560ad2d8f4556ae3449a02df209edfc49b8e3da2ef96bdf51239d9b8a6",
+      "bytes": 1575
+    },
+    "natural-production.json": {
+      "sha256": "41fd3e3f2c45901c47856a393b6af93aad2fe11db46892125268f8f8331f40b8",
+      "bytes": 641
+    },
+    "persistent-production.jsonl": {
+      "sha256": "7d9c0bbdd7d96c829a704c26d89853e9279a2a0edd0f2454197257a05671ef29",
+      "bytes": 19198
+    },
+    "persistent-production-status.json": {
+      "sha256": "88bee9eca6e43fdfcb083048c8352ffba42873e55a72da8db49c021229f92e4f",
+      "bytes": 2316
+    },
+    "battle-host/host-events.jsonl": {
+      "sha256": "c57e1f2102e42c25be40ce226811e1cf18e271c36c75b99ddded9ece29dbe519",
+      "bytes": 7193
+    },
+    "battle-host/plans.jsonl": {
+      "sha256": "35a7126c0498eeb7feeb3d51d6fefb68182157f1ff780c1c0d7ddf08aa3f6f8c",
+      "bytes": 10863
+    },
+    "battle-host/host-status.json": {
+      "sha256": "043f16893d539c508b3881827416cd06dc3589343efa36afec3e369486162b1d",
+      "bytes": 3926
+    },
+    "battle-host/agent-state.json": {
+      "sha256": "502bccb1d1a95a0c06b00ce59ea38fa56775834fdbebb4c4a549de9e603681ba",
+      "bytes": 11931
+    },
+    "battle-host/jobs.json": {
+      "sha256": "7f9e320a06e567f968722867e07342a1aa27650bdc58d5cda0d3012159c72bc5",
+      "bytes": 1756
+    },
+    "battle-host/match-state.json": {
+      "sha256": "1d3efb64d26b9c92ee44dd692da6aa4c971895e2ad86cca0a8c9d227a616e38d",
+      "bytes": 2825
+    },
+    "battle-host/dispatch-ledger.json": {
+      "sha256": "f4223c2f62c642dabfe648a16232ced4f59a481ddb15e21983bda9ec6731ab45",
+      "bytes": 493
+    }
+  },
+  "warnings": []
+}

@@ -1,0 +1,31 @@
+{
+  "source": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\harass-mct2-01.json",
+  "source_sha256": "24e0d2029b571dfcbeeeb49c12e3796fa83e516ae51ab40d4a6dbbe29ced3479",
+  "initial_distance": 2004.1168787519398,
+  "native_reason_code": 7,
+  "effect_verified": true,
+  "source_damage_amount": 5.0,
+  "approach_verified": true,
+  "retreat_verified": false,
+  "restoration_verified": true,
+  "checkpoint_count": 17,
+  "retreat_waypoint": [
+    1811.0416259765625,
+    1883.54150390625,
+    210.0
+  ],
+  "plateau_final_xyz": [
+    1790.0,
+    1890.0,
+    210.0
+  ],
+  "remaining_xy": 22.010501937269257,
+  "last_progress_frame": 2100,
+  "return_frame": 2356,
+  "hypotheses_only": [
+    "A position traversed continuously need not remain a stoppable endpoint when reapproached, possibly due navigation projection/occupancy. No unique obstacle or occupancy cause has been proved.",
+    "A direct normalMove to frozen original standing position could let native full-route pathfinding avoid mandatory stops at fractional intermediate checkpoints; not yet implemented or verified."
+  ],
+  "sdk_mutations": false,
+  "capability_granted": false
+}

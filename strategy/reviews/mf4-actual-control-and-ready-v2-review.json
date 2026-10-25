@@ -1,0 +1,86 @@
+{
+  "review": "mf4_actual_control_and_ready_v2",
+  "read_only": true,
+  "game_or_model_calls": 0,
+  "source_raw": {
+    "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-154511-commander\\coord-mf4-02.json",
+    "sha256": "54999ab33cf48a9c66be86e543120e5675d298a844d3f3d2ecc3999ea8982e86"
+  },
+  "terminal_readonly": {
+    "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-154511-commander\\coord-mf4-02-terminal-runner.json",
+    "sha256": "c34d3ef157169925789ec4bb4a7bf27c642926a90a91b0b5228d4453ced67234"
+  },
+  "raw_facts": {
+    "actors": [
+      976,
+      986
+    ],
+    "target_object_id": 802,
+    "issued_frame": 3603,
+    "returned_frame": 3616,
+    "initial_state": 10,
+    "initial_source": 0,
+    "stop_source": 1,
+    "stable_distinct_frames": [
+      3605,
+      3606,
+      3608
+    ],
+    "stable_state": 16,
+    "stable_path": 0,
+    "pair72_seq": [
+      32,
+      33
+    ],
+    "pair72_frame": 3608,
+    "native_phase": 4,
+    "native_error": 55,
+    "planning_failed": 1,
+    "moves": 0,
+    "attacks": 0,
+    "damage": 0,
+    "normal_returns": [
+      true,
+      true
+    ],
+    "restore_mask": 8191,
+    "active_hooks": 0,
+    "timer": 0,
+    "exact_pristine_entries": 13
+  },
+  "control_conclusion": "actual_attack10_to_normal_stop_three_distinct_frames_ready_and_failed_cleanup_both_pool_returns_verified",
+  "effect_conclusion": "failed_no_route_commit_no_movement_no_damage",
+  "race": {
+    "old_behavior": "newer_live_shared_ready_used_after_older_event_capture",
+    "new_behavior": "same_captured_header_and_complete_published_pair72_required",
+    "missing_header_or_event": "wait_next_poll_without_attempt_or_failure"
+  },
+  "candidate": {
+    "wrapper_revision": "mfm4_published_ready_v2",
+    "wrapper_filename": "lease_ready_v2.py",
+    "qualifier_filename": "formation_mission_qualification_ready_v2.py",
+    "pre_dispatch_helper": "pre_dispatch_formation_v4_ready_v2_contract.py",
+    "gate_reader": "mission_formation_v4_ready_v2_gate_no_lease.py",
+    "actor_admission_filename": "mission_actor_admission_v2.py",
+    "native_abi_unchanged": true,
+    "hashes": {
+      "bridge-probe\\tactical\\mission-formation-v4\\lease_ready_v2.py": "39445f66dbeb666563bc67496577218cda5086e17d9f55b46409f45c71cf9784",
+      "bridge-probe\\tactical\\mission-formation-v4\\formation_mission_qualification_ready_v2.py": "b7303f4c73229b5a1bb8335e02403d9bad142b811455a3af01e9c5cb4f517e59",
+      "bridge-probe\\tactical\\pre_dispatch_formation_v4_ready_v2_contract.py": "779e1ead1a5eec2337136212d489ccb6eb0c8238f857f1fd7df017b10e957175",
+      "bridge-probe\\tactical\\mission_formation_v4_ready_v2_gate_no_lease.py": "24ced5f26c4f3d70d2c9882fdb72689073e6c28bca787c0d79a457c39d536218",
+      "bridge-probe\\tactical\\mission-formation-v4\\field_coordinate_ready_v2.py": "15e75e0f12f1d24bb2a90f4e59ac43b4cf7bc492439f3981df34689964d7c154",
+      "bridge-probe\\tactical\\mission-formation-v4\\planning_host.py": "f89cb833b7f104a9a5e88a232ecaf7adb75cf8065265eeccbbe696314d97d318",
+      "bridge-probe\\tactical\\mission-formation-v4\\role_route_planner.py": "897fea98260b4a81122da9da03e120584dc427c35cf99a9f5504b3015cbad9bf",
+      "bridge-probe\\tactical\\mission-formation-v4\\route_provenance.py": "0546c730d3aff93ab578ffffef88970c3d3a77b7b49eda9ea2db6e292e5970ae",
+      "bridge-probe\\tactical\\mission-formation-v4\\bin\\TacticalMissionFormation4.dll": "1421d30446aa27712654b269edea52fcbe4abf5913e027bd1b45ffd230d948a4",
+      "bridge-probe\\tactical\\mission-formation-v4\\bin\\tactical_host.exe": "2487f693f7ac71a746335258a019674243df36abe02ab7297474ef282758b531"
+    }
+  },
+  "checks": {
+    "candidate_pins_10": true,
+    "independent_python_tests": 30,
+    "native_unchanged": true,
+    "old_raw_unchanged": true
+  },
+  "decision": "first_diagnostic_go_only_no_effect_or_source_grant"
+}

@@ -1,0 +1,5687 @@
+{
+  "session_id": "6840fe2e-5ebc-46fb-8e7e-a1ea0b05c5a9",
+  "pid": 49184,
+  "source": "own_only_early_native_status_contrast",
+  "ground_reader_sha256": "ad5b758c947843969f2d1ec6e7fc07c0eaec084b1a59e60750d69d881e78a6c0",
+  "static_proof": {
+    "executable_sha256": "ec230c6ae1eaee30b0b4fa6ba29d417c974ecae46d6715dfbe786a815935c165",
+    "records": [
+      {
+        "name": "AIRBORNE_TARGET",
+        "native_enum": 7,
+        "name_record": "0xbdaeb0",
+        "name_pointer": "0xbdb5b8",
+        "record_bytes": "b8b5bd0007000000",
+        "word_offset": "0x80",
+        "mask": "0x80"
+      },
+      {
+        "name": "PARACHUTING",
+        "native_enum": 8,
+        "name_record": "0xbdb340",
+        "name_pointer": "0xbd9f90",
+        "record_bytes": "909fbd0008000000",
+        "word_offset": "0x80",
+        "mask": "0x100"
+      },
+      {
+        "name": "GROUND_LOCOMOTOR_ACTIVE",
+        "native_enum": 160,
+        "name_record": "0xbdb0f8",
+        "name_pointer": "0xbdba48",
+        "record_bytes": "48babd00a0000000",
+        "word_offset": "0x94",
+        "mask": "0x1"
+      },
+      {
+        "name": "AIR_LOCOMOTOR_ACTIVE",
+        "native_enum": 161,
+        "name_record": "0xbdaec0",
+        "name_pointer": "0xbdb5f0",
+        "record_bytes": "f0b5bd00a1000000",
+        "word_offset": "0x94",
+        "mask": "0x2"
+      },
+      {
+        "name": "LANDING_IN_PROGRESS",
+        "native_enum": 207,
+        "name_record": "0xbdb258",
+        "name_pointer": "0xbdbce0",
+        "record_bytes": "e0bcbd00cf000000",
+        "word_offset": "0x98",
+        "mask": "0x8000"
+      },
+      {
+        "name": "LIFTED_INTO_AIR",
+        "native_enum": 211,
+        "name_record": "0xbdb270",
+        "name_pointer": "0xbdbd0c",
+        "record_bytes": "0cbdbd00d3000000",
+        "word_offset": "0x98",
+        "mask": "0x80000"
+      },
+      {
+        "name": "INSIDE_GARRISON",
+        "native_enum": 61,
+        "name_record": "0xbdb1a8",
+        "name_pointer": "0xbd9c3c",
+        "record_bytes": "3c9cbd003d000000",
+        "word_offset": "0x84",
+        "mask": "0x20000000"
+      },
+      {
+        "name": "IMMOBILE",
+        "native_enum": 51,
+        "name_record": "0xbdb180",
+        "name_pointer": "0xbd7828",
+        "record_bytes": "2878bd0033000000",
+        "word_offset": "0x84",
+        "mask": "0x80000"
+      }
+    ],
+    "generic_setter": {
+      "address": "0x7274c0",
+      "mapping": "Thing+0x80+4*(native_enum>>5), mask 1<<(native_enum&31)",
+      "mapping_bytes_address": "0x7274c3",
+      "mapping_bytes": "8b7c24108bc18bcf83e11f807c241400741fbe01000000d3e68bcfc1e90585b488800000000f94c309b48880000000"
+    },
+    "airborne_direct_setter": {
+      "address": "0x73af31",
+      "bytes": "818e8000000080000000f6d0240184c0740b6a016a078bcee822c4feff",
+      "notification_enum": 7
+    },
+    "mutations": false
+  },
+  "rows": [
+    {
+      "object_id": 769,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        1780.79248046875,
+        1804.9154052734375,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 247,
+        "end_frame": 247,
+        "object_id": 769,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x8000",
+          "0x0",
+          "0x20000000",
+          "0x0",
+          "0x200000",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 769,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        1802.3597412109375,
+        1838.2064208984375,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 255,
+        "end_frame": 255,
+        "object_id": 769,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x8000",
+          "0x0",
+          "0x20000000",
+          "0x0",
+          "0x200000",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x7",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 769,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        1810.0,
+        1835.8333740234375,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 263,
+        "end_frame": 263,
+        "object_id": 769,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x7",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 769,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        1810.0,
+        1810.0,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 270,
+        "end_frame": 270,
+        "object_id": 769,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 769,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        1812.108642578125,
+        1846.8687744140625,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 278,
+        "end_frame": 278,
+        "object_id": 769,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 769,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        1817.0286865234375,
+        1886.229248046875,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 286,
+        "end_frame": 286,
+        "object_id": 769,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x7",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 769,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        1822.651611328125,
+        1931.212646484375,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 294,
+        "end_frame": 294,
+        "object_id": 769,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x7",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 769,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        1828.2745361328125,
+        1976.196044921875,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 301,
+        "end_frame": 301,
+        "object_id": 769,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 769,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        1833.8974609375,
+        2021.179443359375,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 309,
+        "end_frame": 309,
+        "object_id": 769,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 769,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        1838.8175048828125,
+        2060.53955078125,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 317,
+        "end_frame": 317,
+        "object_id": 769,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 769,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        1844.4403076171875,
+        2105.522705078125,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 325,
+        "end_frame": 325,
+        "object_id": 769,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x7",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 769,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        1850.063232421875,
+        2150.505859375,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 332,
+        "end_frame": 332,
+        "object_id": 769,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 773,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        1777.71142578125,
+        1800.1595458984375,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 332,
+        "end_frame": 332,
+        "object_id": 773,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x8000",
+          "0x0",
+          "0x20000000",
+          "0x0",
+          "0x200000",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 769,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        1855.6861572265625,
+        2195.4892578125,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 340,
+        "end_frame": 340,
+        "object_id": 769,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 773,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        1802.3597412109375,
+        1838.2064208984375,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 340,
+        "end_frame": 340,
+        "object_id": 773,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x8000",
+          "0x0",
+          "0x20000000",
+          "0x0",
+          "0x200000",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 769,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        1860.606201171875,
+        2234.849609375,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 348,
+        "end_frame": 348,
+        "object_id": 769,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 773,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        1810.0,
+        1845.75,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 348,
+        "end_frame": 348,
+        "object_id": 773,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 769,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        1866.2291259765625,
+        2279.83349609375,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 356,
+        "end_frame": 356,
+        "object_id": 769,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x7",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 773,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        1810.0,
+        1810.0,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 356,
+        "end_frame": 356,
+        "object_id": 773,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 769,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        1880.5582275390625,
+        2320.558349609375,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 364,
+        "end_frame": 364,
+        "object_id": 769,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x7",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 773,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        1810.0,
+        1835.6666259765625,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 364,
+        "end_frame": 364,
+        "object_id": 773,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x7",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 769,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        1900.11328125,
+        2360.33984375,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 371,
+        "end_frame": 371,
+        "object_id": 769,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 773,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        1810.0,
+        1880.9996337890625,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 371,
+        "end_frame": 371,
+        "object_id": 773,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 769,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        1914.44921875,
+        2403.34765625,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 379,
+        "end_frame": 379,
+        "object_id": 769,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 773,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        1810.0,
+        1926.3326416015625,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 379,
+        "end_frame": 379,
+        "object_id": 773,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 769,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        1926.9931640625,
+        2440.9794921875,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 387,
+        "end_frame": 387,
+        "object_id": 769,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x7",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 773,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        1810.0,
+        1965.9990234375,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 387,
+        "end_frame": 387,
+        "object_id": 773,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x7",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 769,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        1955.33203125,
+        2475.33203125,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 395,
+        "end_frame": 395,
+        "object_id": 769,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x7",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 773,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        1810.0,
+        2011.33203125,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 395,
+        "end_frame": 395,
+        "object_id": 773,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x7",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 769,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        1987.3873291015625,
+        2507.387451171875,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 402,
+        "end_frame": 402,
+        "object_id": 769,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 773,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        1810.0,
+        2056.665283203125,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 402,
+        "end_frame": 402,
+        "object_id": 773,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 775,
+      "type_hash": "0x19ab11af",
+      "xyz": [
+        1771.0963134765625,
+        1789.948486328125,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 402,
+        "end_frame": 402,
+        "object_id": 775,
+        "owner": "0x335f4d0",
+        "type_hash": "0x19ab11af",
+        "status_words": [
+          "0x8000",
+          "0x0",
+          "0x20000000",
+          "0x0",
+          "0x200000",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 769,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        2019.4427490234375,
+        2539.442626953125,
+        210.2213134765625
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 410,
+        "end_frame": 410,
+        "object_id": 769,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 773,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        1810.0,
+        2101.999267578125,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 410,
+        "end_frame": 410,
+        "object_id": 773,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 775,
+      "type_hash": "0x19ab11af",
+      "xyz": [
+        1785.5953369140625,
+        1812.3291015625,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 410,
+        "end_frame": 410,
+        "object_id": 775,
+        "owner": "0x335f4d0",
+        "type_hash": "0x19ab11af",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x20000000",
+          "0x0",
+          "0x200000",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 769,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        2010.0,
+        2572.11865234375,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 418,
+        "end_frame": 418,
+        "object_id": 769,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 773,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        1810.0,
+        2141.66650390625,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 418,
+        "end_frame": 418,
+        "object_id": 773,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x7",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 775,
+      "type_hash": "0x19ab11af",
+      "xyz": [
+        1798.281982421875,
+        1831.9122314453125,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 418,
+        "end_frame": 418,
+        "object_id": 775,
+        "owner": "0x335f4d0",
+        "type_hash": "0x19ab11af",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x20000000",
+          "0x0",
+          "0x200000",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x7",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 769,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        2010.0,
+        2617.45263671875,
+        211.0694122314453
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 426,
+        "end_frame": 426,
+        "object_id": 769,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 773,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        1810.0,
+        2187.000244140625,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 426,
+        "end_frame": 426,
+        "object_id": 773,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x7",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 775,
+      "type_hash": "0x19ab11af",
+      "xyz": [
+        1810.0,
+        1850.0,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 426,
+        "end_frame": 426,
+        "object_id": 775,
+        "owner": "0x335f4d0",
+        "type_hash": "0x19ab11af",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 769,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        2034.501708984375,
+        2650.0,
+        229.78189086914062
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 434,
+        "end_frame": 434,
+        "object_id": 769,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 773,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        1810.0,
+        2232.333984375,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 434,
+        "end_frame": 434,
+        "object_id": 773,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x7",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 775,
+      "type_hash": "0x19ab11af",
+      "xyz": [
+        1807.2264404296875,
+        1848.1510009765625,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 434,
+        "end_frame": 434,
+        "object_id": 775,
+        "owner": "0x335f4d0",
+        "type_hash": "0x19ab11af",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x7",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 769,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        2067.089111328125,
+        2632.910888671875,
+        244.96759033203125
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 441,
+        "end_frame": 441,
+        "object_id": 769,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 773,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        1810.0,
+        2277.66796875,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 441,
+        "end_frame": 441,
+        "object_id": 773,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 775,
+      "type_hash": "0x19ab11af",
+      "xyz": [
+        1785.0384521484375,
+        1833.3590087890625,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 441,
+        "end_frame": 441,
+        "object_id": 775,
+        "owner": "0x335f4d0",
+        "type_hash": "0x19ab11af",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 769,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        2103.888671875,
+        2606.53857421875,
+        263.49346923828125
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 449,
+        "end_frame": 449,
+        "object_id": 769,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 773,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        1810.0,
+        2323.001953125,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 449,
+        "end_frame": 449,
+        "object_id": 773,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 775,
+      "type_hash": "0x19ab11af",
+      "xyz": [
+        1762.8505859375,
+        1818.5670166015625,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 449,
+        "end_frame": 449,
+        "object_id": 775,
+        "owner": "0x335f4d0",
+        "type_hash": "0x19ab11af",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 769,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        2141.162109375,
+        2580.73388671875,
+        274.5029296875
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 457,
+        "end_frame": 457,
+        "object_id": 769,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 773,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        1810.0,
+        2362.669189453125,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 457,
+        "end_frame": 457,
+        "object_id": 773,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x7",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 775,
+      "type_hash": "0x19ab11af",
+      "xyz": [
+        1750.0,
+        1810.0,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 457,
+        "end_frame": 457,
+        "object_id": 775,
+        "owner": "0x335f4d0",
+        "type_hash": "0x19ab11af",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x7",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 769,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        2178.435546875,
+        2554.92919921875,
+        278.7196044921875
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 465,
+        "end_frame": 465,
+        "object_id": 769,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 773,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        1810.0,
+        2408.003173828125,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 465,
+        "end_frame": 465,
+        "object_id": 773,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x7",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 775,
+      "type_hash": "0x19ab11af",
+      "xyz": [
+        1750.0,
+        1810.0,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 465,
+        "end_frame": 465,
+        "object_id": 775,
+        "owner": "0x335f4d0",
+        "type_hash": "0x19ab11af",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 769,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        2211.0498046875,
+        2532.35009765625,
+        279.9898376464844
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 472,
+        "end_frame": 472,
+        "object_id": 769,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 773,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        1810.0,
+        2453.337158203125,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 472,
+        "end_frame": 472,
+        "object_id": 773,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 775,
+      "type_hash": "0x19ab11af",
+      "xyz": [
+        1750.0,
+        1810.0,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 472,
+        "end_frame": 472,
+        "object_id": 775,
+        "owner": "0x335f4d0",
+        "type_hash": "0x19ab11af",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 769,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        2248.3232421875,
+        2506.54541015625,
+        280.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 480,
+        "end_frame": 480,
+        "object_id": 769,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 773,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        1810.0,
+        2498.671142578125,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 480,
+        "end_frame": 480,
+        "object_id": 773,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 775,
+      "type_hash": "0x19ab11af",
+      "xyz": [
+        1750.0,
+        1810.0,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 480,
+        "end_frame": 480,
+        "object_id": 775,
+        "owner": "0x335f4d0",
+        "type_hash": "0x19ab11af",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 769,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        2285.5966796875,
+        2480.74072265625,
+        280.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 488,
+        "end_frame": 488,
+        "object_id": 769,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 773,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        1810.0,
+        2538.33837890625,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 488,
+        "end_frame": 488,
+        "object_id": 773,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x7",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 775,
+      "type_hash": "0x19ab11af",
+      "xyz": [
+        1750.0,
+        1810.0,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 488,
+        "end_frame": 488,
+        "object_id": 775,
+        "owner": "0x335f4d0",
+        "type_hash": "0x19ab11af",
+        "status_words": [
+          "0x2000000",
+          "0x0",
+          "0x800200",
+          "0x0",
+          "0x2000000",
+          "0x0",
+          "0x40000000"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 777,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        1768.4683837890625,
+        1785.8919677734375,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 488,
+        "end_frame": 488,
+        "object_id": 777,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x8000",
+          "0x0",
+          "0x20000000",
+          "0x0",
+          "0x200000",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x7",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 769,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        2322.8701171875,
+        2454.93603515625,
+        280.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 496,
+        "end_frame": 496,
+        "object_id": 769,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 773,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        1810.0,
+        2583.67236328125,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 496,
+        "end_frame": 496,
+        "object_id": 773,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x7",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 775,
+      "type_hash": "0x19ab11af",
+      "xyz": [
+        1750.0,
+        1810.0,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 496,
+        "end_frame": 496,
+        "object_id": 775,
+        "owner": "0x335f4d0",
+        "type_hash": "0x19ab11af",
+        "status_words": [
+          "0x2000000",
+          "0x0",
+          "0x800200",
+          "0x0",
+          "0x2000000",
+          "0x0",
+          "0x40000000"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 777,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        1793.1165771484375,
+        1823.9388427734375,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 496,
+        "end_frame": 496,
+        "object_id": 777,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x8000",
+          "0x0",
+          "0x20000000",
+          "0x0",
+          "0x200000",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x7",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 769,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        2350.0,
+        2430.0,
+        280.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 503,
+        "end_frame": 503,
+        "object_id": 769,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 773,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        1810.0,
+        2629.00634765625,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 503,
+        "end_frame": 503,
+        "object_id": 773,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 775,
+      "type_hash": "0x19ab11af",
+      "xyz": [
+        1750.0,
+        1810.0,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 503,
+        "end_frame": 503,
+        "object_id": 775,
+        "owner": "0x335f4d0",
+        "type_hash": "0x19ab11af",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x800000",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x40000000"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 777,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        1810.0,
+        1850.0,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 503,
+        "end_frame": 503,
+        "object_id": 777,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 769,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        2346.587158203125,
+        2460.80712890625,
+        280.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 511,
+        "end_frame": 511,
+        "object_id": 769,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 773,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        1810.0,
+        2674.34033203125,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 511,
+        "end_frame": 511,
+        "object_id": 773,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 775,
+      "type_hash": "0x19ab11af",
+      "xyz": [
+        1750.0,
+        1810.0,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 511,
+        "end_frame": 511,
+        "object_id": 775,
+        "owner": "0x335f4d0",
+        "type_hash": "0x19ab11af",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x800000",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x40000000"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 777,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        1810.0,
+        1850.0,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 511,
+        "end_frame": 511,
+        "object_id": 777,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x7",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 769,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        2332.93603515625,
+        2504.03564453125,
+        280.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 519,
+        "end_frame": 519,
+        "object_id": 769,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 773,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        1810.0,
+        2719.67431640625,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 519,
+        "end_frame": 519,
+        "object_id": 773,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 775,
+      "type_hash": "0x19ab11af",
+      "xyz": [
+        1750.0,
+        1810.0,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 519,
+        "end_frame": 519,
+        "object_id": 775,
+        "owner": "0x335f4d0",
+        "type_hash": "0x19ab11af",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x800000",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x40000000"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 777,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        1810.0,
+        1850.0,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 519,
+        "end_frame": 519,
+        "object_id": 777,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x7",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 769,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        2319.284912109375,
+        2547.26416015625,
+        280.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 527,
+        "end_frame": 527,
+        "object_id": 769,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 773,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        1810.0,
+        2759.341552734375,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 527,
+        "end_frame": 527,
+        "object_id": 773,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x7",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 775,
+      "type_hash": "0x19ab11af",
+      "xyz": [
+        1750.0,
+        1810.0,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 527,
+        "end_frame": 527,
+        "object_id": 775,
+        "owner": "0x335f4d0",
+        "type_hash": "0x19ab11af",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x800000",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x40000000"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 777,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        1810.0,
+        1850.0,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 527,
+        "end_frame": 527,
+        "object_id": 777,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x7",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 769,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        2305.6337890625,
+        2590.49267578125,
+        280.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 535,
+        "end_frame": 535,
+        "object_id": 769,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 773,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        1810.0,
+        2804.67529296875,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 535,
+        "end_frame": 535,
+        "object_id": 773,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x7",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 775,
+      "type_hash": "0x19ab11af",
+      "xyz": [
+        1750.0,
+        1810.0,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 535,
+        "end_frame": 535,
+        "object_id": 775,
+        "owner": "0x335f4d0",
+        "type_hash": "0x19ab11af",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x800000",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x40000000"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 777,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        1810.0,
+        1850.0,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 535,
+        "end_frame": 535,
+        "object_id": 777,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x7",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 769,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        2293.689208984375,
+        2628.317626953125,
+        279.68963623046875
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 542,
+        "end_frame": 542,
+        "object_id": 769,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 773,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        1831.4542236328125,
+        2841.633544921875,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 542,
+        "end_frame": 542,
+        "object_id": 773,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 775,
+      "type_hash": "0x19ab11af",
+      "xyz": [
+        1750.0,
+        1810.0,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 542,
+        "end_frame": 542,
+        "object_id": 775,
+        "owner": "0x335f4d0",
+        "type_hash": "0x19ab11af",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x800000",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x40000000"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 777,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        1810.0,
+        1850.0,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 542,
+        "end_frame": 542,
+        "object_id": 777,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x7",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 769,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        2280.0380859375,
+        2671.546142578125,
+        277.59808349609375
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 550,
+        "end_frame": 550,
+        "object_id": 769,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 773,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        1837.0770263671875,
+        2886.615966796875,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 550,
+        "end_frame": 550,
+        "object_id": 773,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 775,
+      "type_hash": "0x19ab11af",
+      "xyz": [
+        1750.0,
+        1810.0,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 550,
+        "end_frame": 550,
+        "object_id": 775,
+        "owner": "0x335f4d0",
+        "type_hash": "0x19ab11af",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x800000",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x40000000"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x6",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    },
+    {
+      "object_id": 777,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        1810.0,
+        1850.0,
+        210.0
+      ],
+      "grounded_status": {
+        "flags": {
+          "AIRBORNE_TARGET": false,
+          "PARACHUTING": false,
+          "GROUND_LOCOMOTOR_ACTIVE": false,
+          "AIR_LOCOMOTOR_ACTIVE": false,
+          "LANDING_IN_PROGRESS": false,
+          "LIFTED_INTO_AIR": false,
+          "INSIDE_GARRISON": false,
+          "IMMOBILE": false
+        },
+        "known_air_state": false,
+        "ground_positive": false,
+        "independently_movable": true,
+        "grounded_verified": false,
+        "walkable_route_verified": false,
+        "interpretation": "unknown_or_ineligible_ground_state",
+        "status": "verified_native_status",
+        "frame": 550,
+        "end_frame": 550,
+        "object_id": 777,
+        "owner": "0x335f4d0",
+        "type_hash": "0x33026fa1",
+        "status_words": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "word_offsets": [
+          "0x80",
+          "0x84",
+          "0x88",
+          "0x8c",
+          "0x90",
+          "0x94",
+          "0x98"
+        ],
+        "source": "native_name_value_records_plus_generic_setter7274c0",
+        "mutations": false
+      },
+      "height_cache_flags": "0x7",
+      "height_cache_valid": true,
+      "cached_height_distance": 0.0,
+      "height_cache_semantics": "diagnostic_only_not_ground_eligibility"
+    }
+  ],
+  "normal_ground_positive_observed": false,
+  "mutations": false,
+  "model_eligible": false,
+  "walkable_route_verified": false
+}

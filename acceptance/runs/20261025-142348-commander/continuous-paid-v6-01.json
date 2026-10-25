@@ -1,0 +1,437 @@
+{
+  "session_id": "2b9cf61e-445a-4acd-b42d-38b970731242",
+  "pid": 57776,
+  "budget_limit": 4000,
+  "reserve": 1000,
+  "max_seconds": 600,
+  "production_source_sha256": "337cabd758d9e0bd564f95f3c928454d29388cd80d78fbb15b2e8e4b70708a71",
+  "commands": [
+    {
+      "command": {
+        "session_id": "2b9cf61e-445a-4acd-b42d-38b970731242",
+        "player_id": 3,
+        "commander_id": "57e668b4-4d89-43bd-bc92-0dd436f046ef",
+        "command_id": "ef04d4ab-e6f9-477c-9549-88490b68f8ac",
+        "task_id": "8ac2a4aa-3e73-4e72-a8f1-d59301edbb6b",
+        "seq": 1,
+        "unit": "conscript",
+        "budget": 1000,
+        "reserve": 1000,
+        "expires_frame": 910
+      },
+      "receipt": {
+        "command_id": "ef04d4ab-e6f9-477c-9549-88490b68f8ac",
+        "task_id": "8ac2a4aa-3e73-4e72-a8f1-d59301edbb6b",
+        "seq": 1,
+        "status": "queued",
+        "accepted": true,
+        "started": true,
+        "completed": false,
+        "reason_code": "native_0",
+        "unit": "conscript",
+        "queue_id": 5,
+        "object_id": null,
+        "cost": 85,
+        "paid": 0,
+        "paid_verified": false,
+        "created": false,
+        "completion_observed": false,
+        "live_samples": 0,
+        "payment_error": 0,
+        "enqueue_frame": 462,
+        "completion_frame": null,
+        "queue_preserved": true
+      }
+    },
+    {
+      "command": {
+        "session_id": "2b9cf61e-445a-4acd-b42d-38b970731242",
+        "player_id": 3,
+        "commander_id": "57e668b4-4d89-43bd-bc92-0dd436f046ef",
+        "command_id": "0e55efa2-3a4a-463e-a78a-f75f63222129",
+        "task_id": "ad3f7d6e-a152-4408-b168-955b3ab81cb2",
+        "seq": 2,
+        "unit": "flak",
+        "budget": 1000,
+        "reserve": 1000,
+        "expires_frame": 1062
+      },
+      "receipt": {
+        "command_id": "0e55efa2-3a4a-463e-a78a-f75f63222129",
+        "task_id": "ad3f7d6e-a152-4408-b168-955b3ab81cb2",
+        "seq": 2,
+        "status": "queued",
+        "accepted": true,
+        "started": true,
+        "completed": false,
+        "reason_code": "native_0",
+        "unit": "flak",
+        "queue_id": 7,
+        "object_id": null,
+        "cost": 220,
+        "paid": 0,
+        "paid_verified": false,
+        "created": false,
+        "completion_observed": false,
+        "live_samples": 0,
+        "payment_error": 0,
+        "enqueue_frame": 613,
+        "completion_frame": null,
+        "queue_preserved": true
+      }
+    }
+  ],
+  "plans": [
+    "bridge-probe\\acceptance\\runs\\20261025-142348-commander\\continuous-paid-v6-01-plan0001.json",
+    "bridge-probe\\acceptance\\runs\\20261025-142348-commander\\continuous-paid-v6-01-plan0002.json",
+    "bridge-probe\\acceptance\\runs\\20261025-142348-commander\\continuous-paid-v6-01-plan0003.json",
+    "bridge-probe\\acceptance\\runs\\20261025-142348-commander\\continuous-paid-v6-01-plan0004.json",
+    "bridge-probe\\acceptance\\runs\\20261025-142348-commander\\continuous-paid-v6-01-plan0005.json",
+    "bridge-probe\\acceptance\\runs\\20261025-142348-commander\\continuous-paid-v6-01-plan0006.json",
+    "bridge-probe\\acceptance\\runs\\20261025-142348-commander\\continuous-paid-v6-01-plan0007.json",
+    "bridge-probe\\acceptance\\runs\\20261025-142348-commander\\continuous-paid-v6-01-plan0008.json",
+    "bridge-probe\\acceptance\\runs\\20261025-142348-commander\\continuous-paid-v6-01-plan0009.json",
+    "bridge-probe\\acceptance\\runs\\20261025-142348-commander\\continuous-paid-v6-01-plan0010.json",
+    "bridge-probe\\acceptance\\runs\\20261025-142348-commander\\continuous-paid-v6-01-plan0011.json",
+    "bridge-probe\\acceptance\\runs\\20261025-142348-commander\\continuous-paid-v6-01-plan0012.json",
+    "bridge-probe\\acceptance\\runs\\20261025-142348-commander\\continuous-paid-v6-01-plan0013.json",
+    "bridge-probe\\acceptance\\runs\\20261025-142348-commander\\continuous-paid-v6-01-plan0014.json"
+  ],
+  "before_entries": [
+    {
+      "address": "0x7ba770",
+      "expected": "81ec3c010000f605486bce0001535657",
+      "actual": "81ec3c010000f605486bce0001535657"
+    },
+    {
+      "address": "0x70f440",
+      "expected": "83ec08558b6c241085ed568bf1",
+      "actual": "83ec08558b6c241085ed568bf1"
+    },
+    {
+      "address": "0x849220",
+      "expected": "81ecb4000000568bf18b46148b4e04",
+      "actual": "81ecb4000000568bf18b46148b4e04"
+    },
+    {
+      "address": "0x73e390",
+      "expected": "83ec208b4424248b54242c5355",
+      "actual": "83ec208b4424248b54242c5355"
+    },
+    {
+      "address": "0x789bf0",
+      "expected": "51568bf180be3801000000",
+      "actual": "51568bf180be3801000000"
+    }
+  ],
+  "native_tactical_attempts": 1,
+  "status": "single_tactical_driver_exited",
+  "mutations": "normal_paid_production_only",
+  "model_requests": 0,
+  "production_status": {
+    "session_id": "2b9cf61e-445a-4acd-b42d-38b970731242",
+    "player_id": 3,
+    "commander_id": "57e668b4-4d89-43bd-bc92-0dd436f046ef",
+    "personality_binding_verified": true,
+    "state": "running",
+    "native_phase": 1,
+    "native_error": 0,
+    "restore_mask": 0,
+    "active_callbacks": 0,
+    "spent_committed": 305,
+    "total_budget": 4000,
+    "last_seq": 2,
+    "ledger": [
+      {
+        "command_id": "ef04d4ab-e6f9-477c-9549-88490b68f8ac",
+        "task_id": "8ac2a4aa-3e73-4e72-a8f1-d59301edbb6b",
+        "seq": 1,
+        "status": "completed",
+        "accepted": true,
+        "started": true,
+        "completed": true,
+        "reason_code": "native_0",
+        "unit": "conscript",
+        "queue_id": 5,
+        "object_id": 773,
+        "cost": 85,
+        "paid": 85,
+        "paid_verified": true,
+        "created": true,
+        "completion_observed": true,
+        "live_samples": 220,
+        "payment_error": 0,
+        "enqueue_frame": 462,
+        "completion_frame": 541,
+        "queue_preserved": true
+      },
+      {
+        "command_id": "0e55efa2-3a4a-463e-a78a-f75f63222129",
+        "task_id": "ad3f7d6e-a152-4408-b168-955b3ab81cb2",
+        "seq": 2,
+        "status": "completed",
+        "accepted": true,
+        "started": true,
+        "completed": true,
+        "reason_code": "native_0",
+        "unit": "flak",
+        "queue_id": 7,
+        "object_id": 778,
+        "cost": 220,
+        "paid": 220,
+        "paid_verified": true,
+        "created": true,
+        "completion_observed": true,
+        "live_samples": 19,
+        "payment_error": 0,
+        "enqueue_frame": 613,
+        "completion_frame": 742,
+        "queue_preserved": true
+      }
+    ],
+    "local_error": null
+  },
+  "ready_selection": {
+    "session_id": "2b9cf61e-445a-4acd-b42d-38b970731242",
+    "pid": 57776,
+    "frame": 766,
+    "paused": 0,
+    "actor": {
+      "address": "0x581b890",
+      "owner_address": "0x32944d0",
+      "owner_index_candidate": 3,
+      "object_id": 773,
+      "type_hash": "0x19ab11af",
+      "ai_address": "0x4a4a870",
+      "xyz": [
+        1810.0,
+        1870.0,
+        210.0
+      ],
+      "catalog": {
+        "name": "\u5f81\u53ec\u5175",
+        "template": "SovietAntiInfantryInfantry",
+        "side": 2,
+        "cls": 1,
+        "category": 0
+      },
+      "hp": 100.0,
+      "team": "0x51e5390",
+      "command_source": 2,
+      "eligible": true,
+      "mission_admission": {
+        "protocol": "grounded_idle_or_normal_move_admission_v1",
+        "status": "verified_owned_actor_state",
+        "object_id": 773,
+        "address": "0x581b890",
+        "owner": "0x32944d0",
+        "type_hash": "0x19ab11af",
+        "frame": 770,
+        "end_frame": 770,
+        "grounded_status": {
+          "schema_version": 2,
+          "status": "verified_native_surface_sample",
+          "object_id": 773,
+          "address": "0x581b890",
+          "owner": "0x32944d0",
+          "type_hash": "0x19ab11af",
+          "template": "SovietAntiInfantryInfantry",
+          "frame": 770,
+          "end_frame": 770,
+          "status_words": [
+            "0x0",
+            "0x0",
+            "0x800000",
+            "0x0",
+            "0x0",
+            "0x0",
+            "0x40000000"
+          ],
+          "flags": {
+            "AIRBORNE_TARGET": false,
+            "PARACHUTING": false,
+            "GROUND_LOCOMOTOR_ACTIVE": false,
+            "AIR_LOCOMOTOR_ACTIVE": false,
+            "LANDING_IN_PROGRESS": false,
+            "LIFTED_INTO_AIR": false,
+            "INSIDE_GARRISON": false,
+            "IMMOBILE": false
+          },
+          "ground160_diagnostic": false,
+          "known_air_state": false,
+          "height_cache_flags": "0x6",
+          "height_cache_valid": true,
+          "cached_height_distance": 0.0,
+          "height_tolerance": 0.5,
+          "xyz": [
+            1810.0,
+            1870.0,
+            210.0
+          ],
+          "hp": 100.0,
+          "holder": "0x0",
+          "ground_positive": true,
+          "grounded_verified": true,
+          "walkable_route_verified": false,
+          "atomic_sample_verified": true,
+          "source": "ground_only_template_plus_valid_native_surface_cache_and_air_exclusions_v2",
+          "mutations": false,
+          "helper_sha256": "70e5f94bac9b1a82beec56053fd43e91f6edaba1500c8dfa840e868be836e6b3",
+          "native_status_helper_sha256": "ad5b758c947843969f2d1ec6e7fc07c0eaec084b1a59e60750d69d881e78a6c0"
+        },
+        "state_snapshot": {
+          "update": "0x4a4a870",
+          "update_vtable": "0xc48670",
+          "facade_vtable": "0xc48528",
+          "update_backref": "0x581b890",
+          "sm": "0x627efa8",
+          "sm_owner": "0x581b890",
+          "state": "0x5f1fac8",
+          "state_id": 16,
+          "state_vtable": "0xc55130",
+          "state_owner_sm": "0x627efa8",
+          "command_source": 2,
+          "path": "0x0",
+          "sm_flags": 65536
+        },
+        "mutations": false,
+        "atomic_sample_verified": true,
+        "helper_sha256": "9635d39a64e65ec95a67a757a4a4212c1835ae539cd00a44ba22a88ed999335b",
+        "ground_helper_sha256": "70e5f94bac9b1a82beec56053fd43e91f6edaba1500c8dfa840e868be836e6b3",
+        "status_helper_sha256": "ad5b758c947843969f2d1ec6e7fc07c0eaec084b1a59e60750d69d881e78a6c0",
+        "admission_verified": true,
+        "checks": {
+          "ground_evidence": true,
+          "source": true,
+          "identity_frame": true,
+          "known_foot_update": true,
+          "state_owner_binding": true,
+          "demonstrated_state_only": true,
+          "no_deferred_command_lock": true,
+          "no_mutations": true
+        }
+      }
+    },
+    "target": {
+      "address": 92388752,
+      "object_id": 774,
+      "type_hash": "0xc45aaeab",
+      "owner": 53041200,
+      "owner_player_id": 4,
+      "xyz": [
+        3187.252685546875,
+        3431.2666015625,
+        210.0
+      ],
+      "hp": 2400.0,
+      "observed_frame": 770,
+      "region_id": "region_6_6"
+    },
+    "target_contact_id": "contact_63be7a5b57212f5abe52",
+    "initial_distance": 2081.91699186125,
+    "model_requests": 0,
+    "selection_policy": "fresh_player3_full_footprint_static_ground_400_to2600_no_hidden_fallback"
+  },
+  "production_stopped": {
+    "session_id": "2b9cf61e-445a-4acd-b42d-38b970731242",
+    "player_id": 3,
+    "commander_id": "57e668b4-4d89-43bd-bc92-0dd436f046ef",
+    "personality_binding_verified": true,
+    "state": "stopped",
+    "native_phase": 2,
+    "native_error": 0,
+    "restore_mask": 31,
+    "active_callbacks": 0,
+    "spent_committed": 305,
+    "total_budget": 4000,
+    "last_seq": 2,
+    "ledger": [
+      {
+        "command_id": "ef04d4ab-e6f9-477c-9549-88490b68f8ac",
+        "task_id": "8ac2a4aa-3e73-4e72-a8f1-d59301edbb6b",
+        "seq": 1,
+        "status": "completed",
+        "accepted": true,
+        "started": true,
+        "completed": true,
+        "reason_code": "native_0",
+        "unit": "conscript",
+        "queue_id": 5,
+        "object_id": 773,
+        "cost": 85,
+        "paid": 85,
+        "paid_verified": true,
+        "created": true,
+        "completion_observed": true,
+        "live_samples": 232,
+        "payment_error": 0,
+        "enqueue_frame": 462,
+        "completion_frame": 541,
+        "queue_preserved": true
+      },
+      {
+        "command_id": "0e55efa2-3a4a-463e-a78a-f75f63222129",
+        "task_id": "ad3f7d6e-a152-4408-b168-955b3ab81cb2",
+        "seq": 2,
+        "status": "completed",
+        "accepted": true,
+        "started": true,
+        "completed": true,
+        "reason_code": "native_0",
+        "unit": "flak",
+        "queue_id": 7,
+        "object_id": 778,
+        "cost": 220,
+        "paid": 220,
+        "paid_verified": true,
+        "created": true,
+        "completion_observed": true,
+        "live_samples": 31,
+        "payment_error": 0,
+        "enqueue_frame": 613,
+        "completion_frame": 742,
+        "queue_preserved": true
+      }
+    ],
+    "local_error": null
+  },
+  "production_native_identity": {
+    "pid": 57776,
+    "session_id": "2b9cf61e-445a-4acd-b42d-38b970731242",
+    "commander_id": "57e668b4-4d89-43bd-bc92-0dd436f046ef",
+    "owner": "0x32944d0",
+    "thread": 63508,
+    "last_seq": 2
+  },
+  "after_entries": [
+    {
+      "address": "0x7ba770",
+      "expected": "81ec3c010000f605486bce0001535657",
+      "actual": "81ec3c010000f605486bce0001535657"
+    },
+    {
+      "address": "0x70f440",
+      "expected": "83ec08558b6c241085ed568bf1",
+      "actual": "83ec08558b6c241085ed568bf1"
+    },
+    {
+      "address": "0x849220",
+      "expected": "81ecb4000000568bf18b46148b4e04",
+      "actual": "81ecb4000000568bf18b46148b4e04"
+    },
+    {
+      "address": "0x73e390",
+      "expected": "83ec208b4424248b54242c5355",
+      "actual": "83ec208b4424248b54242c5355"
+    },
+    {
+      "address": "0x789bf0",
+      "expected": "51568bf180be3801000000",
+      "actual": "51568bf180be3801000000"
+    }
+  ],
+  "paid_orders_verified": true,
+  "serial_handover_verified": true,
+  "tactical_report": "bridge-probe\\acceptance\\runs\\20261025-142348-commander\\continuous-paid-v6-01-combat-v6.json",
+  "tactical_child_exit": 0
+}

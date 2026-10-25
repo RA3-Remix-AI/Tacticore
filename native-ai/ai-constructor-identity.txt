@@ -1,0 +1,71 @@
+
+E:/RedRar3/Data/RA3_1.12.game:     file format pei-i386
+
+
+Disassembly of section .text:
+
+008d5650 <.text+0x4d4650>:
+  8d5650:	83 ec 30             	sub    esp,0x30
+  8d5653:	53                   	push   ebx
+  8d5654:	55                   	push   ebp
+  8d5655:	8b 6c 24 3c          	mov    ebp,DWORD PTR [esp+0x3c]
+  8d5659:	56                   	push   esi
+  8d565a:	57                   	push   edi
+  8d565b:	8b 7c 24 4c          	mov    edi,DWORD PTR [esp+0x4c]
+  8d565f:	8b f1                	mov    esi,ecx
+  8d5661:	57                   	push   edi
+  8d5662:	55                   	push   ebp
+  8d5663:	8d 4e 04             	lea    ecx,[esi+0x4]
+  8d5666:	c7 06 60 0f c6 00    	mov    DWORD PTR [esi],0xc60f60
+  8d566c:	e8 1f f0 fe ff       	call   0x8c4690
+  8d5671:	55                   	push   ebp
+  8d5672:	8d 8e 04 01 00 00    	lea    ecx,[esi+0x104]
+  8d5678:	e8 13 d0 ff ff       	call   0x8d2690
+  8d567d:	33 db                	xor    ebx,ebx
+  8d567f:	89 9e e0 06 00 00    	mov    DWORD PTR [esi+0x6e0],ebx
+  8d5685:	89 9e e4 06 00 00    	mov    DWORD PTR [esi+0x6e4],ebx
+  8d568b:	89 9e e8 06 00 00    	mov    DWORD PTR [esi+0x6e8],ebx
+  8d5691:	88 9e f0 06 00 00    	mov    BYTE PTR [esi+0x6f0],bl
+  8d5697:	89 9e f4 06 00 00    	mov    DWORD PTR [esi+0x6f4],ebx
+  8d569d:	c7 86 dc 06 00 00 c0 	mov    DWORD PTR [esi+0x6dc],0xc5fec0
+  8d56a4:	fe c5 00 
+  8d56a7:	55                   	push   ebp
+  8d56a8:	8d 8e fc 06 00 00    	lea    ecx,[esi+0x6fc]
+  8d56ae:	89 9e f8 06 00 00    	mov    DWORD PTR [esi+0x6f8],ebx
+  8d56b4:	e8 b7 81 ff ff       	call   0x8cd870
+  8d56b9:	c7 86 44 08 00 00 78 	mov    DWORD PTR [esi+0x844],0xbe8a78
+  8d56c0:	8a be 00 
+  8d56c3:	c7 86 40 08 00 00 d4 	mov    DWORD PTR [esi+0x840],0xc5f1d4
+  8d56ca:	f1 c5 00 
+  8d56cd:	c7 86 44 08 00 00 c4 	mov    DWORD PTR [esi+0x844],0xc5f1c4
+  8d56d4:	f1 c5 00 
+  8d56d7:	89 ae 48 08 00 00    	mov    DWORD PTR [esi+0x848],ebp
+  8d56dd:	c7 86 4c 08 00 00 44 	mov    DWORD PTR [esi+0x84c],0xc5ee44
+  8d56e4:	ee c5 00 
+  8d56e7:	c6 86 50 08 00 00 01 	mov    BYTE PTR [esi+0x850],0x1
+  8d56ee:	89 9e 54 08 00 00    	mov    DWORD PTR [esi+0x854],ebx
+  8d56f4:	89 9e 58 08 00 00    	mov    DWORD PTR [esi+0x858],ebx
+  8d56fa:	8d 8e 68 08 00 00    	lea    ecx,[esi+0x868]
+  8d5700:	89 9e 5c 08 00 00    	mov    DWORD PTR [esi+0x85c],ebx
+  8d5706:	88 9e 60 08 00 00    	mov    BYTE PTR [esi+0x860],bl
+  8d570c:	88 9e 61 08 00 00    	mov    BYTE PTR [esi+0x861],bl
+  8d5712:	89 9e 64 08 00 00    	mov    DWORD PTR [esi+0x864],ebx
+  8d5718:	e8 f3 7a fd ff       	call   0x8ad210
+  8d571d:	8b 44 24 48          	mov    eax,DWORD PTR [esp+0x48]
+  8d5721:	89 86 ac 08 00 00    	mov    DWORD PTR [esi+0x8ac],eax
+  8d5727:	89 be b0 08 00 00    	mov    DWORD PTR [esi+0x8b0],edi
+  8d572d:	89 9e a4 08 00 00    	mov    DWORD PTR [esi+0x8a4],ebx
+  8d5733:	89 ae a8 08 00 00    	mov    DWORD PTR [esi+0x8a8],ebp
+  8d5739:	88 9e b4 08 00 00    	mov    BYTE PTR [esi+0x8b4],bl
+  8d573f:	88 9e b5 08 00 00    	mov    BYTE PTR [esi+0x8b5],bl
+  8d5745:	8b 0d e4 8c cd 00    	mov    ecx,DWORD PTR ds:0xcd8ce4
+  8d574b:	8b 51 50             	mov    edx,DWORD PTR [ecx+0x50]
+  8d574e:	89 96 b8 08 00 00    	mov    DWORD PTR [esi+0x8b8],edx
+  8d5754:	88 9e bc 08 00 00    	mov    BYTE PTR [esi+0x8bc],bl
+  8d575a:	89 9e c0 08 00 00    	mov    DWORD PTR [esi+0x8c0],ebx
+  8d5760:	c6 86 c4 08 00 00 01 	mov    BYTE PTR [esi+0x8c4],0x1
+  8d5767:	89 9e c8 08 00 00    	mov    DWORD PTR [esi+0x8c8],ebx
+  8d576d:	89 9e cc 08 00 00    	mov    DWORD PTR [esi+0x8cc],ebx
+  8d5773:	89 9e d8 08 00 00    	mov    DWORD PTR [esi+0x8d8],ebx
+  8d5779:	89 9e dc 08 00 00    	mov    DWORD PTR [esi+0x8dc],ebx
+  8d577f:	89                   	.byte 0x89

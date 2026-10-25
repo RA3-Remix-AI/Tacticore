@@ -1,0 +1,55 @@
+# Downloaded toolchains and reference projects
+/toolchain/
+/reference/
+/native-ai/frontend-reference/
+/native-ai/staging/
+/experimental/
+
+# Build products and caches
+bin/
+__pycache__/
+*.py[cod]
+*.exe
+*.dll
+*.o
+*.obj
+*.a
+*.lib
+*.pdb
+*.bin
+*.big
+*.manifest
+*.imp
+*.relo
+*.asset
+*.zip
+*.7z
+/tactical/all-text-temporary.txt
+
+# Credentials and machine-local settings
+.env
+.env.*
+!.env.example
+*.dpapi
+*.key
+*.pem
+*.pfx
+*.p12
+credentials*.json
+secrets*.json
+
+# Transient sessions, model traffic and generated test workspaces
+*.lock
+*.log
+*.jsonl
+/desktop/test-runs/
+/integration/control-leases/
+/integration/model-connection-test*/
+/strategy/runtime*/
+/benchmark/runtime*/
+/acceptance/active-session.json
+/acceptance/model-probe*/
+/acceptance/runs/**/battle-host/
+/acceptance/runs/**/settlement-watch/
+**/snapshots/
+**/observations/

@@ -1,0 +1,27 @@
+{
+  "source_kind": "review_of_existing_game_coordinate_traces",
+  "runs": [
+    {
+      "file": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\reports\\move-20261024-162925.json",
+      "controller_exit": 0,
+      "min_target_distance": 5.621521663747532,
+      "final_target_distance": 5.621521663747532,
+      "baseline_displacement": 99.10739593749094,
+      "samples": 57,
+      "is_style_comparison_evidence": false,
+      "reason": "One unit, unmatched command experiments; no fixed-map multi-style protocol, production queue/cost/outcome or blind recognition observations."
+    },
+    {
+      "file": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\reports\\move-20261024-162951.json",
+      "controller_exit": 0,
+      "min_target_distance": 31.31114092660629,
+      "final_target_distance": 523.1713572067447,
+      "baseline_displacement": 99.91273433910168,
+      "samples": 57,
+      "is_style_comparison_evidence": false,
+      "reason": "One unit, unmatched command experiments; no fixed-map multi-style protocol, production queue/cost/outcome or blind recognition observations."
+    }
+  ],
+  "new_game_runs_performed": 0,
+  "benchmark_acceptance_passed": false
+}

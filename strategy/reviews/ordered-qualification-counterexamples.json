@@ -1,0 +1,35 @@
+{
+  "original_report": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-010403-commander\\ordered-ak03-static.json",
+  "source_sha256": "2852a01dd87f9448a345cf8dc3847eaff7eb434d723a784fa12e3afed8dd1ffa",
+  "qualifier_sha256": "53659d4bd5a464828f07c3748628f8b2e97b7a7eb9b26d4f0f9d2ec6167504e1",
+  "original_qualified": "bounded_ak_ordered_attack_verified",
+  "counterexamples": [
+    {
+      "case": "damage_before_script_order_and_backward_frame",
+      "expected": "not_passed",
+      "actual": "not_passed",
+      "rejected": true
+    },
+    {
+      "case": "single_sample_clock_regression",
+      "expected": "not_passed",
+      "actual": "not_passed",
+      "rejected": true
+    },
+    {
+      "case": "native_ammo_1_to_0_contradicts_event_3_to_2",
+      "expected": "not_passed",
+      "actual": "not_passed",
+      "rejected": true
+    },
+    {
+      "case": "factory_relabelled_economy",
+      "private_type_hash": "0xd50c222e",
+      "expected_harass_economy_verified": false,
+      "actual_harass_economy_verified": false,
+      "rejected": true
+    }
+  ],
+  "all_rejected": true,
+  "game_or_api_access": false
+}

@@ -1,0 +1,43 @@
+{
+  "source_report": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-114145-commander\\coord3-mission02.json",
+  "source_sha256": "f95f34d75af7762d5f7ea5cc895292cbbbae47e9069e97afdd2dd56cecc18f0e",
+  "mutations": false,
+  "scope": "failed coordination geometry, safely released; not a tactical effect",
+  "native_error": 53,
+  "source_damage_count": 0,
+  "issued_frame": 2364,
+  "returned_frame": 2974,
+  "route0_distance_to_preflight_support": 4.358192121001716,
+  "route0_distance_to_actual_support_hold": 26.139663105132996,
+  "route0_forward_dot_front_minus_support": -25596.41889539361,
+  "support_max_hold_displacement": 148.13220522816283,
+  "support_move_commands_in_approach": 0,
+  "qualification": "not_passed",
+  "restoration": {
+    "restoration_verified": true,
+    "control_release_verified": true,
+    "return_verified": true,
+    "disposed_verified": false,
+    "actors": [
+      {
+        "role": 0,
+        "object_id": 775,
+        "returned": true,
+        "disposed": false,
+        "never_held": false,
+        "released": true
+      },
+      {
+        "role": 1,
+        "object_id": 818,
+        "returned": true,
+        "disposed": false,
+        "never_held": false,
+        "released": true
+      }
+    ],
+    "semantics": "two_independent_native_pool_returns_or_readonly_disposal",
+    "completion_claim": false
+  },
+  "causality_limit": "Reverse route and hold displacement are observed. Physical pushing/avoidance is consistent, but exact sole collision cause is not established from these events."
+}

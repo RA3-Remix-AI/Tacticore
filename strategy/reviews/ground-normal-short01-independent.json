@@ -1,0 +1,63 @@
+{
+  "auxiliary_verified": true,
+  "checks": {
+    "binding": true,
+    "finite_target": true,
+    "owner_thread": true,
+    "ordered_log": true,
+    "stable_stop": true,
+    "stop_before_unique_normal_move": true,
+    "exact_target_and_state": true,
+    "three_distinct_arrivals": true,
+    "leased_identity_and_no_override": true,
+    "normal_pool_return": true,
+    "bounded": true,
+    "only_post_return_actor_failure": true,
+    "hooks_quiescent": true,
+    "native_recruitment_after_return": true,
+    "frozen_build_matches": true
+  },
+  "stop_frames": [
+    5233,
+    5235,
+    5237
+  ],
+  "arrivals": [
+    {
+      "seq": 31,
+      "frame": 5255,
+      "distance": 9.257647629569515
+    },
+    {
+      "seq": 32,
+      "frame": 5257,
+      "distance": 6.401213070711337
+    },
+    {
+      "seq": 33,
+      "frame": 5259,
+      "distance": 4.297200596350911
+    }
+  ],
+  "returned_frame": 5259,
+  "first_recruitment_frame": 5288,
+  "post_failure_frame": 5290,
+  "scope": "calibration_approach_auxiliary_only",
+  "post_return_actor_invalidity_is_not_a_failed_return": true,
+  "death_cause_independently_proven": false,
+  "timer_zero_direct_memory_observation": false,
+  "purpose_capabilities_granted": [],
+  "source_report": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-013326-commander\\ground-normal-short01.json",
+  "source_sha256": "14986cee3fc31713f7041cca334cdcfad045a6b909570d7ddd4c8432d702ab89",
+  "build_hashes": {
+    "native_binary_sha256": "2a9303bee25b500a21fd106196dd6a1cdcfed54db1e22537aea9e41ff5734882",
+    "native_host_sha256": "8a4e0876ac6c422d63e76f65a03c154b9d5aa885f1a1d564a24f6c5507bedc59",
+    "native_source_sha256": "e24dfe13bcba9244f3cee06264a1d1a1bcf3f65d0eeea88216263c84695d9d94",
+    "native_shared_sha256": "103993ff28526ad934a8d08027a80d209f7941050e26168f682e973796b2ba6a",
+    "wrapper_sha256": "86ebd8d6e7db4e982ca3c556c39ebcc803b232def43c0c44148a9b629526ff0f"
+  },
+  "negative_cases": 4,
+  "game_or_api_access": false,
+  "timer_cleanup_evidence": "Hash-matched native finish() calls KillTimer and clears timer before event4/hook restoration/terminal phase. This is control-flow evidence, not a separate direct timer read.",
+  "original_assessment_preserved": "not_passed"
+}

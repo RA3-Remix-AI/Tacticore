@@ -1,0 +1,189 @@
+{
+  "schema_version": 1,
+  "mode": "offline_research_not_capability",
+  "commands_issued": 0,
+  "gui_or_api_used": false,
+  "safety_sha256": "8420d115fbaf6b098a557bf8d8f781e91541e4da018de3769791efacb3c116b9",
+  "package_sha256": "2d7873e1b2d2c79950ff9da70b5452b1210370a6d6cbec1eaa69201a7d3d0665",
+  "compiled_manifest": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\native-ai\\staging\\compiled-commanders-20261024-182027-17286524\\package\\data\\mod.manifest",
+  "compiled_manifest_sha256": "aec863b2e91cecaa4031f87a124c8d04e6bd45862d38fa76a823b69e9a8fafc5",
+  "frozen_allowed_count": 111,
+  "frozen_economy_templates": [],
+  "harass_economy_currently_triggerable": false,
+  "templates": {
+    "SovietRefinery": {
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\SovietRefinery.xml",
+          "sha256": "9b8bbf7bf5e083f1aa1ae90df63526a4c3fdb5af7ce6f7424d9a9cf26f86442a",
+          "audit_risks": []
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseSovietStructure.xml",
+          "sha256": "f60fb9e973fbb8a683a13db5a9b9792d7a9c2050fc7c0a06489402815b8e4ad7",
+          "audit_risks": []
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseStructure.xml",
+          "sha256": "9624d3272632ba33b5f8cca9d8eb50228c0610ea60db14fe68cb00f823ddaea0",
+          "audit_risks": []
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292",
+          "audit_risks": []
+        }
+      ],
+      "effective_kinds": [
+        "ACTIVATE_AFTER_UNPACK",
+        "AUTO_ACQUIRABLE_BY_AI",
+        "CAN_BUILD_ON_DEEP_WATER",
+        "CAN_BUILD_ON_WATER",
+        "CAN_CAST_REFLECTIONS",
+        "COVER",
+        "CRUSHABLE_BUILDING",
+        "FS_MONEY_STORAGE",
+        "IMMOBILE",
+        "NOT_AUTOACQUIRABLE",
+        "REFINERY",
+        "SCORE",
+        "SELECTABLE",
+        "SKIRMISH_AI_CAN_BUILD_DURING_EMERGENCY_NO_INCOME",
+        "STRUCTURE",
+        "SUPPLY_GATHERING_CENTER"
+      ],
+      "functional_evidence": [
+        {
+          "tag": "SkirmishAIInformation",
+          "attributes": {
+            "BaseBuildingLocation": "NEAR_RESOURCE_NODE",
+            "NearResourceNodeType": "ORE"
+          },
+          "text": "",
+          "source": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\SovietRefinery.xml"
+        },
+        {
+          "tag": "SpawnBehavior",
+          "attributes": {
+            "id": "ModuleTag_Spawn",
+            "SpawnNumberData": "1",
+            "SpawnReplaceDelayData": "9999s",
+            "IsOneShotData": "true",
+            "FadeInTime": "1.0s",
+            "SpawnOnUnpack": "true",
+            "CanReclaimOrphans": "false",
+            "SetPurchasePrice": "true"
+          },
+          "text": "",
+          "source": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\SovietRefinery.xml"
+        },
+        {
+          "tag": "SpawnTemplate",
+          "attributes": {},
+          "text": "SovietMiner",
+          "source": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\SovietRefinery.xml"
+        },
+        {
+          "tag": "AIUpdate",
+          "attributes": {
+            "id": "ModuleTag_AIUpdate",
+            "AutoAcquireEnemiesWhenIdle": "NO",
+            "StateMachine": "StructureAIStateMachine"
+          },
+          "text": "",
+          "source": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\SovietRefinery.xml"
+        }
+      ],
+      "source_risk_rules_only": true,
+      "compiled_manifest_present": true,
+      "frozen_allowed": true,
+      "frozen_role": "structure",
+      "frozen_rejection": null,
+      "runtime_exposure_authorized": false,
+      "type_hash": "0xc45aaeab",
+      "physical_role": "structure",
+      "proposed_functional_role": "economy"
+    },
+    "SovietMiner": {
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Soviet\\Units\\SovietMiner.xml",
+          "sha256": "4a4ae56807a66393f72537baaa68af334e22a4edc61639e1f997cad67e364ed5",
+          "audit_risks": []
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseMiner.xml",
+          "sha256": "91c353e18a79e43422a200c17ca43f966f490ebc577148270eaeeb9811c04964",
+          "audit_risks": []
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseVehicle.xml",
+          "sha256": "3f12c296d3daf313acc9809af0ea801b8211772d0edbfd3d33c7c34a9c24af0c",
+          "audit_risks": []
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292",
+          "audit_risks": []
+        }
+      ],
+      "effective_kinds": [
+        "AMPHIBIOUS",
+        "CAN_BE_FAVORITE_UNIT",
+        "CAN_CAST_REFLECTIONS",
+        "CYCLE_SELECTION",
+        "HARVESTER",
+        "IGNORES_SELECT_ALL",
+        "MOVE_FOR_NOONE",
+        "SCORE",
+        "SELECTABLE",
+        "SKIRMISH_AI_CAN_BUILD_DURING_EMERGENCY_NO_INCOME",
+        "T2_UNIT",
+        "VEHICLE"
+      ],
+      "functional_evidence": [
+        {
+          "tag": "OreMinerBehavior",
+          "attributes": {
+            "id": "ModuleTag_OreMinerBehavior",
+            "{uri:ea.com:eala:asset:instance}joinAction": "Append"
+          },
+          "text": "",
+          "source": "E:\\RA3Modding\\SDK\\SAGEXML\\Soviet\\Units\\SovietMiner.xml"
+        },
+        {
+          "tag": "OreMinerBehavior",
+          "attributes": {
+            "id": "ModuleTag_OreMinerBehavior",
+            "DeliveryCapacity": "250",
+            "DeliveryTime": "2s"
+          },
+          "text": "",
+          "source": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseMiner.xml"
+        },
+        {
+          "tag": "AIUpdate",
+          "attributes": {
+            "id": "ModuleTag_AI",
+            "StateMachine": "OreMinerStateMachine"
+          },
+          "text": "",
+          "source": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseMiner.xml"
+        }
+      ],
+      "source_risk_rules_only": true,
+      "compiled_manifest_present": false,
+      "frozen_allowed": false,
+      "frozen_role": null,
+      "frozen_rejection": null,
+      "runtime_exposure_authorized": false
+    }
+  },
+  "rebuild_required": [
+    "safety/catalog hash",
+    "classification implementation hash",
+    "build capability proof",
+    "current session proof"
+  ],
+  "visibility_algorithm_change_required": false
+}

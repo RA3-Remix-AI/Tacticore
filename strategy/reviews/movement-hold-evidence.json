@@ -1,0 +1,54 @@
+{
+  "source_report": "acceptance\\runs\\20261024-234355-commander\\formation02.json",
+  "source_sha256": "e5d48d68a6b4fe01b7b52a9c3e4da74fbd459bb6838b0bb24d7f90bae7636239",
+  "issued_frame": 1016,
+  "returned_frame": 1196,
+  "units": [
+    {
+      "object_id": 779,
+      "hold": [
+        3009.512939453125,
+        2949.67529296875,
+        210.0
+      ],
+      "goal": [
+        3009.512939453125,
+        2869.67529296875,
+        210.0
+      ],
+      "last_position": [
+        3010.0,
+        2870.0,
+        210.0
+      ],
+      "first_stage1_drift_outside_15": 1021,
+      "max_stage1_hold_drift": 79.67678167215632,
+      "minimum_goal_distance": 0.5853739253377814,
+      "native_move_override_count": 0
+    },
+    {
+      "object_id": 792,
+      "hold": [
+        2910.0,
+        2890.0,
+        210.0
+      ],
+      "goal": [
+        3009.512939453125,
+        2949.67529296875,
+        210.0
+      ],
+      "last_position": [
+        2890.0,
+        2910.0,
+        210.0
+      ],
+      "first_stage1_drift_outside_15": 1034,
+      "max_stage1_hold_drift": 28.284271247461902,
+      "minimum_goal_distance": 116.03432987485844,
+      "native_move_override_count": 0
+    }
+  ],
+  "causality": "No new Move hook does not distinguish a previous path from a newly projected path. Stop/path-state observations required.",
+  "capabilities_granted": []
+}

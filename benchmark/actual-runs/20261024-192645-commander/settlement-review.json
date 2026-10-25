@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "source_kind": "live_game_gui_artifact_review",
+  "session_id": "9feb4b8b-b7d5-450a-b80c-5cd1f944ccfd",
+  "screenshot_relative_to_run": "settlement-units.png",
+  "native_relative_to_run": "battle-host/match-state.json",
+  "gui_observed": {
+    "screen": "statistics_settlement",
+    "participants_visible": ["human player", "easy hammer"],
+    "settlement_screen_verified": true,
+    "winner_not_inferred_from_legend_icons": true,
+    "note": "Victory and skull symbols at right are graph legend/endpoint markers. Specific row winner requires root identity confirmation; a symbol's vertical position is not a row result."
+  },
+  "native_observed": {
+    "pid": 47332,
+    "recorded_defeat_frame": 4284,
+    "recorded_defeat_game_seconds": 285.6,
+    "native_index_with_defeat_frame": 0,
+    "player_index_2_defeated_flag_raw": 1,
+    "player_index_3_defeated_flag_raw": 0,
+    "native_index_c0_raw": 2,
+    "raw_c4": 3,
+    "match_ended_verified_field": false,
+    "note": "Native fields support player 2 defeat and player 3 remaining undefeated; original generic match_ended_verified flag remains false and must not be silently overwritten."
+  },
+  "restoration": {"state": 2, "error": 0, "restore_mask": 31, "active": 0},
+  "root_final_confirmation_received": false,
+  "whole_match_acceptance_passed": false,
+  "personality_comparison_passed": false
+}

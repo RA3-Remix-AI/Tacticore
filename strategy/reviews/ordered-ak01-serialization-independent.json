@@ -1,0 +1,68 @@
+{
+  "source": "offline_immutable_reports_and_stdlib_reproduction",
+  "game_or_api_access": false,
+  "original_report": {
+    "sha256": "6d43cd3f9bb6dfa52441a473e43d45d22e99718b24c90977a4c1de05b67c0ebe",
+    "status": "running",
+    "phase": 0,
+    "event_count": 0
+  },
+  "truncated_temporary": {
+    "sha256": "838beff2a9c6b18261a9a5fc9e73a863a18f2300b0c01680c093d3ccfe8601df",
+    "byte_length": 6477,
+    "trailing_key": "events[0].requested",
+    "value_start_byte": 6477,
+    "tail": "\r\n      \"arg_source\": 0,\r\n      \"requested\": "
+  },
+  "failure_reproduction": {
+    "type": "TypeError",
+    "message": "Object of type c_float_Array_3 is not JSON serializable",
+    "finite_zero_ctypes_array_fails": true,
+    "second_dump_same_record_also_fails": true
+  },
+  "recovered_diagnostics": [
+    {
+      "seq": 1,
+      "kind": 0,
+      "requested": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "effective": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "seq": 2,
+      "kind": 4,
+      "requested": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "effective": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  ],
+  "recovered_terminal": {
+    "phase": 4,
+    "error": 33,
+    "restore_mask": 2047,
+    "active": 0,
+    "issued_frame": 0,
+    "returned_frame": 0,
+    "detach_calls": 0,
+    "attack_calls": 0,
+    "return_calls": 0,
+    "stop_requested": 1,
+    "timer": 0
+  },
+  "conclusion": "ctypes float arrays, not nonfinite values, explain this exact first requested-field failure; native never issued/detached. Diagnostic normalization still needs explicit invalid metadata; nullable vectors cannot satisfy geometry.",
+  "capabilities_granted": []
+}

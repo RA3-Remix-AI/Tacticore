@@ -1,0 +1,607 @@
+{
+  "pid": 45968,
+  "unit": {
+    "address": "0x58ca090",
+    "owner_address": "0x336b4d0",
+    "owner_index_candidate": 3,
+    "type_hash": "0xfb02c55",
+    "ai_address": "0x52c5438",
+    "xyz": [
+      3085.24462890625,
+      3065.24462890625,
+      210.0
+    ],
+    "catalog": {
+      "name": "帝国武士",
+      "template": "JapanAntiInfantryInfantry",
+      "side": 3,
+      "cls": 1,
+      "category": 0
+    }
+  },
+  "target": [
+    2373.95703125,
+    2853.992919921875,
+    210.0
+  ],
+  "issued_seconds": 2.0,
+  "controller_exit": 0,
+  "controller_stdout": "{\"operation\":2,\"result\":2,\"window_thread\":28360,\"callback_thread\":28360,\"owner\":\"0x0336b4d0\",\"hash\":\"0x0fb02c55\",\"ai\":\"0x052c5438\",\"hp\":145.000,\"before\":[2270.6689,2853.4448,210.0000]}\n",
+  "controller_stderr": "",
+  "baseline_displacement": 99.10739593749094,
+  "min_target_distance": 5.621521663747532,
+  "final_target_distance": 5.621521663747532,
+  "samples": [
+    {
+      "seconds": 0.0,
+      "phase": "baseline",
+      "xyz": [
+        2372.0244140625,
+        2868.31298828125,
+        210.0
+      ],
+      "hp": 145.0
+    },
+    {
+      "seconds": 0.25,
+      "phase": "baseline",
+      "xyz": [
+        2359.447265625,
+        2868.2412109375,
+        210.0
+      ],
+      "hp": 145.0
+    },
+    {
+      "seconds": 0.5,
+      "phase": "baseline",
+      "xyz": [
+        2346.294921875,
+        2866.049072265625,
+        210.0
+      ],
+      "hp": 145.0
+    },
+    {
+      "seconds": 0.75,
+      "phase": "baseline",
+      "xyz": [
+        2336.4306640625,
+        2864.405029296875,
+        210.0
+      ],
+      "hp": 145.0
+    },
+    {
+      "seconds": 1.0,
+      "phase": "baseline",
+      "xyz": [
+        2323.2783203125,
+        2862.213134765625,
+        210.0
+      ],
+      "hp": 145.0
+    },
+    {
+      "seconds": 1.25,
+      "phase": "baseline",
+      "xyz": [
+        2310.1259765625,
+        2860.02099609375,
+        210.0
+      ],
+      "hp": 145.0
+    },
+    {
+      "seconds": 1.5,
+      "phase": "baseline",
+      "xyz": [
+        2296.9736328125,
+        2857.828857421875,
+        210.0
+      ],
+      "hp": 145.0
+    },
+    {
+      "seconds": 1.75,
+      "phase": "baseline",
+      "xyz": [
+        2283.8212890625,
+        2855.636962890625,
+        210.0
+      ],
+      "hp": 145.0
+    },
+    {
+      "seconds": 2.0,
+      "phase": "before_command",
+      "xyz": [
+        2273.95703125,
+        2853.992919921875,
+        210.0
+      ],
+      "hp": 145.0
+    },
+    {
+      "seconds": 2.016,
+      "phase": "after_command",
+      "xyz": [
+        2270.6689453125,
+        2853.44482421875,
+        210.0
+      ],
+      "hp": 145.0
+    },
+    {
+      "seconds": 2.266,
+      "phase": "after_command",
+      "xyz": [
+        2280.662841796875,
+        2853.09814453125,
+        210.0
+      ],
+      "hp": 145.0
+    },
+    {
+      "seconds": 2.516,
+      "phase": "after_command",
+      "xyz": [
+        2293.988037109375,
+        2852.63623046875,
+        210.0
+      ],
+      "hp": 145.0
+    },
+    {
+      "seconds": 2.766,
+      "phase": "after_command",
+      "xyz": [
+        2307.313232421875,
+        2852.174072265625,
+        210.0
+      ],
+      "hp": 145.0
+    },
+    {
+      "seconds": 3.016,
+      "phase": "after_command",
+      "xyz": [
+        2320.638427734375,
+        2851.7119140625,
+        210.0
+      ],
+      "hp": 145.0
+    },
+    {
+      "seconds": 3.266,
+      "phase": "after_command",
+      "xyz": [
+        2333.963623046875,
+        2851.249755859375,
+        210.0
+      ],
+      "hp": 145.0
+    },
+    {
+      "seconds": 3.516,
+      "phase": "after_command",
+      "xyz": [
+        2343.95751953125,
+        2850.903076171875,
+        210.0
+      ],
+      "hp": 145.0
+    },
+    {
+      "seconds": 3.766,
+      "phase": "after_command",
+      "xyz": [
+        2357.28271484375,
+        2850.44091796875,
+        210.0
+      ],
+      "hp": 145.0
+    },
+    {
+      "seconds": 4.016,
+      "phase": "after_command",
+      "xyz": [
+        2370.0,
+        2850.0,
+        210.0
+      ],
+      "hp": 145.0
+    },
+    {
+      "seconds": 4.266,
+      "phase": "after_command",
+      "xyz": [
+        2370.0,
+        2850.0,
+        210.0
+      ],
+      "hp": 145.0
+    },
+    {
+      "seconds": 4.516,
+      "phase": "after_command",
+      "xyz": [
+        2370.0,
+        2850.0,
+        210.0
+      ],
+      "hp": 145.0
+    },
+    {
+      "seconds": 4.766,
+      "phase": "after_command",
+      "xyz": [
+        2370.0,
+        2850.0,
+        210.0
+      ],
+      "hp": 145.0
+    },
+    {
+      "seconds": 5.016,
+      "phase": "after_command",
+      "xyz": [
+        2370.0,
+        2850.0,
+        210.0
+      ],
+      "hp": 145.0
+    },
+    {
+      "seconds": 5.266,
+      "phase": "after_command",
+      "xyz": [
+        2370.0,
+        2850.0,
+        210.0
+      ],
+      "hp": 145.0
+    },
+    {
+      "seconds": 5.516,
+      "phase": "after_command",
+      "xyz": [
+        2370.0,
+        2850.0,
+        210.0
+      ],
+      "hp": 145.0
+    },
+    {
+      "seconds": 5.766,
+      "phase": "after_command",
+      "xyz": [
+        2370.0,
+        2850.0,
+        210.0
+      ],
+      "hp": 145.0
+    },
+    {
+      "seconds": 6.016,
+      "phase": "after_command",
+      "xyz": [
+        2370.0,
+        2850.0,
+        210.0
+      ],
+      "hp": 145.0
+    },
+    {
+      "seconds": 6.266,
+      "phase": "after_command",
+      "xyz": [
+        2370.0,
+        2850.0,
+        210.0
+      ],
+      "hp": 145.0
+    },
+    {
+      "seconds": 6.516,
+      "phase": "after_command",
+      "xyz": [
+        2370.0,
+        2850.0,
+        210.0
+      ],
+      "hp": 145.0
+    },
+    {
+      "seconds": 6.766,
+      "phase": "after_command",
+      "xyz": [
+        2370.0,
+        2850.0,
+        210.0
+      ],
+      "hp": 145.0
+    },
+    {
+      "seconds": 7.016,
+      "phase": "after_command",
+      "xyz": [
+        2370.0,
+        2850.0,
+        210.0
+      ],
+      "hp": 145.0
+    },
+    {
+      "seconds": 7.266,
+      "phase": "after_command",
+      "xyz": [
+        2370.0,
+        2850.0,
+        210.0
+      ],
+      "hp": 145.0
+    },
+    {
+      "seconds": 7.516,
+      "phase": "after_command",
+      "xyz": [
+        2370.0,
+        2850.0,
+        210.0
+      ],
+      "hp": 145.0
+    },
+    {
+      "seconds": 7.766,
+      "phase": "after_command",
+      "xyz": [
+        2370.0,
+        2850.0,
+        210.0
+      ],
+      "hp": 145.0
+    },
+    {
+      "seconds": 8.016,
+      "phase": "after_command",
+      "xyz": [
+        2370.0,
+        2850.0,
+        210.0
+      ],
+      "hp": 145.0
+    },
+    {
+      "seconds": 8.266,
+      "phase": "after_command",
+      "xyz": [
+        2370.0,
+        2850.0,
+        210.0
+      ],
+      "hp": 145.0
+    },
+    {
+      "seconds": 8.516,
+      "phase": "after_command",
+      "xyz": [
+        2370.0,
+        2850.0,
+        210.0
+      ],
+      "hp": 145.0
+    },
+    {
+      "seconds": 8.766,
+      "phase": "after_command",
+      "xyz": [
+        2370.0,
+        2850.0,
+        210.0
+      ],
+      "hp": 145.0
+    },
+    {
+      "seconds": 9.016,
+      "phase": "after_command",
+      "xyz": [
+        2370.0,
+        2850.0,
+        210.0
+      ],
+      "hp": 145.0
+    },
+    {
+      "seconds": 9.266,
+      "phase": "after_command",
+      "xyz": [
+        2370.0,
+        2850.0,
+        210.0
+      ],
+      "hp": 145.0
+    },
+    {
+      "seconds": 9.516,
+      "phase": "after_command",
+      "xyz": [
+        2370.0,
+        2850.0,
+        210.0
+      ],
+      "hp": 145.0
+    },
+    {
+      "seconds": 9.766,
+      "phase": "after_command",
+      "xyz": [
+        2370.0,
+        2850.0,
+        210.0
+      ],
+      "hp": 145.0
+    },
+    {
+      "seconds": 10.016,
+      "phase": "after_command",
+      "xyz": [
+        2370.0,
+        2850.0,
+        210.0
+      ],
+      "hp": 145.0
+    },
+    {
+      "seconds": 10.281,
+      "phase": "after_command",
+      "xyz": [
+        2370.0,
+        2850.0,
+        210.0
+      ],
+      "hp": 145.0
+    },
+    {
+      "seconds": 10.531,
+      "phase": "after_command",
+      "xyz": [
+        2370.0,
+        2850.0,
+        210.0
+      ],
+      "hp": 145.0
+    },
+    {
+      "seconds": 10.781,
+      "phase": "after_command",
+      "xyz": [
+        2370.0,
+        2850.0,
+        210.0
+      ],
+      "hp": 145.0
+    },
+    {
+      "seconds": 11.031,
+      "phase": "after_command",
+      "xyz": [
+        2370.0,
+        2850.0,
+        210.0
+      ],
+      "hp": 145.0
+    },
+    {
+      "seconds": 11.281,
+      "phase": "after_command",
+      "xyz": [
+        2370.0,
+        2850.0,
+        210.0
+      ],
+      "hp": 145.0
+    },
+    {
+      "seconds": 11.531,
+      "phase": "after_command",
+      "xyz": [
+        2370.0,
+        2850.0,
+        210.0
+      ],
+      "hp": 145.0
+    },
+    {
+      "seconds": 11.781,
+      "phase": "after_command",
+      "xyz": [
+        2370.0,
+        2850.0,
+        210.0
+      ],
+      "hp": 145.0
+    },
+    {
+      "seconds": 12.031,
+      "phase": "after_command",
+      "xyz": [
+        2370.0,
+        2850.0,
+        210.0
+      ],
+      "hp": 145.0
+    },
+    {
+      "seconds": 12.281,
+      "phase": "after_command",
+      "xyz": [
+        2370.0,
+        2850.0,
+        210.0
+      ],
+      "hp": 145.0
+    },
+    {
+      "seconds": 12.531,
+      "phase": "after_command",
+      "xyz": [
+        2370.0,
+        2850.0,
+        210.0
+      ],
+      "hp": 145.0
+    },
+    {
+      "seconds": 12.781,
+      "phase": "after_command",
+      "xyz": [
+        2370.0,
+        2850.0,
+        210.0
+      ],
+      "hp": 145.0
+    },
+    {
+      "seconds": 13.031,
+      "phase": "after_command",
+      "xyz": [
+        2370.0,
+        2850.0,
+        210.0
+      ],
+      "hp": 145.0
+    },
+    {
+      "seconds": 13.281,
+      "phase": "after_command",
+      "xyz": [
+        2370.0,
+        2850.0,
+        210.0
+      ],
+      "hp": 145.0
+    },
+    {
+      "seconds": 13.531,
+      "phase": "after_command",
+      "xyz": [
+        2370.0,
+        2850.0,
+        210.0
+      ],
+      "hp": 145.0
+    },
+    {
+      "seconds": 13.781,
+      "phase": "after_command",
+      "xyz": [
+        2370.0,
+        2850.0,
+        210.0
+      ],
+      "hp": 145.0
+    }
+  ],
+  "note": "Window-thread experimental call, not a production simulation-thread API. AI ownership inferred from explicit local match setup. Coordinate evidence only; no visual arrival assertion."
+}

@@ -1,0 +1,238 @@
+{
+  "status": "no_dispatch_route_or_pair_not_ready",
+  "session_id": "b909424c-1ed5-4b43-b22d-3b15299045f4",
+  "frame": 8065,
+  "paused": 3,
+  "own_fronts": [
+    {
+      "object_id": 793,
+      "xyz": [
+        1843.7030029296875,
+        1671.1090087890625,
+        210.0
+      ]
+    },
+    {
+      "object_id": 864,
+      "xyz": [
+        1844.0,
+        1564.6666259765625,
+        210.0
+      ]
+    },
+    {
+      "object_id": 899,
+      "xyz": [
+        1910.347900390625,
+        2049.571044921875,
+        210.0
+      ]
+    },
+    {
+      "object_id": 905,
+      "xyz": [
+        1910.0,
+        1929.99951171875,
+        210.0
+      ]
+    },
+    {
+      "object_id": 906,
+      "xyz": [
+        1989.71923828125,
+        1935.522705078125,
+        210.0
+      ]
+    },
+    {
+      "object_id": 908,
+      "xyz": [
+        1860.2080078125,
+        2041.867431640625,
+        210.0
+      ]
+    },
+    {
+      "object_id": 914,
+      "xyz": [
+        1810.1512451171875,
+        2031.2799072265625,
+        210.0
+      ]
+    },
+    {
+      "object_id": 933,
+      "xyz": [
+        1927.433837890625,
+        1949.3050537109375,
+        210.0
+      ]
+    },
+    {
+      "object_id": 962,
+      "xyz": [
+        1681.71533203125,
+        1761.71533203125,
+        210.0
+      ]
+    }
+  ],
+  "own_supports": [
+    {
+      "object_id": 821,
+      "xyz": [
+        1925.831787109375,
+        2440.274169921875,
+        210.0
+      ]
+    },
+    {
+      "object_id": 830,
+      "xyz": [
+        3097.20556640625,
+        3399.534912109375,
+        210.0
+      ]
+    },
+    {
+      "object_id": 832,
+      "xyz": [
+        3030.413818359375,
+        3411.49560546875,
+        210.0
+      ]
+    },
+    {
+      "object_id": 842,
+      "xyz": [
+        3228.91455078125,
+        3409.664306640625,
+        210.0
+      ]
+    },
+    {
+      "object_id": 844,
+      "xyz": [
+        1890.5853271484375,
+        1462.943115234375,
+        210.0
+      ]
+    },
+    {
+      "object_id": 865,
+      "xyz": [
+        1854.7662353515625,
+        1692.809814453125,
+        210.0
+      ]
+    },
+    {
+      "object_id": 893,
+      "xyz": [
+        1937.789306640625,
+        2457.789306640625,
+        210.0
+      ]
+    },
+    {
+      "object_id": 895,
+      "xyz": [
+        1967.8447265625,
+        2487.8447265625,
+        210.0
+      ]
+    },
+    {
+      "object_id": 896,
+      "xyz": [
+        3202.06640625,
+        3425.344482421875,
+        210.0
+      ]
+    },
+    {
+      "object_id": 912,
+      "xyz": [
+        1852.0689697265625,
+        2229.31005859375,
+        210.0
+      ]
+    },
+    {
+      "object_id": 956,
+      "xyz": [
+        1684.7603759765625,
+        1779.520751953125,
+        210.0
+      ]
+    },
+    {
+      "object_id": 969,
+      "xyz": [
+        1719.35986328125,
+        1755.9078369140625,
+        210.0
+      ]
+    }
+  ],
+  "visible_static_contacts": [
+    {
+      "contact_id": "contact_347840004a0721be5cf3",
+      "object_id": 843,
+      "xyz": [
+        3420.597900390625,
+        2985.78955078125,
+        210.0
+      ]
+    },
+    {
+      "contact_id": "contact_f0f928ce65bfe52caa71",
+      "object_id": 848,
+      "xyz": [
+        3431.204345703125,
+        3484.2998046875,
+        210.0
+      ]
+    }
+  ],
+  "errors": [
+    "no_role_safe_bounded_actual_own_route",
+    "role_route_search_budget_exhausted"
+  ],
+  "planning_diagnostics": [
+    {
+      "front_id": 864,
+      "support_id": 844,
+      "contact_id": "contact_347840004a0721be5cf3",
+      "phase": "role_graph_search",
+      "source_records": 545,
+      "ground_nodes": 512,
+      "expanded_states": 1440,
+      "reject_reasons": {},
+      "elapsed_seconds": 1.0
+    },
+    {
+      "front_id": 864,
+      "support_id": 844,
+      "contact_id": "contact_f0f928ce65bfe52caa71",
+      "phase": "role_graph_search",
+      "source_records": 545,
+      "ground_nodes": 512,
+      "expanded_states": 8826,
+      "reject_reasons": {},
+      "elapsed_seconds": 0.8280000000959262
+    },
+    {
+      "front_id": 793,
+      "support_id": 969,
+      "contact_id": "contact_347840004a0721be5cf3",
+      "phase": "load_sources",
+      "source_records": 325,
+      "ground_nodes": 0,
+      "expanded_states": 0,
+      "reject_reasons": {},
+      "elapsed_seconds": 0.14000000001396984
+    }
+  ],
+  "sdk_calls": 0
+}

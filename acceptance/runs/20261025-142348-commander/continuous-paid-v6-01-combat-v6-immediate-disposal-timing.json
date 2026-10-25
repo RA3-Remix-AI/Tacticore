@@ -1,0 +1,27 @@
+{
+  "child_exit_wall": 1792909630.9207547,
+  "reader_return_wall": 1792909638.9679499,
+  "finish_frame": 1643,
+  "assessment": {
+    "control_release_verified": true,
+    "restoration_verified": true,
+    "disposed_verified": true,
+    "return_verified": false,
+    "completion_claim": false,
+    "semantics": "actor_id_disposed_exclusive_control_released",
+    "checks": {
+      "source": true,
+      "session": true,
+      "layout": true,
+      "collection_no_error": true,
+      "failed_only": true,
+      "complete_absent_scans": true,
+      "advancing_scans": true,
+      "inert_before_after": true,
+      "inert_actor_binding": true
+    },
+    "evidence_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-142348-commander\\continuous-paid-v6-01-combat-v6-immediate-disposal.json",
+    "evidence_sha256": "25cd103f5e6e358d190104b57aea6bbe9807118c882eff216a038c8785a0d89f"
+  },
+  "mutations": false
+}

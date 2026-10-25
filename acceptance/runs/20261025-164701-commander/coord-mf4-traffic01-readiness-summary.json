@@ -1,0 +1,45 @@
+{
+  "session_id": "95907ea7-26bf-4d4f-9a98-08d92e26273f",
+  "pid": 63904,
+  "status": "readiness_wait_exhausted_no_child",
+  "wait_seconds": 30,
+  "attempts": 9,
+  "first_frame": 9789,
+  "last_frame": 10263,
+  "native_child_created": false,
+  "sdk_commands": 0,
+  "reason_counts": {
+    "no_positive_ground_history_near_explicit_visible_contact": 7
+  },
+  "last_readiness": {
+    "status": "no_dispatch_pair_or_goal_coverage_not_ready",
+    "session_id": "95907ea7-26bf-4d4f-9a98-08d92e26273f",
+    "frame": 10263,
+    "paused": 0,
+    "own_fronts": [
+      {
+        "object_id": 1462,
+        "xyz": [
+          2176.745849609375,
+          1784.3468017578125,
+          210.0
+        ]
+      },
+      {
+        "object_id": 1468,
+        "xyz": [
+          2370.98974609375,
+          1816.950927734375,
+          210.0
+        ]
+      }
+    ],
+    "own_supports": [],
+    "visible_contacts": 0,
+    "errors": [],
+    "route_planning_performed": false,
+    "sdk_calls": 0
+  },
+  "driver_sha256": "8458444874e1088babd8177b836cb277281c4ad5fa3bf61d207ae43767bfada8",
+  "mutations": false
+}

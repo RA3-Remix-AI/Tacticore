@@ -1,0 +1,72 @@
+{
+  "command_id": "77e858eb-6d2d-4089-ba59-fdfe80d098ed",
+  "task_id": "c49d3f67-56dc-4006-83df-d5307204bda2",
+  "seq": 624242687,
+  "selection": {
+    "status": "read_only_pair_goal_coverage_ready",
+    "session_id": "eb3f7e6f-e2d2-44ea-9d02-49998d45937d",
+    "frame": 1990,
+    "paused": 0,
+    "front_id": 786,
+    "support_id": 793,
+    "contact_id": "contact_492840ed66d1ec46e81e",
+    "target_object_id": 785,
+    "target_type_hash": "0x80d4ea1e",
+    "target_currently_visible_hp": 1175.0,
+    "initial_distance": 354.2103243939696,
+    "goal_coverage": {
+      "source_point": {
+        "xyz": [
+          1993.314697265625,
+          1793.4085693359375,
+          210.0
+        ],
+        "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-154511-commander\\formation-own-history\\00001971-779.json",
+        "own_source_sha256": "56cf03af2d63faaa6f4665fb12b4c3b318673e9f74703c66a5ec36fd52d5f9f9",
+        "own_source_object_id": 779,
+        "observed_frame": 1971
+      },
+      "distance_to_visible_contact": 242.86404608857214,
+      "route_planning_performed": false,
+      "walkable_route_verified": false,
+      "mutations": false
+    },
+    "route_planning_performed": false,
+    "mission_file": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-154511-commander\\continuous-paid-mf4-01-formation-try01-mission.json",
+    "proof_file": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-154511-commander\\continuous-paid-mf4-01-formation-try01-mission-proof.json",
+    "sdk_calls": 0
+  },
+  "argv": [
+    "C:\\Users\\Administrator\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+    "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\tactical\\mission-formation-v4\\lease.py",
+    "--session",
+    "bridge-probe\\acceptance\\active-session.json",
+    "--natural",
+    "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-154511-commander\\natural-production.json",
+    "--front-id",
+    "786",
+    "--support-id",
+    "793",
+    "--mission-file",
+    "bridge-probe\\acceptance\\runs\\20261025-154511-commander\\continuous-paid-mf4-01-formation-try01-mission.json",
+    "--proof-file",
+    "bridge-probe\\acceptance\\runs\\20261025-154511-commander\\continuous-paid-mf4-01-formation-try01-mission-proof.json",
+    "--contact-id",
+    "contact_492840ed66d1ec46e81e",
+    "--expires-frame",
+    "6490",
+    "--command-id",
+    "77e858eb-6d2d-4089-ba59-fdfe80d098ed",
+    "--task-id",
+    "c49d3f67-56dc-4006-83df-d5307204bda2",
+    "--seq",
+    "624242687",
+    "--post-frames",
+    "30",
+    "--execute",
+    "--output",
+    "bridge-probe\\acceptance\\runs\\20261025-154511-commander\\continuous-paid-mf4-01-formation.json"
+  ],
+  "driver_sha256": "0b3fae6568370839d28eb69cd504a4416610a69e79105eb136483d58bc2022f6",
+  "native_attempts": 1
+}

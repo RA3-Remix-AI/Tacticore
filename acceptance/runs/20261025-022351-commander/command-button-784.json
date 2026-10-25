@@ -1,0 +1,65 @@
+{
+  "object_id": 784,
+  "unit": "0x57b60f0",
+  "owner": "0x322b4d0",
+  "command_set_hash": "0xb74cf71a",
+  "store": "0x35a1c48",
+  "tree_node": "0xecfe490",
+  "list": "0xecfe508",
+  "count": 3,
+  "buttons": [
+    {
+      "index": 0,
+      "entry": "0xed06298",
+      "schema": "0xed06340",
+      "asset_header": "0xed06420",
+      "asset_type": "0x7d464170",
+      "asset_id": "0x5977a798"
+    },
+    {
+      "index": 1,
+      "entry": "0xed14d20",
+      "schema": "0xed14e20",
+      "asset_header": "0xed14d88",
+      "asset_type": "0x7d464170",
+      "asset_id": "0xd6a9f585"
+    },
+    {
+      "index": 2,
+      "entry": "0xed0aaf0",
+      "schema": "0xed0abf0",
+      "asset_header": "0xed0ab58",
+      "asset_type": "0x7d464170",
+      "asset_id": "0xc02eaab1"
+    }
+  ],
+  "toggle": {
+    "index": 0,
+    "entry": "0xed06298",
+    "schema": "0xed06340",
+    "asset_header": "0xed06420",
+    "asset_type": "0x7d464170",
+    "asset_id": "0x5977a798",
+    "name": "Command_ToggleMolotovCocktailSpecialPower"
+  },
+  "ordinary_script_abi": {
+    "entry": "0x790990",
+    "this": "Thing",
+    "stack_arguments": [
+      "CommandButtonInfo*",
+      "FROM_SCRIPT=1",
+      0
+    ],
+    "callee_pop_bytes": 12,
+    "source_caller": "0x590080..0x590087"
+  },
+  "method": "pure_read_mirror_of_native_script_lookup",
+  "mutations": false,
+  "model_eligible": false,
+  "session_id": "03109549-eaf4-472a-9fdc-7303fee87ad9",
+  "pid": 57152,
+  "frame": 1532,
+  "executable_sha256": "ec230c6ae1eaee30b0b4fa6ba29d417c974ecae46d6715dfbe786a815935c165",
+  "package_sha256": "2d7873e1b2d2c79950ff9da70b5452b1210370a6d6cbec1eaa69201a7d3d0665",
+  "source_sha256": "424e801825357526291e7f1aeca78e8693e428ed190bd88bbc6ff5ddae106d32"
+}

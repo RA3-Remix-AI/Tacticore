@@ -1,0 +1,225 @@
+{
+  "evidence_uuid": "9b7a7bfd-27f7-4473-8d9e-43efcb010ea2",
+  "module": "raid",
+  "purpose": "harass_economy",
+  "session_id": "b8929f68-5bcd-4b57-b841-e7e185aa3f3f",
+  "source_session_id": "b8929f68-5bcd-4b57-b841-e7e185aa3f3f",
+  "player_id": 3,
+  "commander_id": "57e668b4-4d89-43bd-bc92-0dd436f046ef",
+  "source": "game_bridge",
+  "source_report": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-030636-commander\\combo-economy01.json",
+  "source_sha256": "f1225debb76c9ca0c6ba63260b30cb133b5027a37d9ef222c4b98bc2d563053e",
+  "native_binary_sha256": "fc04e6675d42983b3fa603fcb402652c73d4637e4cb6d9ae2a9cc280d32d3ebe",
+  "native_host_sha256": "1df313b9a2dc368dc4213f2bb02da115bbf944a51fbfa77fce5497119fb09341",
+  "executable_sha256": "ec230c6ae1eaee30b0b4fa6ba29d417c974ecae46d6715dfbe786a815935c165",
+  "package_sha256": "2d7873e1b2d2c79950ff9da70b5452b1210370a6d6cbec1eaa69201a7d3d0665",
+  "executor_directory": "ordered-combo",
+  "stop_schema": {
+    "dll": "TacticalOrderedCombo.dll",
+    "restore_mask": 4095,
+    "mapping_prefix": "RA3TacticalOrderedCombo_",
+    "kind": "attack",
+    "actor_roles": [
+      "infantry"
+    ],
+    "success": "bounded_ak_ordered_attack_verified",
+    "weapon_asset_id": "0x447ea26e",
+    "max_attack_orders": 1,
+    "max_toggle_orders": 1,
+    "max_stop_orders": 3,
+    "native_burst": true,
+    "lease_frames": 180,
+    "weapon_preparation": "normal_conscript_button_when_molotov",
+    "directory": "ordered-combo"
+  },
+  "qualifier_sha256": "74ed16345fcde688fae5d6cbf08333d39bae9c2c009c7a62733bd022910fe8cb",
+  "supplemental_sources": [],
+  "sdk_source": {
+    "name": "SovietAntiInfantryInfantryAK47",
+    "source_sha256": "7a82e52aa6142f96271173195366227b21a552657bd683f7a33a22e770e1bad1",
+    "clip_size": 3,
+    "damage_type": "GUN",
+    "damage_delay_seconds": 0.0,
+    "projectile_nugget": false
+  },
+  "limits": {
+    "request_force_fraction_min": 0.01,
+    "request_force_fraction_max": 1.0,
+    "allocation_fraction_cap": 0.5,
+    "min_remaining_frames": 300,
+    "max_remaining_frames": 900,
+    "lease_frames": 180
+  },
+  "source_wrapper_sha256": "ea6d8996b7f9358caa53660f31683ccf0aed6f6e4a79c01287f0c46c1f257a9a",
+  "current_wrapper_sha256": "ea6d8996b7f9358caa53660f31683ccf0aed6f6e4a79c01287f0c46c1f257a9a",
+  "source_native_cpp_sha256": "753013acc32c23b8b814d64b006376619ea6824f01880851e6d866722c4c25ef",
+  "current_native_cpp_sha256": "753013acc32c23b8b814d64b006376619ea6824f01880851e6d866722c4c25ef",
+  "scope": "conscript_normal_prepare_ak_direct_ground_ordered_burst",
+  "raw_assessment": {
+    "status": "bounded_ak_ordered_attack_verified",
+    "checks": {
+      "finished": true,
+      "certified_executor": true,
+      "binding": true,
+      "actor_and_target_scope": true,
+      "thread_owner": true,
+      "published_order": true,
+      "monotonic_frame_tick": true,
+      "critical_finite": true,
+      "frame_bound": true,
+      "clean_hooks": true,
+      "bounded_normal_burst": true,
+      "stop_0": true,
+      "stop_4": true,
+      "stop_2": true,
+      "unique_script_order": true,
+      "ordered_stop_attack_return_sequence": true,
+      "no_lease_override": true,
+      "direct_ak_source_damage": true,
+      "same_entry_ammo": true,
+      "native_pool_return": true,
+      "observed_ak_template": true,
+      "exact_toggle_button": true,
+      "prepare_stage_order": true,
+      "optional_normal_toggle": true,
+      "prepare_idle_ak_raw": true,
+      "bounded_prepare_reconstituted_stops": true,
+      "no_unbound_private_stops": true
+    },
+    "new_order_fire_association_verified": true,
+    "qualified_hits": [
+      {
+        "body_event_seq": 193,
+        "commit_event_seq": 192,
+        "ammo_event_seq": 199,
+        "body_frame": 2983,
+        "ammo_frame": 2984,
+        "damage": 5.0,
+        "packet": {
+          "argument_address": "0x1af18c",
+          "source_actor_id": 804,
+          "weapon_asset_id": "0x447ea26e",
+          "warhead_asset_id": "0x447ea26e",
+          "damage_type": "GUN",
+          "damage_type_id": 21,
+          "requested_damage": 5.0,
+          "actual_damage": 5.0,
+          "packet_word_offset": 32,
+          "caller_return": "0x78e313"
+        }
+      }
+    ],
+    "stop_boundaries": [
+      {
+        "verified": true,
+        "frames": [
+          2862,
+          2863,
+          2865
+        ],
+        "xyz": [
+          [
+            1718.2144775390625,
+            1660.26806640625,
+            210.0
+          ],
+          [
+            1718.2144775390625,
+            1660.26806640625,
+            210.0
+          ],
+          [
+            1718.2144775390625,
+            1660.26806640625,
+            210.0
+          ]
+        ],
+        "stop_frame": 2860,
+        "move_boundary_frame": 2865,
+        "reason": "three_distinct_clean_stable_frames"
+      },
+      {
+        "verified": true,
+        "frames": [
+          2887,
+          2888,
+          2890
+        ],
+        "xyz": [
+          [
+            1718.2144775390625,
+            1660.26806640625,
+            210.0
+          ],
+          [
+            1718.2144775390625,
+            1660.26806640625,
+            210.0
+          ],
+          [
+            1718.2144775390625,
+            1660.26806640625,
+            210.0
+          ]
+        ],
+        "stop_frame": 2885,
+        "move_boundary_frame": 2890,
+        "reason": "three_distinct_clean_stable_frames"
+      },
+      {
+        "verified": true,
+        "frames": [
+          2986,
+          2987,
+          2989
+        ],
+        "xyz": [
+          [
+            1654.3978271484375,
+            1455.4971923828125,
+            210.0
+          ],
+          [
+            1654.3978271484375,
+            1455.4971923828125,
+            210.0
+          ],
+          [
+            1654.3978271484375,
+            1455.4971923828125,
+            210.0
+          ]
+        ],
+        "stop_frame": 2984,
+        "move_boundary_frame": 2989,
+        "reason": "three_distinct_clean_stable_frames"
+      }
+    ],
+    "restoration": {
+      "control_release_verified": true,
+      "restoration_verified": true,
+      "return_verified": true,
+      "disposed_verified": false,
+      "semantics": "native_pool_return",
+      "completion_claim": false
+    },
+    "scope": "conscript_normal_prepare_ak_direct_ground_ordered_burst",
+    "actor_roles": [
+      "infantry"
+    ],
+    "harass_economy_verified": true,
+    "single_shot_claim": false,
+    "source_report": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-030636-commander\\combo-economy01.json",
+    "source_sha256": "f1225debb76c9ca0c6ba63260b30cb133b5027a37d9ef222c4b98bc2d563053e",
+    "supplemental_sources": [],
+    "qualifier_sha256": "74ed16345fcde688fae5d6cbf08333d39bae9c2c009c7a62733bd022910fe8cb",
+    "sdk_source": {
+      "name": "SovietAntiInfantryInfantryAK47",
+      "source_sha256": "7a82e52aa6142f96271173195366227b21a552657bd683f7a33a22e770e1bad1",
+      "clip_size": 3,
+      "damage_type": "GUN",
+      "damage_delay_seconds": 0.0,
+      "projectile_nugget": false
+    }
+  }
+}

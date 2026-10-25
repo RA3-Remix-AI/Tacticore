@@ -1,0 +1,165 @@
+{
+  "schema_version": 1,
+  "kind": "independent_recon_calibration",
+  "plan_id": "313953a5-38a6-4e30-bd4e-c65c68dd3ef4",
+  "session_id": "e76c4955-bd8e-4f21-a604-bd32ae6be4c1",
+  "session_sha256": "431d91b85d22ed87b2e4cae1f543a9883372142a97ed6a2547e90e159b7f55b1",
+  "pid": 4908,
+  "process_start": "2026-10-24T22:53:24.9151629+08:00",
+  "package_sha256": "2d7873e1b2d2c79950ff9da70b5452b1210370a6d6cbec1eaa69201a7d3d0665",
+  "visibility_build_id": "1e09b42b8e1db01c4edb7ea33b02dc0d1b496303026e48d1f6a6c660b9e4c5e7",
+  "commander_id": "57e668b4-4d89-43bd-bc92-0dd436f046ef",
+  "player_id": 3,
+  "created_frame": 6880,
+  "paused": false,
+  "max_age_frames": 90,
+  "unit": {
+    "address": "0x54339e0",
+    "owner_address": "0x318d4d0",
+    "owner_index_candidate": 3,
+    "object_id": 1034,
+    "type_hash": "0x19ab11af",
+    "ai_address": "0x6348bc8",
+    "xyz": [
+      2205.55810546875,
+      3255.057861328125,
+      210.0
+    ],
+    "catalog": {
+      "name": "征召兵",
+      "template": "SovietAntiInfantryInfantry",
+      "side": 2,
+      "cls": 1,
+      "category": 0
+    },
+    "hp": 100.0,
+    "team": "0x55de6d0",
+    "command_source": 0,
+    "eligible": true
+  },
+  "target": {
+    "region_id": "region_4_6",
+    "xyz": [
+      2379.999964535237,
+      3339.9999502301225,
+      210.0
+    ],
+    "grid_cell": 9853,
+    "source": "player3_clear_adjacent_fog_grid_only",
+    "initial_distance": 194.0235054358283
+  },
+  "bounds": {
+    "max_distance": 600,
+    "lease_frames": 450,
+    "post_frames": 90,
+    "one_move_only": true
+  },
+  "planning_diagnostics": {
+    "eligible_unit_count": 6,
+    "eligible_role_counts": {
+      "flak": 1,
+      "conscript": 5
+    },
+    "frontier_candidate_cell_count": 625,
+    "frontier_selection": "all_player_clear_adjacent_fog_cells",
+    "representative_region_limit_used": false,
+    "minimum_frontier_distance": 194.0235054358283,
+    "closest_own_candidates": [
+      {
+        "object_id": 1027,
+        "distance": 194.0235054358283,
+        "region_id": "region_4_6"
+      },
+      {
+        "object_id": 1034,
+        "distance": 194.0235054358283,
+        "region_id": "region_4_6"
+      },
+      {
+        "object_id": 1035,
+        "distance": 194.0235054358283,
+        "region_id": "region_4_6"
+      }
+    ],
+    "planning_distance_bound": [
+      40,
+      550
+    ],
+    "native_distance_bound": [
+      20,
+      600
+    ]
+  },
+  "planning_vision_metrics": {
+    "viewer_player_id": 3,
+    "observed_frame": 6880,
+    "clear_cell_count": 4805,
+    "total_cell_count": 13924,
+    "clear_cells_by_region": {
+      "region_4_0": 134,
+      "region_5_0": 65,
+      "region_3_0": 36,
+      "region_2_0": 14,
+      "region_2_1": 88,
+      "region_3_1": 136,
+      "region_4_1": 169,
+      "region_5_1": 151,
+      "region_1_1": 61,
+      "region_1_2": 73,
+      "region_2_2": 141,
+      "region_3_2": 151,
+      "region_4_2": 96,
+      "region_5_2": 37,
+      "region_0_2": 7,
+      "region_0_3": 4,
+      "region_1_3": 120,
+      "region_2_3": 156,
+      "region_3_3": 153,
+      "region_4_3": 121,
+      "region_5_3": 32,
+      "region_1_4": 42,
+      "region_2_4": 151,
+      "region_3_4": 161,
+      "region_4_4": 104,
+      "region_5_4": 131,
+      "region_6_4": 61,
+      "region_2_5": 139,
+      "region_3_5": 169,
+      "region_4_5": 134,
+      "region_5_5": 152,
+      "region_6_5": 97,
+      "region_7_5": 25,
+      "region_2_6": 59,
+      "region_3_6": 169,
+      "region_4_6": 136,
+      "region_5_6": 122,
+      "region_6_6": 169,
+      "region_7_6": 66,
+      "region_8_6": 9,
+      "region_3_7": 156,
+      "region_4_7": 156,
+      "region_5_7": 139,
+      "region_6_7": 63,
+      "region_7_7": 28,
+      "region_2_7": 9,
+      "region_3_8": 74,
+      "region_4_8": 97,
+      "region_5_8": 42
+    }
+  },
+  "native_binary_sha256": {
+    "TacticalReconProbe.dll": "06f59688f7e5396110886bb3e0f0fa1fade32116399b2945da8a4ed0868c236e",
+    "tactical_host.exe": "36200a8d2d5f7bfaddc6b889524fcb97d0613a62f930cafd58d46baac742512d"
+  },
+  "source_sha256": {
+    "lease.cpp": "94708cde520c8162dd224de680111e4bc0fe3deb5ff9a7f39894dc005557f3e4",
+    "shared.h": "73edacd3d70f4199d4afe6bca87b733099f2b51ab0f84ff08ad3c1501ecba3ff",
+    "host.cpp": "9357f34b0f8beee29440ec882b36b0ebc221190270c0c8f508babdd867aad0d6",
+    "lease.py": "e7bd618fbc5bbfa97373057d34d3ed37b113f2a948e1f5b9c27a7351bc716f77",
+    "logic.py": "f3d26220e87e10175e4ca6b9392e233518db00302138fa0a1640ece5bda65655",
+    "probe.py": "03bcbc31f37a7a996c049c4df296739c364aa93b7058fb9b2b8d55e67f7ec7b9"
+  },
+  "model_eligible": false,
+  "commands_dispatched": 0,
+  "plan_sha256": "b9a6e725942ceab5f9b103129be2bae4baf7aefe58b45e7311c1aa810e729828"
+}

@@ -1,0 +1,106 @@
+{
+  "verified": true,
+  "checks": {
+    "finished_clean": true,
+    "binding": true,
+    "raw_sequence": true,
+    "owner_thread": true,
+    "immutable_deadline": true,
+    "stage_sequence": true,
+    "no_lease_override": true,
+    "raw_target_source_scope": true,
+    "stop_clean_0": true,
+    "stop_clean_6": true,
+    "stop_clean_4": true,
+    "stop_clean_7": true,
+    "stop_clean_2": true,
+    "four_normal_move_chains": true,
+    "live_long_approach": true,
+    "own_origin_retreat_provenance": true,
+    "live_long_retreat_three_frames": true,
+    "normal_toggle_and_idle_ak": true,
+    "unique_fresh_script_attack": true,
+    "new_order_actual_body_setter": true,
+    "actual_ak_damage_info": true,
+    "same_entry_ammo_after_order": true,
+    "actual_weapon_getter_asset": true,
+    "normal_pool_return": true
+  },
+  "approach_initial_distance": 429.37398801362275,
+  "approach_actual_displacement": 315.5121156442271,
+  "retreat_actual_displacement": 311.36401930491604,
+  "retreat_three_frames": [
+    3648,
+    3649,
+    3651
+  ],
+  "final_origin_distance": 4.4063149846472625,
+  "stop_boundaries": {
+    "0": [
+      3394,
+      3396,
+      3398
+    ],
+    "6": [
+      3499,
+      3500,
+      3502
+    ],
+    "4": [
+      3523,
+      3525,
+      3527
+    ],
+    "7": [
+      3533,
+      3535,
+      3537
+    ],
+    "2": [
+      3653,
+      3654,
+      3656
+    ]
+  },
+  "attack_frame": 3527,
+  "damage_frame": 3531,
+  "damage_packet": [
+    {
+      "asset": "0x447ea26e",
+      "source": 830,
+      "damage_type": "GUN",
+      "amount": 5.0,
+      "word_offset": 32
+    }
+  ],
+  "return_frame": 3656,
+  "scope": "main_attack_calibration_only; separate harassment command/raw still required",
+  "source_sha256": "52d1de2a627fac62a94454d1ad0cc984b8ee330ba7e0463d2948400324f4d929",
+  "source_report": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-095141-commander\\main-mission04.json",
+  "revision_checks": {
+    "native_binary_sha256": true,
+    "native_host_sha256": true,
+    "wrapper_sha256": true,
+    "native_source_sha256": true,
+    "native_shared_sha256": true,
+    "mission_contract_sha256": true,
+    "mission_tick.inc": true
+  },
+  "negative_tests_rejected": {
+    "zero_effect": true,
+    "wrong_source": true,
+    "no_retreat": true,
+    "same_frame_arrival": true,
+    "wrong_entry": true,
+    "wrong_packet": true
+  },
+  "terminal_readonly_checks": {
+    "same_report": true,
+    "same_session_pid": true,
+    "layout_exact_native_build": true,
+    "timer_zero": true,
+    "terminal_clean": true,
+    "fourteen_entries_against_pinned_layout": true
+  },
+  "terminal_readonly_source_sha256": "70520de617bdabb929d47af788830d9db6c477a1482a7d2e4aed50d97cfeac1f"
+}

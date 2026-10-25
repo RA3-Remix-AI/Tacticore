@@ -1,0 +1,38 @@
+{
+  "review": "read_only_scope_and_paid7_driver",
+  "decision": "first_diagnostic_go_no_source_grant",
+  "game_or_model_calls": 0,
+  "sha256": {
+    "bridge-probe\\tactical\\evidence.py": "72a2c1018cfff88a336032e8dda4307b74532f4967cfc72dfd2614d2ad8e3455",
+    "bridge-probe\\tactical\\mission-formation-v3\\continuous_paid_combat_v7.py": "e7018d88c02fa37e5fad97e06ed6b96409ac11efe770bd07df7e37897247ca29",
+    "bridge-probe\\tactical\\test_mission7_source_coverage.py": "a2021dc342ad204ed21fdf33aa9605d695a24b38bd4ccbef37d4c835cb760bc7"
+  },
+  "source_scope": {
+    "v7_navigation_invariants_still_hard": true,
+    "v5_v6_single_trace_coverage_unchanged": true,
+    "v7_strict_effect_multihit_refill_goal_retreat_return_unchanged": true,
+    "coverage_facts_from_actual_raw": true,
+    "certified_effect_chain_only_after_all_source_checks": true,
+    "source_sha256_at_final_grant": true,
+    "unobserved_memory_branch": "experimental_not_field_certified"
+  },
+  "paid_driver_diff": [
+    "CLI only/default combat-v7",
+    "two field_combat_v6.py to field_combat_v7.py",
+    "two min-distance1800 to400"
+  ],
+  "paid_unchanged": [
+    "4000budget",
+    "1000reserve",
+    "350visible_enemy_origin_exclusion",
+    "bound_paid_created_completed_live_chain",
+    "production_stopped31_active0",
+    "five_unique_actual_original_bytes",
+    "one_tactical_child",
+    "fresh_same_actor_target_revalidation"
+  ],
+  "independent_tests": {
+    "source_coverage_and_actual_client": 8,
+    "paid_boundaries_with_real_new_candidate_module": 4
+  }
+}

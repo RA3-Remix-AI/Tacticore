@@ -1,0 +1,19 @@
+
+E:\RedRar3\Data\RA3_1.12.game:     file format pei-i386
+
+
+Disassembly of section .text:
+
+007b027c <.text+0x3af27c>:
+  7b027c:	8b 83 84 00 00 00    	mov    eax,DWORD PTR [ebx+0x84]
+  7b0282:	81 8b 84 00 00 00 00 	or     DWORD PTR [ebx+0x84],0x80000
+  7b0289:	00 08 00 
+  7b028c:	c1 e8 13             	shr    eax,0x13
+  7b028f:	f6 d0                	not    al
+  7b0291:	24 01                	and    al,0x1
+  7b0293:	84 c0                	test   al,al
+  7b0295:	74 0b                	je     0x7b02a2
+  7b0297:	6a 01                	push   0x1
+  7b0299:	6a 33                	push   0x33
+  7b029b:	8b cb                	mov    ecx,ebx
+  7b029d:	e8 ce 70 f7 ff       	call   0x727370

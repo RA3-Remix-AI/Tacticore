@@ -1,0 +1,42 @@
+{
+  "scope": "status_persistence_only_no_native_change",
+  "trigger": {
+    "run": "20261025-033145-commander",
+    "fault": "executor_lost",
+    "underlying": "WinError5 status temporary replace denied",
+    "normal_match_end": false
+  },
+  "change": {
+    "unique_same_directory_temporary": true,
+    "complete_flush_fsync_before_replace": true,
+    "replace_attempts": 25,
+    "retry_sleep_ms": 20,
+    "maximum_retry_sleep_ms": 480,
+    "permanent_failure": "raise_and_preserve_previous_complete_file",
+    "status_io_classification": "status_persistence_failed",
+    "binding_classification_unchanged": true
+  },
+  "timing": {
+    "heartbeat_period_ms": 500,
+    "native_watchdog_ms": 5000,
+    "status_writer_serialized_by": "same ProductionExecutor RLock",
+    "note": "Bound covers retry sleeps; OS write/fsync or scheduling failures still propagate and native watchdog remains unchanged."
+  },
+  "validation": {
+    "real_windows_no_delete_share_reader_released_then_replace_passed": true,
+    "permanent_handle_lock_preserves_old_json_and_raises": true,
+    "unpersisted_command_intent_does_not_publish_shared_request": true,
+    "production_tests": 54,
+    "persistent_tests": 22,
+    "independent_qa_windows_tests": 6,
+    "game_commands": 0,
+    "model_requests": 0
+  },
+  "sha256": {
+    "run_flak.py": "9f2b9929ceb240c5042e235daa6bb63c6f6599a3b4f47e36a4d2a8a7f7575c35",
+    "persistent/client.py": "337cabd758d9e0bd564f95f3c928454d29388cd80d78fbb15b2e8e4b70708a71",
+    "test_durable_windows.py": "8f6653aed30f654dbb43c021bee0341118f5148b195ea4ba28d55fc51e842a5e",
+    "persistent/bin-v2/ProductionPersistent.dll": "4709bb1b2745bfe3cac9b5c27d412197ffc97c67b4e2dd7635ff2434accf5e87",
+    "persistent/bin-v2/persistent_host.exe": "4bc2f86935f86eab2369818e02111d3b3197a8c73f66fbd324389322bb87dca1"
+  }
+}

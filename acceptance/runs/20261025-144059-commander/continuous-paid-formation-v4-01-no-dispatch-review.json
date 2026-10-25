@@ -1,0 +1,19 @@
+{
+  "no_dispatch_verified": true,
+  "exclusive_control_never_held": true,
+  "restoration_verified": false,
+  "completion_claim": false,
+  "checks": {
+    "exit_code": true,
+    "status": true,
+    "protocol": true,
+    "no_launch": true,
+    "no_native": true,
+    "binding": true,
+    "source": true,
+    "wrapper_revision": true,
+    "target_binding": true,
+    "strict_sequence_and_actor_types": true
+  },
+  "reason_code": "route_current_own_occupant"
+}

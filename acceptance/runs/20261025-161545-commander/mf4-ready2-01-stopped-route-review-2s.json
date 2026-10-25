@@ -1,0 +1,45 @@
+{
+  "diagnostic_only": true,
+  "mutations": false,
+  "actual_occupancy_at_ready_not_preserved": true,
+  "replays": [
+    {
+      "label": "approximate_preflight_occupancy",
+      "status": "no_role_safe_bounded_actual_own_route",
+      "diagnostics": {
+        "phase": "role_graph_search",
+        "source_records": 334,
+        "ground_nodes": 190,
+        "expanded_states": 96,
+        "reject_reasons": {
+          "current_own_occupant": 8,
+          "source_session_or_clock": 136,
+          "leg_geometry": 1255
+        },
+        "closest_ground_point_to_target": 292.2568734327095,
+        "goal_nodes": 1,
+        "first_leg_candidates": 3,
+        "elapsed_seconds": 0.15600000007543713
+      }
+    },
+    {
+      "label": "approximate_preflight_occupancy_warm",
+      "status": "no_role_safe_bounded_actual_own_route",
+      "diagnostics": {
+        "phase": "role_graph_search",
+        "source_records": 334,
+        "ground_nodes": 190,
+        "expanded_states": 96,
+        "reject_reasons": {
+          "current_own_occupant": 8,
+          "source_session_or_clock": 136,
+          "leg_geometry": 1255
+        },
+        "closest_ground_point_to_target": 292.2568734327095,
+        "goal_nodes": 1,
+        "first_leg_candidates": 3,
+        "elapsed_seconds": 0.10899999993853271
+      }
+    }
+  ]
+}

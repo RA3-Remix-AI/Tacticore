@@ -1,0 +1,42 @@
+{
+  "native_binary_sha256": "82b31a8078c89ba6919ec435ce2c32767df1cd594f0bafae7bdc24f85b3c2e6d",
+  "native_host_sha256": "a3b911bdb167f68a7aebcb085bd16371270986974c7f660d0d4afffbeca3f9af",
+  "wrapper_sha256": "977d2a9a4ca9e0b363e9e4e80aca016bd92fad18fdeed3813758a7727228d91b",
+  "native_source_sha256": "7e6561daadd8b65b47a3e9d982920cf9197003d745304a02b2e7bc11cf1a995a",
+  "native_shared_sha256": "b87f1f04ad440c303d5cae2040acaaa6d426616f1481f02eda902eeb109df2e7",
+  "mission_contract_sha256": "ab8dae01f76e3626affc930b642e668dc9b481cf998783fb2597c6991930b901",
+  "native_includes_sha256": {
+    "mission_tick.inc": "9e865c69e8e27981e7ed0f4c3b936948b3836202cf7e183a8a80c491ef4791d6"
+  },
+  "status": "offline_ready_for_serial_field_diagnostic",
+  "mission_protocol": "continuous_tactical_v1",
+  "magic": "0x4d435431",
+  "version": 9,
+  "message": "WM_APP+0x37a",
+  "mapping_prefix": "RA3TacticalMissionCombat_",
+  "restore_mask": 16383,
+  "layout": {
+    "event": 788,
+    "tactical": 3228492,
+    "events": 844
+  },
+  "max_total_frames": 4500,
+  "approach_frames": 2100,
+  "engage_frames": 300,
+  "retreat_frames": 1800,
+  "tests": {
+    "tactical_suite": 243,
+    "native_sdk_calls": 0,
+    "gui_actions": 0
+  },
+  "qualification_source": "mission_combat_qualification.py",
+  "qualification_sha256": "b94cddd37758602c5b7e0742a9264a5b810fb7ab94fd6402246264ae2e42f14d",
+  "source_capability_required": [
+    "actual_source_damage",
+    "actual_long_approach",
+    "actual_retreat_arrival",
+    "actual_native_pool_return"
+  ],
+  "live_status": "not_yet_tested",
+  "capability_granted": false
+}

@@ -1,0 +1,352 @@
+{
+  "pid": 40632,
+  "executable_sha256": "ec230c6ae1eaee30b0b4fa6ba29d417c974ecae46d6715dfbe786a815935c165",
+  "label": "TFNames_menu",
+  "catalogs": [
+    {
+      "path": "E:\\RA3Modding\\SDK\\BuiltMods\\sagexml\\global.manifest",
+      "sha256": "78a1be7d3b1f20cd2f80f2a83948b062f10645a6255b66ecdf7bac198fb7134e"
+    },
+    {
+      "path": "E:\\RA3Modding\\SDK\\BuiltMods\\mods\\CommanderLab\\data\\mod.manifest",
+      "sha256": "b0c7bb44bffe2591dfdce39ac534dfe59fd2a472e3ba8185654b20668f93071b"
+    },
+    {
+      "path": "bridge-probe\\native-ai\\staging\\compiled-commanders-20261024-182027-17286524\\package\\data\\mod.manifest",
+      "sha256": "aec863b2e91cecaa4031f87a124c8d04e6bd45862d38fa76a823b69e9a8fafc5"
+    }
+  ],
+  "store": "0x3c75468",
+  "count": 22,
+  "rows": [
+    {
+      "name": "AIPersonalityDefinition:1AlliedBalanced",
+      "instance_id": "0xa98a4dd2",
+      "wrapper": "0x11384260",
+      "data": "0x11385290",
+      "side_count": 1,
+      "side_references": [
+        "0x113885d8"
+      ],
+      "has_null_side": false,
+      "personality_maps": []
+    },
+    {
+      "name": "AIPersonalityDefinition:1JapanBalanced",
+      "instance_id": "0x49d84bad",
+      "wrapper": "0x11383d70",
+      "data": "0x113842b0",
+      "side_count": 1,
+      "side_references": [
+        "0x11388488"
+      ],
+      "has_null_side": false,
+      "personality_maps": []
+    },
+    {
+      "name": "AIPersonalityDefinition:1SovietBalanced",
+      "instance_id": "0x7b9da0e6",
+      "wrapper": "0x11380c38",
+      "data": "0x11381750",
+      "side_count": 1,
+      "side_references": [
+        "0x11386e70"
+      ],
+      "has_null_side": false,
+      "personality_maps": []
+    },
+    {
+      "name": "AIPersonalityDefinition:1RandomBalanced",
+      "instance_id": "0x9d22b54f",
+      "wrapper": "0x1137f160",
+      "data": "0x1137fb10",
+      "side_count": 1,
+      "side_references": [
+        "0x113872f8"
+      ],
+      "has_null_side": false,
+      "personality_maps": [
+        {
+          "side": "0x113885d8",
+          "personality": "0x11384260",
+          "has_null_reference": false
+        },
+        {
+          "side": "0x11386e70",
+          "personality": "0x11380c38",
+          "has_null_reference": false
+        },
+        {
+          "side": "0x11388488",
+          "personality": "0x11383d70",
+          "has_null_reference": false
+        }
+      ]
+    },
+    {
+      "name": "AIPersonalityDefinition:2AlliedSquadronLeader",
+      "instance_id": "0x13eb023",
+      "wrapper": "0x1137f210",
+      "data": "0x1137d160",
+      "side_count": 1,
+      "side_references": [
+        "0x113885d8"
+      ],
+      "has_null_side": false,
+      "personality_maps": []
+    },
+    {
+      "name": "AIPersonalityDefinition:2JapanMechaWarfare",
+      "instance_id": "0x5a85f134",
+      "wrapper": "0x1137b738",
+      "data": "0x1137c210",
+      "side_count": 1,
+      "side_references": [
+        "0x11388488"
+      ],
+      "has_null_side": false,
+      "personality_maps": []
+    },
+    {
+      "name": "AIPersonalityDefinition:2SovietShockSpecialist",
+      "instance_id": "0x4605c1",
+      "wrapper": "0x11380b30",
+      "data": "0x11379860",
+      "side_count": 1,
+      "side_references": [
+        "0x11386e70"
+      ],
+      "has_null_side": false,
+      "personality_maps": []
+    },
+    {
+      "name": "AIPersonalityDefinition:3AlliedSpecialForces",
+      "instance_id": "0xea743d68",
+      "wrapper": "0x1137fd60",
+      "data": "0x11377810",
+      "side_count": 1,
+      "side_references": [
+        "0x113885d8"
+      ],
+      "has_null_side": false,
+      "personality_maps": []
+    },
+    {
+      "name": "AIPersonalityDefinition:3JapanFleetCommand",
+      "instance_id": "0x239cbed1",
+      "wrapper": "0x11374580",
+      "data": "0x11374f50",
+      "side_count": 1,
+      "side_references": [
+        "0x11388488"
+      ],
+      "has_null_side": false,
+      "personality_maps": []
+    },
+    {
+      "name": "AIPersonalityDefinition:3SovietAirMarshall",
+      "instance_id": "0x8482d064",
+      "wrapper": "0x11383550",
+      "data": "0x11372740",
+      "side_count": 1,
+      "side_references": [
+        "0x11386e70"
+      ],
+      "has_null_side": false,
+      "personality_maps": []
+    },
+    {
+      "name": "AIPersonalityDefinition:4LLM_57e668b44d8943bdbc920dd436f046ef_Soviet",
+      "instance_id": "0x7664d9d9",
+      "wrapper": "0xeafc020",
+      "data": "0xed78230",
+      "side_count": 1,
+      "side_references": [
+        "0x11386e70"
+      ],
+      "has_null_side": false,
+      "personality_maps": []
+    },
+    {
+      "name": "AIPersonalityDefinition:4LLM_697a5df8bb9847a4ba68923a8589e371_Soviet",
+      "instance_id": "0xf63a095a",
+      "wrapper": "0xeafc040",
+      "data": "0xed69930",
+      "side_count": 1,
+      "side_references": [
+        "0x11386e70"
+      ],
+      "has_null_side": false,
+      "personality_maps": []
+    },
+    {
+      "name": "AIPersonalityDefinition:4LLM_0818f56406af4053a5ac87bcbbe904f8_Soviet",
+      "instance_id": "0x9179aaa1",
+      "wrapper": "0xed6c6d0",
+      "data": "0xed6b490",
+      "side_count": 1,
+      "side_references": [
+        "0x11386e70"
+      ],
+      "has_null_side": false,
+      "personality_maps": []
+    },
+    {
+      "name": "AIPersonalityDefinition:4LLM_57e668b44d8943bdbc920dd436f046ef_Japan",
+      "instance_id": "0xf240fc56",
+      "wrapper": "0xed6edb0",
+      "data": "0xed6dd00",
+      "side_count": 1,
+      "side_references": [
+        "0x11388488"
+      ],
+      "has_null_side": false,
+      "personality_maps": []
+    },
+    {
+      "name": "AIPersonalityDefinition:4LLM_57e668b44d8943bdbc920dd436f046ef_Allied",
+      "instance_id": "0xe0169fc5",
+      "wrapper": "0xeafeae8",
+      "data": "0xeafd1d0",
+      "side_count": 1,
+      "side_references": [
+        "0x113885d8"
+      ],
+      "has_null_side": false,
+      "personality_maps": []
+    },
+    {
+      "name": "AIPersonalityDefinition:4LLM_0818f56406af4053a5ac87bcbbe904f8_Allied",
+      "instance_id": "0x46d4beaa",
+      "wrapper": "0xeb01348",
+      "data": "0xeaff830",
+      "side_count": 1,
+      "side_references": [
+        "0x113885d8"
+      ],
+      "has_null_side": false,
+      "personality_maps": []
+    },
+    {
+      "name": "AIPersonalityDefinition:4LLM_697a5df8bb9847a4ba68923a8589e371_Allied",
+      "instance_id": "0x855c8fd",
+      "wrapper": "0xeb03b90",
+      "data": "0xeb01f40",
+      "side_count": 1,
+      "side_references": [
+        "0x113885d8"
+      ],
+      "has_null_side": false,
+      "personality_maps": []
+    },
+    {
+      "name": "AIPersonalityDefinition:4LLM_0818f56406af4053a5ac87bcbbe904f8_Japan",
+      "instance_id": "0x5fde47fb",
+      "wrapper": "0xeb00978",
+      "data": "0xed93ff0",
+      "side_count": 1,
+      "side_references": [
+        "0x11388488"
+      ],
+      "has_null_side": false,
+      "personality_maps": []
+    },
+    {
+      "name": "AIPersonalityDefinition:4LLM_697a5df8bb9847a4ba68923a8589e371_Japan",
+      "instance_id": "0x47e1aa34",
+      "wrapper": "0xed97dd0",
+      "data": "0xed96470",
+      "side_count": 1,
+      "side_references": [
+        "0x11388488"
+      ],
+      "has_null_side": false,
+      "personality_maps": []
+    },
+    {
+      "name": "AIPersonalityDefinition:4LLM_57e668b44d8943bdbc920dd436f046ef_Random",
+      "instance_id": "0x61dfc652",
+      "wrapper": "0xed97fa8",
+      "data": "0xed98c80",
+      "side_count": 1,
+      "side_references": [
+        "0x113872f8"
+      ],
+      "has_null_side": false,
+      "personality_maps": [
+        {
+          "side": "0x113885d8",
+          "personality": "0xeafeae8",
+          "has_null_reference": false
+        },
+        {
+          "side": "0x11386e70",
+          "personality": "0xeafc020",
+          "has_null_reference": false
+        },
+        {
+          "side": "0x11388488",
+          "personality": "0xed6edb0",
+          "has_null_reference": false
+        }
+      ]
+    },
+    {
+      "name": "AIPersonalityDefinition:4LLM_0818f56406af4053a5ac87bcbbe904f8_Random",
+      "instance_id": "0xaa5b2399",
+      "wrapper": "0xed99a10",
+      "data": "0xed9a6f0",
+      "side_count": 1,
+      "side_references": [
+        "0x113872f8"
+      ],
+      "has_null_side": false,
+      "personality_maps": [
+        {
+          "side": "0x113885d8",
+          "personality": "0xeb01348",
+          "has_null_reference": false
+        },
+        {
+          "side": "0x11386e70",
+          "personality": "0xed6c6d0",
+          "has_null_reference": false
+        },
+        {
+          "side": "0x11388488",
+          "personality": "0xeb00978",
+          "has_null_reference": false
+        }
+      ]
+    },
+    {
+      "name": "AIPersonalityDefinition:4LLM_697a5df8bb9847a4ba68923a8589e371_Random",
+      "instance_id": "0x26049e02",
+      "wrapper": "0xed99af0",
+      "data": "0xed9a980",
+      "side_count": 1,
+      "side_references": [
+        "0x113872f8"
+      ],
+      "has_null_side": false,
+      "personality_maps": [
+        {
+          "side": "0x113885d8",
+          "personality": "0xeb03b90",
+          "has_null_reference": false
+        },
+        {
+          "side": "0x11386e70",
+          "personality": "0xeafc040",
+          "has_null_reference": false
+        },
+        {
+          "side": "0x11388488",
+          "personality": "0xed97dd0",
+          "has_null_reference": false
+        }
+      ]
+    }
+  ],
+  "note": "Read-only, non-atomic inspection. Presence in store does not prove selectable or operational. Catalog name is annotation; instance_id is the native identity."
+}

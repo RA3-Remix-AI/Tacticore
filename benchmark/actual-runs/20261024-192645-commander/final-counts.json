@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "source_kind": "live_game_host_and_native_artifact_review",
+  "session_id": "9feb4b8b-b7d5-450a-b80c-5cd1f944ccfd",
+  "trial_kind": "prearmed_whole_match_integration",
+  "competitive_benchmark": false,
+  "personality_comparison_passed": false,
+  "opponent": "local_human_slot_idle_integration",
+  "start_to_native_result_observed": true,
+  "statistics_settlement_gui_observed": true,
+  "root_formal_acceptance_pending": true,
+  "first_host_match_game_seconds": 0.8666666666666667,
+  "first_model_request_game_seconds": 0.8666666666666667,
+  "native_defeat_frame": 4284,
+  "native_defeat_game_seconds": 285.6,
+  "model": {
+    "requests": 17,
+    "accepted": 16,
+    "rejected": 0,
+    "timeouts": 0,
+    "adapter_errors": 1,
+    "held_rounds_without_model_request": 48,
+    "invalid_policy_rate_among_validated_results": 0,
+    "intent_transitions_excluding_initial_activation": 4,
+    "intent_transitions_per_observed_game_minute": 0.8383791336748952
+  },
+  "production": {
+    "commands": 14,
+    "started": 14,
+    "native_verified_completed_units": 14,
+    "flak": 3,
+    "conscript": 11,
+    "verified_paid_credits": 1595,
+    "host_reported_completed_tasks": 13,
+    "host_reported_failed_tasks": 0,
+    "host_terminal_feedback_missing": 1,
+    "note": "The last unit completed in native audit before result detection, while the host did not consume that last terminal receipt. Do not report host completion as 14/14 or the missing callback as a failed task."
+  },
+  "memory": {
+    "context_builds": 17,
+    "older_events_folded_into_summary": 29,
+    "max_memory_payload_bytes": 5760,
+    "max_http_request_bytes": 10255,
+    "per_request_input_bytes": null,
+    "compression_savings_fraction": null
+  },
+  "restoration": {"state": 2, "error": 0, "restore_mask": 31, "active": 0},
+  "winner": {
+    "root_confirmation_pending": true,
+    "native_player_2_defeated_raw": 1,
+    "native_player_3_defeated_raw": 0,
+    "note": "Native identity and GUI settlement evidence retained separately. Right-side trophy/skull icons are not participant-row result badges."
+  },
+  "evidence": ["review-current.json", "settlement-review.json", "settlement-source-hashes.json", "checkpoint-005.json"],
+  "limitations": [
+    "One commander in one actual integration match; no matched multi-style or blind recognition evidence.",
+    "No proof of raid, attack, combined arms or economic/technology task execution from these build receipts.",
+    "No version-controlled or forced random seed interface was established.",
+    "Engine full-intent history is retained only in bounded tail; total transition count comes from engine metrics, not a complete independently replayable intent stream."
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "primitive_verified": true,
+  "checks": {
+    "raw_finished": true,
+    "clean_restore": true,
+    "session_bound": true,
+    "command_bound": true,
+    "event_sequence": true,
+    "monotonic_frames": true,
+    "identity": true,
+    "single_stop_facade": true,
+    "single_actual_stop": true,
+    "three_distinct_clean_stable_frames": true,
+    "ordered_move": true,
+    "single_move_chain": true,
+    "single_native_transfer": true,
+    "actual_arrival": true,
+    "target_unmodified": true,
+    "no_override": true,
+    "bounded": true
+  },
+  "stable_frames": [
+    4071,
+    4073,
+    4074
+  ],
+  "arrival_frames": [
+    4083,
+    4085,
+    4086
+  ],
+  "path_was_nonzero_before_stop": false,
+  "proves_preexisting_nonzero_path_cancellation": false,
+  "purpose_capabilities_granted": [],
+  "source_report": "acceptance\\runs\\20261024-234355-commander\\stop-move01.json",
+  "source_sha256": "4cb84cea1d69cc5ecb361fdad7bdfa343f691ec49963c5244ed59b4f3b9fbf3a",
+  "independent_negative_cases": 4,
+  "game_or_api_access": false
+}

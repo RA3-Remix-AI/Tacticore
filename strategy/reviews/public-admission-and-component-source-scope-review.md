@@ -1,0 +1,40 @@
+# Public admission scope and component-source acceptance review
+
+Read-only review. No game, GUI, SDK, model call, or source-authorization change.
+
+## Public admission
+
+The new public cohort reader is conservative. battle_host.mission_admission_filename requires a nonempty set of enabled continuous grants and every trusted stop_schema must explicitly name mission_actor_admission_v2.py before selecting the state10-capable reader. Old family6, missing fields, mixed family6/family7, explicit old reader, and arbitrary filename all select the original state1/16 reader. LiveBattleState accepts exactly the two fixed filenames. Its helper still independently verifies grounded evidence and exact objectID/type/address/owner/update identity before exposing a unit as available; totals and reserved in-flight rosters retain their separate semantics.
+
+Independent targeted tests: recorded/scope 2 plus actual new module-injection sampling 1 passed. Actual trusted registry replay additionally returned old reader for family6, v2 for family7 and family7+MF4, old for mixed6+7. Reviewed Host SHA d86619ac4a58093251dccda45953734383891ffa193c91cdf0b85a368ab76a59; LiveState SHA df45cb4c50cad60c1cb10ada70c1b3e402373f1c2a5d066a50788c87629074a1. This does not grant family6 state10.
+
+## What may be combined
+
+It is reasonable to validate different branches using multiple actual traces from the same pinned family, with each report independently bound to its own command/task/session/executable/package/DLL/wrapper/qualifier. One normal success need not also include cancellation, target death, vision loss, reacquisition, fallback, incoming damage, and every failure branch. A component matrix can cite success and safety-abort cases separately. A source bundle must list its constituent reports and exactly what each proves.
+
+The non-negotiable actual effect chain must remain in one command: normal command issuance, real attributed damage/goal or kill, physical withdrawal, final Stop, and normal live AI-pool return. Damage in task A cannot be combined with retreat in task B to declare either completed. A disposal proof establishes release after death, never physical retreat or success. A source bundle is not a fabricated single raw report. Runtime terminal qualification must continue requalifying each actual command on its own.
+
+## Present evidence is incomplete for the new family
+
+- V5 main-mct5-02 (ae795 DLL, raw SHA788d8163) genuinely moved 406.145m while hidden over 77 distinct samples, never reacquired, dealt 0 damage, and returned alive. It supports frozen-last-seen navigation and safe unsuccessful withdrawal in V5. It proves no reacquisition or attack effect.
+- V6 continuous-paid-v6-01 (ed179 DLL, raw SHA4705b88b) has native counters 18 hits/90 HP, then death/error32 and no normal return. It is not a completed effect mission; raw counter damage is not a substitute for complete final causal qualification.
+- MF4 coord-mf4-02 (1421 DLL, raw SHA54999ab3) proves actual source0 Attack10 admission, normal Stop/three distinct idle samples and safe dual return after planning failure. It has 0 Move/Attack/damage and is not coordination effect evidence.
+- V7 c510 is presently a software-verified candidate, pending an actual independent complete effect/return trace. None of the above can be relabelled as V7 success.
+
+A brace-bounded exact-source comparison found visible_target identical in V5/V6/V7 (function SHA2d0fea81c7c746474f28993b3a56198d5686c6615ca1197bfd1bd8e4a1ee3afe). V6/V7 approach-stage code and AST-normalized memory_checks are identical. V5 differs: range125 versus150, different final-prepare transition, and V6/V7 additional actor-state guards and early loadout sequence. V5 memory qualifier also differs for the new stage11. Shared-source equivalence is useful regression evidence; it is not same-DLL live evidence or proof that later lifecycle/ABI integration is correct.
+
+## Narrow staged recommendation, not an authorization change
+
+After an actual V7 raw independently proves exact Conscript/AK, current-FOV lawful ground target, single normal Attack, real goal/source packets/ammo, retreat and live pool return, it can support a deliberately limited visible-target effect stage. Harass must still select an exact audited economy contact (such as Refinery); ordinary structure attacks do not become economy harassment by renaming the task. Coordination remains locked until a genuine two-role damage/geometry/withdrawal/dual-release trace passes.
+
+Do not make source approval for visible-target combat depend on one source trace also travelling hidden>=120m, reacquiring, causing damage and performing a long retreat. Those are separate feature claims. Retain raw memory-safety checks (no hidden XYZ/HP refresh, fixed last-seen point/TTL, currently visible engagement) as mandatory on every actual report; keep observed hidden displacement, reacquisition and fallback as explicit facts with independent source status. A later same-family hidden-reacquisition case can extend that feature scope without rewriting earlier records.
+
+Important implementation limit: current V7 approach intentionally moves toward a frozen lawful last-seen point after FOV loss. There is no native visible-only switch. A grant label alone cannot claim immediate withdrawal on loss. If Root chooses a strict visible-only operational scope, it needs a real enforced withdrawal/disable-memory mechanism and corresponding tests. Alternatively a controlled full-match evaluation can explicitly retain the reviewed but not yet live-integrated reacquisition branch as unverified, audit its actual outcomes, and limit the acceptance claim to demonstrated effect chains and persistent-agent lifecycle. The full remembered-combat feature must not be marked proven until actual same-family evidence covers its integration.
+
+Full-match acceptance should separately inspect the same mission ID across actual accepted model plans after the 45s plan TTL, bounded/compacted memory retaining its phase and failures, one dispatch, progress, explicit withdrawal and safe release before another allocation. This persistent-agent requirement is different from local FOV last-seen navigation; neither metric substitutes for the other. Three purposes need actual independently requalified effects in that match, and a 30-HP refinery hit should be reported as measured damage, not economic suppression.
+
+## Root decision after this review
+
+Root explicitly selected the controlled evaluation option for family7 only: retain every strict7 damage/goal/multihit/refill/long-retreat/live-return check and every navigation-memory invariant, but remove the requirement that the same successful source must happen to include hidden movement/reacquisition. Old family5/6 gates remain unchanged. The new grant will distinguish certified_effect_chain from memory_reacquisition_field_verified=false and publish factual memory_field_validation plus an experimental-memory-branch label. This is a source coverage-policy change, not a fabricated passed memory case. The reviewer finds that scope reasonable; code changes remain Root-owned and are not applied by this review. Final match acceptance still needs actual effects from all three purposes and persistent mission context across accepted model plans/TTL/compression; absent reacquisition remains an explicit validation gap.
+
+Final Root implementation was independently reviewed: navigation_field_coverage keeps invariants hard, preserves family5/6 coverage gates, and leaves unobserved family7 branch facts false/experimental. Strict source checks precede the final certified_effect_chain/sourceSHA stamp. Four coverage and four actual-worker client tests passed. The new e701 paid7 driver differs from ca8e only in combat7 CLI/backend selection and minimum selection distance1800→400; all four paid boundaries passed against the actual new candidate module. Source code/grants were not changed by this reviewer. Companion machine-readable review: mct7-source-scope-and-paid-driver-final-review.json.

@@ -1,0 +1,32 @@
+{
+  "executable_sha256": "ec230c6ae1eaee30b0b4fa6ba29d417c974ecae46d6715dfbe786a815935c165",
+  "mutations": false,
+  "source": "EXE native name/value records plus direct setter instructions, not SDK enum order",
+  "flags": [
+    {
+      "name": "INSIDE_GARRISON",
+      "native_enum": 61,
+      "name_record": "0xbdb1a8",
+      "name_pointer": "0xbd9c3c",
+      "record_bytes": "3c9cbd003d000000",
+      "status_word_offset": "0x84",
+      "mask": "0x20000000",
+      "setter": "0x7c5bb6",
+      "setter_and_notification_bytes": "8b8784000000818f8400000000000020c1e81df6d0240184c0740b6a016a3d8bcfe89a17f6ff"
+    },
+    {
+      "name": "IMMOBILE",
+      "native_enum": 51,
+      "name_record": "0xbdb180",
+      "name_pointer": "0xbd7828",
+      "record_bytes": "2878bd0033000000",
+      "status_word_offset": "0x84",
+      "mask": "0x80000",
+      "setter": "0x7b0282",
+      "setter_and_notification_bytes": "8b8384000000818b8400000000000800c1e813f6d0240184c0740b6a016a338bcbe8ce70f7ff"
+    }
+  ],
+  "live_evidence": "containment-live-014853.json",
+  "live_evidence_sha256": "5333494afefa2b66de0100ee4696a6453db815b512b7ab4da235c3862967ec28",
+  "scope": "read-only selection exclusion; no exit-garrison or toggle command enabled"
+}

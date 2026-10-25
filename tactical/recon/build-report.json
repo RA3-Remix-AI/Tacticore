@@ -1,0 +1,28 @@
+{
+  "kind": "independent_recon_build",
+  "native_range_verified": false,
+  "max_distance": 600,
+  "max_lease_frames": 450,
+  "one_move": true,
+  "baseline_source_sha256": {
+    "lease.cpp": "67dafa05b17c170a4503aaec2c2b1592cc3585a8726bdfb32edbf0be180c67c4",
+    "shared.h": "357988139ce3c62d5f9460f771213dda9b385452ad07c21236ae8f4c0a361de9",
+    "host.cpp": "d8c648344cb0e57bbbd0e60518b760b3aabe7fa77b9e153d18536e4b6f7c517e",
+    "lease.py": "e214f858f376999b1b70dc2990bf2af456244ee43474a23ed32188fe45f2fb2b"
+  },
+  "independent_source_sha256": {
+    "lease.cpp": "94708cde520c8162dd224de680111e4bc0fe3deb5ff9a7f39894dc005557f3e4",
+    "shared.h": "73edacd3d70f4199d4afe6bca87b733099f2b51ab0f84ff08ad3c1501ecba3ff",
+    "host.cpp": "9357f34b0f8beee29440ec882b36b0ebc221190270c0c8f508babdd867aad0d6",
+    "lease.py": "e7bd618fbc5bbfa97373057d34d3ed37b113f2a948e1f5b9c27a7351bc716f77",
+    "logic.py": "321035735193485a2107b9dfad9d21e6ff05f82a67dcb2eb56f379807845a5ea",
+    "probe.py": "6a58ab0f937af6a6e153adb660b3728bd91d057c5961ea49f92a63dae2969947"
+  },
+  "binary_sha256": {
+    "TacticalReconProbe.dll": "06f59688f7e5396110886bb3e0f0fa1fade32116399b2945da8a4ed0868c236e",
+    "tactical_host.exe": "36200a8d2d5f7bfaddc6b889524fcb97d0613a62f930cafd58d46baac742512d"
+  },
+  "original_reusable_modified": false,
+  "frozen_visibility_modified": false,
+  "note": "Separate namespace bound expansion; actual recon proof requires real arrival + new target-region vision + clean return."
+}

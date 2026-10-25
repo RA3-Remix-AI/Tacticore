@@ -1,0 +1,108 @@
+{
+  "pid": 47392,
+  "session_id": "b909424c-1ed5-4b43-b22d-3b15299045f4",
+  "commander_id": "57e668b4-4d89-43bd-bc92-0dd436f046ef",
+  "command_id": "cfb2e3cb-bf6c-435b-91e4-2e3a1ca8c7ad",
+  "task_id": "cf261c1e-0b45-48f1-8afe-d8239ff01b7d",
+  "seq": 613855687,
+  "token": 3210382006,
+  "owner": "0x31bc4d0",
+  "logic": "0x3c61228",
+  "native_binary_sha256": "632400b1cbe1cc9e59c7f360f17633bef13251c72a3a8e04ef940f850321de5f",
+  "module_base": "0x7a2b0000",
+  "shared_pointer": "0x40bb0000",
+  "layout": {
+    "dll_sha256": "632400b1cbe1cc9e59c7f360f17633bef13251c72a3a8e04ef940f850321de5f",
+    "timer_rva": 94840,
+    "shared_pointer_rva": 94856
+  },
+  "timer": 0,
+  "binding_verified": true,
+  "phase": 4,
+  "error": 38,
+  "active": 0,
+  "restore_mask": 8191,
+  "front_return_verified": 1,
+  "support_return_verified": 1,
+  "entries": [
+    {
+      "address": "0x76d9d0",
+      "expected": "568bf1578b7e088bcf",
+      "actual": "568bf1578b7e088bcf",
+      "restored": true
+    },
+    {
+      "address": "0x76e690",
+      "expected": "837c24040055568bf18b6e08",
+      "actual": "837c24040055568bf18b6e08",
+      "restored": true
+    },
+    {
+      "address": "0x838820",
+      "expected": "8b818c00000085c0744f568bb190000000",
+      "actual": "8b818c00000085c0744f568bb190000000",
+      "restored": true
+    },
+    {
+      "address": "0x8d8880",
+      "expected": "83ec24568b74242c8b4604",
+      "actual": "83ec24568b74242c8b4604",
+      "restored": true
+    },
+    {
+      "address": "0x8cd630",
+      "expected": "83ec3453578b7c24408b4704",
+      "actual": "83ec3453578b7c24408b4704",
+      "restored": true
+    },
+    {
+      "address": "0x7d2310",
+      "expected": "81ec200100005355568bb42430010000",
+      "actual": "81ec200100005355568bb42430010000",
+      "restored": true
+    },
+    {
+      "address": "0x6f7c60",
+      "expected": "538b5928568b71243bf357",
+      "actual": "538b5928568b71243bf357",
+      "restored": true
+    },
+    {
+      "address": "0x765190",
+      "expected": "8b44240885c0f30f104c2404",
+      "actual": "8b44240885c0f30f104c2404",
+      "restored": true
+    },
+    {
+      "address": "0x54b0a0",
+      "expected": "83ec5c8b442460566a01508bf1",
+      "actual": "83ec5c8b442460566a01508bf1",
+      "restored": true
+    },
+    {
+      "address": "0x721ad0",
+      "expected": "83ec08558be98b45088b4804",
+      "actual": "83ec08558be98b45088b4804",
+      "restored": true
+    },
+    {
+      "address": "0x572280",
+      "expected": "83ec5c8b442468566a01508bf1",
+      "actual": "83ec5c8b442468566a01508bf1",
+      "restored": true
+    },
+    {
+      "address": "0x571d90",
+      "expected": "83ec5c8b442464566a01508bf1",
+      "actual": "83ec5c8b442464566a01508bf1",
+      "restored": true
+    },
+    {
+      "address": "0x790990",
+      "expected": "8b44240c8b5424086a006a006a00",
+      "actual": "8b44240c8b5424086a006a006a00",
+      "restored": true
+    }
+  ],
+  "mutations": false
+}

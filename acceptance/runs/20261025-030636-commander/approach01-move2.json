@@ -1,0 +1,7020 @@
+{
+  "session_id": "b8929f68-5bcd-4b57-b841-e7e185aa3f3f",
+  "executable_sha256": "ec230c6ae1eaee30b0b4fa6ba29d417c974ecae46d6715dfbe786a815935c165",
+  "package_sha256": "2d7873e1b2d2c79950ff9da70b5452b1210370a6d6cbec1eaa69201a7d3d0665",
+  "preflight": {
+    "status": "read_only_ready",
+    "session_id": "b8929f68-5bcd-4b57-b841-e7e185aa3f3f",
+    "pid": 41276,
+    "commander_id": "57e668b4-4d89-43bd-bc92-0dd436f046ef",
+    "player_id": 3,
+    "frame": 1716,
+    "paused": 0,
+    "owner": "0x31f74d0",
+    "ai": "0x44e0858",
+    "personality": "0xeb0e020",
+    "personality_id": "0x7664d9d9",
+    "player_template": "0x11398e70",
+    "logic": "0x3c9c228",
+    "window_thread": 56364,
+    "script_team": "0x51c47c0",
+    "default_team": "0x51c56c0",
+    "eligible_count": 5,
+    "units": [
+      {
+        "address": "0x5781080",
+        "owner_address": "0x31f74d0",
+        "owner_index_candidate": 3,
+        "object_id": 782,
+        "type_hash": "0x19ab11af",
+        "ai_address": "0x6b219e8",
+        "xyz": [
+          2990.0,
+          2970.0,
+          210.0
+        ],
+        "catalog": {
+          "name": "征召兵",
+          "template": "SovietAntiInfantryInfantry",
+          "side": 2,
+          "cls": 1,
+          "category": 0
+        },
+        "hp": 100.0,
+        "status84": "0x0",
+        "mobility_restriction_mask": "0x20080000",
+        "team": "0x51cbac0",
+        "command_source": 0,
+        "eligible": true
+      },
+      {
+        "address": "0x5780b80",
+        "owner_address": "0x31f74d0",
+        "owner_index_candidate": 3,
+        "object_id": 787,
+        "type_hash": "0x19ab11af",
+        "ai_address": "0x6b20fe0",
+        "xyz": [
+          2950.0,
+          2910.0,
+          210.0
+        ],
+        "catalog": {
+          "name": "征召兵",
+          "template": "SovietAntiInfantryInfantry",
+          "side": 2,
+          "cls": 1,
+          "category": 0
+        },
+        "hp": 100.0,
+        "status84": "0x0",
+        "mobility_restriction_mask": "0x20080000",
+        "team": "0x51cbac0",
+        "command_source": 0,
+        "eligible": true
+      },
+      {
+        "address": "0x5782e80",
+        "owner_address": "0x31f74d0",
+        "owner_index_candidate": 3,
+        "object_id": 790,
+        "type_hash": "0x19ab11af",
+        "ai_address": "0x6b3af38",
+        "xyz": [
+          2910.0,
+          3010.0,
+          210.0
+        ],
+        "catalog": {
+          "name": "征召兵",
+          "template": "SovietAntiInfantryInfantry",
+          "side": 2,
+          "cls": 1,
+          "category": 0
+        },
+        "hp": 100.0,
+        "status84": "0x0",
+        "mobility_restriction_mask": "0x20080000",
+        "team": "0x51cbac0",
+        "command_source": 0,
+        "eligible": true
+      },
+      {
+        "address": "0x5780180",
+        "owner_address": "0x31f74d0",
+        "owner_index_candidate": 3,
+        "object_id": 791,
+        "type_hash": "0x19ab11af",
+        "ai_address": "0x6b0eef8",
+        "xyz": [
+          2990.0,
+          2950.0,
+          210.0
+        ],
+        "catalog": {
+          "name": "征召兵",
+          "template": "SovietAntiInfantryInfantry",
+          "side": 2,
+          "cls": 1,
+          "category": 0
+        },
+        "hp": 100.0,
+        "status84": "0x0",
+        "mobility_restriction_mask": "0x20080000",
+        "team": "0x51cbac0",
+        "command_source": 0,
+        "eligible": true
+      },
+      {
+        "address": "0x5783880",
+        "owner_address": "0x31f74d0",
+        "owner_index_candidate": 3,
+        "object_id": 793,
+        "type_hash": "0x19ab11af",
+        "ai_address": "0x6b70048",
+        "xyz": [
+          2370.0,
+          2850.0,
+          210.0
+        ],
+        "catalog": {
+          "name": "征召兵",
+          "template": "SovietAntiInfantryInfantry",
+          "side": 2,
+          "cls": 1,
+          "category": 0
+        },
+        "hp": 100.0,
+        "status84": "0x0",
+        "mobility_restriction_mask": "0x20080000",
+        "team": "0x51cbac0",
+        "command_source": 1,
+        "eligible": true
+      }
+    ],
+    "selected": {
+      "address": "0x5783880",
+      "owner_address": "0x31f74d0",
+      "owner_index_candidate": 3,
+      "object_id": 793,
+      "type_hash": "0x19ab11af",
+      "ai_address": "0x6b70048",
+      "xyz": [
+        2370.0,
+        2850.0,
+        210.0
+      ],
+      "catalog": {
+        "name": "征召兵",
+        "template": "SovietAntiInfantryInfantry",
+        "side": 2,
+        "cls": 1,
+        "category": 0
+      },
+      "hp": 100.0,
+      "status84": "0x0",
+      "mobility_restriction_mask": "0x20080000",
+      "team": "0x51cbac0",
+      "command_source": 1,
+      "eligible": true
+    },
+    "restore_semantics": "native_common_pool_not_original_squad",
+    "mutations": false
+  },
+  "status": "finished",
+  "events": [
+    {
+      "seq": 1,
+      "kind": 0,
+      "tag": 0,
+      "frame": 1718,
+      "tick": 578011968,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85768896,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2370.0,
+      "y": 2850.0,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 112571000,
+      "state_id": 16,
+      "path": 0,
+      "path_node": 0,
+      "requested": [
+        2374.15966796875,
+        2850.0,
+        210.0
+      ],
+      "effective": [
+        2374.15966796875,
+        2850.0,
+        210.0
+      ],
+      "path_xy": [
+        0.0,
+        0.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 2,
+      "kind": 14,
+      "tag": 1,
+      "frame": 1720,
+      "tick": 578012093,
+      "thread": 56364,
+      "caller": 2035627913,
+      "team": 85768896,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2370.0,
+      "y": 2850.0,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 112571000,
+      "state_id": 16,
+      "path": 0,
+      "path_node": 0,
+      "requested": [
+        2374.15966796875,
+        2850.0,
+        210.0
+      ],
+      "effective": [
+        2374.15966796875,
+        2850.0,
+        210.0
+      ],
+      "path_xy": [
+        0.0,
+        0.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 3,
+      "kind": 18,
+      "tag": 1,
+      "frame": 1720,
+      "tick": 578012093,
+      "thread": 56364,
+      "caller": 8620151,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 72223068,
+      "x": 2370.0,
+      "y": 2850.0,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 112571000,
+      "state_id": 16,
+      "path": 0,
+      "path_node": 0,
+      "requested": [
+        2374.15966796875,
+        2850.0,
+        210.0
+      ],
+      "effective": [
+        2374.15966796875,
+        2850.0,
+        210.0
+      ],
+      "path_xy": [
+        0.0,
+        0.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 4,
+      "kind": 19,
+      "tag": 1,
+      "frame": 1720,
+      "tick": 578012093,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 72223068,
+      "x": 2370.0,
+      "y": 2850.0,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 112571000,
+      "state_id": 16,
+      "path": 0,
+      "path_node": 0,
+      "requested": [
+        2374.15966796875,
+        2850.0,
+        210.0
+      ],
+      "effective": [
+        2374.15966796875,
+        2850.0,
+        210.0
+      ],
+      "path_xy": [
+        0.0,
+        0.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 5,
+      "kind": 15,
+      "tag": 1,
+      "frame": 1720,
+      "tick": 578012093,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2370.0,
+      "y": 2850.0,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 112571000,
+      "state_id": 16,
+      "path": 0,
+      "path_node": 0,
+      "requested": [
+        2374.15966796875,
+        2850.0,
+        210.0
+      ],
+      "effective": [
+        2374.15966796875,
+        2850.0,
+        210.0
+      ],
+      "path_xy": [
+        0.0,
+        0.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 6,
+      "kind": 1,
+      "tag": 1,
+      "frame": 1720,
+      "tick": 578012093,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2370.0,
+      "y": 2850.0,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 112571000,
+      "state_id": 16,
+      "path": 0,
+      "path_node": 0,
+      "requested": [
+        2374.15966796875,
+        2850.0,
+        210.0
+      ],
+      "effective": [
+        2374.15966796875,
+        2850.0,
+        210.0
+      ],
+      "path_xy": [
+        0.0,
+        0.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 7,
+      "kind": 20,
+      "tag": 4,
+      "frame": 1720,
+      "tick": 578012093,
+      "thread": 56364,
+      "caller": 2035628524,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 1,
+      "x": 2370.0,
+      "y": 2850.0,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 112571000,
+      "state_id": 16,
+      "path": 0,
+      "path_node": 0,
+      "requested": [
+        2374.15966796875,
+        2850.0,
+        210.0
+      ],
+      "effective": [
+        2374.15966796875,
+        2850.0,
+        210.0
+      ],
+      "path_xy": [
+        0.0,
+        0.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 8,
+      "kind": 22,
+      "tag": 4,
+      "frame": 1720,
+      "tick": 578012093,
+      "thread": 56364,
+      "caller": 7894929,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 1,
+      "x": 2370.0,
+      "y": 2850.0,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 112571000,
+      "state_id": 16,
+      "path": 0,
+      "path_node": 0,
+      "requested": [
+        2374.15966796875,
+        2850.0,
+        210.0
+      ],
+      "effective": [
+        2374.15966796875,
+        2850.0,
+        210.0
+      ],
+      "path_xy": [
+        0.0,
+        0.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 9,
+      "kind": 23,
+      "tag": 4,
+      "frame": 1720,
+      "tick": 578012093,
+      "thread": 56364,
+      "caller": 7894929,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 1,
+      "x": 2370.0,
+      "y": 2850.0,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 112571000,
+      "state_id": 16,
+      "path": 0,
+      "path_node": 0,
+      "requested": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "effective": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "path_xy": [
+        0.0,
+        0.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 10,
+      "kind": 21,
+      "tag": 4,
+      "frame": 1720,
+      "tick": 578012093,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 1,
+      "x": 2370.0,
+      "y": 2850.0,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 112571000,
+      "state_id": 16,
+      "path": 0,
+      "path_node": 0,
+      "requested": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "effective": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "path_xy": [
+        0.0,
+        0.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 11,
+      "kind": 6,
+      "tag": 4,
+      "frame": 1720,
+      "tick": 578012093,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2370.0,
+      "y": 2850.0,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 112571000,
+      "state_id": 16,
+      "path": 0,
+      "path_node": 0,
+      "requested": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "effective": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "path_xy": [
+        0.0,
+        0.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 12,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1721,
+      "tick": 578012218,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2370.0,
+      "y": 2850.0,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 112571000,
+      "state_id": 16,
+      "path": 0,
+      "path_node": 0,
+      "requested": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "effective": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "path_xy": [
+        0.0,
+        0.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 13,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1723,
+      "tick": 578012312,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2370.0,
+      "y": 2850.0,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 112571000,
+      "state_id": 16,
+      "path": 0,
+      "path_node": 0,
+      "requested": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "effective": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "path_xy": [
+        0.0,
+        0.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 14,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1725,
+      "tick": 578012421,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2370.0,
+      "y": 2850.0,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 112571000,
+      "state_id": 16,
+      "path": 0,
+      "path_node": 0,
+      "requested": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "effective": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "path_xy": [
+        0.0,
+        0.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 15,
+      "kind": 24,
+      "tag": 0,
+      "frame": 1725,
+      "tick": 578012421,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2370.0,
+      "y": 2850.0,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 112571000,
+      "state_id": 16,
+      "path": 0,
+      "path_node": 0,
+      "requested": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "effective": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "path_xy": [
+        0.0,
+        0.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 16,
+      "kind": 30,
+      "tag": 2,
+      "frame": 1725,
+      "tick": 578012421,
+      "thread": 56364,
+      "caller": 2035628155,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 1,
+      "x": 2370.0,
+      "y": 2850.0,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 112571000,
+      "state_id": 16,
+      "path": 0,
+      "path_node": 0,
+      "requested": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "effective": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "path_xy": [
+        0.0,
+        0.0
+      ],
+      "command_xyz": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 17,
+      "kind": 10,
+      "tag": 2,
+      "frame": 1725,
+      "tick": 578012421,
+      "thread": 56364,
+      "caller": 7158653,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 1,
+      "x": 2370.0,
+      "y": 2850.0,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 112571000,
+      "state_id": 16,
+      "path": 0,
+      "path_node": 0,
+      "requested": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "effective": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "path_xy": [
+        0.0,
+        0.0
+      ],
+      "command_xyz": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 3.4028234663852886e+38
+    },
+    {
+      "seq": 18,
+      "kind": 11,
+      "tag": 2,
+      "frame": 1725,
+      "tick": 578012421,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 1,
+      "x": 2370.0,
+      "y": 2850.0,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 0,
+      "path_node": 0,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        0.0,
+        0.0
+      ],
+      "command_xyz": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 3.4028234663852886e+38
+    },
+    {
+      "seq": 19,
+      "kind": 31,
+      "tag": 2,
+      "frame": 1725,
+      "tick": 578012421,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 1,
+      "x": 2370.0,
+      "y": 2850.0,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 0,
+      "path_node": 0,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        0.0,
+        0.0
+      ],
+      "command_xyz": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 20,
+      "kind": 2,
+      "tag": 2,
+      "frame": 1725,
+      "tick": 578012421,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2370.0,
+      "y": 2850.0,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 0,
+      "path_node": 0,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        0.0,
+        0.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 21,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1726,
+      "tick": 578012515,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2366.666748046875,
+      "y": 2850.0,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 22,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1728,
+      "tick": 578012640,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2360.000244140625,
+      "y": 2850.0,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 23,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1730,
+      "tick": 578012765,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2353.333740234375,
+      "y": 2850.0,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 24,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1731,
+      "tick": 578012859,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2350.00048828125,
+      "y": 2850.0,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 25,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1733,
+      "tick": 578012953,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2343.333984375,
+      "y": 2850.0,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 26,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1735,
+      "tick": 578013093,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2336.66748046875,
+      "y": 2850.0,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 27,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1736,
+      "tick": 578013187,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2333.334228515625,
+      "y": 2850.0,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 28,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1738,
+      "tick": 578013281,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2326.667724609375,
+      "y": 2850.0,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 29,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1740,
+      "tick": 578013421,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2320.001220703125,
+      "y": 2850.0,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 30,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1741,
+      "tick": 578013515,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2316.66796875,
+      "y": 2850.0,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 31,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1743,
+      "tick": 578013625,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2310.00146484375,
+      "y": 2850.0,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 32,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1744,
+      "tick": 578013718,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2306.668212890625,
+      "y": 2850.0,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 33,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1746,
+      "tick": 578013843,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2300.001708984375,
+      "y": 2850.0,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 34,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1748,
+      "tick": 578013953,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2293.335205078125,
+      "y": 2850.0,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 35,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1749,
+      "tick": 578014046,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2290.001953125,
+      "y": 2850.0,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 36,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1751,
+      "tick": 578014171,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2283.33544921875,
+      "y": 2850.0,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 37,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1753,
+      "tick": 578014281,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2276.6689453125,
+      "y": 2850.0,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 38,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1754,
+      "tick": 578014375,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2273.335693359375,
+      "y": 2850.0,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 39,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1756,
+      "tick": 578014515,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2266.669189453125,
+      "y": 2850.0,
+      "z": 210.02601623535156,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 40,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1758,
+      "tick": 578014609,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2260.002685546875,
+      "y": 2850.0,
+      "z": 210.07810974121094,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 41,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1759,
+      "tick": 578014703,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2256.66943359375,
+      "y": 2850.0,
+      "z": 210.16920471191406,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 42,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1761,
+      "tick": 578014843,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2250.0029296875,
+      "y": 2850.0,
+      "z": 210.3514862060547,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 43,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1763,
+      "tick": 578014937,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2245.085693359375,
+      "y": 2845.4951171875,
+      "z": 212.5831298828125,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 44,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1764,
+      "tick": 578015046,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2242.62841796875,
+      "y": 2843.24267578125,
+      "z": 213.698974609375,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 45,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1766,
+      "tick": 578015140,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2237.7138671875,
+      "y": 2838.73779296875,
+      "z": 216.19468688964844,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 46,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1768,
+      "tick": 578015265,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2232.799560546875,
+      "y": 2834.23291015625,
+      "z": 219.20372009277344,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 47,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1769,
+      "tick": 578015375,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2230.34228515625,
+      "y": 2831.98046875,
+      "z": 220.70831298828125,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 48,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1771,
+      "tick": 578015500,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2225.427978515625,
+      "y": 2827.4755859375,
+      "z": 221.96275329589844,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 49,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1773,
+      "tick": 578015609,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2220.513427734375,
+      "y": 2822.970703125,
+      "z": 222.917724609375,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 50,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1774,
+      "tick": 578015703,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2218.056396484375,
+      "y": 2820.71826171875,
+      "z": 223.11439514160156,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 51,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1776,
+      "tick": 578015828,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2213.141845703125,
+      "y": 2816.21337890625,
+      "z": 223.32958984375,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 52,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1778,
+      "tick": 578015937,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2208.2275390625,
+      "y": 2811.70849609375,
+      "z": 223.53216552734375,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 53,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1779,
+      "tick": 578016031,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2205.770263671875,
+      "y": 2809.4560546875,
+      "z": 223.62734985351562,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 54,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1781,
+      "tick": 578016125,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2200.855712890625,
+      "y": 2804.951171875,
+      "z": 223.81773376464844,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 55,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1782,
+      "tick": 578016234,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2198.398681640625,
+      "y": 2802.69873046875,
+      "z": 223.90673828125,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 56,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1784,
+      "tick": 578016359,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2193.484130859375,
+      "y": 2798.19384765625,
+      "z": 224.07781982421875,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 57,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1786,
+      "tick": 578016468,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2188.56982421875,
+      "y": 2793.68896484375,
+      "z": 224.24903869628906,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 58,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1787,
+      "tick": 578016562,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2186.112548828125,
+      "y": 2791.4365234375,
+      "z": 224.33462524414062,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 59,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1789,
+      "tick": 578016687,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2181.1982421875,
+      "y": 2786.931640625,
+      "z": 224.5057830810547,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 60,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1791,
+      "tick": 578016796,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2176.28369140625,
+      "y": 2782.4267578125,
+      "z": 224.6914825439453,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 61,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1792,
+      "tick": 578016890,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2173.826416015625,
+      "y": 2780.17431640625,
+      "z": 224.7866668701172,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 62,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1794,
+      "tick": 578017031,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2168.912109375,
+      "y": 2775.66943359375,
+      "z": 224.96009826660156,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 63,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1796,
+      "tick": 578017125,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2163.99755859375,
+      "y": 2771.16455078125,
+      "z": 225.1328887939453,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 64,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1798,
+      "tick": 578017250,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2159.083251953125,
+      "y": 2766.65966796875,
+      "z": 225.31507873535156,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 65,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1799,
+      "tick": 578017359,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2156.6259765625,
+      "y": 2764.4072265625,
+      "z": 225.40066528320312,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 66,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1801,
+      "tick": 578017453,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2151.711669921875,
+      "y": 2759.90234375,
+      "z": 225.57191467285156,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 67,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1803,
+      "tick": 578017578,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2146.797119140625,
+      "y": 2755.3974609375,
+      "z": 225.74298095703125,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 68,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1804,
+      "tick": 578017687,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2144.340087890625,
+      "y": 2753.14501953125,
+      "z": 225.82862854003906,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 69,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1806,
+      "tick": 578017781,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2139.425537109375,
+      "y": 2748.64013671875,
+      "z": 225.99978637695312,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 70,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1807,
+      "tick": 578017890,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2136.96826171875,
+      "y": 2746.3876953125,
+      "z": 226.08538818359375,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 71,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1809,
+      "tick": 578018015,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2132.053955078125,
+      "y": 2741.8828125,
+      "z": 226.2565460205078,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 72,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1811,
+      "tick": 578018109,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2127.1396484375,
+      "y": 2737.3779296875,
+      "z": 226.43898010253906,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 73,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1812,
+      "tick": 578018218,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2124.682373046875,
+      "y": 2735.12548828125,
+      "z": 226.53414916992188,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 74,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1814,
+      "tick": 578018343,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2119.76806640625,
+      "y": 2730.62060546875,
+      "z": 226.72357177734375,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 75,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1816,
+      "tick": 578018437,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2114.853515625,
+      "y": 2726.11572265625,
+      "z": 226.89476013183594,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 76,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1817,
+      "tick": 578018546,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2112.396240234375,
+      "y": 2723.86328125,
+      "z": 226.9803466796875,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 77,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1819,
+      "tick": 578018640,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2107.48193359375,
+      "y": 2719.3583984375,
+      "z": 227.1514892578125,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 78,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1821,
+      "tick": 578018781,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2102.5673828125,
+      "y": 2714.853515625,
+      "z": 227.3226776123047,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 79,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1822,
+      "tick": 578018875,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2100.1103515625,
+      "y": 2712.60107421875,
+      "z": 227.40830993652344,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 80,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1824,
+      "tick": 578018968,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2095.19580078125,
+      "y": 2708.09619140625,
+      "z": 227.59071350097656,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 81,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1826,
+      "tick": 578019109,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2090.281494140625,
+      "y": 2703.59130859375,
+      "z": 227.76358032226562,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 82,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1827,
+      "tick": 578019203,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2087.82421875,
+      "y": 2701.3388671875,
+      "z": 227.84996032714844,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 83,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1829,
+      "tick": 578019296,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2082.90966796875,
+      "y": 2696.833984375,
+      "z": 228.03500366210938,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 84,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1831,
+      "tick": 578019437,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2077.995361328125,
+      "y": 2692.3291015625,
+      "z": 228.21762084960938,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 85,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1832,
+      "tick": 578019531,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2075.5380859375,
+      "y": 2690.07666015625,
+      "z": 228.30322265625,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 86,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1834,
+      "tick": 578019640,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2070.623779296875,
+      "y": 2685.57177734375,
+      "z": 228.47433471679688,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 87,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1836,
+      "tick": 578019765,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2065.70947265625,
+      "y": 2681.06689453125,
+      "z": 228.64559936523438,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 88,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1837,
+      "tick": 578019859,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2063.252197265625,
+      "y": 2678.814453125,
+      "z": 228.73117065429688,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 89,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1839,
+      "tick": 578019968,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2058.337646484375,
+      "y": 2674.3095703125,
+      "z": 228.9022674560547,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 90,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1841,
+      "tick": 578020093,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2053.42333984375,
+      "y": 2669.8046875,
+      "z": 229.07347106933594,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 91,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1842,
+      "tick": 578020187,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2050.966064453125,
+      "y": 2667.55224609375,
+      "z": 229.15907287597656,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 92,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1844,
+      "tick": 578020296,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2046.0516357421875,
+      "y": 2663.04736328125,
+      "z": 229.33016967773438,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 93,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1845,
+      "tick": 578020390,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2043.594482421875,
+      "y": 2660.794921875,
+      "z": 229.4158172607422,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 94,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1847,
+      "tick": 578020531,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2038.68017578125,
+      "y": 2656.2900390625,
+      "z": 229.3670654296875,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 95,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1849,
+      "tick": 578020625,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2033.765625,
+      "y": 2651.78515625,
+      "z": 228.97340393066406,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 96,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1850,
+      "tick": 578020718,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2031.3084716796875,
+      "y": 2649.53271484375,
+      "z": 228.64706420898438,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 97,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1852,
+      "tick": 578020859,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2026.39404296875,
+      "y": 2645.02783203125,
+      "z": 226.06039428710938,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 98,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1854,
+      "tick": 578020953,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2021.479736328125,
+      "y": 2640.52294921875,
+      "z": 223.13134765625,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 99,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1855,
+      "tick": 578021046,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2019.0224609375,
+      "y": 2638.2705078125,
+      "z": 221.13803100585938,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 100,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1857,
+      "tick": 578021156,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2014.1080322265625,
+      "y": 2633.765625,
+      "z": 217.00747680664062,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 101,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1859,
+      "tick": 578021281,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2010.0,
+      "y": 2628.906005859375,
+      "z": 213.3110809326172,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 102,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1860,
+      "tick": 578021390,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2010.0,
+      "y": 2625.57275390625,
+      "z": 212.56895446777344,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 103,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1862,
+      "tick": 578021484,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2010.0,
+      "y": 2618.90625,
+      "z": 211.217041015625,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 104,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1864,
+      "tick": 578021625,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2010.0,
+      "y": 2612.23974609375,
+      "z": 210.53997802734375,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 105,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1865,
+      "tick": 578021718,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2010.0,
+      "y": 2608.906494140625,
+      "z": 210.2783203125,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 106,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1867,
+      "tick": 578021812,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2010.0,
+      "y": 2602.239990234375,
+      "z": 210.07000732421875,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 107,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1869,
+      "tick": 578021953,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2010.0,
+      "y": 2595.573486328125,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 108,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1870,
+      "tick": 578022046,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2010.0,
+      "y": 2592.240234375,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 109,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1872,
+      "tick": 578022140,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2010.0,
+      "y": 2585.57373046875,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 110,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1874,
+      "tick": 578022281,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2010.0,
+      "y": 2578.9072265625,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 111,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1875,
+      "tick": 578022375,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2010.0,
+      "y": 2575.573974609375,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 112,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1877,
+      "tick": 578022484,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2010.7725830078125,
+      "y": 2569.227294921875,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 113,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1878,
+      "tick": 578022578,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2013.129638671875,
+      "y": 2566.870361328125,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 114,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1880,
+      "tick": 578022703,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2017.8436279296875,
+      "y": 2562.15625,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 115,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1882,
+      "tick": 578022812,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2022.5577392578125,
+      "y": 2557.4423828125,
+      "z": 210.0399627685547,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 116,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1883,
+      "tick": 578022906,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2024.9146728515625,
+      "y": 2555.085205078125,
+      "z": 210.0767822265625,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 117,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1885,
+      "tick": 578023046,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2029.6287841796875,
+      "y": 2550.371337890625,
+      "z": 210.00579833984375,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 118,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1887,
+      "tick": 578023140,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2025.6572265625,
+      "y": 2545.6572265625,
+      "z": 210.10177612304688,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 119,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1889,
+      "tick": 578023265,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2020.9432373046875,
+      "y": 2540.943115234375,
+      "z": 210.21226501464844,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 120,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1890,
+      "tick": 578023375,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2018.586181640625,
+      "y": 2538.586181640625,
+      "z": 210.2012481689453,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 121,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1892,
+      "tick": 578023468,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2013.8721923828125,
+      "y": 2533.8720703125,
+      "z": 210.09075927734375,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 122,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1893,
+      "tick": 578023562,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2011.51513671875,
+      "y": 2531.51513671875,
+      "z": 210.0355224609375,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 123,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1895,
+      "tick": 578023703,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2006.8011474609375,
+      "y": 2526.801025390625,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 124,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1897,
+      "tick": 578023796,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 2002.0870361328125,
+      "y": 2522.087158203125,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 125,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1898,
+      "tick": 578023890,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 1999.7301025390625,
+      "y": 2519.72998046875,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 126,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1900,
+      "tick": 578024031,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 1995.0159912109375,
+      "y": 2515.01611328125,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 127,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1902,
+      "tick": 578024125,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 1990.302001953125,
+      "y": 2510.302001953125,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 128,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1903,
+      "tick": 578024234,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 1987.9449462890625,
+      "y": 2507.945068359375,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 129,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1905,
+      "tick": 578024359,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 1983.23095703125,
+      "y": 2503.23095703125,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 130,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1907,
+      "tick": 578024453,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 1978.5169677734375,
+      "y": 2498.516845703125,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 131,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1908,
+      "tick": 578024562,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 1976.159912109375,
+      "y": 2496.159912109375,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 132,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1910,
+      "tick": 578024687,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 1971.4459228515625,
+      "y": 2491.44580078125,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 133,
+      "kind": 14,
+      "tag": 3,
+      "frame": 1910,
+      "tick": 578024687,
+      "thread": 56364,
+      "caller": 2035626823,
+      "team": 85739456,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 1,
+      "x": 1971.4459228515625,
+      "y": 2491.44580078125,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 134,
+      "kind": 16,
+      "tag": 3,
+      "frame": 1910,
+      "tick": 578024687,
+      "thread": 56364,
+      "caller": 8620123,
+      "team": 85743296,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 72223068,
+      "x": 1971.4459228515625,
+      "y": 2491.44580078125,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 135,
+      "kind": 17,
+      "tag": 3,
+      "frame": 1910,
+      "tick": 578024687,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85743296,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 72223068,
+      "x": 1971.4459228515625,
+      "y": 2491.44580078125,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 136,
+      "kind": 15,
+      "tag": 3,
+      "frame": 1910,
+      "tick": 578024687,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85743296,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 1,
+      "x": 1971.4459228515625,
+      "y": 2491.44580078125,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 137,
+      "kind": 5,
+      "tag": 3,
+      "frame": 1910,
+      "tick": 578024687,
+      "thread": 56364,
+      "caller": 0,
+      "team": 85743296,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 1971.4459228515625,
+      "y": 2491.44580078125,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 109917592,
+      "state_id": 1,
+      "path": 92975304,
+      "path_node": 244322524,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        2370.0,
+        2850.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 138,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1912,
+      "tick": 578024796,
+      "thread": 56364,
+      "caller": 0,
+      "team": 109924928,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 1970.0,
+      "y": 2490.0,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 112571000,
+      "state_id": 16,
+      "path": 0,
+      "path_node": 0,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        0.0,
+        0.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 139,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1913,
+      "tick": 578024890,
+      "thread": 56364,
+      "caller": 0,
+      "team": 109924928,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 1970.0,
+      "y": 2490.0,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 112571000,
+      "state_id": 16,
+      "path": 0,
+      "path_node": 0,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        0.0,
+        0.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 140,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1915,
+      "tick": 578024984,
+      "thread": 56364,
+      "caller": 0,
+      "team": 109924928,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 1970.0,
+      "y": 2490.0,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 112571000,
+      "state_id": 16,
+      "path": 0,
+      "path_node": 0,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        0.0,
+        0.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 141,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1917,
+      "tick": 578025125,
+      "thread": 56364,
+      "caller": 0,
+      "team": 109924928,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 1970.0,
+      "y": 2490.0,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 112571000,
+      "state_id": 16,
+      "path": 0,
+      "path_node": 0,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        0.0,
+        0.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 142,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1918,
+      "tick": 578025218,
+      "thread": 56364,
+      "caller": 0,
+      "team": 109924928,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 1970.0,
+      "y": 2490.0,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 112571000,
+      "state_id": 16,
+      "path": 0,
+      "path_node": 0,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        0.0,
+        0.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 143,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1920,
+      "tick": 578025312,
+      "thread": 56364,
+      "caller": 0,
+      "team": 109924928,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 1970.0,
+      "y": 2490.0,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 112571000,
+      "state_id": 16,
+      "path": 0,
+      "path_node": 0,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        0.0,
+        0.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 144,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1922,
+      "tick": 578025453,
+      "thread": 56364,
+      "caller": 0,
+      "team": 109924928,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 1970.0,
+      "y": 2490.0,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 112571000,
+      "state_id": 16,
+      "path": 0,
+      "path_node": 0,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        0.0,
+        0.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 145,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1923,
+      "tick": 578025546,
+      "thread": 56364,
+      "caller": 0,
+      "team": 109924928,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 1970.0,
+      "y": 2490.0,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 112571000,
+      "state_id": 16,
+      "path": 0,
+      "path_node": 0,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        0.0,
+        0.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 146,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1925,
+      "tick": 578025656,
+      "thread": 56364,
+      "caller": 0,
+      "team": 109924928,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 1970.0,
+      "y": 2490.0,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 112571000,
+      "state_id": 16,
+      "path": 0,
+      "path_node": 0,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        0.0,
+        0.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 147,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1927,
+      "tick": 578025781,
+      "thread": 56364,
+      "caller": 0,
+      "team": 109924928,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 1970.0,
+      "y": 2490.0,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 112571000,
+      "state_id": 16,
+      "path": 0,
+      "path_node": 0,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        0.0,
+        0.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 148,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1928,
+      "tick": 578025875,
+      "thread": 56364,
+      "caller": 0,
+      "team": 109924928,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 1970.0,
+      "y": 2490.0,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 112571000,
+      "state_id": 16,
+      "path": 0,
+      "path_node": 0,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        0.0,
+        0.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 149,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1930,
+      "tick": 578025984,
+      "thread": 56364,
+      "caller": 0,
+      "team": 109924928,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 1970.0,
+      "y": 2490.0,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 112571000,
+      "state_id": 16,
+      "path": 0,
+      "path_node": 0,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        0.0,
+        0.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 150,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1931,
+      "tick": 578026078,
+      "thread": 56364,
+      "caller": 0,
+      "team": 109924928,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 1970.0,
+      "y": 2490.0,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 112571000,
+      "state_id": 16,
+      "path": 0,
+      "path_node": 0,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        0.0,
+        0.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 151,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1933,
+      "tick": 578026218,
+      "thread": 56364,
+      "caller": 0,
+      "team": 109924928,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 1970.0,
+      "y": 2490.0,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 112571000,
+      "state_id": 16,
+      "path": 0,
+      "path_node": 0,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        0.0,
+        0.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 152,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1935,
+      "tick": 578026312,
+      "thread": 56364,
+      "caller": 0,
+      "team": 109924928,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 1970.0,
+      "y": 2490.0,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 112571000,
+      "state_id": 16,
+      "path": 0,
+      "path_node": 0,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        0.0,
+        0.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 153,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1936,
+      "tick": 578026406,
+      "thread": 56364,
+      "caller": 0,
+      "team": 109924928,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 1970.0,
+      "y": 2490.0,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 112571000,
+      "state_id": 16,
+      "path": 0,
+      "path_node": 0,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        0.0,
+        0.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 154,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1938,
+      "tick": 578026546,
+      "thread": 56364,
+      "caller": 0,
+      "team": 109924928,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 1970.0,
+      "y": 2490.0,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 112571000,
+      "state_id": 16,
+      "path": 0,
+      "path_node": 0,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        0.0,
+        0.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 155,
+      "kind": 3,
+      "tag": 0,
+      "frame": 1940,
+      "tick": 578026640,
+      "thread": 56364,
+      "caller": 0,
+      "team": 109924928,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 1970.0,
+      "y": 2490.0,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 112571000,
+      "state_id": 16,
+      "path": 0,
+      "path_node": 0,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        0.0,
+        0.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    },
+    {
+      "seq": 156,
+      "kind": 4,
+      "tag": 0,
+      "frame": 1940,
+      "tick": 578026640,
+      "thread": 56364,
+      "caller": 0,
+      "team": 109924928,
+      "owner": 52393168,
+      "source": 1,
+      "arg": 0,
+      "x": 1970.0,
+      "y": 2490.0,
+      "z": 210.0,
+      "sm": 112630976,
+      "sm_flags": 65536,
+      "state": 112571000,
+      "state_id": 16,
+      "path": 0,
+      "path_node": 0,
+      "requested": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "effective": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "path_xy": [
+        0.0,
+        0.0
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    }
+  ],
+  "native": {
+    "error": 0,
+    "restore_mask": 255,
+    "callback_thread": 56364,
+    "issued_frame": 1720,
+    "returned_frame": 1910,
+    "move_calls": 1,
+    "detach_calls": 1,
+    "return_calls": 1,
+    "arrival_samples": 3,
+    "native_move": 0,
+    "native_attack": 0,
+    "native_add": 0,
+    "native_remove": 0,
+    "owner_fail": 0,
+    "lifecycle_fail": 0,
+    "paused_samples": 0,
+    "overflow": 0,
+    "return_verified": 1,
+    "return_pending": 0,
+    "stop_calls": 1,
+    "private_stop_calls": 1,
+    "private_stop_frame": 1720,
+    "move_issued_frame": 1725,
+    "stable_samples": 3,
+    "stop_gate_samples": 3,
+    "last_sample_frame": 1725,
+    "last_arrival_frame": 1910,
+    "phase": 3,
+    "active": 0,
+    "count": 156,
+    "lease_frames": 450,
+    "expires_frame": 0,
+    "target": [
+      1971.9827880859375,
+      2491.98291015625,
+      210.0
+    ],
+    "session_id": "b8929f68-5bcd-4b57-b841-e7e185aa3f3f",
+    "commander_id": "57e668b4-4d89-43bd-bc92-0dd436f046ef",
+    "command_id": "d708fda1-2bd3-4a7a-a9f8-79bd43e40e42",
+    "task_id": "b10c0216-eab0-473e-904c-cd4ce4f81741",
+    "seq": 578011359
+  },
+  "request": {
+    "command_id": "d708fda1-2bd3-4a7a-a9f8-79bd43e40e42",
+    "task_id": "b10c0216-eab0-473e-904c-cd4ce4f81741",
+    "seq": 578011359,
+    "token": 4041792901,
+    "dx": -398.0172119140625,
+    "dy": -358.01708984375,
+    "lease_frames": 450,
+    "post_frames": 30,
+    "target": [
+      1971.9827880859375,
+      2491.98291015625,
+      210.0
+    ],
+    "arrival_radius": 15,
+    "object_id": 793,
+    "expires_frame": 0
+  },
+  "known_point": {
+    "xyz": [
+      1971.9827880859375,
+      2491.98291015625,
+      210.0
+    ],
+    "observed_frame": 489,
+    "source_object_id": 768,
+    "source_kind": "read_only_own_snapshot",
+    "source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-030636-commander\\own-routes\\00000489-768.json",
+    "source_sha256": "48089cc80413dd320d523b8abc503f1b6a6d0d0620fda086f00c7619b24d544d",
+    "current_own_occupants_within30": [],
+    "note": "Previously occupied ground position, not proof of current path reachability."
+  },
+  "native_source_sha256": "7b880948fda73b97cd9cbed4a2758391f55e7dcc7af09eaf5d41caa844416130",
+  "native_shared_sha256": "c46aeb1518939361d474b184df4ea25ce1758aa846f2365a6093efb78b5c0f6f",
+  "experimental_scope": "calibration_ground_conscript_true_observed_height",
+  "native_binary_sha256": "9124a027b6554dd6561f4daba5611e908695be83a84162eafae0c9fb5ceec068",
+  "native_host_sha256": "0883eecb81069239315bb04ee9bd795c2fea5ba6dc9a2c01b910acccf9e21b4f",
+  "wrapper_sha256": "b1537e6e05fed782e883f3b76a7ac7a4c4b4d7bbfd1da3a8805fad966b2577c2",
+  "host_exit": 0,
+  "assessment": {
+    "status": "stop_move_and_return_primitive_verified",
+    "checks": {
+      "stopped": true,
+      "hooks_restored": true,
+      "no_active_callbacks": true,
+      "no_native_error": true,
+      "one_detach": true,
+      "one_move": true,
+      "one_return": true,
+      "arrival": true,
+      "owner_preserved": true,
+      "remove_observed": true,
+      "add_observed": true,
+      "no_observed_lease_override": true,
+      "leased_team_preserved": true,
+      "return_pool_verified": true,
+      "no_lifecycle_error": true,
+      "no_log_overflow": true,
+      "session_binding": true,
+      "command_binding": true,
+      "thread_verified": true,
+      "one_move_hook_chain": true,
+      "frame_window": true,
+      "target_binding": true,
+      "arrival_independent": true,
+      "stop_actual_hook_pair": true,
+      "one_normal_stop": true,
+      "deferred_stop_before_move": true,
+      "clean_stop_samples": true,
+      "normal_move_input_chain": true,
+      "distinct_arrival_frames": true,
+      "original_expiry_preserved": true,
+      "monotonic_frame_log": true,
+      "raw_stable_stop": true
+    },
+    "native_recruitment_observed": true,
+    "raid_verified": false,
+    "attack_verified": false,
+    "combined_arms_verified": false,
+    "note": "Arrival and normal pool return are primitive evidence; native recruitment and all tactical goals require separate assessment. No exact original squad restoration claimed."
+  }
+}

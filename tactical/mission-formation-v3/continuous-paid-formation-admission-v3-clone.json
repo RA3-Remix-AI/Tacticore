@@ -1,0 +1,15 @@
+{
+  "source": "continuous_paid_driver.py",
+  "source_sha256": "ca8e8b4a4af180ebe19680cdf06bf5df22843c2a615f9b72b1b7909403cc373a",
+  "candidate": "continuous_paid_formation_admission_v3.py",
+  "candidate_sha256": "81913eda9ea0aa42ac3e706e98561d5a27792ae75a7aa20596ea89a63b07968c",
+  "path_replacements": {
+    "field_plan.py": "field_plan_admission_v3.py",
+    "field_coordinate.py": "field_coordinate_admission_v3.py",
+    "lease_admission_v2.py": "lease_admission_v3.py"
+  },
+  "production_logic_changed": false,
+  "combat_v6_branch_changed": false,
+  "game_commands_executed_during_creation": 0,
+  "capability_granted": false
+}

@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "source_report": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-142348-commander\\continuous-paid-v6-01-combat-v6.json",
+  "source_sha256": "4705b88bc368e1d9105244b3c67b53176c5e36e4b5d0721f81d3983485d18964",
+  "qualifier_sha256": "11db71035259efa285e3516224e95fc220b85eb360d1046c4b88de3c9388f692",
+  "source_status": "read_only_followup_no_runtime_or_raw_change",
+  "sdk_calls": 0,
+  "native_binary_unchanged": true,
+  "incoming_death": {
+    "actor_id": 773,
+    "outgoing_target_id": 774,
+    "death_source": "unknown",
+    "reason": "hooks only publish health/DamageInfo when body==selected outgoing target Body; own Body incoming packet not captured",
+    "recorded_health_target_ids": [
+      774
+    ],
+    "recorded_health_source_ids": [
+      773
+    ],
+    "own_body_health_packet_events": 0,
+    "last_live_hp": {
+      "frame": 1641,
+      "hp": 95.0
+    },
+    "terminal_hp": {
+      "frame": 1643,
+      "hp": 0.0
+    },
+    "incoming_attacker_inference_permitted": false,
+    "hook_global_counters_do_not_identify_unrecorded_sources": true
+  },
+  "completion_counterexamples": [
+    {
+      "name": "one_hit_policy_goal",
+      "fixture_is_synthetic": true,
+      "changes": "only single exact same-source hit/commit/ammo consumption, goal entry and counters; all approach/retreat/return evidence remains synthetic fixture",
+      "result": {
+        "status": "not_passed",
+        "effect_verified": true,
+        "damage_goal_reached": true,
+        "engagement_partial": false,
+        "retreat_verified": true,
+        "restoration_verified": true,
+        "sustained_engagement_verified": false,
+        "observed_reload_count": 0,
+        "observed_lethal_hit_count": 0
+      },
+      "failed_checks": {
+        "sustained_source_effect": false
+      },
+      "native_runtime_policy_would_exit": "source_damage_goal_or_lethal_reached; final completion still requires physical retreat and native return"
+    },
+    {
+      "name": "one_hit_exact_lethal",
+      "fixture_is_synthetic": true,
+      "changes": "only single exact same-source hit/commit/ammo consumption, goal entry and counters; all approach/retreat/return evidence remains synthetic fixture",
+      "result": {
+        "status": "not_passed",
+        "effect_verified": true,
+        "damage_goal_reached": true,
+        "engagement_partial": false,
+        "retreat_verified": true,
+        "restoration_verified": true,
+        "sustained_engagement_verified": false,
+        "observed_reload_count": 0,
+        "observed_lethal_hit_count": 1
+      },
+      "failed_checks": {
+        "sustained_source_effect": false
+      },
+      "native_runtime_policy_would_exit": "source_damage_goal_or_lethal_reached; final completion still requires physical retreat and native return"
+    }
+  ],
+  "recommendation": {
+    "runtime_complete": "new-order causal goal OR exact source lethal + all binding/FOV/order/physical retreat/normal return requirements; no generic multihit/reload requirement per task",
+    "capability_source": "same full runtime chain plus observed multiple hits across real distinct frames, actual refill, required memory reacquisition/displacement and long retreat",
+    "preserve_current_v6_failed_case": true,
+    "change_current_frozen_q": false,
+    "implement_next_revision_now": false
+  }
+}

@@ -1,0 +1,514 @@
+{
+  "session_id": "8a1186c9-6df6-416a-bd4a-45d11a713bad",
+  "executable_sha256": "ec230c6ae1eaee30b0b4fa6ba29d417c974ecae46d6715dfbe786a815935c165",
+  "package_sha256": "2d7873e1b2d2c79950ff9da70b5452b1210370a6d6cbec1eaa69201a7d3d0665",
+  "native_binary_sha256": "75813bf0c2d12174ac50919c0aa299a90be9d9c77cac691abe1a7106c4c834cf",
+  "native_host_sha256": "a704c538d4ecc6f580d9a7a38eb2ee1261d77a037224c897208a92b39920edb4",
+  "wrapper_sha256": "d36f3038ad3587f36541f1c6ab5d40b22df8504e155fb77dad5130309eaa93ca",
+  "native_source_sha256": "3bf8fa2e393693661221273fe72dbd11008b5277ca694d35503fc4b24b1dad3a",
+  "native_shared_sha256": "106c6116517bb600aa59c140999c8ef855dc30434ffdc3ae3151f9c899b60290",
+  "preflight": {
+    "status": "read_only_ready",
+    "session_id": "8a1186c9-6df6-416a-bd4a-45d11a713bad",
+    "pid": 26312,
+    "commander_id": "57e668b4-4d89-43bd-bc92-0dd436f046ef",
+    "player_id": 3,
+    "frame": 6590,
+    "paused": 3,
+    "owner": "0x33754d0",
+    "ai": "0x465ea28",
+    "personality": "0xec8c020",
+    "personality_id": "0x7664d9d9",
+    "player_template": "0x11516e70",
+    "logic": "0x3e1a228",
+    "window_thread": 9440,
+    "script_team": "0x52c2790",
+    "default_team": "0x52c3690",
+    "eligible_count": 8,
+    "units": [
+      {
+        "address": "0x58fc310",
+        "owner_address": "0x33754d0",
+        "owner_index_candidate": 3,
+        "object_id": 772,
+        "type_hash": "0x19ab11af",
+        "ai_address": "0x61a3d10",
+        "xyz": [
+          2726.054443359375,
+          2133.497802734375,
+          260.0
+        ],
+        "catalog": {
+          "name": "征召兵",
+          "template": "SovietAntiInfantryInfantry",
+          "side": 2,
+          "cls": 1,
+          "category": 0
+        },
+        "hp": 100.0,
+        "team": "0x52c3690",
+        "command_source": 0,
+        "eligible": true
+      },
+      {
+        "address": "0x58fe610",
+        "owner_address": "0x33754d0",
+        "owner_index_candidate": 3,
+        "object_id": 779,
+        "type_hash": "0x19ab11af",
+        "ai_address": "0x667cae0",
+        "xyz": [
+          2970.122802734375,
+          2189.973876953125,
+          260.0
+        ],
+        "catalog": {
+          "name": "征召兵",
+          "template": "SovietAntiInfantryInfantry",
+          "side": 2,
+          "cls": 1,
+          "category": 0
+        },
+        "hp": 100.0,
+        "team": "0x52c3690",
+        "command_source": 0,
+        "eligible": true
+      },
+      {
+        "address": "0x5901d10",
+        "owner_address": "0x33754d0",
+        "owner_index_candidate": 3,
+        "object_id": 790,
+        "type_hash": "0x2c358c61",
+        "ai_address": "0x66e4090",
+        "xyz": [
+          2764.2177734375,
+          2183.209716796875,
+          220.0
+        ],
+        "catalog": {
+          "name": "防空部队",
+          "template": "SovietAntiVehicleInfantry",
+          "side": 2,
+          "cls": 1,
+          "category": 0
+        },
+        "hp": 120.0,
+        "team": "0x52c3690",
+        "command_source": 0,
+        "eligible": true
+      },
+      {
+        "address": "0x5904f10",
+        "owner_address": "0x33754d0",
+        "owner_index_candidate": 3,
+        "object_id": 800,
+        "type_hash": "0x19ab11af",
+        "ai_address": "0x65a2890",
+        "xyz": [
+          2729.5810546875,
+          2269.65087890625,
+          220.0
+        ],
+        "catalog": {
+          "name": "征召兵",
+          "template": "SovietAntiInfantryInfantry",
+          "side": 2,
+          "cls": 1,
+          "category": 0
+        },
+        "hp": 99.74075317382812,
+        "team": "0x52c3690",
+        "command_source": 0,
+        "eligible": true
+      },
+      {
+        "address": "0x48659a0",
+        "owner_address": "0x33754d0",
+        "owner_index_candidate": 3,
+        "object_id": 809,
+        "type_hash": "0x2c358c61",
+        "ai_address": "0x611cdb8",
+        "xyz": [
+          2834.8193359375,
+          2239.312744140625,
+          220.0
+        ],
+        "catalog": {
+          "name": "防空部队",
+          "template": "SovietAntiVehicleInfantry",
+          "side": 2,
+          "cls": 1,
+          "category": 0
+        },
+        "hp": 120.0,
+        "team": "0x52c3690",
+        "command_source": 1,
+        "eligible": true
+      },
+      {
+        "address": "0x5900410",
+        "owner_address": "0x33754d0",
+        "owner_index_candidate": 3,
+        "object_id": 961,
+        "type_hash": "0x19ab11af",
+        "ai_address": "0x6109108",
+        "xyz": [
+          1785.1480712890625,
+          2163.749755859375,
+          210.0
+        ],
+        "catalog": {
+          "name": "征召兵",
+          "template": "SovietAntiInfantryInfantry",
+          "side": 2,
+          "cls": 1,
+          "category": 0
+        },
+        "hp": 100.0,
+        "team": "0x52c7790",
+        "command_source": 0,
+        "eligible": true
+      },
+      {
+        "address": "0x5906310",
+        "owner_address": "0x33754d0",
+        "owner_index_candidate": 3,
+        "object_id": 977,
+        "type_hash": "0x19ab11af",
+        "ai_address": "0x6100858",
+        "xyz": [
+          1676.5806884765625,
+          2943.419189453125,
+          210.0
+        ],
+        "catalog": {
+          "name": "征召兵",
+          "template": "SovietAntiInfantryInfantry",
+          "side": 2,
+          "cls": 1,
+          "category": 0
+        },
+        "hp": 100.0,
+        "team": "0x52c7790",
+        "command_source": 0,
+        "eligible": true
+      },
+      {
+        "address": "0x4894ca0",
+        "owner_address": "0x33754d0",
+        "owner_index_candidate": 3,
+        "object_id": 979,
+        "type_hash": "0x19ab11af",
+        "ai_address": "0x5af29c0",
+        "xyz": [
+          1430.0,
+          3130.0,
+          210.0
+        ],
+        "catalog": {
+          "name": "征召兵",
+          "template": "SovietAntiInfantryInfantry",
+          "side": 2,
+          "cls": 1,
+          "category": 0
+        },
+        "hp": 100.0,
+        "team": "0x4ae57c0",
+        "command_source": 0,
+        "eligible": true
+      }
+    ],
+    "selected": {
+      "address": "0x5904f10",
+      "owner_address": "0x33754d0",
+      "owner_index_candidate": 3,
+      "object_id": 800,
+      "type_hash": "0x19ab11af",
+      "ai_address": "0x65a2890",
+      "xyz": [
+        2729.5810546875,
+        2269.65087890625,
+        220.0
+      ],
+      "catalog": {
+        "name": "征召兵",
+        "template": "SovietAntiInfantryInfantry",
+        "side": 2,
+        "cls": 1,
+        "category": 0
+      },
+      "hp": 99.74075317382812,
+      "team": "0x52c3690",
+      "command_source": 0,
+      "eligible": true
+    },
+    "restore_semantics": "native_common_pool_not_original_squad",
+    "mutations": false
+  },
+  "request": {
+    "command_id": "6b01b3b3-0bb9-4902-be4c-99e8e20190ef",
+    "task_id": "240f9f34-eece-4d5f-b390-9a29e4aeac3d",
+    "seq": 567310968,
+    "token": 1266301504,
+    "front_id": 800,
+    "support_id": 809,
+    "front_goal": [
+      2670.0,
+      2220.0,
+      220.0
+    ],
+    "support_goal": [
+      2729.5810546875,
+      2269.65087890625,
+      220.0
+    ],
+    "lease_frames": 180,
+    "min_spacing": 40,
+    "max_spacing": 100
+  },
+  "events": [
+    {
+      "seq": 1,
+      "kind": 0,
+      "tag": 0,
+      "stage": 0,
+      "frame": 6590,
+      "tick": 567311765,
+      "thread": 9440,
+      "caller": 0,
+      "unit_id": 0,
+      "team": 0,
+      "owner": 0,
+      "source": 0,
+      "arg": 0,
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0,
+      "sm": 0,
+      "sm_flags": 0,
+      "state": 0,
+      "state_id": 0,
+      "path": 0,
+      "path_node": 0,
+      "requested": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "effective": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "path_xy": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "seq": 2,
+      "kind": 4,
+      "tag": 0,
+      "stage": 0,
+      "frame": 6591,
+      "tick": 567477937,
+      "thread": 9440,
+      "caller": 0,
+      "unit_id": 0,
+      "team": 0,
+      "owner": 0,
+      "source": 0,
+      "arg": 0,
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0,
+      "sm": 0,
+      "sm_flags": 0,
+      "state": 0,
+      "state_id": 0,
+      "path": 0,
+      "path_node": 0,
+      "requested": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "effective": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "path_xy": [
+        0.0,
+        0.0
+      ]
+    }
+  ],
+  "units": [
+    {
+      "thing": 93343504,
+      "id": 800,
+      "hash": 430641583,
+      "update": 106571920,
+      "original_team": 0,
+      "initial": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "goal": [
+        2670.0,
+        2220.0,
+        220.0
+      ],
+      "hold": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "detach_calls": 0,
+      "move_calls": 0,
+      "return_calls": 0,
+      "arrivals": 0,
+      "returned": 0,
+      "native_move": 0,
+      "native_attack": 0,
+      "native_add": 0,
+      "native_remove": 0,
+      "disposed_verified": 0,
+      "disposed_reason": 0,
+      "disposed_frame": 0,
+      "disposed_list_count": 0,
+      "disposed_hp": 0.0,
+      "stop_calls": 0,
+      "private_stop_calls": 0,
+      "private_stop_frame": 0,
+      "stable_samples": 0,
+      "gate_samples": 0,
+      "last_sample_frame": 0,
+      "native_stop": 0,
+      "stopped_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "thing": 75913632,
+      "id": 809,
+      "hash": 741706849,
+      "update": 101830072,
+      "original_team": 0,
+      "initial": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "goal": [
+        2729.5810546875,
+        2269.65087890625,
+        220.0
+      ],
+      "hold": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "detach_calls": 0,
+      "move_calls": 0,
+      "return_calls": 0,
+      "arrivals": 0,
+      "returned": 0,
+      "native_move": 0,
+      "native_attack": 0,
+      "native_add": 0,
+      "native_remove": 0,
+      "disposed_verified": 0,
+      "disposed_reason": 0,
+      "disposed_frame": 0,
+      "disposed_list_count": 0,
+      "disposed_hp": 0.0,
+      "stop_calls": 0,
+      "private_stop_calls": 0,
+      "private_stop_frame": 0,
+      "stable_samples": 0,
+      "gate_samples": 0,
+      "last_sample_frame": 0,
+      "native_stop": 0,
+      "stopped_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  ],
+  "native": {
+    "error": 33,
+    "restore_mask": 127,
+    "callback_thread": 9440,
+    "issued_frame": 0,
+    "returned_frame": 0,
+    "stage": 0,
+    "stage_frame": 0,
+    "goal_samples": 0,
+    "support_hold_samples": 0,
+    "front_arrival_frame": 0,
+    "support_issued_frame": 0,
+    "overflow": 0,
+    "paused_samples": 1517,
+    "return_pending": 0,
+    "last_goal_frame": 0,
+    "phase": 4,
+    "active": 0,
+    "count": 2,
+    "session_id": "8a1186c9-6df6-416a-bd4a-45d11a713bad",
+    "command_id": "6b01b3b3-0bb9-4902-be4c-99e8e20190ef",
+    "task_id": "240f9f34-eece-4d5f-b390-9a29e4aeac3d",
+    "commander_id": "57e668b4-4d89-43bd-bc92-0dd436f046ef",
+    "seq": 567310968
+  },
+  "status": "finished",
+  "host_exit": 9,
+  "assessment": {
+    "status": "not_passed",
+    "checks": {
+      "clean_stop": false,
+      "roles": true,
+      "stage_goal": false,
+      "stage_order": false,
+      "bounded": true,
+      "thread": true,
+      "binding": true,
+      "no_overflow": true,
+      "monotonic_frame_log": true,
+      "bounded_commands": false,
+      "unit_0_returned": false,
+      "unit_0_owner": false,
+      "unit_0_no_override": true,
+      "unit_0_move_chain": true,
+      "unit_1_returned": false,
+      "unit_1_owner": false,
+      "unit_1_no_override": true,
+      "unit_1_move_chain": true,
+      "unit_0_normal_stop": false,
+      "unit_0_stop_then_move": false,
+      "unit_0_settled_hold_bound": false,
+      "unit_0_clean_samples": false,
+      "unit_1_normal_stop": false,
+      "unit_1_stop_then_move": false,
+      "unit_1_settled_hold_bound": false,
+      "unit_1_clean_samples": false,
+      "unit_0_stable_stop_raw": false,
+      "unit_1_stable_stop_raw": false,
+      "support_held_before_release": false,
+      "independent_pair_geometry": false,
+      "requested_goals_bound": true
+    },
+    "paired_geometry": [],
+    "raid_verified": false,
+    "attack_verified": false,
+    "combined_arms_verified": false,
+    "note": "Two role staged movement only; role/task capability is still subject to host review."
+  }
+}

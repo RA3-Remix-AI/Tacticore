@@ -1,0 +1,151 @@
+{
+  "schema_version": 2,
+  "executable_sha256": "ec230c6ae1eaee30b0b4fa6ba29d417c974ecae46d6715dfbe786a815935c165",
+  "helper_sha256": "b62c2fdaa4c959d764109a10d63b31c025673bdc196fc50da81750c0afb4c02b",
+  "old_helper_sha256": "9635d39a64e65ec95a67a757a4a4212c1835ae539cd00a44ba22a88ed999335b",
+  "scope_added": {
+    "state_id": 10,
+    "name": "UnitAIAttackObjectState",
+    "exact_vtable": "0xc548c0",
+    "name_getter": "0x7f4920",
+    "name_pointer": "0xc54914",
+    "registration": "0x811055",
+    "register_function": "0x614a70",
+    "qualification": "bounded_candidate_only; natural AI state10 takeover still requires fresh field chain"
+  },
+  "exact_executable_evidence": [
+    {
+      "address": "0xc548c8",
+      "bytes": "20497f00"
+    },
+    {
+      "address": "0x7f4920",
+      "bytes": "b81449c500c3"
+    },
+    {
+      "address": "0xc54914",
+      "bytes": "556e6974414941747461636b4f626a656374537461746500"
+    },
+    {
+      "address": "0x811041",
+      "bytes": "c703c048c500"
+    },
+    {
+      "address": "0x811055",
+      "bytes": "575757536a0a8bcee80e3ae0ff"
+    },
+    {
+      "address": "0x614ab3",
+      "bytes": "897e04"
+    }
+  ],
+  "allowed_states": [
+    1,
+    10,
+    16
+  ],
+  "special_states_still_rejected": [
+    7,
+    54,
+    77,
+    96
+  ],
+  "all_ground_air_holder_backref_lock_guards_preserved": true,
+  "bridge_attack_stop_evidence": {
+    "report": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-030636-commander\\combo-economy01.json",
+    "sha256": "f1225debb76c9ca0c6ba63260b30cb133b5027a37d9ef222c4b98bc2d563053e",
+    "events": [
+      {
+        "seq": 200,
+        "frame": 2984,
+        "kind": 30,
+        "tag": 4,
+        "lease_stage": 2,
+        "state_id": 10,
+        "source": 1,
+        "caller": 2036018805,
+        "path": 0,
+        "holder": 0
+      },
+      {
+        "seq": 201,
+        "frame": 2984,
+        "kind": 32,
+        "tag": 4,
+        "lease_stage": 2,
+        "state_id": 10,
+        "source": 1,
+        "caller": 7894929,
+        "path": 0,
+        "holder": 0
+      },
+      {
+        "seq": 202,
+        "frame": 2984,
+        "kind": 33,
+        "tag": 4,
+        "lease_stage": 2,
+        "state_id": 16,
+        "source": 1,
+        "caller": 7894929,
+        "path": 0,
+        "holder": 0
+      },
+      {
+        "seq": 209,
+        "frame": 2986,
+        "kind": 3,
+        "tag": 0,
+        "lease_stage": 2,
+        "state_id": 16,
+        "source": 1,
+        "caller": 0,
+        "path": 0,
+        "holder": 0
+      },
+      {
+        "seq": 220,
+        "frame": 2987,
+        "kind": 3,
+        "tag": 0,
+        "lease_stage": 2,
+        "state_id": 16,
+        "source": 1,
+        "caller": 0,
+        "path": 0,
+        "holder": 0
+      },
+      {
+        "seq": 231,
+        "frame": 2989,
+        "kind": 3,
+        "tag": 0,
+        "lease_stage": 2,
+        "state_id": 16,
+        "source": 1,
+        "caller": 0,
+        "path": 0,
+        "holder": 0
+      },
+      {
+        "seq": 232,
+        "frame": 2989,
+        "kind": 38,
+        "tag": 0,
+        "lease_stage": 2,
+        "state_id": 16,
+        "source": 1,
+        "caller": 0,
+        "path": 0,
+        "holder": 0
+      }
+    ],
+    "interpretation": "source1 bridge Attack10 normalStop returned16 plus three distinct stable frames and true native return; not a proof of prior source0 high-level cancellation"
+  },
+  "tests": {
+    "module": "test_mission_actor_admission_v2",
+    "count": 6,
+    "sdk_calls": 0
+  },
+  "mutations": false
+}

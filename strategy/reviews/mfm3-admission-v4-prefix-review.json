@@ -1,0 +1,47 @@
+{
+  "scope": "first field diagnostic recommendation only, no capability grant",
+  "game_or_model_calls": 0,
+  "original_runs_unchanged": true,
+  "candidate_manifest_sha256": "ea52b56de4a4bfb3d64d27ca88a8939f6951fc8c4ee7132ec77d65d27d7320a8",
+  "candidate_hashes": {
+    "bridge-probe\\tactical\\mission-formation-v3\\lease_admission_v4.py": "0b455ffcaa7b5f18d2508e1afa03eeabf453a607f8a6c375bb04013c082df549",
+    "bridge-probe\\tactical\\mission-formation-v3\\formation_mission_qualification_v4.py": "00abec5ebf61255fa65bd4b2ac9abb9e5569fa9d95fcd5a95fbc095136a8784b",
+    "bridge-probe\\tactical\\pre_dispatch_formation_v3_admission_v4_contract.py": "248d9fd002bdd5cc73365942ac6313e20b6469d3f1135efa608af172a089197f",
+    "bridge-probe\\tactical\\mission_formation_v3_admission_v4_gate_no_lease.py": "3fd817f86742de10e624b7c52a725dc49dc5259a04feb75b11bbc9977628b364",
+    "bridge-probe\\tactical\\mission-formation-v3\\route_rebase_v4.py": "5e759c322dea9225cda4aef6c16013b8e782d5e9148bf6b5953fa58917e8744a",
+    "bridge-probe\\tactical\\mission-formation-v3\\test_admission_wrapper_v4.py": "150e36d2cf023e6107442cfbb58751a7d59b0b5a4d1161bae3c4b0d98ebfc924",
+    "bridge-probe\\tactical\\mission-formation-v3\\field_coordinate_admission_v4.py": "5403cf3cac27e7f0f6b0d639aa5f78e9fd7b0b3880e8fe6ca7838d90c55d6e4c",
+    "bridge-probe\\tactical\\mission-formation-v3\\continuous_paid_formation_admission_v4.py": "dd814a4a80ece3b7a799a4be42de0ea07c07d218146b6e602328cfce37ec22b3",
+    "bridge-probe\\tactical\\mission-formation-v3\\field_plan_admission_v3.py": "5812aa6a09bf76158ff143875765cd6ff7a442d0be7eaaaf39110ce782bb8c93",
+    "bridge-probe\\tactical\\mission-formation-v3\\role_route_planner.py": "897fea98260b4a81122da9da03e120584dc427c35cf99a9f5504b3015cbad9bf",
+    "bridge-probe\\tactical\\mission_actor_admission_v2.py": "b62c2fdaa4c959d764109a10d63b31c025673bdc196fc50da81750c0afb4c02b",
+    "bridge-probe\\tactical\\mission_actor_admission.py": "9635d39a64e65ec95a67a757a4a4212c1835ae539cd00a44ba22a88ed999335b",
+    "bridge-probe\\tactical\\grounded_status_v2.py": "70e5f94bac9b1a82beec56053fd43e91f6edaba1500c8dfa840e868be836e6b3",
+    "bridge-probe\\tactical\\grounded_status.py": "ad5b758c947843969f2d1ec6e7fc07c0eaec084b1a59e60750d69d881e78a6c0",
+    "bridge-probe\\integration\\ground_history.py": "6a4b1659706a96e6b1027e9f64f709dd10f833459498bb5f2abbc3b6e0da8118",
+    "bridge-probe\\tactical\\mission-formation-v3\\bin\\TacticalMissionFormation3.dll": "632400b1cbe1cc9e59c7f360f17633bef13251c72a3a8e04ef940f850321de5f",
+    "bridge-probe\\tactical\\mission-formation-v3\\bin\\tactical_host.exe": "e3348a5eb7aad71ba1d51f1e0539f3d13cae978c52fd29b3afb1c6d5f8ffaf6b"
+  },
+  "tests": {
+    "test_admission_wrapper_v4": 10,
+    "independent_prefix_boundary_cases": 2
+  },
+  "bounds": {
+    "prune_only_original_prefix": true,
+    "each_pruned_distance_strictly_less_than": 60,
+    "preserved_suffix_min": 2,
+    "preserved_suffix_max": 16,
+    "original_sources_including_removed_reverified": true,
+    "original_plan_source_and_native_route_echo_checked": true,
+    "all_existing_geometry_visibility_occupancy_admission_and_release_gates_preserved": true
+  },
+  "old_case_replay": {
+    "run": "20261025-142348-commander",
+    "actual_late_first_distance": 21.24409216387518,
+    "only_one_prefix_removed": true,
+    "retained_waypoints": 13,
+    "new_first_distance": 137.84697723610591,
+    "classification": "pure original-pose replay, original exit64/0SDK not reclassified"
+  },
+  "diagnostic_go_sent_to_sole_runner": true
+}

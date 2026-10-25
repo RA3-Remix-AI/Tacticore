@@ -1,0 +1,123 @@
+{
+  "executable_sha256": "ec230c6ae1eaee30b0b4fa6ba29d417c974ecae46d6715dfbe786a815935c165",
+  "helper_sha256": "9635d39a64e65ec95a67a757a4a4212c1835ae539cd00a44ba22a88ed999335b",
+  "dependencies": {
+    "grounded_status_v2.py": "70e5f94bac9b1a82beec56053fd43e91f6edaba1500c8dfa840e868be836e6b3",
+    "grounded_status.py": "ad5b758c947843969f2d1ec6e7fc07c0eaec084b1a59e60750d69d881e78a6c0"
+  },
+  "states": [
+    {
+      "state_id": 54,
+      "name": "UnitAIMoveToGoalAndEnterState",
+      "vtable": "0xc55608",
+      "name_getter": "0x7f6e60",
+      "getter_bytes": "b85c56c500c3",
+      "name_pointer": "0xc5565c",
+      "constructor_vtable_write": "0x8112b8",
+      "constructor_bytes": "c7030856c500",
+      "registration_address": "0x8112c2",
+      "registration_bytes": "57576a4d536a368bcee8a037e0ff",
+      "register_function": "0x614a70",
+      "id_write_instruction": {
+        "address": "0x614ab3",
+        "bytes": "897e04",
+        "meaning": "writes registration first argument into State+4"
+      }
+    },
+    {
+      "state_id": 77,
+      "name": "UnitAIGarrisonedState",
+      "vtable": "0xc55050",
+      "name_getter": "0x7f6120",
+      "getter_bytes": "b8a450c500c3",
+      "name_pointer": "0xc550a4",
+      "constructor_vtable_write": "0x81134e",
+      "constructor_bytes": "c7035050c500",
+      "registration_address": "0x811358",
+      "registration_bytes": "68ec93c5005757536a4d8bcee80737e0ff",
+      "register_function": "0x614a70",
+      "id_write_instruction": {
+        "address": "0x614ab3",
+        "bytes": "897e04",
+        "meaning": "writes registration first argument into State+4"
+      }
+    }
+  ],
+  "allowed_state_scope": [
+    1,
+    16
+  ],
+  "allowed_scope_evidence": "actual normalMove76d9d0 enters1; ScriptStop721ad0 settles16; successful bounded lease proofs remain archived",
+  "live_failure": {
+    "source_report": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-123933-commander\\coord3-mission06.json",
+    "source_sha256": "8ef4907301a89508d55cc6999bcae1abaa6ba47a0be90c2de1a85a2a5baeecfe",
+    "events": [
+      {
+        "seq": 27,
+        "frame": 8098,
+        "kind": 3,
+        "tag": 0,
+        "state_id": 54,
+        "source": 0,
+        "status84": 0,
+        "path": 111890000,
+        "caller": 0,
+        "owner": 52151504,
+        "team": 79817968
+      },
+      {
+        "seq": 29,
+        "frame": 8099,
+        "kind": 18,
+        "tag": 0,
+        "state_id": 54,
+        "source": 0,
+        "status84": 536870912,
+        "path": 111890000,
+        "caller": 9247646,
+        "owner": 52151504,
+        "team": 79817968
+      },
+      {
+        "seq": 31,
+        "frame": 8100,
+        "kind": 3,
+        "tag": 0,
+        "state_id": 77,
+        "source": 0,
+        "status84": 536870912,
+        "path": 0,
+        "caller": 0,
+        "owner": 52151504,
+        "team": 79817968
+      },
+      {
+        "seq": 33,
+        "frame": 8102,
+        "kind": 3,
+        "tag": 0,
+        "state_id": 77,
+        "source": 0,
+        "status84": 536870912,
+        "path": 0,
+        "caller": 0,
+        "owner": 52151504,
+        "team": 79817968
+      }
+    ],
+    "interpretation": "pending MoveToGoalAndEnter resumed after Stop and real Garrisoned state was entered; this is not a false Remove alarm"
+  },
+  "native_remove_caller": {
+    "return_address": "0x8d1b9e",
+    "function": "0x8d1b80",
+    "call_instruction": "0x8d1b99",
+    "call_bytes": "e892baffff",
+    "callee": "0x8cd630",
+    "scope": "AIPlayer unit-removal routine; address alone does not uniquely mean transport"
+  },
+  "live_name_lookup": "refused by actor identity guard after scene end; no stale pointer was treated as evidence",
+  "mutations": false,
+  "sdk_calls": 0,
+  "in_lease_interference_guard_unchanged": true,
+  "ownership_after_snapshot_guaranteed": false
+}

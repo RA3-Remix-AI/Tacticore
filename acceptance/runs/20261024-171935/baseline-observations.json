@@ -1,0 +1,156 @@
+{
+  "session": {
+    "game": "E:\\RedRar3\\Data\\RA3_1.12.game",
+    "mod_sha256": "8bada8d088427a3a38016b53e07c50b4e8df7277ca5fd1beba15bea8be7f6c30",
+    "arguments": "-ui -win -xres 1600 -yres 900 -modConfig \"C:\\Users\\Administrator\\Documents\\Red Alert 3\\Mods\\TriadFront\\TriadFront_1.0.skudef\" -config \"E:\\RedRar3\\RA3_chinese_t_1.12.SkuDef\"",
+    "phase": "baseline_readonly",
+    "run_directory": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261024-171935",
+    "start_time": "2026-10-24T17:19:35.1635468+08:00",
+    "pid": 43656
+  },
+  "evidence_kind": "read_only_partial_object_samples",
+  "samples": [
+    {
+      "sample_index": 0,
+      "elapsed_wall_seconds": 1.39,
+      "snapshot": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\reports\\snapshot-20261024-172218.json",
+      "snapshot_sha256": "0a31a27cbf3d33f7899f4c55a319ccf5df4099305e638e0ea58d35c9b87c9a7e",
+      "known_object_counts": {
+        "0:5": 15,
+        "3:5": 2,
+        "3:2": 1,
+        "2:5": 1
+      },
+      "appearance_candidates": []
+    },
+    {
+      "sample_index": 1,
+      "elapsed_wall_seconds": 4.359,
+      "snapshot": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\reports\\snapshot-20261024-172221.json",
+      "snapshot_sha256": "d8d6ad33bc2762049c8dedfccb951f306450d99e02c1c7c2272e78050808eac5",
+      "known_object_counts": {
+        "0:5": 15,
+        "3:5": 3,
+        "2:5": 1
+      },
+      "appearance_candidates": [
+        {
+          "address": "0x56f2ee0",
+          "owner_address": "0x31954d0",
+          "owner_index_candidate": 3,
+          "type_hash": "0x5d02b20c",
+          "ai_address": "0x6dbffb8",
+          "xyz": [
+            3187.252685546875,
+            3431.2666015625,
+            210.0
+          ],
+          "catalog": {
+            "name": "矿石精炼厂",
+            "template": "JapanRefinery",
+            "side": 3,
+            "cls": 5,
+            "category": 1
+          }
+        }
+      ]
+    },
+    {
+      "sample_index": 2,
+      "elapsed_wall_seconds": 7.39,
+      "snapshot": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\reports\\snapshot-20261024-172224.json",
+      "snapshot_sha256": "3949b8979b4cf131945779bfede2c863ed714f54dcb1b7b5d78af416dc9a8521",
+      "known_object_counts": {
+        "0:5": 15,
+        "3:5": 3,
+        "2:5": 1
+      },
+      "appearance_candidates": []
+    },
+    {
+      "sample_index": 3,
+      "elapsed_wall_seconds": 10.359,
+      "snapshot": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\reports\\snapshot-20261024-172227.json",
+      "snapshot_sha256": "13e23eeffe1ac90632429153e70d7aabf322dd44c9493fdcae87f5da3db48304",
+      "known_object_counts": {
+        "0:5": 15,
+        "3:5": 3,
+        "2:5": 1
+      },
+      "appearance_candidates": []
+    },
+    {
+      "sample_index": 4,
+      "elapsed_wall_seconds": 13.328,
+      "snapshot": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\reports\\snapshot-20261024-172230.json",
+      "snapshot_sha256": "a64f3d07b84950eb09b6218a7e9589a278b7f287b084bec254347376b8680449",
+      "known_object_counts": {
+        "0:5": 15,
+        "3:5": 3,
+        "2:5": 1
+      },
+      "appearance_candidates": []
+    },
+    {
+      "sample_index": 5,
+      "elapsed_wall_seconds": 16.406,
+      "snapshot": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\reports\\snapshot-20261024-172233.json",
+      "snapshot_sha256": "fe73ec5b581cf0b963722b6f3c9c6b48521b68b2ca4dd340eabaca51ac4418db",
+      "known_object_counts": {
+        "0:5": 15,
+        "3:5": 3,
+        "2:5": 1
+      },
+      "appearance_candidates": []
+    },
+    {
+      "sample_index": 6,
+      "elapsed_wall_seconds": 19.296,
+      "snapshot": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\reports\\snapshot-20261024-172236.json",
+      "snapshot_sha256": "6020a194c6d8aa5d349944537cc9dc88ed7be78761006a1b2311794c4b0f54d4",
+      "known_object_counts": {
+        "0:5": 15,
+        "3:5": 3,
+        "2:5": 1
+      },
+      "appearance_candidates": []
+    },
+    {
+      "sample_index": 7,
+      "elapsed_wall_seconds": 22.359,
+      "snapshot": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\reports\\snapshot-20261024-172239.json",
+      "snapshot_sha256": "b3d039b1e64e387e5d12635b73bf1d1884f9038994961ff0c7bcaf80877535c0",
+      "known_object_counts": {
+        "0:5": 15,
+        "3:5": 3,
+        "3:2": 1,
+        "2:5": 1
+      },
+      "appearance_candidates": [
+        {
+          "address": "0x46ce7a0",
+          "owner_address": "0x31954d0",
+          "owner_index_candidate": 3,
+          "type_hash": "0x92cde50f",
+          "ai_address": "0x6dbd2f8",
+          "xyz": [
+            3238.30908203125,
+            3490.62890625,
+            210.0
+          ],
+          "catalog": {
+            "name": "采矿车",
+            "template": "JapanMiner",
+            "side": 3,
+            "cls": 2,
+            "category": 0
+          }
+        }
+      ]
+    }
+  ],
+  "queue_verified": false,
+  "cost_verified": false,
+  "production_verified": false,
+  "note": "Appearance is not production: first observation, address reuse, death and catalog gaps confound it. No runtime strategy change was performed."
+}

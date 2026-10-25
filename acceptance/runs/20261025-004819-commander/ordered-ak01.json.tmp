@@ -1,0 +1,232 @@
+{
+  "session_id": "94eaca46-008c-480e-baa3-8a6f34aed5c2",
+  "executable_sha256": "ec230c6ae1eaee30b0b4fa6ba29d417c974ecae46d6715dfbe786a815935c165",
+  "package_sha256": "2d7873e1b2d2c79950ff9da70b5452b1210370a6d6cbec1eaa69201a7d3d0665",
+  "native_binary_sha256": "9c898e61651698fd04412c914b6a4c577dea941a20c6af31a88b38b9457af142",
+  "native_host_sha256": "80a6fb060d508be9855148b1cf909ccdffb7acafe4d84b7c1885feb7624fbbd9",
+  "wrapper_sha256": "844285a68322dd830352313631203f69824fa78e6d5e32a231b5ff1ebba27186",
+  "native_source_sha256": "00d502dde61692c4dd8d28b7ba1d0de6920defe0bbb800827ceb17e956b506aa",
+  "native_shared_sha256": "39ae68da41e8c23e105b0f08ade39a4a0489d2c0fe3871c0e3571fda15aa207a",
+  "preflight": {
+    "status": "read_only_ready",
+    "session_id": "94eaca46-008c-480e-baa3-8a6f34aed5c2",
+    "pid": 57408,
+    "commander_id": "57e668b4-4d89-43bd-bc92-0dd436f046ef",
+    "player_id": 3,
+    "frame": 1213,
+    "paused": 0,
+    "owner": "0x33534d0",
+    "ai": "0x501c5d0",
+    "personality": "0xec6a020",
+    "personality_id": "0x7664d9d9",
+    "player_template": "0x114f4e70",
+    "logic": "0x3df8228",
+    "window_thread": 29124,
+    "script_team": "0x52d72a0",
+    "default_team": "0x52d81a0",
+    "eligible_count": 6,
+    "units": [
+      {
+        "address": "0x58daa20",
+        "owner_address": "0x33534d0",
+        "owner_index_candidate": 3,
+        "object_id": 775,
+        "type_hash": "0x19ab11af",
+        "ai_address": "0x5105a60",
+        "xyz": [
+          3026.267333984375,
+          2966.267333984375,
+          210.0
+        ],
+        "catalog": {
+          "name": "征召兵",
+          "template": "SovietAntiInfantryInfantry",
+          "side": 2,
+          "cls": 1,
+          "category": 0
+        },
+        "hp": 100.0,
+        "team": "0x52de5a0",
+        "command_source": 2,
+        "eligible": true
+      },
+      {
+        "address": "0x58deb20",
+        "owner_address": "0x33534d0",
+        "owner_index_candidate": 3,
+        "object_id": 789,
+        "type_hash": "0x2c358c61",
+        "ai_address": "0x6b2db70",
+        "xyz": [
+          2681.6953125,
+          2881.113037109375,
+          210.0
+        ],
+        "catalog": {
+          "name": "防空部队",
+          "template": "SovietAntiVehicleInfantry",
+          "side": 2,
+          "cls": 1,
+          "category": 0
+        },
+        "hp": 120.0,
+        "team": "0x52de5a0",
+        "command_source": 0,
+        "eligible": true
+      },
+      {
+        "address": "0x58df520",
+        "owner_address": "0x33534d0",
+        "owner_index_candidate": 3,
+        "object_id": 791,
+        "type_hash": "0x2c358c61",
+        "ai_address": "0x6b39ed8",
+        "xyz": [
+          2653.723876953125,
+          2868.440673828125,
+          210.0
+        ],
+        "catalog": {
+          "name": "防空部队",
+          "template": "SovietAntiVehicleInfantry",
+          "side": 2,
+          "cls": 1,
+          "category": 0
+        },
+        "hp": 120.0,
+        "team": "0x52de5a0",
+        "command_source": 0,
+        "eligible": true
+      },
+      {
+        "address": "0x58dff20",
+        "owner_address": "0x33534d0",
+        "owner_index_candidate": 3,
+        "object_id": 793,
+        "type_hash": "0x19ab11af",
+        "ai_address": "0x69e7168",
+        "xyz": [
+          2667.79296875,
+          2855.322998046875,
+          210.0
+        ],
+        "catalog": {
+          "name": "征召兵",
+          "template": "SovietAntiInfantryInfantry",
+          "side": 2,
+          "cls": 1,
+          "category": 0
+        },
+        "hp": 100.0,
+        "team": "0x52de5a0",
+        "command_source": 0,
+        "eligible": true
+      },
+      {
+        "address": "0x58e1d20",
+        "owner_address": "0x33534d0",
+        "owner_index_candidate": 3,
+        "object_id": 799,
+        "type_hash": "0x2c358c61",
+        "ai_address": "0x6a13ea0",
+        "xyz": [
+          2647.690185546875,
+          2846.81298828125,
+          210.0
+        ],
+        "catalog": {
+          "name": "防空部队",
+          "template": "SovietAntiVehicleInfantry",
+          "side": 2,
+          "cls": 1,
+          "category": 0
+        },
+        "hp": 120.0,
+        "team": "0x52de5a0",
+        "command_source": 0,
+        "eligible": true
+      },
+      {
+        "address": "0x58e2c20",
+        "owner_address": "0x33534d0",
+        "owner_index_candidate": 3,
+        "object_id": 802,
+        "type_hash": "0x2c358c61",
+        "ai_address": "0x6a4d848",
+        "xyz": [
+          2975.629150390625,
+          2901.912841796875,
+          210.0
+        ],
+        "catalog": {
+          "name": "防空部队",
+          "template": "SovietAntiVehicleInfantry",
+          "side": 2,
+          "cls": 1,
+          "category": 0
+        },
+        "hp": 120.0,
+        "team": "0x52de5a0",
+        "command_source": 0,
+        "eligible": true
+      }
+    ],
+    "selected": {
+      "address": "0x58daa20",
+      "owner_address": "0x33534d0",
+      "owner_index_candidate": 3,
+      "object_id": 775,
+      "type_hash": "0x19ab11af",
+      "ai_address": "0x5105a60",
+      "xyz": [
+        3026.267333984375,
+        2966.267333984375,
+        210.0
+      ],
+      "catalog": {
+        "name": "征召兵",
+        "template": "SovietAntiInfantryInfantry",
+        "side": 2,
+        "cls": 1,
+        "category": 0
+      },
+      "hp": 100.0,
+      "team": "0x52de5a0",
+      "command_source": 2,
+      "eligible": true
+    },
+    "restore_semantics": "native_common_pool_not_original_squad",
+    "mutations": false
+  },
+  "status": "unknown",
+  "events": [
+    {
+      "seq": 1,
+      "kind": 0,
+      "tag": 0,
+      "frame": 1217,
+      "tick": 569980453,
+      "thread": 29124,
+      "caller": 0,
+      "team": 86893984,
+      "owner": 53818576,
+      "source": 2,
+      "arg": 0,
+      "x": 3026.267333984375,
+      "y": 2966.267333984375,
+      "z": 210.0,
+      "target_id": 0,
+      "damage_source": 0,
+      "damage_before": 0.0,
+      "damage_after": 0.0,
+      "damage_reported": 0.0,
+      "lease_stage": 0,
+      "sm": 100936272,
+      "sm_flags": 65536,
+      "state": 100917016,
+      "state_id": 96,
+      "path": 0,
+      "holder": 0,
+      "arg_shots": 0,
+      "arg_source": 0,
+      "requested": 

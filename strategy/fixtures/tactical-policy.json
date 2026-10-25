@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "commander_id": "5cfc416a-8b8f-405a-9832-c163f8c1792b",
+  "session_id": "45b37922-a953-4d54-bc3b-4a34804c1c56",
+  "player_id": 3,
+  "snapshot_id": 1,
+  "based_on_game_time_seconds": 100.0,
+  "valid_for_game_seconds": 30,
+  "stance": "defend",
+  "production_focus": "anti_air",
+  "economy_policy": "stabilize",
+  "tech_policy": "hold_current_tier",
+  "budget": {
+    "economy": 0.25,
+    "army": 0.5,
+    "tech": 0.05,
+    "reserve": 0.2
+  },
+  "objective_region": "home_base",
+  "reason_code": "air_threat",
+  "tactical_tasks": [
+    {
+      "module": "attack",
+      "purpose": "main_attack",
+      "target_region": "east_ore",
+      "target_contact_id": "contact_ore",
+      "formation_ids": [
+        "formation_main"
+      ],
+      "required_roles": [
+        "infantry"
+      ],
+      "force_fraction": 0.6
+    }
+  ]
+}

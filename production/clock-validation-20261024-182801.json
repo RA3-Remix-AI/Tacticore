@@ -1,0 +1,72 @@
+{
+  "clock": "GameLogic pointer at 0xcd8ce4 plus 0x50",
+  "source": "bridge-probe\\acceptance\\runs\\20261024-182145-commander\\production-trace-20261024-182801-e05b157f.jsonl",
+  "natural_only": true,
+  "measurements": [
+    {
+      "queue_id": 21,
+      "payment_samples": 100,
+      "first_frame": 3472,
+      "created_frame": 3571,
+      "frame_span": 99,
+      "elapsed_wall_seconds": 6.547,
+      "observed_frames_per_wall_second": 15.121429662440812,
+      "adjacent_frame_steps": [
+        1
+      ],
+      "median_wall_ms_per_step": 63,
+      "zero_debit_updates": 10,
+      "first_progress_before": 0.0,
+      "last_progress_after": 100.0
+    },
+    {
+      "queue_id": 22,
+      "payment_samples": 100,
+      "first_frame": 3751,
+      "created_frame": 3850,
+      "frame_span": 99,
+      "elapsed_wall_seconds": 6.563,
+      "observed_frames_per_wall_second": 15.084564985524914,
+      "adjacent_frame_steps": [
+        1
+      ],
+      "median_wall_ms_per_step": 63,
+      "zero_debit_updates": 10,
+      "first_progress_before": 0.0,
+      "last_progress_after": 100.0
+    },
+    {
+      "queue_id": 23,
+      "payment_samples": 100,
+      "first_frame": 3851,
+      "created_frame": 3950,
+      "frame_span": 99,
+      "elapsed_wall_seconds": 6.547,
+      "observed_frames_per_wall_second": 15.121429662440812,
+      "adjacent_frame_steps": [
+        1
+      ],
+      "median_wall_ms_per_step": 63,
+      "zero_debit_updates": 10,
+      "first_progress_before": 0.0,
+      "last_progress_after": 100.0
+    },
+    {
+      "queue_id": 24,
+      "payment_samples": 100,
+      "first_frame": 3951,
+      "created_frame": 4050,
+      "frame_span": 99,
+      "elapsed_wall_seconds": 6.547,
+      "observed_frames_per_wall_second": 15.121429662440812,
+      "adjacent_frame_steps": [
+        1
+      ],
+      "median_wall_ms_per_step": 63,
+      "zero_debit_updates": 10,
+      "first_progress_before": 0.0,
+      "last_progress_after": 100.0
+    }
+  ],
+  "note": "Measured logical-frame/wall ratio includes pauses and scheduling; it does not establish a universal fixed simulation rate."
+}

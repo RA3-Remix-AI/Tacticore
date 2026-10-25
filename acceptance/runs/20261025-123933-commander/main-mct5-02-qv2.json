@@ -1,0 +1,130 @@
+{
+  "status": "not_passed",
+  "checks": {
+    "certified_revision": true,
+    "launch_intent": true,
+    "finished": true,
+    "binding": true,
+    "actor_target_scope": true,
+    "ordered_log": true,
+    "thread_owner": true,
+    "critical_finite": true,
+    "clean_restore": true,
+    "mission_deadline": true,
+    "resolved_actual_implicit_origin": true,
+    "phase_limits": true,
+    "stage_sequence": false,
+    "success_reason": false,
+    "stop_0": true,
+    "stop_6": false,
+    "stop_4": false,
+    "stop_7": true,
+    "stop_2": true,
+    "normal_stop_counts": false,
+    "button_identity": true,
+    "optional_prepare": false,
+    "normal_move_chains": true,
+    "waypoint_arrival_raw": true,
+    "memory_initial_visible_sample": true,
+    "memory_same_identity": true,
+    "memory_updates_only_when_visible": true,
+    "memory_hidden_position_frozen": true,
+    "memory_move_bound": true,
+    "memory_attack_currently_visible": true,
+    "memory_wait_bounded": true,
+    "remembered_or_visible_target_path_requests": true,
+    "actual_own_checkpoints": true,
+    "approach_live_start": true,
+    "approach_effect": false,
+    "bounded_direct_goal_fallback_policy": true,
+    "retreat_effect": true,
+    "normal_script_attack": false,
+    "stop_prepare_attack_retreat_order": false,
+    "private_stop_pairs": false,
+    "direct_source_effect": false,
+    "same_entry_ammo": false,
+    "immutable_ak_asset": false,
+    "no_native_override": true,
+    "native_counter_lease_scope": true,
+    "native_pool_return": true
+  },
+  "qualification_revision": "lease_scoped_bridge_move_v2",
+  "effect_verified": false,
+  "approach_verified": false,
+  "long_approach_verified": false,
+  "long_retreat_verified": true,
+  "retreat_verified": true,
+  "restoration_verified": true,
+  "new_order_fire_association_verified": false,
+  "source_damage_amount": 0,
+  "qualified_hits": [],
+  "harass_economy_verified": false,
+  "actor_roles": [
+    "infantry"
+  ],
+  "fallback_branch_observed": false,
+  "fallback_replan_sequence_verified": false,
+  "fallback_field_effect_verified": false,
+  "restoration": {
+    "restoration_verified": true,
+    "control_release_verified": true,
+    "return_verified": true,
+    "disposed_verified": false,
+    "semantics": "native_pool_return",
+    "completion_claim": false
+  },
+  "reason_code": "fov_lost",
+  "mission_protocol": "continuous_tactical_v1",
+  "combat_effect_level": "single_source_hit_validation",
+  "sustained_engagement_verified": false,
+  "economic_disruption_verified": false,
+  "navigation_memory": {
+    "checks": {
+      "memory_initial_visible_sample": true,
+      "memory_same_identity": true,
+      "memory_updates_only_when_visible": true,
+      "memory_hidden_position_frozen": true,
+      "memory_move_bound": true,
+      "memory_attack_currently_visible": true,
+      "memory_wait_bounded": true
+    },
+    "verified": true,
+    "refresh_count": 249,
+    "hidden_navigation_observed": true,
+    "reacquisition_observed": false,
+    "memory_ttl_frames": 900
+  },
+  "source_report": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-123933-commander\\main-mct5-02.json",
+  "source_sha256": "788d816395a8c5cc426ba15cc9a862f2b12c9eb9f967ce868d39a53aab06fdb7",
+  "qualifier_sha256": "fc467262b9830241f3c4b1d007ae93ca3e38786659cf1ce82aceb3c55bbd5591",
+  "supplemental_sources": [
+    {
+      "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\tactical\\mission-combat-v5\\mission_tick.inc",
+      "sha256": "c5b435ae11dead951949661e3d7649bfb56f4de10677fea3aa2958828ccc0db3",
+      "purpose": "immutable_mission_source"
+    },
+    {
+      "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\tactical\\mission-combat-v5\\mission_contract.py",
+      "sha256": "de8b87ce6e0573830f0fd3b37fd3ba738675e2e805dd78fa36270e89b096c0ff",
+      "purpose": "immutable_mission_source"
+    },
+    {
+      "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\tactical\\mission-combat-v5\\origin_resolution.py",
+      "sha256": "0c3a23586b82420e420ef6dfa8a3c2e130625292508654e3cadfd2e4d6b63107",
+      "purpose": "immutable_mission_source"
+    },
+    {
+      "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\tactical\\pre_dispatch_v5_contract.py",
+      "sha256": "f9c801d6b813ec336b0f97c4a9656ea70f68211f2adfc4bf170693ee9108cd7c",
+      "purpose": "pre_native_launch_boundary"
+    }
+  ],
+  "sdk_source": {
+    "name": "SovietAntiInfantryInfantryAK47",
+    "source_sha256": "7a82e52aa6142f96271173195366227b21a552657bd683f7a33a22e770e1bad1",
+    "clip_size": 3,
+    "damage_type": "GUN",
+    "damage_delay_seconds": 0.0,
+    "projectile_nugget": false
+  }
+}

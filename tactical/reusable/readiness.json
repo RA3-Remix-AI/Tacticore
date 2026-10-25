@@ -1,0 +1,167 @@
+{
+  "status": "read_only_ready",
+  "session_id": "65bb88da-f5dc-48be-a3c1-5b6ee83cb017",
+  "pid": 55596,
+  "commander_id": "57e668b4-4d89-43bd-bc92-0dd436f046ef",
+  "player_id": 3,
+  "frame": 1095,
+  "paused": 0,
+  "owner": "0x31e74d0",
+  "ai": "0x4d9d718",
+  "personality": "0xeafe020",
+  "personality_id": "0x7664d9d9",
+  "player_template": "0x11388e70",
+  "logic": "0x3c8c228",
+  "window_thread": 29928,
+  "script_team": "0x46e6ec0",
+  "default_team": "0x46e7dc0",
+  "eligible_count": 5,
+  "units": [
+    {
+      "address": "0x4826870",
+      "owner_address": "0x31e74d0",
+      "owner_index_candidate": 3,
+      "object_id": 775,
+      "type_hash": "0x19ab11af",
+      "ai_address": "0x6248f10",
+      "xyz": [
+        1890.0,
+        1510.0,
+        210.0
+      ],
+      "catalog": {
+        "name": "征召兵",
+        "template": "SovietAntiInfantryInfantry",
+        "side": 2,
+        "cls": 1,
+        "category": 0
+      },
+      "hp": 100.0,
+      "team": "0x46ee6c0",
+      "command_source": 0,
+      "eligible": true
+    },
+    {
+      "address": "0x482a970",
+      "owner_address": "0x31e74d0",
+      "owner_index_candidate": 3,
+      "object_id": 788,
+      "type_hash": "0x2c358c61",
+      "ai_address": "0x6978f78",
+      "xyz": [
+        1910.0,
+        1470.0,
+        210.0
+      ],
+      "catalog": {
+        "name": "防空部队",
+        "template": "SovietAntiVehicleInfantry",
+        "side": 2,
+        "cls": 1,
+        "category": 0
+      },
+      "hp": 120.0,
+      "team": "0x46ee6c0",
+      "command_source": 0,
+      "eligible": true
+    },
+    {
+      "address": "0x482b370",
+      "owner_address": "0x31e74d0",
+      "owner_index_candidate": 3,
+      "object_id": 790,
+      "type_hash": "0x2c358c61",
+      "ai_address": "0x69d7d10",
+      "xyz": [
+        1950.0,
+        1750.0,
+        210.0
+      ],
+      "catalog": {
+        "name": "防空部队",
+        "template": "SovietAntiVehicleInfantry",
+        "side": 2,
+        "cls": 1,
+        "category": 0
+      },
+      "hp": 120.0,
+      "team": "0x46ee6c0",
+      "command_source": 0,
+      "eligible": true
+    },
+    {
+      "address": "0x482bd70",
+      "owner_address": "0x31e74d0",
+      "owner_index_candidate": 3,
+      "object_id": 792,
+      "type_hash": "0x2c358c61",
+      "ai_address": "0x69e7dc0",
+      "xyz": [
+        1830.0,
+        1850.0,
+        210.0
+      ],
+      "catalog": {
+        "name": "防空部队",
+        "template": "SovietAntiVehicleInfantry",
+        "side": 2,
+        "cls": 1,
+        "category": 0
+      },
+      "hp": 120.0,
+      "team": "0x46ee6c0",
+      "command_source": 2,
+      "eligible": true
+    },
+    {
+      "address": "0x482db70",
+      "owner_address": "0x31e74d0",
+      "owner_index_candidate": 3,
+      "object_id": 798,
+      "type_hash": "0x2c358c61",
+      "ai_address": "0x5e56800",
+      "xyz": [
+        1810.0,
+        1850.0,
+        210.0
+      ],
+      "catalog": {
+        "name": "防空部队",
+        "template": "SovietAntiVehicleInfantry",
+        "side": 2,
+        "cls": 1,
+        "category": 0
+      },
+      "hp": 120.0,
+      "team": "0x46ee6c0",
+      "command_source": 2,
+      "eligible": true
+    }
+  ],
+  "selected": {
+    "address": "0x4826870",
+    "owner_address": "0x31e74d0",
+    "owner_index_candidate": 3,
+    "object_id": 775,
+    "type_hash": "0x19ab11af",
+    "ai_address": "0x6248f10",
+    "xyz": [
+      1890.0,
+      1510.0,
+      210.0
+    ],
+    "catalog": {
+      "name": "征召兵",
+      "template": "SovietAntiInfantryInfantry",
+      "side": 2,
+      "cls": 1,
+      "category": 0
+    },
+    "hp": 100.0,
+    "team": "0x46ee6c0",
+    "command_source": 0,
+    "eligible": true
+  },
+  "restore_semantics": "native_common_pool_not_original_squad",
+  "mutations": false
+}

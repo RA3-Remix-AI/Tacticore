@@ -1,0 +1,118 @@
+{
+  "evidence_uuid": "1df28be9-f456-4847-a8dc-73bc639a4340",
+  "module": "combined_arms",
+  "purpose": "coordinate_force",
+  "session_id": "8a1186c9-6df6-416a-bd4a-45d11a713bad",
+  "source_session_id": "8a1186c9-6df6-416a-bd4a-45d11a713bad",
+  "player_id": 3,
+  "commander_id": "57e668b4-4d89-43bd-bc92-0dd436f046ef",
+  "source": "game_bridge",
+  "source_report": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261024-234355-commander\\formation-stop-v2-03.json",
+  "source_sha256": "6580ef39bdcb6d72b3daa5e04c97f2b8f4e15b7fd56482e58e4d9f1b00ffea27",
+  "native_binary_sha256": "75813bf0c2d12174ac50919c0aa299a90be9d9c77cac691abe1a7106c4c834cf",
+  "native_host_sha256": "a704c538d4ecc6f580d9a7a38eb2ee1261d77a037224c897208a92b39920edb4",
+  "executable_sha256": "ec230c6ae1eaee30b0b4fa6ba29d417c974ecae46d6715dfbe786a815935c165",
+  "package_sha256": "2d7873e1b2d2c79950ff9da70b5452b1210370a6d6cbec1eaa69201a7d3d0665",
+  "executor_directory": "formation-stop-v2",
+  "stop_schema": {
+    "dll": "TacticalFormationStop2.dll",
+    "restore_mask": 127,
+    "mapping_prefix": "RA3TacticalFormationStop2_",
+    "kind": "formation",
+    "success": "two_role_staged_advance_primitive_verified",
+    "directory": "formation-stop-v2"
+  },
+  "limits": {
+    "request_force_fraction_min": 0.01,
+    "request_force_fraction_max": 1.0,
+    "allocation_fraction_cap": 0.5,
+    "min_remaining_frames": 300,
+    "max_remaining_frames": 900,
+    "lease_frames": 180
+  },
+  "source_wrapper_sha256": "d36f3038ad3587f36541f1c6ab5d40b22df8504e155fb77dad5130309eaa93ca",
+  "current_wrapper_sha256": "d36f3038ad3587f36541f1c6ab5d40b22df8504e155fb77dad5130309eaa93ca",
+  "source_native_cpp_sha256": "3bf8fa2e393693661221273fe72dbd11008b5277ca694d35503fc4b24b1dad3a",
+  "current_native_cpp_sha256": "3bf8fa2e393693661221273fe72dbd11008b5277ca694d35503fc4b24b1dad3a",
+  "scope": "two_role_staged_advance",
+  "raw_assessment": {
+    "status": "two_role_staged_advance_primitive_verified",
+    "checks": {
+      "clean_stop": true,
+      "roles": true,
+      "stage_goal": true,
+      "stage_order": true,
+      "bounded": true,
+      "thread": true,
+      "binding": true,
+      "no_overflow": true,
+      "monotonic_frame_log": true,
+      "bounded_commands": true,
+      "unit_0_returned": true,
+      "unit_0_owner": true,
+      "unit_0_no_override": true,
+      "unit_0_move_chain": true,
+      "unit_1_returned": true,
+      "unit_1_owner": true,
+      "unit_1_no_override": true,
+      "unit_1_move_chain": true,
+      "unit_0_normal_stop": true,
+      "unit_0_stop_then_move": true,
+      "unit_0_settled_hold_bound": true,
+      "unit_0_clean_samples": true,
+      "unit_1_normal_stop": true,
+      "unit_1_stop_then_move": true,
+      "unit_1_settled_hold_bound": true,
+      "unit_1_clean_samples": true,
+      "unit_0_stable_stop_raw": true,
+      "unit_1_stable_stop_raw": true,
+      "support_held_before_release": true,
+      "independent_pair_geometry": true,
+      "requested_goals_bound": true
+    },
+    "paired_geometry": [
+      {
+        "frame": 8188,
+        "spacing": 68.48554234572705,
+        "front_distance": 0.0,
+        "support_distance": 12.110976855248891
+      },
+      {
+        "frame": 8190,
+        "spacing": 61.91644038258076,
+        "front_distance": 0.0,
+        "support_distance": 5.4444176364122985
+      },
+      {
+        "frame": 8192,
+        "spacing": 56.568542494923804,
+        "front_distance": 0.0,
+        "support_distance": 0.0
+      }
+    ],
+    "raid_verified": false,
+    "attack_verified": false,
+    "combined_arms_verified": false,
+    "note": "Two role staged movement only; role/task capability is still subject to host review."
+  },
+  "independent_restoration": {
+    "restoration_verified": true,
+    "members": [
+      {
+        "object_id": 800,
+        "returned": true,
+        "disposed_verified": false,
+        "never_held": false,
+        "settled": true
+      },
+      {
+        "object_id": 809,
+        "returned": true,
+        "disposed_verified": false,
+        "never_held": false,
+        "settled": true
+      }
+    ],
+    "reason": "all_batch_members_settled"
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "session_id": "6442048a-b1f1-4ae5-9adf-535649aac617",
+  "results": [
+    {
+      "command_id": "eb2ff769-7ada-433d-8348-7998f4eb8dae",
+      "task_id": "5b3ac6f7-94cd-4788-ac64-9ae0ae6dfd2e",
+      "seq": 1,
+      "status": "completed",
+      "accepted": true,
+      "started": true,
+      "completed": true,
+      "reason_code": "native_0",
+      "unit": "conscript",
+      "queue_id": 7,
+      "object_id": 787,
+      "cost": 85,
+      "paid": 85,
+      "paid_verified": true,
+      "created": true,
+      "completion_observed": true,
+      "live_samples": 3,
+      "payment_error": 0,
+      "enqueue_frame": 654,
+      "completion_frame": 727,
+      "queue_preserved": true
+    }
+  ],
+  "stopped": {
+    "session_id": "6442048a-b1f1-4ae5-9adf-535649aac617",
+    "player_id": 3,
+    "commander_id": "57e668b4-4d89-43bd-bc92-0dd436f046ef",
+    "personality_binding_verified": true,
+    "state": "stopped",
+    "native_phase": 2,
+    "native_error": 0,
+    "restore_mask": 31,
+    "active_callbacks": 0,
+    "spent_committed": 85,
+    "total_budget": 85,
+    "last_seq": 1,
+    "ledger": [
+      {
+        "command_id": "eb2ff769-7ada-433d-8348-7998f4eb8dae",
+        "task_id": "5b3ac6f7-94cd-4788-ac64-9ae0ae6dfd2e",
+        "seq": 1,
+        "status": "completed",
+        "accepted": true,
+        "started": true,
+        "completed": true,
+        "reason_code": "native_0",
+        "unit": "conscript",
+        "queue_id": 7,
+        "object_id": 787,
+        "cost": 85,
+        "paid": 85,
+        "paid_verified": true,
+        "created": true,
+        "completion_observed": true,
+        "live_samples": 5,
+        "payment_error": 0,
+        "enqueue_frame": 654,
+        "completion_frame": 727,
+        "queue_preserved": true
+      }
+    ],
+    "local_error": null
+  },
+  "prior_schema": "restored_production_observer",
+  "scope": "diagnostic_actor_real_paid_production_not_macro_direction"
+}

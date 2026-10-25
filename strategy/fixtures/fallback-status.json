@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "service_state": "fallback",
+  "mode": "simulation",
+  "source": {
+    "kind": "simulated",
+    "description": "Synthetic local adapter fixture; no real model or game is connected."
+  },
+  "provenance": {
+    "kind": "simulated",
+    "description": "Synthetic local adapter fixture; no real model or game is connected."
+  },
+  "binding": {
+    "session_id": "45b37922-a953-4d54-bc3b-4a34804c1c56",
+    "player_id": 3,
+    "commander_id": "5cfc416a-8b8f-405a-9832-c163f8c1792b",
+    "commander_name": "演练 · 突击指挥官",
+    "connection_id": "93190523-f22e-4ed5-8ddd-0327c6754297",
+    "computer_verified": false
+  },
+  "latest_snapshot": {
+    "snapshot_id": 3,
+    "game_time_seconds": 132.0,
+    "paused": false
+  },
+  "current_plan": {
+    "plan_id": "3033380fb5694897af5faf43d0f91952",
+    "commander_id": "5cfc416a-8b8f-405a-9832-c163f8c1792b",
+    "session_id": "45b37922-a953-4d54-bc3b-4a34804c1c56",
+    "player_id": 3,
+    "snapshot_id": 3,
+    "based_on_game_time_seconds": 132.0,
+    "expires_at_game_seconds": 142.0,
+    "stance": "defend",
+    "production_focus": "native_baseline",
+    "economy_policy": "stabilize",
+    "tech_policy": "hold_current_tier",
+    "budget": {
+      "army": 0.4,
+      "economy": 0.35,
+      "reserve": 0.25,
+      "tech": 0.0
+    },
+    "objective_region": null,
+    "reason_code": "balanced_default",
+    "origin": "local_fallback"
+  },
+  "last_result": {
+    "status": "local_fallback",
+    "reason_code": "model_timeout"
+  },
+  "execution": {
+    "enabled": false,
+    "dry_run": true,
+    "reason_code": "production_control_not_verified"
+  },
+  "metrics": {
+    "requests": 3,
+    "accepted": 1,
+    "rejected": 1,
+    "timeouts": 1,
+    "adapter_errors": 0,
+    "plan_changes": 2
+  }
+}

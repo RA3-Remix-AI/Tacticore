@@ -1,0 +1,85 @@
+{
+  "verified": true,
+  "checks": {
+    "finished": true,
+    "binding": true,
+    "thread_owner": true,
+    "published_sequence": true,
+    "finite_events": true,
+    "bounded": true,
+    "clean_restoration": true,
+    "normal_burst_not_single_shot": true,
+    "observed_ak_template": true,
+    "sdk_direct_damage": true,
+    "no_lease_override": true,
+    "stop_0": true,
+    "stop_2": true,
+    "unique_order": true,
+    "one_source_body_commit": true,
+    "hp_commit_agreement": true,
+    "one_observed_firing_interval": true,
+    "same_verified_entry_ammo": true,
+    "normal_return": true,
+    "template_report_sha": true
+  },
+  "stop_boundaries": [
+    {
+      "stage": 0,
+      "frames": [
+        2697,
+        2699,
+        2701
+      ],
+      "gate_seq": 25
+    },
+    {
+      "stage": 2,
+      "frames": [
+        2719,
+        2721,
+        2722
+      ],
+      "gate_seq": 104
+    }
+  ],
+  "firing_interval": {
+    "order_frame": 2701,
+    "body_frame": 2716,
+    "body_seq": 73,
+    "setter_seq": 72,
+    "hp_before": 2775.0,
+    "hp_after": 2770.0,
+    "damage": 5.0,
+    "source_actor_id": 787,
+    "target_object_id": 822,
+    "ammo_observed_frame": 2717,
+    "ammo_before": 3.0,
+    "ammo_after": 2.0,
+    "damage_to_poll_ms": 63,
+    "poll_frame_before": 2716,
+    "poll_frame_after": 2717
+  },
+  "scope": "main_attack:Conscript_AK47_direct_damage_ground_target_only",
+  "post_return_native_attack_frames": [
+    2743
+  ],
+  "harass_economy_verified": false,
+  "flak_verified": false,
+  "molotov_verified": false,
+  "source_diagnostic_lock_preserved": true,
+  "source_report": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-010403-commander\\ordered-ak03-static.json",
+  "source_sha256": "2852a01dd87f9448a345cf8dc3847eaff7eb434d723a784fa12e3afed8dd1ffa",
+  "template_evidence_sha256": "42a624f70ebc7895543a38bbc80995598875d1c7a422f7de61e221bdb42b408e",
+  "sdk_weapon": {
+    "source_sha256": "7a82e52aa6142f96271173195366227b21a552657bd683f7a33a22e770e1bad1",
+    "name": "SovietAntiInfantryInfantryAK47",
+    "clip_size": 3,
+    "required_anti_mask": "ANTI_WATER ANTI_GROUND ANTI_STRUCTURE",
+    "no_projectile": true,
+    "damage": 5.0,
+    "damage_delay_seconds": "0.0s"
+  },
+  "negative_cases": 5,
+  "game_or_api_access": false,
+  "capabilities_granted": []
+}

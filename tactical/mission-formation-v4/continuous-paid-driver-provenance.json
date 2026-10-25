@@ -1,0 +1,18 @@
+{
+  "source": "../mission-formation-v3/continuous_paid_driver.py",
+  "source_sha256": "ca8e8b4a4af180ebe19680cdf06bf5df22843c2a615f9b72b1b7909403cc373a",
+  "candidate": "continuous_paid_driver.py",
+  "candidate_sha256": "d298b1672d1be8d7d56c98841b2280837289c3698355d2bc7aab89b899a927aa",
+  "changes": [
+    "New local directory selects MFM4 lease.py, field_plan.py and field_coordinate.py.",
+    "The calibration CLI accepts formation only.",
+    "The old wrapper-filename override is removed; the local field runner selects lease.py."
+  ],
+  "production_logic_changed": false,
+  "paid_budget": 4000,
+  "reserve_floor": 1000,
+  "requires_paid_ledger_and_five_original_entry_bytes": true,
+  "tactical_children_max": 1,
+  "game_commands_during_creation": 0,
+  "capability_granted": false
+}

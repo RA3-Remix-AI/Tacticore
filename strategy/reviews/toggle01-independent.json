@@ -1,0 +1,51 @@
+{
+  "verified": true,
+  "checks": {
+    "finished": true,
+    "binding": true,
+    "identity": true,
+    "log_order": true,
+    "own_stop_boundary": true,
+    "exact_registered_button": true,
+    "one_normal_input": true,
+    "actual_weapon_transition": true,
+    "distinct_pack_samples": true,
+    "expected_replay_window": true,
+    "all_private_stops_explained": true,
+    "no_moves_or_attacks": true,
+    "clean_pool_return": true,
+    "restored": true,
+    "bounded": true,
+    "binary_host_revision": true
+  },
+  "stop_frames": [
+    1534,
+    1536,
+    1537
+  ],
+  "button_frame": 1537,
+  "ak_frames": [
+    1552,
+    1554,
+    1556
+  ],
+  "reconstituted_stop_frames": [
+    1553
+  ],
+  "returned_frame": 1556,
+  "scope": "normal_conscript_molotov_to_ak_auxiliary_only",
+  "replay_causality": "Observed timing, source, ordinary private caller, idle transition and no second facade are consistent with the SDK RECONSTITUTE_STORED_COMMAND option; no generic Stop override exemption.",
+  "model_purpose_granted": false,
+  "stable_weapon_after_return_claim": false,
+  "source_report": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-022351-commander\\toggle01.json",
+  "source_sha256": "9501c86940a25e477cbbfa9bfa920c761ea844ded90762849ae6231cbf9d2e1e",
+  "original_status": "not_passed",
+  "negative_cases": 4,
+  "game_or_api_access": false,
+  "after_return_readonly": {
+    "frame": 1695,
+    "object_id": 784,
+    "asset": "0x41872ecc",
+    "sha256": "33829b63eed3912a2b0b3aa7514dbe85501986ce9204963fc10c3573ef6713f0"
+  }
+}

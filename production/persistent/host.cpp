@@ -1,0 +1,36 @@
+#include "shared.h"
+#include <wincrypt.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stddef.h>
+static DWORD target;
+static HWND window;
+static BOOL CALLBACK find_window(HWND candidate,LPARAM){DWORD pid=0;GetWindowThreadProcessId(candidate,&pid);if(pid==target&&IsWindowVisible(candidate)&&!GetWindow(candidate,GW_OWNER)){window=candidate;return FALSE;}return TRUE;}
+static bool valid_executable(DWORD pid){
+ HANDLE p=OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION,FALSE,pid);char path[32768];DWORD size=sizeof(path);
+ if(!p||!QueryFullProcessImageNameA(p,0,path,&size)){if(p)CloseHandle(p);return false;}CloseHandle(p);
+ const char* base=strrchr(path,'\\');if(!base||_stricmp(base+1,"ra3_1.12.game"))return false;
+ HANDLE file=CreateFileA(path,GENERIC_READ,FILE_SHARE_READ,NULL,OPEN_EXISTING,FILE_ATTRIBUTE_NORMAL,NULL);if(file==INVALID_HANDLE_VALUE)return false;
+ HCRYPTPROV provider=0;HCRYPTHASH hash=0;bool okay=false;
+ if(CryptAcquireContextA(&provider,NULL,NULL,PROV_RSA_AES,CRYPT_VERIFYCONTEXT)&&CryptCreateHash(provider,CALG_SHA_256,0,0,&hash)){
+  BYTE data[65536];DWORD read=0;BOOL result;
+  while((result=ReadFile(file,data,sizeof(data),&read,NULL))&&read)if(!CryptHashData(hash,data,read,0)){result=FALSE;break;}
+  BYTE digest[32];DWORD n=sizeof(digest);char hex[65]={};
+  if(result&&CryptGetHashParam(hash,HP_HASHVAL,digest,&n,0)){for(int i=0;i<32;i++)sprintf(hex+i*2,"%02x",digest[i]);okay=!strcmp(hex,"ec230c6ae1eaee30b0b4fa6ba29d417c974ecae46d6715dfbe786a815935c165");}
+ }
+ if(hash)CryptDestroyHash(hash);
+ if(provider)CryptReleaseContext(provider,0);
+ CloseHandle(file);return okay;
+}
+int main(int argc,char** argv){
+ if(argc==2&&!strcmp(argv[1],"--layout")){printf("{\"command\":%u,\"receipt\":%u,\"persistent\":%u,\"request\":%u,\"ledger\":%u}\n",(unsigned)sizeof(Command),(unsigned)sizeof(Receipt),(unsigned)sizeof(Persistent),(unsigned)offsetof(Persistent,request),(unsigned)offsetof(Persistent,ledger));return 0;}
+ if(argc!=2)return 2;
+ target=strtoul(argv[1],NULL,0);if(!valid_executable(target))return 3;EnumWindows(find_window,0);if(!window)return 4;
+ char name[80];snprintf(name,sizeof(name),"Local\\RA3ProductionPersistent_%lu",target);HANDLE m=OpenFileMappingA(FILE_MAP_ALL_ACCESS,FALSE,name);if(!m)return 5;Persistent* p=(Persistent*)MapViewOfFile(m,FILE_MAP_ALL_ACCESS,0,0,sizeof(Persistent));if(!p||p->magic!=P_MAGIC||p->pid!=target||p->thread!=GetWindowThreadProcessId(window,NULL))return 6;
+ char dll[MAX_PATH];GetModuleFileNameA(NULL,dll,sizeof(dll));char* slash=strrchr(dll,'\\');if(!slash)return 7;strcpy(slash+1,"ProductionPersistent.dll");HMODULE lib=LoadLibraryA(dll);HOOKPROC callback=NULL;if(lib){FARPROC proc=GetProcAddress(lib,"PersistentControl");memcpy(&callback,&proc,sizeof(callback));}HHOOK hook=callback?SetWindowsHookExA(WH_GETMESSAGE,callback,lib,p->thread):NULL;if(!hook)return 8;
+ PostMessageA(window,P_MESSAGE,P_MAGIC,0);DWORD start=GetTickCount();while(!p->phase&&GetTickCount()-start<10000)Sleep(10);printf("{\"state\":%ld,\"error\":%u,\"thread\":%u}\n",p->phase,p->error,p->callback_thread);fflush(stdout);
+ start=GetTickCount();while(p->phase==1&&GetTickCount()-start<3600000)Sleep(100);if(p->phase==1){InterlockedExchange(&p->stop_requested,1);Sleep(2500);}printf("{\"state\":%ld,\"error\":%u,\"restore_mask\":%u,\"active\":%ld}\n",p->phase,p->error,p->restore_mask,p->active);fflush(stdout);
+ bool okay=p->phase==2&&p->restore_mask==31&&!p->active;UnhookWindowsHookEx(hook);UnmapViewOfFile(p);CloseHandle(m);if(lib)FreeLibrary(lib);return okay?0:9;
+}
+

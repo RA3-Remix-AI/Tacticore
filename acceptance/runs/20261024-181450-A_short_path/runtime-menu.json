@@ -1,0 +1,224 @@
+{
+  "pid": 24724,
+  "executable_sha256": "ec230c6ae1eaee30b0b4fa6ba29d417c974ecae46d6715dfbe786a815935c165",
+  "label": "A_short_path_menu",
+  "catalogs": [
+    {
+      "path": "E:\\RA3Modding\\SDK\\BuiltMods\\sagexml\\global.manifest",
+      "sha256": "78a1be7d3b1f20cd2f80f2a83948b062f10645a6255b66ecdf7bac198fb7134e"
+    },
+    {
+      "path": "E:\\RA3Modding\\SDK\\BuiltMods\\mods\\CommanderLab\\data\\mod.manifest",
+      "sha256": "b0c7bb44bffe2591dfdce39ac534dfe59fd2a472e3ba8185654b20668f93071b"
+    },
+    {
+      "path": "bridge-probe\\native-ai\\side-probes\\20261024-175800\\A_normal_only\\package\\data\\mod.manifest",
+      "sha256": "7b97f29f73636c066782bd5d0346f2ec45a1f1c04bae06dcf9c751cc018cceec"
+    }
+  ],
+  "store": "0x3d6c730",
+  "count": 14,
+  "rows": [
+    {
+      "name": "AIPersonalityDefinition:1AlliedBalanced",
+      "instance_id": "0xa98a4dd2",
+      "wrapper": "0x11481240",
+      "data": "0x11482270",
+      "side_count": 1,
+      "side_references": [
+        "0x114855b8"
+      ],
+      "has_null_side": false,
+      "personality_maps": []
+    },
+    {
+      "name": "AIPersonalityDefinition:1JapanBalanced",
+      "instance_id": "0x49d84bad",
+      "wrapper": "0x11480d50",
+      "data": "0x11481290",
+      "side_count": 1,
+      "side_references": [
+        "0x11485468"
+      ],
+      "has_null_side": false,
+      "personality_maps": []
+    },
+    {
+      "name": "AIPersonalityDefinition:1SovietBalanced",
+      "instance_id": "0x7b9da0e6",
+      "wrapper": "0x1147dbe8",
+      "data": "0x1147e730",
+      "side_count": 1,
+      "side_references": [
+        "0x11483e50"
+      ],
+      "has_null_side": false,
+      "personality_maps": []
+    },
+    {
+      "name": "AIPersonalityDefinition:1RandomBalanced",
+      "instance_id": "0x9d22b54f",
+      "wrapper": "0x1147c0e0",
+      "data": "0x1147cac0",
+      "side_count": 1,
+      "side_references": [
+        "0x114842d8"
+      ],
+      "has_null_side": false,
+      "personality_maps": [
+        {
+          "side": "0x114855b8",
+          "personality": "0x11481240",
+          "has_null_reference": false
+        },
+        {
+          "side": "0x11483e50",
+          "personality": "0x1147dbe8",
+          "has_null_reference": false
+        },
+        {
+          "side": "0x11485468",
+          "personality": "0x11480d50",
+          "has_null_reference": false
+        }
+      ]
+    },
+    {
+      "name": "AIPersonalityDefinition:2AlliedSquadronLeader",
+      "instance_id": "0x13eb023",
+      "wrapper": "0x1147c190",
+      "data": "0x1147a0e0",
+      "side_count": 1,
+      "side_references": [
+        "0x114855b8"
+      ],
+      "has_null_side": false,
+      "personality_maps": []
+    },
+    {
+      "name": "AIPersonalityDefinition:2JapanMechaWarfare",
+      "instance_id": "0x5a85f134",
+      "wrapper": "0x11478688",
+      "data": "0x11479190",
+      "side_count": 1,
+      "side_references": [
+        "0x11485468"
+      ],
+      "has_null_side": false,
+      "personality_maps": []
+    },
+    {
+      "name": "AIPersonalityDefinition:2SovietShockSpecialist",
+      "instance_id": "0x4605c1",
+      "wrapper": "0x114806f8",
+      "data": "0x114767b0",
+      "side_count": 1,
+      "side_references": [
+        "0x11483e50"
+      ],
+      "has_null_side": false,
+      "personality_maps": []
+    },
+    {
+      "name": "AIPersonalityDefinition:3AlliedSpecialForces",
+      "instance_id": "0xea743d68",
+      "wrapper": "0x1147e5a8",
+      "data": "0x11474770",
+      "side_count": 1,
+      "side_references": [
+        "0x114855b8"
+      ],
+      "has_null_side": false,
+      "personality_maps": []
+    },
+    {
+      "name": "AIPersonalityDefinition:3JapanFleetCommand",
+      "instance_id": "0x239cbed1",
+      "wrapper": "0x114714b0",
+      "data": "0x11471e80",
+      "side_count": 1,
+      "side_references": [
+        "0x11485468"
+      ],
+      "has_null_side": false,
+      "personality_maps": []
+    },
+    {
+      "name": "AIPersonalityDefinition:3SovietAirMarshall",
+      "instance_id": "0x8482d064",
+      "wrapper": "0x114745e8",
+      "data": "0x1146f670",
+      "side_count": 1,
+      "side_references": [
+        "0x11483e50"
+      ],
+      "has_null_side": false,
+      "personality_maps": []
+    },
+    {
+      "name": "AIPersonalityDefinition:4TFLLMAllied",
+      "instance_id": "0x974c1e66",
+      "wrapper": "0x115895d0",
+      "data": "0xeb7aed0",
+      "side_count": 1,
+      "side_references": [
+        "0x114855b8"
+      ],
+      "has_null_side": false,
+      "personality_maps": []
+    },
+    {
+      "name": "AIPersonalityDefinition:4TFLLMJapan",
+      "instance_id": "0xc3b03015",
+      "wrapper": "0xeb79608",
+      "data": "0xeb79fe0",
+      "side_count": 1,
+      "side_references": [
+        "0x11485468"
+      ],
+      "has_null_side": false,
+      "personality_maps": []
+    },
+    {
+      "name": "AIPersonalityDefinition:4TFLLMSoviet",
+      "instance_id": "0x8f4ead8a",
+      "wrapper": "0xeb76af8",
+      "data": "0xeb775f0",
+      "side_count": 1,
+      "side_references": [
+        "0x11483e50"
+      ],
+      "has_null_side": false,
+      "personality_maps": []
+    },
+    {
+      "name": "AIPersonalityDefinition:4TFLLMRandom",
+      "instance_id": "0x4ebfb10f",
+      "wrapper": "0xeb750b0",
+      "data": "0xeb75a60",
+      "side_count": 1,
+      "side_references": [
+        "0x114842d8"
+      ],
+      "has_null_side": false,
+      "personality_maps": [
+        {
+          "side": "0x114855b8",
+          "personality": "0x115895d0",
+          "has_null_reference": false
+        },
+        {
+          "side": "0x11483e50",
+          "personality": "0xeb76af8",
+          "has_null_reference": false
+        },
+        {
+          "side": "0x11485468",
+          "personality": "0xeb79608",
+          "has_null_reference": false
+        }
+      ]
+    }
+  ],
+  "note": "Read-only, non-atomic inspection. Presence in store does not prove selectable or operational. Catalog name is annotation; instance_id is the native identity."
+}

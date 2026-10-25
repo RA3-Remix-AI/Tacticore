@@ -1,0 +1,85 @@
+{
+  "status": "no_dispatch_route_or_pair_not_ready",
+  "session_id": "e7900bbc-d79b-4a11-8385-a8fd46c23684",
+  "frame": 726,
+  "paused": 0,
+  "own_fronts": [
+    {
+      "object_id": 774,
+      "xyz": [
+        2910.0,
+        2870.00048828125,
+        210.0
+      ]
+    }
+  ],
+  "own_supports": [
+    {
+      "object_id": 771,
+      "xyz": [
+        2990.0,
+        2950.0,
+        210.0
+      ]
+    },
+    {
+      "object_id": 773,
+      "xyz": [
+        2890.00048828125,
+        2890.0,
+        210.0
+      ]
+    }
+  ],
+  "visible_static_contacts": [
+    {
+      "contact_id": "contact_3e244deb07d21f576313",
+      "object_id": 772,
+      "xyz": [
+        1819.0013427734375,
+        1320.552978515625,
+        210.0
+      ]
+    }
+  ],
+  "errors": [
+    "no_positive_ground_history_near_explicit_visible_contact"
+  ],
+  "planning_diagnostics": [
+    {
+      "front_id": 774,
+      "support_id": 771,
+      "contact_id": "contact_3e244deb07d21f576313",
+      "phase": "role_graph_search",
+      "source_records": 9,
+      "ground_nodes": 5,
+      "expanded_states": 0,
+      "reject_reasons": {
+        "current_own_occupant": 1,
+        "source_session_or_clock": 3
+      },
+      "closest_ground_point_to_target": 1895.010727037992,
+      "goal_nodes": 0,
+      "first_leg_candidates": 0,
+      "elapsed_seconds": 0.0470000000204891
+    },
+    {
+      "front_id": 774,
+      "support_id": 773,
+      "contact_id": "contact_3e244deb07d21f576313",
+      "phase": "role_graph_search",
+      "source_records": 9,
+      "ground_nodes": 5,
+      "expanded_states": 0,
+      "reject_reasons": {
+        "current_own_occupant": 1,
+        "source_session_or_clock": 3
+      },
+      "closest_ground_point_to_target": 1895.010727037992,
+      "goal_nodes": 0,
+      "first_leg_candidates": 2,
+      "elapsed_seconds": 0.015999999945051968
+    }
+  ],
+  "sdk_calls": 0
+}

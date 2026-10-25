@@ -1,0 +1,149 @@
+{
+  "verified": true,
+  "scope": "coordinate_force:two_role_staged_advance_only",
+  "checks": {
+    "finished": true,
+    "raw_sequence": true,
+    "monotonic_frames": true,
+    "binding": true,
+    "identity": true,
+    "complete_clean_return": true,
+    "roles": true,
+    "bounded": true,
+    "stages": true,
+    "unit_0_stop_stable": true,
+    "unit_0_stop_chain": true,
+    "unit_0_move_chain": true,
+    "unit_0_returned": true,
+    "unit_0_no_override": true,
+    "unit_0_goal_binding": true,
+    "unit_1_stop_stable": true,
+    "unit_1_stop_chain": true,
+    "unit_1_move_chain": true,
+    "unit_1_returned": true,
+    "unit_1_no_override": true,
+    "unit_1_goal_binding": true,
+    "support_held_front_arrived_before_release": true,
+    "three_distinct_same_tick_geometries": true,
+    "current_frozen_hashes": true,
+    "evidence_source_binding": true,
+    "evidence_executor_route": true
+  },
+  "stable_stop": [
+    {
+      "unit_id": 800,
+      "stop_frame": 8149,
+      "frames": [
+        8150,
+        8152,
+        8154
+      ],
+      "xyz": [
+        [
+          2670.0,
+          2230.0,
+          220.0
+        ],
+        [
+          2670.0,
+          2230.0,
+          220.0
+        ],
+        [
+          2670.0,
+          2230.0,
+          220.0
+        ]
+      ],
+      "gate_frame": 8154,
+      "move_frame": 8154
+    },
+    {
+      "unit_id": 809,
+      "stop_frame": 8149,
+      "frames": [
+        8150,
+        8152,
+        8154
+      ],
+      "xyz": [
+        [
+          2730.0,
+          2270.0,
+          220.0
+        ],
+        [
+          2730.0,
+          2270.0,
+          220.0
+        ],
+        [
+          2730.0,
+          2270.0,
+          220.0
+        ]
+      ],
+      "gate_frame": 8154,
+      "move_frame": 8170
+    }
+  ],
+  "held_front_ready_frames": [
+    8167,
+    8169,
+    8170
+  ],
+  "paired_geometry": [
+    {
+      "frame": 8188,
+      "tick": 567618750,
+      "front_distance": 0.0,
+      "support_distance": 12.110976855248891,
+      "spacing": 68.48554234572705,
+      "forward": 3871.796875
+    },
+    {
+      "frame": 8190,
+      "tick": 567618875,
+      "front_distance": 0.0,
+      "support_distance": 5.4444176364122985,
+      "spacing": 61.91644038258076,
+      "forward": 3502.001953125
+    },
+    {
+      "frame": 8192,
+      "tick": 567618968,
+      "front_distance": 0.0,
+      "support_distance": 0.0,
+      "spacing": 56.568542494923804,
+      "forward": 3200.0
+    }
+  ],
+  "returns": [
+    {
+      "unit_id": 800,
+      "frames": [
+        8192
+      ]
+    },
+    {
+      "unit_id": 809,
+      "frames": [
+        8192
+      ]
+    }
+  ],
+  "attack_verified": false,
+  "raid_verified": false,
+  "cooperative_combat_verified": false,
+  "source_report": "acceptance\\runs\\20261024-234355-commander\\formation-stop-v2-03.json",
+  "source_sha256": "6580ef39bdcb6d72b3daa5e04c97f2b8f4e15b7fd56482e58e4d9f1b00ffea27",
+  "current_hashes": {
+    "native_binary_sha256": "75813bf0c2d12174ac50919c0aa299a90be9d9c77cac691abe1a7106c4c834cf",
+    "native_host_sha256": "a704c538d4ecc6f580d9a7a38eb2ee1261d77a037224c897208a92b39920edb4",
+    "wrapper_sha256": "d36f3038ad3587f36541f1c6ab5d40b22df8504e155fb77dad5130309eaa93ca",
+    "native_source_sha256": "3bf8fa2e393693661221273fe72dbd11008b5277ca694d35503fc4b24b1dad3a",
+    "native_shared_sha256": "106c6116517bb600aa59c140999c8ef855dc30434ffdc3ae3151f9c899b60290"
+  },
+  "negative_cases": 4,
+  "game_or_api_access": false
+}

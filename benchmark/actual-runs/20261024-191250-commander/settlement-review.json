@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "source_kind": "live_game_gui_artifact_review",
+  "session_id": "31ba9442-8c11-4ffe-bd10-be5e170c1c50",
+  "screenshot_relative_to_run": "trial-settlement.png",
+  "native_relative_to_run": "trial-native-result.json",
+  "gui_observed": {
+    "screen": "statistics_settlement",
+    "human_player_row_result": "not_independently_identified",
+    "easy_hammer_row_result": "not_independently_identified",
+    "note": "Screenshot independently inspected. Right-side victory/skull icons are graph legend markers, not row-specific results. Earlier row-based winner interpretation was incorrect and withdrawn. Settlement visibility is not proof that active model control persisted to settlement."
+  },
+  "native_observed": {
+    "pid": 54892,
+    "mode_raw": 9,
+    "simulation_frame": 0,
+    "match_ended_verified": false,
+    "participants_cleared": true,
+    "note": "Native capture occurred after result records were cleared. It cannot independently identify winner or loser."
+  },
+  "root_final_confirmation_received": false,
+  "whole_match_acceptance_passed": false,
+  "personality_comparison_passed": false
+}

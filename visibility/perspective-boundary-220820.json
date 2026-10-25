@@ -1,0 +1,67 @@
+{
+  "session_id": "69444a96-7911-4cdd-9a50-99843623fc7f",
+  "pid": 55596,
+  "frames": [
+    {
+      "frame": 340,
+      "pause_type": 3
+    },
+    {
+      "frame": 340,
+      "pause_type": 3
+    },
+    {
+      "frame": 340,
+      "pause_type": 3
+    }
+  ],
+  "points": [
+    {
+      "label": "known_ground_truth_player_3",
+      "object_id_diagnostic": 763,
+      "xy": [
+        1511.4095458984375,
+        1479.6519775390625
+      ],
+      "perspectives": {
+        "2": {
+          "terrain_shroud": 1,
+          "object_shroud_cached": 0
+        },
+        "3": {
+          "terrain_shroud": 1,
+          "object_shroud_cached": 1
+        },
+        "4": {
+          "terrain_shroud": 0,
+          "object_shroud_cached": 4
+        }
+      }
+    },
+    {
+      "label": "known_ground_truth_player_4",
+      "object_id_diagnostic": 764,
+      "xy": [
+        3187.2529296875,
+        3240.34814453125
+      ],
+      "perspectives": {
+        "2": {
+          "terrain_shroud": 1,
+          "object_shroud_cached": 0
+        },
+        "3": {
+          "terrain_shroud": 0,
+          "object_shroud_cached": 4
+        },
+        "4": {
+          "terrain_shroud": 1,
+          "object_shroud_cached": 1
+        }
+      }
+    }
+  ],
+  "diagnostic_only": true,
+  "model_eligible": false,
+  "purpose": "Cross-player visibility research. Opponent coordinates are ground truth only; never forward this artifact to model or controller."
+}

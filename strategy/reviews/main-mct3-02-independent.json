@@ -1,0 +1,36 @@
+{
+  "source_report": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-105617-commander\\main-mct3-02.json",
+  "source_sha256": "79463af97f60cdee0287a46501a06364fc1d33b01e49f62d175ba1f7c5d0259a",
+  "mutations": false,
+  "scope": "failed calibration; no tactical effect qualification",
+  "actor_id": 1143,
+  "issued_frame": 6614,
+  "returned_frame": 6630,
+  "reason_code": 10,
+  "reported_native_move": 2,
+  "external_moves": [
+    {
+      "seq": 2,
+      "frame": 6613,
+      "kind": 52,
+      "relative_to_lease": "before"
+    },
+    {
+      "seq": 52,
+      "frame": 6643,
+      "kind": 52,
+      "relative_to_lease": "after"
+    }
+  ],
+  "external_moves_during_lease": 0,
+  "resolved_actual_implicit_origin": true,
+  "restoration_verified": true,
+  "return_verified": true,
+  "native_qualification": "not_passed",
+  "effect_verified": false,
+  "findings": [
+    "One pre-detachment native normalMove was already counted when the first mission tick checked for interference.",
+    "The final counter also includes one post-return normalMove. No untagged Move was observed in the actual actor lease.",
+    "Keep the failed result; do not reinterpret absence of interference as successful approach, damage or retreat effect."
+  ]
+}

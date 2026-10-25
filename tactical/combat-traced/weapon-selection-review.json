@@ -1,0 +1,40 @@
+{
+  "session_id": "8a1186c9-6df6-416a-bd4a-45d11a713bad",
+  "pid": 26312,
+  "cases": [
+    {
+      "source": "bridge-probe\\acceptance\\runs\\20261024-234355-commander\\attack01.json",
+      "source_sha256": "1db180bbd8a08be03eafaa2029b1da463dddf6bfc2019d5fae185622ca0eee3a",
+      "template_pointer": "0xf0e5af0",
+      "schema_pointer": "0xf0e5d40",
+      "asset_header_pointer": "0xf0e5e90",
+      "type_id": "0x94d4d96e",
+      "instance_id": "0x41872ecc",
+      "asset": "WeaponTemplate:SovietAntiInfantryInfantryMolotovCocktail",
+      "attack_limit_requested": 1,
+      "last_limit": 2147483647,
+      "observed_ammo_drops": 1,
+      "damage_hook_calls": 0,
+      "status": "attack_not_verified"
+    },
+    {
+      "source": "bridge-probe\\acceptance\\runs\\20261024-234355-commander\\attack02.json",
+      "source_sha256": "0b940d953d0350ecaf895b766d6a3331c02ab4a5227c28fd5da01d6d3408ac88",
+      "template_pointer": "0xf0e6428",
+      "schema_pointer": "0xf0e6570",
+      "asset_header_pointer": "0xf0e66c0",
+      "type_id": "0x94d4d96e",
+      "instance_id": "0x447ea26e",
+      "asset": "WeaponTemplate:SovietAntiInfantryInfantryAK47",
+      "attack_limit_requested": 1,
+      "last_limit": 2147483647,
+      "observed_ammo_drops": 9,
+      "damage_hook_calls": 0,
+      "status": "attack_not_verified"
+    }
+  ],
+  "manifest": "E:/RA3Modding/SDK/Builtmods/SAGEXML/static.manifest",
+  "manifest_sha256": "00300dd42042cbf37b5a7dadf4010f15a93302a2445f4e332d278e25e7c9b5e9",
+  "mutations": false,
+  "note": "Own-unit weapon pointers decoded read-only in same live process/session. Ammo drop and requested maxShots do not prove actual finite fire or hit attribution. attack02 visible target HP changes require true damage-chain observation."
+}

@@ -1,0 +1,46 @@
+{
+  "source_report": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-114145-commander\\main-mct4-01.json",
+  "source_sha256": "d374aa1dcc68a1b449461722fa502df4bba436ee59be355a5399e5e6c2a0c5a3",
+  "mutations": false,
+  "qualification": "failed_no_effect_safe_return",
+  "actor": 789,
+  "issued_frame": 1128,
+  "approach_started": 1132,
+  "last_verified_visible_frame": 1199,
+  "first_unseen_frame": 1200,
+  "retreat_started": 1200,
+  "returned_frame": 1276,
+  "last_seen_target_distance": 1712.2879642111054,
+  "own_displacement_before_loss": 220.00288123989284,
+  "retreat_arrivals": [
+    {
+      "frame": 1268,
+      "distance": 12.27543416588344
+    },
+    {
+      "frame": 1270,
+      "distance": 7.956643235077281
+    },
+    {
+      "frame": 1271,
+      "distance": 7.27669887173292
+    }
+  ],
+  "returned_origin_distance": 7.27669887173292,
+  "attack_orders": 0,
+  "source_damage_count": 0,
+  "source_damage": 0,
+  "shots": 0,
+  "reason_code": 2,
+  "restoration": {
+    "restoration_verified": true,
+    "control_release_verified": true,
+    "return_verified": true,
+    "disposed_verified": false,
+    "semantics": "native_pool_return",
+    "completion_claim": false
+  },
+  "core_status": "not_passed",
+  "current_layer_finding": "Native approach stage2 immediately withdrew when verified visibility ceased. Agent mission is not automatically cancelled by missing/expired contact or short plan TTL.",
+  "agent_boundary_check": "Synthetic real BattleAgent: contacts removed, fact60s expired, model45s TTL passed, then accepted empty tactical plan; same committed mission/target/reservation/deadline kept and no retreat requested."
+}

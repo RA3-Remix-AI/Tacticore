@@ -1,0 +1,49 @@
+{
+  "directory": "mission-combat-v6",
+  "magic": "0x4d435436",
+  "version": 14,
+  "message": "WM_APP+0x382",
+  "dll": "TacticalMissionCombat6.dll",
+  "mapping_prefix": "RA3TacticalMissionCombat6_",
+  "restore_mask": 16383,
+  "layout": {
+    "event": 852,
+    "tactical": 3490916,
+    "events": 1124,
+    "unused1": 0,
+    "unused2": 0
+  },
+  "revision": {
+    "native_binary_sha256": "ed17953bcc916a007ea30694af703984598e8d148269f8ec23db3e5243bbd130",
+    "native_host_sha256": "e58c5edbdce69e29e1c5c5b07b98ce5564002a797176acb48bf28d84910829c7",
+    "wrapper_sha256": "a8f48bc291a19be1dc8de50c08180d1cf65b77593fe175aef8b1f9cb826f29e4",
+    "native_source_sha256": "34a16ebae67f6ee23c4fb42dcd5b5c29a6845c48ac0c0bbfe5b2b4894a13da63",
+    "native_shared_sha256": "b05db0a84bd77ef4ebbe1dfd187bc844a34f57e774fe3a331bd09e3b380e1fd7",
+    "mission_contract_sha256": "b255df269fdffccd11803ec3b0609d37bfa91c28028d6fdca006390967482094",
+    "origin_resolution_helper_sha256": "0c3a23586b82420e420ef6dfa8a3c2e130625292508654e3cadfd2e4d6b63107",
+    "pre_dispatch_helper_sha256": "96f49219df50d6388fc0f44209c0a65264edf75911f77334c3235ba98b23531c",
+    "native_includes_sha256": {
+      "mission_tick.inc": "13cdab4649eb7f8ec96efb01ade003103791a7317e88ea95f601c07fc045e85e"
+    },
+    "qualification_dependencies_sha256": {
+      "mission_actor_admission.py": "9635d39a64e65ec95a67a757a4a4212c1835ae539cd00a44ba22a88ed999335b",
+      "grounded_status_v2.py": "70e5f94bac9b1a82beec56053fd43e91f6edaba1500c8dfa840e868be836e6b3",
+      "grounded_status.py": "ad5b758c947843969f2d1ec6e7fc07c0eaec084b1a59e60750d69d881e78a6c0",
+      "combo_qualification.py": "74ed16345fcde688fae5d6cbf08333d39bae9c2c009c7a62733bd022910fe8cb",
+      "stop_sequence.py": "12495ce626a0325240a1b74adc9cdf0a5218042e3cb5ca8c6c4472196daa5540"
+    }
+  },
+  "qualifier_sha256": "11db71035259efa285e3516224e95fc220b85eb360d1046c4b88de3c9388f692",
+  "gate_reader_sha256": "a8f54ed98790efdcdab08113b813f9bad9f2182b360c9a9cd9f4944820eb10a3",
+  "disposal_reader_sha256": "d799bf2c9e79e5c3a47c2921fdab0d5a88d0dce67d8c06af3e98351d115a9033",
+  "status": "offline_only_no_field_capability",
+  "client_sha256": "dbc6ac3c6d0a1595ef57d31c5d0e04cc84cd1dce52629dc036d1d460716cbda4",
+  "raw_test_sha256": "a3a855646d294f1132505151f2afadf732de784d50d05a245a868f1a6960d8cf",
+  "client_test_sha256": "a0d28ac89632fbaa6ae61eb066b35c99213236cc29bed8143d244f5e6cb9503a",
+  "pre_dispatch_helper_sha256": "96f49219df50d6388fc0f44209c0a65264edf75911f77334c3235ba98b23531c",
+  "offline_tests": {
+    "new_tests": 20,
+    "tactical_total": 368,
+    "sdk_calls": 0
+  }
+}

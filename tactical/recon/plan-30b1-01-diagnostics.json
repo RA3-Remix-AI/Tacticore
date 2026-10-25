@@ -1,0 +1,40 @@
+{
+  "session_id": "30b1ea49-9be8-4d04-ae53-d369a1a550a9",
+  "frame": 1576,
+  "paused": true,
+  "commands_dispatched": 0,
+  "model_eligible": false,
+  "eligible_unit_count": 5,
+  "eligible_role_counts": {
+    "flak": 5
+  },
+  "frontier_candidate_cell_count": 548,
+  "frontier_selection": "all_player_clear_adjacent_fog_cells",
+  "representative_region_limit_used": false,
+  "minimum_frontier_distance": 107.74199319694644,
+  "closest_own_candidates": [
+    {
+      "object_id": 801,
+      "distance": 107.74199319694644,
+      "region_id": "region_5_5"
+    },
+    {
+      "object_id": 801,
+      "distance": 116.33617558578715,
+      "region_id": "region_5_5"
+    },
+    {
+      "object_id": 790,
+      "distance": 127.63573829039326,
+      "region_id": "region_5_5"
+    }
+  ],
+  "planning_distance_bound": [
+    40,
+    550
+  ],
+  "native_distance_bound": [
+    20,
+    600
+  ]
+}

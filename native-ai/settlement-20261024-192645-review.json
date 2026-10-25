@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "kind": "independent_settlement_review",
+  "session_id": "9feb4b8b-b7d5-450a-b80c-5cd1f944ccfd",
+  "run_directory": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261024-192645-commander",
+  "review_method": "saved native evidence plus independent direct image inspection; no game input or mutation",
+  "conclusion": {
+    "winner_player_index": 3,
+    "winner_commander_id": "57e668b4-4d89-43bd-bc92-0dd436f046ef",
+    "winner_display_name": "铁锤",
+    "loser_player_index": 2,
+    "match_finished_verified_for_this_run": true,
+    "basis": [
+      "saved native human defeat frame 4284 and participant pointer mapping",
+      "blue human curve ends at skull marker",
+      "green Iron curve ends at victory marker",
+      "two participants in setup and named/color legend maps curves to players"
+    ],
+    "general_native_result_mapping_verified": false,
+    "c0_c4_used_as_deciding_evidence": false,
+    "right_side_marker_legend_used_as_player_result": false
+  },
+  "checks": {
+    "two_participant_setup": true,
+    "session_identity_equal": true,
+    "selected_iron_uuid_verified": true,
+    "identity_package_matches_session": true,
+    "human_defeated_flag": true,
+    "iron_not_defeated_flag": true,
+    "native_defeat_before_snapshot": true,
+    "fourteen_native_completed_orders": true,
+    "orders_finished_before_human_defeat": true,
+    "native_executor_stopped_cleanly": true,
+    "committed_spend_matches_orders": true
+  },
+  "production": {
+    "completed_native_orders": 14,
+    "committed_spend": 1595,
+    "status_host_completed_counter": 13,
+    "host_counter_stale_relative_to_executor": true,
+    "settlement_total_units_built": {
+      "human": 0,
+      "iron": 38
+    },
+    "settlement_total_units_built_is_not_model_order_count": true,
+    "restore_mask_is_not_unit_count": true
+  },
+  "limitations": [
+    "AI victory_frame is zero: direct native victory-event logging was not observed",
+    "one match does not establish general native result index to player mapping",
+    "human opponent was idle integration participant, not competitive benchmark",
+    "14 completed orders do not establish that model intervention caused victory",
+    "independent later readback was after menu reset: frame0/mode9 and empty participants; not used to infer match outcome"
+  ],
+  "sources": {
+    "session.json": {
+      "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261024-192645-commander\\session.json",
+      "sha256": "aef04a560ad2d8f4556ae3449a02df209edfc49b8e3da2ef96bdf51239d9b8a6"
+    },
+    "battle-host/identity.json": {
+      "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261024-192645-commander\\battle-host\\identity.json",
+      "sha256": "78f29f87b6da3e4795aa918c48040e175718048a7cee5ae9eaf98d0fa32ce640"
+    },
+    "battle-host/match-state.json": {
+      "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261024-192645-commander\\battle-host\\match-state.json",
+      "sha256": "b6b333c2acc7adb10fa4b9846e5180cf3bf02330a1b862e7a54bafa8a77f3041"
+    },
+    "battle-host/host-status.json": {
+      "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261024-192645-commander\\battle-host\\host-status.json",
+      "sha256": "6be2ef525e9624a6cf33751b3cefbb2c67604ec9f279b4c67ab499a52bdc75d9"
+    },
+    "persistent-production-status.json": {
+      "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261024-192645-commander\\persistent-production-status.json",
+      "sha256": "2c4463941ba1f5eb9063a6ded264e87c8a70da7b8212ad6baf0a3b7d244f20dd"
+    },
+    "settlement-units.png": {
+      "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261024-192645-commander\\settlement-units.png",
+      "sha256": "83a7ae6d8fc24d797d8153c96c756e6258f19038c0f9890fecab4f518541c06d"
+    },
+    "settlement-information.png": {
+      "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261024-192645-commander\\settlement-information.png",
+      "sha256": "a07a467f71e7bdad3f09ec5d24599cff6603d3efc824c55f7908f783bb5d07e9"
+    }
+  },
+  "game_mutations": false,
+  "collector_modified": false
+}

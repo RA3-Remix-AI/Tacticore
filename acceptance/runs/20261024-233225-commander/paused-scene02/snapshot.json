@@ -1,0 +1,322 @@
+{
+  "schema_version": 1,
+  "session_id": "8b9dc9a3-d223-4313-b0f5-9b17dfeefad2",
+  "player_id": 3,
+  "snapshot_id": 1,
+  "game_time_seconds": 96.66666666666667,
+  "source": "game_bridge",
+  "paused": true,
+  "resources": {
+    "credits": 2075,
+    "power_balance": null
+  },
+  "capabilities": {
+    "production_focus": [
+      "native_baseline"
+    ],
+    "regions": [
+      "home_base",
+      "region_0_2",
+      "region_1_1",
+      "region_1_2",
+      "region_2_0",
+      "region_2_1",
+      "region_2_2",
+      "region_2_3",
+      "region_3_0",
+      "region_3_1",
+      "region_3_2",
+      "region_3_3",
+      "region_4_1",
+      "region_4_2",
+      "region_4_3",
+      "region_5_2",
+      "region_5_3",
+      "region_5_5",
+      "region_5_6"
+    ]
+  },
+  "production": {
+    "queued_count": 0,
+    "idle_producers": 1,
+    "own_roles": {
+      "infantry": 4,
+      "anti_air": 5
+    }
+  },
+  "enemy_observations": [],
+  "events": [],
+  "battlefield": {
+    "schema_version": 1,
+    "viewer_player_id": 3,
+    "visibility_verified": true,
+    "regions": [
+      {
+        "region_id": "region_5_5",
+        "relation": "enemy",
+        "observed_at_game_seconds": 96.66666666666667,
+        "currently_visible": true,
+        "role_counts": {
+          "structure": 2,
+          "infantry": 3
+        }
+      },
+      {
+        "region_id": "region_4_3",
+        "relation": "enemy",
+        "observed_at_game_seconds": 96.66666666666667,
+        "currently_visible": true,
+        "role_counts": {
+          "infantry": 2
+        }
+      },
+      {
+        "region_id": "region_5_3",
+        "relation": "enemy",
+        "observed_at_game_seconds": 96.66666666666667,
+        "currently_visible": true,
+        "role_counts": {
+          "infantry": 3
+        }
+      },
+      {
+        "region_id": "region_5_6",
+        "relation": "enemy",
+        "observed_at_game_seconds": 96.66666666666667,
+        "currently_visible": true,
+        "role_counts": {
+          "structure": 1
+        }
+      },
+      {
+        "region_id": "region_2_2",
+        "relation": "self",
+        "observed_at_game_seconds": 96.66666666666667,
+        "currently_visible": true,
+        "role_counts": {}
+      },
+      {
+        "region_id": "region_3_3",
+        "relation": "self",
+        "observed_at_game_seconds": 96.66666666666667,
+        "currently_visible": true,
+        "role_counts": {}
+      },
+      {
+        "region_id": "region_2_3",
+        "relation": "self",
+        "observed_at_game_seconds": 96.66666666666667,
+        "currently_visible": true,
+        "role_counts": {}
+      },
+      {
+        "region_id": "region_3_2",
+        "relation": "self",
+        "observed_at_game_seconds": 96.66666666666667,
+        "currently_visible": true,
+        "role_counts": {}
+      },
+      {
+        "region_id": "home_base",
+        "relation": "self",
+        "observed_at_game_seconds": 96.66666666666667,
+        "currently_visible": true,
+        "role_counts": {}
+      },
+      {
+        "region_id": "region_2_0",
+        "relation": "unknown",
+        "observed_at_game_seconds": 96.66666666666667,
+        "currently_visible": false,
+        "role_counts": {}
+      },
+      {
+        "region_id": "region_3_0",
+        "relation": "unknown",
+        "observed_at_game_seconds": 96.66666666666667,
+        "currently_visible": false,
+        "role_counts": {}
+      },
+      {
+        "region_id": "region_1_1",
+        "relation": "unknown",
+        "observed_at_game_seconds": 96.66666666666667,
+        "currently_visible": false,
+        "role_counts": {}
+      },
+      {
+        "region_id": "region_2_1",
+        "relation": "unknown",
+        "observed_at_game_seconds": 96.66666666666667,
+        "currently_visible": false,
+        "role_counts": {}
+      },
+      {
+        "region_id": "region_3_1",
+        "relation": "unknown",
+        "observed_at_game_seconds": 96.66666666666667,
+        "currently_visible": false,
+        "role_counts": {}
+      },
+      {
+        "region_id": "region_4_1",
+        "relation": "unknown",
+        "observed_at_game_seconds": 96.66666666666667,
+        "currently_visible": false,
+        "role_counts": {}
+      },
+      {
+        "region_id": "region_1_2",
+        "relation": "unknown",
+        "observed_at_game_seconds": 96.66666666666667,
+        "currently_visible": false,
+        "role_counts": {}
+      },
+      {
+        "region_id": "region_4_2",
+        "relation": "unknown",
+        "observed_at_game_seconds": 96.66666666666667,
+        "currently_visible": false,
+        "role_counts": {}
+      },
+      {
+        "region_id": "region_0_2",
+        "relation": "unknown",
+        "observed_at_game_seconds": 96.66666666666667,
+        "currently_visible": false,
+        "role_counts": {}
+      },
+      {
+        "region_id": "region_5_2",
+        "relation": "unknown",
+        "observed_at_game_seconds": 96.66666666666667,
+        "currently_visible": false,
+        "role_counts": {}
+      }
+    ],
+    "contacts": [
+      {
+        "contact_id": "contact_086711fc5493c308a640",
+        "owner_player_id": 4,
+        "relation": "enemy",
+        "role": "infantry",
+        "region_id": "region_5_3",
+        "observed_at_game_seconds": 96.66666666666667,
+        "currently_visible": true,
+        "stealth_state": "visible"
+      },
+      {
+        "contact_id": "contact_19e7ab2371de3efe0ca2",
+        "owner_player_id": 4,
+        "relation": "enemy",
+        "role": "infantry",
+        "region_id": "region_5_5",
+        "observed_at_game_seconds": 96.66666666666667,
+        "currently_visible": true,
+        "stealth_state": "visible"
+      },
+      {
+        "contact_id": "contact_526eb51cec1aebb15196",
+        "owner_player_id": 4,
+        "relation": "enemy",
+        "role": "structure",
+        "region_id": "region_5_6",
+        "observed_at_game_seconds": 96.66666666666667,
+        "currently_visible": true,
+        "stealth_state": "visible"
+      },
+      {
+        "contact_id": "contact_ac09c6661b50d71ac18d",
+        "owner_player_id": 4,
+        "relation": "enemy",
+        "role": "infantry",
+        "region_id": "region_5_5",
+        "observed_at_game_seconds": 96.66666666666667,
+        "currently_visible": true,
+        "stealth_state": "visible"
+      },
+      {
+        "contact_id": "contact_bd8d88c02cb8017dcb3e",
+        "owner_player_id": 4,
+        "relation": "enemy",
+        "role": "infantry",
+        "region_id": "region_5_5",
+        "observed_at_game_seconds": 96.66666666666667,
+        "currently_visible": true,
+        "stealth_state": "visible"
+      },
+      {
+        "contact_id": "contact_d5e55209ad39d3326950",
+        "owner_player_id": 4,
+        "relation": "enemy",
+        "role": "structure",
+        "region_id": "region_5_5",
+        "observed_at_game_seconds": 96.66666666666667,
+        "currently_visible": true,
+        "stealth_state": "visible"
+      },
+      {
+        "contact_id": "contact_dff8fc1314bc8f8e27ec",
+        "owner_player_id": 4,
+        "relation": "enemy",
+        "role": "infantry",
+        "region_id": "region_4_3",
+        "observed_at_game_seconds": 96.66666666666667,
+        "currently_visible": true,
+        "stealth_state": "visible"
+      },
+      {
+        "contact_id": "contact_ea7ca62ba34415fe4e0c",
+        "owner_player_id": 4,
+        "relation": "enemy",
+        "role": "infantry",
+        "region_id": "region_5_3",
+        "observed_at_game_seconds": 96.66666666666667,
+        "currently_visible": true,
+        "stealth_state": "visible"
+      },
+      {
+        "contact_id": "contact_ef2f8c44cbde005f0412",
+        "owner_player_id": 4,
+        "relation": "enemy",
+        "role": "infantry",
+        "region_id": "region_4_3",
+        "observed_at_game_seconds": 96.66666666666667,
+        "currently_visible": true,
+        "stealth_state": "visible"
+      },
+      {
+        "contact_id": "contact_f27569ab84a9a9d53326",
+        "owner_player_id": 4,
+        "relation": "enemy",
+        "role": "structure",
+        "region_id": "region_5_5",
+        "observed_at_game_seconds": 96.66666666666667,
+        "currently_visible": true,
+        "stealth_state": "visible"
+      },
+      {
+        "contact_id": "contact_fc316fef145a8bc58ef3",
+        "owner_player_id": 4,
+        "relation": "enemy",
+        "role": "infantry",
+        "region_id": "region_5_3",
+        "observed_at_game_seconds": 96.66666666666667,
+        "currently_visible": true,
+        "stealth_state": "visible"
+      }
+    ],
+    "formations": [
+      {
+        "formation_id": "formation_a6959eb0be0158dc",
+        "version": 1,
+        "roles": {
+          "infantry": 1,
+          "anti_air": 3
+        },
+        "region_id": "region_3_3",
+        "available": true
+      }
+    ]
+  }
+}

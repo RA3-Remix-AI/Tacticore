@@ -1,0 +1,146 @@
+
+E:/RedRar3/Data/RA3_1.12.game:     file format pei-i386
+
+
+Disassembly of section .text:
+
+00583c80 <.text+0x182c80>:
+  583c80:	8b 44 24 04          	mov    eax,DWORD PTR [esp+0x4]
+  583c84:	8b 0d 90 d1 cd 00    	mov    ecx,DWORD PTR ds:0xcdd190
+  583c8a:	6a 00                	push   0x0
+  583c8c:	50                   	push   eax
+  583c8d:	e8 ee bd ff ff       	call   0x57fa80
+  583c92:	8b 0d 9c 8c ce 00    	mov    ecx,DWORD PTR ds:0xce8c9c
+  583c98:	50                   	push   eax
+  583c99:	e8 42 54 2b 00       	call   0x8390e0
+  583c9e:	85 c0                	test   eax,eax
+  583ca0:	74 57                	je     0x583cf9
+  583ca2:	8b 80 90 00 00 00    	mov    eax,DWORD PTR [eax+0x90]
+  583ca8:	85 c0                	test   eax,eax
+  583caa:	74 4d                	je     0x583cf9
+  583cac:	8b 80 f8 06 00 00    	mov    eax,DWORD PTR [eax+0x6f8]
+  583cb2:	85 c0                	test   eax,eax
+  583cb4:	74 43                	je     0x583cf9
+  583cb6:	56                   	push   esi
+  583cb7:	8b 70 34             	mov    esi,DWORD PTR [eax+0x34]
+  583cba:	85 f6                	test   esi,esi
+  583cbc:	74 3a                	je     0x583cf8
+  583cbe:	8b 4c 24 0c          	mov    ecx,DWORD PTR [esp+0xc]
+  583cc2:	57                   	push   edi
+  583cc3:	6a 00                	push   0x0
+  583cc5:	51                   	push   ecx
+  583cc6:	8b 0d 90 d1 cd 00    	mov    ecx,DWORD PTR ds:0xcdd190
+  583ccc:	e8 af bd ff ff       	call   0x57fa80
+  583cd1:	8b 0d 9c 8c ce 00    	mov    ecx,DWORD PTR ds:0xce8c9c
+  583cd7:	50                   	push   eax
+  583cd8:	e8 03 54 2b 00       	call   0x8390e0
+  583cdd:	8b f8                	mov    edi,eax
+  583cdf:	85 ff                	test   edi,edi
+  583ce1:	74 14                	je     0x583cf7
+  583ce3:	8b ce                	mov    ecx,esi
+  583ce5:	e8 a6 bc 32 00       	call   0x8af990
+  583cea:	8b 57 20             	mov    edx,DWORD PTR [edi+0x20]
+  583ced:	6a 0a                	push   0xa
+  583cef:	52                   	push   edx
+  583cf0:	8b ce                	mov    ecx,esi
+  583cf2:	e8 59 9e 33 00       	call   0x8bdb50
+  583cf7:	5f                   	pop    edi
+  583cf8:	5e                   	pop    esi
+  583cf9:	c2 08 00             	ret    0x8
+  583cfc:	cc                   	int3
+  583cfd:	cc                   	int3
+  583cfe:	cc                   	int3
+  583cff:	cc                   	int3
+  583d00:	8b 44 24 04          	mov    eax,DWORD PTR [esp+0x4]
+  583d04:	8b 0d 90 d1 cd 00    	mov    ecx,DWORD PTR ds:0xcdd190
+  583d0a:	6a 00                	push   0x0
+  583d0c:	50                   	push   eax
+  583d0d:	e8 6e bd ff ff       	call   0x57fa80
+  583d12:	8b 0d 9c 8c ce 00    	mov    ecx,DWORD PTR ds:0xce8c9c
+  583d18:	50                   	push   eax
+  583d19:	e8 c2 53 2b 00       	call   0x8390e0
+  583d1e:	85 c0                	test   eax,eax
+  583d20:	74 55                	je     0x583d77
+  583d22:	8b 80 90 00 00 00    	mov    eax,DWORD PTR [eax+0x90]
+  583d28:	85 c0                	test   eax,eax
+  583d2a:	74 4b                	je     0x583d77
+  583d2c:	8b 80 f8 06 00 00    	mov    eax,DWORD PTR [eax+0x6f8]
+  583d32:	85 c0                	test   eax,eax
+  583d34:	74 41                	je     0x583d77
+  583d36:	56                   	push   esi
+  583d37:	8b 70 34             	mov    esi,DWORD PTR [eax+0x34]
+  583d3a:	85 f6                	test   esi,esi
+  583d3c:	74 38                	je     0x583d76
+  583d3e:	8b 4c 24 0c          	mov    ecx,DWORD PTR [esp+0xc]
+  583d42:	6a 00                	push   0x0
+  583d44:	51                   	push   ecx
+  583d45:	8b 0d 90 d1 cd 00    	mov    ecx,DWORD PTR ds:0xcdd190
+  583d4b:	e8 30 bd ff ff       	call   0x57fa80
+  583d50:	8b 0d 9c 8c ce 00    	mov    ecx,DWORD PTR ds:0xce8c9c
+  583d56:	50                   	push   eax
+  583d57:	e8 84 53 2b 00       	call   0x8390e0
+  583d5c:	85 c0                	test   eax,eax
+  583d5e:	74 16                	je     0x583d76
+  583d60:	8b 4c 24 10          	mov    ecx,DWORD PTR [esp+0x10]
+  583d64:	85 c9                	test   ecx,ecx
+  583d66:	7d 02                	jge    0x583d6a
+  583d68:	33 c9                	xor    ecx,ecx
+  583d6a:	8b 50 20             	mov    edx,DWORD PTR [eax+0x20]
+  583d6d:	51                   	push   ecx
+  583d6e:	52                   	push   edx
+  583d6f:	8b ce                	mov    ecx,esi
+  583d71:	e8 da 9d 33 00       	call   0x8bdb50
+  583d76:	5e                   	pop    esi
+  583d77:	c2 0c 00             	ret    0xc
+  583d7a:	cc                   	int3
+  583d7b:	cc                   	int3
+  583d7c:	cc                   	int3
+  583d7d:	cc                   	int3
+  583d7e:	cc                   	int3
+  583d7f:	cc                   	int3
+  583d80:	8b 44 24 04          	mov    eax,DWORD PTR [esp+0x4]
+  583d84:	8b 0d 90 d1 cd 00    	mov    ecx,DWORD PTR ds:0xcdd190
+  583d8a:	6a 00                	push   0x0
+  583d8c:	50                   	push   eax
+  583d8d:	e8 ee bc ff ff       	call   0x57fa80
+  583d92:	8b 0d 9c 8c ce 00    	mov    ecx,DWORD PTR ds:0xce8c9c
+  583d98:	50                   	push   eax
+  583d99:	e8 42 53 2b 00       	call   0x8390e0
+  583d9e:	85 c0                	test   eax,eax
+  583da0:	74 4a                	je     0x583dec
+  583da2:	8b 80 90 00 00 00    	mov    eax,DWORD PTR [eax+0x90]
+  583da8:	85 c0                	test   eax,eax
+  583daa:	74 40                	je     0x583dec
+  583dac:	8b 80 f8 06 00 00    	mov    eax,DWORD PTR [eax+0x6f8]
+  583db2:	85 c0                	test   eax,eax
+  583db4:	74 36                	je     0x583dec
+  583db6:	56                   	push   esi
+  583db7:	8b 70 34             	mov    esi,DWORD PTR [eax+0x34]
+  583dba:	85 f6                	test   esi,esi
+  583dbc:	74 2d                	je     0x583deb
+  583dbe:	8b 4c 24 0c          	mov    ecx,DWORD PTR [esp+0xc]
+  583dc2:	6a 00                	push   0x0
+  583dc4:	51                   	push   ecx
+  583dc5:	8b 0d 90 d1 cd 00    	mov    ecx,DWORD PTR ds:0xcdd190
+  583dcb:	e8 b0 bc ff ff       	call   0x57fa80
+  583dd0:	8b 0d 9c 8c ce 00    	mov    ecx,DWORD PTR ds:0xce8c9c
+  583dd6:	50                   	push   eax
+  583dd7:	e8 04 53 2b 00       	call   0x8390e0
+  583ddc:	85 c0                	test   eax,eax
+  583dde:	74 0b                	je     0x583deb
+  583de0:	8b 50 20             	mov    edx,DWORD PTR [eax+0x20]
+  583de3:	52                   	push   edx
+  583de4:	8b ce                	mov    ecx,esi
+  583de6:	e8 d5 bb 32 00       	call   0x8af9c0
+  583deb:	5e                   	pop    esi
+  583dec:	c2 08 00             	ret    0x8
+  583def:	cc                   	int3
+  583df0:	8b 44 24 04          	mov    eax,DWORD PTR [esp+0x4]
+  583df4:	8b 0d 90 d1 cd 00    	mov    ecx,DWORD PTR ds:0xcdd190
+  583dfa:	6a 00                	push   0x0
+  583dfc:	50                   	push   eax
+  583dfd:	e8 7e bc ff ff       	call   0x57fa80
+  583e02:	8b 0d 9c 8c ce 00    	mov    ecx,DWORD PTR ds:0xce8c9c
+  583e08:	50                   	push   eax
+  583e09:	e8 d2 52 2b 00       	call   0x8390e0
+  583e0e:	85 c0                	test   eax,eax

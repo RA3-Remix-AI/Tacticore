@@ -1,0 +1,51 @@
+{
+  "status": "failed_actor_lost_eventual_control_release_verified",
+  "source_report": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-131138-commander\\harass-mct5-03.json",
+  "source_sha256": "ac854d9cc915a04eef090d2faa8c5ccb6da7a2947a5ad55079405a7e25a80939",
+  "sidecar": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-131138-commander\\harass-mct5-03.disposal.json",
+  "sidecar_sha256": "ab49100c0a5282ad5bd7278d89603e54c3fd4959b4be6ce5e947ef76e06cfbe2",
+  "disposal_verification": {
+    "control_release_verified": true,
+    "restoration_verified": true,
+    "disposed_verified": true,
+    "return_verified": false,
+    "completion_claim": false,
+    "semantics": "actor_id_disposed_exclusive_control_released",
+    "checks": {
+      "source": true,
+      "session": true,
+      "layout": true,
+      "collection_no_error": true,
+      "failed_only": true,
+      "complete_absent_scans": true,
+      "advancing_scans": true,
+      "inert_before_after": true,
+      "inert_actor_binding": true
+    }
+  },
+  "actor_id": 780,
+  "issued": 1957,
+  "returned": 0,
+  "finish_frame": 2443,
+  "low_hp_retreat_frame": 2435,
+  "low_hp_at_retreat": 40.0,
+  "last_observed_own_hp": 10.0,
+  "first_absence_scan_frame": 3844,
+  "second_absence_scan_frame": 3845,
+  "collection_delay_frames": 1401,
+  "collection_delay_game_seconds": 93.4,
+  "actual_actor_removal_latency_known": false,
+  "immediate_twelve_second_reader_success_proved": false,
+  "attack_orders": 0,
+  "source_damage": 0.0,
+  "normal_return_verified": false,
+  "physical_retreat_completed": false,
+  "task_completed": false,
+  "mutations": false,
+  "sdk_calls": 0,
+  "limitations": [
+    "The sidecar proves no surviving actor ID at collection time, not the exact removal time.",
+    "Late field collection does not demonstrate the production client twelve-second immediate collection window.",
+    "Enemy damage source was not observed by this actor-target instrumentation."
+  ]
+}

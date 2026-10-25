@@ -1,0 +1,95 @@
+{
+  "status": "read_only_ready",
+  "session_id": "8a1186c9-6df6-416a-bd4a-45d11a713bad",
+  "pid": 26312,
+  "commander_id": "57e668b4-4d89-43bd-bc92-0dd436f046ef",
+  "player_id": 3,
+  "frame": 8617,
+  "paused": 3,
+  "owner": "0x33754d0",
+  "ai": "0x465ea28",
+  "personality": "0xec8c020",
+  "personality_id": "0x7664d9d9",
+  "player_template": "0x11516e70",
+  "logic": "0x3e1a228",
+  "window_thread": 9440,
+  "script_team": "0x52c2790",
+  "default_team": "0x52c3690",
+  "eligible_count": 2,
+  "units": [
+    {
+      "address": "0x48384a0",
+      "owner_address": "0x33754d0",
+      "owner_index_candidate": 3,
+      "object_id": 987,
+      "type_hash": "0x40acad6d",
+      "ai_address": "0x65bfb38",
+      "xyz": [
+        1513.7762451171875,
+        1136.97509765625,
+        340.0004577636719
+      ],
+      "catalog": {
+        "name": "双刃直升机",
+        "template": "SovietAntiGroundAircraft",
+        "side": 2,
+        "cls": 0,
+        "category": 0
+      },
+      "hp": 550.0,
+      "team": "0x52c7790",
+      "command_source": 0,
+      "eligible": true
+    },
+    {
+      "address": "0x484fba0",
+      "owner_address": "0x33754d0",
+      "owner_index_candidate": 3,
+      "object_id": 1022,
+      "type_hash": "0x40acad6d",
+      "ai_address": "0x5f7b700",
+      "xyz": [
+        1561.3931884765625,
+        1100.7340087890625,
+        340.0004577636719
+      ],
+      "catalog": {
+        "name": "双刃直升机",
+        "template": "SovietAntiGroundAircraft",
+        "side": 2,
+        "cls": 0,
+        "category": 0
+      },
+      "hp": 550.0,
+      "team": "0x52c7790",
+      "command_source": 0,
+      "eligible": true
+    }
+  ],
+  "selected": {
+    "address": "0x48384a0",
+    "owner_address": "0x33754d0",
+    "owner_index_candidate": 3,
+    "object_id": 987,
+    "type_hash": "0x40acad6d",
+    "ai_address": "0x65bfb38",
+    "xyz": [
+      1513.7762451171875,
+      1136.97509765625,
+      340.0004577636719
+    ],
+    "catalog": {
+      "name": "双刃直升机",
+      "template": "SovietAntiGroundAircraft",
+      "side": 2,
+      "cls": 0,
+      "category": 0
+    },
+    "hp": 550.0,
+    "team": "0x52c7790",
+    "command_source": 0,
+    "eligible": true
+  },
+  "restore_semantics": "native_common_pool_not_original_squad",
+  "mutations": false
+}

@@ -1,0 +1,155 @@
+{
+  "schema_version": 1,
+  "source": "offline_immutable_native_reports_and_file_disassembly",
+  "game_process_access": false,
+  "commands_issued": 0,
+  "arrival_radius_unchanged": 15,
+  "trials": [
+    {
+      "report": "tactical\\recon\\trial-30b1-01-native.json",
+      "sha256": "ebfbfe2a6ecf36ed94c626905caf5c6ce6ed9c8593df1ccc06accb92b271ab1e",
+      "session_id": "30b1ea49-9be8-4d04-ae53-d369a1a550a9",
+      "object_id": 801,
+      "target": [
+        3060.0,
+        2820.0,
+        210.0
+      ],
+      "issued_frame": 1615,
+      "returned_frame": 2065,
+      "lease_frames": 450,
+      "move_calls": 1,
+      "native_move_calls": 0,
+      "reported_arrival_samples": 0,
+      "independent_samples_within_15": 0,
+      "minimum_lease_distance": 70.71067811865476,
+      "recorded_lease_polyline_length": 158.8969638151111,
+      "final_lease_position": {
+        "first_frame": 1665,
+        "last_frame": 2063,
+        "point": [
+          3010.0,
+          2870.0,
+          210.0
+        ],
+        "samples": 242,
+        "distance": 70.71067811865476
+      },
+      "longest_plateau": {
+        "first_frame": 1665,
+        "last_frame": 2063,
+        "point": [
+          3010.0,
+          2870.0,
+          210.0
+        ],
+        "samples": 242,
+        "distance": 70.71067811865476
+      },
+      "independent_assessment": "failed_original_15_radius",
+      "capabilities_granted": []
+    },
+    {
+      "report": "tactical\\recon\\trial-30b1-03-native.json",
+      "sha256": "74550f0a3f4e4dd168fc5cab3c901469d43025448ca69a3b527bc39b4d369a20",
+      "session_id": "30b1ea49-9be8-4d04-ae53-d369a1a550a9",
+      "object_id": 815,
+      "target": [
+        3100.0,
+        2780.0,
+        210.0
+      ],
+      "issued_frame": 2317,
+      "returned_frame": 2768,
+      "lease_frames": 451,
+      "move_calls": 1,
+      "native_move_calls": 0,
+      "reported_arrival_samples": 0,
+      "independent_samples_within_15": 0,
+      "minimum_lease_distance": 102.95630140987001,
+      "recorded_lease_polyline_length": 359.7889136464413,
+      "final_lease_position": {
+        "first_frame": 2426,
+        "last_frame": 2766,
+        "point": [
+          3190.0,
+          2830.0,
+          210.0
+        ],
+        "samples": 206,
+        "distance": 102.95630140987001
+      },
+      "longest_plateau": {
+        "first_frame": 2426,
+        "last_frame": 2766,
+        "point": [
+          3190.0,
+          2830.0,
+          210.0
+        ],
+        "samples": 206,
+        "distance": 102.95630140987001
+      },
+      "independent_assessment": "failed_original_15_radius",
+      "capabilities_granted": []
+    },
+    {
+      "report": "tactical\\recon\\trial-30b1-06-native.json",
+      "sha256": "9543b8a3246d975af76997971c92c4cdde1e5e5b40f458a4ce4f48fc61b8bc1f",
+      "session_id": "30b1ea49-9be8-4d04-ae53-d369a1a550a9",
+      "object_id": 801,
+      "target": [
+        1540.0,
+        2100.0,
+        220.0
+      ],
+      "issued_frame": 3482,
+      "returned_frame": 3933,
+      "lease_frames": 451,
+      "move_calls": 1,
+      "native_move_calls": 0,
+      "reported_arrival_samples": 0,
+      "independent_samples_within_15": 0,
+      "minimum_lease_distance": 233.9678893441267,
+      "recorded_lease_polyline_length": 1491.4996367278047,
+      "final_lease_position": {
+        "first_frame": 3931,
+        "last_frame": 3931,
+        "point": [
+          1231.7310791015625,
+          2087.05615234375,
+          220.0
+        ],
+        "samples": 1,
+        "distance": 308.5405496592552
+      },
+      "longest_plateau": {
+        "first_frame": 3483,
+        "last_frame": 3483,
+        "point": [
+          1956.21875,
+          2513.590576171875,
+          220.0
+        ],
+        "samples": 1,
+        "distance": 586.7667445840349
+      },
+      "independent_assessment": "failed_original_15_radius",
+      "capabilities_granted": []
+    }
+  ],
+  "static": {
+    "executable_sha256": "ec230c6ae1eaee30b0b4fa6ba29d417c974ecae46d6715dfbe786a815935c165",
+    "move_extra_float": {
+      "address": "0xc0d47c",
+      "bytes": "ffff7f7f",
+      "value": 3.4028234663852886e+38
+    },
+    "create_path_constants": {
+      "0xbe6200": 1.0,
+      "0xbe667c": 50.0,
+      "0xc0a4e4": 0.019999999552965164
+    }
+  },
+  "conclusion": "No common 70-unit stopping radius. Two clipped/stable endpoints differ; the third remains moving until lease expiry. Terrain type and exact path adjustment cause are not proven."
+}

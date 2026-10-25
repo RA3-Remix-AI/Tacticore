@@ -1,0 +1,294 @@
+{
+  "status": "no_dispatch_route_or_pair_not_ready",
+  "session_id": "b909424c-1ed5-4b43-b22d-3b15299045f4",
+  "frame": 7029,
+  "paused": 3,
+  "own_fronts": [
+    {
+      "object_id": 828,
+      "xyz": [
+        2529.53466796875,
+        1916.9976806640625,
+        222.2926025390625
+      ]
+    },
+    {
+      "object_id": 796,
+      "xyz": [
+        2483.372314453125,
+        1889.7200927734375,
+        224.80421447753906
+      ]
+    },
+    {
+      "object_id": 889,
+      "xyz": [
+        2347.190673828125,
+        1853.7669677734375,
+        210.0
+      ]
+    },
+    {
+      "object_id": 872,
+      "xyz": [
+        1919.750732421875,
+        2011.495849609375,
+        210.0
+      ]
+    },
+    {
+      "object_id": 899,
+      "xyz": [
+        1903.8514404296875,
+        1863.8514404296875,
+        210.0
+      ]
+    },
+    {
+      "object_id": 864,
+      "xyz": [
+        1910.0,
+        1710.0,
+        210.0
+      ]
+    },
+    {
+      "object_id": 793,
+      "xyz": [
+        1890.0,
+        1690.82470703125,
+        210.0
+      ]
+    },
+    {
+      "object_id": 905,
+      "xyz": [
+        1709.739501953125,
+        1789.140380859375,
+        210.0
+      ]
+    },
+    {
+      "object_id": 906,
+      "xyz": [
+        1710.138671875,
+        1769.791259765625,
+        210.0
+      ]
+    }
+  ],
+  "own_supports": [
+    {
+      "object_id": 821,
+      "xyz": [
+        1950.0,
+        2137.673828125,
+        210.0
+      ]
+    },
+    {
+      "object_id": 830,
+      "xyz": [
+        1695.2099609375,
+        2793.506591796875,
+        210.0
+      ]
+    },
+    {
+      "object_id": 832,
+      "xyz": [
+        1709.5277099609375,
+        2812.159912109375,
+        210.0
+      ]
+    },
+    {
+      "object_id": 842,
+      "xyz": [
+        1685.880615234375,
+        2631.614501953125,
+        210.0
+      ]
+    },
+    {
+      "object_id": 844,
+      "xyz": [
+        2190.0,
+        1690.0,
+        210.0
+      ]
+    },
+    {
+      "object_id": 865,
+      "xyz": [
+        2110.0,
+        1730.7318115234375,
+        210.0
+      ]
+    },
+    {
+      "object_id": 876,
+      "xyz": [
+        1850.0,
+        1710.0,
+        210.0
+      ]
+    },
+    {
+      "object_id": 893,
+      "xyz": [
+        1897.744140625,
+        1814.16015625,
+        210.0
+      ]
+    },
+    {
+      "object_id": 895,
+      "xyz": [
+        1890.0,
+        1831.8367919921875,
+        210.0
+      ]
+    },
+    {
+      "object_id": 896,
+      "xyz": [
+        1899.8787841796875,
+        2223.9736328125,
+        210.0
+      ]
+    }
+  ],
+  "visible_static_contacts": [
+    {
+      "contact_id": "contact_47fd33fd82d649143047",
+      "object_id": 769,
+      "xyz": [
+        3187.252685546875,
+        3431.2666015625,
+        210.0
+      ]
+    },
+    {
+      "contact_id": "contact_f096d8f4c82321cbb99f",
+      "object_id": 825,
+      "xyz": [
+        3006.940673828125,
+        3569.152587890625,
+        210.0
+      ]
+    },
+    {
+      "contact_id": "contact_347840004a0721be5cf3",
+      "object_id": 843,
+      "xyz": [
+        3420.597900390625,
+        2985.78955078125,
+        210.0
+      ]
+    },
+    {
+      "contact_id": "contact_f0f928ce65bfe52caa71",
+      "object_id": 848,
+      "xyz": [
+        3431.204345703125,
+        3484.2998046875,
+        210.0
+      ]
+    }
+  ],
+  "errors": [
+    "role_route_search_budget_exhausted"
+  ],
+  "planning_diagnostics": [
+    {
+      "front_id": 872,
+      "support_id": 821,
+      "contact_id": "contact_47fd33fd82d649143047",
+      "phase": "load_sources",
+      "source_records": 432,
+      "ground_nodes": 0,
+      "expanded_states": 0,
+      "reject_reasons": {},
+      "elapsed_seconds": 0.25
+    },
+    {
+      "front_id": 872,
+      "support_id": 821,
+      "contact_id": "contact_f096d8f4c82321cbb99f",
+      "phase": "role_graph_search",
+      "source_records": 463,
+      "ground_nodes": 436,
+      "expanded_states": 126,
+      "reject_reasons": {},
+      "elapsed_seconds": 0.25
+    },
+    {
+      "front_id": 872,
+      "support_id": 821,
+      "contact_id": "contact_347840004a0721be5cf3",
+      "phase": "role_graph_search",
+      "source_records": 463,
+      "ground_nodes": 436,
+      "expanded_states": 143,
+      "reject_reasons": {},
+      "elapsed_seconds": 0.25
+    },
+    {
+      "front_id": 872,
+      "support_id": 821,
+      "contact_id": "contact_f0f928ce65bfe52caa71",
+      "phase": "role_graph_search",
+      "source_records": 463,
+      "ground_nodes": 436,
+      "expanded_states": 225,
+      "reject_reasons": {},
+      "elapsed_seconds": 0.25
+    },
+    {
+      "front_id": 899,
+      "support_id": 876,
+      "contact_id": "contact_47fd33fd82d649143047",
+      "phase": "role_graph_search",
+      "source_records": 463,
+      "ground_nodes": 438,
+      "expanded_states": 146,
+      "reject_reasons": {},
+      "elapsed_seconds": 0.25
+    },
+    {
+      "front_id": 899,
+      "support_id": 876,
+      "contact_id": "contact_f096d8f4c82321cbb99f",
+      "phase": "role_graph_search",
+      "source_records": 463,
+      "ground_nodes": 438,
+      "expanded_states": 225,
+      "reject_reasons": {},
+      "elapsed_seconds": 0.25
+    },
+    {
+      "front_id": 899,
+      "support_id": 876,
+      "contact_id": "contact_347840004a0721be5cf3",
+      "phase": "role_graph_search",
+      "source_records": 463,
+      "ground_nodes": 438,
+      "expanded_states": 124,
+      "reject_reasons": {},
+      "elapsed_seconds": 0.25
+    },
+    {
+      "front_id": 899,
+      "support_id": 876,
+      "contact_id": "contact_f0f928ce65bfe52caa71",
+      "phase": "role_graph_search",
+      "source_records": 463,
+      "ground_nodes": 438,
+      "expanded_states": 66,
+      "reject_reasons": {},
+      "elapsed_seconds": 0.23400000005494803
+    }
+  ],
+  "sdk_calls": 0
+}

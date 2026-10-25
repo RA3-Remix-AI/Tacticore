@@ -1,0 +1,158 @@
+{
+  "schema_version": 1,
+  "reviewed_at_utc": "2026-10-24T11:22:03.106622+00:00",
+  "source_kind": "live_game_host_artifact_review",
+  "binding": {
+    "session_id": "31ba9442-8c11-4ffe-bd10-be5e170c1c50",
+    "player_id": 3,
+    "commander_id": "57e668b4-4d89-43bd-bc92-0dd436f046ef"
+  },
+  "trial_kind": "midgame_host_integration_trial",
+  "attempt_scope": {
+    "scope": "midgame_host_integration_trial",
+    "full_match_requirement_met": false,
+    "first_model_request_game_seconds": 152.33333333333334,
+    "real_model_requests": 2,
+    "active_orders_dispatched": 0,
+    "failure": "natural UnitBuilder flag 0x200 was overly rejected before persistent native attach",
+    "next_step": "prearm wait-for-match before game start"
+  },
+  "opponent": "local_human_slot_idle_integration",
+  "whole_match_acceptance_passed": false,
+  "personality_comparison_passed": false,
+  "result_finalized": false,
+  "host": {
+    "host_pid": 34580,
+    "state": "fault",
+    "reason_code": "executor_restoration_unverified",
+    "execution": {
+      "enabled": false,
+      "dry_run": false,
+      "executor_connected": false,
+      "remaining_budget": 2000
+    }
+  },
+  "model": {
+    "requests": 2,
+    "accepted": 2,
+    "rejected": 0,
+    "invalid_policy_rate": 0.0,
+    "timeouts": 0,
+    "adapter_errors": 0,
+    "held_decisions": 5,
+    "transport": {
+      "attempts": 2,
+      "retries": 0,
+      "timeouts": 0,
+      "responses": 2,
+      "max_request_bytes": 7696
+    }
+  },
+  "strategy": {
+    "engine_plan_changes_including_initial": 1,
+    "intent_transitions_excluding_initial": 0,
+    "retained_full_intent_observations": 2,
+    "retained_full_intent_transitions": 0,
+    "full_intent_history_complete": true,
+    "first_logged_game_seconds": 152.33333333333334,
+    "last_logged_game_seconds": 182.86666666666667
+  },
+  "context": {
+    "memory_metrics": {
+      "context_builds": 2,
+      "compactions": 0,
+      "max_payload_bytes": 3663,
+      "expired_enemy_facts": 0
+    },
+    "compressed_history": {
+      "events_compacted": 0,
+      "counts_by_kind": {},
+      "completed_tasks": {
+        "build": 0,
+        "raid": 0,
+        "attack": 0,
+        "combined_arms": 0
+      },
+      "failed_tasks": {
+        "build": 0,
+        "raid": 0,
+        "attack": 0,
+        "combined_arms": 0
+      },
+      "last_compacted_game_time": null
+    },
+    "per_request_input_bytes": null,
+    "note": "Only retained maxima and counters are logged; no per-request byte series or compression ratio can be reconstructed."
+  },
+  "tasks": {
+    "host_counters": {
+      "dispatches": 0,
+      "started": 0,
+      "completed": 0,
+      "failed": 0,
+      "blocked": 0
+    },
+    "unique_retained_tasks_by_status": {
+      "planned": 1,
+      "unavailable": 2,
+      "cancelled": 3
+    },
+    "observed_started": 0,
+    "host_reported_completed": 0,
+    "observed_started_failed": 0,
+    "prestart_rejections_not_failed_tasks": 0,
+    "completion_rate_known_started_outcomes": null,
+    "note": "Planned, unavailable, cancelled and pending tasks are not failures; host completion requires independent production correlation."
+  },
+  "production": null,
+  "natural_production": {
+    "native_calls": 3,
+    "mutates_arguments": false,
+    "note": "Passive native baseline observation is not model-dispatched spending or completion evidence."
+  },
+  "outcome": {
+    "native_candidates": [],
+    "native_verified_flag": false,
+    "gui_confirmation": null,
+    "note": "Await root native/GUI outcome evidence before finalizing. Host stopped/fault does not mean match ended."
+  },
+  "sources": {
+    "session.json": {
+      "sha256": "01cd8d3997762671aa864d5d7c30a1ddb99edb52b4f38208fa6cd352a562b09c",
+      "bytes": 1547
+    },
+    "attempt-scope.json": {
+      "sha256": "d6842b98b1903b4e4293a1ecbdf3c12389f02f47dbf13a25fc953a499aae606b",
+      "bytes": 372
+    },
+    "natural-production.json": {
+      "sha256": "8f939f09733316297762f168fe5233c408f15d5e42d6a2d9b32c5a5cbe8a7634",
+      "bytes": 1395
+    },
+    "battle-host/host-events.jsonl": {
+      "sha256": "3fbddd4f11a2a73710640b3daeda44e936d5a9228a4374468c7a48b6ec32583d",
+      "bytes": 2605
+    },
+    "battle-host/plans.jsonl": {
+      "sha256": "a79101d2964c7e133672538be0870a39df07d22bce1ff25b74bb729846a92ab8",
+      "bytes": 4332
+    },
+    "battle-host/host-status.json": {
+      "sha256": "106495e85e6b85e15c347803d9cfe2ea39fdb85eae0acc7a4d3d9fc4f4aa7eee",
+      "bytes": 1828
+    },
+    "battle-host/agent-state.json": {
+      "sha256": "ced5167d52b5ec4e4eb58fc2676d2aeae0611748cbcfad24b2415a3541e40472",
+      "bytes": 6529
+    },
+    "battle-host/jobs.json": {
+      "sha256": "a6a55ca4cab2aa260ae59fbdaf9a570b3a9d4853f64b2fda03b57968e07974e7",
+      "bytes": 327
+    },
+    "battle-host/match-state.json": {
+      "sha256": "f6a44722edd9f6af73718cc5672808704db3f3a12af1652337ca718d81169d13",
+      "bytes": 2825
+    }
+  },
+  "warnings": []
+}

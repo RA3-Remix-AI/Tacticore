@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "session_id": "45b37922-a953-4d54-bc3b-4a34804c1c56",
+  "player_id": 3,
+  "snapshot_id": 1,
+  "game_time_seconds": 100.0,
+  "source": "simulated",
+  "paused": false,
+  "resources": {
+    "credits": 4000,
+    "power_balance": 50
+  },
+  "capabilities": {
+    "production_focus": [
+      "native_baseline",
+      "balanced",
+      "anti_air",
+      "anti_armor",
+      "economy"
+    ],
+    "regions": [
+      "home_base",
+      "north_expansion",
+      "east_ore"
+    ]
+  },
+  "production": {
+    "queued_count": 2,
+    "idle_producers": 1,
+    "own_roles": {
+      "infantry": 8,
+      "anti_air": 0
+    }
+  },
+  "enemy_observations": [
+    {
+      "role": "air",
+      "count": 3,
+      "observed_at_game_seconds": 98.0,
+      "currently_visible": true
+    }
+  ],
+  "events": [
+    "enemy_air_seen"
+  ]
+}

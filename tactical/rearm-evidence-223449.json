@@ -1,0 +1,77 @@
+{
+  "status": "serial_rearm_and_replay_rejection_verified",
+  "session_id": "65bb88da-f5dc-48be-a3c1-5b6ee83cb017",
+  "reports": [
+    {
+      "report": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261024-223120-tactical-rematch\\tactical-reusable-20261024-223317-1885442582.json",
+      "sha256": "b4131d31dba015b443a0022b8dcd5a89725bb9daf28ece0415ee7144f492e835",
+      "seq": 1,
+      "command_id": "26b169a0-1dd8-4bec-9f51-1330f01174fd",
+      "task_id": "c8e15791-a0d7-46ac-a8e5-ecad780ff147",
+      "native_error": 0,
+      "moves": 1,
+      "detach": 1,
+      "returns": 1,
+      "phase": 3,
+      "restore": 31,
+      "active": 0,
+      "result": "move_and_return_primitive_verified"
+    },
+    {
+      "report": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261024-223120-tactical-rematch\\tactical-reusable-20261024-223423-3474366730.json",
+      "sha256": "43d1a9d5d71db1f57eaa9717997cccf06a6adf7a2821e6f413a89e5d179912ee",
+      "seq": 2,
+      "command_id": "3a3e2876-35ac-4f46-88e6-f4312dba8c37",
+      "task_id": "e840adf6-60f4-453e-88bf-07e31f207ea9",
+      "native_error": 0,
+      "moves": 1,
+      "detach": 1,
+      "returns": 1,
+      "phase": 3,
+      "restore": 31,
+      "active": 0,
+      "result": "move_and_return_primitive_verified"
+    },
+    {
+      "report": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261024-223120-tactical-rematch\\tactical-reusable-20261024-223445-3690349311.json",
+      "sha256": "cc806d3179369afc34044cd9dd073118609ead5461663283f2b7d58d6a0508e2",
+      "seq": 2,
+      "command_id": "3a3e2876-35ac-4f46-88e6-f4312dba8c37",
+      "task_id": "e840adf6-60f4-453e-88bf-07e31f207ea9",
+      "native_error": 40,
+      "moves": 0,
+      "detach": 0,
+      "returns": 0,
+      "phase": 4,
+      "restore": 31,
+      "active": 0,
+      "result": "not_passed"
+    },
+    {
+      "report": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261024-223120-tactical-rematch\\tactical-reusable-20261024-223449-2766529114.json",
+      "sha256": "ccd6690de6594e26496f2d1da0ce6171fe4c5d0e1a1036cd37b0fbca886fd736",
+      "seq": 3,
+      "command_id": "2376704d-e41c-4e4e-a1cd-d89b9f18171a",
+      "task_id": "0af7a349-878b-48f5-95d8-abcbb2ab6962",
+      "native_error": 0,
+      "moves": 1,
+      "detach": 1,
+      "returns": 1,
+      "phase": 3,
+      "restore": 31,
+      "active": 0,
+      "result": "move_and_return_primitive_verified"
+    }
+  ],
+  "checks": {
+    "first_success": true,
+    "second_success": true,
+    "duplicate_no_actions": true,
+    "subsequent_rearm_success": true,
+    "all_restored": true
+  },
+  "scope": "serial_single-unit_short-move_only",
+  "raid_verified": false,
+  "attack_verified": false,
+  "combined_arms_verified": false
+}

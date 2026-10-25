@@ -1,0 +1,27 @@
+test_budget_must_be_finite_bounded_sum_one_with_reserve (test_engine.Contracts.test_budget_must_be_finite_bounded_sum_one_with_reserve) ... ok
+test_model_json_rejects_duplicates_nan_large_and_invalid_encoding (test_engine.Contracts.test_model_json_rejects_duplicates_nan_large_and_invalid_encoding) ... ok
+test_policy_player_session_commander_snapshot_time_target_and_capability (test_engine.Contracts.test_policy_player_session_commander_snapshot_time_target_and_capability) ... ok
+test_snapshot_rejects_nonfinite_bool_future_observation_and_unknown_fields (test_engine.Contracts.test_snapshot_rejects_nonfinite_bool_future_observation_and_unknown_fields) ... ok
+test_capability_disappears_during_request (test_engine.Coordinator.test_capability_disappears_during_request) ... ok
+test_emergency_interrupts_hold_but_not_every_frame (test_engine.Coordinator.test_emergency_interrupts_hold_but_not_every_frame) ... ok
+test_external_cancellation_is_not_swallowed (test_engine.Coordinator.test_external_cancellation_is_not_swallowed) ... ok
+test_fresh_advanced_state_accepts_request_bound_response (test_engine.Coordinator.test_fresh_advanced_state_accepts_request_bound_response) ... ok
+test_game_bridge_snapshot_is_still_read_only_and_not_verified (test_engine.Coordinator.test_game_bridge_snapshot_is_still_read_only_and_not_verified) ... ok
+test_invalid_policy_continues_unexpired_plan_without_extending_it (test_engine.Coordinator.test_invalid_policy_continues_unexpired_plan_without_extending_it) ... ok
+test_minimum_hold_avoids_request_and_identical_refresh_not_plan_change (test_engine.Coordinator.test_minimum_hold_avoids_request_and_identical_refresh_not_plan_change) ... ok
+test_multi_commander_instances_can_share_adapter_without_cross_binding (test_engine.Coordinator.test_multi_commander_instances_can_share_adapter_without_cross_binding) ... ok
+test_new_critical_event_rejects_response_and_overrides_offensive_plan_locally (test_engine.Coordinator.test_new_critical_event_rejects_response_and_overrides_offensive_plan_locally) ... ok
+test_pause_uses_game_clock_and_does_not_request_or_execute (test_engine.Coordinator.test_pause_uses_game_clock_and_does_not_request_or_execute) ... ok
+test_pause_while_waiting_prevents_new_plan_commit (test_engine.Coordinator.test_pause_while_waiting_prevents_new_plan_commit) ... ok
+test_snapshot_regression_binding_source_and_conflict (test_engine.Coordinator.test_snapshot_regression_binding_source_and_conflict) ... ok
+test_state_can_advance_during_request_but_stale_response_is_rejected (test_engine.Coordinator.test_state_can_advance_during_request_but_stale_response_is_rejected) ... ok
+test_status_atomic_json_and_audit_exclude_secret_fields_and_exception_text (test_engine.Coordinator.test_status_atomic_json_and_audit_exclude_secret_fields_and_exception_text) ... ok
+test_stop_during_pending_request_cannot_resurrect_plan (test_engine.Coordinator.test_stop_during_pending_request_cannot_resurrect_plan) ... ok
+test_stubborn_cancelled_adapter_cannot_spawn_unbounded_requests_or_commit_late (test_engine.Coordinator.test_stubborn_cancelled_adapter_cannot_spawn_unbounded_requests_or_commit_late) ... ok
+test_timeout_is_bounded_and_does_not_extend_fallback (test_engine.Coordinator.test_timeout_is_bounded_and_does_not_extend_fallback) ... ok
+test_valid_plan_and_dry_run_status (test_engine.Coordinator.test_valid_plan_and_dry_run_status) ... ok
+
+----------------------------------------------------------------------
+Ran 22 tests in 0.155s
+
+OK

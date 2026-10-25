@@ -1,0 +1,27 @@
+test_addresses_forbidden (test_client.ContractTests.test_addresses_forbidden) ... ok
+test_bool_is_not_budget (test_client.ContractTests.test_bool_is_not_budget) ... ok
+test_excessive_future_expiry (test_client.ContractTests.test_excessive_future_expiry) ... ok
+test_expired_task (test_client.ContractTests.test_expired_task) ... ok
+test_hex_uuids_roundtrip (test_client.ContractTests.test_hex_uuids_roundtrip) ... ok
+test_low_reserve (test_client.ContractTests.test_low_reserve) ... ok
+test_native_layout_matches_python (test_client.ContractTests.test_native_layout_matches_python) ... ok
+test_paused_native_flag_rejects_before_dispatch (test_client.ContractTests.test_paused_native_flag_rejects_before_dispatch) ... ok
+test_running_pause_flag_zero_is_allowed (test_client.ContractTests.test_running_pause_flag_zero_is_allowed) ... ok
+test_unlisted_unit (test_client.ContractTests.test_unlisted_unit) ... ok
+test_valid_three_templates (test_client.ContractTests.test_valid_three_templates) ... ok
+test_wrong_commander (test_client.ContractTests.test_wrong_commander) ... ok
+test_wrong_player (test_client.ContractTests.test_wrong_player) ... ok
+test_wrong_session (test_client.ContractTests.test_wrong_session) ... ok
+test_all_native_evidence_completes (test_client.FeedbackTests.test_all_native_evidence_completes) ... ok
+test_enqueue_ack_only_starts (test_client.FeedbackTests.test_enqueue_ack_only_starts) ... ok
+test_first_scan_cannot_replace_create (test_client.FeedbackTests.test_first_scan_cannot_replace_create) ... ok
+test_missing_payment_chain_cannot_complete (test_client.FeedbackTests.test_missing_payment_chain_cannot_complete) ... ok
+test_model_feedback_has_no_addresses (test_client.FeedbackTests.test_model_feedback_has_no_addresses) ... ok
+test_node_disappearance_cannot_complete (test_client.FeedbackTests.test_node_disappearance_cannot_complete) ... ok
+test_original_hex_task_id_preserved (test_client.FeedbackTests.test_original_hex_task_id_preserved) ... ok
+test_wrong_owner_cannot_complete (test_client.FeedbackTests.test_wrong_owner_cannot_complete) ... ok
+
+----------------------------------------------------------------------
+Ran 22 tests in 0.017s
+
+OK

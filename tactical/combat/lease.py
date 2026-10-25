@@ -1,0 +1,141 @@
+"""Bounded tactical lease smoke. --readiness is read-only; --execute is parent-only.
+Normal UNIT_AI_TRANSFER(false/true) returns to native common pool, not original squad.
+"""
+import argparse,ctypes as c,hashlib,json,math,os,struct,subprocess,sys,time,uuid
+from ctypes import wintypes as w
+from pathlib import Path
+HERE=Path(__file__).resolve().parent;BRIDGE=HERE.parent.parent
+sys.path[:0]=[str(BRIDGE/'production'),str(BRIDGE/'native-ai'),str(BRIDGE/'integration')]
+from observe_production import Memory,k,EXPECTED
+from session_package import verify_session_package
+from natural_evidence import compatible_natural_calls
+from read_selected_personality import inspect_player,resolve_registry
+from own_candidates import own_candidates,load_catalog
+U=c.c_uint32;L=c.c_int32
+class Event(c.Structure):
+ _fields_=[(x,U) for x in 'seq kind tag frame tick thread caller team owner source arg'.split()]+[(x,c.c_float) for x in 'x y z'.split()]+[(x,U) for x in ['target_id','damage_source']]+[(x,c.c_float) for x in ['damage_before','damage_after','damage_reported']]
+HEADER='magic version pid thread owner ai personality personality_id player_template start_low start_high'.split()
+TAIL='unit object_id type_hash update logic original_team script_team default_team lease_frames post_frames target_unit target_id target_hash target_owner target_template target_observed_frame attack_calls damage_count'.split()
+RESULT='error restore_mask callback_thread issued_frame returned_frame move_calls detach_calls return_calls arrival_samples native_move native_attack native_add native_remove owner_fail lifecycle_fail paused_samples overflow return_verified return_pending'.split()
+class Tactical(c.Structure):
+ _fields_=[(x,U) for x in HEADER]+[('session',U*4),('commander',U*4),('command',U*4),('task',U*4),('token',U),('seq',U)]+[(x,U) for x in TAIL]+[('damage_total',c.c_float)]+[('target',c.c_float*3)]+[(x,L) for x in 'phase stop_requested active count'.split()]+[(x,U) for x in RESULT]+[('events',Event*4096)]
+def durable(path,record):
+ temp=path.with_suffix(path.suffix+'.tmp')
+ with temp.open('w',encoding='utf-8') as f:json.dump(record,f,ensure_ascii=False,indent=2,allow_nan=False);f.flush();os.fsync(f.fileno())
+ for attempt in range(25):
+  try:temp.replace(path);return
+  except PermissionError:
+   if attempt==24:raise
+   time.sleep(.02)
+def words(value):return struct.unpack('<4I',uuid.UUID(str(value)).bytes)
+def window_thread(pid):
+ user=c.WinDLL('user32',use_last_error=True);found=[];CB=c.WINFUNCTYPE(w.BOOL,w.HWND,w.LPARAM)
+ user.GetWindowThreadProcessId.argtypes=[w.HWND,c.POINTER(w.DWORD)];user.GetWindowThreadProcessId.restype=w.DWORD
+ @CB
+ def callback(hwnd,_):
+  owner=w.DWORD();thread=user.GetWindowThreadProcessId(hwnd,c.byref(owner))
+  if owner.value==pid and user.IsWindowVisible(hwnd) and not user.GetWindow(hwnd,4):found.append(thread)
+  return True
+ user.EnumWindows(callback,0)
+ if len(set(found))!=1:raise ValueError('game_window_thread_ambiguous')
+ return found[0]
+def readiness(session_path,object_id=None):
+ raw=session_path.read_bytes();session=json.loads(raw.decode('utf-8-sig'));package=verify_session_package(session);memory=Memory(session['pid'],session)
+ try:
+  registry_path=Path(session['registry']);registry=json.loads(registry_path.read_text(encoding='utf-8-sig'))
+  if registry['registry_revision']!=session['registry_revision']:raise ValueError('registry_revision_mismatch')
+  snapshot=own_candidates(memory,3,load_catalog());owners={int(x['owner_address'],0) for x in snapshot['candidates']}
+  if len(owners)!=1:raise ValueError('own_player_ambiguous')
+  owner=owners.pop();native=inspect_player(memory.read,owner);binding=resolve_registry(native,registry,session)
+  if not binding['personality_binding_verified'] or binding['commander_id']!=session['scenario']['commander_id']:raise ValueError('commander_binding_unverified')
+  script=memory.u32(memory.u32(owner+0x8c)+0x10);default=memory.u32(owner+0xac)
+  def team_owner(t):return memory.u32(memory.u32(t+4)+8)
+  if script==default or team_owner(script)!=owner or team_owner(default)!=owner:raise ValueError('native_team_pool_identity')
+  units=[]
+  for candidate in snapshot['candidates']:
+   if int(candidate['type_hash'],0) not in [0x19ab11af,0x2c358c61]:continue
+   thing=int(candidate['address'],0);update=int(candidate['ai_address'],0)
+   try:
+    hp=memory.f32(memory.u32(thing+0x33c)+4);team=memory.u32(thing+0x414)
+    valid=hp>0 and math.isfinite(hp) and memory.u32(update+8)==thing and team_owner(team)==owner and team!=script
+    candidate.update(hp=hp,team=hex(team),command_source=memory.u32(update+0x50),eligible=valid)
+   except Exception as error:candidate.update(eligible=False,error=str(error))
+   units.append(candidate)
+  if object_id is not None:
+   selected=[x for x in units if x['object_id']==object_id and x['eligible']]
+   if len(selected)!=1:raise ValueError('selected_unit_not_eligible')
+  else:selected=[x for x in units if x['eligible']][:1]
+  if session_path.read_bytes()!=raw:raise ValueError('session_changed')
+  thread=window_thread(session['pid']);logic=memory.u32(0xcd8ce4)
+  result=dict(status='read_only_ready' if selected else 'no_eligible_unit',session_id=session['session_id'],pid=session['pid'],commander_id=binding['commander_id'],player_id=3,frame=memory.u32(logic+0x50),paused=memory.u32(logic+0x15c),owner=hex(owner),ai=native['ai_player'],personality=native['personality_wrapper'],personality_id=native['instance_id'],player_template=native['player_template'],logic=hex(logic),window_thread=thread,script_team=hex(script),default_team=hex(default),eligible_count=sum(x['eligible'] for x in units),units=units,selected=selected[0] if selected else None,restore_semantics='native_common_pool_not_original_squad',mutations=False)
+  return result,session,raw,package,registry_path,hashlib.sha256(registry_path.read_bytes()).hexdigest(),memory
+ except:memory.close();raise
+
+def assessment(report):
+ events=report.get('events',[]);n=report.get('native',{});pre=report['preflight'];req=report['request'];issued=n.get('issued_frame',0);returned=n.get('returned_frame',0);owner=int(pre['owner'],0);manager=int(pre['ai'],0)+0x104;thread=pre['window_thread'];source=pre['selected']['object_id'];target=req['target_object_id']
+ hits=[e for e in events if e['kind']==20 and e['target_id']==target and e['damage_source']==source and e['thread']==thread and issued<=e['frame']<=returned and e['damage_before']>e['damage_after'] and e['damage_reported']>0 and abs(e['damage_before']-e['damage_after']-e['damage_reported'])<.05]
+ checks=dict(stopped=n.get('phase')==3,no_error=n.get('error')==0,restore=n.get('restore_mask')==63,no_active=n.get('active')==0,one_detach=n.get('detach_calls')==1,one_attack=n.get('attack_calls')==1,no_move=n.get('move_calls')==0,one_return=n.get('return_calls')==1,returned=bool(n.get('return_verified')),owner=bool(events) and all(e['owner']==owner for e in events),thread=n.get('callback_thread')==thread and all(e['thread']==thread for e in events),attack_trace=sum(e['kind']==12 and e['tag']==2 and e['arg']==target for e in events)==1 and sum(e['kind']==13 and e['tag']==2 and e['arg']==target for e in events)==1,remove=any(e['kind']==18 and e['tag']==1 and e['arg']==manager and e['caller']==0x838877 for e in events),add=any(e['kind']==16 and e['tag']==3 and e['arg']==manager and e['caller']==0x83885b for e in events),causal_damage=bool(hits) and n.get('damage_count')==len(hits) and abs(sum(e['damage_reported'] for e in hits)-n.get('damage_total',0))<.05,frame_window=issued>0 and 0<=returned-issued<=req['lease_frames']+5,session=report['session_id']==pre['session_id']==n.get('session_id'),command=req['command_id']==n.get('command_id') and req['task_id']==n.get('task_id'),no_lifecycle=n.get('lifecycle_fail')==0,no_overflow=n.get('overflow')==0,no_override=not any(e['tag']==0 and e['kind'] in [10,12,14,16,18] and issued<=e['frame']<returned for e in events))
+ return dict(status='attack_damage_and_return_primitive_verified' if all(checks.values()) else 'not_passed',checks=checks,causal_damage=sum(e['damage_reported'] for e in hits),target_object_id=target,source_object_id=source,raid_verified=False,attack_verified=False,combined_arms_verified=False,note='Explicit attack and source-attributed damage primitive only. Purpose-level capability requires host review; no combined arms claim.')
+
+def main():
+ ap=argparse.ArgumentParser();ap.add_argument('--session',type=Path,default=BRIDGE/'acceptance/active-session.json');ap.add_argument('--object-id',type=int);ap.add_argument('--execute',action='store_true');ap.add_argument('--readiness',action='store_true');ap.add_argument('--natural',type=Path);ap.add_argument('--dx',type=float,default=80);ap.add_argument('--dy',type=float,default=0);ap.add_argument('--lease-frames',type=int,default=180);ap.add_argument('--post-frames',type=int,default=90)
+ ap.add_argument('--proof-file',type=Path);ap.add_argument('--contact-id');ap.add_argument('--output',type=Path);ap.add_argument('--target-x',type=float);ap.add_argument('--target-y',type=float);ap.add_argument('--command-id',default=None);ap.add_argument('--task-id',default=None);ap.add_argument('--seq',type=int,required=False);args=ap.parse_args();pre,session,raw,package,registry_path,registry_digest,memory=readiness(args.session,args.object_id)
+ if not args.execute:
+  durable(HERE/'readiness.json',pre);print(json.dumps(pre,ensure_ascii=False));memory.close();return
+ if not pre['selected']:raise ValueError('no_eligible_unit')
+ if (args.target_x is None)!=(args.target_y is None):raise ValueError('both_target_coordinates_required')
+ if args.target_x is not None:args.dx=args.target_x-pre['selected']['xyz'][0];args.dy=args.target_y-pre['selected']['xyz'][1]
+ if not args.natural:raise ValueError('natural_thread_evidence_required')
+ if not args.proof_file or not args.contact_id:raise ValueError('verified_visibility_proof_and_contact_required')
+ sys.path.insert(0,str(BRIDGE/'visibility'))
+ from projection import VisibilityProjection
+ from collector import VisibilityCollector
+ proof_raw=args.proof_file.read_bytes();proof=json.loads(proof_raw.decode('utf-8-sig'));safety_path=BRIDGE/'visibility/template-safety-2d7873e1.json';safety_raw=safety_path.read_bytes();safety=json.loads(safety_raw.decode('utf-8-sig'));projection=VisibilityProjection(session['session_id'],3,session['mod_sha256'],proof,safety)
+ if not projection.verified():raise ValueError('visibility_capability_unverified')
+ collector=VisibilityCollector(memory,session,3,projection);collector.collect(pre['frame']/15)
+ contact=collector.private_targets.get(args.contact_id)
+ if not contact:raise ValueError('contact_not_currently_visible')
+ contact=dict(contact,template=memory.u32(contact['address']+4));args.dx=40.;args.dy=0.
+ 
+ obs=json.loads(args.natural.read_text(encoding='utf-8-sig'));compatible_natural_calls(obs,session['pid'])
+ if obs['window_thread']!=pre['window_thread']:raise ValueError('natural_thread_mismatch')
+ if not all(math.isfinite(x) for x in [args.dx,args.dy]) or not 20<=math.hypot(args.dx,args.dy)<=120 or not 30<=args.lease_frames<=180 or not 30<=args.post_frames<=180:raise ValueError('lease_bounds')
+ layout=json.loads(subprocess.check_output([str(HERE/'bin/tactical_host.exe'),'--layout'],text=True))
+ if layout!={'event':c.sizeof(Event),'tactical':c.sizeof(Tactical),'events':Tactical.events.offset,'unused1':0,'unused2':0}:raise ValueError('layout_mismatch')
+ command_id=str(uuid.UUID(args.command_id)) if args.command_id else str(uuid.uuid4());task_id=str(uuid.UUID(args.task_id)) if args.task_id else str(uuid.uuid4());token=int.from_bytes(os.urandom(4),'little') or 1;seq=args.seq if args.seq is not None else int(time.monotonic()*1000)&0xffffffff
+ run=Path(session['run_directory']);target=args.output or run/('tactical-combat-'+time.strftime('%Y%m%d-%H%M%S')+'-'+str(token)+'.json');report=dict(session_id=session['session_id'],executable_sha256=EXPECTED,package_sha256=session['mod_sha256'],preflight=pre,status='preflight',events=[],native={},request=dict(command_id=command_id,task_id=task_id,seq=seq,token=token,dx=args.dx,dy=args.dy,lease_frames=args.lease_frames,post_frames=args.post_frames,target=[pre['selected']['xyz'][0]+args.dx,pre['selected']['xyz'][1]+args.dy,pre['selected']['xyz'][2]],arrival_radius=15,target_contact_id=args.contact_id,target_object_id=contact['object_id'],visibility_proof_sha256=hashlib.sha256(proof_raw).hexdigest(),safety_sha256=hashlib.sha256(safety_raw).hexdigest()))
+ durable(target,report);handle=None;view=None;host=None;shared=None;last=0
+ try:
+  k.CreateFileMappingW.argtypes=[w.HANDLE,c.c_void_p,w.DWORD,w.DWORD,w.DWORD,w.LPCWSTR];k.CreateFileMappingW.restype=w.HANDLE;k.MapViewOfFile.argtypes=[w.HANDLE,w.DWORD,w.DWORD,w.DWORD,c.c_size_t];k.MapViewOfFile.restype=c.c_void_p;k.UnmapViewOfFile.argtypes=[c.c_void_p]
+  handle=k.CreateFileMappingW(w.HANDLE(-1),None,4,0,c.sizeof(Tactical),'Local\\RA3TacticalCombat_'+str(session['pid'])+'_'+str(token))
+  if not handle or c.get_last_error()==183:raise ValueError('tactical_lease_already_used_in_process')
+  view=k.MapViewOfFile(handle,0xf001f,0,0,c.sizeof(Tactical))
+  if not view:raise c.WinError(c.get_last_error())
+  c.memset(view,0,c.sizeof(Tactical));shared=Tactical.from_address(view);s=shared;s.magic=0x54414331;s.version=2;s.command[:]=words(command_id);s.task[:]=words(task_id);s.token=token;s.seq=seq;s.pid=session['pid'];s.thread=pre['window_thread'];s.owner=int(pre['owner'],0);s.ai=int(pre['ai'],0);s.personality=int(pre['personality'],0);s.personality_id=int(pre['personality_id'],0);s.player_template=int(pre['player_template'],0);s.logic=int(pre['logic'],0);s.script_team=int(pre['script_team'],0);s.default_team=int(pre['default_team'],0);s.unit=int(pre['selected']['address'],0);s.update=int(pre['selected']['ai_address'],0);s.object_id=pre['selected']['object_id'];s.type_hash=int(pre['selected']['type_hash'],0);s.lease_frames=args.lease_frames;s.post_frames=args.post_frames;s.session[:]=words(session['session_id']);s.commander[:]=words(pre['commander_id']);s.target[:]=contact['xyz'];s.target_unit=contact['address'];s.target_id=contact['object_id'];s.target_hash=int(contact['type_hash'],0);s.target_owner=contact['owner'];s.target_template=contact['template'];s.target_observed_frame=contact['observed_frame'];report['request']['target']=list(s.target);report['private_target']=dict(contact)
+  times=[w.FILETIME() for _ in range(4)]
+  if not k.GetProcessTimes(memory.handle,*[c.byref(x) for x in times]):raise c.WinError(c.get_last_error())
+  s.start_low=times[0].dwLowDateTime;s.start_high=times[0].dwHighDateTime
+  if args.session.read_bytes()!=raw or hashlib.sha256(package.read_bytes()).hexdigest()!=session['mod_sha256'] or hashlib.sha256(registry_path.read_bytes()).hexdigest()!=registry_digest:raise ValueError('binding_changed_before_dispatch')
+  report['status']='dispatch_pending';durable(target,report)
+  with target.with_suffix('.host.log').open('w',encoding='utf-8') as log:
+   host=subprocess.Popen([str(HERE/'bin/tactical_host.exe'),str(session['pid']),str(token)],stdout=log,stderr=log);deadline=time.monotonic()+185
+   while time.monotonic()<deadline:
+    if args.session.read_bytes()!=raw or hashlib.sha256(registry_path.read_bytes()).hexdigest()!=registry_digest or args.proof_file.read_bytes()!=proof_raw or safety_path.read_bytes()!=safety_raw:shared.stop_requested=1
+    count=min(shared.count,4096)
+    while last<count:
+     event=shared.events[last]
+     if event.seq!=last+1:break
+     report['events'].append({name:getattr(event,name) for name,_ in Event._fields_});last+=1
+    report['native']={x:getattr(shared,x) for x in RESULT+['phase','active','count','attack_calls','damage_count','target_id','damage_total']};report['native']['target']=list(shared.target);report['native'].update(session_id=str(uuid.UUID(bytes=struct.pack('<4I',*shared.session))),commander_id=str(uuid.UUID(bytes=struct.pack('<4I',*shared.commander))),command_id=str(uuid.UUID(bytes=struct.pack('<4I',*shared.command))),task_id=str(uuid.UUID(bytes=struct.pack('<4I',*shared.task))),seq=shared.seq);report['status']='finished' if shared.phase in [3,4] else 'running';durable(target,report)
+    if host.poll() is not None:break
+    time.sleep(.1)
+   if host.poll() is None:shared.stop_requested=1;report['status']='unknown_pending_native_return'
+   report['host_exit']=host.poll();report['assessment']=assessment(report);durable(target,report);print(json.dumps(dict(report=str(target),assessment=report['assessment'],native=report['native']),ensure_ascii=False))
+ except BaseException as error:
+  if shared is not None:shared.stop_requested=1
+  report.update(status='unknown' if host else 'no_dispatch_rejected',error=str(error));durable(target,report);raise
+ finally:
+  memory.close()
+  if view:k.UnmapViewOfFile(view)
+  if handle:k.CloseHandle(handle)
+if __name__=='__main__':main()

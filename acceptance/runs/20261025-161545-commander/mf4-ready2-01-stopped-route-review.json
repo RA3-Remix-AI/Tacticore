@@ -1,0 +1,68 @@
+{
+  "session_id": "a9ea5dec-52a5-4770-b747-a692c625cf37",
+  "actual_stopped_front": [
+    2745.770263671875,
+    2029.7774658203125,
+    210.0
+  ],
+  "actual_stopped_support": [
+    2832.11669921875,
+    2096.923828125,
+    210.0
+  ],
+  "actual_ready_frame": 1987,
+  "target": {
+    "address": 93264064,
+    "object_id": 766,
+    "type_hash": "0x80d4ea1e",
+    "owner": 53925936,
+    "owner_player_id": 4,
+    "xyz": [
+      1734.148193359375,
+      1723.603759765625,
+      210.0
+    ],
+    "hp": 1200.0,
+    "observed_frame": 1977,
+    "region_id": "region_3_3",
+    "template": 250488152
+  },
+  "mutations": false,
+  "diagnostic_only": true,
+  "replays": [
+    {
+      "label": "preflight_own_positions_approximate",
+      "status": "role_route_search_budget_exhausted",
+      "diagnostics": {
+        "phase": "load_sources",
+        "source_records": 327,
+        "ground_nodes": 0,
+        "expanded_states": 0,
+        "reject_reasons": {
+          "current_own_occupant": 8,
+          "source_session_or_clock": 129
+        },
+        "elapsed_seconds": 1.0
+      }
+    },
+    {
+      "label": "counterfactual_no_occupants_not_for_execution",
+      "status": "route_found",
+      "waypoints": 6,
+      "diagnostics": {
+        "phase": "role_graph_search",
+        "source_records": 334,
+        "ground_nodes": 198,
+        "expanded_states": 45,
+        "reject_reasons": {
+          "source_session_or_clock": 136,
+          "leg_geometry": 621
+        },
+        "closest_ground_point_to_target": 266.59353824388967,
+        "goal_nodes": 3,
+        "first_leg_candidates": 3,
+        "elapsed_seconds": 0.14099999994505197
+      }
+    }
+  ]
+}

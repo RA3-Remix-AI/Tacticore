@@ -1,0 +1,305 @@
+[
+  {
+    "template": "SovietConstructionYard",
+    "source_runtime_module_tag_candidates": [
+      "AIUpdate",
+      "ActiveBody",
+      "AnimationSoundClientBehavior",
+      "AttributeModifierPoolUpdate",
+      "BuildingBehavior",
+      "BuildingDestructionBehavior",
+      "CreateObjectDie",
+      "DestroyDie",
+      "EngineerContain",
+      "FXListBehavior",
+      "FireWeaponWhenDead",
+      "InfiltratorContain",
+      "LUAEventList",
+      "ModelConditionAudioLoopClientBehavior",
+      "ModelConditionSoundSelectorClientBehavior",
+      "ObjectDefectionHelper",
+      "ObjectSMCHelper",
+      "Physics",
+      "ProductionUpdate",
+      "ProductionUpdateInfo",
+      "QueueProductionExitUpdate",
+      "RepairUpdate",
+      "ReplaceSelfSpecialAbility",
+      "ScriptedModelDraw",
+      "SecondaryDamageTracker",
+      "SpecialPower",
+      "SquishCollide",
+      "StructureSellUpdate",
+      "StructureUnpackUpdate"
+    ],
+    "source_files": [
+      {
+        "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\SovietConstructionYard.xml",
+        "hash_matches_audit": true
+      },
+      {
+        "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseSovietStructure.xml",
+        "hash_matches_audit": true
+      },
+      {
+        "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseStructure.xml",
+        "hash_matches_audit": true
+      },
+      {
+        "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+        "hash_matches_audit": true
+      },
+      {
+        "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\GenericPackPower.xml",
+        "hash_matches_audit": true
+      },
+      {
+        "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\GenericBuildingRepair.xml",
+        "hash_matches_audit": true
+      },
+      {
+        "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\GenericEngineerContain.xml",
+        "hash_matches_audit": true
+      },
+      {
+        "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\SovietConYardDestruction.xml",
+        "hash_matches_audit": true
+      },
+      {
+        "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\SovietConYardSuicide.xml",
+        "hash_matches_audit": true
+      },
+      {
+        "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\InfiltratorContainVision.xml",
+        "hash_matches_audit": true
+      },
+      {
+        "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\InfiltratorContainRadarFreeze.xml",
+        "hash_matches_audit": true
+      }
+    ],
+    "all_source_hashes_match": true,
+    "negative_proof": "source_module_names_only_not_compiled_payload_decompilation"
+  },
+  {
+    "template": "SovietRefinery",
+    "source_runtime_module_tag_candidates": [
+      "AIUpdate",
+      "ActiveBody",
+      "AnimationSoundClientBehavior",
+      "AssistedPlacementBehavior",
+      "AttributeModifierPoolUpdate",
+      "BuildingDestructionBehavior",
+      "CreateObjectDie",
+      "DestroyDie",
+      "EngineerContain",
+      "FXListBehavior",
+      "FireWeaponWhenDead",
+      "InfiltratorContain",
+      "LUAEventList",
+      "ModelConditionAudioLoopClientBehavior",
+      "ModelConditionSoundSelectorClientBehavior",
+      "ObjectDefectionHelper",
+      "ObjectSMCHelper",
+      "Physics",
+      "ProductionUpdate",
+      "QueueDockBehavior",
+      "QueueProductionExitUpdate",
+      "RepairUpdate",
+      "ScriptedModelDraw",
+      "SecondaryDamageTracker",
+      "SpawnBehavior",
+      "SquishCollide",
+      "StructurePlacementBehavior",
+      "StructureSellUpdate",
+      "StructureUnpackUpdate"
+    ],
+    "source_files": [
+      {
+        "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\SovietRefinery.xml",
+        "hash_matches_audit": true
+      },
+      {
+        "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseSovietStructure.xml",
+        "hash_matches_audit": true
+      },
+      {
+        "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseStructure.xml",
+        "hash_matches_audit": true
+      },
+      {
+        "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+        "hash_matches_audit": true
+      },
+      {
+        "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\GenericBuildingRepair.xml",
+        "hash_matches_audit": true
+      },
+      {
+        "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\GenericEngineerContain.xml",
+        "hash_matches_audit": true
+      },
+      {
+        "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\GenericSovietBuildingDestruction.xml",
+        "hash_matches_audit": true
+      },
+      {
+        "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\GenericSovietBuildingSuicide.xml",
+        "hash_matches_audit": true
+      },
+      {
+        "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\GenericRefineryPlacementHint.xml",
+        "hash_matches_audit": true
+      },
+      {
+        "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\InfiltratorContainEconomic.xml",
+        "hash_matches_audit": true
+      },
+      {
+        "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\GenericRefineryStructurePlacementBehavior.xml",
+        "hash_matches_audit": true
+      }
+    ],
+    "all_source_hashes_match": true,
+    "negative_proof": "source_module_names_only_not_compiled_payload_decompilation"
+  },
+  {
+    "template": "SovietBarracks",
+    "source_runtime_module_tag_candidates": [
+      "AIUpdate",
+      "ActiveBody",
+      "AttributeModifierPoolUpdate",
+      "BuildingBehavior",
+      "BuildingDestructionBehavior",
+      "CreateObjectDie",
+      "DestroyDie",
+      "EngineerContain",
+      "FXListBehavior",
+      "FireWeaponWhenDead",
+      "InfiltratorContain",
+      "ModelConditionAudioLoopClientBehavior",
+      "ModelConditionSoundSelectorClientBehavior",
+      "ObjectDefectionHelper",
+      "ObjectSMCHelper",
+      "Physics",
+      "ProductionUpdate",
+      "QueueProductionExitUpdate",
+      "RepairUpdate",
+      "ScriptedModelDraw",
+      "SecondaryDamageTracker",
+      "SquishCollide",
+      "StancesBehavior",
+      "StructureSellUpdate",
+      "StructureUnpackUpdate"
+    ],
+    "source_files": [
+      {
+        "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\SovietBarracks.xml",
+        "hash_matches_audit": true
+      },
+      {
+        "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseSovietStructure.xml",
+        "hash_matches_audit": true
+      },
+      {
+        "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseStructure.xml",
+        "hash_matches_audit": true
+      },
+      {
+        "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+        "hash_matches_audit": true
+      },
+      {
+        "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\GenericBuildingRepair.xml",
+        "hash_matches_audit": true
+      },
+      {
+        "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\GenericEngineerContain.xml",
+        "hash_matches_audit": true
+      },
+      {
+        "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\GenericSovietBuildingDestruction.xml",
+        "hash_matches_audit": true
+      },
+      {
+        "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\GenericSovietBuildingSuicide.xml",
+        "hash_matches_audit": true
+      },
+      {
+        "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\InfiltratorContainInfantry.xml",
+        "hash_matches_audit": true
+      }
+    ],
+    "all_source_hashes_match": true,
+    "negative_proof": "source_module_names_only_not_compiled_payload_decompilation"
+  },
+  {
+    "template": "SovietPowerPlant",
+    "source_runtime_module_tag_candidates": [
+      "AIUpdate",
+      "ActiveBody",
+      "AttributeModifierPoolUpdate",
+      "BuildingBehavior",
+      "BuildingDestructionBehavior",
+      "CreateObjectDie",
+      "DestroyDie",
+      "EngineerContain",
+      "FXListBehavior",
+      "FireWeaponWhenDead",
+      "InfiltratorContain",
+      "ModelConditionAudioLoopClientBehavior",
+      "ModelConditionSoundSelectorClientBehavior",
+      "ObjectDefectionHelper",
+      "ObjectSMCHelper",
+      "Physics",
+      "PowerUpgrade",
+      "ProductionUpdate",
+      "RepairUpdate",
+      "ScriptedModelDraw",
+      "SecondaryDamageTracker",
+      "SquishCollide",
+      "StructureSellUpdate",
+      "StructureUnpackUpdate"
+    ],
+    "source_files": [
+      {
+        "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\SovietPowerPlant.xml",
+        "hash_matches_audit": true
+      },
+      {
+        "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseSovietStructure.xml",
+        "hash_matches_audit": true
+      },
+      {
+        "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseStructure.xml",
+        "hash_matches_audit": true
+      },
+      {
+        "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+        "hash_matches_audit": true
+      },
+      {
+        "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\GenericBuildingRepair.xml",
+        "hash_matches_audit": true
+      },
+      {
+        "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\GenericEngineerContain.xml",
+        "hash_matches_audit": true
+      },
+      {
+        "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\GenericSovietBuildingDestruction.xml",
+        "hash_matches_audit": true
+      },
+      {
+        "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\GenericSovietBuildingSuicide.xml",
+        "hash_matches_audit": true
+      },
+      {
+        "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\InfiltratorContainEnergy.xml",
+        "hash_matches_audit": true
+      }
+    ],
+    "all_source_hashes_match": true,
+    "negative_proof": "source_module_names_only_not_compiled_payload_decompilation"
+  }
+]

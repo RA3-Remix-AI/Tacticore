@@ -1,0 +1,329 @@
+{
+  "session_id": "03109549-eaf4-472a-9fdc-7303fee87ad9",
+  "executable_sha256": "ec230c6ae1eaee30b0b4fa6ba29d417c974ecae46d6715dfbe786a815935c165",
+  "package_sha256": "2d7873e1b2d2c79950ff9da70b5452b1210370a6d6cbec1eaa69201a7d3d0665",
+  "preflight": {
+    "status": "read_only_ready",
+    "session_id": "03109549-eaf4-472a-9fdc-7303fee87ad9",
+    "pid": 57152,
+    "commander_id": "57e668b4-4d89-43bd-bc92-0dd436f046ef",
+    "player_id": 3,
+    "frame": 1916,
+    "paused": 3,
+    "owner": "0x322b4d0",
+    "ai": "0x4e4aed0",
+    "personality": "0xeb42020",
+    "personality_id": "0x7664d9d9",
+    "player_template": "0x113cce70",
+    "logic": "0x3cd0228",
+    "window_thread": 52000,
+    "script_team": "0x4c74b50",
+    "default_team": "0x4c75a50",
+    "eligible_count": 4,
+    "units": [
+      {
+        "address": "0x57b47f0",
+        "owner_address": "0x322b4d0",
+        "owner_index_candidate": 3,
+        "object_id": 779,
+        "type_hash": "0x19ab11af",
+        "ai_address": "0x6ab20d0",
+        "xyz": [
+          2951.472412109375,
+          2567.868896484375,
+          210.0
+        ],
+        "catalog": {
+          "name": "征召兵",
+          "template": "SovietAntiInfantryInfantry",
+          "side": 2,
+          "cls": 1,
+          "category": 0
+        },
+        "hp": 100.0,
+        "status84": "0x0",
+        "mobility_restriction_mask": "0x20080000",
+        "team": "0x4c7b450",
+        "command_source": 0,
+        "eligible": true
+      },
+      {
+        "address": "0x57b56f0",
+        "owner_address": "0x322b4d0",
+        "owner_index_candidate": 3,
+        "object_id": 782,
+        "type_hash": "0x19ab11af",
+        "ai_address": "0x52e7658",
+        "xyz": [
+          3015.206787109375,
+          2950.275634765625,
+          210.0
+        ],
+        "catalog": {
+          "name": "征召兵",
+          "template": "SovietAntiInfantryInfantry",
+          "side": 2,
+          "cls": 1,
+          "category": 0
+        },
+        "hp": 100.0,
+        "status84": "0x0",
+        "mobility_restriction_mask": "0x20080000",
+        "team": "0x4c7b450",
+        "command_source": 0,
+        "eligible": true
+      },
+      {
+        "address": "0x57b60f0",
+        "owner_address": "0x322b4d0",
+        "owner_index_candidate": 3,
+        "object_id": 784,
+        "type_hash": "0x19ab11af",
+        "ai_address": "0x6aea098",
+        "xyz": [
+          2915.63671875,
+          2817.515625,
+          210.0
+        ],
+        "catalog": {
+          "name": "征召兵",
+          "template": "SovietAntiInfantryInfantry",
+          "side": 2,
+          "cls": 1,
+          "category": 0
+        },
+        "hp": 100.0,
+        "status84": "0x0",
+        "mobility_restriction_mask": "0x20080000",
+        "team": "0x4c7b450",
+        "command_source": 0,
+        "eligible": true
+      },
+      {
+        "address": "0x57b10f0",
+        "owner_address": "0x322b4d0",
+        "owner_index_candidate": 3,
+        "object_id": 789,
+        "type_hash": "0x19ab11af",
+        "ai_address": "0x6267fc0",
+        "xyz": [
+          2942.06591796875,
+          2590.430908203125,
+          210.0
+        ],
+        "catalog": {
+          "name": "征召兵",
+          "template": "SovietAntiInfantryInfantry",
+          "side": 2,
+          "cls": 1,
+          "category": 0
+        },
+        "hp": 100.0,
+        "status84": "0x0",
+        "mobility_restriction_mask": "0x20080000",
+        "team": "0x4c7b450",
+        "command_source": 0,
+        "eligible": true
+      }
+    ],
+    "selected": {
+      "address": "0x57b60f0",
+      "owner_address": "0x322b4d0",
+      "owner_index_candidate": 3,
+      "object_id": 784,
+      "type_hash": "0x19ab11af",
+      "ai_address": "0x6aea098",
+      "xyz": [
+        2915.63671875,
+        2817.515625,
+        210.0
+      ],
+      "catalog": {
+        "name": "征召兵",
+        "template": "SovietAntiInfantryInfantry",
+        "side": 2,
+        "cls": 1,
+        "category": 0
+      },
+      "hp": 100.0,
+      "status84": "0x0",
+      "mobility_restriction_mask": "0x20080000",
+      "team": "0x4c7b450",
+      "command_source": 0,
+      "eligible": true
+    },
+    "restore_semantics": "native_common_pool_not_original_squad",
+    "mutations": false
+  },
+  "status": "running",
+  "events": [
+    {
+      "seq": 1,
+      "kind": 0,
+      "tag": 0,
+      "frame": 1916,
+      "tick": 576473765,
+      "thread": 52000,
+      "caller": 0,
+      "team": 80196688,
+      "owner": 52606160,
+      "source": 0,
+      "arg": 0,
+      "x": 2915.63671875,
+      "y": 2817.515625,
+      "z": 210.0,
+      "sm": 112071112,
+      "sm_flags": 65536,
+      "state": 86930480,
+      "state_id": 1,
+      "path": 112363704,
+      "path_node": 244472764,
+      "requested": [
+        1779.21435546875,
+        1366.5531005859375,
+        210.0
+      ],
+      "effective": [
+        1779.21435546875,
+        1366.5531005859375,
+        210.0
+      ],
+      "path_xy": [
+        3030.0,
+        2982.727783203125
+      ],
+      "command_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "argument_path": 0,
+      "argument_limit": 0.0
+    }
+  ],
+  "native": {
+    "error": 0,
+    "restore_mask": 0,
+    "callback_thread": 52000,
+    "issued_frame": 0,
+    "returned_frame": 0,
+    "move_calls": 0,
+    "detach_calls": 0,
+    "return_calls": 0,
+    "arrival_samples": 0,
+    "native_move": 0,
+    "native_attack": 0,
+    "native_add": 0,
+    "native_remove": 0,
+    "owner_fail": 0,
+    "lifecycle_fail": 0,
+    "paused_samples": 1640,
+    "overflow": 0,
+    "return_verified": 0,
+    "return_pending": 0,
+    "stop_calls": 0,
+    "private_stop_calls": 0,
+    "private_stop_frame": 0,
+    "move_issued_frame": 0,
+    "stable_samples": 0,
+    "stop_gate_samples": 0,
+    "last_sample_frame": 0,
+    "last_arrival_frame": 0,
+    "phase": 5,
+    "active": 0,
+    "count": 1,
+    "lease_frames": 450,
+    "expires_frame": 0,
+    "target": [
+      2374.1123046875,
+      2862.469970703125,
+      210.0
+    ],
+    "session_id": "03109549-eaf4-472a-9fdc-7303fee87ad9",
+    "commander_id": "57e668b4-4d89-43bd-bc92-0dd436f046ef",
+    "command_id": "290cd3dd-ebeb-4f79-9e51-05e9d9b3a52b",
+    "task_id": "e871e901-7920-44e7-b7f2-c69e687d57c5",
+    "seq": 576473140
+  },
+  "request": {
+    "command_id": "290cd3dd-ebeb-4f79-9e51-05e9d9b3a52b",
+    "task_id": "e871e901-7920-44e7-b7f2-c69e687d57c5",
+    "seq": 576473140,
+    "token": 1224650258,
+    "dx": -541.5244140625,
+    "dy": 44.954345703125,
+    "lease_frames": 450,
+    "post_frames": 30,
+    "target": [
+      2374.1123046875,
+      2862.469970703125,
+      210.0
+    ],
+    "arrival_radius": 15,
+    "object_id": 784,
+    "expires_frame": 0
+  },
+  "known_point": {
+    "xyz": [
+      2374.1123046875,
+      2862.469970703125,
+      210.0
+    ],
+    "observed_frame": 369,
+    "source_object_id": 768,
+    "source_kind": "read_only_own_snapshot",
+    "source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-022351-commander\\own-routes\\00000369-768.json",
+    "source_sha256": "012b017e210170d4e6786e210f83952bf42845e2a49a7b49d74d4f8c62721b06",
+    "current_own_occupants_within30": [],
+    "note": "Previously occupied ground position, not proof of current path reachability."
+  },
+  "native_source_sha256": "7b880948fda73b97cd9cbed4a2758391f55e7dcc7af09eaf5d41caa844416130",
+  "native_shared_sha256": "c46aeb1518939361d474b184df4ea25ce1758aa846f2365a6093efb78b5c0f6f",
+  "experimental_scope": "calibration_ground_conscript_true_observed_height",
+  "native_binary_sha256": "9124a027b6554dd6561f4daba5611e908695be83a84162eafae0c9fb5ceec068",
+  "native_host_sha256": "0883eecb81069239315bb04ee9bd795c2fea5ba6dc9a2c01b910acccf9e21b4f",
+  "wrapper_sha256": "b1537e6e05fed782e883f3b76a7ac7a4c4b4d7bbfd1da3a8805fad966b2577c2",
+  "host_exit": 9,
+  "assessment": {
+    "status": "not_passed",
+    "checks": {
+      "stopped": false,
+      "hooks_restored": false,
+      "no_active_callbacks": true,
+      "no_native_error": true,
+      "one_detach": false,
+      "one_move": false,
+      "one_return": false,
+      "arrival": false,
+      "owner_preserved": true,
+      "remove_observed": false,
+      "add_observed": false,
+      "no_observed_lease_override": true,
+      "leased_team_preserved": false,
+      "return_pool_verified": false,
+      "no_lifecycle_error": true,
+      "no_log_overflow": true,
+      "session_binding": true,
+      "command_binding": true,
+      "thread_verified": false,
+      "one_move_hook_chain": false,
+      "frame_window": false,
+      "target_binding": true,
+      "arrival_independent": false,
+      "stop_actual_hook_pair": false,
+      "one_normal_stop": false,
+      "deferred_stop_before_move": false,
+      "clean_stop_samples": false,
+      "normal_move_input_chain": false,
+      "distinct_arrival_frames": false,
+      "original_expiry_preserved": true,
+      "monotonic_frame_log": true,
+      "raw_stable_stop": false
+    },
+    "native_recruitment_observed": false,
+    "raid_verified": false,
+    "attack_verified": false,
+    "combined_arms_verified": false,
+    "note": "Arrival and normal pool return are primitive evidence; native recruitment and all tactical goals require separate assessment. No exact original squad restoration claimed."
+  }
+}

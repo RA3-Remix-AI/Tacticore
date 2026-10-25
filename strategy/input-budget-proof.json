@@ -1,0 +1,36 @@
+{
+  "source": "synthetic_no_http",
+  "input_contacts": 64,
+  "input_formations": 32,
+  "input_traits_utf8_bytes": 12000,
+  "results": [
+    {
+      "wire_limit": 16384,
+      "actual_wire_bytes": 14597,
+      "context_bytes": 8080,
+      "contacts": 12,
+      "formations": 8,
+      "limits": {
+        "maximum_bytes": 8192,
+        "regions_omitted": 0,
+        "contacts_omitted": 52,
+        "formations_omitted": 24,
+        "details_truncated": true
+      }
+    },
+    {
+      "wire_limit": 12288,
+      "actual_wire_bytes": 12172,
+      "context_bytes": 5935,
+      "contacts": 7,
+      "formations": 8,
+      "limits": {
+        "maximum_bytes": 8192,
+        "regions_omitted": 0,
+        "contacts_omitted": 57,
+        "formations_omitted": 24,
+        "details_truncated": true
+      }
+    }
+  ]
+}

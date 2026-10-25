@@ -1,0 +1,57 @@
+{
+  "status": "read_only_geometry_diagnosis",
+  "session_id": "2b9cf61e-445a-4acd-b42d-38b970731242",
+  "rows": [
+    {
+      "label": "initial",
+      "first_distance": 31.236324942388343,
+      "gap": 105.47630121537634,
+      "dot": 3269.929161697626,
+      "failures": [
+        {
+          "stage": "forward",
+          "index": 0,
+          "distance": 31.236324942388343,
+          "gap": 105.47630121537634,
+          "dot": 3269.929161697626
+        }
+      ]
+    },
+    {
+      "label": "late",
+      "first_distance": 21.24409216387518,
+      "gap": 105.45359793414397,
+      "dot": 2219.9414720088243,
+      "failures": [
+        {
+          "stage": "forward",
+          "index": 0,
+          "distance": 21.24409216387518,
+          "gap": 105.45359793414397,
+          "dot": 2219.9414720088243
+        },
+        {
+          "stage": "forward",
+          "index": 1,
+          "distance": 116.66550771138319,
+          "gap": 21.24409216387518,
+          "dot": 2469.8184958547354
+        },
+        {
+          "stage": "reverse",
+          "index": 12,
+          "clearance_support": 116.66550771138319,
+          "clearance_front": 21.24409216387518
+        },
+        {
+          "stage": "reverse",
+          "index": 13,
+          "clearance_support": 21.24409216387518,
+          "clearance_front": 105.45359793414397
+        }
+      ]
+    }
+  ],
+  "route_points": 14,
+  "mutations": false
+}

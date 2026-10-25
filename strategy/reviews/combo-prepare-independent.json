@@ -1,0 +1,35 @@
+{
+  "source": "synthetic_protocol_joined_to_archived_ak_packet",
+  "live_evidence": false,
+  "game_or_api_access": false,
+  "purpose_granted": false,
+  "qualifier_sha256": "74ed16345fcde688fae5d6cbf08333d39bae9c2c009c7a62733bd022910fe8cb",
+  "positive_status": "bounded_ak_ordered_attack_verified",
+  "positive_checks": 27,
+  "negative_cases": [
+    {
+      "case": "wrong_button",
+      "rejected": true
+    },
+    {
+      "case": "early_or_duplicate_pack_samples",
+      "rejected": true
+    },
+    {
+      "case": "pack_not_idle",
+      "rejected": true
+    },
+    {
+      "case": "path_not_clear",
+      "rejected": true
+    },
+    {
+      "case": "weapon_changed_after_prepare",
+      "rejected": true
+    },
+    {
+      "case": "old_prepare_damage_not_new_order",
+      "rejected": true
+    }
+  ]
+}

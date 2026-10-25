@@ -1,0 +1,35 @@
+{
+  "native_binary_sha256": "8b6cf5c7a60a281e82817c7d78dd2264b781436e54640aecdfdbb868415d2468",
+  "native_host_sha256": "987e95488477a98312d12c422f265338fea9d1c61fbc5a4bcca25e8e98618dfc",
+  "wrapper_sha256": "4a78b3881e7d09364f7d66a8beb59b2d73ee103f51406ae41ec6373abb4fe317",
+  "native_source_sha256": "c7f92270aff796ac4c744043466cc64062a78878e0b232828f7df3471e5bd7c6",
+  "native_shared_sha256": "47839a226485f548c9cb2efff8a5df61a1de23e58c9e77e84147ba03eea39313",
+  "mission_contract_sha256": "de8b87ce6e0573830f0fd3b37fd3ba738675e2e805dd78fa36270e89b096c0ff",
+  "native_includes_sha256": {
+    "mission_tick.inc": "14e5c4fecabbc0753492d9fa7ba5666255f939c06ed718c18afadc5c140da156"
+  },
+  "pre_dispatch_helper_sha256": "368850f459965ae56632a310180636c652c5ddad7f4b5d39d60a1b33a8bb2c99",
+  "protocol": "continuous_tactical_v1",
+  "directory": "mission-combat-v3",
+  "magic": "0x4d435433",
+  "version": 11,
+  "message": "WM_APP+0x37d",
+  "mapping_prefix": "RA3TacticalMissionCombat3_",
+  "restore_mask": 16383,
+  "layout": {
+    "event": 788,
+    "tactical": 3228728,
+    "events": 1080
+  },
+  "reader": "mission_v3_readonly_disposal.py",
+  "reader_sha256": "1fa356200a6593c122b76bba0ec32b0611284984f349504a20f333a067092398",
+  "inert_layout_sha256": "0b3425a8ea8de7e334d31f82bf044838a342715ed5a73850bcf73d763951948a",
+  "qualifier_sha256": "e2248a02f0afab955942ca89d14384c695c2f87c53d53263b9aa5559cce4c305",
+  "max_return_move_orders": 3,
+  "max_retreat_replans": 2,
+  "fallback_field_verified": false,
+  "runtime_effect_claim": "not_yet_field_verified",
+  "origin_resolution_helper_sha256": "770767e150e1fad49a96e1d0a4c6be7b2ed850591a17f62fe07b82e59da112cb",
+  "native_gate_reader": "mission_v3_gate_no_lease.py",
+  "native_gate_reader_sha256": "d0f62bc98e022f42ff6779904e87660a2651e982ac22c1256fa193d0b1b6959e"
+}

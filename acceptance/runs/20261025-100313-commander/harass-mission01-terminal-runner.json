@@ -1,0 +1,108 @@
+{
+  "source_report": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-100313-commander\\harass-mission01.json",
+  "source_sha256": "eda3ef086e91e85dc13352b3a4c541e1dede429b8135a0380ffc1d20c0ccd4d7",
+  "pid": 21440,
+  "session_id": "12e52d25-2596-4b8a-9422-541bfe8c468d",
+  "native_binary_sha256": "82b31a8078c89ba6919ec435ce2c32767df1cd594f0bafae7bdc24f85b3c2e6d",
+  "module_base": "0x7a070000",
+  "shared_pointer": "0x3f620000",
+  "timer": 0,
+  "phase": 3,
+  "error": 0,
+  "restore_mask": 16383,
+  "active": 0,
+  "return_verified": 1,
+  "entries": [
+    {
+      "address": 7274352,
+      "expected": "568bf18b4e3c8b018b5038ffd2",
+      "actual": "568bf18b4e3c8b018b5038ffd2",
+      "restored": true
+    },
+    {
+      "address": 7792272,
+      "expected": "837c24040055568bf18b6e08",
+      "actual": "837c24040055568bf18b6e08",
+      "restored": true
+    },
+    {
+      "address": 8620064,
+      "expected": "8b818c00000085c0744f568bb190000000",
+      "actual": "8b818c00000085c0744f568bb190000000",
+      "restored": true
+    },
+    {
+      "address": 9275520,
+      "expected": "83ec24568b74242c8b4604",
+      "actual": "83ec24568b74242c8b4604",
+      "restored": true
+    },
+    {
+      "address": 9229872,
+      "expected": "83ec3453578b7c24408b4704",
+      "actual": "83ec3453578b7c24408b4704",
+      "restored": true
+    },
+    {
+      "address": 8200976,
+      "expected": "81ec200100005355568bb42430010000",
+      "actual": "81ec200100005355568bb42430010000",
+      "restored": true
+    },
+    {
+      "address": 7306336,
+      "expected": "538b5928568b71243bf357",
+      "actual": "538b5928568b71243bf357",
+      "restored": true
+    },
+    {
+      "address": 7754128,
+      "expected": "8b44240885c0f30f104c2404",
+      "actual": "8b44240885c0f30f104c2404",
+      "restored": true
+    },
+    {
+      "address": 5550240,
+      "expected": "83ec5c8b442460566a01508bf1",
+      "actual": "83ec5c8b442460566a01508bf1",
+      "restored": true
+    },
+    {
+      "address": 7477968,
+      "expected": "83ec08558be98b45088b4804",
+      "actual": "83ec08558be98b45088b4804",
+      "restored": true
+    },
+    {
+      "address": 5710464,
+      "expected": "83ec5c8b442468566a01508bf1",
+      "actual": "83ec5c8b442468566a01508bf1",
+      "restored": true
+    },
+    {
+      "address": 7932304,
+      "expected": "8b44240c8b5424086a006a006a00",
+      "actual": "8b44240c8b5424086a006a006a00",
+      "restored": true
+    },
+    {
+      "address": 7789008,
+      "expected": "568bf1578b7e088bcf",
+      "actual": "568bf1578b7e088bcf",
+      "restored": true
+    },
+    {
+      "address": 5709200,
+      "expected": "83ec5c8b442464566a01508bf1",
+      "actual": "83ec5c8b442464566a01508bf1",
+      "restored": true
+    }
+  ],
+  "checks": {
+    "timer_zero": true,
+    "native_terminal": true,
+    "fourteen_entry_bytes": true,
+    "same_command": true
+  },
+  "mutations": false
+}

@@ -1,0 +1,40 @@
+{
+  "wrapper_revision": "mfm4_stopped_planning_v1",
+  "wrapper_filename": "lease.py",
+  "pre_dispatch_helper": "pre_dispatch_formation_v4_contract.py",
+  "status": "no_dispatch_rejected",
+  "session_id": "eb3f7e6f-e2d2-44ea-9d02-49998d45937d",
+  "executable_sha256": "ec230c6ae1eaee30b0b4fa6ba29d417c974ecae46d6715dfbe786a815935c165",
+  "package_sha256": "2d7873e1b2d2c79950ff9da70b5452b1210370a6d6cbec1eaa69201a7d3d0665",
+  "native_binary_sha256": "1421d30446aa27712654b269edea52fcbe4abf5913e027bd1b45ffd230d948a4",
+  "native_host_sha256": "2487f693f7ac71a746335258a019674243df36abe02ab7297474ef282758b531",
+  "wrapper_sha256": "39b18c8d6cafead36276ab72a49f09a149f13bc319bb8cd3fd8872b8e41bcb6f",
+  "pre_dispatch_helper_sha256": "aec57bc20c4072e3a095c55a69f7b5bbe1e365046e69bfd44c3201b1bb2a25fc",
+  "host_exit": null,
+  "native_launch_intent_persisted": false,
+  "pre_dispatch": {
+    "protocol": "pre_native_launch_v1",
+    "stage": "pre_native_launch",
+    "native_launch_intent_persisted": false,
+    "sdk_dispatch_possible": false,
+    "reason_code": "retreat_origin_has_observed_enemy_threat"
+  },
+  "native": {},
+  "events": [],
+  "preflight": {
+    "pid": 60044,
+    "session_id": "eb3f7e6f-e2d2-44ea-9d02-49998d45937d",
+    "player_id": 3,
+    "commander_id": "57e668b4-4d89-43bd-bc92-0dd436f046ef"
+  },
+  "request": {
+    "command_id": "77e858eb-6d2d-4089-ba59-fdfe80d098ed",
+    "task_id": "c49d3f67-56dc-4006-83df-d5307204bda2",
+    "seq": 624242687,
+    "object_ids": [
+      786,
+      793
+    ],
+    "target_contact_id": "contact_492840ed66d1ec46e81e"
+  }
+}

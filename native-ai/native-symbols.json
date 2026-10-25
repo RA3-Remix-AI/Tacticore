@@ -1,0 +1,193 @@
+{
+  "game": "E:\\RedRar3\\Data\\RA3_1.12.game",
+  "sha256": "ec230c6ae1eaee30b0b4fa6ba29d417c974ecae46d6715dfbe786a815935c165",
+  "image_base": "0x400000",
+  "machine": "x86",
+  "symbols": [
+    {
+      "name": "privateMoveToPosition",
+      "va": "0x6eff70",
+      "rva": "0x2eff70",
+      "first_24_bytes": "568bf18b4e3c8b018b5038ffd2d9057cd4c0008b44240851",
+      "notes": "thiscall AIUpdate*, Coord3D*, CommandSource; writes AIUpdate+0x50",
+      "call_validated": false
+    },
+    {
+      "name": "ScriptEngineExecuteActionLua",
+      "va": "0x582c50",
+      "rva": "0x182c50",
+      "first_24_bytes": "8b44240483ec18535556576a0150e82d7be8ff8b1d90d1cd",
+      "notes": "Lua C function; shared Lua stack/context; not independently exercised",
+      "call_validated": false
+    },
+    {
+      "name": "ScriptActionDispatcher",
+      "va": "0x5a2b40",
+      "rva": "0x1a2b40",
+      "first_24_bytes": "81ec4c0600005355568bb4245c0600008a464184c08be957",
+      "notes": "thiscall ScriptEngine*, ScriptAction*; case handlers are NOT APIs",
+      "call_validated": false
+    },
+    {
+      "name": "ScriptToggleAIComponent",
+      "va": "0x583a20",
+      "rva": "0x183a20",
+      "first_24_bytes": "8b4424088b0d90d1cd006a0050e84ec0ffff8b0d9c8cce00",
+      "notes": "thiscall? ScriptEngine*, component, playerNameStringObject*, enabled; three stack args",
+      "call_validated": false
+    },
+    {
+      "name": "AIPlayerToggleComponent",
+      "va": "0x880e40",
+      "rva": "0x480e40",
+      "first_24_bytes": "8b44240483f808751e83b9f80600000074158b89f8060000",
+      "notes": "thiscall AIPlayer*, componentEnum, enabled",
+      "call_validated": false
+    },
+    {
+      "name": "EmbeddedAIManagerToggle",
+      "va": "0x87f7c0",
+      "rva": "0x47f7c0",
+      "first_24_bytes": "8b44240483f807568bf10f87b3000000ff248588f887008b",
+      "notes": "thiscall AIPlayer+0x104, componentEnum, enabled",
+      "call_validated": false
+    },
+    {
+      "name": "AIUnitEconomyEnabledSetter",
+      "va": "0x885ae0",
+      "rva": "0x485ae0",
+      "first_24_bytes": "8a442404884110c20400ccccccccccccb8f0f1c500c3cccc",
+      "notes": "thiscall embedded component*, enabled byte; writes this+0x10",
+      "call_validated": false
+    },
+    {
+      "name": "AIBaseEnabledSetter",
+      "va": "0x893020",
+      "rva": "0x493020",
+      "first_24_bytes": "8a44240488411cc20400ccccccccccccb814f9c500c3cccc",
+      "notes": "thiscall embedded base component*, enabled byte; writes this+0x1c",
+      "call_validated": false
+    },
+    {
+      "name": "TransferNamedUnitAI",
+      "va": "0x583a70",
+      "rva": "0x183a70",
+      "first_24_bytes": "8b442404565183c0108bcc50e8ef77f4ff8b0d90d1cd00e8",
+      "notes": "ScriptEngine wrapper requiring named/ref object; not callable with raw Thing",
+      "call_validated": false
+    },
+    {
+      "name": "TransferThingAIAtPlayer",
+      "va": "0x838820",
+      "rva": "0x438820",
+      "first_24_bytes": "8b818c00000085c0744f568bb19000000085f67443807c24",
+      "notes": "thiscall Player*, Thing*, transferToAI bool",
+      "call_validated": false
+    },
+    {
+      "name": "ScriptNamedCommandAbility",
+      "va": "0x590020",
+      "rva": "0x190020",
+      "first_24_bytes": "8b4424048b0d90d1cd005350e8ffb9ffff8bd885db745d56",
+      "notes": "thiscall ScriptEngine*, ScriptParam*, commandNameKey",
+      "call_validated": false
+    },
+    {
+      "name": "ThingCommandAbility",
+      "va": "0x790990",
+      "rva": "0x390990",
+      "first_24_bytes": "8b44240c8b5424086a006a006a00508b4424145250e836fb",
+      "notes": "thiscall Thing*, CommandButtonInfo*, source, flag; forwards to 0x7904e0",
+      "call_validated": false
+    },
+    {
+      "name": "ThingCommandDispatcher",
+      "va": "0x7904e0",
+      "rva": "0x3904e0",
+      "first_24_bytes": "83ec1453558b6c243085ed56578bf1bb010000000f859a00",
+      "notes": "thiscall Thing*, 6 stack args; UNIT_BUILD goes to 0x790732",
+      "call_validated": false
+    },
+    {
+      "name": "PlayerResourceByIndex",
+      "va": "0x83be10",
+      "rva": "0x43be10",
+      "first_24_bytes": "8b91e80000002b91e40000008b442404c1fa023bc2720533",
+      "notes": "thiscall Player*, index; vector +0xe4/+0xe8",
+      "call_validated": false
+    },
+    {
+      "name": "AIPlayerSetStrategicDirective",
+      "va": "0x8a0940",
+      "rva": "0x4a0940",
+      "first_24_bytes": "83ec0c538bd98b83ec08000085c08b4c2414898bec080000",
+      "notes": "thiscall AIPlayer*, AIStrategicDirective; ret4; native state/feedback side effects; NOT runtime validated",
+      "call_validated": false
+    },
+    {
+      "name": "AIPlayerSetStrategicDirectiveWithFeedback",
+      "va": "0x8a0a90",
+      "rva": "0x4a0a90",
+      "first_24_bytes": "56578b7c240c85ff8bf1750e8b0d70dfce00566a02e8762f",
+      "notes": "thiscall AIPlayer*, directive; ret4; co-op beacon callers; target context unresolved",
+      "call_validated": false
+    },
+    {
+      "name": "EnemySelectorSetPriority",
+      "va": "0x8bdb50",
+      "rva": "0x4bdb50",
+      "first_24_bytes": "83ec10568bf166837e3000775053578b7c242057c6462401",
+      "notes": "thiscall [[AIPlayer+0x6f8]+0x34], enemy Player+0x20, priority; ret8; requires lock word+0x30 == 0",
+      "call_validated": false
+    },
+    {
+      "name": "EnemySelectorClearPriorities",
+      "va": "0x8af990",
+      "rva": "0x4af990",
+      "first_24_bytes": "6683793000771fb001884124884125c74128000000008b41",
+      "notes": "thiscall selector*; native clear/flags, no arguments",
+      "call_validated": false
+    },
+    {
+      "name": "EnemySelectorClearOnePriority",
+      "va": "0x8af9c0",
+      "rva": "0x4af9c0",
+      "first_24_bytes": "66837930007709c6412401e970ffffffc20400cccccccccc",
+      "notes": "thiscall selector*, enemyIndex; ret4",
+      "call_validated": false
+    },
+    {
+      "name": "EnemySelectorAutomaticScheme",
+      "va": "0x8bdbc0",
+      "rva": "0x4bdbc0",
+      "first_24_bytes": "32c08841248841258b442404894120e8bcfaffffc20400cc",
+      "notes": "thiscall selector*, scheme enum; ret4; recalculates priorities",
+      "call_validated": false
+    },
+    {
+      "name": "EnemySelectorDefaultAutomaticScheme",
+      "va": "0x8bdbe0",
+      "rva": "0x4bdbe0",
+      "first_24_bytes": "568bf132c0884624884625e8302bfcff8946208bce5ee995",
+      "notes": "thiscall selector*; resets default scheme",
+      "call_validated": false
+    },
+    {
+      "name": "PauseManagerDoPause",
+      "va": "0x4e03f0",
+      "rva": "0xe03f0",
+      "first_24_bytes": "56578b7c240c85ff8bf175656a0168e89cbe00e868e9f2ff",
+      "notes": "thiscall GameLogic+0x150, type and three additional args; RESEARCH ONLY, never called",
+      "call_validated": false
+    },
+    {
+      "name": "NativeResultRecordByIndex",
+      "va": "0x600600",
+      "rva": "0x200600",
+      "first_24_bytes": "8b44240483f8057709c1e005057833ce00c333c0c3cccccc",
+      "notes": "pure getter index0..5 returns 0xce3378+index*0x20; slot mapping unverified",
+      "call_validated": false
+    }
+  ],
+  "important": "Signatures identify this local binary only. Static ABI candidates are not proof of safe thread or gameplay effect."
+}

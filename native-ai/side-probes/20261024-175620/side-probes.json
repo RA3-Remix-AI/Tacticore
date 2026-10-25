@@ -1,0 +1,639 @@
+{
+  "source": "E:\\RA3Modding\\SDK\\Mods\\CommanderSideProbe\\data",
+  "output": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\native-ai\\side-probes\\20261024-175620",
+  "deployed": false,
+  "runtime_verified": false,
+  "variants": [
+    {
+      "variant": "A_normal_only",
+      "metadata_path": null,
+      "normal_audit": {
+        "stream": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\native-ai\\side-probes\\20261024-175620\\A_normal_only\\package\\data\\mod.manifest",
+        "manifest_refs_hex": "0173616765786d6c5c7374617469632e6d616e6966657374000173616765786d6c5c676c6f62616c2e6d616e6966657374000173616765786d6c5c617564696f2e6d616e696665737400",
+        "manifest_refs_text": "\u0001sagexml\\static.manifest\u0000\u0001sagexml\\global.manifest\u0000\u0001sagexml\\audio.manifest\u0000",
+        "records": [
+          {
+            "name": "AIPersonalityDefinition:4TFLLMAllied",
+            "side_count": 1,
+            "sides": [
+              {
+                "offset": "0x22c",
+                "serialized_import_index": 1,
+                "offset_in_imp": true,
+                "reference_key": [
+                  "0xf231d60d",
+                  "0x86051f0d"
+                ],
+                "target": "PlayerTemplate:Allies",
+                "valid": true
+              }
+            ],
+            "binary_sha256": "004c4b13ccf9c73e88d371cca08e555a3944a73a002f7e391a0f016ffbc6c55d",
+            "imports_sha256": "002ace3dc8217555e608ba6d86a8e1970b1895e4bbbe99037fbb5a8c26f3e79a",
+            "references_sha256": "8c952fa8122a392786e03ad2e5b0fd951470b83ba6c3880947596e5efcc7bcf0"
+          },
+          {
+            "name": "AIPersonalityDefinition:4TFLLMJapan",
+            "side_count": 1,
+            "sides": [
+              {
+                "offset": "0x228",
+                "serialized_import_index": 1,
+                "offset_in_imp": true,
+                "reference_key": [
+                  "0xf231d60d",
+                  "0x3d6743e8"
+                ],
+                "target": "PlayerTemplate:Japan",
+                "valid": true
+              }
+            ],
+            "binary_sha256": "3512260614c31e1426b9c1ebfd8c03d2e2de13761fe5123a04dcb492f42348e2",
+            "imports_sha256": "d5df93e2312bebaacbfa8967430e1e71d9ac919b4ac3bb4523bd0a220ab4127a",
+            "references_sha256": "d0c63c7304a47a3fd06fff6370b7724360486a2442d3b595b4f811f24293c494"
+          },
+          {
+            "name": "AIPersonalityDefinition:4TFLLMSoviet",
+            "side_count": 1,
+            "sides": [
+              {
+                "offset": "0x22c",
+                "serialized_import_index": 1,
+                "offset_in_imp": true,
+                "reference_key": [
+                  "0xf231d60d",
+                  "0xb610276b"
+                ],
+                "target": "PlayerTemplate:Soviet",
+                "valid": true
+              }
+            ],
+            "binary_sha256": "cf25e6bc812169f367ec97c677a609b70fa80b4337deea8fa813553d7a8d03b9",
+            "imports_sha256": "ed9d7ef10c46e4de8922149fd857c13824d201db7113a33896f71668bc55bd30",
+            "references_sha256": "21e3e5ef185d19430a938f7800a72646531191869b73d2a8bc3d0fdeff018469"
+          },
+          {
+            "name": "AIPersonalityDefinition:4TFLLMRandom",
+            "side_count": 1,
+            "sides": [
+              {
+                "offset": "0x22c",
+                "serialized_import_index": 1,
+                "offset_in_imp": true,
+                "reference_key": [
+                  "0xf231d60d",
+                  "0x17052fac"
+                ],
+                "target": "PlayerTemplate:Null",
+                "valid": true
+              }
+            ],
+            "binary_sha256": "1c3a8b7987c0e332d5a3408d70fc2644cbd1a9cd17c5dc9b239e559fd57caf37",
+            "imports_sha256": "1e444362edc728f0734ad03dff04ece2ffae14b4061bbbaf2bea7b1a6a2ee183",
+            "references_sha256": "5b555192d1c54194e5d24391a82d4c84d77bec579edfd46163478eacb71f0d43"
+          }
+        ]
+      },
+      "big": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\native-ai\\side-probes\\20261024-175620\\A_normal_only\\A_normal_only.big",
+      "big_sha256": "808888e07248e856a5020ee4a3acf4c6b763f2160b73147f83eeed25aa55c539",
+      "physical_metadata_required": "Unconfirmed: do not add extra physical copies during the first path-isolation runs."
+    },
+    {
+      "variant": "B_root_metadata_three",
+      "metadata_path": "AdditionalMaps",
+      "normal_audit": {
+        "stream": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\native-ai\\side-probes\\20261024-175620\\B_root_metadata_three\\package\\data\\mod.manifest",
+        "manifest_refs_hex": "0173616765786d6c5c7374617469632e6d616e6966657374000173616765786d6c5c676c6f62616c2e6d616e6966657374000173616765786d6c5c617564696f2e6d616e696665737400",
+        "manifest_refs_text": "\u0001sagexml\\static.manifest\u0000\u0001sagexml\\global.manifest\u0000\u0001sagexml\\audio.manifest\u0000",
+        "records": [
+          {
+            "name": "AIPersonalityDefinition:4TFLLMAllied",
+            "side_count": 1,
+            "sides": [
+              {
+                "offset": "0x22c",
+                "serialized_import_index": 1,
+                "offset_in_imp": true,
+                "reference_key": [
+                  "0xf231d60d",
+                  "0x86051f0d"
+                ],
+                "target": "PlayerTemplate:Allies",
+                "valid": true
+              }
+            ],
+            "binary_sha256": "004c4b13ccf9c73e88d371cca08e555a3944a73a002f7e391a0f016ffbc6c55d",
+            "imports_sha256": "002ace3dc8217555e608ba6d86a8e1970b1895e4bbbe99037fbb5a8c26f3e79a",
+            "references_sha256": "8c952fa8122a392786e03ad2e5b0fd951470b83ba6c3880947596e5efcc7bcf0"
+          },
+          {
+            "name": "AIPersonalityDefinition:4TFLLMJapan",
+            "side_count": 1,
+            "sides": [
+              {
+                "offset": "0x228",
+                "serialized_import_index": 1,
+                "offset_in_imp": true,
+                "reference_key": [
+                  "0xf231d60d",
+                  "0x3d6743e8"
+                ],
+                "target": "PlayerTemplate:Japan",
+                "valid": true
+              }
+            ],
+            "binary_sha256": "3512260614c31e1426b9c1ebfd8c03d2e2de13761fe5123a04dcb492f42348e2",
+            "imports_sha256": "d5df93e2312bebaacbfa8967430e1e71d9ac919b4ac3bb4523bd0a220ab4127a",
+            "references_sha256": "d0c63c7304a47a3fd06fff6370b7724360486a2442d3b595b4f811f24293c494"
+          },
+          {
+            "name": "AIPersonalityDefinition:4TFLLMSoviet",
+            "side_count": 1,
+            "sides": [
+              {
+                "offset": "0x22c",
+                "serialized_import_index": 1,
+                "offset_in_imp": true,
+                "reference_key": [
+                  "0xf231d60d",
+                  "0xb610276b"
+                ],
+                "target": "PlayerTemplate:Soviet",
+                "valid": true
+              }
+            ],
+            "binary_sha256": "cf25e6bc812169f367ec97c677a609b70fa80b4337deea8fa813553d7a8d03b9",
+            "imports_sha256": "ed9d7ef10c46e4de8922149fd857c13824d201db7113a33896f71668bc55bd30",
+            "references_sha256": "21e3e5ef185d19430a938f7800a72646531191869b73d2a8bc3d0fdeff018469"
+          },
+          {
+            "name": "AIPersonalityDefinition:4TFLLMRandom",
+            "side_count": 1,
+            "sides": [
+              {
+                "offset": "0x22c",
+                "serialized_import_index": 1,
+                "offset_in_imp": true,
+                "reference_key": [
+                  "0xf231d60d",
+                  "0x17052fac"
+                ],
+                "target": "PlayerTemplate:Null",
+                "valid": true
+              }
+            ],
+            "binary_sha256": "1c3a8b7987c0e332d5a3408d70fc2644cbd1a9cd17c5dc9b239e559fd57caf37",
+            "imports_sha256": "1e444362edc728f0734ad03dff04ece2ffae14b4061bbbaf2bea7b1a6a2ee183",
+            "references_sha256": "5b555192d1c54194e5d24391a82d4c84d77bec579edfd46163478eacb71f0d43"
+          }
+        ]
+      },
+      "metadata": {
+        "source": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\native-ai\\side-probes\\20261024-175620\\B_root_metadata_three\\package\\data\\mod.manifest",
+        "destination": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\native-ai\\side-probes\\20261024-175620\\B_root_metadata_three\\package\\AdditionalMaps\\mapmetadata_commander.manifest",
+        "records": [
+          "AIPersonalityDefinition:4TFLLMAllied",
+          "AIPersonalityDefinition:4TFLLMJapan",
+          "AIPersonalityDefinition:4TFLLMSoviet"
+        ],
+        "sha256": "4aced593a114ccc984142655c5265bd289f322fd6c1bdadbcde56d41c30d1165",
+        "runtime_verified": false
+      },
+      "metadata_audit": {
+        "stream": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\native-ai\\side-probes\\20261024-175620\\B_root_metadata_three\\package\\AdditionalMaps\\mapmetadata_commander.manifest",
+        "manifest_refs_hex": "0173616765786d6c5c7374617469632e6d616e6966657374000173616765786d6c5c676c6f62616c2e6d616e6966657374000173616765786d6c5c617564696f2e6d616e696665737400",
+        "manifest_refs_text": "\u0001sagexml\\static.manifest\u0000\u0001sagexml\\global.manifest\u0000\u0001sagexml\\audio.manifest\u0000",
+        "records": [
+          {
+            "name": "AIPersonalityDefinition:4TFLLMAllied",
+            "side_count": 1,
+            "sides": [
+              {
+                "offset": "0x22c",
+                "serialized_import_index": 1,
+                "offset_in_imp": true,
+                "reference_key": [
+                  "0xf231d60d",
+                  "0x86051f0d"
+                ],
+                "target": "PlayerTemplate:Allies",
+                "valid": true
+              }
+            ],
+            "binary_sha256": "004c4b13ccf9c73e88d371cca08e555a3944a73a002f7e391a0f016ffbc6c55d",
+            "imports_sha256": "002ace3dc8217555e608ba6d86a8e1970b1895e4bbbe99037fbb5a8c26f3e79a",
+            "references_sha256": "8c952fa8122a392786e03ad2e5b0fd951470b83ba6c3880947596e5efcc7bcf0"
+          },
+          {
+            "name": "AIPersonalityDefinition:4TFLLMJapan",
+            "side_count": 1,
+            "sides": [
+              {
+                "offset": "0x228",
+                "serialized_import_index": 1,
+                "offset_in_imp": true,
+                "reference_key": [
+                  "0xf231d60d",
+                  "0x3d6743e8"
+                ],
+                "target": "PlayerTemplate:Japan",
+                "valid": true
+              }
+            ],
+            "binary_sha256": "3512260614c31e1426b9c1ebfd8c03d2e2de13761fe5123a04dcb492f42348e2",
+            "imports_sha256": "d5df93e2312bebaacbfa8967430e1e71d9ac919b4ac3bb4523bd0a220ab4127a",
+            "references_sha256": "d0c63c7304a47a3fd06fff6370b7724360486a2442d3b595b4f811f24293c494"
+          },
+          {
+            "name": "AIPersonalityDefinition:4TFLLMSoviet",
+            "side_count": 1,
+            "sides": [
+              {
+                "offset": "0x22c",
+                "serialized_import_index": 1,
+                "offset_in_imp": true,
+                "reference_key": [
+                  "0xf231d60d",
+                  "0xb610276b"
+                ],
+                "target": "PlayerTemplate:Soviet",
+                "valid": true
+              }
+            ],
+            "binary_sha256": "cf25e6bc812169f367ec97c677a609b70fa80b4337deea8fa813553d7a8d03b9",
+            "imports_sha256": "ed9d7ef10c46e4de8922149fd857c13824d201db7113a33896f71668bc55bd30",
+            "references_sha256": "21e3e5ef185d19430a938f7800a72646531191869b73d2a8bc3d0fdeff018469"
+          }
+        ]
+      },
+      "big": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\native-ai\\side-probes\\20261024-175620\\B_root_metadata_three\\B_root_metadata_three.big",
+      "big_sha256": "132f6b3494a1629bbf3dc20cf5aecfde8773d29fc9083a63b3b6454709c64367",
+      "physical_metadata_required": "Unconfirmed: do not add extra physical copies during the first path-isolation runs."
+    },
+    {
+      "variant": "C_data_metadata_three",
+      "metadata_path": "data/AdditionalMaps",
+      "normal_audit": {
+        "stream": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\native-ai\\side-probes\\20261024-175620\\C_data_metadata_three\\package\\data\\mod.manifest",
+        "manifest_refs_hex": "0173616765786d6c5c7374617469632e6d616e6966657374000173616765786d6c5c676c6f62616c2e6d616e6966657374000173616765786d6c5c617564696f2e6d616e696665737400",
+        "manifest_refs_text": "\u0001sagexml\\static.manifest\u0000\u0001sagexml\\global.manifest\u0000\u0001sagexml\\audio.manifest\u0000",
+        "records": [
+          {
+            "name": "AIPersonalityDefinition:4TFLLMAllied",
+            "side_count": 1,
+            "sides": [
+              {
+                "offset": "0x22c",
+                "serialized_import_index": 1,
+                "offset_in_imp": true,
+                "reference_key": [
+                  "0xf231d60d",
+                  "0x86051f0d"
+                ],
+                "target": "PlayerTemplate:Allies",
+                "valid": true
+              }
+            ],
+            "binary_sha256": "004c4b13ccf9c73e88d371cca08e555a3944a73a002f7e391a0f016ffbc6c55d",
+            "imports_sha256": "002ace3dc8217555e608ba6d86a8e1970b1895e4bbbe99037fbb5a8c26f3e79a",
+            "references_sha256": "8c952fa8122a392786e03ad2e5b0fd951470b83ba6c3880947596e5efcc7bcf0"
+          },
+          {
+            "name": "AIPersonalityDefinition:4TFLLMJapan",
+            "side_count": 1,
+            "sides": [
+              {
+                "offset": "0x228",
+                "serialized_import_index": 1,
+                "offset_in_imp": true,
+                "reference_key": [
+                  "0xf231d60d",
+                  "0x3d6743e8"
+                ],
+                "target": "PlayerTemplate:Japan",
+                "valid": true
+              }
+            ],
+            "binary_sha256": "3512260614c31e1426b9c1ebfd8c03d2e2de13761fe5123a04dcb492f42348e2",
+            "imports_sha256": "d5df93e2312bebaacbfa8967430e1e71d9ac919b4ac3bb4523bd0a220ab4127a",
+            "references_sha256": "d0c63c7304a47a3fd06fff6370b7724360486a2442d3b595b4f811f24293c494"
+          },
+          {
+            "name": "AIPersonalityDefinition:4TFLLMSoviet",
+            "side_count": 1,
+            "sides": [
+              {
+                "offset": "0x22c",
+                "serialized_import_index": 1,
+                "offset_in_imp": true,
+                "reference_key": [
+                  "0xf231d60d",
+                  "0xb610276b"
+                ],
+                "target": "PlayerTemplate:Soviet",
+                "valid": true
+              }
+            ],
+            "binary_sha256": "cf25e6bc812169f367ec97c677a609b70fa80b4337deea8fa813553d7a8d03b9",
+            "imports_sha256": "ed9d7ef10c46e4de8922149fd857c13824d201db7113a33896f71668bc55bd30",
+            "references_sha256": "21e3e5ef185d19430a938f7800a72646531191869b73d2a8bc3d0fdeff018469"
+          },
+          {
+            "name": "AIPersonalityDefinition:4TFLLMRandom",
+            "side_count": 1,
+            "sides": [
+              {
+                "offset": "0x22c",
+                "serialized_import_index": 1,
+                "offset_in_imp": true,
+                "reference_key": [
+                  "0xf231d60d",
+                  "0x17052fac"
+                ],
+                "target": "PlayerTemplate:Null",
+                "valid": true
+              }
+            ],
+            "binary_sha256": "1c3a8b7987c0e332d5a3408d70fc2644cbd1a9cd17c5dc9b239e559fd57caf37",
+            "imports_sha256": "1e444362edc728f0734ad03dff04ece2ffae14b4061bbbaf2bea7b1a6a2ee183",
+            "references_sha256": "5b555192d1c54194e5d24391a82d4c84d77bec579edfd46163478eacb71f0d43"
+          }
+        ]
+      },
+      "metadata": {
+        "source": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\native-ai\\side-probes\\20261024-175620\\C_data_metadata_three\\package\\data\\mod.manifest",
+        "destination": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\native-ai\\side-probes\\20261024-175620\\C_data_metadata_three\\package\\data\\AdditionalMaps\\mapmetadata_commander.manifest",
+        "records": [
+          "AIPersonalityDefinition:4TFLLMAllied",
+          "AIPersonalityDefinition:4TFLLMJapan",
+          "AIPersonalityDefinition:4TFLLMSoviet"
+        ],
+        "sha256": "4aced593a114ccc984142655c5265bd289f322fd6c1bdadbcde56d41c30d1165",
+        "runtime_verified": false
+      },
+      "metadata_audit": {
+        "stream": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\native-ai\\side-probes\\20261024-175620\\C_data_metadata_three\\package\\data\\AdditionalMaps\\mapmetadata_commander.manifest",
+        "manifest_refs_hex": "0173616765786d6c5c7374617469632e6d616e6966657374000173616765786d6c5c676c6f62616c2e6d616e6966657374000173616765786d6c5c617564696f2e6d616e696665737400",
+        "manifest_refs_text": "\u0001sagexml\\static.manifest\u0000\u0001sagexml\\global.manifest\u0000\u0001sagexml\\audio.manifest\u0000",
+        "records": [
+          {
+            "name": "AIPersonalityDefinition:4TFLLMAllied",
+            "side_count": 1,
+            "sides": [
+              {
+                "offset": "0x22c",
+                "serialized_import_index": 1,
+                "offset_in_imp": true,
+                "reference_key": [
+                  "0xf231d60d",
+                  "0x86051f0d"
+                ],
+                "target": "PlayerTemplate:Allies",
+                "valid": true
+              }
+            ],
+            "binary_sha256": "004c4b13ccf9c73e88d371cca08e555a3944a73a002f7e391a0f016ffbc6c55d",
+            "imports_sha256": "002ace3dc8217555e608ba6d86a8e1970b1895e4bbbe99037fbb5a8c26f3e79a",
+            "references_sha256": "8c952fa8122a392786e03ad2e5b0fd951470b83ba6c3880947596e5efcc7bcf0"
+          },
+          {
+            "name": "AIPersonalityDefinition:4TFLLMJapan",
+            "side_count": 1,
+            "sides": [
+              {
+                "offset": "0x228",
+                "serialized_import_index": 1,
+                "offset_in_imp": true,
+                "reference_key": [
+                  "0xf231d60d",
+                  "0x3d6743e8"
+                ],
+                "target": "PlayerTemplate:Japan",
+                "valid": true
+              }
+            ],
+            "binary_sha256": "3512260614c31e1426b9c1ebfd8c03d2e2de13761fe5123a04dcb492f42348e2",
+            "imports_sha256": "d5df93e2312bebaacbfa8967430e1e71d9ac919b4ac3bb4523bd0a220ab4127a",
+            "references_sha256": "d0c63c7304a47a3fd06fff6370b7724360486a2442d3b595b4f811f24293c494"
+          },
+          {
+            "name": "AIPersonalityDefinition:4TFLLMSoviet",
+            "side_count": 1,
+            "sides": [
+              {
+                "offset": "0x22c",
+                "serialized_import_index": 1,
+                "offset_in_imp": true,
+                "reference_key": [
+                  "0xf231d60d",
+                  "0xb610276b"
+                ],
+                "target": "PlayerTemplate:Soviet",
+                "valid": true
+              }
+            ],
+            "binary_sha256": "cf25e6bc812169f367ec97c677a609b70fa80b4337deea8fa813553d7a8d03b9",
+            "imports_sha256": "ed9d7ef10c46e4de8922149fd857c13824d201db7113a33896f71668bc55bd30",
+            "references_sha256": "21e3e5ef185d19430a938f7800a72646531191869b73d2a8bc3d0fdeff018469"
+          }
+        ]
+      },
+      "big": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\native-ai\\side-probes\\20261024-175620\\C_data_metadata_three\\C_data_metadata_three.big",
+      "big_sha256": "43bb1b40b0bce37c13c1058b48ce6901dae556d826fa72ff371fa4eaab9430ec",
+      "physical_metadata_required": "Unconfirmed: do not add extra physical copies during the first path-isolation runs."
+    },
+    {
+      "variant": "D_root_metadata_four",
+      "metadata_path": "AdditionalMaps",
+      "normal_audit": {
+        "stream": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\native-ai\\side-probes\\20261024-175620\\D_root_metadata_four\\package\\data\\mod.manifest",
+        "manifest_refs_hex": "0173616765786d6c5c7374617469632e6d616e6966657374000173616765786d6c5c676c6f62616c2e6d616e6966657374000173616765786d6c5c617564696f2e6d616e696665737400",
+        "manifest_refs_text": "\u0001sagexml\\static.manifest\u0000\u0001sagexml\\global.manifest\u0000\u0001sagexml\\audio.manifest\u0000",
+        "records": [
+          {
+            "name": "AIPersonalityDefinition:4TFLLMAllied",
+            "side_count": 1,
+            "sides": [
+              {
+                "offset": "0x22c",
+                "serialized_import_index": 1,
+                "offset_in_imp": true,
+                "reference_key": [
+                  "0xf231d60d",
+                  "0x86051f0d"
+                ],
+                "target": "PlayerTemplate:Allies",
+                "valid": true
+              }
+            ],
+            "binary_sha256": "004c4b13ccf9c73e88d371cca08e555a3944a73a002f7e391a0f016ffbc6c55d",
+            "imports_sha256": "002ace3dc8217555e608ba6d86a8e1970b1895e4bbbe99037fbb5a8c26f3e79a",
+            "references_sha256": "8c952fa8122a392786e03ad2e5b0fd951470b83ba6c3880947596e5efcc7bcf0"
+          },
+          {
+            "name": "AIPersonalityDefinition:4TFLLMJapan",
+            "side_count": 1,
+            "sides": [
+              {
+                "offset": "0x228",
+                "serialized_import_index": 1,
+                "offset_in_imp": true,
+                "reference_key": [
+                  "0xf231d60d",
+                  "0x3d6743e8"
+                ],
+                "target": "PlayerTemplate:Japan",
+                "valid": true
+              }
+            ],
+            "binary_sha256": "3512260614c31e1426b9c1ebfd8c03d2e2de13761fe5123a04dcb492f42348e2",
+            "imports_sha256": "d5df93e2312bebaacbfa8967430e1e71d9ac919b4ac3bb4523bd0a220ab4127a",
+            "references_sha256": "d0c63c7304a47a3fd06fff6370b7724360486a2442d3b595b4f811f24293c494"
+          },
+          {
+            "name": "AIPersonalityDefinition:4TFLLMSoviet",
+            "side_count": 1,
+            "sides": [
+              {
+                "offset": "0x22c",
+                "serialized_import_index": 1,
+                "offset_in_imp": true,
+                "reference_key": [
+                  "0xf231d60d",
+                  "0xb610276b"
+                ],
+                "target": "PlayerTemplate:Soviet",
+                "valid": true
+              }
+            ],
+            "binary_sha256": "cf25e6bc812169f367ec97c677a609b70fa80b4337deea8fa813553d7a8d03b9",
+            "imports_sha256": "ed9d7ef10c46e4de8922149fd857c13824d201db7113a33896f71668bc55bd30",
+            "references_sha256": "21e3e5ef185d19430a938f7800a72646531191869b73d2a8bc3d0fdeff018469"
+          },
+          {
+            "name": "AIPersonalityDefinition:4TFLLMRandom",
+            "side_count": 1,
+            "sides": [
+              {
+                "offset": "0x22c",
+                "serialized_import_index": 1,
+                "offset_in_imp": true,
+                "reference_key": [
+                  "0xf231d60d",
+                  "0x17052fac"
+                ],
+                "target": "PlayerTemplate:Null",
+                "valid": true
+              }
+            ],
+            "binary_sha256": "1c3a8b7987c0e332d5a3408d70fc2644cbd1a9cd17c5dc9b239e559fd57caf37",
+            "imports_sha256": "1e444362edc728f0734ad03dff04ece2ffae14b4061bbbaf2bea7b1a6a2ee183",
+            "references_sha256": "5b555192d1c54194e5d24391a82d4c84d77bec579edfd46163478eacb71f0d43"
+          }
+        ]
+      },
+      "metadata": {
+        "source": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\native-ai\\side-probes\\20261024-175620\\D_root_metadata_four\\package\\data\\mod.manifest",
+        "destination": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\native-ai\\side-probes\\20261024-175620\\D_root_metadata_four\\package\\AdditionalMaps\\mapmetadata_commander.manifest",
+        "records": [
+          "AIPersonalityDefinition:4TFLLMAllied",
+          "AIPersonalityDefinition:4TFLLMJapan",
+          "AIPersonalityDefinition:4TFLLMSoviet",
+          "AIPersonalityDefinition:4TFLLMRandom"
+        ],
+        "sha256": "8218b2d89a64e4abf549b12459be8e401eea301808483f0e14e8faf1aa805403",
+        "runtime_verified": false
+      },
+      "metadata_audit": {
+        "stream": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\native-ai\\side-probes\\20261024-175620\\D_root_metadata_four\\package\\AdditionalMaps\\mapmetadata_commander.manifest",
+        "manifest_refs_hex": "0173616765786d6c5c7374617469632e6d616e6966657374000173616765786d6c5c676c6f62616c2e6d616e6966657374000173616765786d6c5c617564696f2e6d616e696665737400",
+        "manifest_refs_text": "\u0001sagexml\\static.manifest\u0000\u0001sagexml\\global.manifest\u0000\u0001sagexml\\audio.manifest\u0000",
+        "records": [
+          {
+            "name": "AIPersonalityDefinition:4TFLLMAllied",
+            "side_count": 1,
+            "sides": [
+              {
+                "offset": "0x22c",
+                "serialized_import_index": 1,
+                "offset_in_imp": true,
+                "reference_key": [
+                  "0xf231d60d",
+                  "0x86051f0d"
+                ],
+                "target": "PlayerTemplate:Allies",
+                "valid": true
+              }
+            ],
+            "binary_sha256": "004c4b13ccf9c73e88d371cca08e555a3944a73a002f7e391a0f016ffbc6c55d",
+            "imports_sha256": "002ace3dc8217555e608ba6d86a8e1970b1895e4bbbe99037fbb5a8c26f3e79a",
+            "references_sha256": "8c952fa8122a392786e03ad2e5b0fd951470b83ba6c3880947596e5efcc7bcf0"
+          },
+          {
+            "name": "AIPersonalityDefinition:4TFLLMJapan",
+            "side_count": 1,
+            "sides": [
+              {
+                "offset": "0x228",
+                "serialized_import_index": 1,
+                "offset_in_imp": true,
+                "reference_key": [
+                  "0xf231d60d",
+                  "0x3d6743e8"
+                ],
+                "target": "PlayerTemplate:Japan",
+                "valid": true
+              }
+            ],
+            "binary_sha256": "3512260614c31e1426b9c1ebfd8c03d2e2de13761fe5123a04dcb492f42348e2",
+            "imports_sha256": "d5df93e2312bebaacbfa8967430e1e71d9ac919b4ac3bb4523bd0a220ab4127a",
+            "references_sha256": "d0c63c7304a47a3fd06fff6370b7724360486a2442d3b595b4f811f24293c494"
+          },
+          {
+            "name": "AIPersonalityDefinition:4TFLLMSoviet",
+            "side_count": 1,
+            "sides": [
+              {
+                "offset": "0x22c",
+                "serialized_import_index": 1,
+                "offset_in_imp": true,
+                "reference_key": [
+                  "0xf231d60d",
+                  "0xb610276b"
+                ],
+                "target": "PlayerTemplate:Soviet",
+                "valid": true
+              }
+            ],
+            "binary_sha256": "cf25e6bc812169f367ec97c677a609b70fa80b4337deea8fa813553d7a8d03b9",
+            "imports_sha256": "ed9d7ef10c46e4de8922149fd857c13824d201db7113a33896f71668bc55bd30",
+            "references_sha256": "21e3e5ef185d19430a938f7800a72646531191869b73d2a8bc3d0fdeff018469"
+          },
+          {
+            "name": "AIPersonalityDefinition:4TFLLMRandom",
+            "side_count": 1,
+            "sides": [
+              {
+                "offset": "0x22c",
+                "serialized_import_index": 1,
+                "offset_in_imp": true,
+                "reference_key": [
+                  "0xf231d60d",
+                  "0x17052fac"
+                ],
+                "target": "PlayerTemplate:Null",
+                "valid": true
+              }
+            ],
+            "binary_sha256": "1c3a8b7987c0e332d5a3408d70fc2644cbd1a9cd17c5dc9b239e559fd57caf37",
+            "imports_sha256": "1e444362edc728f0734ad03dff04ece2ffae14b4061bbbaf2bea7b1a6a2ee183",
+            "references_sha256": "5b555192d1c54194e5d24391a82d4c84d77bec579edfd46163478eacb71f0d43"
+          }
+        ]
+      },
+      "big": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\native-ai\\side-probes\\20261024-175620\\D_root_metadata_four\\D_root_metadata_four.big",
+      "big_sha256": "9d9d4d5f850c92002e650080f230fbd97e4e4db7b8c5342edd6d8b166b8cf4f8",
+      "physical_metadata_required": "Unconfirmed: do not add extra physical copies during the first path-isolation runs."
+    }
+  ]
+}

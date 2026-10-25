@@ -1,0 +1,254 @@
+{
+  "status": "real_effect_but_retreat_not_verified",
+  "source_report": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\harass-mct2-01.json",
+  "source_sha256": "24e0d2029b571dfcbeeeb49c12e3796fa83e516ae51ab40d4a6dbbe29ced3479",
+  "assessment": {
+    "status": "not_passed",
+    "checks": {
+      "certified_revision": true,
+      "launch_intent": true,
+      "finished": true,
+      "binding": true,
+      "actor_target_scope": true,
+      "ordered_log": true,
+      "thread_owner": true,
+      "critical_finite": true,
+      "clean_restore": true,
+      "mission_deadline": true,
+      "phase_limits": true,
+      "stage_sequence": true,
+      "success_reason": false,
+      "stop_0": true,
+      "stop_6": true,
+      "stop_4": true,
+      "stop_7": true,
+      "stop_2": true,
+      "normal_stop_counts": true,
+      "button_identity": true,
+      "optional_prepare": true,
+      "normal_move_chains": true,
+      "waypoint_arrival_raw": true,
+      "full_visible_target_path_requests": true,
+      "actual_own_checkpoints": true,
+      "approach_live_start": true,
+      "approach_effect": true,
+      "retreat_effect": false,
+      "normal_script_attack": true,
+      "stop_prepare_attack_retreat_order": false,
+      "private_stop_pairs": true,
+      "direct_source_effect": true,
+      "same_entry_ammo": true,
+      "immutable_ak_asset": true,
+      "no_native_override": true,
+      "native_pool_return": true
+    },
+    "effect_verified": true,
+    "approach_verified": true,
+    "long_approach_verified": true,
+    "long_retreat_verified": false,
+    "retreat_verified": false,
+    "restoration_verified": true,
+    "new_order_fire_association_verified": true,
+    "source_damage_amount": 5.0,
+    "qualified_hits": [
+      {
+        "body_event_seq": 467,
+        "commit_event_seq": 466,
+        "ammo_event_seq": 469,
+        "body_frame": 1921,
+        "damage": 5.0,
+        "packet": {
+          "argument_address": "0x1af18c",
+          "source_actor_id": 783,
+          "weapon_asset_id": "0x447ea26e",
+          "warhead_asset_id": "0x447ea26e",
+          "damage_type": "GUN",
+          "damage_type_id": 21,
+          "requested_damage": 5.0,
+          "actual_damage": 5.0,
+          "packet_word_offset": 32,
+          "caller_return": "0x78e313"
+        }
+      }
+    ],
+    "harass_economy_verified": false,
+    "actor_roles": [
+      "infantry"
+    ],
+    "restoration": {
+      "restoration_verified": true,
+      "control_release_verified": true,
+      "return_verified": true,
+      "disposed_verified": false,
+      "semantics": "native_pool_return",
+      "completion_claim": false
+    },
+    "reason_code": "retreat_failed",
+    "mission_protocol": "continuous_tactical_v1",
+    "source_report": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\harass-mct2-01.json",
+    "source_sha256": "24e0d2029b571dfcbeeeb49c12e3796fa83e516ae51ab40d4a6dbbe29ced3479",
+    "qualifier_sha256": "b2a83aa477fa342a3cc8e73ec1b90cc2c0a551802c4478698121ff9d570bf7f8",
+    "supplemental_sources": [
+      {
+        "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\tactical\\mission-combat-v2\\mission_tick.inc",
+        "sha256": "7eafa026a504bc7dc16b11c8b8aef88481d937f778e32e4ea471038b36dc95ab",
+        "purpose": "immutable_mission_source"
+      },
+      {
+        "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\tactical\\mission-combat-v2\\mission_contract.py",
+        "sha256": "ab8dae01f76e3626affc930b642e668dc9b481cf998783fb2597c6991930b901",
+        "purpose": "immutable_mission_source"
+      },
+      {
+        "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\tactical\\pre_dispatch_v2_contract.py",
+        "sha256": "842d59bf539d90c62d3fe288926370970ac6841dfff344e005bff3c98359feb6",
+        "purpose": "pre_native_launch_boundary"
+      }
+    ],
+    "sdk_source": {
+      "name": "SovietAntiInfantryInfantryAK47",
+      "source_sha256": "7a82e52aa6142f96271173195366227b21a552657bd683f7a33a22e770e1bad1",
+      "clip_size": 3,
+      "damage_type": "GUN",
+      "damage_delay_seconds": 0.0,
+      "projectile_nugget": false
+    }
+  },
+  "actual_move_commands": [
+    {
+      "frame": 1260,
+      "mission_stage": 2,
+      "x": 2590.0,
+      "y": 2970.0,
+      "z": 210.0,
+      "command_xyz": [
+        1532.6226806640625,
+        1267.5201416015625,
+        210.0
+      ]
+    },
+    {
+      "frame": 1927,
+      "mission_stage": 8,
+      "x": 1543.0635986328125,
+      "y": 1391.907470703125,
+      "z": 210.0,
+      "command_xyz": [
+        1592.957763671875,
+        1450.1173095703125,
+        210.0
+      ]
+    },
+    {
+      "frame": 1950,
+      "mission_stage": 8,
+      "x": 1590.0,
+      "y": 1450.0,
+      "z": 210.0,
+      "command_xyz": [
+        1635.89013671875,
+        1567.088134765625,
+        210.0
+      ]
+    },
+    {
+      "frame": 1988,
+      "mission_stage": 8,
+      "x": 1630.0,
+      "y": 1570.0,
+      "z": 210.0,
+      "command_xyz": [
+        1667.6689453125,
+        1686.258544921875,
+        210.0
+      ]
+    },
+    {
+      "frame": 2024,
+      "mission_stage": 8,
+      "x": 1667.94677734375,
+      "y": 1683.84033203125,
+      "z": 210.0,
+      "command_xyz": [
+        1718.2855224609375,
+        1798.2855224609375,
+        210.0
+      ]
+    },
+    {
+      "frame": 2062,
+      "mission_stage": 8,
+      "x": 1709.6859130859375,
+      "y": 1789.2071533203125,
+      "z": 210.0,
+      "command_xyz": [
+        1811.0416259765625,
+        1883.54150390625,
+        210.0
+      ]
+    }
+  ],
+  "retreat_tail": [
+    {
+      "frame": 2347,
+      "x": 1790.0,
+      "y": 1890.0,
+      "z": 210.0,
+      "status84": 0,
+      "state_id": 16,
+      "path": 0,
+      "requested": [
+        1811.0416259765625,
+        1883.54150390625,
+        210.0
+      ],
+      "effective": [
+        1811.0416259765625,
+        1883.54150390625,
+        210.0
+      ],
+      "move_index": 6
+    },
+    {
+      "frame": 2349,
+      "x": 1790.0,
+      "y": 1890.0,
+      "z": 210.0,
+      "status84": 0,
+      "state_id": 16,
+      "path": 0,
+      "requested": [
+        1811.0416259765625,
+        1883.54150390625,
+        210.0
+      ],
+      "effective": [
+        1811.0416259765625,
+        1883.54150390625,
+        210.0
+      ],
+      "move_index": 6
+    },
+    {
+      "frame": 2351,
+      "x": 1790.0,
+      "y": 1890.0,
+      "z": 210.0,
+      "status84": 0,
+      "state_id": 16,
+      "path": 0,
+      "requested": [
+        1811.0416259765625,
+        1883.54150390625,
+        210.0
+      ],
+      "effective": [
+        1811.0416259765625,
+        1883.54150390625,
+        210.0
+      ],
+      "move_index": 6
+    }
+  ],
+  "note": "Actual full-target approach and source damage verified. Fractional previously crossed checkpoint was not reached within15; final origin was not reached. Native pool return and hook cleanup are separate and verified. No threshold or original record changed."
+}

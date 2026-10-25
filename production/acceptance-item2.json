@@ -1,0 +1,117 @@
+{
+  "item": 2,
+  "status": "not_passed",
+  "software": {
+    "readonly_sampler": "implemented",
+    "parser_guard_tests": {
+      "passed": 9,
+      "failed": 0
+    },
+    "passive_observer": "built_and_orchestrator_executed",
+    "passive_observer_run": {
+      "path": "../acceptance/runs/20261024-175301/production-observer.json",
+      "pid": 33852,
+      "duration_seconds": 30,
+      "state": 2,
+      "error": 0,
+      "original_bytes_restored": true,
+      "active_detours": 0,
+      "total_build_calls": 2,
+      "natural_queue_nodes_matched": 2,
+      "natural_caller": "0x004f49e7",
+      "natural_call_thread": 58012,
+      "window_thread": 58012,
+      "scenario_limit": "Early live AI construction observed; no bridge-requested production or spend/exit correlation."
+    },
+    "oneshot_flak": "bounded_append_0_default_max2_explicit_built; new active test pending",
+    "oneshot_python_syntax": "passed",
+    "dispatch_evidence_tests": {
+      "passed": 4,
+      "failed": 0,
+      "scope": "mock failures; no native process or game calls"
+    },
+    "total_tests": {
+      "passed": 37,
+      "failed": 0
+    },
+    "durable_dispatch_reporting": "startup record and fsync before dispatch; finally records timeout/launch/parse failures",
+    "trace_observer": "built_and_passive_live_validated",
+    "session_mod_package": "explicit_mod_big_or_unique_adjacent_skudef_add_big_with_strict_sha256",
+    "persistent_executor": "v1 Conscript live smoke passed; v2 adds pause guard with 22 tests, fresh live test pending",
+    "persistent_capability_evidence": "persistent/capability-evidence.json"
+  },
+  "live_observations": {
+    "resource_object": true,
+    "factory_production_interface": true,
+    "native_queue_layout": "static_crosscheck_and_two_natural_enqueue_return_matches",
+    "session_lifecycle_rejection": true,
+    "current_live_snapshot": "../reports/snapshot-20261024-175542.json",
+    "current_readonly_sample": "observation-20261024-175546.json",
+    "natural_production_command_thread_observed": true,
+    "general_simulation_tick_phase_confirmed": false,
+    "natural_paid_create_complete_live_chains": {
+      "verified": 4,
+      "pid": 40632,
+      "queue_ids": [
+        21,
+        22,
+        23,
+        24
+      ],
+      "cost_each": 220,
+      "actual_debits_each": 220,
+      "object_ids": [
+        797,
+        799,
+        801,
+        803
+      ],
+      "path": "../acceptance/runs/20261024-182145-commander/production-trace-20261024-182801-e05b157f-natural-assessment.json",
+      "bridge_enqueue": false
+    },
+    "clock_validation": "clock-validation-20261024-182801.json",
+    "selected_production_tick_thread_observed": true,
+    "thread_scope": "Selected Soviet barracks natural tick/payment/create chain on the observed window thread; no claim about all simulation subsystems."
+  },
+  "actual_game_calls": {
+    "active_enqueue": true,
+    "spawn": false,
+    "resource_mutation": false,
+    "component_toggle": false,
+    "orchestrator_wrapper_attempted": true,
+    "result_evidence_available": false,
+    "retry_performed": false,
+    "diagnostic_readonly_mapping": {
+      "path": "oneshot-mapping-read-20261024-180516.json",
+      "available": false,
+      "win32_error": 2,
+      "inference": "No retained result; does not establish success or reconstruct prior execution."
+    },
+    "latest_attempt": {
+      "pid": 46760,
+      "session_id": "00b2ebe2-8de3-4308-ab60-e8bba2fbe838",
+      "outcome": "primitive_verified",
+      "queue_id": 1,
+      "node": "0x4f12a88",
+      "cost": 220,
+      "debit_count": 90,
+      "actual_paid": 220,
+      "object_id": 768,
+      "live_samples": 57,
+      "max_distance_from_factory": 298.9984073839704,
+      "path": "../acceptance/runs/20261024-183816-commander/production-trace-20261024-184048-9696c7b3-assessment.json"
+    }
+  },
+  "acceptance": {
+    "runtime_direction_switch": false,
+    "correlated_queue_entry": true,
+    "attributable_spend": true,
+    "correlated_unit_exit": true,
+    "production_simulation_thread": true,
+    "natural_enqueue_queue_correlation": true,
+    "bridge_enqueue_queue_correlation": true,
+    "production_primitive_verified": true,
+    "persistent_conscript_completed_verified": true
+  },
+  "reason": "Active Flak primitive and persistent Conscript both passed actual payment/create/completion/live-object chains; persistent dedup and clean stop validated. Pause guard v2 built and unit tested. Macro model-driven direction change and a full valid match remain the parent host's pending live acceptance."
+}

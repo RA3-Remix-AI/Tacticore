@@ -1,0 +1,4293 @@
+<?xml version="1.0" encoding="utf-8"?>
+<aptdata>
+  <movieclip>
+    <imports>
+      <import name="lowerScreenBar Symbol" movie=".\Components\fe_m_generalScreenComponents" character="3"/>
+      <import name="startPositionButtonContent" movie="screens/fe_m_assetsGameSetup" character="4"/>
+      <import name="gameSettings_skirmish" movie="screens/fe_m_assetsGameSetup" character="5"/>
+      <import name="std_MousebuttonSymbol" movie="../cafe/mouseComponents/std_MouseButton" character="14"/>
+      <import name="std_MousebuttonSymbol" movie="../cafe/mouseComponents/std_MouseButton" character="15"/>
+      <import name="std_mouseDropDownMenuSymbol" movie="../cafe/mouseComponents/std_mouseDropDownMenu" character="23"/>
+      <import name="ScreenTitleBarSymbol" movie=".\Components\fe_m_generalScreenComponents" character="25"/>
+    </imports>
+    <exports>
+      <export name="__Packages.Cafe2_BaseUIScreen" character="26"/>
+      <export name="__Packages.IListboxEventListener" character="27"/>
+      <export name="__Packages.GameSetupBase" character="28"/>
+      <export name="__Packages.fes_m_skirmishGameSetup" character="29"/>
+    </exports>
+    <frames>
+      <frame id="0">
+        <background color="4288256409"/>
+        <action>
+          <pushstring str="screen"/>
+          <pushthis/>
+          <pushone/>
+          <pushstring str="fes_m_skirmishGameSetup"/>
+          <new/>
+          <definelocal/>
+          <noarg action="7"/>
+          <end/>
+        </action>
+        <placeobject depth="1" character="2" rotm00="1" rotm01="0" rotm10="0" rotm11="1" tx="0" ty="0" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasMatrix"/>
+        </placeobject>
+        <placeobject depth="2" character="3" rotm00="1" rotm01="0" rotm10="0" rotm11="1" tx="0" ty="686.79999" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasMatrix"/>
+        </placeobject>
+        <placeobject depth="4" character="4" rotm00="1" rotm01="0" rotm10="0" rotm11="1" tx="1020.3" ty="-46.650002" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasMatrix"/>
+        </placeobject>
+        <placeobject depth="9" character="5" rotm00="1" rotm01="0" rotm10="0" rotm11="1" tx="199.10001" ty="93.300003" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasMatrix|HasName"/>
+          <poname name="gameSettings"/>
+        </placeobject>
+        <placeobject depth="31" character="6" rotm00="1" rotm01="0" rotm10="0" rotm11="1.0002136" tx="191.5" ty="86.650002" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasMatrix"/>
+        </placeobject>
+        <placeobject depth="32" character="7" rotm00="1" rotm01="0" rotm10="0" rotm11="1.0002136" tx="196.10001" ty="147.2" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasMatrix"/>
+        </placeobject>
+        <placeobject depth="33" character="9" rotm00="1" rotm01="0" rotm10="0" rotm11="1.0002136" tx="191.5" ty="86.650002" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasMatrix"/>
+        </placeobject>
+        <placeobject depth="34" character="11" rotm00="1" rotm01="0" rotm10="0" rotm11="1.0002136" tx="198.10001" ty="126.7" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasMatrix"/>
+        </placeobject>
+        <placeobject depth="35" character="12" rotm00="1" rotm01="0" rotm10="0" rotm11="1.0002136" tx="748.90002" ty="126.7" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasMatrix"/>
+        </placeobject>
+        <placeobject depth="36" character="13" rotm00="1" rotm01="0" rotm10="0" rotm11="1.0002136" tx="225.5" ty="96.650002" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasMatrix"/>
+        </placeobject>
+        <placeobject depth="37" character="7" rotm00="0" rotm01="0.25300598" rotm10="-1" rotm11="0" tx="550.65002" ty="150.3" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasMatrix"/>
+        </placeobject>
+        <placeobject depth="38" character="7" rotm00="0.00010681152" rotm01="0.28160095" rotm10="-0.99998474" rotm11="9.1552734e-05" tx="746.59998" ty="122.05" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasMatrix"/>
+        </placeobject>
+        <placeobject depth="39" character="14" rotm00="1" rotm01="0" rotm10="0" rotm11="1" tx="344" ty="693" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasClipActions|HasMatrix|HasName"/>
+          <poname name="backButton"/>
+          <clipactions>
+            <clipaction flags="262144" flags2="0">
+              <pushstring str="m_width"/>
+              <pushshort val="200"/>
+              <setvariable/>
+              <pushstring str="m_textAlign"/>
+              <pushfalse/>
+              <setvariable/>
+              <pushstring str="m_labelPosition"/>
+              <setstringvar str="right align"/>
+              <pushstring str="m_label_x"/>
+              <noarg action="114"/>
+              <pushstring str="m_label_y"/>
+              <noarg action="114"/>
+              <pushstring str="m_focusDirs"/>
+              <setstringvar str="Up/Down"/>
+              <pushstring str="m_iconType"/>
+              <setstringvar str="default"/>
+              <pushstring str="m_extLabel"/>
+              <setstringvar str=""/>
+              <pushstring str="m_nTruncateType"/>
+              <noarg action="114"/>
+              <pushstring str="m_label"/>
+              <setstringvar str="$Back"/>
+              <pushstring str="m_bEnabled"/>
+              <pushtrue/>
+              <setvariable/>
+              <pushstring str="m_refFM"/>
+              <setstringvar str="_root.gFM"/>
+              <pushstring str="m_initiallySelected"/>
+              <pushfalse/>
+              <setvariable/>
+              <pushstring str="m_tabIndex"/>
+              <pushbyte val="255"/>
+              <setvariable/>
+              <pushstring str="m_bVisible"/>
+              <pushtrue/>
+              <setvariable/>
+              <pushstring str="m_contentSymbol"/>
+              <setstringvar str="buttonContentSymbol"/>
+              <end/>
+            </clipaction>
+          </clipactions>
+        </placeobject>
+        <placeobject depth="41" character="14" rotm00="1" rotm01="0" rotm10="0" rotm11="1" tx="819.5" ty="693" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasClipActions|HasMatrix|HasName"/>
+          <poname name="playButton"/>
+          <clipactions>
+            <clipaction flags="262144" flags2="0">
+              <pushstring str="m_width"/>
+              <pushshort val="200"/>
+              <setvariable/>
+              <pushstring str="m_textAlign"/>
+              <pushfalse/>
+              <setvariable/>
+              <pushstring str="m_labelPosition"/>
+              <setstringvar str="right align"/>
+              <pushstring str="m_label_x"/>
+              <noarg action="114"/>
+              <pushstring str="m_label_y"/>
+              <noarg action="114"/>
+              <pushstring str="m_focusDirs"/>
+              <setstringvar str="Up/Down"/>
+              <pushstring str="m_iconType"/>
+              <setstringvar str="default"/>
+              <pushstring str="m_extLabel"/>
+              <setstringvar str=""/>
+              <pushstring str="m_nTruncateType"/>
+              <noarg action="114"/>
+              <pushstring str="m_label"/>
+              <setstringvar str="$StartGame"/>
+              <pushstring str="m_bEnabled"/>
+              <pushtrue/>
+              <setvariable/>
+              <pushstring str="m_refFM"/>
+              <setstringvar str="_root.gFM"/>
+              <pushstring str="m_initiallySelected"/>
+              <pushfalse/>
+              <setvariable/>
+              <pushstring str="m_tabIndex"/>
+              <pushbyte val="255"/>
+              <setvariable/>
+              <pushstring str="m_bVisible"/>
+              <pushtrue/>
+              <setvariable/>
+              <pushstring str="m_contentSymbol"/>
+              <setstringvar str="buttonContentSymbol"/>
+              <end/>
+            </clipaction>
+          </clipactions>
+        </placeobject>
+        <placeobject depth="43" character="15" rotm00="1" rotm01="0" rotm10="0" rotm11="1" tx="581.75" ty="693" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasClipActions|HasMatrix|HasName"/>
+          <poname name="loadButton"/>
+          <clipactions>
+            <clipaction flags="262144" flags2="0">
+              <pushstring str="m_focusDirs"/>
+              <setstringvar str="Up/Down"/>
+              <pushstring str="m_bEnabled"/>
+              <pushtrue/>
+              <setvariable/>
+              <pushstring str="m_refFM"/>
+              <setstringvar str="_root.gFM"/>
+              <pushstring str="m_initiallySelected"/>
+              <pushfalse/>
+              <setvariable/>
+              <pushstring str="m_tabIndex"/>
+              <pushbyte val="255"/>
+              <setvariable/>
+              <pushstring str="m_bVisible"/>
+              <pushtrue/>
+              <setvariable/>
+              <pushstring str="m_label"/>
+              <setstringvar str="$LOAD"/>
+              <pushstring str="m_contentSymbol"/>
+              <setstringvar str="buttonContentSymbol"/>
+              <end/>
+            </clipaction>
+          </clipactions>
+        </placeobject>
+        <placeobject depth="46" character="16" rotm00="1" rotm01="0" rotm10="0" rotm11="1.0002289" tx="191.5" ty="414.10001" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasMatrix"/>
+        </placeobject>
+        <placeobject depth="47" character="7" rotm00="1" rotm01="0" rotm10="0" rotm11="1.0002289" tx="196.10001" ty="473.64999" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasMatrix"/>
+        </placeobject>
+        <placeobject depth="48" character="7" rotm00="1" rotm01="0" rotm10="0" rotm11="1.0002289" tx="198.8" ty="502.85001" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasMatrix"/>
+        </placeobject>
+        <placeobject depth="49" character="7" rotm00="1" rotm01="0" rotm10="0" rotm11="1.0002289" tx="196.8" ty="530.90002" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasMatrix"/>
+        </placeobject>
+        <placeobject depth="50" character="7" rotm00="1" rotm01="0" rotm10="0" rotm11="1.0002289" tx="196.35001" ty="558.90002" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasMatrix"/>
+        </placeobject>
+        <placeobject depth="51" character="7" rotm00="1" rotm01="0" rotm10="0" rotm11="1.0002289" tx="195.35001" ty="586.90002" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasMatrix"/>
+        </placeobject>
+        <placeobject depth="52" character="7" rotm00="1" rotm01="0" rotm10="0" rotm11="1.0002289" tx="196.10001" ty="613.90002" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasMatrix"/>
+        </placeobject>
+        <placeobject depth="53" character="7" rotm00="0" rotm01="0.20370483" rotm10="-1" rotm11="0" tx="536.79999" ty="446.10001" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasMatrix"/>
+        </placeobject>
+        <placeobject depth="54" character="7" rotm00="0" rotm01="0.20370483" rotm10="-1" rotm11="0" tx="683.90002" ty="446.10001" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasMatrix"/>
+        </placeobject>
+        <placeobject depth="55" character="7" rotm00="0" rotm01="0.20370483" rotm10="-1" rotm11="0" tx="919.90002" ty="446.10001" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasMatrix"/>
+        </placeobject>
+        <placeobject depth="56" character="7" rotm00="0" rotm01="0.20370483" rotm10="-1" rotm11="0" tx="1045.9" ty="446.10001" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasMatrix"/>
+        </placeobject>
+        <placeobject depth="57" character="9" rotm00="1" rotm01="0" rotm10="0" rotm11="1.0002289" tx="191.5" ty="414.10001" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasMatrix"/>
+        </placeobject>
+        <placeobject depth="58" character="17" rotm00="1" rotm01="0" rotm10="0" rotm11="1.0002289" tx="203.5" ty="454.14999" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasMatrix"/>
+        </placeobject>
+        <placeobject depth="59" character="18" rotm00="1" rotm01="0" rotm10="0" rotm11="1.0002289" tx="541.79999" ty="454.14999" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasMatrix"/>
+        </placeobject>
+        <placeobject depth="60" character="19" rotm00="1" rotm01="0" rotm10="0" rotm11="1.0002289" tx="689" ty="454.14999" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasMatrix"/>
+        </placeobject>
+        <placeobject depth="61" character="20" rotm00="1" rotm01="0" rotm10="0" rotm11="1.0002289" tx="926.04999" ty="454.14999" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasMatrix"/>
+        </placeobject>
+        <placeobject depth="62" character="21" rotm00="1.000473" rotm01="0" rotm10="0" rotm11="1.0022888" tx="1051.9" ty="454.10001" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasMatrix"/>
+        </placeobject>
+        <placeobject depth="63" character="22" rotm00="1" rotm01="0" rotm10="0" rotm11="1.0002289" tx="225.5" ty="424.10001" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasMatrix"/>
+        </placeobject>
+        <placeobject depth="64" character="24" rotm00="1" rotm01="0" rotm10="0" rotm11="1" tx="207.5" ty="614" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasMatrix|HasName"/>
+          <poname name="slotMC_6"/>
+        </placeobject>
+        <placeobject depth="74" character="24" rotm00="1" rotm01="0" rotm10="0" rotm11="1" tx="207.5" ty="587" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasMatrix|HasName"/>
+          <poname name="slotMC_5"/>
+        </placeobject>
+        <placeobject depth="84" character="24" rotm00="1" rotm01="0" rotm10="0" rotm11="1" tx="207.5" ty="560" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasMatrix|HasName"/>
+          <poname name="slotMC_4"/>
+        </placeobject>
+        <placeobject depth="94" character="24" rotm00="1" rotm01="0" rotm10="0" rotm11="1" tx="207.5" ty="532" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasMatrix|HasName"/>
+          <poname name="slotMC_3"/>
+        </placeobject>
+        <placeobject depth="104" character="24" rotm00="1" rotm01="0" rotm10="0" rotm11="1" tx="207.5" ty="503" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasMatrix|HasName"/>
+          <poname name="slotMC_2"/>
+        </placeobject>
+        <placeobject depth="114" character="24" rotm00="1" rotm01="0" rotm10="0" rotm11="1" tx="207.5" ty="474" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasMatrix|HasName"/>
+          <poname name="slotMC_1"/>
+        </placeobject>
+        <placeobject depth="124" character="25" rotm00="1" rotm01="0" rotm10="0" rotm11="1" tx="0" ty="19.4" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasClipActions|HasMatrix"/>
+          <clipactions>
+            <clipaction flags="262144" flags2="0">
+              <pushstring str="m_title"/>
+              <setstringvar str="$SKIRMISH_LOBBY_SCREEN_TITLE"/>
+              <pushstring str="m_DropShadow"/>
+              <pushtrue/>
+              <setvariable/>
+              <pushstring str="m_Outline"/>
+              <pushtrue/>
+              <setvariable/>
+              <pushstring str="m_visible"/>
+              <pushtrue/>
+              <setvariable/>
+              <end/>
+            </clipaction>
+          </clipactions>
+        </placeobject>
+        <initaction sprite="26">
+          <constantpool>
+            <constant id="0" string="_global"/>
+            <constant id="1" string="Cafe2_BaseUIScreen"/>
+            <constant id="2" string="m_screen"/>
+            <constant id="3" string="onEnterFrame"/>
+            <constant id="4" string="frameDelayedInitCallback"/>
+            <constant id="5" string="bind0"/>
+            <constant id="6" string="prototype"/>
+            <constant id="7" string="frameDelayedInit"/>
+            <constant id="8" string="
+
+Cafe2_BaseUIScreen::frameDelayedInitCallback() :"/>
+            <constant id="9" string="
+screens and move the call to initGUI() to frameDelayedInit().
+"/>
+            <constant id="10" string="N.B. You *must* override frameDelayedInit() in your"/>
+            <constant id="11" string="Array"/>
+            <constant id="12" string="outtroComplete"/>
+            <constant id="13" string="Cafe2_BaseUIScreen::outtroComplete() "/>
+            <constant id="14" string="m_thisClass"/>
+            <constant id="15" string="m_uiComponentArray"/>
+            <constant id="16" string="length"/>
+            <constant id="17" string="splice"/>
+            <constant id="18" string="m_changeToScreen"/>
+            <constant id="19" string="gSM"/>
+            <constant id="20" string="changeMainScreen"/>
+            <constant id="21" string="introComplete"/>
+            <constant id="22" string="Cafe2_BaseUIScreen::introComplete()"/>
+            <constant id="23" string="restoreVisualState"/>
+            <constant id="24" string="m_introCount"/>
+            <constant id="25" string="onIntrosComplete"/>
+            <constant id="26" string="Cafe2_BaseUIScreen::onIntrosComplete()"/>
+            <constant id="27" string="localEventHandler"/>
+            <constant id="28" string="gEH"/>
+            <constant id="29" string="setLocalEventHandler"/>
+            <constant id="30" string="enableCurrentLocalEventHandler"/>
+            <constant id="31" string="registerIntroOuttroComponents"/>
+            <constant id="32" string="Cafe2_BaseUIScreen::registerIntroOuttroComponents()"/>
+            <constant id="33" string="setIntroCallback"/>
+            <constant id="34" string="executeBackFunction"/>
+            <constant id="35" string="Cafe2_BaseUIScreen::executeBackFunction"/>
+            <constant id="36" string="goBackScreen"/>
+            <constant id="37" string="startIntro"/>
+            <constant id="38" string="Cafe2_BaseUIScreen::startIntro()"/>
+            <constant id="39" string="intro"/>
+            <constant id="40" string="startOuttro"/>
+            <constant id="41" string="Cafe2_BaseUIScreen::startOuttro"/>
+            <constant id="42" string="outtro"/>
+            <constant id="43" string="startOuttroAndCallBack"/>
+            <constant id="44" string="m_executeOuttroCallBack"/>
+            <constant id="45" string="outtroAndCallBackComplete"/>
+            <constant id="46" string="backButtonClicked"/>
+            <constant id="47" string="Cafe2_BaseUIScreen::backButtonClicked()"/>
+            <constant id="48" string="Cafe2_BaseUIScreen::localEventHandler() keyCode == "/>
+            <constant id="49" string="gFM"/>
+            <constant id="50" string="handleDefaultInputs"/>
+            <constant id="51" string="clearData"/>
+            <constant id="52" string="obj"/>
+            <constant id="53" string="func"/>
+            <constant id="54" string="call"/>
+            <constant id="55" string="ASSetPropFlags"/>
+          </constantpool>
+          <pushglobal/>
+          <getnamedmember val="1"/>
+          <logicalnot/>
+          <logicalnot/>
+          <branchiftrue offset="1642" target="L30"/>
+          <pushglobal/>
+          <pushconstant val="1"/>
+          <definefunction2 name="" flags="19464196" size="27">
+            <argument reg="3" name="screen"/>
+            <body>
+              <pushvalue val="1"/>
+              <pushconstant val="2"/>
+              <pushregister val="3"/>
+              <setmember/>
+              <pushvalue val="1"/>
+              <getnamedmember val="2"/>
+              <pushconstant val="3"/>
+              <pushregister val="1"/>
+              <getnamedmember val="4"/>
+              <pushregister val="1"/>
+              <pushbyte val="2"/>
+              <pushregister val="2"/>
+              <pushconstant val="5"/>
+              <noarg action="82"/>
+              <setmember/>
+            </body>
+          </definefunction2>
+          <setregister reg="1"/>
+          <setmember/>
+          <pushregister val="1"/>
+          <getnamedmember val="6"/>
+          <setregister reg="2"/>
+          <pop/>
+          <pushregister val="2"/>
+          <pushconstant val="7"/>
+          <definefunction2 name="" flags="2752514" size="31">
+            <body>
+              <pushconstant val="8"/>
+              <trace/>
+              <pushconstant val="9"/>
+              <pushconstant val="10"/>
+              <pushbyte val="2"/>
+              <pushconstant val="11"/>
+              <new/>
+              <setregister reg="1"/>
+              <pop/>
+              <pushregister val="1"/>
+              <pushzero/>
+              <getmember/>
+              <pushregister val="1"/>
+              <pushone/>
+              <getmember/>
+              <newadd/>
+              <trace/>
+            </body>
+          </definefunction2>
+          <setmember/>
+          <pushregister val="2"/>
+          <pushconstant val="4"/>
+          <definefunction2 name="" flags="2686978" size="13">
+            <body>
+              <pushvalue val="1"/>
+              <getnamedmember val="2"/>
+              <pushconstant val="3"/>
+              <pushnull/>
+              <setmember/>
+              <pushzero/>
+              <pushregister val="1"/>
+              <callnamedmethodpop val="7"/>
+            </body>
+          </definefunction2>
+          <setmember/>
+          <pushregister val="2"/>
+          <pushconstant val="12"/>
+          <definefunction2 name="" flags="19529732" size="137">
+            <argument reg="3" name="theComponent"/>
+            <body>
+              <pushconstant val="13"/>
+              <pushregister val="3"/>
+              <newadd/>
+              <trace/>
+              <pushzero/>
+              <setregister reg="2"/>
+              <pop/>
+              <pushregister val="2" anchor="L1"/>
+              <pushvalue val="1"/>
+              <getnamedmember val="14"/>
+              <getnamedmember val="15"/>
+              <getnamedmember val="16"/>
+              <newlessthan/>
+              <logicalnot/>
+              <branchiftrue offset="44" target="L3"/>
+              <pushregister val="3"/>
+              <pushvalue val="1"/>
+              <getnamedmember val="14"/>
+              <getnamedmember val="15"/>
+              <pushregister val="2"/>
+              <getmember/>
+              <newequals/>
+              <logicalnot/>
+              <branchiftrue offset="8" target="L2"/>
+              <branchalways offset="16" target="L3"/>
+              <pushregister val="2" anchor="L2"/>
+              <increment/>
+              <setregister reg="2"/>
+              <pop/>
+              <branchalways offset="-63" target="L1"/>
+              <pushone anchor="L3"/>
+              <pushregister val="2"/>
+              <pushbyte val="2"/>
+              <pushvalue val="1"/>
+              <getnamedmember val="14"/>
+              <getnamedmember val="15"/>
+              <callnamedmethodpop val="17"/>
+              <pushvalue val="1"/>
+              <getnamedmember val="14"/>
+              <getnamedmember val="15"/>
+              <getnamedmember val="16"/>
+              <pushzero/>
+              <greater/>
+              <logicalnot/>
+              <logicalnot/>
+              <branchiftrue offset="29" target="L4"/>
+              <pushvalue val="1"/>
+              <getnamedmember val="14"/>
+              <getnamedmember val="18"/>
+              <pushnull/>
+              <newequals/>
+              <logicalnot/>
+              <logicalnot/>
+              <branchiftrue offset="13" target="L4"/>
+              <pushvalue val="1"/>
+              <getnamedmember val="14"/>
+              <getnamedmember val="18"/>
+              <pushone/>
+              <pushregister val="1"/>
+              <getnamedmember val="19"/>
+              <callnamedmethodpop val="20"/>
+            </body>
+          </definefunction2>
+          <setmember anchor="L4"/>
+          <pushregister val="2"/>
+          <pushconstant val="21"/>
+          <definefunction2 name="" flags="2752514" size="47">
+            <argument reg="1" name="theComponent"/>
+            <body>
+              <pushconstant val="22"/>
+              <trace/>
+              <pushzero/>
+              <pushregister val="1"/>
+              <callnamedmethodpop val="23"/>
+              <pushvalue val="1"/>
+              <getnamedmember val="14"/>
+              <pushconstant val="24"/>
+              <pushvalue val="1"/>
+              <getnamedmember val="14"/>
+              <getnamedmember val="24"/>
+              <decrement/>
+              <setmember/>
+              <pushvalue val="1"/>
+              <getnamedmember val="14"/>
+              <getnamedmember val="24"/>
+              <pushzero/>
+              <greater/>
+              <logicalnot/>
+              <logicalnot/>
+              <branchiftrue offset="7" target="L5"/>
+              <pushzero/>
+              <pushvalue val="1"/>
+              <getnamedmember val="14"/>
+              <callnamedmethodpop val="25"/>
+            </body>
+          </definefunction2>
+          <setmember anchor="L5"/>
+          <pushregister val="2"/>
+          <pushconstant val="25"/>
+          <definefunction2 name="" flags="19464195" size="21">
+            <body>
+              <pushconstant val="26"/>
+              <trace/>
+              <pushregister val="1"/>
+              <getnamedmember val="27"/>
+              <pushone/>
+              <pushregister val="2"/>
+              <getnamedmember val="28"/>
+              <callnamedmethodpop val="29"/>
+              <pushzero/>
+              <pushregister val="2"/>
+              <getnamedmember val="28"/>
+              <callnamedmethodpop val="30"/>
+            </body>
+          </definefunction2>
+          <setmember/>
+          <pushregister val="2"/>
+          <pushconstant val="31"/>
+          <definefunction2 name="" flags="2686980" size="76">
+            <argument reg="3" name="components"/>
+            <body>
+              <pushconstant val="32"/>
+              <trace/>
+              <pushregister val="1"/>
+              <pushconstant val="15"/>
+              <pushregister val="3"/>
+              <setmember/>
+              <pushregister val="1"/>
+              <pushconstant val="24"/>
+              <pushregister val="1"/>
+              <getnamedmember val="15"/>
+              <getnamedmember val="16"/>
+              <setmember/>
+              <pushzero/>
+              <setregister reg="2"/>
+              <pop/>
+              <pushregister val="2" anchor="L6"/>
+              <pushregister val="1"/>
+              <getnamedmember val="24"/>
+              <newlessthan/>
+              <logicalnot/>
+              <branchiftrue offset="32" target="L7"/>
+              <pushregister val="1"/>
+              <getnamedmember val="21"/>
+              <pushone/>
+              <pushregister val="1"/>
+              <getnamedmember val="15"/>
+              <pushregister val="2"/>
+              <getmember/>
+              <callnamedmethodpop val="33"/>
+              <pushregister val="2"/>
+              <increment/>
+              <setregister reg="2"/>
+              <pop/>
+              <branchalways offset="-47" target="L6"/>
+            </body>
+          </definefunction2>
+          <setmember anchor="L7"/>
+          <pushregister val="2"/>
+          <pushconstant val="34"/>
+          <definefunction2 name="" flags="19529732" size="115">
+            <argument reg="3" name="theComponent"/>
+            <body>
+              <pushconstant val="35"/>
+              <pushregister val="3"/>
+              <newadd/>
+              <trace/>
+              <pushzero/>
+              <setregister reg="2"/>
+              <pop/>
+              <pushregister val="2" anchor="L8"/>
+              <pushvalue val="1"/>
+              <getnamedmember val="14"/>
+              <getnamedmember val="15"/>
+              <getnamedmember val="16"/>
+              <newlessthan/>
+              <logicalnot/>
+              <branchiftrue offset="44" target="L10"/>
+              <pushregister val="3"/>
+              <pushvalue val="1"/>
+              <getnamedmember val="14"/>
+              <getnamedmember val="15"/>
+              <pushregister val="2"/>
+              <getmember/>
+              <newequals/>
+              <logicalnot/>
+              <branchiftrue offset="8" target="L9"/>
+              <branchalways offset="16" target="L10"/>
+              <pushregister val="2" anchor="L9"/>
+              <increment/>
+              <setregister reg="2"/>
+              <pop/>
+              <branchalways offset="-63" target="L8"/>
+              <pushone anchor="L10"/>
+              <pushregister val="2"/>
+              <pushbyte val="2"/>
+              <pushvalue val="1"/>
+              <getnamedmember val="14"/>
+              <getnamedmember val="15"/>
+              <callnamedmethodpop val="17"/>
+              <pushvalue val="1"/>
+              <getnamedmember val="14"/>
+              <getnamedmember val="15"/>
+              <getnamedmember val="16"/>
+              <pushzero/>
+              <greater/>
+              <logicalnot/>
+              <logicalnot/>
+              <branchiftrue offset="7" target="L11"/>
+              <pushzero/>
+              <pushregister val="1"/>
+              <getnamedmember val="19"/>
+              <callnamedmethodpop val="36"/>
+            </body>
+          </definefunction2>
+          <setmember anchor="L11"/>
+          <pushregister val="2"/>
+          <pushconstant val="37"/>
+          <definefunction2 name="" flags="2686980" size="64">
+            <body>
+              <pushconstant val="38"/>
+              <trace/>
+              <pushregister val="1"/>
+              <getnamedmember val="15"/>
+              <getnamedmember val="16"/>
+              <setregister reg="3"/>
+              <pop/>
+              <pushzero/>
+              <setregister reg="2"/>
+              <pop/>
+              <pushregister val="2" anchor="L12"/>
+              <pushregister val="3"/>
+              <newlessthan/>
+              <logicalnot/>
+              <branchiftrue offset="28" target="L13"/>
+              <pushzero/>
+              <pushregister val="1"/>
+              <getnamedmember val="15"/>
+              <pushregister val="2"/>
+              <getmember/>
+              <callnamedmethodpop val="39"/>
+              <pushregister val="2"/>
+              <increment/>
+              <setregister reg="2"/>
+              <pop/>
+              <branchalways offset="-39" target="L12"/>
+            </body>
+          </definefunction2>
+          <setmember anchor="L13"/>
+          <pushregister val="2"/>
+          <pushconstant val="40"/>
+          <definefunction2 name="" flags="2686981" size="102">
+            <argument reg="4" name="newScreen"/>
+            <body>
+              <pushconstant val="41"/>
+              <trace/>
+              <pushregister val="1"/>
+              <pushconstant val="18"/>
+              <pushregister val="4"/>
+              <setmember/>
+              <pushvalue val="1"/>
+              <getnamedmember val="14"/>
+              <getnamedmember val="15"/>
+              <getnamedmember val="16"/>
+              <setregister reg="3"/>
+              <pop/>
+              <pushregister val="3"/>
+              <pushzero/>
+              <greater/>
+              <logicalnot/>
+              <branchiftrue offset="60" target="L16"/>
+              <pushzero/>
+              <setregister reg="2"/>
+              <pop/>
+              <pushregister val="2" anchor="L14"/>
+              <pushregister val="3"/>
+              <newlessthan/>
+              <logicalnot/>
+              <branchiftrue offset="32" target="L15"/>
+              <pushregister val="1"/>
+              <getnamedmember val="12"/>
+              <pushone/>
+              <pushvalue val="1"/>
+              <getnamedmember val="14"/>
+              <getnamedmember val="15"/>
+              <pushregister val="2"/>
+              <getmember/>
+              <callnamedmethodpop val="42"/>
+              <pushregister val="2"/>
+              <increment/>
+              <setregister reg="2"/>
+              <pop/>
+              <branchalways offset="-43" target="L14"/>
+              <branchalways offset="6" anchor="L15" target="L17"/>
+              <pushnull anchor="L16"/>
+              <pushone/>
+              <pushregister val="1"/>
+              <callnamedmethodpop val="12"/>
+            </body>
+          </definefunction2>
+          <setmember anchor="L17"/>
+          <pushregister val="2"/>
+          <pushconstant val="43"/>
+          <definefunction2 name="" flags="2686981" size="102">
+            <argument reg="4" name="doAfterOuttroComplete"/>
+            <body>
+              <pushconstant val="41"/>
+              <trace/>
+              <pushregister val="1"/>
+              <pushconstant val="44"/>
+              <pushregister val="4"/>
+              <setmember/>
+              <pushvalue val="1"/>
+              <getnamedmember val="14"/>
+              <getnamedmember val="15"/>
+              <getnamedmember val="16"/>
+              <setregister reg="3"/>
+              <pop/>
+              <pushregister val="3"/>
+              <pushzero/>
+              <greater/>
+              <logicalnot/>
+              <branchiftrue offset="60" target="L20"/>
+              <pushzero/>
+              <setregister reg="2"/>
+              <pop/>
+              <pushregister val="2" anchor="L18"/>
+              <pushregister val="3"/>
+              <newlessthan/>
+              <logicalnot/>
+              <branchiftrue offset="32" target="L19"/>
+              <pushregister val="1"/>
+              <getnamedmember val="45"/>
+              <pushone/>
+              <pushvalue val="1"/>
+              <getnamedmember val="14"/>
+              <getnamedmember val="15"/>
+              <pushregister val="2"/>
+              <getmember/>
+              <callnamedmethodpop val="42"/>
+              <pushregister val="2"/>
+              <increment/>
+              <setregister reg="2"/>
+              <pop/>
+              <branchalways offset="-43" target="L18"/>
+              <branchalways offset="6" anchor="L19" target="L21"/>
+              <pushnull anchor="L20"/>
+              <pushone/>
+              <pushregister val="1"/>
+              <callnamedmethodpop val="45"/>
+            </body>
+          </definefunction2>
+          <setmember anchor="L21"/>
+          <pushregister val="2"/>
+          <pushconstant val="45"/>
+          <definefunction2 name="" flags="2752515" size="115">
+            <argument reg="2" name="theComponent"/>
+            <body>
+              <pushconstant val="13"/>
+              <pushregister val="2"/>
+              <newadd/>
+              <trace/>
+              <pushzero/>
+              <setregister reg="1"/>
+              <pop/>
+              <pushregister val="1" anchor="L22"/>
+              <pushvalue val="1"/>
+              <getnamedmember val="14"/>
+              <getnamedmember val="15"/>
+              <getnamedmember val="16"/>
+              <newlessthan/>
+              <logicalnot/>
+              <branchiftrue offset="44" target="L24"/>
+              <pushregister val="2"/>
+              <pushvalue val="1"/>
+              <getnamedmember val="14"/>
+              <getnamedmember val="15"/>
+              <pushregister val="1"/>
+              <getmember/>
+              <newequals/>
+              <logicalnot/>
+              <branchiftrue offset="8" target="L23"/>
+              <branchalways offset="16" target="L24"/>
+              <pushregister val="1" anchor="L23"/>
+              <increment/>
+              <setregister reg="1"/>
+              <pop/>
+              <branchalways offset="-63" target="L22"/>
+              <pushone anchor="L24"/>
+              <pushregister val="1"/>
+              <pushbyte val="2"/>
+              <pushvalue val="1"/>
+              <getnamedmember val="14"/>
+              <getnamedmember val="15"/>
+              <callnamedmethodpop val="17"/>
+              <pushvalue val="1"/>
+              <getnamedmember val="14"/>
+              <getnamedmember val="15"/>
+              <getnamedmember val="16"/>
+              <pushzero/>
+              <greater/>
+              <logicalnot/>
+              <logicalnot/>
+              <branchiftrue offset="7" target="L25"/>
+              <pushzero/>
+              <pushvalue val="1"/>
+              <getnamedmember val="14"/>
+              <callnamedmethodpop val="44"/>
+            </body>
+          </definefunction2>
+          <setmember anchor="L25"/>
+          <pushregister val="2"/>
+          <pushconstant val="46"/>
+          <definefunction2 name="" flags="19529732" size="99">
+            <body>
+              <pushconstant val="47"/>
+              <trace/>
+              <pushvalue val="1"/>
+              <getnamedmember val="14"/>
+              <getnamedmember val="15"/>
+              <getnamedmember val="16"/>
+              <setregister reg="3"/>
+              <pop/>
+              <pushregister val="3"/>
+              <pushzero/>
+              <greater/>
+              <logicalnot/>
+              <branchiftrue offset="64" target="L28"/>
+              <pushzero/>
+              <setregister reg="2"/>
+              <pop/>
+              <pushregister val="2" anchor="L26"/>
+              <pushregister val="3"/>
+              <newlessthan/>
+              <logicalnot/>
+              <branchiftrue offset="36" target="L27"/>
+              <pushvalue val="1"/>
+              <getnamedmember val="14"/>
+              <getnamedmember val="34"/>
+              <pushone/>
+              <pushvalue val="1"/>
+              <getnamedmember val="14"/>
+              <getnamedmember val="15"/>
+              <pushregister val="2"/>
+              <getmember/>
+              <callnamedmethodpop val="42"/>
+              <pushregister val="2"/>
+              <increment/>
+              <setregister reg="2"/>
+              <pop/>
+              <branchalways offset="-47" target="L26"/>
+              <branchalways offset="7" anchor="L27" target="L29"/>
+              <pushzero anchor="L28"/>
+              <pushregister val="1"/>
+              <getnamedmember val="19"/>
+              <callnamedmethodpop val="36"/>
+            </body>
+          </definefunction2>
+          <setmember anchor="L29"/>
+          <pushregister val="2"/>
+          <pushconstant val="27"/>
+          <definefunction2 name="" flags="19529731" size="15">
+            <argument reg="2" name="keyCode"/>
+            <argument reg="0" name="controller"/>
+            <body>
+              <pushconstant val="48"/>
+              <pushregister val="2"/>
+              <newadd/>
+              <trace/>
+              <pushregister val="2"/>
+              <pushone/>
+              <pushregister val="1"/>
+              <getnamedmember val="49"/>
+              <callnamedmethodpop val="50"/>
+            </body>
+          </definefunction2>
+          <setmember/>
+          <pushregister val="2"/>
+          <pushconstant val="51"/>
+          <definefunction2 name="" flags="2686978" size="24">
+            <body>
+              <pushvalue val="1"/>
+              <pushconstant val="2"/>
+              <pushnull/>
+              <setmember/>
+              <pushvalue val="1"/>
+              <pushconstant val="14"/>
+              <pushnull/>
+              <setmember/>
+              <pushregister val="1"/>
+              <pushconstant val="18"/>
+              <pushnull/>
+              <setmember/>
+              <pushregister val="1"/>
+              <pushconstant val="15"/>
+              <pushnull/>
+              <setmember/>
+            </body>
+          </definefunction2>
+          <setmember/>
+          <pushregister val="2"/>
+          <pushconstant val="5"/>
+          <definefunction name="" size="36">
+            <argument name="obj"/>
+            <argument name="func"/>
+            <body>
+              <definefunction name="" size="7">
+                <body>
+                  <pushvalue val="52"/>
+                  <pushone/>
+                  <pushvalue val="53"/>
+                  <callnamedmethodpop val="54"/>
+                </body>
+              </definefunction>
+              <noarg action="62"/>
+            </body>
+          </definefunction>
+          <setmember/>
+          <pushregister val="2"/>
+          <pushconstant val="18"/>
+          <pushnull/>
+          <setmember/>
+          <pushregister val="2"/>
+          <pushconstant val="44"/>
+          <pushnull/>
+          <setmember/>
+          <pushregister val="2"/>
+          <pushconstant val="15"/>
+          <pushzero/>
+          <pushconstant val="11"/>
+          <new/>
+          <setmember/>
+          <pushone/>
+          <pushnull/>
+          <pushglobal/>
+          <getnamedmember val="1"/>
+          <getnamedmember val="6"/>
+          <pushbyte val="3"/>
+          <pushconstant val="55"/>
+          <noarg action="61"/>
+          <pop anchor="L30"/>
+          <end/>
+        </initaction>
+        <initaction sprite="27">
+          <constantpool>
+            <constant id="0" string="_global"/>
+            <constant id="1" string="IListboxEventListener"/>
+          </constantpool>
+          <pushglobal/>
+          <getnamedmember val="1"/>
+          <logicalnot/>
+          <logicalnot/>
+          <branchiftrue offset="29" target="L1"/>
+          <pushglobal/>
+          <pushconstant val="1"/>
+          <definefunction name="" size="0"/>
+          <setmember/>
+          <pop anchor="L1"/>
+          <end/>
+        </initaction>
+        <initaction sprite="28">
+          <constantpool>
+            <constant id="0" string="_global"/>
+            <constant id="1" string="GameSetupBase"/>
+            <constant id="2" string="GameSetupBase::GameSetupBase()"/>
+            <constant id="3" string="Cafe2_BaseUIScreen"/>
+            <constant id="4" string="m_thisClass"/>
+            <constant id="5" string="m_localMessageDispatcher"/>
+            <constant id="6" string="localMessageHandler"/>
+            <constant id="7" string="bind1DynamicParams"/>
+            <constant id="8" string="m_mapIds"/>
+            <constant id="9" string="Array"/>
+            <constant id="10" string="m_screenButtons"/>
+            <constant id="11" string="onScreenExit"/>
+            <constant id="12" string="bind0"/>
+            <constant id="13" string="gSM"/>
+            <constant id="14" string="setOnExitScreen"/>
+            <constant id="15" string="prototype"/>
+            <constant id="16" string="IListboxEventListener"/>
+            <constant id="17" string="frameDelayedInit"/>
+            <constant id="18" string="Object"/>
+            <constant id="19" string="QueryGameEngine?IsPcGameHost"/>
+            <constant id="20" string="m_isHost"/>
+            <constant id="21" string="IsPcGameHost"/>
+            <constant id="22" string="1"/>
+            <constant id="23" string="initGUI"/>
+            <constant id="24" string="gMH"/>
+            <constant id="25" string="addMessageHandler"/>
+            <constant id="26" string="OnListboxIndexMouseClick"/>
+            <constant id="27" string="OnMapListSelectionChanged"/>
+            <constant id="28" string="OnListboxIndexElementMouseClick"/>
+            <constant id="29" string="GameSetupBase::initGUI() "/>
+            <constant id="30" string="initNavigationButtons"/>
+            <constant id="31" string="initMapPanel"/>
+            <constant id="32" string="initRulesPanel"/>
+            <constant id="33" string="initPlayerSlots"/>
+            <constant id="34" string="GameSetupBase::initNavigationButtons() "/>
+            <constant id="35" string="m_screen"/>
+            <constant id="36" string="playButton"/>
+            <constant id="37" string="show"/>
+            <constant id="38" string="enable"/>
+            <constant id="39" string="playGame"/>
+            <constant id="40" string="setOnMouseUpFunction"/>
+            <constant id="41" string="push"/>
+            <constant id="42" string="backButton"/>
+            <constant id="43" string="backButtonClicked"/>
+            <constant id="44" string="GameSetupBase::initMapPanel() Map panel movieclip: "/>
+            <constant id="45" string="gameSettings"/>
+            <constant id="46" string="mapPanel"/>
+            <constant id="47" string="m_playerStartPosMCArray"/>
+            <constant id="48" string="startPosition5"/>
+            <constant id="49" string="startPosition4"/>
+            <constant id="50" string="startPosition3"/>
+            <constant id="51" string="startPosition2"/>
+            <constant id="52" string="startPosition1"/>
+            <constant id="53" string="startPosition0"/>
+            <constant id="54" string="length"/>
+            <constant id="55" string="hide"/>
+            <constant id="56" string="disable"/>
+            <constant id="57" string="onStartPositionClicked"/>
+            <constant id="58" string="bind1"/>
+            <constant id="59" string="campaignCheckbox"/>
+            <constant id="60" string="onMapTypeChanged"/>
+            <constant id="61" string="setOnMouseDownFunction"/>
+            <constant id="62" string="createMapSelectionScrollList"/>
+            <constant id="63" string="rulesPanel"/>
+            <constant id="64" string="GameSetupBase::initRulesPanel() Rules panel movieclip: "/>
+            <constant id="65" string="extern"/>
+            <constant id="66" string="RA3PublicBeta"/>
+            <constant id="67" string="_visible"/>
+            <constant id="68" string="gameSpeedSlider"/>
+            <constant id="69" string="resourcesDropdown"/>
+            <constant id="70" string="cratesCheckbox"/>
+            <constant id="71" string="commentaryCheckbox"/>
+            <constant id="72" string="enableVoipCheckbox"/>
+            <constant id="73" string="setBroadcastCheckboxVisibility"/>
+            <constant id="74" string="onGameSpeedChanged"/>
+            <constant id="75" string="bind2DynamicParams"/>
+            <constant id="76" string="setOnChange"/>
+            <constant id="77" string="onResourcesChanged"/>
+            <constant id="78" string="onCratesChanged"/>
+            <constant id="79" string="onCommentaryChanged"/>
+            <constant id="80" string="onVoipChanged"/>
+            <constant id="81" string="defaultRules"/>
+            <constant id="82" string="onResetRules"/>
+            <constant id="83" string="GameSetupBase::initPlayerSlots() "/>
+            <constant id="84" string="m_playerSlots"/>
+            <constant id="85" string="slotMC_6"/>
+            <constant id="86" string="slotMC_5"/>
+            <constant id="87" string="slotMC_4"/>
+            <constant id="88" string="slotMC_3"/>
+            <constant id="89" string="slotMC_2"/>
+            <constant id="90" string="slotMC_1"/>
+            <constant id="91" string="slotId"/>
+            <constant id="92" string="playerSlotOptions"/>
+            <constant id="93" string="onPlayerStatusChanged"/>
+            <constant id="94" string="factionOptions"/>
+            <constant id="95" string="onFactionChanged"/>
+            <constant id="96" string="personalityOptions"/>
+            <constant id="97" string="onAIPersonalityChanged"/>
+            <constant id="98" string="teamOptions"/>
+            <constant id="99" string="onTeamChanged"/>
+            <constant id="100" string="colorOptions"/>
+            <constant id="101" string="onColorChanged"/>
+            <constant id="102" string="initReadyControls"/>
+            <constant id="103" string="readyCheckBox"/>
+            <constant id="104" string="onReadyStatusChanged"/>
+            <constant id="105" string="initPlayButton"/>
+            <constant id="106" string="broadcastCheckbox"/>
+            <constant id="107" string="broadcastCheckboxLabel"/>
+            <constant id="108" string="broadcastCheckboxShadowLabel"/>
+            <constant id="109" string="mapListScrollbar"/>
+            <constant id="110" string="mapList"/>
+            <constant id="111" string="addListener"/>
+            <constant id="112" string="symbol"/>
+            <constant id="113" string="std_mouseListboxEntryTextElementSymbol"/>
+            <constant id="114" string="width"/>
+            <constant id="115" string="leftMargin"/>
+            <constant id="116" string="rightMargin"/>
+            <constant id="117" string="init"/>
+            <constant id="118" string="attachScrollbarController"/>
+            <constant id="119" string="moveViewToFirst"/>
+            <constant id="120" string="refreshDisplay"/>
+            <constant id="121" string="refreshScrollbar"/>
+            <constant id="122" string="MSGCODE"/>
+            <constant id="123" string="FE_MP_UPDATE_GAME_SETTINGS"/>
+            <constant id="124" string="refreshComponents"/>
+            <constant id="125" string="GameSetupBase::onScreenExit()"/>
+            <constant id="126" string="removeMessageHandler"/>
+            <constant id="127" string="removeListener"/>
+            <constant id="128" string="shutdown"/>
+            <constant id="129" string="clearData"/>
+            <constant id="130" string="GameSetupBase::playGame()"/>
+            <constant id="131" string="GameSetupBase::onMapTypeChanged() "/>
+            <constant id="132" string="isChecked"/>
+            <constant id="133" string="0"/>
+            <constant id="134" string="FSCommand:CallGameFunction"/>
+            <constant id="135" string="%SetMapType?MapType="/>
+            <constant id="136" string="GAME"/>
+            <constant id="137" string="MODE"/>
+            <constant id="138" string="ENUM"/>
+            <constant id="139" string="GAME_MODE_CAMPAIGN"/>
+            <constant id="140" string="GameSetupBase::onMapTypeChanged()- Game mode set to GAME_MODE_CAMPAIGN."/>
+            <constant id="141" string="GAME_MODE_SKIRMISH"/>
+            <constant id="142" string="GameSetupBase::onMapTypeChanged()- Game mode set to GAME_MODE_SKIRMISH."/>
+            <constant id="143" string="GameSetupBase::OnMapListSelectionChanged(), index is "/>
+            <constant id="144" string="%SetMap?Map="/>
+            <constant id="145" string="onShowMapPanel"/>
+            <constant id="146" string="GameSetupBase::onShowMapPanel()"/>
+            <constant id="147" string="onShowRulesPanel"/>
+            <constant id="148" string="GameSetupBase::onShowRulesPanel()"/>
+            <constant id="149" string="getCurrentIndex"/>
+            <constant id="150" string="getValueAtIndex"/>
+            <constant id="151" string="_parent"/>
+            <constant id="152" string="%SetPlayerStatus?Slot="/>
+            <constant id="153" string="|Status="/>
+            <constant id="154" string="%SetPlayerTemplate?Slot="/>
+            <constant id="155" string="|Template="/>
+            <constant id="156" string="%SetTeam?Slot="/>
+            <constant id="157" string="|Team="/>
+            <constant id="158" string="%SetColor?Slot="/>
+            <constant id="159" string="|Color="/>
+            <constant id="160" string="%SetAIPersonality?Slot="/>
+            <constant id="161" string="|Personality="/>
+            <constant id="162" string="GameSetupBase::onReadyStatusChanged()"/>
+            <constant id="163" string="GameSetupBase::onStartPositionClicked() Position: "/>
+            <constant id="164" string="%CycleStartPositionOwner?Position="/>
+            <constant id="165" string="GameSetupBase::onGameSpeedChanged()"/>
+            <constant id="166" string="%SetGameSpeed?GameSpeed="/>
+            <constant id="167" string="GameSetupBase::onResourcesChanged()"/>
+            <constant id="168" string="%SetInitialResources?Resources="/>
+            <constant id="169" string="GameSetupBase::onVoipChanged()"/>
+            <constant id="170" string="GameSetupBase::onCratesChanged()"/>
+            <constant id="171" string="GameSetupBase::onCommentaryChanged()"/>
+            <constant id="172" string="GameSetupBase::onResetRules()"/>
+            <constant id="173" string="GameSetupBase::refreshComponents()"/>
+            <constant id="174" string="refreshMapList"/>
+            <constant id="175" string="refreshSlotStatusControls"/>
+            <constant id="176" string="refreshCampaignMapControls"/>
+            <constant id="177" string="refreshResourcesControl"/>
+            <constant id="178" string="RANDOM_CRATES"/>
+            <constant id="179" string="refreshRulesCheckbox"/>
+            <constant id="180" string="ENABLE_VOIP"/>
+            <constant id="181" string="ALLOW_COMMENTARY"/>
+            <constant id="182" string="refreshGameSpeedControls"/>
+            <constant id="183" string="refreshTeamControls"/>
+            <constant id="184" string="refreshFactionControls"/>
+            <constant id="185" string="refreshAIPersonalityControls"/>
+            <constant id="186" string="refreshStartPositionControls"/>
+            <constant id="187" string="refreshColorControls"/>
+            <constant id="188" string="GameSetupBase::refreshMapList()"/>
+            <constant id="189" string="QueryGameEngine?MP_MAP_LIST"/>
+            <constant id="190" string=","/>
+            <constant id="191" string="MP_MAP_LIST"/>
+            <constant id="192" string="split"/>
+            <constant id="193" string="shift"/>
+            <constant id="194" string="$MP_MAP_LIST_"/>
+            <constant id="195" string="$MP_MAP_SIZE_"/>
+            <constant id="196" string="setColumnData"/>
+            <constant id="197" string="GameSetupBase::refreshSlotStatusControls()"/>
+            <constant id="198" string="QueryGameEngine?PLAYER_STATUS?Slot="/>
+            <constant id="199" string="PLAYER_STATUS"/>
+            <constant id="200" string="$PLAYER_STATUS_"/>
+            <constant id="201" string="_"/>
+            <constant id="202" string="enableControl"/>
+            <constant id="203" string="setData"/>
+            <constant id="204" string="setSelectedIndex"/>
+            <constant id="205" string="GameSetupBase::refreshTeamControls()"/>
+            <constant id="206" string="QueryGameEngine?TEAM_OPTIONS?Slot="/>
+            <constant id="207" string="TEAM_OPTIONS"/>
+            <constant id="208" string="$TEAM_"/>
+            <constant id="209" string="GameSetupBase::refreshFactionControls()"/>
+            <constant id="210" string="QueryGameEngine?PLAYER_TEMPLATE_OPTIONS?Slot="/>
+            <constant id="211" string="PLAYER_TEMPLATE_OPTIONS_VALUES"/>
+            <constant id="212" string="PLAYER_TEMPLATE_OPTIONS_IMAGES"/>
+            <constant id="213" string="GameSetupBase::refreshAIPersonalityControls() : m_playerSlots.length = "/>
+            <constant id="214" string="QueryGameEngine?AI_PERSONALITY_OPTIONS?Slot="/>
+            <constant id="215" string="AI_PERSONALITY_OPTIONS"/>
+            <constant id="216" string="clear"/>
+            <constant id="217" string="$APT:AI_PERSONALITY_"/>
+            <constant id="218" string="GameSetupBase::refreshColorControls()"/>
+            <constant id="219" string="QueryGameEngine?PLAYER_COLOR?Slot="/>
+            <constant id="220" string="PLAYER_COLOR_VALUES"/>
+            <constant id="221" string="PLAYER_COLOR_ENABLE"/>
+            <constant id="222" string="GameSetupBase::refreshStartPositionControls()"/>
+            <constant id="223" string="mapPreview"/>
+            <constant id="224" string="QueryGameEngine?START_POSITION?Position="/>
+            <constant id="225" string="START_POSITION_VALID"/>
+            <constant id="226" string="Boolean"/>
+            <constant id="227" string="$START_POSITION_"/>
+            <constant id="228" string="setText"/>
+            <constant id="229" string="START_POSITION_X"/>
+            <constant id="230" string="START_POSITION_Y"/>
+            <constant id="231" string="_x"/>
+            <constant id="232" string="_width"/>
+            <constant id="233" string="_y"/>
+            <constant id="234" string="_height"/>
+            <constant id="235" string="GameSetupBase::refreshCampaignMapControls()"/>
+            <constant id="236" string="QueryGameEngine?PLAY_AS_CAMPAIGN"/>
+            <constant id="237" string="PLAY_AS_CAMPAIGN_VALUE"/>
+            <constant id="238" string="unCheck"/>
+            <constant id="239" string="check"/>
+            <constant id="240" string="PLAY_AS_CAMPAIGN_ENABLE"/>
+            <constant id="241" string="GameSetupBase::refreshResourcesControl()"/>
+            <constant id="242" string="QueryGameEngine?RESOURCES_OPTIONS"/>
+            <constant id="243" string="RESOURCES_OPTIONS_VALUES"/>
+            <constant id="244" string="RESOURCES_OPTIONS_STRINGS"/>
+            <constant id="245" string="GameSetupBase::refreshRulesCheckbox() "/>
+            <constant id="246" string=":"/>
+            <constant id="247" string="QueryGameEngine?"/>
+            <constant id="248" string="  "/>
+            <constant id="249" string="_VALUE"/>
+            <constant id="250" string="_ENABLE"/>
+            <constant id="251" string="GameSetupBase::refreshGameSpeedControls()"/>
+            <constant id="252" string="QueryGameEngine?GAMESPEED_OPTIONS"/>
+            <constant id="253" string="GAMESPEED_OPTIONS_CURRENT"/>
+            <constant id="254" string="GAMESPEED_OPTIONS_MAX"/>
+            <constant id="255" string="GAMESPEED_OPTIONS_MIN"/>
+            <constant id="256" string="setIndexRange"/>
+            <constant id="257" string="GAMESPEED_OPTIONS_ENABLE"/>
+            <constant id="258" string="refreshReadyControls"/>
+            <constant id="259" string="refreshReadyCheckbox"/>
+            <constant id="260" string="QueryGameEngine?READY_STATUS?Slot="/>
+            <constant id="261" string="READY_STATUS_ENABLED"/>
+            <constant id="262" string="READY_STATUS_VALUE"/>
+            <constant id="263" string="SetUnCheck"/>
+            <constant id="264" string="SetCheck"/>
+            <constant id="265" string="ASSetPropFlags"/>
+          </constantpool>
+          <pushglobal/>
+          <getnamedmember val="1"/>
+          <logicalnot/>
+          <logicalnot/>
+          <branchiftrue offset="6275" target="L68"/>
+          <pushglobal/>
+          <pushconstant val="1"/>
+          <definefunction2 name="" flags="18415621" size="73">
+            <argument reg="4" name="screen"/>
+            <body>
+              <pushregister val="4"/>
+              <pushone/>
+              <pushregister val="2"/>
+              <pushundefined/>
+              <noarg action="93"/>
+              <pushconstant val="2"/>
+              <trace/>
+              <pushvalue val="3"/>
+              <pushconstant val="4"/>
+              <pushregister val="1"/>
+              <setmember/>
+              <pushregister val="1"/>
+              <pushconstant val="5"/>
+              <pushregister val="1"/>
+              <getnamedmember val="6"/>
+              <pushregister val="1"/>
+              <pushbyte val="2"/>
+              <pushregister val="3"/>
+              <pushconstant val="7"/>
+              <noarg action="82"/>
+              <setmember/>
+              <pushregister val="1"/>
+              <pushconstant val="8"/>
+              <pushzero/>
+              <pushconstant val="9"/>
+              <new/>
+              <setmember/>
+              <pushregister val="1"/>
+              <pushconstant val="10"/>
+              <pushzero/>
+              <pushconstant val="9"/>
+              <new/>
+              <setmember/>
+              <pushregister val="1"/>
+              <getnamedmember val="11"/>
+              <pushregister val="1"/>
+              <pushbyte val="2"/>
+              <pushregister val="3"/>
+              <pushconstant val="12"/>
+              <noarg action="82"/>
+              <pushone/>
+              <pushregister val="3"/>
+              <getnamedmember val="13"/>
+              <callnamedmethodpop val="14"/>
+            </body>
+          </definefunction2>
+          <setregister reg="1"/>
+          <setmember/>
+          <pushglobal/>
+          <getnamedmember val="1"/>
+          <pushvalue val="3"/>
+          <noarg action="105"/>
+          <pushregister val="1"/>
+          <getnamedmember val="15"/>
+          <setregister reg="2"/>
+          <pop/>
+          <pushglobal/>
+          <getnamedmember val="16"/>
+          <pushone/>
+          <pushglobal/>
+          <getnamedmember val="1"/>
+          <noarg action="44"/>
+          <pushregister val="2"/>
+          <pushconstant val="17"/>
+          <definefunction2 name="" flags="19464196" size="46">
+            <body>
+              <pushzero/>
+              <pushconstant val="18"/>
+              <new/>
+              <setregister reg="3"/>
+              <pop/>
+              <pushconstant val="19"/>
+              <pushregister val="3"/>
+              <geturl2/>
+              <pushregister val="1"/>
+              <pushconstant val="20"/>
+              <pushregister val="3"/>
+              <getnamedmember val="21"/>
+              <pushconstant val="22"/>
+              <newequals/>
+              <setmember/>
+              <pushzero/>
+              <pushregister val="1"/>
+              <callnamedmethodpop val="23"/>
+              <pushregister val="1"/>
+              <getnamedmember val="5"/>
+              <pushone/>
+              <pushregister val="2"/>
+              <getnamedmember val="24"/>
+              <callnamedmethodpop val="25"/>
+            </body>
+          </definefunction2>
+          <setmember/>
+          <pushregister val="2"/>
+          <pushconstant val="26"/>
+          <definefunction2 name="" flags="2686979" size="7">
+            <argument reg="2" name="index"/>
+            <argument reg="0" name="previouslySelectedIndex"/>
+            <body>
+              <pushregister val="2"/>
+              <pushone/>
+              <pushregister val="1"/>
+              <callnamedmethodpop val="27"/>
+            </body>
+          </definefunction2>
+          <setmember/>
+          <pushregister val="2"/>
+          <pushconstant val="28"/>
+          <definefunction2 name="" flags="2686979" size="7">
+            <argument reg="2" name="index"/>
+            <argument reg="0" name="element"/>
+            <argument reg="0" name="previouslySelectedIndex"/>
+            <body>
+              <pushregister val="2"/>
+              <pushone/>
+              <pushregister val="1"/>
+              <callnamedmethodpop val="27"/>
+            </body>
+          </definefunction2>
+          <setmember/>
+          <pushregister val="2"/>
+          <pushconstant val="23"/>
+          <definefunction2 name="" flags="2686978" size="31">
+            <body>
+              <pushconstant val="29"/>
+              <trace/>
+              <pushregister val="1"/>
+              <getnamedmember val="10"/>
+              <pushone/>
+              <pushregister val="1"/>
+              <callnamedmethodpop val="30"/>
+              <pushzero/>
+              <pushregister val="1"/>
+              <callnamedmethodpop val="31"/>
+              <pushregister val="1"/>
+              <getnamedmember val="10"/>
+              <pushone/>
+              <pushregister val="1"/>
+              <callnamedmethodpop val="32"/>
+              <pushzero/>
+              <pushregister val="1"/>
+              <callnamedmethodpop val="33"/>
+            </body>
+          </definefunction2>
+          <setmember/>
+          <pushregister val="2"/>
+          <pushconstant val="30"/>
+          <definefunction2 name="" flags="19464196" size="118">
+            <argument reg="3" name="navButtons"/>
+            <body>
+              <pushconstant val="34"/>
+              <trace/>
+              <pushregister val="1"/>
+              <getnamedmember val="20"/>
+              <logicalnot/>
+              <branchiftrue offset="51" target="L1"/>
+              <pushzero/>
+              <pushvalue val="3"/>
+              <getnamedmember val="35"/>
+              <getnamedmember val="36"/>
+              <callnamedmethodpop val="37"/>
+              <pushzero/>
+              <pushvalue val="3"/>
+              <getnamedmember val="35"/>
+              <getnamedmember val="36"/>
+              <callnamedmethodpop val="38"/>
+              <pushregister val="1"/>
+              <getnamedmember val="39"/>
+              <pushregister val="1"/>
+              <pushbyte val="2"/>
+              <pushregister val="2"/>
+              <pushconstant val="12"/>
+              <noarg action="82"/>
+              <pushone/>
+              <pushvalue val="3"/>
+              <getnamedmember val="35"/>
+              <getnamedmember val="36"/>
+              <callnamedmethodpop val="40"/>
+              <pushvalue val="3"/>
+              <getnamedmember val="35"/>
+              <getnamedmember val="36"/>
+              <pushone/>
+              <pushregister val="3"/>
+              <callnamedmethodpop val="41"/>
+              <pushzero anchor="L1"/>
+              <pushvalue val="3"/>
+              <getnamedmember val="35"/>
+              <getnamedmember val="42"/>
+              <callnamedmethodpop val="37"/>
+              <pushzero/>
+              <pushvalue val="3"/>
+              <getnamedmember val="35"/>
+              <getnamedmember val="42"/>
+              <callnamedmethodpop val="38"/>
+              <pushregister val="1"/>
+              <getnamedmember val="43"/>
+              <pushregister val="1"/>
+              <pushbyte val="2"/>
+              <pushregister val="2"/>
+              <pushconstant val="12"/>
+              <noarg action="82"/>
+              <pushone/>
+              <pushvalue val="3"/>
+              <getnamedmember val="35"/>
+              <getnamedmember val="42"/>
+              <callnamedmethodpop val="40"/>
+              <pushvalue val="3"/>
+              <getnamedmember val="35"/>
+              <getnamedmember val="42"/>
+              <pushone/>
+              <pushregister val="3"/>
+              <callnamedmethodpop val="41"/>
+            </body>
+          </definefunction2>
+          <setmember/>
+          <pushregister val="2"/>
+          <pushconstant val="31"/>
+          <definefunction2 name="" flags="19464197" size="187">
+            <body>
+              <pushconstant val="44"/>
+              <pushvalue val="3"/>
+              <getnamedmember val="35"/>
+              <getnamedmember val="45"/>
+              <getnamedmember val="46"/>
+              <newadd/>
+              <trace/>
+              <pushvalue val="3"/>
+              <getnamedmember val="35"/>
+              <getnamedmember val="45"/>
+              <getnamedmember val="46"/>
+              <setregister reg="4"/>
+              <pop/>
+              <pushregister val="1"/>
+              <pushconstant val="47"/>
+              <pushregister val="4"/>
+              <getnamedmember val="48"/>
+              <pushregister val="4"/>
+              <getnamedmember val="49"/>
+              <pushregister val="4"/>
+              <getnamedmember val="50"/>
+              <pushregister val="4"/>
+              <getnamedmember val="51"/>
+              <pushregister val="4"/>
+              <getnamedmember val="52"/>
+              <pushregister val="4"/>
+              <getnamedmember val="53"/>
+              <pushbyte val="6"/>
+              <noarg action="66"/>
+              <setmember/>
+              <pushzero/>
+              <setregister reg="3"/>
+              <pop/>
+              <pushregister val="3" anchor="L2"/>
+              <pushregister val="1"/>
+              <getnamedmember val="47"/>
+              <getnamedmember val="54"/>
+              <newlessthan/>
+              <logicalnot/>
+              <branchiftrue offset="64" target="L3"/>
+              <pushzero/>
+              <pushregister val="1"/>
+              <getnamedmember val="47"/>
+              <pushregister val="3"/>
+              <getmember/>
+              <callnamedmethodpop val="55"/>
+              <pushzero/>
+              <pushregister val="1"/>
+              <getnamedmember val="47"/>
+              <pushregister val="3"/>
+              <getmember/>
+              <callnamedmethodpop val="56"/>
+              <pushregister val="3"/>
+              <pushregister val="1"/>
+              <getnamedmember val="57"/>
+              <pushregister val="1"/>
+              <pushbyte val="3"/>
+              <pushregister val="2"/>
+              <pushconstant val="58"/>
+              <noarg action="82"/>
+              <pushone/>
+              <pushregister val="1"/>
+              <getnamedmember val="47"/>
+              <pushregister val="3"/>
+              <getmember/>
+              <callnamedmethodpop val="40"/>
+              <pushregister val="3"/>
+              <increment/>
+              <setregister reg="3"/>
+              <pop/>
+              <branchalways offset="-79" target="L2"/>
+              <pushzero anchor="L3"/>
+              <pushregister val="4"/>
+              <getnamedmember val="59"/>
+              <callnamedmethodpop val="37"/>
+              <pushzero/>
+              <pushregister val="4"/>
+              <getnamedmember val="59"/>
+              <callnamedmethodpop val="38"/>
+              <pushregister val="1"/>
+              <getnamedmember val="60"/>
+              <pushregister val="1"/>
+              <pushbyte val="2"/>
+              <pushregister val="2"/>
+              <pushconstant val="12"/>
+              <noarg action="82"/>
+              <pushone/>
+              <pushregister val="4"/>
+              <getnamedmember val="59"/>
+              <callnamedmethodpop val="61"/>
+              <pushzero/>
+              <pushregister val="1"/>
+              <callnamedmethodpop val="62"/>
+            </body>
+          </definefunction2>
+          <setmember/>
+          <pushregister val="2"/>
+          <pushconstant val="32"/>
+          <definefunction2 name="" flags="19464198" size="345">
+            <argument reg="5" name="buttons"/>
+            <body>
+              <pushvalue val="3"/>
+              <getnamedmember val="35"/>
+              <getnamedmember val="45"/>
+              <getnamedmember val="63"/>
+              <setregister reg="3"/>
+              <pop/>
+              <pushconstant val="64"/>
+              <pushvalue val="3"/>
+              <getnamedmember val="35"/>
+              <getnamedmember val="45"/>
+              <getnamedmember val="63"/>
+              <newadd/>
+              <trace/>
+              <pushvalue val="65"/>
+              <getnamedmember val="66"/>
+              <pushconstant val="22"/>
+              <newequals/>
+              <logicalnot/>
+              <branchiftrue offset="12" target="L4"/>
+              <pushregister val="3"/>
+              <pushconstant val="67"/>
+              <pushfalse/>
+              <setmember/>
+              <branchalways offset="289" target="L6"/>
+              <pushzero anchor="L4"/>
+              <pushregister val="3"/>
+              <getnamedmember val="68"/>
+              <callnamedmethodpop val="37"/>
+              <pushzero/>
+              <pushregister val="3"/>
+              <getnamedmember val="69"/>
+              <callnamedmethodpop val="37"/>
+              <pushzero/>
+              <pushregister val="3"/>
+              <getnamedmember val="70"/>
+              <callnamedmethodpop val="37"/>
+              <pushzero/>
+              <pushregister val="3"/>
+              <getnamedmember val="71"/>
+              <callnamedmethodpop val="37"/>
+              <pushzero/>
+              <pushregister val="3"/>
+              <getnamedmember val="72"/>
+              <callnamedmethodpop val="37"/>
+              <pushfalse/>
+              <pushone/>
+              <pushregister val="1"/>
+              <callnamedmethodpop val="73"/>
+              <pushregister val="1"/>
+              <getnamedmember val="20"/>
+              <logicalnot/>
+              <branchiftrue offset="188" target="L5"/>
+              <pushzero/>
+              <pushregister val="3"/>
+              <getnamedmember val="68"/>
+              <callnamedmethodpop val="38"/>
+              <pushzero/>
+              <pushregister val="3"/>
+              <getnamedmember val="69"/>
+              <callnamedmethodpop val="38"/>
+              <pushzero/>
+              <pushregister val="3"/>
+              <getnamedmember val="70"/>
+              <callnamedmethodpop val="38"/>
+              <pushzero/>
+              <pushregister val="3"/>
+              <getnamedmember val="71"/>
+              <callnamedmethodpop val="38"/>
+              <pushzero/>
+              <pushregister val="3"/>
+              <getnamedmember val="72"/>
+              <callnamedmethodpop val="38"/>
+              <pushregister val="1"/>
+              <getnamedmember val="74"/>
+              <pushregister val="1"/>
+              <pushbyte val="2"/>
+              <pushregister val="2"/>
+              <pushconstant val="75"/>
+              <noarg action="82"/>
+              <pushone/>
+              <pushregister val="3"/>
+              <getnamedmember val="68"/>
+              <callnamedmethodpop val="76"/>
+              <pushregister val="1"/>
+              <getnamedmember val="77"/>
+              <pushregister val="1"/>
+              <pushbyte val="2"/>
+              <pushregister val="2"/>
+              <pushconstant val="7"/>
+              <noarg action="82"/>
+              <pushone/>
+              <pushregister val="3"/>
+              <getnamedmember val="69"/>
+              <callnamedmethodpop val="76"/>
+              <pushregister val="1"/>
+              <getnamedmember val="78"/>
+              <pushregister val="1"/>
+              <pushbyte val="2"/>
+              <pushregister val="2"/>
+              <pushconstant val="12"/>
+              <noarg action="82"/>
+              <pushone/>
+              <pushregister val="3"/>
+              <getnamedmember val="70"/>
+              <callnamedmethodpop val="61"/>
+              <pushregister val="1"/>
+              <getnamedmember val="79"/>
+              <pushregister val="1"/>
+              <pushbyte val="2"/>
+              <pushregister val="2"/>
+              <pushconstant val="12"/>
+              <noarg action="82"/>
+              <pushone/>
+              <pushregister val="3"/>
+              <getnamedmember val="71"/>
+              <callnamedmethodpop val="61"/>
+              <pushregister val="1"/>
+              <getnamedmember val="80"/>
+              <pushregister val="1"/>
+              <pushbyte val="2"/>
+              <pushregister val="2"/>
+              <pushconstant val="12"/>
+              <noarg action="82"/>
+              <pushone/>
+              <pushregister val="3"/>
+              <getnamedmember val="72"/>
+              <callnamedmethodpop val="61"/>
+              <pushregister val="3"/>
+              <getnamedmember val="81"/>
+              <setregister reg="4"/>
+              <pop/>
+              <pushzero/>
+              <pushregister val="4"/>
+              <callnamedmethodpop val="37"/>
+              <pushzero/>
+              <pushregister val="4"/>
+              <callnamedmethodpop val="38"/>
+              <pushregister val="1"/>
+              <getnamedmember val="82"/>
+              <pushregister val="1"/>
+              <pushbyte val="2"/>
+              <pushregister val="2"/>
+              <pushconstant val="12"/>
+              <noarg action="82"/>
+              <pushone/>
+              <pushregister val="4"/>
+              <callnamedmethodpop val="40"/>
+              <pushregister val="4"/>
+              <pushone/>
+              <pushregister val="5"/>
+              <callnamedmethodpop val="41"/>
+              <branchalways offset="49" target="L6"/>
+              <pushzero anchor="L5"/>
+              <pushregister val="3"/>
+              <getnamedmember val="68"/>
+              <callnamedmethodpop val="56"/>
+              <pushzero/>
+              <pushregister val="3"/>
+              <getnamedmember val="69"/>
+              <callnamedmethodpop val="56"/>
+              <pushzero/>
+              <pushregister val="3"/>
+              <getnamedmember val="70"/>
+              <callnamedmethodpop val="56"/>
+              <pushzero/>
+              <pushregister val="3"/>
+              <getnamedmember val="71"/>
+              <callnamedmethodpop val="56"/>
+              <pushzero/>
+              <pushregister val="3"/>
+              <getnamedmember val="72"/>
+              <callnamedmethodpop val="56"/>
+              <pushzero/>
+              <pushregister val="3"/>
+              <getnamedmember val="81"/>
+              <callnamedmethodpop val="55"/>
+              <pushzero/>
+              <pushregister val="3"/>
+              <getnamedmember val="81"/>
+              <callnamedmethodpop val="56"/>
+            </body>
+          </definefunction2>
+          <setmember anchor="L6"/>
+          <pushregister val="2"/>
+          <pushconstant val="33"/>
+          <definefunction2 name="" flags="19464196" size="300">
+            <body>
+              <pushconstant val="83"/>
+              <trace/>
+              <pushregister val="1"/>
+              <pushconstant val="84"/>
+              <pushvalue val="3"/>
+              <getnamedmember val="35"/>
+              <getnamedmember val="85"/>
+              <pushvalue val="3"/>
+              <getnamedmember val="35"/>
+              <getnamedmember val="86"/>
+              <pushvalue val="3"/>
+              <getnamedmember val="35"/>
+              <getnamedmember val="87"/>
+              <pushvalue val="3"/>
+              <getnamedmember val="35"/>
+              <getnamedmember val="88"/>
+              <pushvalue val="3"/>
+              <getnamedmember val="35"/>
+              <getnamedmember val="89"/>
+              <pushvalue val="3"/>
+              <getnamedmember val="35"/>
+              <getnamedmember val="90"/>
+              <pushbyte val="6"/>
+              <noarg action="66"/>
+              <setmember/>
+              <pushzero/>
+              <setregister reg="3"/>
+              <pop/>
+              <pushregister val="3" anchor="L7"/>
+              <pushregister val="1"/>
+              <getnamedmember val="84"/>
+              <getnamedmember val="54"/>
+              <newlessthan/>
+              <logicalnot/>
+              <branchiftrue offset="228" target="L8"/>
+              <pushregister val="1"/>
+              <getnamedmember val="84"/>
+              <pushregister val="3"/>
+              <getmember/>
+              <pushconstant val="91"/>
+              <pushregister val="3"/>
+              <setmember/>
+              <pushzero/>
+              <pushregister val="1"/>
+              <getnamedmember val="84"/>
+              <pushregister val="3"/>
+              <getmember/>
+              <getnamedmember val="92"/>
+              <callnamedmethodpop val="37"/>
+              <pushzero/>
+              <pushregister val="1"/>
+              <getnamedmember val="84"/>
+              <pushregister val="3"/>
+              <getmember/>
+              <getnamedmember val="92"/>
+              <callnamedmethodpop val="56"/>
+              <pushregister val="1"/>
+              <getnamedmember val="93"/>
+              <pushregister val="1"/>
+              <pushbyte val="2"/>
+              <pushregister val="2"/>
+              <pushconstant val="7"/>
+              <noarg action="82"/>
+              <pushone/>
+              <pushregister val="1"/>
+              <getnamedmember val="84"/>
+              <pushregister val="3"/>
+              <getmember/>
+              <getnamedmember val="92"/>
+              <callnamedmethodpop val="76"/>
+              <pushzero/>
+              <pushregister val="1"/>
+              <getnamedmember val="84"/>
+              <pushregister val="3"/>
+              <getmember/>
+              <getnamedmember val="94"/>
+              <callnamedmethodpop val="37"/>
+              <pushregister val="1"/>
+              <getnamedmember val="95"/>
+              <pushregister val="1"/>
+              <pushbyte val="2"/>
+              <pushregister val="2"/>
+              <pushconstant val="7"/>
+              <noarg action="82"/>
+              <pushone/>
+              <pushregister val="1"/>
+              <getnamedmember val="84"/>
+              <pushregister val="3"/>
+              <getmember/>
+              <getnamedmember val="94"/>
+              <callnamedmethodpop val="76"/>
+              <pushzero/>
+              <pushregister val="1"/>
+              <getnamedmember val="84"/>
+              <pushregister val="3"/>
+              <getmember/>
+              <getnamedmember val="96"/>
+              <callnamedmethodpop val="37"/>
+              <pushregister val="1"/>
+              <getnamedmember val="97"/>
+              <pushregister val="1"/>
+              <pushbyte val="2"/>
+              <pushregister val="2"/>
+              <pushconstant val="7"/>
+              <noarg action="82"/>
+              <pushone/>
+              <pushregister val="1"/>
+              <getnamedmember val="84"/>
+              <pushregister val="3"/>
+              <getmember/>
+              <getnamedmember val="96"/>
+              <callnamedmethodpop val="76"/>
+              <pushzero/>
+              <pushregister val="1"/>
+              <getnamedmember val="84"/>
+              <pushregister val="3"/>
+              <getmember/>
+              <getnamedmember val="98"/>
+              <callnamedmethodpop val="37"/>
+              <pushregister val="1"/>
+              <getnamedmember val="99"/>
+              <pushregister val="1"/>
+              <pushbyte val="2"/>
+              <pushregister val="2"/>
+              <pushconstant val="7"/>
+              <noarg action="82"/>
+              <pushone/>
+              <pushregister val="1"/>
+              <getnamedmember val="84"/>
+              <pushregister val="3"/>
+              <getmember/>
+              <getnamedmember val="98"/>
+              <callnamedmethodpop val="76"/>
+              <pushzero/>
+              <pushregister val="1"/>
+              <getnamedmember val="84"/>
+              <pushregister val="3"/>
+              <getmember/>
+              <getnamedmember val="100"/>
+              <callnamedmethodpop val="37"/>
+              <pushregister val="1"/>
+              <getnamedmember val="101"/>
+              <pushregister val="1"/>
+              <pushbyte val="2"/>
+              <pushregister val="2"/>
+              <pushconstant val="7"/>
+              <noarg action="82"/>
+              <pushone/>
+              <pushregister val="1"/>
+              <getnamedmember val="84"/>
+              <pushregister val="3"/>
+              <getmember/>
+              <getnamedmember val="100"/>
+              <callnamedmethodpop val="76"/>
+              <pushregister val="3"/>
+              <increment/>
+              <setregister reg="3"/>
+              <pop/>
+              <branchalways offset="-243" target="L7"/>
+            </body>
+          </definefunction2>
+          <setmember anchor="L8"/>
+          <pushregister val="2"/>
+          <pushconstant val="102"/>
+          <definefunction2 name="" flags="19464197" size="88">
+            <body>
+              <pushzero/>
+              <setregister reg="3"/>
+              <pop/>
+              <pushregister val="3" anchor="L9"/>
+              <pushregister val="1"/>
+              <getnamedmember val="84"/>
+              <getnamedmember val="54"/>
+              <newlessthan/>
+              <logicalnot/>
+              <branchiftrue offset="64" target="L10"/>
+              <pushregister val="1"/>
+              <getnamedmember val="84"/>
+              <pushregister val="3"/>
+              <getmember/>
+              <getnamedmember val="103"/>
+              <setregister reg="4"/>
+              <pop/>
+              <pushzero/>
+              <pushregister val="4"/>
+              <callnamedmethodpop val="37"/>
+              <pushzero/>
+              <pushregister val="4"/>
+              <callnamedmethodpop val="56"/>
+              <pushregister val="1"/>
+              <getnamedmember val="104"/>
+              <pushregister val="1"/>
+              <pushbyte val="2"/>
+              <pushregister val="2"/>
+              <pushconstant val="12"/>
+              <noarg action="82"/>
+              <pushone/>
+              <pushregister val="4"/>
+              <callnamedmethodpop val="61"/>
+              <pushregister val="3"/>
+              <increment/>
+              <setregister reg="3"/>
+              <pop/>
+              <branchalways offset="-79" target="L9"/>
+            </body>
+          </definefunction2>
+          <setmember anchor="L10"/>
+          <pushregister val="2"/>
+          <pushconstant val="105"/>
+          <definefunction2 name="" flags="2686978" size="54">
+            <body>
+              <pushregister val="1"/>
+              <getnamedmember val="20"/>
+              <logicalnot/>
+              <branchiftrue offset="24" target="L11"/>
+              <pushzero/>
+              <pushvalue val="3"/>
+              <getnamedmember val="35"/>
+              <getnamedmember val="36"/>
+              <callnamedmethodpop val="37"/>
+              <pushzero/>
+              <pushvalue val="3"/>
+              <getnamedmember val="35"/>
+              <getnamedmember val="36"/>
+              <callnamedmethodpop val="38"/>
+              <branchalways offset="18" target="L12"/>
+              <pushzero anchor="L11"/>
+              <pushvalue val="3"/>
+              <getnamedmember val="35"/>
+              <getnamedmember val="36"/>
+              <callnamedmethodpop val="55"/>
+              <pushzero/>
+              <pushvalue val="3"/>
+              <getnamedmember val="35"/>
+              <getnamedmember val="36"/>
+              <callnamedmethodpop val="56"/>
+            </body>
+          </definefunction2>
+          <setmember anchor="L12"/>
+          <pushregister val="2"/>
+          <pushconstant val="73"/>
+          <definefunction2 name="" flags="2752515" size="79">
+            <argument reg="2" name="isVisible"/>
+            <body>
+              <pushvalue val="3"/>
+              <getnamedmember val="35"/>
+              <getnamedmember val="45"/>
+              <getnamedmember val="63"/>
+              <setregister reg="1"/>
+              <pop/>
+              <pushregister val="2"/>
+              <logicalnot/>
+              <branchiftrue offset="28" target="L13"/>
+              <pushzero/>
+              <pushregister val="1"/>
+              <getnamedmember val="106"/>
+              <callnamedmethodpop val="37"/>
+              <pushregister val="1"/>
+              <getnamedmember val="107"/>
+              <pushconstant val="67"/>
+              <pushtrue/>
+              <setmember/>
+              <pushregister val="1"/>
+              <getnamedmember val="108"/>
+              <pushconstant val="67"/>
+              <pushtrue/>
+              <setmember/>
+              <branchalways offset="23" target="L14"/>
+              <pushzero anchor="L13"/>
+              <pushregister val="1"/>
+              <getnamedmember val="106"/>
+              <callnamedmethodpop val="55"/>
+              <pushregister val="1"/>
+              <getnamedmember val="107"/>
+              <pushconstant val="67"/>
+              <pushfalse/>
+              <setmember/>
+              <pushregister val="1"/>
+              <getnamedmember val="108"/>
+              <pushconstant val="67"/>
+              <pushfalse/>
+              <setmember/>
+            </body>
+          </definefunction2>
+          <setmember anchor="L14"/>
+          <pushregister val="2"/>
+          <pushconstant val="62"/>
+          <definefunction2 name="" flags="2686981" size="153">
+            <body>
+              <pushvalue val="3"/>
+              <getnamedmember val="35"/>
+              <getnamedmember val="45"/>
+              <getnamedmember val="46"/>
+              <getnamedmember val="109"/>
+              <setregister reg="4"/>
+              <pop/>
+              <pushzero/>
+              <pushregister val="4"/>
+              <callnamedmethodpop val="37"/>
+              <pushzero/>
+              <pushregister val="4"/>
+              <callnamedmethodpop val="38"/>
+              <pushvalue val="3"/>
+              <getnamedmember val="35"/>
+              <getnamedmember val="45"/>
+              <getnamedmember val="46"/>
+              <getnamedmember val="110"/>
+              <setregister reg="2"/>
+              <pop/>
+              <pushregister val="1"/>
+              <pushone/>
+              <pushregister val="2"/>
+              <callnamedmethodpop val="111"/>
+              <pushzero/>
+              <pushconstant val="9"/>
+              <new/>
+              <setregister reg="3"/>
+              <pop/>
+              <pushconstant val="112"/>
+              <pushconstant val="113"/>
+              <pushconstant val="114"/>
+              <pushshort val="270"/>
+              <pushconstant val="115"/>
+              <pushzero/>
+              <pushconstant val="116"/>
+              <pushzero/>
+              <pushbyte val="4"/>
+              <noarg action="67"/>
+              <pushone/>
+              <pushregister val="3"/>
+              <callnamedmethodpop val="41"/>
+              <pushconstant val="112"/>
+              <pushconstant val="113"/>
+              <pushconstant val="114"/>
+              <pushbyte val="75"/>
+              <pushconstant val="115"/>
+              <pushbyte val="26"/>
+              <pushconstant val="116"/>
+              <pushzero/>
+              <pushbyte val="4"/>
+              <noarg action="67"/>
+              <pushone/>
+              <pushregister val="3"/>
+              <callnamedmethodpop val="41"/>
+              <pushbyte val="26"/>
+              <pushregister val="3"/>
+              <pushbyte val="2"/>
+              <pushregister val="2"/>
+              <callnamedmethodpop val="117"/>
+              <pushregister val="4"/>
+              <pushone/>
+              <pushregister val="2"/>
+              <callnamedmethodpop val="118"/>
+              <pushzero/>
+              <pushregister val="2"/>
+              <callnamedmethodpop val="37"/>
+              <pushzero/>
+              <pushregister val="2"/>
+              <callnamedmethodpop val="38"/>
+              <pushzero/>
+              <pushregister val="2"/>
+              <callnamedmethodpop val="119"/>
+              <pushzero/>
+              <pushregister val="2"/>
+              <callnamedmethodpop val="120"/>
+              <pushzero/>
+              <pushregister val="2"/>
+              <callnamedmethodpop val="121"/>
+            </body>
+          </definefunction2>
+          <setmember/>
+          <pushregister val="2"/>
+          <pushconstant val="6"/>
+          <definefunction2 name="" flags="19464197" size="63">
+            <argument reg="4" name="messageCode"/>
+            <body>
+              <pushfalse/>
+              <setregister reg="3"/>
+              <pop/>
+              <pushregister val="4"/>
+              <pushregister val="2"/>
+              <getnamedmember val="122"/>
+              <getnamedmember val="123"/>
+              <noarg action="102"/>
+              <branchiftrue offset="8" target="L15"/>
+              <branchalways offset="20" target="L16"/>
+              <pushzero anchor="L15"/>
+              <pushregister val="1"/>
+              <callnamedmethodpop val="124"/>
+              <pushtrue/>
+              <setregister reg="3"/>
+              <pop/>
+              <branchalways offset="8" target="L17"/>
+              <branchalways offset="0" anchor="L16" target="L17"/>
+              <pushregister val="3" anchor="L17"/>
+              <noarg action="62"/>
+            </body>
+          </definefunction2>
+          <setmember/>
+          <pushregister val="2"/>
+          <pushconstant val="11"/>
+          <definefunction2 name="" flags="19464196" size="74">
+            <body>
+              <pushconstant val="125"/>
+              <trace/>
+              <geturl str1="FSCommand:CallGameFunction" str2="%SetGameSetupMode?Mode=None"/>
+              <pushregister val="1"/>
+              <getnamedmember val="5"/>
+              <pushone/>
+              <pushregister val="2"/>
+              <getnamedmember val="24"/>
+              <callnamedmethodpop val="126"/>
+              <pushregister val="1"/>
+              <pushconstant val="5"/>
+              <noarg action="58"/>
+              <pop/>
+              <pushvalue val="3"/>
+              <getnamedmember val="35"/>
+              <getnamedmember val="45"/>
+              <getnamedmember val="46"/>
+              <getnamedmember val="110"/>
+              <setregister reg="3"/>
+              <pop/>
+              <pushregister val="1"/>
+              <pushone/>
+              <pushregister val="3"/>
+              <callnamedmethodpop val="127"/>
+              <pushzero/>
+              <pushregister val="3"/>
+              <callnamedmethodpop val="128"/>
+              <pushzero/>
+              <pushregister val="1"/>
+              <callnamedmethodpop val="129"/>
+              <pushregister val="2"/>
+              <pushconstant val="1"/>
+              <noarg action="58"/>
+              <pop/>
+              <pushregister val="2"/>
+              <pushconstant val="3"/>
+              <noarg action="58"/>
+              <pop/>
+            </body>
+          </definefunction2>
+          <setmember/>
+          <pushregister val="2"/>
+          <pushconstant val="39"/>
+          <definefunction name="" size="12">
+            <body>
+              <pushconstant val="130"/>
+              <trace/>
+              <geturl str1="FSCommand:CallGameFunction" str2="%StartGame"/>
+            </body>
+          </definefunction>
+          <setmember/>
+          <pushregister val="2"/>
+          <pushconstant val="60"/>
+          <definefunction2 name="" flags="19529731" size="104">
+            <body>
+              <pushconstant val="131"/>
+              <pushvalue val="3"/>
+              <getnamedmember val="35"/>
+              <newadd/>
+              <trace/>
+              <pushzero/>
+              <pushvalue val="3"/>
+              <getnamedmember val="35"/>
+              <getnamedmember val="45"/>
+              <getnamedmember val="46"/>
+              <getnamedmember val="59"/>
+              <pushconstant val="132"/>
+              <noarg action="82"/>
+              <branchiftrue offset="8" target="L18"/>
+              <pushconstant val="133"/>
+              <branchalways offset="2" target="L19"/>
+              <pushconstant val="22" anchor="L18"/>
+              <setregister reg="2" anchor="L19"/>
+              <pop/>
+              <pushconstant val="134"/>
+              <pushconstant val="135"/>
+              <pushregister val="2"/>
+              <newadd/>
+              <geturl2/>
+              <pushregister val="2"/>
+              <logicalnot/>
+              <branchiftrue offset="24" target="L20"/>
+              <pushregister val="1"/>
+              <getnamedmember val="136"/>
+              <pushconstant val="137"/>
+              <pushregister val="1"/>
+              <getnamedmember val="138"/>
+              <getnamedmember val="139"/>
+              <setmember/>
+              <pushconstant val="140"/>
+              <trace/>
+              <branchalways offset="16" target="L21"/>
+              <pushregister val="1" anchor="L20"/>
+              <getnamedmember val="136"/>
+              <pushconstant val="137"/>
+              <pushregister val="1"/>
+              <getnamedmember val="138"/>
+              <getnamedmember val="141"/>
+              <setmember/>
+              <pushconstant val="142"/>
+              <trace/>
+            </body>
+          </definefunction2>
+          <setmember anchor="L21"/>
+          <pushregister val="2"/>
+          <pushconstant val="27"/>
+          <definefunction2 name="" flags="2686979" size="19">
+            <argument reg="2" name="index"/>
+            <body>
+              <pushconstant val="143"/>
+              <pushregister val="2"/>
+              <newadd/>
+              <trace/>
+              <pushconstant val="134"/>
+              <pushconstant val="144"/>
+              <pushregister val="1"/>
+              <getnamedmember val="8"/>
+              <pushregister val="2"/>
+              <getmember/>
+              <newadd/>
+              <geturl2/>
+            </body>
+          </definefunction2>
+          <setmember/>
+          <pushregister val="2"/>
+          <pushconstant val="145"/>
+          <definefunction name="" size="27">
+            <body>
+              <pushconstant val="146"/>
+              <trace/>
+              <pushvalue val="3"/>
+              <getnamedmember val="35"/>
+              <getnamedmember val="45"/>
+              <getnamedmember val="46"/>
+              <pushconstant val="67"/>
+              <pushtrue/>
+              <setmember/>
+              <pushvalue val="3"/>
+              <getnamedmember val="35"/>
+              <getnamedmember val="45"/>
+              <getnamedmember val="63"/>
+              <pushconstant val="67"/>
+              <pushfalse/>
+              <setmember/>
+            </body>
+          </definefunction>
+          <setmember/>
+          <pushregister val="2"/>
+          <pushconstant val="147"/>
+          <definefunction name="" size="27">
+            <body>
+              <pushconstant val="148"/>
+              <trace/>
+              <pushvalue val="3"/>
+              <getnamedmember val="35"/>
+              <getnamedmember val="45"/>
+              <getnamedmember val="46"/>
+              <pushconstant val="67"/>
+              <pushfalse/>
+              <setmember/>
+              <pushvalue val="3"/>
+              <getnamedmember val="35"/>
+              <getnamedmember val="45"/>
+              <getnamedmember val="63"/>
+              <pushconstant val="67"/>
+              <pushtrue/>
+              <setmember/>
+            </body>
+          </definefunction>
+          <setmember/>
+          <pushregister val="2"/>
+          <pushconstant val="93"/>
+          <definefunction2 name="" flags="2752516" size="51">
+            <argument reg="3" name="playerStatusMC"/>
+            <body>
+              <pushzero/>
+              <pushregister val="3"/>
+              <pushconstant val="149"/>
+              <noarg action="82"/>
+              <pushone/>
+              <pushregister val="3"/>
+              <pushconstant val="150"/>
+              <noarg action="82"/>
+              <noarg action="75"/>
+              <setregister reg="2"/>
+              <pop/>
+              <pushregister val="3"/>
+              <getnamedmember val="151"/>
+              <getnamedmember val="91"/>
+              <noarg action="75"/>
+              <setregister reg="1"/>
+              <pop/>
+              <pushconstant val="134"/>
+              <pushconstant val="152"/>
+              <pushregister val="1"/>
+              <newadd/>
+              <pushconstant val="153"/>
+              <newadd/>
+              <pushregister val="2"/>
+              <newadd/>
+              <geturl2/>
+            </body>
+          </definefunction2>
+          <setmember/>
+          <pushregister val="2"/>
+          <pushconstant val="95"/>
+          <definefunction2 name="" flags="2752516" size="51">
+            <argument reg="1" name="factionsMC"/>
+            <body>
+              <pushzero/>
+              <pushregister val="1"/>
+              <pushconstant val="149"/>
+              <noarg action="82"/>
+              <pushone/>
+              <pushregister val="1"/>
+              <pushconstant val="150"/>
+              <noarg action="82"/>
+              <noarg action="75"/>
+              <setregister reg="3"/>
+              <pop/>
+              <pushregister val="1"/>
+              <getnamedmember val="151"/>
+              <getnamedmember val="91"/>
+              <noarg action="75"/>
+              <setregister reg="2"/>
+              <pop/>
+              <pushconstant val="134"/>
+              <pushconstant val="154"/>
+              <pushregister val="2"/>
+              <newadd/>
+              <pushconstant val="155"/>
+              <newadd/>
+              <pushregister val="3"/>
+              <newadd/>
+              <geturl2/>
+            </body>
+          </definefunction2>
+          <setmember/>
+          <pushregister val="2"/>
+          <pushconstant val="99"/>
+          <definefunction2 name="" flags="2752516" size="51">
+            <argument reg="2" name="teamsMC"/>
+            <body>
+              <pushzero/>
+              <pushregister val="2"/>
+              <pushconstant val="149"/>
+              <noarg action="82"/>
+              <pushone/>
+              <pushregister val="2"/>
+              <pushconstant val="150"/>
+              <noarg action="82"/>
+              <noarg action="75"/>
+              <setregister reg="3"/>
+              <pop/>
+              <pushregister val="2"/>
+              <getnamedmember val="151"/>
+              <getnamedmember val="91"/>
+              <noarg action="75"/>
+              <setregister reg="1"/>
+              <pop/>
+              <pushconstant val="134"/>
+              <pushconstant val="156"/>
+              <pushregister val="1"/>
+              <newadd/>
+              <pushconstant val="157"/>
+              <newadd/>
+              <pushregister val="3"/>
+              <newadd/>
+              <geturl2/>
+            </body>
+          </definefunction2>
+          <setmember/>
+          <pushregister val="2"/>
+          <pushconstant val="101"/>
+          <definefunction2 name="" flags="2752516" size="51">
+            <argument reg="3" name="colorsMC"/>
+            <body>
+              <pushzero/>
+              <pushregister val="3"/>
+              <pushconstant val="149"/>
+              <noarg action="82"/>
+              <pushone/>
+              <pushregister val="3"/>
+              <pushconstant val="150"/>
+              <noarg action="82"/>
+              <noarg action="75"/>
+              <setregister reg="2"/>
+              <pop/>
+              <pushregister val="3"/>
+              <getnamedmember val="151"/>
+              <getnamedmember val="91"/>
+              <noarg action="75"/>
+              <setregister reg="1"/>
+              <pop/>
+              <pushconstant val="134"/>
+              <pushconstant val="158"/>
+              <pushregister val="1"/>
+              <newadd/>
+              <pushconstant val="159"/>
+              <newadd/>
+              <pushregister val="2"/>
+              <newadd/>
+              <geturl2/>
+            </body>
+          </definefunction2>
+          <setmember/>
+          <pushregister val="2"/>
+          <pushconstant val="97"/>
+          <definefunction2 name="" flags="2752516" size="51">
+            <argument reg="2" name="personalitiesMC"/>
+            <body>
+              <pushzero/>
+              <pushregister val="2"/>
+              <pushconstant val="149"/>
+              <noarg action="82"/>
+              <pushone/>
+              <pushregister val="2"/>
+              <pushconstant val="150"/>
+              <noarg action="82"/>
+              <noarg action="75"/>
+              <setregister reg="3"/>
+              <pop/>
+              <pushregister val="2"/>
+              <getnamedmember val="151"/>
+              <getnamedmember val="91"/>
+              <noarg action="75"/>
+              <setregister reg="1"/>
+              <pop/>
+              <pushconstant val="134"/>
+              <pushconstant val="160"/>
+              <pushregister val="1"/>
+              <newadd/>
+              <pushconstant val="161"/>
+              <newadd/>
+              <pushregister val="3"/>
+              <newadd/>
+              <geturl2/>
+            </body>
+          </definefunction2>
+          <setmember/>
+          <pushregister val="2"/>
+          <pushconstant val="104"/>
+          <definefunction name="" size="12">
+            <body>
+              <pushconstant val="162"/>
+              <trace/>
+              <geturl str1="FSCommand:CallGameFunction" str2="%ToggleReadyStatus"/>
+            </body>
+          </definefunction>
+          <setmember/>
+          <pushregister val="2"/>
+          <pushconstant val="57"/>
+          <definefunction2 name="" flags="2752514" size="14">
+            <argument reg="1" name="startPosition"/>
+            <body>
+              <pushconstant val="163"/>
+              <pushregister val="1"/>
+              <newadd/>
+              <trace/>
+              <pushconstant val="134"/>
+              <pushconstant val="164"/>
+              <pushregister val="1"/>
+              <newadd/>
+              <geturl2/>
+            </body>
+          </definefunction2>
+          <setmember/>
+          <pushregister val="2"/>
+          <pushconstant val="74"/>
+          <definefunction2 name="" flags="2752514" size="12">
+            <argument reg="0" name="component"/>
+            <argument reg="1" name="newSpeed"/>
+            <body>
+              <pushconstant val="165"/>
+              <trace/>
+              <pushconstant val="134"/>
+              <pushconstant val="166"/>
+              <pushregister val="1"/>
+              <noarg action="75"/>
+              <newadd/>
+              <geturl2/>
+            </body>
+          </definefunction2>
+          <setmember/>
+          <pushregister val="2"/>
+          <pushconstant val="77"/>
+          <definefunction2 name="" flags="2752515" size="33">
+            <argument reg="2" name="resourcesMC"/>
+            <body>
+              <pushconstant val="167"/>
+              <trace/>
+              <pushzero/>
+              <pushregister val="2"/>
+              <pushconstant val="149"/>
+              <noarg action="82"/>
+              <pushone/>
+              <pushregister val="2"/>
+              <pushconstant val="150"/>
+              <noarg action="82"/>
+              <noarg action="75"/>
+              <setregister reg="1"/>
+              <pop/>
+              <pushconstant val="134"/>
+              <pushconstant val="168"/>
+              <pushregister val="1"/>
+              <newadd/>
+              <geturl2/>
+            </body>
+          </definefunction2>
+          <setmember/>
+          <pushregister val="2"/>
+          <pushconstant val="80"/>
+          <definefunction name="" size="12">
+            <body>
+              <pushconstant val="169"/>
+              <trace/>
+              <geturl str1="FSCommand:CallGameFunction" str2="%ToggleVoipRule"/>
+            </body>
+          </definefunction>
+          <setmember/>
+          <pushregister val="2"/>
+          <pushconstant val="78"/>
+          <definefunction name="" size="12">
+            <body>
+              <pushconstant val="170"/>
+              <trace/>
+              <geturl str1="FSCommand:CallGameFunction" str2="%ToggleRandomCrates"/>
+            </body>
+          </definefunction>
+          <setmember/>
+          <pushregister val="2"/>
+          <pushconstant val="79"/>
+          <definefunction name="" size="12">
+            <body>
+              <pushconstant val="171"/>
+              <trace/>
+              <geturl str1="FSCommand:CallGameFunction" str2="%ToggleCommentary"/>
+            </body>
+          </definefunction>
+          <setmember/>
+          <pushregister val="2"/>
+          <pushconstant val="82"/>
+          <definefunction name="" size="12">
+            <body>
+              <pushconstant val="172"/>
+              <trace/>
+              <geturl str1="FSCommand:CallGameFunction" str2="%ResetRules"/>
+            </body>
+          </definefunction>
+          <setmember/>
+          <pushregister val="2"/>
+          <pushconstant val="124"/>
+          <definefunction2 name="" flags="2686978" size="107">
+            <body>
+              <pushconstant val="173"/>
+              <trace/>
+              <pushzero/>
+              <pushregister val="1"/>
+              <callnamedmethodpop val="174"/>
+              <pushzero/>
+              <pushregister val="1"/>
+              <callnamedmethodpop val="175"/>
+              <pushzero/>
+              <pushregister val="1"/>
+              <callnamedmethodpop val="176"/>
+              <pushzero/>
+              <pushregister val="1"/>
+              <callnamedmethodpop val="177"/>
+              <pushvalue val="3"/>
+              <getnamedmember val="35"/>
+              <getnamedmember val="45"/>
+              <getnamedmember val="63"/>
+              <getnamedmember val="70"/>
+              <pushconstant val="178"/>
+              <pushbyte val="2"/>
+              <pushregister val="1"/>
+              <callnamedmethodpop val="179"/>
+              <pushvalue val="3"/>
+              <getnamedmember val="35"/>
+              <getnamedmember val="45"/>
+              <getnamedmember val="63"/>
+              <getnamedmember val="72"/>
+              <pushconstant val="180"/>
+              <pushbyte val="2"/>
+              <pushregister val="1"/>
+              <callnamedmethodpop val="179"/>
+              <pushvalue val="3"/>
+              <getnamedmember val="35"/>
+              <getnamedmember val="45"/>
+              <getnamedmember val="63"/>
+              <getnamedmember val="71"/>
+              <pushconstant val="181"/>
+              <pushbyte val="2"/>
+              <pushregister val="1"/>
+              <callnamedmethodpop val="179"/>
+              <pushzero/>
+              <pushregister val="1"/>
+              <callnamedmethodpop val="182"/>
+              <pushzero/>
+              <pushregister val="1"/>
+              <callnamedmethodpop val="183"/>
+              <pushzero/>
+              <pushregister val="1"/>
+              <callnamedmethodpop val="184"/>
+              <pushzero/>
+              <pushregister val="1"/>
+              <callnamedmethodpop val="185"/>
+              <pushzero/>
+              <pushregister val="1"/>
+              <callnamedmethodpop val="186"/>
+              <pushzero/>
+              <pushregister val="1"/>
+              <callnamedmethodpop val="187"/>
+            </body>
+          </definefunction2>
+          <setmember/>
+          <pushregister val="2"/>
+          <pushconstant val="174"/>
+          <definefunction2 name="" flags="2686984" size="192">
+            <body>
+              <pushconstant val="188"/>
+              <trace/>
+              <pushvalue val="3"/>
+              <getnamedmember val="35"/>
+              <getnamedmember val="45"/>
+              <getnamedmember val="46"/>
+              <getnamedmember val="110"/>
+              <setregister reg="5"/>
+              <pop/>
+              <pushzero/>
+              <pushconstant val="18"/>
+              <new/>
+              <setregister reg="6"/>
+              <pop/>
+              <pushzero/>
+              <pushconstant val="9"/>
+              <new/>
+              <setregister reg="4"/>
+              <pop/>
+              <pushzero/>
+              <pushconstant val="9"/>
+              <new/>
+              <setregister reg="3"/>
+              <pop/>
+              <pushzero/>
+              <setregister reg="7"/>
+              <pop/>
+              <pushconstant val="189"/>
+              <pushregister val="6"/>
+              <geturl2/>
+              <pushregister val="1"/>
+              <pushconstant val="8"/>
+              <pushconstant val="190"/>
+              <pushone/>
+              <pushregister val="6"/>
+              <getnamedmember val="191"/>
+              <pushconstant val="192"/>
+              <noarg action="82"/>
+              <setmember/>
+              <pushzero/>
+              <pushregister val="1"/>
+              <getnamedmember val="8"/>
+              <pushconstant val="193"/>
+              <noarg action="82"/>
+              <noarg action="74"/>
+              <setregister reg="7"/>
+              <pop/>
+              <pushzero/>
+              <setregister reg="2"/>
+              <pop/>
+              <pushregister val="2" anchor="L22"/>
+              <pushregister val="1"/>
+              <getnamedmember val="8"/>
+              <getnamedmember val="54"/>
+              <newlessthan/>
+              <logicalnot/>
+              <branchiftrue offset="40" target="L23"/>
+              <pushregister val="4"/>
+              <pushregister val="2"/>
+              <pushconstant val="194"/>
+              <pushregister val="2"/>
+              <noarg action="75"/>
+              <newadd/>
+              <setmember/>
+              <pushregister val="3"/>
+              <pushregister val="2"/>
+              <pushconstant val="195"/>
+              <pushregister val="2"/>
+              <noarg action="75"/>
+              <newadd/>
+              <setmember/>
+              <pushregister val="2"/>
+              <increment/>
+              <setregister reg="2"/>
+              <pop/>
+              <branchalways offset="-55" target="L22"/>
+              <pushregister val="4" anchor="L23"/>
+              <pushzero/>
+              <pushbyte val="2"/>
+              <pushregister val="5"/>
+              <callnamedmethodpop val="196"/>
+              <pushregister val="3"/>
+              <pushone/>
+              <pushbyte val="2"/>
+              <pushregister val="5"/>
+              <callnamedmethodpop val="196"/>
+              <pushzero/>
+              <pushregister val="5"/>
+              <callnamedmethodpop val="120"/>
+              <pushzero/>
+              <pushregister val="5"/>
+              <callnamedmethodpop val="121"/>
+            </body>
+          </definefunction2>
+          <setmember/>
+          <pushregister val="2"/>
+          <pushconstant val="175"/>
+          <definefunction2 name="" flags="2686984" size="244">
+            <body>
+              <pushconstant val="197"/>
+              <trace/>
+              <pushzero/>
+              <setregister reg="3"/>
+              <pop/>
+              <pushregister val="3" anchor="L24"/>
+              <pushregister val="1"/>
+              <getnamedmember val="84"/>
+              <getnamedmember val="54"/>
+              <newlessthan/>
+              <logicalnot/>
+              <branchiftrue offset="216" target="L27"/>
+              <pushzero/>
+              <pushconstant val="18"/>
+              <new/>
+              <setregister reg="5"/>
+              <pop/>
+              <pushzero/>
+              <pushconstant val="9"/>
+              <new/>
+              <setregister reg="6"/>
+              <pop/>
+              <pushzero/>
+              <pushconstant val="9"/>
+              <new/>
+              <setregister reg="4"/>
+              <pop/>
+              <pushzero/>
+              <setregister reg="7"/>
+              <pop/>
+              <pushconstant val="198"/>
+              <pushregister val="3"/>
+              <noarg action="75"/>
+              <newadd/>
+              <pushregister val="5"/>
+              <geturl2/>
+              <pushconstant val="190"/>
+              <pushone/>
+              <pushregister val="5"/>
+              <getnamedmember val="199"/>
+              <pushconstant val="192"/>
+              <noarg action="82"/>
+              <setregister reg="4"/>
+              <pop/>
+              <pushzero/>
+              <pushregister val="4"/>
+              <pushconstant val="193"/>
+              <noarg action="82"/>
+              <noarg action="74"/>
+              <setregister reg="7"/>
+              <pop/>
+              <pushzero/>
+              <setregister reg="2"/>
+              <pop/>
+              <pushregister val="2" anchor="L25"/>
+              <pushregister val="4"/>
+              <getnamedmember val="54"/>
+              <newlessthan/>
+              <logicalnot/>
+              <branchiftrue offset="36" target="L26"/>
+              <pushregister val="6"/>
+              <pushregister val="2"/>
+              <pushconstant val="200"/>
+              <pushregister val="3"/>
+              <noarg action="75"/>
+              <newadd/>
+              <pushconstant val="201"/>
+              <newadd/>
+              <pushregister val="2"/>
+              <noarg action="75"/>
+              <newadd/>
+              <setmember/>
+              <pushregister val="2"/>
+              <increment/>
+              <setregister reg="2"/>
+              <pop/>
+              <branchalways offset="-51" target="L25"/>
+              <pushregister val="1" anchor="L26"/>
+              <getnamedmember val="84"/>
+              <pushregister val="3"/>
+              <getmember/>
+              <getnamedmember val="92"/>
+              <pushregister val="4"/>
+              <getnamedmember val="54"/>
+              <pushone/>
+              <greater/>
+              <pushbyte val="2"/>
+              <pushregister val="1"/>
+              <callnamedmethodpop val="202"/>
+              <pushregister val="4"/>
+              <pushregister val="6"/>
+              <pushbyte val="2"/>
+              <pushregister val="1"/>
+              <getnamedmember val="84"/>
+              <pushregister val="3"/>
+              <getmember/>
+              <getnamedmember val="92"/>
+              <callnamedmethodpop val="203"/>
+              <pushregister val="7"/>
+              <pushone/>
+              <pushregister val="1"/>
+              <getnamedmember val="84"/>
+              <pushregister val="3"/>
+              <getmember/>
+              <getnamedmember val="92"/>
+              <callnamedmethodpop val="204"/>
+              <pushregister val="3"/>
+              <increment/>
+              <setregister reg="3"/>
+              <pop/>
+              <branchalways offset="-231" target="L24"/>
+            </body>
+          </definefunction2>
+          <setmember anchor="L27"/>
+          <pushregister val="2"/>
+          <pushconstant val="183"/>
+          <definefunction2 name="" flags="2686984" size="240">
+            <body>
+              <pushconstant val="205"/>
+              <trace/>
+              <pushzero/>
+              <setregister reg="4"/>
+              <pop/>
+              <pushregister val="4" anchor="L28"/>
+              <pushregister val="1"/>
+              <getnamedmember val="84"/>
+              <getnamedmember val="54"/>
+              <newlessthan/>
+              <logicalnot/>
+              <branchiftrue offset="212" target="L31"/>
+              <pushzero/>
+              <pushconstant val="18"/>
+              <new/>
+              <setregister reg="5"/>
+              <pop/>
+              <pushzero/>
+              <pushconstant val="9"/>
+              <new/>
+              <setregister reg="6"/>
+              <pop/>
+              <pushzero/>
+              <pushconstant val="9"/>
+              <new/>
+              <setregister reg="3"/>
+              <pop/>
+              <pushzero/>
+              <setregister reg="7"/>
+              <pop/>
+              <pushconstant val="206"/>
+              <pushregister val="4"/>
+              <noarg action="75"/>
+              <newadd/>
+              <pushregister val="5"/>
+              <geturl2/>
+              <pushconstant val="190"/>
+              <pushone/>
+              <pushregister val="5"/>
+              <getnamedmember val="207"/>
+              <pushconstant val="192"/>
+              <noarg action="82"/>
+              <setregister reg="3"/>
+              <pop/>
+              <pushzero/>
+              <pushregister val="3"/>
+              <pushconstant val="193"/>
+              <noarg action="82"/>
+              <noarg action="74"/>
+              <setregister reg="7"/>
+              <pop/>
+              <pushzero/>
+              <setregister reg="2"/>
+              <pop/>
+              <pushregister val="2" anchor="L29"/>
+              <pushregister val="3"/>
+              <getnamedmember val="54"/>
+              <newlessthan/>
+              <logicalnot/>
+              <branchiftrue offset="32" target="L30"/>
+              <pushregister val="6"/>
+              <pushregister val="2"/>
+              <pushconstant val="208"/>
+              <pushregister val="3"/>
+              <pushregister val="2"/>
+              <getmember/>
+              <noarg action="75"/>
+              <newadd/>
+              <setmember/>
+              <pushregister val="2"/>
+              <increment/>
+              <setregister reg="2"/>
+              <pop/>
+              <branchalways offset="-47" target="L29"/>
+              <pushregister val="1" anchor="L30"/>
+              <getnamedmember val="84"/>
+              <pushregister val="4"/>
+              <getmember/>
+              <getnamedmember val="98"/>
+              <pushregister val="3"/>
+              <getnamedmember val="54"/>
+              <pushone/>
+              <greater/>
+              <pushbyte val="2"/>
+              <pushregister val="1"/>
+              <callnamedmethodpop val="202"/>
+              <pushregister val="3"/>
+              <pushregister val="6"/>
+              <pushbyte val="2"/>
+              <pushregister val="1"/>
+              <getnamedmember val="84"/>
+              <pushregister val="4"/>
+              <getmember/>
+              <getnamedmember val="98"/>
+              <callnamedmethodpop val="203"/>
+              <pushregister val="7"/>
+              <pushone/>
+              <pushregister val="1"/>
+              <getnamedmember val="84"/>
+              <pushregister val="4"/>
+              <getmember/>
+              <getnamedmember val="98"/>
+              <callnamedmethodpop val="204"/>
+              <pushregister val="4"/>
+              <increment/>
+              <setregister reg="4"/>
+              <pop/>
+              <branchalways offset="-227" target="L28"/>
+            </body>
+          </definefunction2>
+          <setmember anchor="L31"/>
+          <pushregister val="2"/>
+          <pushconstant val="184"/>
+          <definefunction2 name="" flags="2686983" size="192">
+            <body>
+              <pushconstant val="209"/>
+              <trace/>
+              <pushzero/>
+              <setregister reg="2"/>
+              <pop/>
+              <pushregister val="2" anchor="L32"/>
+              <pushregister val="1"/>
+              <getnamedmember val="84"/>
+              <getnamedmember val="54"/>
+              <newlessthan/>
+              <logicalnot/>
+              <branchiftrue offset="164" target="L33"/>
+              <pushzero/>
+              <pushconstant val="18"/>
+              <new/>
+              <setregister reg="4"/>
+              <pop/>
+              <pushconstant val="210"/>
+              <pushregister val="2"/>
+              <noarg action="75"/>
+              <newadd/>
+              <pushregister val="4"/>
+              <geturl2/>
+              <pushzero/>
+              <pushconstant val="9"/>
+              <new/>
+              <setregister reg="3"/>
+              <pop/>
+              <pushconstant val="190"/>
+              <pushone/>
+              <pushregister val="4"/>
+              <getnamedmember val="211"/>
+              <pushconstant val="192"/>
+              <noarg action="82"/>
+              <setregister reg="3"/>
+              <pop/>
+              <pushzero/>
+              <pushregister val="3"/>
+              <pushconstant val="193"/>
+              <noarg action="82"/>
+              <noarg action="74"/>
+              <setregister reg="6"/>
+              <pop/>
+              <pushzero/>
+              <pushconstant val="9"/>
+              <new/>
+              <setregister reg="5"/>
+              <pop/>
+              <pushconstant val="190"/>
+              <pushone/>
+              <pushregister val="4"/>
+              <getnamedmember val="212"/>
+              <pushconstant val="192"/>
+              <noarg action="82"/>
+              <setregister reg="5"/>
+              <pop/>
+              <pushregister val="1"/>
+              <getnamedmember val="84"/>
+              <pushregister val="2"/>
+              <getmember/>
+              <getnamedmember val="94"/>
+              <pushregister val="3"/>
+              <getnamedmember val="54"/>
+              <pushone/>
+              <greater/>
+              <pushbyte val="2"/>
+              <pushregister val="1"/>
+              <callnamedmethodpop val="202"/>
+              <pushregister val="3"/>
+              <pushregister val="5"/>
+              <pushbyte val="2"/>
+              <pushregister val="1"/>
+              <getnamedmember val="84"/>
+              <pushregister val="2"/>
+              <getmember/>
+              <getnamedmember val="94"/>
+              <callnamedmethodpop val="203"/>
+              <pushregister val="6"/>
+              <pushone/>
+              <pushregister val="1"/>
+              <getnamedmember val="84"/>
+              <pushregister val="2"/>
+              <getmember/>
+              <getnamedmember val="94"/>
+              <callnamedmethodpop val="204"/>
+              <pushregister val="2"/>
+              <increment/>
+              <setregister reg="2"/>
+              <pop/>
+              <branchalways offset="-179" target="L32"/>
+            </body>
+          </definefunction2>
+          <setmember anchor="L33"/>
+          <pushregister val="2"/>
+          <pushconstant val="185"/>
+          <definefunction2 name="" flags="2686984" size="288">
+            <body>
+              <pushconstant val="213"/>
+              <pushregister val="1"/>
+              <getnamedmember val="84"/>
+              <getnamedmember val="54"/>
+              <newadd/>
+              <trace/>
+              <pushzero/>
+              <setregister reg="2"/>
+              <pop/>
+              <pushregister val="2" anchor="L34"/>
+              <pushregister val="1"/>
+              <getnamedmember val="84"/>
+              <getnamedmember val="54"/>
+              <newlessthan/>
+              <logicalnot/>
+              <branchiftrue offset="256" target="L39"/>
+              <pushzero/>
+              <pushconstant val="18"/>
+              <new/>
+              <setregister reg="5"/>
+              <pop/>
+              <pushconstant val="214"/>
+              <pushregister val="2"/>
+              <noarg action="75"/>
+              <newadd/>
+              <pushregister val="5"/>
+              <geturl2/>
+              <pushregister val="5"/>
+              <getnamedmember val="215"/>
+              <pushundefined/>
+              <newequals/>
+              <logicalnot/>
+              <branchiftrue offset="32" target="L35"/>
+              <pushzero/>
+              <pushregister val="1"/>
+              <getnamedmember val="84"/>
+              <pushregister val="2"/>
+              <getmember/>
+              <getnamedmember val="96"/>
+              <callnamedmethodpop val="216"/>
+              <pushzero/>
+              <pushregister val="1"/>
+              <getnamedmember val="84"/>
+              <pushregister val="2"/>
+              <getmember/>
+              <getnamedmember val="96"/>
+              <callnamedmethodpop val="56"/>
+              <branchalways offset="172" target="L38"/>
+              <pushzero anchor="L35"/>
+              <pushconstant val="9"/>
+              <new/>
+              <setregister reg="4"/>
+              <pop/>
+              <pushconstant val="190"/>
+              <pushone/>
+              <pushregister val="5"/>
+              <getnamedmember val="215"/>
+              <pushconstant val="192"/>
+              <noarg action="82"/>
+              <setregister reg="4"/>
+              <pop/>
+              <pushzero/>
+              <pushregister val="4"/>
+              <pushconstant val="193"/>
+              <noarg action="82"/>
+              <noarg action="74"/>
+              <setregister reg="7"/>
+              <pop/>
+              <pushzero/>
+              <pushconstant val="9"/>
+              <new/>
+              <setregister reg="6"/>
+              <pop/>
+              <pushzero/>
+              <setregister reg="3"/>
+              <pop/>
+              <pushregister val="3" anchor="L36"/>
+              <pushregister val="4"/>
+              <getnamedmember val="54"/>
+              <newlessthan/>
+              <logicalnot/>
+              <branchiftrue offset="40" target="L37"/>
+              <pushregister val="6"/>
+              <pushregister val="3"/>
+              <pushconstant val="217"/>
+              <pushregister val="2"/>
+              <noarg action="75"/>
+              <newadd/>
+              <pushconstant val="201"/>
+              <newadd/>
+              <pushregister val="4"/>
+              <pushregister val="3"/>
+              <getmember/>
+              <noarg action="75"/>
+              <newadd/>
+              <setmember/>
+              <pushregister val="3"/>
+              <increment/>
+              <setregister reg="3"/>
+              <pop/>
+              <branchalways offset="-55" target="L36"/>
+              <pushregister val="1" anchor="L37"/>
+              <getnamedmember val="84"/>
+              <pushregister val="2"/>
+              <getmember/>
+              <getnamedmember val="96"/>
+              <pushregister val="4"/>
+              <getnamedmember val="54"/>
+              <pushone/>
+              <greater/>
+              <pushbyte val="2"/>
+              <pushregister val="1"/>
+              <callnamedmethodpop val="202"/>
+              <pushregister val="4"/>
+              <pushregister val="6"/>
+              <pushbyte val="2"/>
+              <pushregister val="1"/>
+              <getnamedmember val="84"/>
+              <pushregister val="2"/>
+              <getmember/>
+              <getnamedmember val="96"/>
+              <callnamedmethodpop val="203"/>
+              <pushregister val="7"/>
+              <pushone/>
+              <pushregister val="1"/>
+              <getnamedmember val="84"/>
+              <pushregister val="2"/>
+              <getmember/>
+              <getnamedmember val="96"/>
+              <callnamedmethodpop val="204"/>
+              <pushregister val="2" anchor="L38"/>
+              <increment/>
+              <setregister reg="2"/>
+              <pop/>
+              <branchalways offset="-271" target="L34"/>
+            </body>
+          </definefunction2>
+          <setmember anchor="L39"/>
+          <pushregister val="2"/>
+          <pushconstant val="187"/>
+          <definefunction2 name="" flags="2686983" size="176">
+            <body>
+              <pushconstant val="218"/>
+              <trace/>
+              <pushzero/>
+              <setregister reg="2"/>
+              <pop/>
+              <pushregister val="2" anchor="L40"/>
+              <pushregister val="1"/>
+              <getnamedmember val="84"/>
+              <getnamedmember val="54"/>
+              <newlessthan/>
+              <logicalnot/>
+              <branchiftrue offset="148" target="L43"/>
+              <pushzero/>
+              <pushconstant val="18"/>
+              <new/>
+              <setregister reg="3"/>
+              <pop/>
+              <pushconstant val="219"/>
+              <pushregister val="2"/>
+              <newadd/>
+              <pushregister val="3"/>
+              <geturl2/>
+              <pushzero/>
+              <pushconstant val="9"/>
+              <new/>
+              <setregister reg="5"/>
+              <pop/>
+              <pushconstant val="190"/>
+              <pushone/>
+              <pushregister val="3"/>
+              <getnamedmember val="220"/>
+              <pushconstant val="192"/>
+              <noarg action="82"/>
+              <setregister reg="5"/>
+              <pop/>
+              <pushzero/>
+              <pushregister val="5"/>
+              <pushconstant val="193"/>
+              <noarg action="82"/>
+              <noarg action="74"/>
+              <setregister reg="6"/>
+              <pop/>
+              <pushregister val="1"/>
+              <getnamedmember val="84"/>
+              <pushregister val="2"/>
+              <getmember/>
+              <getnamedmember val="100"/>
+              <setregister reg="4"/>
+              <pop/>
+              <pushregister val="5"/>
+              <pushregister val="5"/>
+              <pushbyte val="2"/>
+              <pushregister val="4"/>
+              <callnamedmethodpop val="203"/>
+              <pushregister val="6"/>
+              <pushone/>
+              <pushregister val="4"/>
+              <callnamedmethodpop val="204"/>
+              <pushregister val="3"/>
+              <getnamedmember val="221"/>
+              <pushconstant val="22"/>
+              <newequals/>
+              <logicalnot/>
+              <branchiftrue offset="12" target="L41"/>
+              <pushzero/>
+              <pushregister val="4"/>
+              <callnamedmethodpop val="38"/>
+              <branchalways offset="5" target="L42"/>
+              <pushzero anchor="L41"/>
+              <pushregister val="4"/>
+              <callnamedmethodpop val="56"/>
+              <pushregister val="2" anchor="L42"/>
+              <increment/>
+              <setregister reg="2"/>
+              <pop/>
+              <branchalways offset="-163" target="L40"/>
+            </body>
+          </definefunction2>
+          <setmember anchor="L43"/>
+          <pushregister val="2"/>
+          <pushconstant val="186"/>
+          <definefunction2 name="" flags="2686984" size="240">
+            <body>
+              <pushconstant val="222"/>
+              <trace/>
+              <pushvalue val="3"/>
+              <getnamedmember val="35"/>
+              <getnamedmember val="45"/>
+              <getnamedmember val="46"/>
+              <getnamedmember val="223"/>
+              <setregister reg="4"/>
+              <pop/>
+              <pushzero/>
+              <setregister reg="2"/>
+              <pop/>
+              <pushregister val="2" anchor="L44"/>
+              <pushregister val="1"/>
+              <getnamedmember val="47"/>
+              <getnamedmember val="54"/>
+              <newlessthan/>
+              <logicalnot/>
+              <branchiftrue offset="196" target="L47"/>
+              <pushzero/>
+              <pushconstant val="18"/>
+              <new/>
+              <setregister reg="3"/>
+              <pop/>
+              <pushconstant val="224"/>
+              <pushregister val="2"/>
+              <noarg action="75"/>
+              <newadd/>
+              <pushregister val="3"/>
+              <geturl2/>
+              <pushregister val="3"/>
+              <getnamedmember val="225"/>
+              <pushone/>
+              <pushconstant val="226"/>
+              <noarg action="61"/>
+              <setregister reg="7"/>
+              <pop/>
+              <pushconstant val="227"/>
+              <pushregister val="2"/>
+              <noarg action="75"/>
+              <newadd/>
+              <pushone/>
+              <pushregister val="1"/>
+              <getnamedmember val="47"/>
+              <pushregister val="2"/>
+              <getmember/>
+              <callnamedmethodpop val="228"/>
+              <pushregister val="7"/>
+              <logicalnot/>
+              <branchiftrue offset="96" target="L45"/>
+              <pushregister val="3"/>
+              <getnamedmember val="229"/>
+              <noarg action="74"/>
+              <setregister reg="6"/>
+              <pop/>
+              <pushregister val="3"/>
+              <getnamedmember val="230"/>
+              <noarg action="74"/>
+              <setregister reg="5"/>
+              <pop/>
+              <pushzero/>
+              <pushregister val="1"/>
+              <getnamedmember val="47"/>
+              <pushregister val="2"/>
+              <getmember/>
+              <callnamedmethodpop val="37"/>
+              <pushzero/>
+              <pushregister val="1"/>
+              <getnamedmember val="47"/>
+              <pushregister val="2"/>
+              <getmember/>
+              <callnamedmethodpop val="38"/>
+              <pushregister val="1"/>
+              <getnamedmember val="47"/>
+              <pushregister val="2"/>
+              <getmember/>
+              <pushconstant val="231"/>
+              <pushregister val="6"/>
+              <pushregister val="4"/>
+              <getnamedmember val="232"/>
+              <noarg action="12"/>
+              <pushregister val="4"/>
+              <getnamedmember val="231"/>
+              <newadd/>
+              <setmember/>
+              <pushregister val="1"/>
+              <getnamedmember val="47"/>
+              <pushregister val="2"/>
+              <getmember/>
+              <pushconstant val="233"/>
+              <pushregister val="5"/>
+              <pushregister val="4"/>
+              <getnamedmember val="234"/>
+              <noarg action="12"/>
+              <pushregister val="4"/>
+              <getnamedmember val="233"/>
+              <newadd/>
+              <setmember/>
+              <branchalways offset="20" target="L46"/>
+              <pushzero anchor="L45"/>
+              <pushregister val="1"/>
+              <getnamedmember val="47"/>
+              <pushregister val="2"/>
+              <getmember/>
+              <callnamedmethodpop val="56"/>
+              <pushzero/>
+              <pushregister val="1"/>
+              <getnamedmember val="47"/>
+              <pushregister val="2"/>
+              <getmember/>
+              <callnamedmethodpop val="55"/>
+              <pushregister val="2" anchor="L46"/>
+              <increment/>
+              <setregister reg="2"/>
+              <pop/>
+              <branchalways offset="-211" target="L44"/>
+            </body>
+          </definefunction2>
+          <setmember anchor="L47"/>
+          <pushregister val="2"/>
+          <pushconstant val="176"/>
+          <definefunction2 name="" flags="2686979" size="125">
+            <body>
+              <pushconstant val="235"/>
+              <trace/>
+              <pushzero/>
+              <pushconstant val="18"/>
+              <new/>
+              <setregister reg="2"/>
+              <pop/>
+              <pushconstant val="236"/>
+              <pushregister val="2"/>
+              <geturl2/>
+              <pushregister val="2"/>
+              <getnamedmember val="237"/>
+              <pushconstant val="133"/>
+              <newequals/>
+              <logicalnot/>
+              <branchiftrue offset="20" target="L48"/>
+              <pushzero/>
+              <pushvalue val="3"/>
+              <getnamedmember val="35"/>
+              <getnamedmember val="45"/>
+              <getnamedmember val="46"/>
+              <getnamedmember val="59"/>
+              <callnamedmethodpop val="238"/>
+              <branchalways offset="13" target="L49"/>
+              <pushzero anchor="L48"/>
+              <pushvalue val="3"/>
+              <getnamedmember val="35"/>
+              <getnamedmember val="45"/>
+              <getnamedmember val="46"/>
+              <getnamedmember val="59"/>
+              <callnamedmethodpop val="239"/>
+              <pushregister val="2" anchor="L49"/>
+              <getnamedmember val="240"/>
+              <pushconstant val="133"/>
+              <newequals/>
+              <dup/>
+              <branchiftrue offset="6" target="L50"/>
+              <pop/>
+              <pushregister val="1"/>
+              <getnamedmember val="20"/>
+              <logicalnot/>
+              <logicalnot anchor="L50"/>
+              <branchiftrue offset="20" target="L51"/>
+              <pushzero/>
+              <pushvalue val="3"/>
+              <getnamedmember val="35"/>
+              <getnamedmember val="45"/>
+              <getnamedmember val="46"/>
+              <getnamedmember val="59"/>
+              <callnamedmethodpop val="56"/>
+              <branchalways offset="13" target="L52"/>
+              <pushzero anchor="L51"/>
+              <pushvalue val="3"/>
+              <getnamedmember val="35"/>
+              <getnamedmember val="45"/>
+              <getnamedmember val="46"/>
+              <getnamedmember val="59"/>
+              <callnamedmethodpop val="38"/>
+            </body>
+          </definefunction2>
+          <setmember anchor="L52"/>
+          <pushregister val="2"/>
+          <pushconstant val="177"/>
+          <definefunction2 name="" flags="2752518" size="122">
+            <body>
+              <pushconstant val="241"/>
+              <trace/>
+              <pushzero/>
+              <pushconstant val="18"/>
+              <new/>
+              <setregister reg="1"/>
+              <pop/>
+              <pushconstant val="242"/>
+              <pushregister val="1"/>
+              <geturl2/>
+              <pushzero/>
+              <pushconstant val="9"/>
+              <new/>
+              <setregister reg="2"/>
+              <pop/>
+              <pushconstant val="190"/>
+              <pushone/>
+              <pushregister val="1"/>
+              <getnamedmember val="243"/>
+              <pushconstant val="192"/>
+              <noarg action="82"/>
+              <setregister reg="2"/>
+              <pop/>
+              <pushzero/>
+              <pushregister val="2"/>
+              <pushconstant val="193"/>
+              <noarg action="82"/>
+              <noarg action="74"/>
+              <setregister reg="5"/>
+              <pop/>
+              <pushzero/>
+              <pushconstant val="9"/>
+              <new/>
+              <setregister reg="3"/>
+              <pop/>
+              <pushconstant val="190"/>
+              <pushone/>
+              <pushregister val="1"/>
+              <getnamedmember val="244"/>
+              <pushconstant val="192"/>
+              <noarg action="82"/>
+              <setregister reg="3"/>
+              <pop/>
+              <pushvalue val="3"/>
+              <getnamedmember val="35"/>
+              <getnamedmember val="45"/>
+              <getnamedmember val="63"/>
+              <getnamedmember val="69"/>
+              <setregister reg="4"/>
+              <pop/>
+              <pushregister val="2"/>
+              <pushregister val="3"/>
+              <pushbyte val="2"/>
+              <pushregister val="4"/>
+              <callnamedmethodpop val="203"/>
+              <pushregister val="5"/>
+              <pushone/>
+              <pushregister val="4"/>
+              <callnamedmethodpop val="204"/>
+            </body>
+          </definefunction2>
+          <setmember/>
+          <pushregister val="2"/>
+          <pushconstant val="179"/>
+          <definefunction2 name="" flags="2752516" size="129">
+            <argument reg="2" name="ruleStr"/>
+            <argument reg="3" name="checkbox"/>
+            <body>
+              <pushconstant val="245"/>
+              <pushregister val="2"/>
+              <newadd/>
+              <pushconstant val="246"/>
+              <newadd/>
+              <pushregister val="3"/>
+              <newadd/>
+              <trace/>
+              <pushzero/>
+              <pushconstant val="18"/>
+              <new/>
+              <setregister reg="1"/>
+              <pop/>
+              <pushconstant val="247"/>
+              <pushregister val="2"/>
+              <newadd/>
+              <pushregister val="1"/>
+              <geturl2/>
+              <pushconstant val="248"/>
+              <pushregister val="1"/>
+              <pushregister val="2"/>
+              <pushconstant val="249"/>
+              <newadd/>
+              <getmember/>
+              <newadd/>
+              <trace/>
+              <pushregister val="1"/>
+              <pushregister val="2"/>
+              <pushconstant val="249"/>
+              <newadd/>
+              <getmember/>
+              <pushconstant val="133"/>
+              <newequals/>
+              <logicalnot/>
+              <branchiftrue offset="12" target="L53"/>
+              <pushzero/>
+              <pushregister val="3"/>
+              <callnamedmethodpop val="238"/>
+              <branchalways offset="5" target="L54"/>
+              <pushzero anchor="L53"/>
+              <pushregister val="3"/>
+              <callnamedmethodpop val="239"/>
+              <pushconstant val="248" anchor="L54"/>
+              <pushregister val="1"/>
+              <pushregister val="2"/>
+              <pushconstant val="250"/>
+              <newadd/>
+              <getmember/>
+              <newadd/>
+              <trace/>
+              <pushregister val="1"/>
+              <pushregister val="2"/>
+              <pushconstant val="250"/>
+              <newadd/>
+              <getmember/>
+              <pushconstant val="133"/>
+              <newequals/>
+              <logicalnot/>
+              <branchiftrue offset="12" target="L55"/>
+              <pushzero/>
+              <pushregister val="3"/>
+              <callnamedmethodpop val="56"/>
+              <branchalways offset="5" target="L56"/>
+              <pushzero anchor="L55"/>
+              <pushregister val="3"/>
+              <callnamedmethodpop val="38"/>
+            </body>
+          </definefunction2>
+          <setmember anchor="L56"/>
+          <pushregister val="2"/>
+          <pushconstant val="182"/>
+          <definefunction2 name="" flags="2686980" size="105">
+            <body>
+              <pushconstant val="251"/>
+              <trace/>
+              <pushvalue val="3"/>
+              <getnamedmember val="35"/>
+              <getnamedmember val="45"/>
+              <getnamedmember val="63"/>
+              <getnamedmember val="68"/>
+              <setregister reg="3"/>
+              <pop/>
+              <pushzero/>
+              <pushconstant val="18"/>
+              <new/>
+              <setregister reg="2"/>
+              <pop/>
+              <pushconstant val="252"/>
+              <pushregister val="2"/>
+              <geturl2/>
+              <pushregister val="2"/>
+              <getnamedmember val="253"/>
+              <noarg action="74"/>
+              <pushregister val="2"/>
+              <getnamedmember val="254"/>
+              <noarg action="74"/>
+              <pushregister val="2"/>
+              <getnamedmember val="255"/>
+              <noarg action="74"/>
+              <pushbyte val="3"/>
+              <pushregister val="3"/>
+              <pushwordconstant val="256"/>
+              <noarg action="93"/>
+              <pushregister val="2"/>
+              <pushwordconstant val="257"/>
+              <getmember/>
+              <pushconstant val="133"/>
+              <newequals/>
+              <dup/>
+              <branchiftrue offset="6" target="L57"/>
+              <pop/>
+              <pushregister val="1"/>
+              <getnamedmember val="20"/>
+              <logicalnot/>
+              <logicalnot anchor="L57"/>
+              <branchiftrue offset="12" target="L58"/>
+              <pushzero/>
+              <pushregister val="3"/>
+              <callnamedmethodpop val="56"/>
+              <branchalways offset="5" target="L59"/>
+              <pushzero anchor="L58"/>
+              <pushregister val="3"/>
+              <callnamedmethodpop val="38"/>
+            </body>
+          </definefunction2>
+          <setmember anchor="L59"/>
+          <pushregister val="2"/>
+          <pushwordconstant val="258"/>
+          <definefunction2 name="" flags="2686980" size="72">
+            <body>
+              <pushzero/>
+              <setregister reg="2"/>
+              <pop/>
+              <pushregister val="2" anchor="L60"/>
+              <pushregister val="1"/>
+              <getnamedmember val="84"/>
+              <getnamedmember val="54"/>
+              <newlessthan/>
+              <logicalnot/>
+              <branchiftrue offset="48" target="L61"/>
+              <pushregister val="1"/>
+              <getnamedmember val="84"/>
+              <pushregister val="2"/>
+              <getmember/>
+              <getnamedmember val="103"/>
+              <setregister reg="3"/>
+              <pop/>
+              <pushregister val="2"/>
+              <pushregister val="3"/>
+              <pushbyte val="2"/>
+              <pushregister val="1"/>
+              <pushwordconstant val="259"/>
+              <noarg action="93"/>
+              <pushregister val="2"/>
+              <increment/>
+              <setregister reg="2"/>
+              <pop/>
+              <branchalways offset="-63" target="L60"/>
+            </body>
+          </definefunction2>
+          <setmember anchor="L61"/>
+          <pushregister val="2"/>
+          <pushwordconstant val="259"/>
+          <definefunction2 name="" flags="2752516" size="96">
+            <argument reg="2" name="checkbox"/>
+            <argument reg="3" name="slotId"/>
+            <body>
+              <pushzero/>
+              <pushconstant val="18"/>
+              <new/>
+              <setregister reg="1"/>
+              <pop/>
+              <pushwordconstant val="260"/>
+              <pushregister val="3"/>
+              <noarg action="75"/>
+              <newadd/>
+              <pushregister val="1"/>
+              <geturl2/>
+              <pushregister val="1"/>
+              <pushwordconstant val="261"/>
+              <getmember/>
+              <pushconstant val="22"/>
+              <newequals/>
+              <branchiftrue offset="12" target="L62"/>
+              <pushzero/>
+              <pushregister val="2"/>
+              <pushconstant val="56"/>
+              <noarg action="82"/>
+              <branchalways offset="6" target="L63"/>
+              <pushzero anchor="L62"/>
+              <pushregister val="2"/>
+              <pushconstant val="38"/>
+              <noarg action="82"/>
+              <pop anchor="L63"/>
+              <pushregister val="1"/>
+              <pushwordconstant val="262"/>
+              <getmember/>
+              <pushconstant val="22"/>
+              <newequals/>
+              <branchiftrue offset="12" target="L64"/>
+              <pushzero/>
+              <pushregister val="2"/>
+              <pushwordconstant val="263"/>
+              <noarg action="82"/>
+              <branchalways offset="7" target="L65"/>
+              <pushzero anchor="L64"/>
+              <pushregister val="2"/>
+              <pushwordconstant val="264"/>
+              <noarg action="82"/>
+              <pop anchor="L65"/>
+            </body>
+          </definefunction2>
+          <setmember/>
+          <pushregister val="2"/>
+          <pushconstant val="202"/>
+          <definefunction2 name="" flags="2752515" size="25">
+            <argument reg="2" name="enable"/>
+            <argument reg="1" name="control"/>
+            <body>
+              <pushregister val="2"/>
+              <logicalnot/>
+              <branchiftrue offset="12" target="L66"/>
+              <pushzero/>
+              <pushregister val="1"/>
+              <callnamedmethodpop val="38"/>
+              <branchalways offset="5" target="L67"/>
+              <pushzero anchor="L66"/>
+              <pushregister val="1"/>
+              <callnamedmethodpop val="56"/>
+            </body>
+          </definefunction2>
+          <setmember anchor="L67"/>
+          <pushone/>
+          <pushnull/>
+          <pushglobal/>
+          <getnamedmember val="1"/>
+          <getnamedmember val="15"/>
+          <pushbyte val="3"/>
+          <pushwordconstant val="265"/>
+          <noarg action="61"/>
+          <pop anchor="L68"/>
+          <end/>
+        </initaction>
+        <initaction sprite="29">
+          <constantpool>
+            <constant id="0" string="_global"/>
+            <constant id="1" string="fes_m_skirmishGameSetup"/>
+            <constant id="2" string="fes_m_skirmishGameSetup::fes_m_skirmishGameSetup() screen = "/>
+            <constant id="3" string="GAME"/>
+            <constant id="4" string="MODE"/>
+            <constant id="5" string="ENUM"/>
+            <constant id="6" string="GAME_MODE_SKIRMISH"/>
+            <constant id="7" string="GameSetupBase"/>
+            <constant id="8" string="prototype"/>
+            <constant id="9" string="frameDelayedInit"/>
+            <constant id="10" string="initSkirmishGUI"/>
+            <constant id="11" string="startIntro"/>
+            <constant id="12" string="Cafe2_BaseUIScreen"/>
+            <constant id="13" string="m_screen"/>
+            <constant id="14" string="gameSettings"/>
+            <constant id="15" string="rulesPanel"/>
+            <constant id="16" string="fes_m_skirmishGameSetup::initSkirmishGUI()"/>
+            <constant id="17" string="commentaryCheckbox"/>
+            <constant id="18" string="hide"/>
+            <constant id="19" string="disable"/>
+            <constant id="20" string="enableVoipCheckbox"/>
+            <constant id="21" string="onLoadButtonClick"/>
+            <constant id="22" string="bind0"/>
+            <constant id="23" string="loadButton"/>
+            <constant id="24" string="setOnMouseUpFunction"/>
+            <constant id="25" string="enable"/>
+            <constant id="26" string="m_screenButtons"/>
+            <constant id="27" string="push"/>
+            <constant id="28" string="registerIntroOuttroComponents"/>
+            <constant id="29" string="SAVELOADSCREEN_TYPE"/>
+            <constant id="30" string="SAVELOADSCREEN_LOAD"/>
+            <constant id="31" string="SCREEN"/>
+            <constant id="32" string="FEG_SAVELOAD"/>
+            <constant id="33" string="gSM"/>
+            <constant id="34" string="changeMainScreen"/>
+            <constant id="35" string="onScreenExit"/>
+            <constant id="36" string="fes_m_skirmishGameSetup::onScreenExit()"/>
+            <constant id="37" string="ASSetPropFlags"/>
+          </constantpool>
+          <pushglobal/>
+          <getnamedmember val="1"/>
+          <logicalnot/>
+          <logicalnot/>
+          <branchiftrue offset="391" target="L1"/>
+          <pushglobal/>
+          <pushconstant val="1"/>
+          <definefunction2 name="" flags="18481156" size="26">
+            <argument reg="3" name="screen"/>
+            <body>
+              <pushregister val="3"/>
+              <pushone/>
+              <pushregister val="1"/>
+              <pushundefined/>
+              <noarg action="93"/>
+              <pushconstant val="2"/>
+              <pushregister val="3"/>
+              <newadd/>
+              <trace/>
+              <pushregister val="2"/>
+              <getnamedmember val="3"/>
+              <pushconstant val="4"/>
+              <pushregister val="2"/>
+              <getnamedmember val="5"/>
+              <getnamedmember val="6"/>
+              <setmember/>
+            </body>
+          </definefunction2>
+          <setregister reg="1"/>
+          <setmember/>
+          <pushglobal/>
+          <getnamedmember val="1"/>
+          <pushvalue val="7"/>
+          <noarg action="105"/>
+          <pushregister val="1"/>
+          <getnamedmember val="8"/>
+          <setregister reg="2"/>
+          <pop/>
+          <pushregister val="2"/>
+          <pushconstant val="9"/>
+          <definefunction2 name="" flags="1638403" size="27">
+            <body>
+              <geturl str1="FSCommand:CallGameFunction" str2="%SetGameSetupMode?Mode=Skirmish"/>
+              <pushzero/>
+              <pushregister val="2"/>
+              <callnamedmethodpop val="9"/>
+              <pushzero/>
+              <pushregister val="1"/>
+              <callnamedmethodpop val="10"/>
+              <pushzero/>
+              <pushregister val="1"/>
+              <callnamedmethodpop val="11"/>
+            </body>
+          </definefunction2>
+          <setmember/>
+          <pushregister val="2"/>
+          <pushconstant val="10"/>
+          <definefunction2 name="" flags="19464196" size="89">
+            <body>
+              <pushvalue val="12"/>
+              <getnamedmember val="13"/>
+              <getnamedmember val="14"/>
+              <getnamedmember val="15"/>
+              <setregister reg="3"/>
+              <pop/>
+              <pushconstant val="16"/>
+              <trace/>
+              <pushzero/>
+              <pushregister val="3"/>
+              <getnamedmember val="17"/>
+              <callnamedmethodpop val="18"/>
+              <pushzero/>
+              <pushregister val="3"/>
+              <getnamedmember val="17"/>
+              <callnamedmethodpop val="19"/>
+              <pushzero/>
+              <pushregister val="3"/>
+              <getnamedmember val="20"/>
+              <callnamedmethodpop val="18"/>
+              <pushzero/>
+              <pushregister val="3"/>
+              <getnamedmember val="20"/>
+              <callnamedmethodpop val="19"/>
+              <pushregister val="1"/>
+              <getnamedmember val="21"/>
+              <pushregister val="1"/>
+              <pushbyte val="2"/>
+              <pushregister val="2"/>
+              <pushconstant val="22"/>
+              <noarg action="82"/>
+              <pushone/>
+              <pushvalue val="23"/>
+              <callnamedmethodpop val="24"/>
+              <pushzero/>
+              <pushvalue val="23"/>
+              <callnamedmethodpop val="25"/>
+              <pushvalue val="23"/>
+              <pushone/>
+              <pushregister val="1"/>
+              <getnamedmember val="26"/>
+              <callnamedmethodpop val="27"/>
+              <pushregister val="1"/>
+              <getnamedmember val="26"/>
+              <pushone/>
+              <pushregister val="1"/>
+              <callnamedmethodpop val="28"/>
+            </body>
+          </definefunction2>
+          <setmember/>
+          <pushregister val="2"/>
+          <pushconstant val="21"/>
+          <definefunction2 name="" flags="19529730" size="26">
+            <body>
+              <pushregister val="1"/>
+              <getnamedmember val="3"/>
+              <pushconstant val="29"/>
+              <pushregister val="1"/>
+              <getnamedmember val="5"/>
+              <getnamedmember val="30"/>
+              <setmember/>
+              <pushregister val="1"/>
+              <getnamedmember val="31"/>
+              <getnamedmember val="32"/>
+              <pushone/>
+              <pushregister val="1"/>
+              <getnamedmember val="33"/>
+              <callnamedmethodpop val="34"/>
+            </body>
+          </definefunction2>
+          <setmember/>
+          <pushregister val="2"/>
+          <pushconstant val="35"/>
+          <definefunction2 name="" flags="18481155" size="14">
+            <body>
+              <pushconstant val="36"/>
+              <trace/>
+              <pushzero/>
+              <pushregister val="1"/>
+              <callnamedmethodpop val="35"/>
+              <pushregister val="2"/>
+              <pushconstant val="1"/>
+              <noarg action="58"/>
+              <pop/>
+            </body>
+          </definefunction2>
+          <setmember/>
+          <pushone/>
+          <pushnull/>
+          <pushglobal/>
+          <getnamedmember val="1"/>
+          <getnamedmember val="8"/>
+          <pushbyte val="3"/>
+          <pushconstant val="37"/>
+          <noarg action="61"/>
+          <pop anchor="L1"/>
+          <end/>
+        </initaction>
+      </frame>
+    </frames>
+  </movieclip>
+  <empty id="0"/>
+  <image id="1" image="1"/>
+  <shape id="2" top="0" left="0" bottom="768" right="1365" geometry="2"/>
+  <empty id="3"/>
+  <empty id="4"/>
+  <empty id="5"/>
+  <shape id="6" top="32" left="-0.25" bottom="313.54999" right="982.5" geometry="6"/>
+  <shape id="7" top="0" left="0" bottom="3.4000001" right="972.25" geometry="7"/>
+  <image id="8" image="8"/>
+  <shape id="9" top="0.5" left="-0.40000001" bottom="34.5" right="982.59998" geometry="9"/>
+  <font id="10" name="Red Alert"/>
+  <edittext id="11" top="-2" left="-2" bottom="26.950001" right="542.34998" font="10" alignment="2" red="255" green="186" blue="14" alpha="0" height="18" readonly="1" multiline="0" wordwrap="0">
+    <ettext text="$TabMap"/>
+    <etvar variable=""/>
+  </edittext>
+  <edittext id="12" top="-2" left="-2" bottom="28.950001" right="417.54999" font="10" alignment="2" red="255" green="186" blue="14" alpha="0" height="18" readonly="1" multiline="0" wordwrap="0">
+    <ettext text="$TabRules"/>
+    <etvar variable=""/>
+  </edittext>
+  <edittext id="13" top="-2" left="-2" bottom="26" right="389.95001" font="10" alignment="0" red="255" green="0" blue="0" alpha="0" height="24" readonly="1" multiline="0" wordwrap="0">
+    <ettext text="$SKIRMISH_GAME_OPTIONS"/>
+    <etvar variable=""/>
+  </edittext>
+  <empty id="14"/>
+  <empty id="15"/>
+  <shape id="16" top="31.5" left="-0.25" bottom="233.55" right="982.5" geometry="16"/>
+  <edittext id="17" top="-2" left="-2" bottom="25.950001" right="323.95001" font="10" alignment="2" red="255" green="186" blue="14" alpha="0" height="18" readonly="1" multiline="0" wordwrap="0">
+    <ettext text="$Name"/>
+    <etvar variable=""/>
+  </edittext>
+  <edittext id="18" top="-2" left="-2" bottom="26.950001" right="133.64999" font="10" alignment="2" red="255" green="186" blue="14" alpha="0" height="18" readonly="1" multiline="0" wordwrap="0">
+    <ettext text="$Faction"/>
+    <etvar variable=""/>
+  </edittext>
+  <edittext id="19" top="-2" left="-2" bottom="24.950001" right="223.45" font="10" alignment="2" red="255" green="186" blue="14" alpha="0" height="18" readonly="1" multiline="0" wordwrap="0">
+    <ettext text="$AIPersonality"/>
+    <etvar variable=""/>
+  </edittext>
+  <edittext id="20" top="-2" left="-2" bottom="25.950001" right="111.4" font="10" alignment="2" red="255" green="186" blue="14" alpha="0" height="18" readonly="1" multiline="0" wordwrap="0">
+    <ettext text="$Team"/>
+    <etvar variable=""/>
+  </edittext>
+  <edittext id="21" top="-2" left="-2" bottom="24.950001" right="109.5" font="10" alignment="2" red="255" green="186" blue="14" alpha="0" height="18" readonly="1" multiline="0" wordwrap="0">
+    <ettext text="$Color"/>
+    <etvar variable=""/>
+  </edittext>
+  <edittext id="22" top="-2" left="-2" bottom="26" right="398.95001" font="10" alignment="0" red="255" green="0" blue="0" alpha="0" height="24" readonly="1" multiline="0" wordwrap="0">
+    <ettext text="$PLAYER_OPTIONS"/>
+    <etvar variable=""/>
+  </edittext>
+  <empty id="23"/>
+  <sprite id="24">
+    <frames>
+      <frame id="0">
+        <action>
+          <noarg action="7"/>
+          <end/>
+        </action>
+        <placeobject depth="1" character="23" rotm00="1" rotm01="0" rotm10="0" rotm11="1" tx="836" ty="3" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasClipActions|HasMatrix|HasName"/>
+          <poname name="colorOptions"/>
+          <clipactions>
+            <clipaction flags="262144" flags2="0">
+              <pushstring str="m_focusDirs"/>
+              <setstringvar str="Up/Down"/>
+              <pushstring str="m_refFM"/>
+              <setstringvar str="_root.gFM"/>
+              <pushstring str="m_initiallySelected"/>
+              <pushfalse/>
+              <setvariable/>
+              <pushstring str="m_tabIndex"/>
+              <pushbyte val="255"/>
+              <setvariable/>
+              <pushstring str="m_bVisible"/>
+              <pushtrue/>
+              <setvariable/>
+              <pushstring str="m_visibleEntryCount"/>
+              <pushbyte val="5"/>
+              <setvariable/>
+              <pushstring str="m_width"/>
+              <pushbyte val="99"/>
+              <setvariable/>
+              <pushstring str="m_contentSymbol"/>
+              <setstringvar str="ColorSwatchDropdownContentSymbol"/>
+              <pushstring str="m_entrySymbol"/>
+              <setstringvar str="std_mouseListboxEntryColorSwatchElementSymbol"/>
+              <pushstring str="m_ButtonWidth"/>
+              <pushbyte val="27"/>
+              <setvariable/>
+              <end/>
+            </clipaction>
+          </clipactions>
+        </placeobject>
+        <placeobject depth="3" character="23" rotm00="1" rotm01="0" rotm10="0" rotm11="1" tx="710" ty="3" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasClipActions|HasMatrix|HasName"/>
+          <poname name="teamOptions"/>
+          <clipactions>
+            <clipaction flags="262144" flags2="0">
+              <pushstring str="m_focusDirs"/>
+              <setstringvar str="Up/Down"/>
+              <pushstring str="m_refFM"/>
+              <setstringvar str="_root.gFM"/>
+              <pushstring str="m_initiallySelected"/>
+              <pushfalse/>
+              <setvariable/>
+              <pushstring str="m_tabIndex"/>
+              <pushbyte val="255"/>
+              <setvariable/>
+              <pushstring str="m_bVisible"/>
+              <pushtrue/>
+              <setvariable/>
+              <pushstring str="m_visibleEntryCount"/>
+              <pushbyte val="4"/>
+              <setvariable/>
+              <pushstring str="m_width"/>
+              <pushbyte val="99"/>
+              <setvariable/>
+              <pushstring str="m_contentSymbol"/>
+              <setstringvar str="TextDropdownMenuContentSymbol"/>
+              <pushstring str="m_entrySymbol"/>
+              <setstringvar str="std_mouseListboxEntryTextElementSymbol"/>
+              <pushstring str="m_ButtonWidth"/>
+              <pushbyte val="27"/>
+              <setvariable/>
+              <end/>
+            </clipaction>
+          </clipactions>
+        </placeobject>
+        <placeobject depth="5" character="23" rotm00="1" rotm01="0" rotm10="0" rotm11="1" tx="474" ty="3" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasClipActions|HasMatrix|HasName"/>
+          <poname name="personalityOptions"/>
+          <clipactions>
+            <clipaction flags="262144" flags2="0">
+              <pushstring str="m_focusDirs"/>
+              <setstringvar str="Up/Down"/>
+              <pushstring str="m_refFM"/>
+              <setstringvar str="_root.gFM"/>
+              <pushstring str="m_initiallySelected"/>
+              <pushfalse/>
+              <setvariable/>
+              <pushstring str="m_tabIndex"/>
+              <pushbyte val="255"/>
+              <setvariable/>
+              <pushstring str="m_bVisible"/>
+              <pushtrue/>
+              <setvariable/>
+              <pushstring str="m_visibleEntryCount"/>
+              <pushbyte val="4"/>
+              <setvariable/>
+              <pushstring str="m_width"/>
+              <pushshort val="209"/>
+              <setvariable/>
+              <pushstring str="m_contentSymbol"/>
+              <setstringvar str="TextDropdownMenuContentSymbol"/>
+              <pushstring str="m_entrySymbol"/>
+              <setstringvar str="std_mouseListboxEntryTextElementSymbol"/>
+              <pushstring str="m_ButtonWidth"/>
+              <pushbyte val="27"/>
+              <setvariable/>
+              <end/>
+            </clipaction>
+          </clipactions>
+        </placeobject>
+        <placeobject depth="7" character="23" rotm00="1" rotm01="0" rotm10="0" rotm11="1" tx="326.70001" ty="3" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasClipActions|HasMatrix|HasName"/>
+          <poname name="factionOptions"/>
+          <clipactions>
+            <clipaction flags="262144" flags2="0">
+              <pushstring str="m_focusDirs"/>
+              <setstringvar str="Up/Down"/>
+              <pushstring str="m_refFM"/>
+              <setstringvar str="_root.gFM"/>
+              <pushstring str="m_initiallySelected"/>
+              <pushfalse/>
+              <setvariable/>
+              <pushstring str="m_tabIndex"/>
+              <pushbyte val="255"/>
+              <setvariable/>
+              <pushstring str="m_bVisible"/>
+              <pushtrue/>
+              <setvariable/>
+              <pushstring str="m_visibleEntryCount"/>
+              <pushbyte val="5"/>
+              <setvariable/>
+              <pushstring str="m_width"/>
+              <pushbyte val="120"/>
+              <setvariable/>
+              <pushstring str="m_contentSymbol"/>
+              <setstringvar str="RenderImageDropdownContentSymbol"/>
+              <pushstring str="m_entrySymbol"/>
+              <setstringvar str="std_mouseListboxEntryRenderImageElementSymbol"/>
+              <pushstring str="m_ButtonWidth"/>
+              <pushbyte val="27"/>
+              <setvariable/>
+              <end/>
+            </clipaction>
+          </clipactions>
+        </placeobject>
+        <placeobject depth="9" character="23" rotm00="1" rotm01="0" rotm10="0" rotm11="1" tx="-11" ty="3" red="255" green="255" blue="255" alpha="255" ratio="0" clipdepth="-1" unknown="0">
+          <poflags value="HasCharacter|HasClipActions|HasMatrix|HasName"/>
+          <poname name="playerSlotOptions"/>
+          <clipactions>
+            <clipaction flags="262144" flags2="0">
+              <pushstring str="m_focusDirs"/>
+              <setstringvar str="Up/Down"/>
+              <pushstring str="m_refFM"/>
+              <setstringvar str="_root.gFM"/>
+              <pushstring str="m_initiallySelected"/>
+              <pushfalse/>
+              <setvariable/>
+              <pushstring str="m_tabIndex"/>
+              <pushbyte val="255"/>
+              <setvariable/>
+              <pushstring str="m_bVisible"/>
+              <pushtrue/>
+              <setvariable/>
+              <pushstring str="m_visibleEntryCount"/>
+              <pushbyte val="4"/>
+              <setvariable/>
+              <pushstring str="m_width"/>
+              <pushshort val="312"/>
+              <setvariable/>
+              <pushstring str="m_contentSymbol"/>
+              <setstringvar str="TextDropdownMenuContentSymbol"/>
+              <pushstring str="m_entrySymbol"/>
+              <setstringvar str="std_mouseListboxEntryTextElementSymbol"/>
+              <pushstring str="m_ButtonWidth"/>
+              <pushbyte val="27"/>
+              <setvariable/>
+              <end/>
+            </clipaction>
+          </clipactions>
+        </placeobject>
+      </frame>
+    </frames>
+  </sprite>
+  <empty id="25"/>
+  <sprite id="26"/>
+  <sprite id="27"/>
+  <sprite id="28"/>
+  <sprite id="29"/>
+</aptdata>

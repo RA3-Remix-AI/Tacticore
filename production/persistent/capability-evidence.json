@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "capability": "persistent_soviet_t1_production",
+  "status": "live_verified_scope_limited",
+  "executable_sha256": "ec230c6ae1eaee30b0b4fa6ba29d417c974ecae46d6715dfbe786a815935c165",
+  "package_sha256": "2d7873e1b2d2c79950ff9da70b5452b1210370a6d6cbec1eaa69201a7d3d0665",
+  "session_id": "00b2ebe2-8de3-4308-ab60-e8bba2fbe838",
+  "pid": 46760,
+  "player_id": 3,
+  "commander_id": "57e668b4-4d89-43bd-bc92-0dd436f046ef",
+  "personality_instance_id": "0x7664d9d9",
+  "scope": {
+    "persistent_unit_live_verified": "conscript",
+    "persistent_template_hash": "0x19ab11af",
+    "one_shot_unit_separately_verified": "flak",
+    "bear_live_verified": false,
+    "bear_enabled_for_final_parent": false,
+    "macro_direction_switch_verified": false,
+    "full_valid_match_verified": false
+  },
+  "conscript_receipt": {
+    "queue_id": 17,
+    "node": "0x650e700",
+    "object_id": 789,
+    "cost": 85,
+    "quoted_cost": 85,
+    "actual_paid": 85,
+    "native_debit_count": 60,
+    "native_creation": true,
+    "native_completion": true,
+    "live_samples": 315,
+    "payment_error": 0,
+    "queue_preserved": true,
+    "completed_is_distinct_from_enqueue": true
+  },
+  "dedup_checks": {
+    "same_command_same_receipt": true,
+    "same_task_new_command_rejected": true,
+    "same_task_reply_error": 102,
+    "native_ledger_count": 1,
+    "committed_cost": 85,
+    "last_seq": 1
+  },
+  "stop": {
+    "native_phase": 2,
+    "restore_mask": 31,
+    "active_callbacks": 0,
+    "error": 0,
+    "native_ai_continues": true
+  },
+  "sources": {
+    "status": {
+      "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261024-183816-commander\\persistent-production-status.json",
+      "sha256": "c57db0a9500a205bb045ab3707fb1647a6d426bf02f60dd22bf1a9019dbe1abe"
+    },
+    "audit": {
+      "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261024-183816-commander\\persistent-production.jsonl",
+      "sha256": "cce45db2d7172eacdfe19c18431031dfaa19cd74d15934926706e99c439ad973"
+    },
+    "native_readonly_review": {
+      "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\production\\persistent\\native-state-review-20261024-1857.json",
+      "sha256": "b5c4dfe1ee477fb4c7c985973dd7828845b38c0e39d97c49607ca3c6f03f4a8b"
+    },
+    "flak_primitive": {
+      "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261024-183816-commander\\production-trace-20261024-184048-9696c7b3-assessment.json",
+      "sha256": "09a3682d01c0f5169ab9ee98e469ef6723b393f04b45393b470b2b1f2ba9dbf2"
+    }
+  },
+  "binaries": {
+    "live_tested_v1_dll": {
+      "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\production\\persistent\\bin\\ProductionPersistent.dll",
+      "sha256": "ae154a1f4e272aebe6f788252bd1718b5815bdfd185c84a7f0c3eae534615963"
+    },
+    "live_tested_v1_host": {
+      "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\production\\persistent\\bin\\persistent_host.exe",
+      "sha256": "4bc2f86935f86eab2369818e02111d3b3197a8c73f66fbd324389322bb87dca1"
+    },
+    "pause_guard_v2_dll": {
+      "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\production\\persistent\\bin-v2\\ProductionPersistent.dll",
+      "sha256": "4709bb1b2745bfe3cac9b5c27d412197ffc97c67b4e2dd7635ff2434accf5e87"
+    },
+    "pause_guard_v2_host": {
+      "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\production\\persistent\\bin-v2\\persistent_host.exe",
+      "sha256": "4bc2f86935f86eab2369818e02111d3b3197a8c73f66fbd324389322bb87dca1"
+    }
+  },
+  "pause_guard_v2": {
+    "change": "Client twice checks GameLogic+0x15c; native same-thread execute rechecks before dispatch",
+    "software_tests_passed": 22,
+    "live_paused_dispatch_test_pending": true,
+    "live_v1_evidence_inherited_only_for_unchanged_production_path": true
+  },
+  "note": "Scope is the demonstrated unit/guards. This is not macro AI takeover, a full-match result, or proof for Bear. No binary is enabled merely by this evidence file.",
+  "natural_thread_guard": {
+    "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\production\\natural_evidence.py",
+    "sha256": "7929522788bda467c5d290472096409fd4d8332dc28e0ecd852a758bf1e51413",
+    "known_callers": [
+      "0x4f467a",
+      "0x4f49e7"
+    ],
+    "passive_flags": [
+      0,
+      512
+    ],
+    "active_enqueue_flag": 0,
+    "regression_tests_passed": 11,
+    "native_binary_changed": false,
+    "live_source": "../acceptance/runs/20261024-191250-commander/natural-production.json",
+    "live_accepted_samples": 3
+  }
+}

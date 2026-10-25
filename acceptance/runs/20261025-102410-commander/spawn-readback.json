@@ -1,0 +1,52 @@
+{
+  "session_id": "5293a12a-a5df-4c4f-b4e7-341129368bdf",
+  "pid": 31152,
+  "positions_controlled": false,
+  "seed_controlled": false,
+  "player3_initial_buildings": [
+    {
+      "address": "0x581f250",
+      "owner_address": "0x329a4d0",
+      "owner_index_candidate": 3,
+      "object_id": 765,
+      "type_hash": "0x80d4ea1e",
+      "ai_address": "0x64c3860",
+      "xyz": [
+        2943.30078125,
+        2975.18310546875,
+        210.0
+      ],
+      "catalog": {
+        "name": "\u519b\u8425",
+        "template": "SovietBarracks",
+        "side": 2,
+        "cls": 5,
+        "category": 1
+      }
+    },
+    {
+      "address": "0x581fc50",
+      "owner_address": "0x329a4d0",
+      "owner_index_candidate": 3,
+      "object_id": 767,
+      "type_hash": "0xcf8d9f20",
+      "ai_address": "0x64fc530",
+      "xyz": [
+        2858.447509765625,
+        3378.233642578125,
+        210.0
+      ],
+      "catalog": {
+        "name": "\u53cd\u5e94\u5806",
+        "template": "SovietPowerPlant",
+        "side": 2,
+        "cls": 5,
+        "category": 1
+      }
+    }
+  ],
+  "source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-102410-commander\\actor-own-snapshot-93fc92120be94c1f934674f72c1afd5c.json",
+  "source_sha256": "49a43913458f441f72e5c835947ecc2e77cfc1207a796176562b98b6acb5dab3",
+  "note": "Actual player3 NE building coordinates match orientation of V1 far scenario; no claim of controlled random seed or GUI spawn assignment.",
+  "mutations": false
+}

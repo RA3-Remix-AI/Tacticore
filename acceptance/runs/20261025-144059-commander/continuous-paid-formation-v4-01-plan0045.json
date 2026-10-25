@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "session_id": "e7900bbc-d79b-4a11-8385-a8fd46c23684",
+  "pid": 47892,
+  "player_id": 3,
+  "front_id": 797,
+  "support_id": 777,
+  "route": [
+    {
+      "xyz": [
+        2212.28173828125,
+        1831.910888671875,
+        210.0
+      ],
+      "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-144059-commander\\formation-own-history\\00001953-793.json",
+      "own_source_sha256": "e19c57cb83cc163a962b1c1680a39b862a0abab287301364cb38fc275750217d",
+      "own_source_object_id": 793
+    },
+    {
+      "xyz": [
+        2067.7392578125,
+        1807.0211181640625,
+        210.0
+      ],
+      "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-144059-commander\\formation-own-history\\00001999-793.json",
+      "own_source_sha256": "f1a8349b960bda48460da8de7681d0ebd0bf8ffa0710358d7436ff2c2793f282",
+      "own_source_object_id": 793
+    },
+    {
+      "xyz": [
+        2019.158203125,
+        1790.0,
+        210.0
+      ],
+      "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-144059-commander\\formation-own-history\\00002023-795.json",
+      "own_source_sha256": "088f6379622758b2321e81c970f5bd24fa6d514c9a3449a7e3a2791b214ce91e",
+      "own_source_object_id": 795
+    }
+  ],
+  "model_eligible": false,
+  "source": "positive_ground_own_positions_role_aware",
+  "walkable_route_verified": false,
+  "target_selection": "explicit_current_visible_contact_only",
+  "planning_diagnostics": {
+    "phase": "role_graph_search",
+    "source_records": 145,
+    "ground_nodes": 127,
+    "expanded_states": 5,
+    "reject_reasons": {
+      "current_own_occupant": 13,
+      "source_session_or_clock": 5,
+      "leg_geometry": 38
+    },
+    "closest_ground_point_to_target": 267.638362811741,
+    "goal_nodes": 1,
+    "first_leg_candidates": 5,
+    "elapsed_seconds": 0.0470000000204891
+  }
+}

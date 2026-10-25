@@ -1,0 +1,302 @@
+{
+  "source": "bridge-probe\\acceptance\\runs\\20261024-234355-commander\\stop-move01.json",
+  "source_sha256": "4cb84cea1d69cc5ecb361fdad7bdfa343f691ec49963c5244ed59b4f3b9fbf3a",
+  "assessment": {
+    "status": "stop_move_and_return_primitive_verified",
+    "checks": {
+      "stopped": true,
+      "hooks_restored": true,
+      "no_active_callbacks": true,
+      "no_native_error": true,
+      "one_detach": true,
+      "one_move": true,
+      "one_return": true,
+      "arrival": true,
+      "owner_preserved": true,
+      "remove_observed": true,
+      "add_observed": true,
+      "no_observed_lease_override": true,
+      "leased_team_preserved": true,
+      "return_pool_verified": true,
+      "no_lifecycle_error": true,
+      "no_log_overflow": true,
+      "session_binding": true,
+      "command_binding": true,
+      "thread_verified": true,
+      "one_move_hook_chain": true,
+      "frame_window": true,
+      "target_binding": true,
+      "arrival_independent": true,
+      "stop_actual_hook_pair": true,
+      "one_normal_stop": true,
+      "deferred_stop_before_move": true,
+      "clean_stop_samples": true
+    },
+    "native_recruitment_observed": false,
+    "raid_verified": false,
+    "attack_verified": false,
+    "combined_arms_verified": false,
+    "note": "Arrival and normal pool return are primitive evidence; native recruitment and all tactical goals require separate assessment. No exact original squad restoration claimed."
+  },
+  "frames": {
+    "issued_frame": 4070,
+    "private_stop_frame": 4070,
+    "move_issued_frame": 4074,
+    "returned_frame": 4086
+  },
+  "steps": [
+    {
+      "seq": 7,
+      "kind": 20,
+      "tag": 4,
+      "frame": 4070,
+      "tick": 566687640,
+      "thread": 9440,
+      "caller": 2032481530,
+      "team": 86779792,
+      "owner": 53957840,
+      "source": 0,
+      "arg": 1,
+      "x": 3012.5029296875,
+      "y": 2180.9306640625,
+      "z": 260.0,
+      "sm": 107460512,
+      "sm_flags": 65536,
+      "state": 82185864,
+      "state_id": 16,
+      "path": 0,
+      "path_node": 0,
+      "requested": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "effective": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "path_xy": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "seq": 8,
+      "kind": 22,
+      "tag": 4,
+      "frame": 4070,
+      "tick": 566687640,
+      "thread": 9440,
+      "caller": 7894929,
+      "team": 86779792,
+      "owner": 53957840,
+      "source": 0,
+      "arg": 1,
+      "x": 3012.5029296875,
+      "y": 2180.9306640625,
+      "z": 260.0,
+      "sm": 107460512,
+      "sm_flags": 65536,
+      "state": 82185864,
+      "state_id": 16,
+      "path": 0,
+      "path_node": 0,
+      "requested": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "effective": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "path_xy": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "seq": 9,
+      "kind": 23,
+      "tag": 4,
+      "frame": 4070,
+      "tick": 566687640,
+      "thread": 9440,
+      "caller": 7894929,
+      "team": 86779792,
+      "owner": 53957840,
+      "source": 1,
+      "arg": 1,
+      "x": 3012.5029296875,
+      "y": 2180.9306640625,
+      "z": 260.0,
+      "sm": 107460512,
+      "sm_flags": 65536,
+      "state": 82185864,
+      "state_id": 16,
+      "path": 0,
+      "path_node": 0,
+      "requested": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "effective": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "path_xy": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "seq": 10,
+      "kind": 21,
+      "tag": 4,
+      "frame": 4070,
+      "tick": 566687640,
+      "thread": 9440,
+      "caller": 0,
+      "team": 86779792,
+      "owner": 53957840,
+      "source": 1,
+      "arg": 1,
+      "x": 3012.5029296875,
+      "y": 2180.9306640625,
+      "z": 260.0,
+      "sm": 107460512,
+      "sm_flags": 65536,
+      "state": 82185864,
+      "state_id": 16,
+      "path": 0,
+      "path_node": 0,
+      "requested": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "effective": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "path_xy": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "seq": 15,
+      "kind": 24,
+      "tag": 0,
+      "frame": 4074,
+      "tick": 566687937,
+      "thread": 9440,
+      "caller": 0,
+      "team": 86779792,
+      "owner": 53957840,
+      "source": 1,
+      "arg": 0,
+      "x": 3012.5029296875,
+      "y": 2180.9306640625,
+      "z": 260.0,
+      "sm": 107460512,
+      "sm_flags": 65536,
+      "state": 82185864,
+      "state_id": 16,
+      "path": 0,
+      "path_node": 0,
+      "requested": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "effective": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "path_xy": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "seq": 18,
+      "kind": 2,
+      "tag": 2,
+      "frame": 4074,
+      "tick": 566687937,
+      "thread": 9440,
+      "caller": 0,
+      "team": 86779792,
+      "owner": 53957840,
+      "source": 0,
+      "arg": 0,
+      "x": 3012.5029296875,
+      "y": 2180.9306640625,
+      "z": 260.0,
+      "sm": 107460512,
+      "sm_flags": 65536,
+      "state": 102439272,
+      "state_id": 78,
+      "path": 107808608,
+      "path_node": 245851044,
+      "requested": [
+        2972.5029296875,
+        2180.9306640625,
+        260.0
+      ],
+      "effective": [
+        2972.5029296875,
+        2180.9306640625,
+        260.0
+      ],
+      "path_xy": [
+        3012.5029296875,
+        2180.9306640625
+      ]
+    },
+    {
+      "seq": 30,
+      "kind": 5,
+      "tag": 3,
+      "frame": 4086,
+      "tick": 566688718,
+      "thread": 9440,
+      "caller": 0,
+      "team": 86783632,
+      "owner": 53957840,
+      "source": 0,
+      "arg": 0,
+      "x": 2973.3828125,
+      "y": 2189.278076171875,
+      "z": 260.0,
+      "sm": 107460512,
+      "sm_flags": 65536,
+      "state": 102439272,
+      "state_id": 78,
+      "path": 107808608,
+      "path_node": 245851044,
+      "requested": [
+        2972.5029296875,
+        2180.9306640625,
+        260.0
+      ],
+      "effective": [
+        2972.5029296875,
+        2180.9306640625,
+        260.0
+      ],
+      "path_xy": [
+        3012.5029296875,
+        2180.9306640625
+      ]
+    }
+  ],
+  "note": "normal ScriptStop1 + privateStop1 + clean path/flags samples + Move1 + real arrival3 + native pool return; no tactical purpose grant"
+}

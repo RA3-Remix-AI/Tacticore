@@ -1,0 +1,145 @@
+{
+  "status": "trace_finished",
+  "passive_observer": true,
+  "enqueue_requested": true,
+  "active_enqueue_attempted": false,
+  "production_primitive_verified": false,
+  "runtime_direction_switch_verified": false,
+  "session_id": "ba6ce741-341e-4bf6-998c-086a1df3feef",
+  "pid": 40632,
+  "mod_big": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\Mods\\TFCommanderPlay\\TFNames.big",
+  "mod_sha256": "2d7873e1b2d2c79950ff9da70b5452b1210370a6d6cbec1eaa69201a7d3d0665",
+  "preflight": {
+    "player": {
+      "address": "0x31e54d0",
+      "owner_index": 3,
+      "ai_player": "0x4553590",
+      "computer_identity_evidence": "AIPlayer vtable 0xc60f60",
+      "resource_available": true,
+      "resource_vector": [
+        "0x3c62728",
+        "0x3c6272c"
+      ],
+      "resource": "0x4847c88",
+      "raw_plus_4": 7370,
+      "raw_plus_14": 0,
+      "display_sum": 7370,
+      "resource_evidence": "Static native UI chain 0x83be10(index0), +4 plus +0x14; no transaction attribution"
+    },
+    "factory": {
+      "address": "0x52c6ab0",
+      "template": "SovietBarracks",
+      "hp": 1200.0,
+      "xyz": [
+        2943.30078125,
+        2975.18310546875,
+        210.0
+      ],
+      "production_interface_available": true,
+      "thing_plus_310": "0x48e3e68",
+      "thing_plus_3c0": "0x1",
+      "interface_wrapper": "0x4dd61d8",
+      "interface": "0x48db224",
+      "vtable": "0xc3f8c8",
+      "unit_build_function": "0x723f50",
+      "unit_build_first_64_bytes": "81eca8000000538bd98b43dc8b5058558d6bdc56578bcd895c2438ffd28b4be48bb110030000894424208b43e08944241c8b0633ff3bc7c7442424ffffffff89",
+      "opaque_interface_first_0x200_bytes": "c8f8c300c0f8c300bcf8c300b0f8c300a032160668961606160000000200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000d08d04000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000058000000030000001300000000000000000100003843c0043843c004b843c0040809c7000000000058010000210000009037110618e78c0474af150601ff2f9455000000e0fe110620000000490000000a0000000b0000000c0000000d0000004700000052000000920000009700000097000000a860520500000000000000000809c700000000000000000000000000480000002900000018bbc500a8d48d049495cb0001000000000000000000803f000000400000000028000000210000000100000010001400636f6e746163745f706f696e745f303300020000210000000100000010001400636f6e746163745f706f696e745f303400000000",
+      "queue_schema_verified": false,
+      "this_adjustor_candidate": {
+        "delta": -36,
+        "implementation": "0x723f50"
+      },
+      "queue_candidate": {
+        "schema": "provisional_native_xfer",
+        "module": "0x48db200",
+        "head": "0x61632a0",
+        "tail": "0x6169668",
+        "nodes": [
+          {
+            "address": "0x61632a0",
+            "kind_raw": 1,
+            "kind_candidate": "unit",
+            "template": "0xed71b30",
+            "template_hash": "0x2c358c61",
+            "production_id_raw": 20,
+            "float_plus_1c": 56.666648864746094,
+            "float_plus_20": 1.1111111640930176,
+            "raw_plus_24": 51,
+            "raw_plus_28": 1,
+            "raw_plus_2c": 0,
+            "native_cost_plus_30": 220,
+            "paid_accumulator_plus_68": 125,
+            "raw": "0040c30000b28d04fd02000001000000301bd70e0000000014000000a6aa6242e4388e3f330000000100000000000000dc000000ffffffff000000000000000000000000000000000000000000000000000000006896160600000000ffffffff00000000000000007d000000abaa1242"
+          },
+          {
+            "address": "0x6169668",
+            "kind_raw": 1,
+            "kind_candidate": "unit",
+            "template": "0xed71b30",
+            "template_hash": "0x2c358c61",
+            "production_id_raw": 21,
+            "float_plus_1c": 0.0,
+            "float_plus_20": 1.1111111640930176,
+            "raw_plus_24": 0,
+            "raw_plus_28": 1,
+            "raw_plus_2c": 0,
+            "native_cost_plus_30": 220,
+            "paid_accumulator_plus_68": 0,
+            "raw": "0040c30000b28d04fd02000001000000301bd70e000000001500000000000000e4388e3f000000000100000000000000dc000000ffffffff0000000000000000000000000000000000000000000000000000000000000000a0321606ffffffff000000000000000000000000abaa1242"
+          }
+        ],
+        "semantics_verified_by_live_production": false
+      }
+    }
+  },
+  "command": [
+    "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\production\\bin\\observe_trace.exe",
+    "40632",
+    "0x052c6ab0",
+    "0x31e54d0",
+    "0x4553590",
+    "0x48db224",
+    "2019276316",
+    "31286177",
+    "43880",
+    "45"
+  ],
+  "stream": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261024-182145-commander\\production-trace-20261024-182801-e05b157f.jsonl",
+  "stderr": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261024-182145-commander\\production-trace-20261024-182801-e05b157f.stderr.txt",
+  "installed": {
+    "record": "installed",
+    "pid": 40632,
+    "state": 1,
+    "error": 0,
+    "callback_thread": 43880,
+    "passive_only": true
+  },
+  "enqueue_report": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261024-182145-commander\\production-trace-20261024-182801-e05b157f-enqueue.json",
+  "enqueue_result": {
+    "status": "preflight_rejected",
+    "session_id": "ba6ce741-341e-4bf6-998c-086a1df3feef",
+    "pid": 40632,
+    "active_enqueue_attempted": false,
+    "spend_verified": false,
+    "produced_unit_verified": false,
+    "mod_big": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\Mods\\TFCommanderPlay\\TFNames.big",
+    "error": "RuntimeError('Require validated empty production queue')"
+  },
+  "stopped": {
+    "record": "stopped",
+    "pid": 40632,
+    "state": 2,
+    "error": 0,
+    "active_detours": 0,
+    "restore_mask": 31,
+    "total_events": 916,
+    "emitted_events": 916,
+    "dropped": 0,
+    "passive_only": true,
+    "lifetime": "DLL and trampolines pinned until process exit"
+  },
+  "timeout": true,
+  "native_exit_code": 0,
+  "records": 918,
+  "session_unchanged_after": true
+}

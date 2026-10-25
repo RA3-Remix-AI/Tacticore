@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "session_id": "255b8fe8-233c-428e-917b-2b8bfc3d7d5d",
+  "pid": 61132,
+  "player_id": 3,
+  "front_id": 908,
+  "support_id": 809,
+  "route": [
+    {
+      "xyz": [
+        2976.28955078125,
+        2377.85498046875,
+        210.0
+      ],
+      "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-135011-commander\\formation-own-history\\00001852-776.json",
+      "own_source_sha256": "63751b2bfc7b8505322e077ca073e402bf22a17c2bc3ea7b8a4d0a7026b20733",
+      "own_source_object_id": 776
+    },
+    {
+      "xyz": [
+        2955.3349609375,
+        2533.107421875,
+        210.0
+      ],
+      "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-135011-commander\\formation-own-history\\00001899-776.json",
+      "own_source_sha256": "568258149227a16986eec39d7b69771e4616c03e99da21ef5c259b26e0990f60",
+      "own_source_object_id": 776
+    },
+    {
+      "xyz": [
+        2935.765869140625,
+        2685.1904296875,
+        210.0
+      ],
+      "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-135011-commander\\formation-own-history\\00001945-776.json",
+      "own_source_sha256": "8f246b5435721365857b588b33d8c3ca6baa6d1e67d8c2e18211cfb9ab09b62f",
+      "own_source_object_id": 776
+    },
+    {
+      "xyz": [
+        2920.774169921875,
+        2824.379150390625,
+        210.0
+      ],
+      "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-135011-commander\\formation-own-history\\00002107-776.json",
+      "own_source_sha256": "d7a3aa4e6d1a6c411d14b54041f50567ec106872ad8f5c9b17f9b5fffd74a6c9",
+      "own_source_object_id": 776
+    },
+    {
+      "xyz": [
+        2994.500244140625,
+        2958.185302734375,
+        210.0
+      ],
+      "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-135011-commander\\formation-own-history\\00002305-799.json",
+      "own_source_sha256": "9bd582ed569ab3b51012e7d0df4cdf578227314bf0bacbd2af008d4de646963c",
+      "own_source_object_id": 799
+    },
+    {
+      "xyz": [
+        3108.350830078125,
+        3050.565185546875,
+        210.0
+      ],
+      "own_source_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-135011-commander\\formation-own-history\\00002455-784.json",
+      "own_source_sha256": "f112f51839b20737af9d06a446bb1b6a43d8d462f4b308ab079fc26408833e59",
+      "own_source_object_id": 784
+    }
+  ],
+  "model_eligible": false,
+  "source": "positive_ground_own_positions_role_aware",
+  "walkable_route_verified": false,
+  "target_selection": "explicit_current_visible_contact_only",
+  "planning_diagnostics": {
+    "phase": "role_graph_search",
+    "source_records": 251,
+    "ground_nodes": 238,
+    "expanded_states": 92,
+    "reject_reasons": {
+      "current_own_occupant": 10,
+      "source_session_or_clock": 3,
+      "leg_geometry": 2420
+    },
+    "closest_ground_point_to_target": 205.53129407375582,
+    "goal_nodes": 13,
+    "first_leg_candidates": 2,
+    "elapsed_seconds": 0.14099999994505197
+  }
+}

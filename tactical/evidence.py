@@ -1,0 +1,92 @@
+"""Purpose capability verifier: recompute raw evidence, never trust status alone."""
+import hashlib,importlib.util,json,sys,uuid
+from pathlib import Path
+HERE=Path(__file__).resolve().parent
+EXPECTED='ec230c6ae1eaee30b0b4fa6ba29d417c974ecae46d6715dfbe786a815935c165'
+SCOPES={('attack','main_attack'):('combat-finite','TacticalCombatFinite.dll','attack_damage_and_return_primitive_verified'),('raid','harass_economy'):('combat-finite','TacticalCombatFinite.dll','attack_damage_and_return_primitive_verified'),('combined_arms','coordinate_force'):('formation','TacticalFormation.dll','two_role_staged_advance_primitive_verified')}
+EXECUTORS={
+ 'reusable':dict(dll='TacticalLeaseReusable.dll',restore_mask=31,mapping_prefix='RA3TacticalReusable_',kind='move',actor_roles=['infantry','anti_air'],success='move_and_return_primitive_verified'),
+ 'combat-finite':dict(dll='TacticalCombatFinite.dll',restore_mask=127,mapping_prefix='RA3TacticalCombatFinite_',kind='attack',actor_roles=['infantry','anti_air'],success='attack_damage_and_return_primitive_verified'),
+ 'formation':dict(dll='TacticalFormation.dll',restore_mask=31,mapping_prefix='RA3TacticalFormation_',kind='formation',actor_roles=['infantry','anti_air'],success='two_role_staged_advance_primitive_verified'),
+ 'formation-stop-v2':dict(dll='TacticalFormationStop2.dll',restore_mask=127,mapping_prefix='RA3TacticalFormationStop2_',kind='formation',actor_roles=['infantry','anti_air'],success='two_role_staged_advance_primitive_verified'),
+ 'ordered-attack':dict(dll='TacticalOrderedAttack.dll',restore_mask=2047,mapping_prefix='RA3TacticalOrderedAttack_',kind='attack',actor_roles=['infantry'],success='bounded_ak_ordered_attack_verified',weapon_asset_id='0x447ea26e',max_attack_orders=1,native_burst=True,lease_frames=180),
+ 'ordered-combo':dict(dll='TacticalOrderedCombo.dll',restore_mask=4095,mapping_prefix='RA3TacticalOrderedCombo_',kind='attack',actor_roles=['infantry'],success='bounded_ak_ordered_attack_verified',weapon_asset_id='0x447ea26e',max_attack_orders=1,max_toggle_orders=1,max_stop_orders=3,native_burst=True,lease_frames=180,weapon_preparation='normal_conscript_button_when_molotov'),
+ 'mission-combat':dict(dll='TacticalMissionCombat.dll',restore_mask=16383,mapping_prefix='RA3TacticalMissionCombat_',kind='attack',actor_roles=['infantry'],success='continuous_ak_combat_mission_verified',weapon_asset_id='0x447ea26e',mission_protocol='continuous_tactical_v1',mission_duration_frames=4500,lease_frames=4500),
+ 'mission-combat-v2':dict(dll='TacticalMissionCombat2.dll',restore_mask=16383,mapping_prefix='RA3TacticalMissionCombat2_',kind='attack',actor_roles=['infantry'],success='continuous_ak_combat_mission_verified',weapon_asset_id='0x447ea26e',mission_protocol='continuous_tactical_v1',mission_duration_frames=4500,lease_frames=4500),
+ 'mission-combat-v3':dict(dll='TacticalMissionCombat3.dll',restore_mask=16383,mapping_prefix='RA3TacticalMissionCombat3_',kind='attack',actor_roles=['infantry'],success='continuous_ak_combat_mission_verified',weapon_asset_id='0x447ea26e',mission_protocol='continuous_tactical_v1',mission_duration_frames=4500,lease_frames=4500),
+ 'mission-combat-v4':dict(dll='TacticalMissionCombat4.dll',restore_mask=16383,mapping_prefix='RA3TacticalMissionCombat4_',kind='attack',actor_roles=['infantry'],success='continuous_ak_combat_mission_verified',weapon_asset_id='0x447ea26e',mission_protocol='continuous_tactical_v1',mission_duration_frames=4500,lease_frames=4500),
+ 'mission-combat-v5':dict(dll='TacticalMissionCombat5.dll',restore_mask=16383,mapping_prefix='RA3TacticalMissionCombat5_',kind='attack',actor_roles=['infantry'],success='continuous_ak_combat_mission_verified',weapon_asset_id='0x447ea26e',mission_protocol='continuous_tactical_v1',mission_duration_frames=4500,lease_frames=4500),
+ 'mission-combat-v6':dict(dll='TacticalMissionCombat6.dll',runtime_qualifier_filename='mission_combat_v6_runtime_qualification.py',restore_mask=16383,mapping_prefix='RA3TacticalMissionCombat6_',kind='attack',actor_roles=['infantry'],success='continuous_ak_combat_mission_verified',weapon_asset_id='0x447ea26e',mission_protocol='continuous_tactical_v1',mission_duration_frames=4500,lease_frames=4500),
+ 'mission-combat-v7':dict(dll='TacticalMissionCombat7.dll',runtime_qualifier_filename='mission_combat_v7_runtime_qualification.py',actor_admission_filename='mission_actor_admission_v2.py',restore_mask=16383,mapping_prefix='RA3TacticalMissionCombat7_',kind='attack',actor_roles=['infantry'],success='continuous_ak_combat_mission_verified',weapon_asset_id='0x447ea26e',engagement_policy='brief_raid_single_order_native_burst',engage_hard_limit_frames=60,damage_goal_cap=30.,damage_goal_fraction=.2,mission_protocol='continuous_tactical_v1',mission_duration_frames=4500,lease_frames=4500),
+ 'mission-formation':dict(dll='TacticalMissionFormation.dll',restore_mask=8191,mapping_prefix='RA3TacticalMissionFormation_',kind='formation',actor_roles=['infantry','anti_air'],success='formation_mission_effect_retreat_verified',mission_protocol='continuous_tactical_v1',mission_duration_frames=4500,lease_frames=4500),
+ 'mission-formation-v2':dict(dll='TacticalMissionFormation2.dll',restore_mask=8191,mapping_prefix='RA3TacticalMissionFormation2_',kind='formation',actor_roles=['infantry','anti_air'],success='formation_mission_effect_retreat_verified',mission_protocol='continuous_tactical_v1',mission_duration_frames=4500,lease_frames=4500),
+ 'mission-formation-v3':dict(dll='TacticalMissionFormation3.dll',wrapper_filename='lease_admission_v4.py',qualifier_filename='formation_mission_qualification_v4.py',pre_dispatch_helper='pre_dispatch_formation_v3_admission_v4_contract.py',gate_reader='mission_formation_v3_admission_v4_gate_no_lease.py',actor_admission_filename='mission_actor_admission_v2.py',restore_mask=8191,mapping_prefix='RA3TacticalMissionFormation3_',kind='formation',actor_roles=['infantry','anti_air'],success='formation_mission_effect_retreat_verified',mission_protocol='continuous_tactical_v1',mission_duration_frames=4500,lease_frames=4500),
+ 'mission-formation-v4':dict(dll='TacticalMissionFormation4.dll',wrapper_filename='lease_traffic_v2.py',qualifier_filename='formation_mission_qualification_traffic_v2.py',pre_dispatch_helper='pre_dispatch_formation_v4_traffic_v2_contract.py',gate_reader='mission_formation_v4_traffic_v2_gate_no_lease.py',actor_admission_filename='mission_actor_admission_v2.py',planning_protocol='stop_then_plan_v1',restore_mask=8191,mapping_prefix='RA3TacticalMissionFormation4_',kind='formation',actor_roles=['infantry','anti_air'],success='formation_mission_effect_retreat_verified',mission_protocol='continuous_tactical_v1',mission_duration_frames=4500,lease_frames=4500),
+}
+
+def executor_schema(directory):
+ if directory not in EXECUTORS:raise ValueError('executor_not_in_trusted_scope_table')
+ return dict(EXECUTORS[directory],directory=directory)
+def digest(path):return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+def navigation_field_coverage(directory,result,report):
+ """Keep branch coverage distinct from a real successful combat effect chain.
+
+ V7 can enter whole-match development validation after its own strict effect,
+ ammunition, physical retreat and live return pass. A normal visible-target
+ case does not certify a loss/reacquisition branch it never exercised.
+ """
+ memory=result.get('navigation_memory',{})
+ if memory.get('verified') is not True:raise ValueError('navigation_memory_invariants_unverified')
+ from remembered_approach import qualify as qualify_memory_movement
+ movement=qualify_memory_movement(report)
+ covered=bool(memory.get('hidden_navigation_observed') is True and memory.get('reacquisition_observed') is True and movement.get('hidden_approach_verified') is True)
+ if directory!='mission-combat-v7' and not covered:raise ValueError('remembered_approach_requires_real_loss_reacquisition_and_effect')
+ return dict(result,remembered_navigation_evidence=movement,navigation_field_validation=dict(policy='independent_branch_coverage_v1' if directory=='mission-combat-v7' else 'single_successful_trace_v1',invariants_verified=True,hidden_navigation_observed=memory.get('hidden_navigation_observed') is True,reacquisition_observed=memory.get('reacquisition_observed') is True,memory_reacquisition_field_verified=covered,hidden_movement_observed=movement['hidden_movement_observed'],maximum_hidden_displacement=movement['maximum_hidden_displacement'],unobserved_branch_status='experimental_not_field_certified' if not covered else None),supplemental_sources=result.get('supplemental_sources',[])+[dict(path=str(HERE/'remembered_approach.py'),sha256=digest(HERE/'remembered_approach.py'),purpose='actual_remembered_approach_displacement_and_branch_coverage')])
+
+def verify_purpose(module,purpose,source_report,session,commander_id):
+ if (module,purpose) not in SCOPES:raise ValueError('unsupported_purpose_evidence')
+ if str(HERE) not in sys.path:sys.path.insert(0,str(HERE))
+ directory,dll,status=SCOPES[module,purpose];path=Path(source_report).resolve();raw=path.read_bytes();report=json.loads(raw.decode('utf-8-sig'));native=report.get('native',{});pre=report.get('preflight',{})
+ allowed=['formation','formation-stop-v2','mission-formation','mission-formation-v2','mission-formation-v3','mission-formation-v4'] if (module,purpose)==('combined_arms','coordinate_force') else ['combat-finite','ordered-attack','ordered-combo','mission-combat','mission-combat-v2','mission-combat-v3','mission-combat-v4','mission-combat-v5','mission-combat-v6','mission-combat-v7'] if (module,purpose) in [('attack','main_attack'),('raid','harass_economy')] else [directory]
+ matched=[candidate for candidate in allowed if (HERE/candidate/'bin'/EXECUTORS[candidate]['dll']).is_file() and (HERE/candidate/'bin/tactical_host.exe').is_file() and report.get('native_binary_sha256')==digest(HERE/candidate/'bin'/EXECUTORS[candidate]['dll']) and report.get('native_host_sha256')==digest(HERE/candidate/'bin/tactical_host.exe')]
+ if len(matched)!=1:raise ValueError('evidence_executor_revision_mismatch')
+ directory=matched[0];schema=executor_schema(directory);dll=schema['dll'];status=schema['success']
+ if report.get('package_sha256')!=session['mod_sha256'] or report.get('executable_sha256')!=EXPECTED:raise ValueError('capability_binary_package_mismatch')
+ if pre.get('commander_id')!=str(uuid.UUID(str(commander_id))) or pre.get('player_id')!=3:raise ValueError('capability_commander_player_mismatch')
+ if not report.get('session_id') or report.get('status')!='finished' or report.get('host_exit')!=0:raise ValueError('capability_source_not_finished')
+ spec=importlib.util.spec_from_file_location('purpose_'+directory.replace('-','_'),HERE/directory/schema.get('wrapper_filename','lease.py'));backend=importlib.util.module_from_spec(spec);spec.loader.exec_module(backend)
+ if directory in ['mission-combat','mission-combat-v2','mission-combat-v3','mission-combat-v4','mission-combat-v5','mission-combat-v6','mission-combat-v7','mission-formation','mission-formation-v2','mission-formation-v3','mission-formation-v4']:
+  qualifier_path=HERE/({'mission-combat':'mission_combat_qualification.py','mission-combat-v2':'mission_combat_v2_qualification.py','mission-combat-v3':'mission_combat_v3_qualification.py','mission-combat-v4':'mission_combat_v4_qualification.py','mission-combat-v5':'mission_combat_v5_qualification_v2.py','mission-combat-v6':'mission_combat_v6_qualification.py','mission-combat-v7':'mission_combat_v7_qualification.py','mission-formation':'mission-formation/formation_mission_qualification.py','mission-formation-v2':'mission-formation-v2/formation_mission_qualification.py','mission-formation-v3':'mission-formation-v3/formation_mission_qualification_v4.py','mission-formation-v4':'mission-formation-v4/formation_mission_qualification_traffic_v2.py'}[directory])
+  qs=importlib.util.spec_from_file_location('purpose_qualifier_'+directory.replace('-','_'),qualifier_path);qm=importlib.util.module_from_spec(qs);qs.loader.exec_module(qm)
+  result=qm.qualify_path(path) if hasattr(qm,'qualify_path') else qm.qualify(report)
+ elif directory in ['ordered-attack','ordered-combo']:
+  sys.path.insert(0,str(HERE))
+  if directory=='ordered-combo':from combo_qualification import qualify_path
+  else:from ordered_qualification import qualify_path
+  result=qualify_path(path)
+ else:result=backend.assessment(report)
+ if result.get('status')!=status or not result.get('checks') or not all(v is True for v in result['checks'].values()):raise ValueError('raw_purpose_evidence_failed')
+ if schema.get('mission_protocol'):
+  if any(result.get(key) is not True for key in ('effect_verified','approach_verified','retreat_verified','restoration_verified')):raise ValueError('continuous_mission_effect_chain_unverified')
+  if directory in ('mission-combat','mission-combat-v2','mission-combat-v3','mission-combat-v4','mission-combat-v5','mission-combat-v6','mission-combat-v7') and result.get('new_order_fire_association_verified') is not True:raise ValueError('continuous_mission_damage_association_unverified')
+  if directory in ('mission-combat-v5','mission-combat-v6','mission-combat-v7'):
+   result=navigation_field_coverage(directory,result,report)
+  if directory in ('mission-formation','mission-formation-v2','mission-formation-v3','mission-formation-v4') and result.get('combined_arms_verified') is not True:raise ValueError('continuous_mission_coordination_unverified')
+  if directory in ('mission-combat-v6','mission-combat-v7'):
+   if result.get('sustained_engagement_verified') is not True or result.get('damage_goal_reached') is not True or result.get('engagement_partial') is not False or result.get('observed_reload_count',0)<1 or len(result.get('qualified_hits',[]))<2:raise ValueError('sustained_combat_requires_actual_multihit_reload_and_goal')
+   result=dict(result,supplemental_sources=result.get('supplemental_sources',[])+[dict(path=str(HERE/schema['runtime_qualifier_filename']),sha256=digest(HERE/schema['runtime_qualifier_filename']),purpose='runtime_goal_completion_after_strict_source_authorization')])
+  if directory=='mission-combat-v7':
+   if len(result.get('qualified_hits',[]))<6 or result.get('observed_rounds_consumed',0)<6 or result.get('raid_profile')!=dict(damage_cap=30.,damage_fraction=.2,engage_hard_limit_frames=60):raise ValueError('brief_raid_requires_real_six_hit_profile')
+  if directory in ('mission-combat-v5','mission-combat-v6','mission-combat-v7','mission-formation-v3','mission-formation-v4'):
+   local_sources=[HERE/'grounded_status_v2.py',HERE/'grounded_status.py',HERE/'mission_actor_admission.py',HERE.parent/'integration/ground_history.py',HERE.parent/'integration/record_own_routes.py']
+   if directory=='mission-combat-v7':local_sources.append(HERE/'mission_actor_admission_v2.py')
+   if directory=='mission-formation-v4':local_sources.extend([HERE/'mission-formation-v4/role_route_planner_traffic_v2.py',HERE/'mission-formation-v4/planning_host_traffic_v2.py',HERE/'mission-formation-v4/route_provenance_traffic_v2.py',HERE/'mission-formation-v4/traffic_occupancy_v2.py',HERE/'mission_actor_admission_v2.py'])
+   if directory=='mission-formation-v3':local_sources.extend([HERE/'mission-formation-v3/role_route_planner.py',HERE/'mission-formation-v3/route_rebase_v4.py',HERE/'mission_actor_admission_v2.py'])
+   result=dict(result,supplemental_sources=result.get('supplemental_sources',[])+[dict(path=str(source),sha256=digest(source),purpose='trusted_local_ground_and_route_pipeline') for source in local_sources])
+ binary_sha=digest(HERE/directory/'bin'/dll);host_sha=digest(HERE/directory/'bin/tactical_host.exe')
+ if report.get('native_binary_sha256')!=binary_sha or report.get('native_host_sha256')!=host_sha:raise ValueError('evidence_executor_revision_mismatch')
+ if directory in ['combat-finite','ordered-attack','ordered-combo'] and result.get('new_order_fire_association_verified') is not True:raise ValueError('new_order_fire_association_not_verified')
+ if purpose=='harass_economy' and report.get('request',{}).get('target_role')!='economy':raise ValueError('harass_requires_economy_hit_evidence')
+ continuous=bool(schema.get('mission_protocol'))
+ if directory=='mission-combat-v7':result['navigation_field_validation'].update(certified_effect_chain=True,source_report_sha256=hashlib.sha256(raw).hexdigest())
+ return dict(evidence_uuid=str(uuid.uuid4()),module=module,purpose=purpose,session_id=session['session_id'],source_session_id=report['session_id'],player_id=3,commander_id=str(uuid.UUID(str(commander_id))),source='game_bridge',source_report=str(path),source_sha256=hashlib.sha256(raw).hexdigest(),native_binary_sha256=binary_sha,native_host_sha256=host_sha,executable_sha256=report['executable_sha256'],package_sha256=report['package_sha256'],executor_directory=directory,stop_schema=schema,qualifier_sha256=result.get('qualifier_sha256'),supplemental_sources=result.get('supplemental_sources',[]),sdk_source=result.get('sdk_source'),limits=dict(request_force_fraction_min=.01,request_force_fraction_max=1.,allocation_fraction_cap=.5,min_remaining_frames=300,max_remaining_frames=4500 if continuous else 900,lease_frames=schema.get('lease_frames',180)),source_wrapper_sha256=report.get('wrapper_sha256'),current_wrapper_sha256=digest(HERE/directory/schema.get('wrapper_filename','lease.py')),source_native_cpp_sha256=report.get('native_source_sha256'),current_native_cpp_sha256=digest(HERE/directory/'lease.cpp'),navigation_field_validation=result.get('navigation_field_validation'),scope='continuous_visible_target_effect_retreat_memory_branch_experimental' if directory=='mission-combat-v7' and not result['navigation_field_validation']['memory_reacquisition_field_verified'] else 'continuous_approach_effect_retreat' if continuous else 'conscript_normal_prepare_ak_direct_ground_ordered_burst' if directory=='ordered-combo' else 'conscript_ak_direct_ground_ordered_burst' if directory=='ordered-attack' else 'single_unit_finite_visible_attack' if directory=='combat-finite' else 'two_role_staged_advance',raw_assessment=result)

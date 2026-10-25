@@ -1,0 +1,43 @@
+{
+  "pid": 43656,
+  "source_snapshot": "bridge-probe\\reports\\snapshot-20261024-173401.json",
+  "players": [
+    {
+      "owner": "0x31954d0",
+      "owner_index": 3,
+      "owner_vtable": "0xc5bce0",
+      "ai_player": "0x4813c60",
+      "ai_player_vtable": "0xc60f60",
+      "ai_player_first_0x120_bytes": "600fc6000407c600d054190344f6c500d054190300000000000000007c3c81047c3c810400000000000000000000000044f6c500d05419030100000000000000a03c8104a03c81040000803f000000000000000044f6c500d05419030200000000000000c43c8104c43c810400000000000000000000000044f6c500d05419030300000000000000e83c8104e83c810400000000000000000000000044f6c500d054190304000000000000000c3d81040c3d81040000803f000000000000000044f6c500d0541903050000000000803f303d8104303d8104000000000008a24500f82746fc02c600d853930408549304085493040000000001000000490500008c2bd711f40ac600d80ac60008fcc500d4f7c50000000000783d8104783d8104",
+      "components": [
+        {
+          "label": "unit_builder_part_1",
+          "address": "0x4814134",
+          "vtable": "0xc5f484",
+          "setter": "0x885ae0",
+          "first_32_bytes": "84f4c50074f4c500d054190344eec50001000000000000000000000000000000",
+          "setter_first_32_bytes": "8a442404884110c20400ccccccccccccb8f0f1c500c3cccccccccccccccccccc"
+        },
+        {
+          "label": "unit_builder_part_2",
+          "address": "0x48141c4",
+          "vtable": "0xc5f440",
+          "setter": "0x885ae0",
+          "first_32_bytes": "40f4c50030f4c500d054190344eec500010000000000000000000000e0418104",
+          "setter_first_32_bytes": "8a442404884110c20400ccccccccccccb8f0f1c500c3cccccccccccccccccccc"
+        },
+        {
+          "label": "base_builder",
+          "address": "0x48140b8",
+          "vtable": "0xc5f8f8",
+          "setter": "0x893020",
+          "first_32_bytes": "f8f8c500e8f8c500b0f8c500f442810450408104d054190344eec50001000000",
+          "setter_first_32_bytes": "8a44240488411cc20400ccccccccccccb814f9c500c3cccccccccccccccccccc"
+        }
+      ]
+    }
+  ],
+  "units": [],
+  "mutations": false,
+  "note": "Offsets established by static call-chain analysis; component labels are candidates until dynamic toggle/production validation. Sources 0/1/2/3 follow SDK CommandSourceType."
+}

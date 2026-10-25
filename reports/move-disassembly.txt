@@ -1,0 +1,33 @@
+
+E:\RedRar3\Data\RA3_1.12.game:     file format pei-i386
+
+
+Disassembly of section .text:
+
+006eff70 <.text+0x2eef70>:
+  6eff70:	56                   	push   %esi
+  6eff71:	8b f1                	mov    %ecx,%esi
+  6eff73:	8b 4e 3c             	mov    0x3c(%esi),%ecx
+  6eff76:	8b 01                	mov    (%ecx),%eax
+  6eff78:	8b 50 38             	mov    0x38(%eax),%edx
+  6eff7b:	ff d2                	call   *%edx
+  6eff7d:	d9 05 7c d4 c0 00    	flds   0xc0d47c
+  6eff83:	8b 44 24 08          	mov    0x8(%esp),%eax
+  6eff87:	51                   	push   %ecx
+  6eff88:	8b 4e 3c             	mov    0x3c(%esi),%ecx
+  6eff8b:	d9 1c 24             	fstps  (%esp)
+  6eff8e:	50                   	push   %eax
+  6eff8f:	e8 dc 3a f1 ff       	call   0x603a70
+  6eff94:	8b 4c 24 0c          	mov    0xc(%esp),%ecx
+  6eff98:	33 c0                	xor    %eax,%eax
+  6eff9a:	89 4e 50             	mov    %ecx,0x50(%esi)
+  6eff9d:	8b 4e 3c             	mov    0x3c(%esi),%ecx
+  6effa0:	89 86 90 01 00 00    	mov    %eax,0x190(%esi)
+  6effa6:	88 86 3a 04 00 00    	mov    %al,0x43a(%esi)
+  6effac:	8b 11                	mov    (%ecx),%edx
+  6effae:	8b 42 20             	mov    0x20(%edx),%eax
+  6effb1:	6a 4e                	push   $0x4e
+  6effb3:	ff d0                	call   *%eax
+  6effb5:	5e                   	pop    %esi
+  6effb6:	c2 08 00             	ret    $0x8
+  6effb9:	cc                   	int3

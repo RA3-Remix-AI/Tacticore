@@ -1,0 +1,113 @@
+{
+  "status": "no_dispatch_no_actor_in_requested_distance_window",
+  "session_id": "6840fe2e-5ebc-46fb-8e7e-a1ea0b05c5a9",
+  "frame": 2160,
+  "requested_min_distance": 400.0,
+  "requested_max_distance": 2600.0,
+  "sdk_calls": 0,
+  "own_conscripts": [
+    {
+      "object_id": 775,
+      "hp": 0.0,
+      "eligible": false,
+      "xyz": [
+        2690.0,
+        2908.954345703125,
+        210.0
+      ],
+      "mobility": {
+        "object_id": 775,
+        "status_word_plus84": "0x2000",
+        "inside_garrison": false,
+        "immobile": false,
+        "independently_movable": true,
+        "source": "native_name_value_table_plus_direct_setter_disassembly",
+        "mutations": false
+      }
+    },
+    {
+      "object_id": 798,
+      "hp": 0.0,
+      "eligible": false,
+      "xyz": [
+        2702.0322265625,
+        2822.0322265625,
+        210.0
+      ],
+      "mobility": {
+        "object_id": 798,
+        "status_word_plus84": "0x2000",
+        "inside_garrison": false,
+        "immobile": false,
+        "independently_movable": true,
+        "source": "native_name_value_table_plus_direct_setter_disassembly",
+        "mutations": false
+      }
+    },
+    {
+      "object_id": 805,
+      "hp": 100.0,
+      "eligible": true,
+      "xyz": [
+        1880.6029052734375,
+        2465.131591796875,
+        240.0
+      ],
+      "mobility": {
+        "object_id": 805,
+        "status_word_plus84": "0x20000000",
+        "inside_garrison": true,
+        "immobile": false,
+        "independently_movable": false,
+        "source": "native_name_value_table_plus_direct_setter_disassembly",
+        "mutations": false
+      }
+    }
+  ],
+  "currently_visible_static_contacts": [
+    {
+      "contact_id": "contact_9ddf56fd3ae75079dcf8",
+      "object_id": 766,
+      "type_hash": "0x80d4ea1e",
+      "role": "structure",
+      "xyz": [
+        2964.513671875,
+        2996.396240234375,
+        210.0
+      ]
+    },
+    {
+      "contact_id": "contact_b452f801e47256b89f44",
+      "object_id": 768,
+      "type_hash": "0xcf8d9f20",
+      "role": "structure",
+      "xyz": [
+        2879.660888671875,
+        2890.330078125,
+        210.0
+      ]
+    },
+    {
+      "contact_id": "contact_27a44b4eb49c046053b3",
+      "object_id": 817,
+      "type_hash": "0xd50c222e",
+      "role": "structure",
+      "xyz": [
+        3176.834716796875,
+        2941.933349609375,
+        210.0
+      ]
+    },
+    {
+      "contact_id": "contact_67a251f7ccd8a6e610b2",
+      "object_id": 818,
+      "type_hash": "0xfa1f6466",
+      "role": "structure",
+      "xyz": [
+        2922.08740234375,
+        3038.822509765625,
+        210.0
+      ]
+    }
+  ]
+}

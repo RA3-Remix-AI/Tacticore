@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "service_state": "idle",
+  "mode": "simulation",
+  "source": {
+    "kind": "simulated",
+    "description": "Synthetic local adapter fixture; no real model or game is connected."
+  },
+  "provenance": {
+    "kind": "simulated",
+    "description": "Synthetic local adapter fixture; no real model or game is connected."
+  },
+  "binding": {
+    "session_id": "45b37922-a953-4d54-bc3b-4a34804c1c56",
+    "player_id": 3,
+    "commander_id": "5cfc416a-8b8f-405a-9832-c163f8c1792b",
+    "commander_name": "演练 · 突击指挥官",
+    "connection_id": "93190523-f22e-4ed5-8ddd-0327c6754297",
+    "computer_verified": false
+  },
+  "latest_snapshot": null,
+  "current_plan": null,
+  "last_result": {
+    "status": "idle",
+    "reason_code": "not_started"
+  },
+  "execution": {
+    "enabled": false,
+    "dry_run": true,
+    "reason_code": "production_control_not_verified"
+  },
+  "metrics": {
+    "requests": 0,
+    "accepted": 0,
+    "rejected": 0,
+    "timeouts": 0,
+    "adapter_errors": 0,
+    "plan_changes": 0
+  }
+}

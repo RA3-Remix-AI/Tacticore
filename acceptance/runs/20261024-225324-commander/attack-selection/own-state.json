@@ -1,0 +1,589 @@
+{
+  "session_id": "e76c4955-bd8e-4f21-a604-bd32ae6be4c1",
+  "pid": 4908,
+  "player_id": 3,
+  "sampled_wall_time": 1792853940.897603,
+  "game_logic": "0x3c32228",
+  "game_logic_vtable": "0xbeb630",
+  "logic_frame_candidate": 1950,
+  "pause_type_candidate": 3,
+  "frame_rate_verified": false,
+  "map_path": "data\\maps\\official\\map_mp_2_feasel6\\map_mp_2_feasel6.map",
+  "resources": {
+    "address": "0x318d4d0",
+    "owner_index": 3,
+    "ai_player": "0x4daca68",
+    "computer_identity_evidence": "AIPlayer vtable 0xc60f60",
+    "resource_available": true,
+    "resource_vector": [
+      "0x3c0a728",
+      "0x3c0a72c"
+    ],
+    "resource": "0x579cf28",
+    "raw_plus_4": 0,
+    "raw_plus_14": 0,
+    "display_sum": 0,
+    "resource_evidence": "Static native UI chain 0x83be10(index0), +4 plus +0x14; no transaction attribution"
+  },
+  "own_objects": [
+    {
+      "object_id": 1,
+      "type_hash": "0x18d55d",
+      "template_annotation": null,
+      "hp": 3.5032461608120427e-44,
+      "xyz": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "object_id": 763,
+      "type_hash": "0xc16ff13f",
+      "template_annotation": "SovietConstructionYard",
+      "hp": 5000.0,
+      "xyz": [
+        1511.4095458984375,
+        1479.6519775390625,
+        210.0
+      ]
+    },
+    {
+      "object_id": 765,
+      "type_hash": "0x80d4ea1e",
+      "template_annotation": "SovietBarracks",
+      "hp": 1200.0,
+      "xyz": [
+        1734.148193359375,
+        1723.603759765625,
+        210.0
+      ]
+    },
+    {
+      "object_id": 767,
+      "type_hash": "0xcf8d9f20",
+      "template_annotation": "SovietPowerPlant",
+      "hp": 1150.0,
+      "xyz": [
+        1861.4276123046875,
+        1320.5531005859375,
+        210.0
+      ]
+    },
+    {
+      "object_id": 771,
+      "type_hash": "0xc45aaeab",
+      "template_annotation": "SovietRefinery",
+      "hp": 2400.0,
+      "xyz": [
+        1532.6226806640625,
+        1267.5201416015625,
+        210.0
+      ]
+    },
+    {
+      "object_id": 776,
+      "type_hash": "0x33026fa1",
+      "template_annotation": "SovietScoutInfantry",
+      "hp": 183.75,
+      "xyz": [
+        2929.51904296875,
+        2799.023193359375,
+        210.0
+      ]
+    },
+    {
+      "object_id": 778,
+      "type_hash": "0x33026fa1",
+      "template_annotation": "SovietScoutInfantry",
+      "hp": 190.0,
+      "xyz": [
+        4022.087158203125,
+        2230.74462890625,
+        208.901611328125
+      ]
+    },
+    {
+      "object_id": 780,
+      "type_hash": "0x33026fa1",
+      "template_annotation": "SovietScoutInfantry",
+      "hp": 160.0,
+      "xyz": [
+        1821.733154296875,
+        1879.6009521484375,
+        210.0
+      ]
+    },
+    {
+      "object_id": 781,
+      "type_hash": "0xf6dac2a4",
+      "template_annotation": "SovietMiner",
+      "hp": 500.0,
+      "xyz": [
+        1506.380859375,
+        1241.7835693359375,
+        210.0
+      ]
+    },
+    {
+      "object_id": 783,
+      "type_hash": "0xc45aaeab",
+      "template_annotation": "SovietRefinery",
+      "hp": 2400.0,
+      "xyz": [
+        1299.2777099609375,
+        1712.997314453125,
+        210.0
+      ]
+    },
+    {
+      "object_id": 786,
+      "type_hash": "0x33026fa1",
+      "template_annotation": "SovietScoutInfantry",
+      "hp": 190.0,
+      "xyz": [
+        1656.317626953125,
+        1736.2806396484375,
+        210.0
+      ]
+    },
+    {
+      "object_id": 788,
+      "type_hash": "0x2c358c61",
+      "template_annotation": "SovietAntiVehicleInfantry",
+      "hp": 120.0,
+      "xyz": [
+        1805.5146484375,
+        1741.80517578125,
+        210.0
+      ]
+    },
+    {
+      "object_id": 790,
+      "type_hash": "0x2c358c61",
+      "template_annotation": "SovietAntiVehicleInfantry",
+      "hp": 120.0,
+      "xyz": [
+        1805.285888671875,
+        1705.285888671875,
+        210.0
+      ]
+    },
+    {
+      "object_id": 793,
+      "type_hash": "0x2c358c61",
+      "template_annotation": "SovietAntiVehicleInfantry",
+      "hp": 120.0,
+      "xyz": [
+        1666.4825439453125,
+        1688.793701171875,
+        210.0
+      ]
+    },
+    {
+      "object_id": 794,
+      "type_hash": "0xf6dac2a4",
+      "template_annotation": "SovietMiner",
+      "hp": 500.0,
+      "xyz": [
+        1395.0067138671875,
+        1808.820556640625,
+        210.0
+      ]
+    },
+    {
+      "object_id": 796,
+      "type_hash": "0xcf8d9f20",
+      "template_annotation": "SovietPowerPlant",
+      "hp": 1150.0,
+      "xyz": [
+        1161.3919677734375,
+        1426.6190185546875,
+        210.0
+      ]
+    },
+    {
+      "object_id": 798,
+      "type_hash": "0x2c358c61",
+      "template_annotation": "SovietAntiVehicleInfantry",
+      "hp": 120.0,
+      "xyz": [
+        1685.35595703125,
+        1674.64404296875,
+        210.0
+      ]
+    },
+    {
+      "object_id": 799,
+      "type_hash": "0xd50c222e",
+      "template_annotation": "SovietWarFactory",
+      "hp": 3000.0,
+      "xyz": [
+        1776.385986328125,
+        1353.802734375,
+        210.0
+      ]
+    },
+    {
+      "object_id": 801,
+      "type_hash": "0x2c358c61",
+      "template_annotation": "SovietAntiVehicleInfantry",
+      "hp": 120.0,
+      "xyz": [
+        1816.906982421875,
+        1716.906982421875,
+        210.0
+      ]
+    },
+    {
+      "object_id": 810,
+      "type_hash": "0x60f0b4e9",
+      "template_annotation": "SovietAntiInfantryVehicle",
+      "hp": 480.0,
+      "xyz": [
+        1827.91015625,
+        1999.015869140625,
+        210.0
+      ]
+    },
+    {
+      "object_id": 811,
+      "type_hash": "0x60f0b4e9",
+      "template_annotation": "SovietAntiInfantryVehicle",
+      "hp": 480.0,
+      "xyz": [
+        1759.1824951171875,
+        1839.1824951171875,
+        210.0
+      ]
+    },
+    {
+      "object_id": 812,
+      "type_hash": "0xcf8d9f20",
+      "template_annotation": "SovietPowerPlant",
+      "hp": 1150.0,
+      "xyz": [
+        1670.5086669921875,
+        1172.060546875,
+        210.0
+      ]
+    },
+    {
+      "object_id": 813,
+      "type_hash": "0x33026fa1",
+      "template_annotation": "SovietScoutInfantry",
+      "hp": 190.0,
+      "xyz": [
+        1769.77392578125,
+        1809.6571044921875,
+        210.0
+      ]
+    },
+    {
+      "object_id": 814,
+      "type_hash": "0x60f0b4e9",
+      "template_annotation": "SovietAntiInfantryVehicle",
+      "hp": 480.0,
+      "xyz": [
+        1806.2548828125,
+        1384.6243896484375,
+        210.0
+      ]
+    }
+  ],
+  "factories": [
+    {
+      "address": "0x5432ae0",
+      "template": "SovietConstructionYard",
+      "hp": 5000.0,
+      "xyz": [
+        1511.4095458984375,
+        1479.6519775390625,
+        210.0
+      ],
+      "production_interface_available": true,
+      "thing_plus_310": "0x473e610",
+      "thing_plus_3c0": "0x2",
+      "interface_wrapper": "0x473f428",
+      "interface": "0x473f274",
+      "vtable": "0xc3f8c8",
+      "unit_build_function": "0x723f50",
+      "unit_build_first_64_bytes": "81eca8000000538bd98b43dc8b5058558d6bdc56578bcd895c2438ffd28b4be48bb110030000894424208b43e08944241c8b0633ff3bc7c7442424ffffffff89",
+      "opaque_interface_first_0x200_bytes": "c8f8c300c0f8c300bcf8c300b0f8c300901e9c06901e9c0608000000010000000000000000000000000000000000000000c3240400000000000000000000000000c8240400000000000000000000000000cd240400000000000000000000000000d8240400000000000000000000000000dd24040000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002c0300000000000001000000000000000000000000000000e04c3f0503000000000000000000000000563f05a0f37304a0f3730420f47304e0603f0589000000c8b608052076cd00e06a3f05984b2604e06f3f05e8502604e0743f0598532604e0793f0548562604e07e3f05f0582604e0833f05985b2604e0883f05405e2604e08d3f05e8602604e0923f0558ea2604e0973f0500ed2604e09c3f05a8ef2604e0a13f0550f22604e0a63f05f8f42604e0ab3f05a0f72604e0b03f0548fa2604e0b53f052100000020f6730400000000902e4305010227040000000074f27304e0c93f0551010000d0fac300484de10ee02a4305a0f9c3008cf9c3009f0700007800000002000000e02a4305c8f8c300c0f8c300",
+      "queue_schema_verified": false,
+      "this_adjustor_candidate": {
+        "delta": -36,
+        "implementation": "0x723f50"
+      },
+      "queue_candidate": {
+        "schema": "provisional_native_xfer",
+        "module": "0x473f250",
+        "head": "0x69c1e90",
+        "tail": "0x69c1e90",
+        "nodes": [
+          {
+            "address": "0x69c1e90",
+            "kind_raw": 1,
+            "kind_candidate": "unit",
+            "template": "0xecb11e8",
+            "template_hash": "0xcf8d9f20",
+            "production_id_raw": 7,
+            "float_plus_1c": 82.66666412353516,
+            "float_plus_20": 100.0,
+            "raw_plus_24": 126,
+            "raw_plus_28": 1,
+            "raw_plus_2c": 0,
+            "native_cost_plus_30": 800,
+            "paid_accumulator_plus_68": 662,
+            "raw": "0040c30050f27304fb02000001000000e811cb0e00000000070000005555a5420000c8427e000000010000000000000020030000ffffffff00000000505f4e11000e0fde00000000000000000000000000ff62ff0000000000000000ffffffff000000000000effe9602000000803b46"
+          }
+        ],
+        "semantics_verified_by_live_production": false
+      }
+    },
+    {
+      "address": "0x54334e0",
+      "template": "SovietBarracks",
+      "hp": 1200.0,
+      "xyz": [
+        1734.148193359375,
+        1723.603759765625,
+        210.0
+      ],
+      "production_interface_available": true,
+      "thing_plus_310": "0x5e88640",
+      "thing_plus_3c0": "0x1",
+      "interface_wrapper": "0x510a358",
+      "interface": "0x5e888bc",
+      "vtable": "0xc3f8c8",
+      "unit_build_function": "0x723f50",
+      "unit_build_first_64_bytes": "81eca8000000538bd98b43dc8b5058558d6bdc56578bcd895c2438ffd28b4be48bb110030000894424208b43e08944241c8b0633ff3bc7c7442424ffffffff89",
+      "opaque_interface_first_0x200_bytes": "c8f8c300c0f8c300bcf8c300b0f8c300a807a806a807a8060e000000010000000000000000000000000000000000000000000000000000000000000000000000007054610000000000000000000000000074757200000000000000000000000000a7e8050000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000030010000030000000000000000000000000100005884e8055884e805d884e8055001000051000000407dc2006036db0ee0344305107cc200007cc2009f0700007d00000002000000e03443053cebc1000000000000000000000000000000000000010000000000000000000000000000a001000051000000a0c9c2009836db0ee034430570c8c200f8c9c200ffffff3f8c040000ffffffffe034430558c8c2004cc8c20044c8c2009b000000010000009600000005000000000000000000e805f001000039000000bce4c700dc2299055c72e805e0344305f8cf66ff6a1cbc3e3384223ff8cf66ff0080b344000020430020b444000025430000a040",
+      "queue_schema_verified": false,
+      "this_adjustor_candidate": {
+        "delta": -36,
+        "implementation": "0x723f50"
+      },
+      "queue_candidate": {
+        "schema": "provisional_native_xfer",
+        "module": "0x5e88898",
+        "head": "0x6a807a8",
+        "tail": "0x6a807a8",
+        "nodes": [
+          {
+            "address": "0x6a807a8",
+            "kind_raw": 1,
+            "kind_candidate": "unit",
+            "template": "0xed19b30",
+            "template_hash": "0x2c358c61",
+            "production_id_raw": 13,
+            "float_plus_1c": 47.77776336669922,
+            "float_plus_20": 1.1111111640930176,
+            "raw_plus_24": 43,
+            "raw_plus_28": 1,
+            "raw_plus_2c": 0,
+            "native_cost_plus_30": 220,
+            "paid_accumulator_plus_68": 106,
+            "raw": "0040c3009888e805fd02000001000000309bd10e000000000d0000006e1c3f42e4388e3f2b0000000100000000000000dc000000ffffffff000000000000000000000000000000000000000000000000000048430000000000000000ffffffff0000000000009c446a000000abaa1242"
+          }
+        ],
+        "semantics_verified_by_live_production": false
+      }
+    },
+    {
+      "address": "0x5433ee0",
+      "template": "SovietPowerPlant",
+      "hp": 1150.0,
+      "xyz": [
+        1861.4276123046875,
+        1320.5531005859375,
+        210.0
+      ],
+      "production_interface_available": true,
+      "thing_plus_310": "0x5e300c8",
+      "thing_plus_3c0": "0x1",
+      "interface_wrapper": "0x49bbe20",
+      "interface": "0x5e3a044",
+      "vtable": "0xc3f8c8",
+      "unit_build_function": "0x723f50",
+      "unit_build_first_64_bytes": "81eca8000000538bd98b43dc8b5058558d6bdc56578bcd895c2438ffd28b4be48bb110030000894424208b43e08944241c8b0633ff3bc7c7442424ffffffff89",
+      "opaque_interface_first_0x200_bytes": "c8f8c300c0f8c300bcf8c300b0f8c300000000000000000001000000000000000000000000000000000000000000000000ff2f9400000000000000000000000000f9f54d0000000000000000000000000000000000000000000000000000000000ff2f9400000000000000000000000000380a8d0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000003000000000000000000000000ff2f94104ae305104ae305904ae30566641ffa51000000a0c9c2009895c90ee03e430570c8c200f8c9c200ffffff3fc5040000ffffffffe03e430558c8c2004cc8c20044c8c2003401000001000000960000009e000000000000000000c6035000000049000000a85fe3057876cd0000a04b3f0000000018000000180000006076cd0078460a055273d7440000524330000000310000002076cd0048460a050000000000000000180000001900000001000000040008006e6f6e6500000000180000005100000000000000000000009888e60501b8bd3f810400004af21e3f851b443fbc5b2abe04262142",
+      "queue_schema_verified": false,
+      "this_adjustor_candidate": {
+        "delta": -36,
+        "implementation": "0x723f50"
+      },
+      "queue_candidate": {
+        "schema": "provisional_native_xfer",
+        "module": "0x5e3a020",
+        "head": "0x0",
+        "tail": "0x0",
+        "nodes": [],
+        "semantics_verified_by_live_production": false
+      }
+    },
+    {
+      "address": "0x54352e0",
+      "template": "SovietRefinery",
+      "hp": 2400.0,
+      "xyz": [
+        1532.6226806640625,
+        1267.5201416015625,
+        210.0
+      ],
+      "production_interface_available": true,
+      "thing_plus_310": "0x5e38040",
+      "thing_plus_3c0": "0x1",
+      "interface_wrapper": "0x5e36490",
+      "interface": "0x50a7b0c",
+      "vtable": "0xc3f8c8",
+      "unit_build_function": "0x723f50",
+      "unit_build_first_64_bytes": "81eca8000000538bd98b43dc8b5058558d6bdc56578bcd895c2438ffd28b4be48bb110030000894424208b43e08944241c8b0633ff3bc7c7442424ffffffff89",
+      "opaque_interface_first_0x200_bytes": "c8f8c300c0f8c300bcf8c300b0f8c30000000000000000000100000000000000000000000000000000000000000000000084e94400000000000000000000000000000000000000000000000000000000000000800000000000000000000000000088a4be000000000000000000000000008b8abe0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000005e836c3f0300000000000000000000000000803f387c0a05387c0a05b87c0a0500000080890000002076cd002076cd00180a30bf46b363c00db41442783d273fd78b8abed78b8abe783d273f026aec4447c4a4441b073a430000803f0000000080be0a56e0720a050000008000000080000000800000803fe65b2641a454b8411f85d941000000800000000015efc3be5e836c3f51a2eb44cc2fa644bc0a30430000803f00000000e405a756290000001012c3004094e80ee0524305e010c300800fc300700fc300580fc30001000080000000001100000050319c0590e4e6051000000018000000bca4c60000000000d9040000187d0a0500000080",
+      "queue_schema_verified": false,
+      "this_adjustor_candidate": {
+        "delta": -36,
+        "implementation": "0x723f50"
+      },
+      "queue_candidate": {
+        "schema": "provisional_native_xfer",
+        "module": "0x50a7ae8",
+        "head": "0x0",
+        "tail": "0x0",
+        "nodes": [],
+        "semantics_verified_by_live_production": false
+      }
+    },
+    {
+      "address": "0x5438ee0",
+      "template": "SovietRefinery",
+      "hp": 2400.0,
+      "xyz": [
+        1299.2777099609375,
+        1712.997314453125,
+        210.0
+      ],
+      "production_interface_available": true,
+      "thing_plus_310": "0x50a06b8",
+      "thing_plus_3c0": "0x1",
+      "interface_wrapper": "0x59b02f8",
+      "interface": "0x6b2bd1c",
+      "vtable": "0xc3f8c8",
+      "unit_build_function": "0x723f50",
+      "unit_build_first_64_bytes": "81eca8000000538bd98b43dc8b5058558d6bdc56578bcd895c2438ffd28b4be48bb110030000894424208b43e08944241c8b0633ff3bc7c7442424ffffffff89",
+      "opaque_interface_first_0x200_bytes": "c8f8c300c0f8c300bcf8c300b0f8c300000000000000000001000000000000000000000000000000000000000000000000effc0100000000000000000000000000007b00000000000000000000000000000f232300000000000000000000000000ff23fe0000000000000000000000000000430e00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000012f0201003000000000000000000000000ef301048beb20648beb206c8beb20632fd2afd890000002076cd002076cd000fed00460fdd1045f0ed2155fede1344fede1454eede2253edee4355ddee3436dcfe3535ebef4453dcff4454dcfe4434ecff4343ddff543322040a0422fdfafcc2fdcbfd42fd4bfd32eb9cdb21ccbbab10ddcbbc11cebcbd00cecccefeceacddffed9cfdcfee9aefcdeeabf0ddfeaaf1cceeab00dcefb911ccdfab13290000001012c3004094e80ee08e4305e010c300800fc300700fc300580fc3000165efec4454eeed19000000b89e0605783fb206e4beb20654bfb2066633ece0190000006865c200f895e80ee08e4305",
+      "queue_schema_verified": false,
+      "this_adjustor_candidate": {
+        "delta": -36,
+        "implementation": "0x723f50"
+      },
+      "queue_candidate": {
+        "schema": "provisional_native_xfer",
+        "module": "0x6b2bcf8",
+        "head": "0x0",
+        "tail": "0x0",
+        "nodes": [],
+        "semantics_verified_by_live_production": false
+      }
+    },
+    {
+      "address": "0x543cfe0",
+      "template": "SovietPowerPlant",
+      "hp": 1150.0,
+      "xyz": [
+        1161.3919677734375,
+        1426.6190185546875,
+        210.0
+      ],
+      "production_interface_available": true,
+      "thing_plus_310": "0x6b45f68",
+      "thing_plus_3c0": "0x1",
+      "interface_wrapper": "0x6b8ede8",
+      "interface": "0x6b8ecbc",
+      "vtable": "0xc3f8c8",
+      "unit_build_function": "0x723f50",
+      "unit_build_first_64_bytes": "81eca8000000538bd98b43dc8b5058558d6bdc56578bcd895c2438ffd28b4be48bb110030000894424208b43e08944241c8b0633ff3bc7c7442424ffffffff89",
+      "opaque_interface_first_0x200_bytes": "c8f8c300c0f8c300bcf8c300b0f8c3000000000000000000010000000000000000000000000000000000000000000000000100000000000000000000000000000001000000000000000000000000000000010000000000000000000000000000000100000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000094010000030000000000000000000000000100005853b3065853b306d853b3069c01000021000000000000000000000090d3430501010000ffffffffbcecb806a4010000210000007068c3006095c90ee0cf43054067c3001467c30000010000d4f9c10051000000a0c9c2009895c90ee0cf430570c8c200f8c9c200ffffff3f4d060000ffffffffe0cf430558c8c2004cc8c20044c8c200670400000100000096000000d10300000000000000000000c00100005900000078bcc200b095c90ee0cf430548bbc200d0bcc200ffffff3f9d050000ffffffffe0cf43053cbbc200887ca306886fb3060000000000000000ffffffff010000000000803f",
+      "queue_schema_verified": false,
+      "this_adjustor_candidate": {
+        "delta": -36,
+        "implementation": "0x723f50"
+      },
+      "queue_candidate": {
+        "schema": "provisional_native_xfer",
+        "module": "0x6b8ec98",
+        "head": "0x0",
+        "tail": "0x0",
+        "nodes": [],
+        "semantics_verified_by_live_production": false
+      }
+    },
+    {
+      "address": "0x54398e0",
+      "template": "SovietWarFactory",
+      "hp": 3000.0,
+      "xyz": [
+        1776.385986328125,
+        1353.802734375,
+        210.0
+      ],
+      "production_interface_available": true,
+      "thing_plus_310": "0x6a4eb58",
+      "thing_plus_3c0": "0x1",
+      "interface_wrapper": "0x6a27688",
+      "interface": "0x506becc",
+      "vtable": "0xc3f8c8",
+      "unit_build_function": "0x723f50",
+      "unit_build_first_64_bytes": "81eca8000000538bd98b43dc8b5058558d6bdc56578bcd895c2438ffd28b4be48bb110030000894424208b43e08944241c8b0633ff3bc7c7442424ffffffff89",
+      "opaque_interface_first_0x200_bytes": "c8f8c300c0f8c300bcf8c300b0f8c300000000000000000004000000000000000000000000000000970700000000000000000000000000000000000000000000000000000000000000000000000000000000803f0000000000000000000000000000704100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000300000001000000000000000000000098eb9a0598eb9a0518ec9a0550010000110000000000000091020b0088db9b064100000030bec2008006d00ee098430500bdc200f0bcc200ffffff3f53060000ffffffffe09843051007d00e0f00000000000000ffffffff000000004000000011000000182da3067861b40600000000990000000000000000000000000000002dff2f94000000000000000000000000af11ab19000000007cc006057cc00605000000000000000000000000000000002dff2f9413030000000000002dff2f94c1f9f54d000000002dff2f9466641ffa000000004d000000310000002076cd002076cd004d000000",
+      "queue_schema_verified": false,
+      "this_adjustor_candidate": {
+        "delta": -36,
+        "implementation": "0x723f50"
+      },
+      "queue_candidate": {
+        "schema": "provisional_native_xfer",
+        "module": "0x506bea8",
+        "head": "0x0",
+        "tail": "0x0",
+        "nodes": [],
+        "semantics_verified_by_live_production": false
+      }
+    },
+    {
+      "address": "0x540afe0",
+      "template": "SovietPowerPlant",
+      "hp": 1150.0,
+      "xyz": [
+        1670.5086669921875,
+        1172.060546875,
+        210.0
+      ],
+      "production_interface_available": true,
+      "thing_plus_310": "0x6a573d0",
+      "thing_plus_3c0": "0x1",
+      "interface_wrapper": "0x69c5f50",
+      "interface": "0x69c5d9c",
+      "vtable": "0xc3f8c8",
+      "unit_build_function": "0x723f50",
+      "unit_build_first_64_bytes": "81eca8000000538bd98b43dc8b5058558d6bdc56578bcd895c2438ffd28b4be48bb110030000894424208b43e08944241c8b0633ff3bc7c7442424ffffffff89",
+      "opaque_interface_first_0x200_bytes": "c8f8c300c0f8c300bcf8c300b0f8c30000000000000000000100000000000000000000000000000000000000000000000033ed1f000000000000000000000000000110ed0000000000000000000000000021edf100000000000000000000000000ed76ee0000000000000000000000000024133300000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000042e565e20300000000000000000000000011f032c85e9c06c85e9c06485f9c06d0d0ffed890000002076cd002076cd00cb01dce0aefebd00eefedb11cde0efefa2edd5eda206c60562f676f67202b70300dd0f450dfeee20cfffef24f132eb5fde0f8ef11222fffe000f13df020d22110fce43341fd02e421120ff3010d21fff0210ef55201d3222fedf0040720d060ed2150616c2286629d22726283300345534234332222232121f33343221000000000000000000000090b3400501122421ffffffff9c5d9c0611224244210000007068c3006095c90ee0af40054067c3001467c300002bf62bd4f9c100290000001012c300e095c90ee0af4005",
+      "queue_schema_verified": false,
+      "this_adjustor_candidate": {
+        "delta": -36,
+        "implementation": "0x723f50"
+      },
+      "queue_candidate": {
+        "schema": "provisional_native_xfer",
+        "module": "0x69c5d78",
+        "head": "0x0",
+        "tail": "0x0",
+        "nodes": [],
+        "semantics_verified_by_live_production": false
+      }
+    }
+  ],
+  "enemy_observations": [],
+  "visibility_filter_verified": false,
+  "note": "Read-only. Own objects only. Catalog labels and frame interpretation remain provisional. No enemy intelligence exported."
+}

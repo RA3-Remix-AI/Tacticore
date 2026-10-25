@@ -1,0 +1,181 @@
+{
+  "status": "independent_effect_chain_verified_not_a_grant",
+  "checks": {
+    "actual_c510_revision": true,
+    "dependency_fingerprints": true,
+    "actual_admission": true,
+    "identity_binding": true,
+    "published_order_thread": true,
+    "terminal_alive_normal": true,
+    "unique_native_script_attack": true,
+    "brief_profile_and_limit": true,
+    "packet_commit_ammo_all_source_hits": true,
+    "immutable_ak_asset": true,
+    "source_six_and_natural_refill": true,
+    "actual_visible_entry_goal": true,
+    "single_lease_live_pool_return": true,
+    "no_inlease_override": true,
+    "all_six_normal_stops_settled": true,
+    "physical_long_home_return": true
+  },
+  "source_damage_amount": 30.0,
+  "qualified_hits": [
+    {
+      "seq": 549,
+      "frame": 1766,
+      "commit_seq": 548,
+      "ammo_seq": 551,
+      "amount": 5.0,
+      "hp_before": 2400.0,
+      "hp_after": 2395.0,
+      "packet": {
+        "argument_address": "0x1af18c",
+        "source_actor_id": 775,
+        "weapon_asset_id": "0x447ea26e",
+        "warhead_asset_id": "0x447ea26e",
+        "damage_type": "GUN",
+        "damage_type_id": 21,
+        "requested_damage": 5.0,
+        "actual_damage": 5.0,
+        "packet_word_offset": 32,
+        "caller_return": "0x78e313"
+      }
+    },
+    {
+      "seq": 556,
+      "frame": 1773,
+      "commit_seq": 555,
+      "ammo_seq": 558,
+      "amount": 5.0,
+      "hp_before": 2395.0,
+      "hp_after": 2390.0,
+      "packet": {
+        "argument_address": "0x1af18c",
+        "source_actor_id": 775,
+        "weapon_asset_id": "0x447ea26e",
+        "warhead_asset_id": "0x447ea26e",
+        "damage_type": "GUN",
+        "damage_type_id": 21,
+        "requested_damage": 5.0,
+        "actual_damage": 5.0,
+        "packet_word_offset": 32,
+        "caller_return": "0x78e313"
+      }
+    },
+    {
+      "seq": 563,
+      "frame": 1779,
+      "commit_seq": 562,
+      "ammo_seq": 565,
+      "amount": 5.0,
+      "hp_before": 2390.0,
+      "hp_after": 2385.0,
+      "packet": {
+        "argument_address": "0x1af18c",
+        "source_actor_id": 775,
+        "weapon_asset_id": "0x447ea26e",
+        "warhead_asset_id": "0x447ea26e",
+        "damage_type": "GUN",
+        "damage_type_id": 21,
+        "requested_damage": 5.0,
+        "actual_damage": 5.0,
+        "packet_word_offset": 32,
+        "caller_return": "0x78e313"
+      }
+    },
+    {
+      "seq": 573,
+      "frame": 1789,
+      "commit_seq": 572,
+      "ammo_seq": 575,
+      "amount": 5.0,
+      "hp_before": 2385.0,
+      "hp_after": 2380.0,
+      "packet": {
+        "argument_address": "0x1af18c",
+        "source_actor_id": 775,
+        "weapon_asset_id": "0x447ea26e",
+        "warhead_asset_id": "0x447ea26e",
+        "damage_type": "GUN",
+        "damage_type_id": 21,
+        "requested_damage": 5.0,
+        "actual_damage": 5.0,
+        "packet_word_offset": 32,
+        "caller_return": "0x78e313"
+      }
+    },
+    {
+      "seq": 580,
+      "frame": 1796,
+      "commit_seq": 579,
+      "ammo_seq": 582,
+      "amount": 5.0,
+      "hp_before": 2380.0,
+      "hp_after": 2375.0,
+      "packet": {
+        "argument_address": "0x1af18c",
+        "source_actor_id": 775,
+        "weapon_asset_id": "0x447ea26e",
+        "warhead_asset_id": "0x447ea26e",
+        "damage_type": "GUN",
+        "damage_type_id": 21,
+        "requested_damage": 5.0,
+        "actual_damage": 5.0,
+        "packet_word_offset": 32,
+        "caller_return": "0x78e313"
+      }
+    },
+    {
+      "seq": 588,
+      "frame": 1803,
+      "commit_seq": 587,
+      "ammo_seq": 590,
+      "amount": 5.0,
+      "hp_before": 2375.0,
+      "hp_after": 2370.0,
+      "packet": {
+        "argument_address": "0x1af18c",
+        "source_actor_id": 775,
+        "weapon_asset_id": "0x447ea26e",
+        "warhead_asset_id": "0x447ea26e",
+        "damage_type": "GUN",
+        "damage_type_id": 21,
+        "requested_damage": 5.0,
+        "actual_damage": 5.0,
+        "packet_word_offset": 32,
+        "caller_return": "0x78e313"
+      }
+    }
+  ],
+  "observed_rounds_consumed": 6,
+  "observed_reload_count": 1,
+  "goal": 30.0,
+  "retreat_displacement": 1962.3023627924179,
+  "stops": {
+    "0": true,
+    "6": true,
+    "4": true,
+    "9": true,
+    "7": true,
+    "2": true
+  },
+  "arrival_frames": [
+    2503,
+    2505,
+    2506
+  ],
+  "actual_attack_frame": 1762,
+  "actual_return_frame": 2511,
+  "native_reason": 1,
+  "normal_return_verified": true,
+  "scene_disposal_is_not_return": true,
+  "completion_claim": false,
+  "sdk_or_game_calls": 0,
+  "source_report": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-164701-commander\\continuous-paid-mct7-01-combat-v7.json",
+  "source_sha256": "d6d9a3ad354c7bffeca726ef773c483533836e80b7d3e1b49c2cf24037fa94ef",
+  "reviewer_sha256": "acb221d7c6df5b27c4d07cc7b609af7ccf1b91449865feaefc885f687546fbea",
+  "shared_decoders": {
+    "combo_qualification.py": "74ed16345fcde688fae5d6cbf08333d39bae9c2c009c7a62733bd022910fe8cb",
+    "stop_sequence.py": "12495ce626a0325240a1b74adc9cdf0a5218042e3cb5ca8c6c4472196daa5540"
+  }
+}

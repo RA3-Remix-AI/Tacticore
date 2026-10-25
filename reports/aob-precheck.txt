@@ -1,0 +1,38 @@
+游戏: E:\RedRar3\Data\RA3_1.12.game
+ImageBase=0x00400000 SizeOfImage=0x0093B000 节数=6
+源码: C:\Users\Administrator\Documents\Red Alert 3\bridge-probe\reference\Ra3-Copilot\ra3-copilot\src\features.cpp
+抓到 AOB 常量 32 个 / kHooks 条目 30 个
+--------------------------------------------------------------------
+  PlayerID         [OK] RVA 0x0FF95B  6 字节匹配
+  Money            [OK] RVA 0x6CFDFE  5 字节匹配
+  Power            [OK] RVA 0x6CFD0D  9 字节匹配
+  SCPoint          [OK] RVA 0x6CFE6C  6 字节匹配
+  HaveAllSC        [OK] RVA 0x6CFEB5  5 字节匹配
+  FastBuild1       [OK] RVA 0x30F42E  5 字节匹配
+  FastBuild2       [OK] RVA 0x30F38C  6 字节匹配
+  FastBuild3       [OK] RVA 0x2F6CFF  6 字节匹配
+  Map              [OK] RVA 0x3C226C  8 字节匹配
+  UnitAmmo         [OK] RVA 0x128735  5 字节匹配
+  DangerLevel      [OK] RVA 0x438ED0  6 字节匹配
+  OreMine          [OK] RVA 0x2D4933  6 字节匹配
+  GodMode          [OK] RVA 0x12EEDF  5 字节匹配
+  EnemyCantBuild   [OK] RVA 0x30F530  5 字节匹配
+  SuperPower       [OK] RVA 0x2EBB69  6 字节匹配
+  DisableAllSP     [OK] RVA 0x43ECA6  6 字节匹配
+  ProtoAll         [OK] RVA 0x69A9B3  6 字节匹配
+  ProtoClick       [OK] RVA 0x69AB03  7 字节匹配
+  Zoom             [OK] RVA 0x1EC7CD  7 字节匹配
+  ZoomPost         [OK] RVA 0x1EC82D  11 字节匹配
+  ZoomEntry        [OK] RVA 0x1EC730  14 字节匹配
+  OneKill          [OK] RVA 0x3651AE  7 字节匹配
+  OKData1          [OK] RVA 0x3FE714  8 字节匹配
+  OKData2          [OK] RVA 0x2E24E3  10 字节匹配
+  PowerLockProbe   [OK] RVA 0x67E9AB  5 字节匹配
+  Science          [OK] RVA 0x4451F0  11 字节匹配
+  ClanGate         [OK] RVA 0x43EA70  10 字节匹配
+  BuildBtn         [OK] RVA 0x6B7070  10 字节匹配
+  CmdSet           [OK] RVA 0x6CB352  8 字节匹配
+  BtnEnable        [OK] RVA 0x6BB6F0  11 字节匹配
+--------------------------------------------------------------------
+结果: 30/30 通过
+[+] 全部通过，可交付进局

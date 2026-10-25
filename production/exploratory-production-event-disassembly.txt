@@ -1,0 +1,681 @@
+
+E:\RedRar3\Data\RA3_1.12.game:     file format pei-i386
+
+
+Disassembly of section .text:
+
+00757cd0 <.text+0x356cd0>:
+  757cd0:	83 ec 0c             	sub    $0xc,%esp
+  757cd3:	55                   	push   %ebp
+  757cd4:	56                   	push   %esi
+  757cd5:	57                   	push   %edi
+  757cd6:	8b f9                	mov    %ecx,%edi
+  757cd8:	8b 47 e0             	mov    -0x20(%edi),%eax
+  757cdb:	8b 50 08             	mov    0x8(%eax),%edx
+  757cde:	8d 6f e0             	lea    -0x20(%edi),%ebp
+  757ce1:	8d 4c 24 0c          	lea    0xc(%esp),%ecx
+  757ce5:	51                   	push   %ecx
+  757ce6:	8b cd                	mov    %ebp,%ecx
+  757ce8:	ff d2                	call   *%edx
+  757cea:	8b 54 24 1c          	mov    0x1c(%esp),%edx
+  757cee:	8b ca                	mov    %edx,%ecx
+  757cf0:	83 e1 1f             	and    $0x1f,%ecx
+  757cf3:	be 01 00 00 00       	mov    $0x1,%esi
+  757cf8:	d3 e6                	shl    %cl,%esi
+  757cfa:	c1 ea 05             	shr    $0x5,%edx
+  757cfd:	85 34 90             	test   %esi,(%eax,%edx,4)
+  757d00:	0f 85 bb 00 00 00    	jne    0x757dc1
+  757d06:	8b 87 e0 00 00 00    	mov    0xe0(%edi),%eax
+  757d0c:	8b 35 e4 8c cd 00    	mov    0xcd8ce4,%esi
+  757d12:	53                   	push   %ebx
+  757d13:	33 db                	xor    %ebx,%ebx
+  757d15:	85 c0                	test   %eax,%eax
+  757d17:	89 44 24 10          	mov    %eax,0x10(%esp)
+  757d1b:	74 44                	je     0x757d61
+  757d1d:	68 f4 c6 c1 00       	push   $0xc1c6f4
+  757d22:	b9 80 8d cd 00       	mov    $0xcd8d80,%ecx
+  757d27:	e8 24 32 2d 00       	call   0xa2af50
+  757d2c:	8d 44 24 10          	lea    0x10(%esp),%eax
+  757d30:	50                   	push   %eax
+  757d31:	8d 4c 24 18          	lea    0x18(%esp),%ecx
+  757d35:	81 c6 bc 00 00 00    	add    $0xbc,%esi
+  757d3b:	51                   	push   %ecx
+  757d3c:	8b ce                	mov    %esi,%ecx
+  757d3e:	e8 cd d0 da ff       	call   0x504e10
+  757d43:	8b 56 08             	mov    0x8(%esi),%edx
+  757d46:	8b 4e 04             	mov    0x4(%esi),%ecx
+  757d49:	8b 44 24 14          	mov    0x14(%esp),%eax
+  757d4d:	3b 04 91             	cmp    (%ecx,%edx,4),%eax
+  757d50:	74 03                	je     0x757d55
+  757d52:	8b 58 04             	mov    0x4(%eax),%ebx
+  757d55:	6a 01                	push   $0x1
+  757d57:	b9 80 8d cd 00       	mov    $0xcd8d80,%ecx
+  757d5c:	e8 9f 32 2d 00       	call   0xa2b000
+  757d61:	8b 57 f4             	mov    -0xc(%edi),%edx
+  757d64:	8b 82 80 00 00 00    	mov    0x80(%edx),%eax
+  757d6a:	8d 77 f4             	lea    -0xc(%edi),%esi
+  757d6d:	6a 00                	push   $0x0
+  757d6f:	8b ce                	mov    %esi,%ecx
+  757d71:	ff d0                	call   *%eax
+  757d73:	85 db                	test   %ebx,%ebx
+  757d75:	74 32                	je     0x757da9
+  757d77:	8b 4b 04             	mov    0x4(%ebx),%ecx
+  757d7a:	8b 91 d0 00 00 00    	mov    0xd0(%ecx),%edx
+  757d80:	c1 ea 15             	shr    $0x15,%edx
+  757d83:	f6 c2 01             	test   $0x1,%dl
+  757d86:	74 21                	je     0x757da9
+  757d88:	8b 44 24 20          	mov    0x20(%esp),%eax
+  757d8c:	83 f8 06             	cmp    $0x6,%eax
+  757d8f:	74 18                	je     0x757da9
+  757d91:	50                   	push   %eax
+  757d92:	8b cb                	mov    %ebx,%ecx
+  757d94:	e8 b7 dc fe ff       	call   0x745a50
+  757d99:	8b 4b 04             	mov    0x4(%ebx),%ecx
+  757d9c:	8b 06                	mov    (%esi),%eax
+  757d9e:	8b 90 90 00 00 00    	mov    0x90(%eax),%edx
+  757da4:	51                   	push   %ecx
+  757da5:	8b ce                	mov    %esi,%ecx
+  757da7:	ff d2                	call   *%edx
+  757da9:	8b 0d e4 8c cd 00    	mov    0xcd8ce4,%ecx
+  757daf:	8b 41 50             	mov    0x50(%ecx),%eax
+  757db2:	8b 57 d8             	mov    -0x28(%edi),%edx
+  757db5:	83 c0 01             	add    $0x1,%eax
+  757db8:	50                   	push   %eax
+  757db9:	55                   	push   %ebp
+  757dba:	52                   	push   %edx
+  757dbb:	e8 00 61 d9 ff       	call   0x4edec0
+  757dc0:	5b                   	pop    %ebx
+  757dc1:	5f                   	pop    %edi
+  757dc2:	5e                   	pop    %esi
+  757dc3:	5d                   	pop    %ebp
+  757dc4:	83 c4 0c             	add    $0xc,%esp
+  757dc7:	c2 04 00             	ret    $0x4
+  757dca:	cc                   	int3
+  757dcb:	cc                   	int3
+  757dcc:	cc                   	int3
+  757dcd:	cc                   	int3
+  757dce:	cc                   	int3
+  757dcf:	cc                   	int3
+  757dd0:	8b ce                	mov    %esi,%ecx
+  757dd2:	e8 99 d0 fe ff       	call   0x744e70
+  757dd7:	8b 40 04             	mov    0x4(%eax),%eax
+  757dda:	8b 88 cc 00 00 00    	mov    0xcc(%eax),%ecx
+  757de0:	8b 07                	mov    (%edi),%eax
+  757de2:	c1 e9 0a             	shr    $0xa,%ecx
+  757de5:	f6 c1 01             	test   $0x1,%cl
+  757de8:	8b 88 28 03 00 00    	mov    0x328(%eax),%ecx
+  757dee:	74 6d                	je     0x757e5d
+  757df0:	85 c9                	test   %ecx,%ecx
+  757df2:	75 12                	jne    0x757e06
+  757df4:	8b 90 2c 03 00 00    	mov    0x32c(%eax),%edx
+  757dfa:	3b 90 30 03 00 00    	cmp    0x330(%eax),%edx
+  757e00:	74 04                	je     0x757e06
+  757e02:	8b c2                	mov    %edx,%eax
+  757e04:	8b 08                	mov    (%eax),%ecx
+  757e06:	8b 11                	mov    (%ecx),%edx
+  757e08:	8b 82 a0 00 00 00    	mov    0xa0(%edx),%eax
+  757e0e:	6a 00                	push   $0x0
+  757e10:	56                   	push   %esi
+  757e11:	ff d0                	call   *%eax
+  757e13:	8b ce                	mov    %esi,%ecx
+  757e15:	e8 56 d0 fe ff       	call   0x744e70
+  757e1a:	8b 88 28 03 00 00    	mov    0x328(%eax),%ecx
+  757e20:	85 c9                	test   %ecx,%ecx
+  757e22:	75 16                	jne    0x757e3a
+  757e24:	8b 88 2c 03 00 00    	mov    0x32c(%eax),%ecx
+  757e2a:	3b 88 30 03 00 00    	cmp    0x330(%eax),%ecx
+  757e30:	75 04                	jne    0x757e36
+  757e32:	33 c9                	xor    %ecx,%ecx
+  757e34:	eb 04                	jmp    0x757e3a
+  757e36:	8b d1                	mov    %ecx,%edx
+  757e38:	8b 0a                	mov    (%edx),%ecx
+  757e3a:	8b 01                	mov    (%ecx),%eax
+  757e3c:	8b 50 08             	mov    0x8(%eax),%edx
+  757e3f:	ff d2                	call   *%edx
+  757e41:	8d 48 24             	lea    0x24(%eax),%ecx
+  757e44:	8b 01                	mov    (%ecx),%eax
+  757e46:	8b 90 84 00 00 00    	mov    0x84(%eax),%edx
+  757e4c:	ff d2                	call   *%edx
+  757e4e:	8b 10                	mov    (%eax),%edx
+  757e50:	8b c8                	mov    %eax,%ecx
+  757e52:	8b 82 a8 00 00 00    	mov    0xa8(%edx),%eax
+  757e58:	56                   	push   %esi
+  757e59:	ff d0                	call   *%eax
+  757e5b:	eb 27                	jmp    0x757e84
+  757e5d:	85 c9                	test   %ecx,%ecx
+  757e5f:	75 16                	jne    0x757e77
+  757e61:	8b 88 2c 03 00 00    	mov    0x32c(%eax),%ecx
+  757e67:	3b 88 30 03 00 00    	cmp    0x330(%eax),%ecx
+  757e6d:	75 04                	jne    0x757e73
+  757e6f:	33 c9                	xor    %ecx,%ecx
+  757e71:	eb 04                	jmp    0x757e77
+  757e73:	8b d1                	mov    %ecx,%edx
+  757e75:	8b 0a                	mov    (%edx),%ecx
+  757e77:	8b 01                	mov    (%ecx),%eax
+  757e79:	8b 90 a0 00 00 00    	mov    0xa0(%eax),%edx
+  757e7f:	6a 00                	push   $0x0
+  757e81:	56                   	push   %esi
+  757e82:	ff d2                	call   *%edx
+  757e84:	8b 47 04             	mov    0x4(%edi),%eax
+  757e87:	8b 88 28 03 00 00    	mov    0x328(%eax),%ecx
+  757e8d:	85 c9                	test   %ecx,%ecx
+  757e8f:	75 20                	jne    0x757eb1
+  757e91:	8b 88 2c 03 00 00    	mov    0x32c(%eax),%ecx
+  757e97:	3b 88 30 03 00 00    	cmp    0x330(%eax),%ecx
+  757e9d:	75 0e                	jne    0x757ead
+  757e9f:	33 c9                	xor    %ecx,%ecx
+  757ea1:	8b 01                	mov    (%ecx),%eax
+  757ea3:	8b 90 98 00 00 00    	mov    0x98(%eax),%edx
+  757ea9:	56                   	push   %esi
+  757eaa:	ff d2                	call   *%edx
+  757eac:	c3                   	ret
+  757ead:	8b d1                	mov    %ecx,%edx
+  757eaf:	8b 0a                	mov    (%edx),%ecx
+  757eb1:	8b 01                	mov    (%ecx),%eax
+  757eb3:	8b 90 98 00 00 00    	mov    0x98(%eax),%edx
+  757eb9:	56                   	push   %esi
+  757eba:	ff d2                	call   *%edx
+  757ebc:	c3                   	ret
+  757ebd:	cc                   	int3
+  757ebe:	cc                   	int3
+  757ebf:	cc                   	int3
+  757ec0:	8b 41 14             	mov    0x14(%ecx),%eax
+  757ec3:	85 c0                	test   %eax,%eax
+  757ec5:	7e 10                	jle    0x757ed7
+  757ec7:	83 c0 ff             	add    $0xffffffff,%eax
+  757eca:	89 41 14             	mov    %eax,0x14(%ecx)
+  757ecd:	75 08                	jne    0x757ed7
+  757ecf:	83 c1 f0             	add    $0xfffffff0,%ecx
+  757ed2:	e8 b9 67 fe ff       	call   0x73e690
+  757ed7:	b8 01 00 00 00       	mov    $0x1,%eax
+  757edc:	c3                   	ret
+  757edd:	cc                   	int3
+  757ede:	cc                   	int3
+  757edf:	cc                   	int3
+  757ee0:	83 ec 28             	sub    $0x28,%esp
+  757ee3:	55                   	push   %ebp
+  757ee4:	8b 69 ec             	mov    -0x14(%ecx),%ebp
+  757ee7:	57                   	push   %edi
+  757ee8:	8b 79 f0             	mov    -0x10(%ecx),%edi
+  757eeb:	f6 87 71 04 00 00 01 	testb  $0x1,0x471(%edi)
+  757ef2:	74 0b                	je     0x757eff
+  757ef4:	5f                   	pop    %edi
+  757ef5:	b8 ff ff ff 3f       	mov    $0x3fffffff,%eax
+  757efa:	5d                   	pop    %ebp
+  757efb:	83 c4 28             	add    $0x28,%esp
+  757efe:	c3                   	ret
+  757eff:	8b 41 f8             	mov    -0x8(%ecx),%eax
+  757f02:	8b 10                	mov    (%eax),%edx
+  757f04:	83 c1 f8             	add    $0xfffffff8,%ecx
+  757f07:	ff d2                	call   *%edx
+  757f09:	84 c0                	test   %al,%al
+  757f0b:	74 e7                	je     0x757ef4
+  757f0d:	8b 0d e4 8c cd 00    	mov    0xcd8ce4,%ecx
+  757f13:	8b 97 18 04 00 00    	mov    0x418(%edi),%edx
+  757f19:	8b 45 28             	mov    0x28(%ebp),%eax
+  757f1c:	53                   	push   %ebx
+  757f1d:	56                   	push   %esi
+  757f1e:	33 f6                	xor    %esi,%esi
+  757f20:	3b ce                	cmp    %esi,%ecx
+  757f22:	89 54 24 20          	mov    %edx,0x20(%esp)
+  757f26:	89 44 24 10          	mov    %eax,0x10(%esp)
+  757f2a:	75 04                	jne    0x757f30
+  757f2c:	8b d8                	mov    %eax,%ebx
+  757f2e:	eb 2c                	jmp    0x757f5c
+  757f30:	db 44 24 10          	fildl  0x10(%esp)
+  757f34:	d9 7c 24 10          	fnstcw 0x10(%esp)
+  757f38:	0f b7 44 24 10       	movzwl 0x10(%esp),%eax
+  757f3d:	d8 89 bc 01 00 00    	fmuls  0x1bc(%ecx)
+  757f43:	0d 00 0c 00 00       	or     $0xc00,%eax
+  757f48:	89 44 24 14          	mov    %eax,0x14(%esp)
+  757f4c:	d9 6c 24 14          	fldcw  0x14(%esp)
+  757f50:	df 7c 24 14          	fistpll 0x14(%esp)
+  757f54:	8b 5c 24 14          	mov    0x14(%esp),%ebx
+  757f58:	d9 6c 24 10          	fldcw  0x10(%esp)
+  757f5c:	80 7d 31 00          	cmpb   $0x0,0x31(%ebp)
+  757f60:	75 10                	jne    0x757f72
+  757f62:	80 7d 32 00          	cmpb   $0x0,0x32(%ebp)
+  757f66:	75 0a                	jne    0x757f72
+  757f68:	80 7d 33 00          	cmpb   $0x0,0x33(%ebp)
+  757f6c:	0f 84 e9 00 00 00    	je     0x75805b
+  757f72:	56                   	push   %esi
+  757f73:	8d 44 24 18          	lea    0x18(%esp),%eax
+  757f77:	50                   	push   %eax
+  757f78:	8d 4c 24 2c          	lea    0x2c(%esp),%ecx
+  757f7c:	89 74 24 20          	mov    %esi,0x20(%esp)
+  757f80:	c7 44 24 1c dc 8f be 	movl   $0xbe8fdc,0x1c(%esp)
+  757f87:	00 
+  757f88:	89 7c 24 24          	mov    %edi,0x24(%esp)
+  757f8c:	89 74 24 30          	mov    %esi,0x30(%esp)
+  757f90:	c7 44 24 2c f0 f5 be 	movl   $0xbef5f0,0x2c(%esp)
+  757f97:	00 
+  757f98:	89 54 24 34          	mov    %edx,0x34(%esp)
+  757f9c:	c6 44 24 38 01       	movb   $0x1,0x38(%esp)
+  757fa1:	c7 44 24 3c 04 00 00 	movl   $0x4,0x3c(%esp)
+  757fa8:	00 
+  757fa9:	e8 12 c3 23 00       	call   0x9942c0
+  757fae:	d9 45 24             	flds   0x24(%ebp)
+  757fb1:	50                   	push   %eax
+  757fb2:	56                   	push   %esi
+  757fb3:	51                   	push   %ecx
+  757fb4:	d9 1c 24             	fstps  (%esp)
+  757fb7:	8d 4f 38             	lea    0x38(%edi),%ecx
+  757fba:	51                   	push   %ecx
+  757fbb:	8b 0d 9c 2f ce 00    	mov    0xce2f9c,%ecx
+  757fc1:	8d 54 24 24          	lea    0x24(%esp),%edx
+  757fc5:	52                   	push   %edx
+  757fc6:	e8 15 f8 23 00       	call   0x9977e0
+  757fcb:	eb 03                	jmp    0x757fd0
+  757fcd:	8d 49 00             	lea    0x0(%ecx),%ecx
+  757fd0:	8b 44 24 10          	mov    0x10(%esp),%eax
+  757fd4:	8b 48 10             	mov    0x10(%eax),%ecx
+  757fd7:	3b 48 04             	cmp    0x4(%eax),%ecx
+  757fda:	74 57                	je     0x758033
+  757fdc:	8b 31                	mov    (%ecx),%esi
+  757fde:	83 c1 08             	add    $0x8,%ecx
+  757fe1:	85 f6                	test   %esi,%esi
+  757fe3:	89 48 10             	mov    %ecx,0x10(%eax)
+  757fe6:	74 47                	je     0x75802f
+  757fe8:	8b 54 24 20          	mov    0x20(%esp),%edx
+  757fec:	8b 4d 2c             	mov    0x2c(%ebp),%ecx
+  757fef:	52                   	push   %edx
+  757ff0:	56                   	push   %esi
+  757ff1:	e8 ca b9 d8 ff       	call   0x4e39c0
+  757ff6:	84 c0                	test   %al,%al
+  757ff8:	74 d6                	je     0x757fd0
+  757ffa:	80 7d 31 00          	cmpb   $0x0,0x31(%ebp)
+  757ffe:	74 0b                	je     0x75800b
+  758000:	53                   	push   %ebx
+  758001:	57                   	push   %edi
+  758002:	6a 06                	push   $0x6
+  758004:	8b ce                	mov    %esi,%ecx
+  758006:	e8 85 e8 fe ff       	call   0x746890
+  75800b:	80 7d 32 00          	cmpb   $0x0,0x32(%ebp)
+  75800f:	74 0b                	je     0x75801c
+  758011:	53                   	push   %ebx
+  758012:	57                   	push   %edi
+  758013:	6a 04                	push   $0x4
+  758015:	8b ce                	mov    %esi,%ecx
+  758017:	e8 74 e8 fe ff       	call   0x746890
+  75801c:	80 7d 33 00          	cmpb   $0x0,0x33(%ebp)
+  758020:	74 ae                	je     0x757fd0
+  758022:	53                   	push   %ebx
+  758023:	57                   	push   %edi
+  758024:	6a 05                	push   $0x5
+  758026:	8b ce                	mov    %esi,%ecx
+  758028:	e8 63 e8 fe ff       	call   0x746890
+  75802d:	eb a1                	jmp    0x757fd0
+  75802f:	8b 44 24 10          	mov    0x10(%esp),%eax
+  758033:	83 40 14 ff          	addl   $0xffffffff,0x14(%eax)
+  758037:	8b 44 24 10          	mov    0x10(%esp),%eax
+  75803b:	83 78 14 00          	cmpl   $0x0,0x14(%eax)
+  75803f:	75 1a                	jne    0x75805b
+  758041:	8b f0                	mov    %eax,%esi
+  758043:	8b 00                	mov    (%eax),%eax
+  758045:	85 c0                	test   %eax,%eax
+  758047:	74 09                	je     0x758052
+  758049:	50                   	push   %eax
+  75804a:	e8 e1 e7 cb ff       	call   0x416830
+  75804f:	83 c4 04             	add    $0x4,%esp
+  758052:	56                   	push   %esi
+  758053:	e8 d8 e7 cb ff       	call   0x416830
+  758058:	83 c4 04             	add    $0x4,%esp
+  75805b:	8b bf dc 00 00 00    	mov    0xdc(%edi),%edi
+  758061:	b8 67 66 66 66       	mov    $0x66666667,%eax
+  758066:	f7 ef                	imul   %edi
+  758068:	d1 fa                	sar    $1,%edx
+  75806a:	8b c2                	mov    %edx,%eax
+  75806c:	c1 e8 1f             	shr    $0x1f,%eax
+  75806f:	03 c2                	add    %edx,%eax
+  758071:	8d 04 80             	lea    (%eax,%eax,4),%eax
+  758074:	8b c8                	mov    %eax,%ecx
+  758076:	8b c7                	mov    %edi,%eax
+  758078:	5e                   	pop    %esi
+  758079:	2b c1                	sub    %ecx,%eax
+  75807b:	03 c3                	add    %ebx,%eax
+  75807d:	5b                   	pop    %ebx
+  75807e:	5f                   	pop    %edi
+  75807f:	5d                   	pop    %ebp
+  758080:	83 c4 28             	add    $0x28,%esp
+  758083:	c3                   	ret
+  758084:	cc                   	int3
+  758085:	cc                   	int3
+  758086:	cc                   	int3
+  758087:	cc                   	int3
+  758088:	cc                   	int3
+  758089:	cc                   	int3
+  75808a:	cc                   	int3
+  75808b:	cc                   	int3
+  75808c:	cc                   	int3
+  75808d:	cc                   	int3
+  75808e:	cc                   	int3
+  75808f:	cc                   	int3
+  758090:	56                   	push   %esi
+  758091:	8b f1                	mov    %ecx,%esi
+  758093:	f6 46 30 01          	testb  $0x1,0x30(%esi)
+  758097:	74 05                	je     0x75809e
+  758099:	e8 d2 66 fe ff       	call   0x73e770
+  75809e:	f6 05 b8 5a ce 00 01 	testb  $0x1,0xce5ab8
+  7580a5:	75 1c                	jne    0x7580c3
+  7580a7:	8b 0d 38 73 d0 00    	mov    0xd07338,%ecx
+  7580ad:	83 0d b8 5a ce 00 01 	orl    $0x1,0xce5ab8
+  7580b4:	68 94 dd c1 00       	push   $0xc1dd94
+  7580b9:	e8 f2 2b 23 00       	call   0x98acb0
+  7580be:	a3 b4 5a ce 00       	mov    %eax,0xce5ab4
+  7580c3:	a1 b4 5a ce 00       	mov    0xce5ab4,%eax
+  7580c8:	8b 4e 08             	mov    0x8(%esi),%ecx
+  7580cb:	50                   	push   %eax
+  7580cc:	e8 7f 58 f8 ff       	call   0x6dd950
+  7580d1:	85 c0                	test   %eax,%eax
+  7580d3:	5e                   	pop    %esi
+  7580d4:	74 0e                	je     0x7580e4
+  7580d6:	6a 00                	push   $0x0
+  7580d8:	68 a0 ac 6d 00       	push   $0x6daca0
+  7580dd:	8b c8                	mov    %eax,%ecx
+  7580df:	e8 9c c8 fd ff       	call   0x734980
+  7580e4:	c3                   	ret
+  7580e5:	cc                   	int3
+  7580e6:	cc                   	int3
+  7580e7:	cc                   	int3
+  7580e8:	cc                   	int3
+  7580e9:	cc                   	int3
+  7580ea:	cc                   	int3
+  7580eb:	cc                   	int3
+  7580ec:	cc                   	int3
+  7580ed:	cc                   	int3
+  7580ee:	cc                   	int3
+  7580ef:	cc                   	int3
+  7580f0:	51                   	push   %ecx
+  7580f1:	53                   	push   %ebx
+  7580f2:	56                   	push   %esi
+  7580f3:	8b d9                	mov    %ecx,%ebx
+  7580f5:	57                   	push   %edi
+  7580f6:	8b 7b 08             	mov    0x8(%ebx),%edi
+  7580f9:	8b b7 3c 03 00 00    	mov    0x33c(%edi),%esi
+  7580ff:	8b 06                	mov    (%esi),%eax
+  758101:	8b 50 3c             	mov    0x3c(%eax),%edx
+  758104:	8b ce                	mov    %esi,%ecx
+  758106:	ff d2                	call   *%edx
+  758108:	d9 5c 24 0c          	fstps  0xc(%esp)
+  75810c:	8b 06                	mov    (%esi),%eax
+  75810e:	8b 50 48             	mov    0x48(%eax),%edx
+  758111:	8b ce                	mov    %esi,%ecx
+  758113:	ff d2                	call   *%edx
+  758115:	d9 44 24 0c          	flds   0xc(%esp)
+  758119:	df f1                	fcomip %st(1),%st
+  75811b:	dd d8                	fstp   %st(0)
+  75811d:	72 2b                	jb     0x75814a
+  75811f:	f3 0f 10 87 f4 03 00 	movss  0x3f4(%edi),%xmm0
+  758126:	00 
+  758127:	0f 2f 05 3c 66 be 00 	comiss 0xbe663c,%xmm0
+  75812e:	73 0d                	jae    0x75813d
+  758130:	0f 2e 05 78 67 be 00 	ucomiss 0xbe6778,%xmm0
+  758137:	9f                   	lahf
+  758138:	f6 c4 44             	test   $0x44,%ah
+  75813b:	7a 0d                	jp     0x75814a
+  75813d:	5f                   	pop    %edi
+  75813e:	5e                   	pop    %esi
+  75813f:	8b cb                	mov    %ebx,%ecx
+  758141:	5b                   	pop    %ebx
+  758142:	83 c4 04             	add    $0x4,%esp
+  758145:	e9 06 67 fe ff       	jmp    0x73e850
+  75814a:	5f                   	pop    %edi
+  75814b:	5e                   	pop    %esi
+  75814c:	5b                   	pop    %ebx
+  75814d:	59                   	pop    %ecx
+  75814e:	c3                   	ret
+  75814f:	cc                   	int3
+  758150:	8b 44 24 0c          	mov    0xc(%esp),%eax
+  758154:	56                   	push   %esi
+  758155:	57                   	push   %edi
+  758156:	8b 7c 24 0c          	mov    0xc(%esp),%edi
+  75815a:	8b f1                	mov    %ecx,%esi
+  75815c:	8b 4c 24 10          	mov    0x10(%esp),%ecx
+  758160:	50                   	push   %eax
+  758161:	51                   	push   %ecx
+  758162:	57                   	push   %edi
+  758163:	8b ce                	mov    %esi,%ecx
+  758165:	e8 26 0d 11 00       	call   0x868e90
+  75816a:	8b 56 e4             	mov    -0x1c(%esi),%edx
+  75816d:	8b 87 dc 00 00 00    	mov    0xdc(%edi),%eax
+  758173:	3b 82 dc 00 00 00    	cmp    0xdc(%edx),%eax
+  758179:	75 0e                	jne    0x758189
+  75817b:	f6 46 0c 01          	testb  $0x1,0xc(%esi)
+  75817f:	74 08                	je     0x758189
+  758181:	8d 4e dc             	lea    -0x24(%esi),%ecx
+  758184:	e8 07 ff ff ff       	call   0x758090
+  758189:	5f                   	pop    %edi
+  75818a:	5e                   	pop    %esi
+  75818b:	c2 0c 00             	ret    $0xc
+  75818e:	cc                   	int3
+  75818f:	cc                   	int3
+  758190:	51                   	push   %ecx
+  758191:	53                   	push   %ebx
+  758192:	8b d9                	mov    %ecx,%ebx
+  758194:	80 7b 24 00          	cmpb   $0x0,0x24(%ebx)
+  758198:	0f 84 92 00 00 00    	je     0x758230
+  75819e:	56                   	push   %esi
+  75819f:	8b 73 08             	mov    0x8(%ebx),%esi
+  7581a2:	8b 86 74 03 00 00    	mov    0x374(%esi),%eax
+  7581a8:	85 c0                	test   %eax,%eax
+  7581aa:	57                   	push   %edi
+  7581ab:	74 08                	je     0x7581b5
+  7581ad:	8b b8 1c 02 00 00    	mov    0x21c(%eax),%edi
+  7581b3:	eb 02                	jmp    0x7581b7
+  7581b5:	33 ff                	xor    %edi,%edi
+  7581b7:	6a 03                	push   $0x3
+  7581b9:	8d 88 ac 01 00 00    	lea    0x1ac(%eax),%ecx
+  7581bf:	e8 ec b3 fe ff       	call   0x7435b0
+  7581c4:	d9 54 24 0c          	fsts   0xc(%esp)
+  7581c8:	d9 ee                	fldz
+  7581ca:	d9 c9                	fxch   %st(1)
+  7581cc:	df e9                	fucomip %st(1),%st
+  7581ce:	dd d8                	fstp   %st(0)
+  7581d0:	9f                   	lahf
+  7581d1:	f6 c4 44             	test   $0x44,%ah
+  7581d4:	7b 08                	jnp    0x7581de
+  7581d6:	f3 0f 10 44 24 0c    	movss  0xc(%esp),%xmm0
+  7581dc:	eb 05                	jmp    0x7581e3
+  7581de:	f3 0f 10 47 08       	movss  0x8(%edi),%xmm0
+  7581e3:	f3 0f 11 47 20       	movss  %xmm0,0x20(%edi)
+  7581e8:	8a 86 92 00 00 00    	mov    0x92(%esi),%al
+  7581ee:	81 a6 90 00 00 00 ff 	andl   $0xfffeffff,0x90(%esi)
+  7581f5:	ff fe ff 
+  7581f8:	24 01                	and    $0x1,%al
+  7581fa:	84 c0                	test   %al,%al
+  7581fc:	74 0e                	je     0x75820c
+  7581fe:	6a 00                	push   $0x0
+  758200:	68 90 00 00 00       	push   $0x90
+  758205:	8b ce                	mov    %esi,%ecx
+  758207:	e8 64 f1 fc ff       	call   0x727370
+  75820c:	8b 86 d0 00 00 00    	mov    0xd0(%esi),%eax
+  758212:	c1 e8 0e             	shr    $0xe,%eax
+  758215:	a8 01                	test   $0x1,%al
+  758217:	74 11                	je     0x75822a
+  758219:	81 a6 d0 00 00 00 ff 	andl   $0xffffbfff,0xd0(%esi)
+  758220:	bf ff ff 
+  758223:	8b ce                	mov    %esi,%ecx
+  758225:	e8 e6 32 fa ff       	call   0x6fb510
+  75822a:	5f                   	pop    %edi
+  75822b:	c6 43 24 00          	movb   $0x0,0x24(%ebx)
+  75822f:	5e                   	pop    %esi
+  758230:	5b                   	pop    %ebx
+  758231:	59                   	pop    %ecx
+  758232:	c3                   	ret
+  758233:	cc                   	int3
+  758234:	cc                   	int3
+  758235:	cc                   	int3
+  758236:	cc                   	int3
+  758237:	cc                   	int3
+  758238:	cc                   	int3
+  758239:	cc                   	int3
+  75823a:	cc                   	int3
+  75823b:	cc                   	int3
+  75823c:	cc                   	int3
+  75823d:	cc                   	int3
+  75823e:	cc                   	int3
+  75823f:	cc                   	int3
+  758240:	56                   	push   %esi
+  758241:	8b f1                	mov    %ecx,%esi
+  758243:	c7 06 88 a6 c3 00    	movl   $0xc3a688,(%esi)
+  758249:	c7 46 0c 58 a5 c3 00 	movl   $0xc3a558,0xc(%esi)
+  758250:	c7 46 10 48 a5 c3 00 	movl   $0xc3a548,0x10(%esi)
+  758257:	c7 46 24 40 a5 c3 00 	movl   $0xc3a540,0x24(%esi)
+  75825e:	c7 46 28 28 a5 c3 00 	movl   $0xc3a528,0x28(%esi)
+  758265:	e8 e6 6a fe ff       	call   0x73ed50
+  75826a:	8b 46 38             	mov    0x38(%esi),%eax
+  75826d:	8d 4e 2c             	lea    0x2c(%esi),%ecx
+  758270:	50                   	push   %eax
+  758271:	e8 da ed e6 ff       	call   0x5c7050
+  758276:	c7 46 10 00 8e be 00 	movl   $0xbe8e00,0x10(%esi)
+  75827d:	c7 06 98 8d be 00    	movl   $0xbe8d98,(%esi)
+  758283:	c7 46 0c 68 8c be 00 	movl   $0xbe8c68,0xc(%esi)
+  75828a:	8b ce                	mov    %esi,%ecx
+  75828c:	5e                   	pop    %esi
+  75828d:	e9 0e 74 08 00       	jmp    0x7df6a0
+  758292:	cc                   	int3
+  758293:	cc                   	int3
+  758294:	cc                   	int3
+  758295:	cc                   	int3
+  758296:	cc                   	int3
+  758297:	cc                   	int3
+  758298:	cc                   	int3
+  758299:	cc                   	int3
+  75829a:	cc                   	int3
+  75829b:	cc                   	int3
+  75829c:	cc                   	int3
+  75829d:	cc                   	int3
+  75829e:	cc                   	int3
+  75829f:	cc                   	int3
+  7582a0:	83 c1 dc             	add    $0xffffffdc,%ecx
+  7582a3:	e9 a8 70 fe ff       	jmp    0x73f350
+  7582a8:	cc                   	int3
+  7582a9:	cc                   	int3
+  7582aa:	cc                   	int3
+  7582ab:	cc                   	int3
+  7582ac:	cc                   	int3
+  7582ad:	cc                   	int3
+  7582ae:	cc                   	int3
+  7582af:	cc                   	int3
+  7582b0:	56                   	push   %esi
+  7582b1:	8b f1                	mov    %ecx,%esi
+  7582b3:	8b 46 04             	mov    0x4(%esi),%eax
+  7582b6:	80 78 6d 00          	cmpb   $0x0,0x6d(%eax)
+  7582ba:	75 45                	jne    0x758301
+  7582bc:	0f 57 c0             	xorps  %xmm0,%xmm0
+  7582bf:	c7 46 28 00 00 00 00 	movl   $0x0,0x28(%esi)
+  7582c6:	f3 0f 11 46 2c       	movss  %xmm0,0x2c(%esi)
+  7582cb:	f3 0f 11 46 30       	movss  %xmm0,0x30(%esi)
+  7582d0:	f3 0f 11 46 34       	movss  %xmm0,0x34(%esi)
+  7582d5:	8b 4e 08             	mov    0x8(%esi),%ecx
+  7582d8:	8b 81 80 00 00 00    	mov    0x80(%ecx),%eax
+  7582de:	83 a1 80 00 00 00 f7 	andl   $0xfffffff7,0x80(%ecx)
+  7582e5:	c1 e8 03             	shr    $0x3,%eax
+  7582e8:	24 01                	and    $0x1,%al
+  7582ea:	84 c0                	test   %al,%al
+  7582ec:	74 09                	je     0x7582f7
+  7582ee:	6a 00                	push   $0x0
+  7582f0:	6a 03                	push   $0x3
+  7582f2:	e8 79 f0 fc ff       	call   0x727370
+  7582f7:	8b 4e 08             	mov    0x8(%esi),%ecx
+  7582fa:	6a 03                	push   $0x3
+  7582fc:	e8 4f d7 fe ff       	call   0x745a50
+  758301:	5e                   	pop    %esi
+  758302:	c3                   	ret
+  758303:	cc                   	int3
+  758304:	cc                   	int3
+  758305:	cc                   	int3
+  758306:	cc                   	int3
+  758307:	cc                   	int3
+  758308:	cc                   	int3
+  758309:	cc                   	int3
+  75830a:	cc                   	int3
+  75830b:	cc                   	int3
+  75830c:	cc                   	int3
+  75830d:	cc                   	int3
+  75830e:	cc                   	int3
+  75830f:	cc                   	int3
+  758310:	83 ec 10             	sub    $0x10,%esp
+  758313:	55                   	push   %ebp
+  758314:	8b e9                	mov    %ecx,%ebp
+  758316:	8b 45 04             	mov    0x4(%ebp),%eax
+  758319:	8b 48 20             	mov    0x20(%eax),%ecx
+  75831c:	d1 e9                	shr    $1,%ecx
+  75831e:	f6 c1 01             	test   $0x1,%cl
+  758321:	0f 84 ed 00 00 00    	je     0x758414
+  758327:	8b 45 34             	mov    0x34(%ebp),%eax
+  75832a:	3b 45 38             	cmp    0x38(%ebp),%eax
+  75832d:	89 44 24 04          	mov    %eax,0x4(%esp)
+  758331:	0f 84 dd 00 00 00    	je     0x758414
+  758337:	53                   	push   %ebx
+  758338:	56                   	push   %esi
+  758339:	57                   	push   %edi
+  75833a:	8d 58 08             	lea    0x8(%eax),%ebx
+  75833d:	8d 49 00             	lea    0x0(%ecx),%ecx
+  758340:	8b 00                	mov    (%eax),%eax
+  758342:	8b 35 e4 8c cd 00    	mov    0xcd8ce4,%esi
+  758348:	33 ff                	xor    %edi,%edi
+  75834a:	85 c0                	test   %eax,%eax
+  75834c:	89 44 24 14          	mov    %eax,0x14(%esp)
+  758350:	74 48                	je     0x75839a
+  758352:	68 f4 c6 c1 00       	push   $0xc1c6f4
+  758357:	b9 80 8d cd 00       	mov    $0xcd8d80,%ecx
+  75835c:	e8 ef 2b 2d 00       	call   0xa2af50
+  758361:	8d 54 24 14          	lea    0x14(%esp),%edx
+  758365:	52                   	push   %edx
+  758366:	8d 44 24 1c          	lea    0x1c(%esp),%eax
+  75836a:	81 c6 bc 00 00 00    	add    $0xbc,%esi
+  758370:	50                   	push   %eax
+  758371:	8b ce                	mov    %esi,%ecx
+  758373:	e8 98 ca da ff       	call   0x504e10
+  758378:	8b 4e 08             	mov    0x8(%esi),%ecx
+  75837b:	8b 56 04             	mov    0x4(%esi),%edx
+  75837e:	8b 44 24 18          	mov    0x18(%esp),%eax
+  758382:	3b 04 8a             	cmp    (%edx,%ecx,4),%eax
+  758385:	74 03                	je     0x75838a
+  758387:	8b 78 04             	mov    0x4(%eax),%edi
+  75838a:	6a 01                	push   $0x1
+  75838c:	b9 80 8d cd 00       	mov    $0xcd8d80,%ecx
+  758391:	e8 6a 2c 2d 00       	call   0xa2b000
+  758396:	85 ff                	test   %edi,%edi
+  758398:	75 26                	jne    0x7583c0
+  75839a:	8b 55 38             	mov    0x38(%ebp),%edx
+  75839d:	3b da                	cmp    %edx,%ebx
+  75839f:	73 19                	jae    0x7583ba
+  7583a1:	8b c3                	mov    %ebx,%eax
+  7583a3:	8d 4b f8             	lea    -0x8(%ebx),%ecx
+  7583a6:	8b 30                	mov    (%eax),%esi
+  7583a8:	89 31                	mov    %esi,(%ecx)
+  7583aa:	8b 70 04             	mov    0x4(%eax),%esi
+  7583ad:	89 71 04             	mov    %esi,0x4(%ecx)
+  7583b0:	83 c0 08             	add    $0x8,%eax
+  7583b3:	83 c1 08             	add    $0x8,%ecx
+  7583b6:	3b c2                	cmp    %edx,%eax
+  7583b8:	75 ec                	jne    0x7583a6
+  7583ba:	83 45 38 f8          	addl   $0xfffffff8,0x38(%ebp)
+  7583be:	eb 44                	jmp    0x758404
+  7583c0:	8b 0d e4 8c cd 00    	mov    0xcd8ce4,%ecx
+  7583c6:	8b 41 50             	mov    0x50(%ecx),%eax
+  7583c9:	3b 43 fc             	cmp    -0x4(%ebx),%eax
+  7583cc:	8d 73 f8             	lea    -0x8(%ebx),%esi
+  7583cf:	76 2b                	jbe    0x7583fc
+  7583d1:	57                   	push   %edi
+  7583d2:	e8 79 5d d9 ff       	call   0x4ee150
+  7583d7:	8b 55 38             	mov    0x38(%ebp),%edx
+  7583da:	3b da                	cmp    %edx,%ebx
+  7583dc:	73 18                	jae    0x7583f6
+  7583de:	8b c3                	mov    %ebx,%eax
+  7583e0:	8b ce                	mov    %esi,%ecx
+  7583e2:	8b 30                	mov    (%eax),%esi
+  7583e4:	89 31                	mov    %esi,(%ecx)
+  7583e6:	8b 70 04             	mov    0x4(%eax),%esi
+  7583e9:	89 71 04             	mov    %esi,0x4(%ecx)
+  7583ec:	83 c0 08             	add    $0x8,%eax
+  7583ef:	83 c1 08             	add    $0x8,%ecx
+  7583f2:	3b c2                	cmp    %edx,%eax
+  7583f4:	75 ec                	jne    0x7583e2
+  7583f6:	83 45 38 f8          	addl   $0xfffffff8,0x38(%ebp)
+  7583fa:	eb 08                	jmp    0x758404
+  7583fc:	83                   	.byte 0x83
+  7583fd:	44                   	inc    %esp
+  7583fe:	24 10                	and    $0x10,%al

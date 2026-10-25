@@ -1,0 +1,253 @@
+{
+  "source_report": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-164701-commander\\continuous-paid-mct7-01-combat-v7.json",
+  "source_sha256": "d6d9a3ad354c7bffeca726ef773c483533836e80b7d3e1b49c2cf24037fa94ef",
+  "session_id": "95907ea7-26bf-4d4f-9a98-08d92e26273f",
+  "pid": 63904,
+  "reader_sha256": "853f82a97aab36b25c5ba2f7e85e6daa0b444db1ac42ef9416b94691f2052ffe",
+  "snapshots": [
+    {
+      "binding_verified": true,
+      "module_base": "0x7a9c0000",
+      "shared_pointer": "0x3f030000",
+      "timer": 0,
+      "phase": 3,
+      "error": 0,
+      "restore_mask": 16383,
+      "active": 0,
+      "token": 2607206337,
+      "seq": 627389984,
+      "pid": 63904,
+      "session_id": "95907ea7-26bf-4d4f-9a98-08d92e26273f",
+      "commander_id": "57e668b4-4d89-43bd-bc92-0dd436f046ef",
+      "command_id": "a8a87814-58de-46b8-81ed-e61b063a2f8d",
+      "task_id": "d1a2a72e-8e16-4a76-b4d1-e070d86fc6bd",
+      "object_id": 775,
+      "unit": "0x569eca0",
+      "owner": "0x31174d0",
+      "ai": "0x43ffb18",
+      "logic": "0x3bbc228",
+      "thread": 58328,
+      "callback_thread": 58328,
+      "counters": {
+        "issued_frame": 982,
+        "returned_frame": 2511,
+        "detach_calls": 1,
+        "return_calls": 1,
+        "move_calls": 2,
+        "attack_calls": 1,
+        "attack_facade_calls": 1,
+        "attack_private_calls": 1,
+        "normal_move_facade_calls": 2,
+        "normal_move_private_calls": 2,
+        "stop_calls": 6,
+        "private_stop_calls": 6,
+        "toggle_calls": 1,
+        "toggle_hook_calls": 1
+      },
+      "entries": [
+        {
+          "address": 7274352,
+          "expected": "568bf18b4e3c8b018b5038ffd2",
+          "actual": "568bf18b4e3c8b018b5038ffd2"
+        },
+        {
+          "address": 7792272,
+          "expected": "837c24040055568bf18b6e08",
+          "actual": "837c24040055568bf18b6e08"
+        },
+        {
+          "address": 8620064,
+          "expected": "8b818c00000085c0744f568bb190000000",
+          "actual": "8b818c00000085c0744f568bb190000000"
+        },
+        {
+          "address": 9275520,
+          "expected": "83ec24568b74242c8b4604",
+          "actual": "83ec24568b74242c8b4604"
+        },
+        {
+          "address": 9229872,
+          "expected": "83ec3453578b7c24408b4704",
+          "actual": "83ec3453578b7c24408b4704"
+        },
+        {
+          "address": 8200976,
+          "expected": "81ec200100005355568bb42430010000",
+          "actual": "81ec200100005355568bb42430010000"
+        },
+        {
+          "address": 7306336,
+          "expected": "538b5928568b71243bf357",
+          "actual": "538b5928568b71243bf357"
+        },
+        {
+          "address": 7754128,
+          "expected": "8b44240885c0f30f104c2404",
+          "actual": "8b44240885c0f30f104c2404"
+        },
+        {
+          "address": 5550240,
+          "expected": "83ec5c8b442460566a01508bf1",
+          "actual": "83ec5c8b442460566a01508bf1"
+        },
+        {
+          "address": 7477968,
+          "expected": "83ec08558be98b45088b4804",
+          "actual": "83ec08558be98b45088b4804"
+        },
+        {
+          "address": 5710464,
+          "expected": "83ec5c8b442468566a01508bf1",
+          "actual": "83ec5c8b442468566a01508bf1"
+        },
+        {
+          "address": 7932304,
+          "expected": "8b44240c8b5424086a006a006a00",
+          "actual": "8b44240c8b5424086a006a006a00"
+        },
+        {
+          "address": 7789008,
+          "expected": "568bf1578b7e088bcf",
+          "actual": "568bf1578b7e088bcf"
+        },
+        {
+          "address": 5709200,
+          "expected": "83ec5c8b442464566a01508bf1",
+          "actual": "83ec5c8b442464566a01508bf1"
+        }
+      ],
+      "return_verified": 1,
+      "personality": "0xea2e020",
+      "personality_id": "0x7664d9d9",
+      "type_hash": "0x19ab11af",
+      "update": "0x47d2638",
+      "observed_monotonic_ns": 627590625000000
+    },
+    {
+      "binding_verified": true,
+      "module_base": "0x7a9c0000",
+      "shared_pointer": "0x3f030000",
+      "timer": 0,
+      "phase": 3,
+      "error": 0,
+      "restore_mask": 16383,
+      "active": 0,
+      "token": 2607206337,
+      "seq": 627389984,
+      "pid": 63904,
+      "session_id": "95907ea7-26bf-4d4f-9a98-08d92e26273f",
+      "commander_id": "57e668b4-4d89-43bd-bc92-0dd436f046ef",
+      "command_id": "a8a87814-58de-46b8-81ed-e61b063a2f8d",
+      "task_id": "d1a2a72e-8e16-4a76-b4d1-e070d86fc6bd",
+      "object_id": 775,
+      "unit": "0x569eca0",
+      "owner": "0x31174d0",
+      "ai": "0x43ffb18",
+      "logic": "0x3bbc228",
+      "thread": 58328,
+      "callback_thread": 58328,
+      "counters": {
+        "issued_frame": 982,
+        "returned_frame": 2511,
+        "detach_calls": 1,
+        "return_calls": 1,
+        "move_calls": 2,
+        "attack_calls": 1,
+        "attack_facade_calls": 1,
+        "attack_private_calls": 1,
+        "normal_move_facade_calls": 2,
+        "normal_move_private_calls": 2,
+        "stop_calls": 6,
+        "private_stop_calls": 6,
+        "toggle_calls": 1,
+        "toggle_hook_calls": 1
+      },
+      "entries": [
+        {
+          "address": 7274352,
+          "expected": "568bf18b4e3c8b018b5038ffd2",
+          "actual": "568bf18b4e3c8b018b5038ffd2"
+        },
+        {
+          "address": 7792272,
+          "expected": "837c24040055568bf18b6e08",
+          "actual": "837c24040055568bf18b6e08"
+        },
+        {
+          "address": 8620064,
+          "expected": "8b818c00000085c0744f568bb190000000",
+          "actual": "8b818c00000085c0744f568bb190000000"
+        },
+        {
+          "address": 9275520,
+          "expected": "83ec24568b74242c8b4604",
+          "actual": "83ec24568b74242c8b4604"
+        },
+        {
+          "address": 9229872,
+          "expected": "83ec3453578b7c24408b4704",
+          "actual": "83ec3453578b7c24408b4704"
+        },
+        {
+          "address": 8200976,
+          "expected": "81ec200100005355568bb42430010000",
+          "actual": "81ec200100005355568bb42430010000"
+        },
+        {
+          "address": 7306336,
+          "expected": "538b5928568b71243bf357",
+          "actual": "538b5928568b71243bf357"
+        },
+        {
+          "address": 7754128,
+          "expected": "8b44240885c0f30f104c2404",
+          "actual": "8b44240885c0f30f104c2404"
+        },
+        {
+          "address": 5550240,
+          "expected": "83ec5c8b442460566a01508bf1",
+          "actual": "83ec5c8b442460566a01508bf1"
+        },
+        {
+          "address": 7477968,
+          "expected": "83ec08558be98b45088b4804",
+          "actual": "83ec08558be98b45088b4804"
+        },
+        {
+          "address": 5710464,
+          "expected": "83ec5c8b442468566a01508bf1",
+          "actual": "83ec5c8b442468566a01508bf1"
+        },
+        {
+          "address": 7932304,
+          "expected": "8b44240c8b5424086a006a006a00",
+          "actual": "8b44240c8b5424086a006a006a00"
+        },
+        {
+          "address": 7789008,
+          "expected": "568bf1578b7e088bcf",
+          "actual": "568bf1578b7e088bcf"
+        },
+        {
+          "address": 5709200,
+          "expected": "83ec5c8b442464566a01508bf1",
+          "actual": "83ec5c8b442464566a01508bf1"
+        }
+      ],
+      "return_verified": 1,
+      "personality": "0xea2e020",
+      "personality_id": "0x7664d9d9",
+      "type_hash": "0x19ab11af",
+      "update": "0x47d2638",
+      "observed_monotonic_ns": 627590750000000
+    }
+  ],
+  "mutations": false,
+  "checks": {
+    "actual_current_binary": true,
+    "same_native_request": true,
+    "terminal_success": true,
+    "actual_fourteen_pristine": true,
+    "same_counters_and_return_frame": true
+  }
+}

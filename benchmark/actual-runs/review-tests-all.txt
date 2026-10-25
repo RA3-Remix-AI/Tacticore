@@ -1,0 +1,40 @@
+test_binding_isolation (test_aggregate.BenchmarkTests.test_binding_isolation) ... ok
+test_blind_vote_unknown_is_not_correct (test_aggregate.BenchmarkTests.test_blind_vote_unknown_is_not_correct) ... ok
+test_commander_profile_cannot_drift_between_trials (test_aggregate.BenchmarkTests.test_commander_profile_cannot_drift_between_trials) ... ok
+test_compare_rejects_changed_conditions (test_aggregate.BenchmarkTests.test_compare_rejects_changed_conditions) ... ok
+test_compare_rejects_duplicate_trial (test_aggregate.BenchmarkTests.test_compare_rejects_duplicate_trial) ... ok
+test_compare_rejects_mixed_sources (test_aggregate.BenchmarkTests.test_compare_rejects_mixed_sources) ... ok
+test_complete_synthetic_run (test_aggregate.BenchmarkTests.test_complete_synthetic_run) ... ok
+test_controlled_pair_seed_must_match (test_aggregate.BenchmarkTests.test_controlled_pair_seed_must_match) ... ok
+test_duplicate_json_and_nonfinite_rejected (test_aggregate.BenchmarkTests.test_duplicate_json_and_nonfinite_rejected) ... ok
+test_duplicate_result_rejected (test_aggregate.BenchmarkTests.test_duplicate_result_rejected) ... ok
+test_duplicate_unit_rejected (test_aggregate.BenchmarkTests.test_duplicate_unit_rejected) ... ok
+test_live_artifact_hash_and_path (test_aggregate.BenchmarkTests.test_live_artifact_hash_and_path) ... ok
+test_live_control_gate (test_aggregate.BenchmarkTests.test_live_control_gate) ... ok
+test_live_requires_artifact (test_aggregate.BenchmarkTests.test_live_requires_artifact) ... ok
+test_missing_denominators_are_null (test_aggregate.BenchmarkTests.test_missing_denominators_are_null) ... ok
+test_mixed_event_provenance_rejected (test_aggregate.BenchmarkTests.test_mixed_event_provenance_rejected) ... ok
+test_pending_not_failure (test_aggregate.BenchmarkTests.test_pending_not_failure) ... ok
+test_plan_changes_exclude_initial_and_refresh (test_aggregate.BenchmarkTests.test_plan_changes_exclude_initial_and_refresh) ... ok
+test_production_missing_cost_not_confirmed (test_aggregate.BenchmarkTests.test_production_missing_cost_not_confirmed) ... ok
+test_production_requires_queue (test_aggregate.BenchmarkTests.test_production_requires_queue) ... ok
+test_shared_session_not_independent (test_aggregate.BenchmarkTests.test_shared_session_not_independent) ... ok
+test_three_by_three_synthetic_not_live_conclusion (test_aggregate.BenchmarkTests.test_three_by_three_synthetic_not_live_conclusion) ... ok
+test_time_reversal_rejected (test_aggregate.BenchmarkTests.test_time_reversal_rejected) ... ok
+test_uncontrolled_seed_not_invented (test_aggregate.BenchmarkTests.test_uncontrolled_seed_not_invented) ... ok
+test_unknown_fields_rejected (test_aggregate.BenchmarkTests.test_unknown_fields_rejected) ... ok
+test_unqueued_production_cannot_fail (test_aggregate.BenchmarkTests.test_unqueued_production_cannot_fail) ... ok
+test_unstarted_task_cannot_be_failure (test_aggregate.BenchmarkTests.test_unstarted_task_cannot_be_failure) ... ok
+test_cost_without_created_unit_not_complete (test_review_host_run.ReviewTests.test_cost_without_created_unit_not_complete) ... ok
+test_initial_plan_is_not_change (test_review_host_run.ReviewTests.test_initial_plan_is_not_change) ... ok
+test_missing_production_and_no_terminal_tasks_remain_unknown (test_review_host_run.ReviewTests.test_missing_production_and_no_terminal_tasks_remain_unknown) ... ok
+test_prearmed_early_request_is_candidate_only (test_review_host_run.ReviewTests.test_prearmed_early_request_is_candidate_only) ... ok
+test_prestart_failure_not_task_failure (test_review_host_run.ReviewTests.test_prestart_failure_not_task_failure) ... ok
+test_repeated_completion_rows_count_once_and_bind_package (test_review_host_run.ReviewTests.test_repeated_completion_rows_count_once_and_bind_package) ... ok
+test_result_candidate_not_finalized (test_review_host_run.ReviewTests.test_result_candidate_not_finalized) ... ok
+test_wrong_session_rejected (test_review_host_run.ReviewTests.test_wrong_session_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 35 tests in 0.019s
+
+OK

@@ -1,0 +1,249 @@
+{
+  "session_id": "e76c4955-bd8e-4f21-a604-bd32ae6be4c1",
+  "executable_sha256": "ec230c6ae1eaee30b0b4fa6ba29d417c974ecae46d6715dfbe786a815935c165",
+  "package_sha256": "2d7873e1b2d2c79950ff9da70b5452b1210370a6d6cbec1eaa69201a7d3d0665",
+  "preflight": {
+    "status": "read_only_ready",
+    "session_id": "e76c4955-bd8e-4f21-a604-bd32ae6be4c1",
+    "pid": 4908,
+    "commander_id": "57e668b4-4d89-43bd-bc92-0dd436f046ef",
+    "player_id": 3,
+    "frame": 6895,
+    "paused": 0,
+    "owner": "0x318d4d0",
+    "ai": "0x4daca68",
+    "personality": "0xeaa4020",
+    "personality_id": "0x7664d9d9",
+    "player_template": "0x1132ee70",
+    "logic": "0x3c32228",
+    "window_thread": 49268,
+    "script_team": "0x55dd7d0",
+    "default_team": "0x55de6d0",
+    "eligible_count": 6,
+    "units": [
+      {
+        "address": "0x543f2e0",
+        "owner_address": "0x318d4d0",
+        "owner_index_candidate": 3,
+        "object_id": 1027,
+        "type_hash": "0x2c358c61",
+        "ai_address": "0x6b418f0",
+        "xyz": [
+          2144.694091796875,
+          3334.404052734375,
+          210.0
+        ],
+        "catalog": {
+          "name": "防空部队",
+          "template": "SovietAntiVehicleInfantry",
+          "side": 2,
+          "cls": 1,
+          "category": 0
+        },
+        "hp": 150.0,
+        "team": "0x55de6d0",
+        "command_source": 0,
+        "eligible": true
+      },
+      {
+        "address": "0x54339e0",
+        "owner_address": "0x318d4d0",
+        "owner_index_candidate": 3,
+        "object_id": 1034,
+        "type_hash": "0x19ab11af",
+        "ai_address": "0x6348bc8",
+        "xyz": [
+          2144.694091796875,
+          3334.404052734375,
+          210.0
+        ],
+        "catalog": {
+          "name": "征召兵",
+          "template": "SovietAntiInfantryInfantry",
+          "side": 2,
+          "cls": 1,
+          "category": 0
+        },
+        "hp": 100.0,
+        "team": "0x55de6d0",
+        "command_source": 0,
+        "eligible": true
+      },
+      {
+        "address": "0x4e38b60",
+        "owner_address": "0x318d4d0",
+        "owner_index_candidate": 3,
+        "object_id": 1035,
+        "type_hash": "0x19ab11af",
+        "ai_address": "0x69fb768",
+        "xyz": [
+          2144.694091796875,
+          3334.404052734375,
+          210.0
+        ],
+        "catalog": {
+          "name": "征召兵",
+          "template": "SovietAntiInfantryInfantry",
+          "side": 2,
+          "cls": 1,
+          "category": 0
+        },
+        "hp": 100.0,
+        "team": "0x55de6d0",
+        "command_source": 0,
+        "eligible": true
+      },
+      {
+        "address": "0x540fae0",
+        "owner_address": "0x318d4d0",
+        "owner_index_candidate": 3,
+        "object_id": 1041,
+        "type_hash": "0x19ab11af",
+        "ai_address": "0x6a73580",
+        "xyz": [
+          2144.694091796875,
+          3334.404052734375,
+          210.0
+        ],
+        "catalog": {
+          "name": "征召兵",
+          "template": "SovietAntiInfantryInfantry",
+          "side": 2,
+          "cls": 1,
+          "category": 0
+        },
+        "hp": 100.0,
+        "team": "0x55de6d0",
+        "command_source": 0,
+        "eligible": true
+      },
+      {
+        "address": "0x543b1e0",
+        "owner_address": "0x318d4d0",
+        "owner_index_candidate": 3,
+        "object_id": 1047,
+        "type_hash": "0x19ab11af",
+        "ai_address": "0x6315cf8",
+        "xyz": [
+          2144.694091796875,
+          3334.404052734375,
+          210.0
+        ],
+        "catalog": {
+          "name": "征召兵",
+          "template": "SovietAntiInfantryInfantry",
+          "side": 2,
+          "cls": 1,
+          "category": 0
+        },
+        "hp": 100.0,
+        "team": "0x55de6d0",
+        "command_source": 0,
+        "eligible": true
+      },
+      {
+        "address": "0x54361e0",
+        "owner_address": "0x318d4d0",
+        "owner_index_candidate": 3,
+        "object_id": 1050,
+        "type_hash": "0x19ab11af",
+        "ai_address": "0x6a54340",
+        "xyz": [
+          1359.8648681640625,
+          1780.1351318359375,
+          210.0
+        ],
+        "catalog": {
+          "name": "征召兵",
+          "template": "SovietAntiInfantryInfantry",
+          "side": 2,
+          "cls": 1,
+          "category": 0
+        },
+        "hp": 100.0,
+        "team": "0x5e4e1b0",
+        "command_source": 0,
+        "eligible": true
+      }
+    ],
+    "selected": {
+      "address": "0x54339e0",
+      "owner_address": "0x318d4d0",
+      "owner_index_candidate": 3,
+      "object_id": 1034,
+      "type_hash": "0x19ab11af",
+      "ai_address": "0x6348bc8",
+      "xyz": [
+        2144.694091796875,
+        3334.404052734375,
+        210.0
+      ],
+      "catalog": {
+        "name": "征召兵",
+        "template": "SovietAntiInfantryInfantry",
+        "side": 2,
+        "cls": 1,
+        "category": 0
+      },
+      "hp": 100.0,
+      "team": "0x55de6d0",
+      "command_source": 0,
+      "eligible": true
+    },
+    "restore_semantics": "native_common_pool_not_original_squad",
+    "mutations": false
+  },
+  "status": "unknown",
+  "events": [],
+  "native": {
+    "error": 0,
+    "restore_mask": 0,
+    "callback_thread": 49268,
+    "issued_frame": 0,
+    "returned_frame": 0,
+    "move_calls": 0,
+    "detach_calls": 0,
+    "return_calls": 0,
+    "arrival_samples": 0,
+    "native_move": 0,
+    "native_attack": 0,
+    "native_add": 0,
+    "native_remove": 0,
+    "owner_fail": 0,
+    "lifecycle_fail": 0,
+    "paused_samples": 0,
+    "overflow": 0,
+    "return_verified": 0,
+    "return_pending": 0,
+    "phase": 0,
+    "active": 0,
+    "count": 0,
+    "target": [
+      2380.0,
+      3340.0,
+      210.0
+    ],
+    "session_id": "e76c4955-bd8e-4f21-a604-bd32ae6be4c1",
+    "commander_id": "57e668b4-4d89-43bd-bc92-0dd436f046ef",
+    "command_id": "710abbe2-0b50-4a77-9677-b6e68447f58e",
+    "task_id": "fda2205b-2820-48e3-9357-8ca9c3a3994d",
+    "seq": 563618687
+  },
+  "request": {
+    "command_id": "710abbe2-0b50-4a77-9677-b6e68447f58e",
+    "task_id": "fda2205b-2820-48e3-9357-8ca9c3a3994d",
+    "seq": 563618687,
+    "token": 1964669122,
+    "dx": 235.3058727383618,
+    "dy": 5.595897495747522,
+    "lease_frames": 450,
+    "post_frames": 90,
+    "target": [
+      2379.999964535237,
+      3339.9999502301225,
+      210.0
+    ],
+    "arrival_radius": 15
+  },
+  "error": "[WinError 5] 拒绝访问。: 'bridge-probe\\\\tactical\\\\recon\\\\trial-e76c4955-07-native.json.tmp' -> 'bridge-probe\\\\tactical\\\\recon\\\\trial-e76c4955-07-native.json'"
+}

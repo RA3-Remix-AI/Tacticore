@@ -1,0 +1,197 @@
+{
+  "evidence_uuid": "d1094870-b7d1-4f62-9f3d-b5d84ba179bf",
+  "module": "attack",
+  "purpose": "main_attack",
+  "session_id": "479e7817-ebd5-4414-98b9-408157e4dca4",
+  "source_session_id": "6442048a-b1f1-4ae5-9adf-535649aac617",
+  "player_id": 3,
+  "commander_id": "57e668b4-4d89-43bd-bc92-0dd436f046ef",
+  "source": "game_bridge",
+  "source_report": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-010403-commander\\ordered-ak03-static.json",
+  "source_sha256": "2852a01dd87f9448a345cf8dc3847eaff7eb434d723a784fa12e3afed8dd1ffa",
+  "native_binary_sha256": "9c898e61651698fd04412c914b6a4c577dea941a20c6af31a88b38b9457af142",
+  "native_host_sha256": "80a6fb060d508be9855148b1cf909ccdffb7acafe4d84b7c1885feb7624fbbd9",
+  "executable_sha256": "ec230c6ae1eaee30b0b4fa6ba29d417c974ecae46d6715dfbe786a815935c165",
+  "package_sha256": "2d7873e1b2d2c79950ff9da70b5452b1210370a6d6cbec1eaa69201a7d3d0665",
+  "executor_directory": "ordered-attack",
+  "stop_schema": {
+    "dll": "TacticalOrderedAttack.dll",
+    "restore_mask": 2047,
+    "mapping_prefix": "RA3TacticalOrderedAttack_",
+    "kind": "attack",
+    "actor_roles": [
+      "infantry"
+    ],
+    "success": "bounded_ak_ordered_attack_verified",
+    "weapon_asset_id": "0x447ea26e",
+    "max_attack_orders": 1,
+    "native_burst": true,
+    "lease_frames": 180,
+    "directory": "ordered-attack"
+  },
+  "qualifier_sha256": "ac1313038d5a2b393e5f658e7dbbf640b78245528d64b9160171a68402b951ec",
+  "supplemental_sources": [
+    {
+      "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-010403-commander\\ordered-ak03-template.json",
+      "sha256": "42a624f70ebc7895543a38bbc80995598875d1c7a422f7de61e221bdb42b408e",
+      "report_sha256": "2852a01dd87f9448a345cf8dc3847eaff7eb434d723a784fa12e3afed8dd1ffa"
+    }
+  ],
+  "sdk_source": {
+    "name": "SovietAntiInfantryInfantryAK47",
+    "source_sha256": "7a82e52aa6142f96271173195366227b21a552657bd683f7a33a22e770e1bad1",
+    "clip_size": 3,
+    "damage_type": "GUN",
+    "damage_delay_seconds": 0.0,
+    "projectile_nugget": false
+  },
+  "limits": {
+    "request_force_fraction_min": 0.01,
+    "request_force_fraction_max": 1.0,
+    "allocation_fraction_cap": 0.5,
+    "min_remaining_frames": 300,
+    "max_remaining_frames": 900,
+    "lease_frames": 180
+  },
+  "source_wrapper_sha256": "b1e48ed1ac23d83f1fda486122b473596c04ecb2bff362cd78dd81e2bf0d2ace",
+  "current_wrapper_sha256": "5d739f5177bb92644bc6b940f2fa7ac6f07bcacdf53ac8717bc25f424162e842",
+  "source_native_cpp_sha256": "00d502dde61692c4dd8d28b7ba1d0de6920defe0bbb800827ceb17e956b506aa",
+  "current_native_cpp_sha256": "00d502dde61692c4dd8d28b7ba1d0de6920defe0bbb800827ceb17e956b506aa",
+  "scope": "conscript_ak_direct_ground_ordered_burst",
+  "raw_assessment": {
+    "status": "bounded_ak_ordered_attack_verified",
+    "checks": {
+      "finished": true,
+      "certified_executor": true,
+      "binding": true,
+      "actor_and_target_scope": true,
+      "thread_owner": true,
+      "published_order": true,
+      "critical_finite": true,
+      "frame_bound": true,
+      "clean_hooks": true,
+      "bounded_normal_burst": true,
+      "stop_0": true,
+      "stop_2": true,
+      "unique_script_order": true,
+      "no_lease_override": true,
+      "direct_ak_source_damage": true,
+      "same_entry_ammo": true,
+      "native_pool_return": true,
+      "observed_ak_template": true
+    },
+    "new_order_fire_association_verified": true,
+    "qualified_hits": [
+      {
+        "body_event_seq": 73,
+        "commit_event_seq": 72,
+        "ammo_event_seq": 81,
+        "body_frame": 2716,
+        "ammo_frame": 2717,
+        "damage": 5.0,
+        "packet": {
+          "argument_address": "0x1af18c",
+          "source_actor_id": 787,
+          "weapon_asset_id": "0x447ea26e",
+          "warhead_asset_id": "0x447ea26e",
+          "damage_type": "GUN",
+          "damage_type_id": 21,
+          "requested_damage": 5.0,
+          "actual_damage": 5.0,
+          "packet_word_offset": 32,
+          "caller_return": "0x78e313"
+        }
+      }
+    ],
+    "stop_boundaries": [
+      {
+        "verified": true,
+        "frames": [
+          2697,
+          2699,
+          2701
+        ],
+        "xyz": [
+          [
+            1790.0,
+            2145.313232421875,
+            210.0
+          ],
+          [
+            1790.0,
+            2145.313232421875,
+            210.0
+          ],
+          [
+            1790.0,
+            2145.313232421875,
+            210.0
+          ]
+        ],
+        "stop_frame": 2696,
+        "move_boundary_frame": 2701,
+        "reason": "three_distinct_clean_stable_frames"
+      },
+      {
+        "verified": true,
+        "frames": [
+          2719,
+          2721,
+          2722
+        ],
+        "xyz": [
+          [
+            1773.5732421875,
+            2116.309326171875,
+            210.0
+          ],
+          [
+            1773.5732421875,
+            2116.309326171875,
+            210.0
+          ],
+          [
+            1773.5732421875,
+            2116.309326171875,
+            210.0
+          ]
+        ],
+        "stop_frame": 2717,
+        "move_boundary_frame": 2722,
+        "reason": "three_distinct_clean_stable_frames"
+      }
+    ],
+    "restoration": {
+      "control_release_verified": true,
+      "restoration_verified": true,
+      "return_verified": true,
+      "disposed_verified": false,
+      "semantics": "native_pool_return",
+      "completion_claim": false
+    },
+    "scope": "conscript_ak_direct_ground_ordered_burst",
+    "actor_roles": [
+      "infantry"
+    ],
+    "harass_economy_verified": false,
+    "single_shot_claim": false,
+    "source_report": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-010403-commander\\ordered-ak03-static.json",
+    "source_sha256": "2852a01dd87f9448a345cf8dc3847eaff7eb434d723a784fa12e3afed8dd1ffa",
+    "supplemental_sources": [
+      {
+        "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-010403-commander\\ordered-ak03-template.json",
+        "sha256": "42a624f70ebc7895543a38bbc80995598875d1c7a422f7de61e221bdb42b408e",
+        "report_sha256": "2852a01dd87f9448a345cf8dc3847eaff7eb434d723a784fa12e3afed8dd1ffa"
+      }
+    ],
+    "qualifier_sha256": "ac1313038d5a2b393e5f658e7dbbf640b78245528d64b9160171a68402b951ec",
+    "sdk_source": {
+      "name": "SovietAntiInfantryInfantryAK47",
+      "source_sha256": "7a82e52aa6142f96271173195366227b21a552657bd683f7a33a22e770e1bad1",
+      "clip_size": 3,
+      "damage_type": "GUN",
+      "damage_delay_seconds": 0.0,
+      "projectile_nugget": false
+    }
+  }
+}

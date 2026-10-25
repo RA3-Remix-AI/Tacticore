@@ -1,0 +1,102 @@
+{
+  "session_id": "b8929f68-5bcd-4b57-b841-e7e185aa3f3f",
+  "pid": 41276,
+  "frame": 1485,
+  "actor": {
+    "address": "0x5783880",
+    "owner_address": "0x31f74d0",
+    "owner_index_candidate": 3,
+    "object_id": 793,
+    "type_hash": "0x19ab11af",
+    "ai_address": "0x6b70048",
+    "xyz": [
+      2890.442626953125,
+      2870.70361328125,
+      210.0
+    ],
+    "catalog": {
+      "name": "征召兵",
+      "template": "SovietAntiInfantryInfantry",
+      "side": 2,
+      "cls": 1,
+      "category": 0
+    },
+    "hp": 100.0,
+    "status84": "0x0",
+    "mobility_restriction_mask": "0x20080000",
+    "team": "0x51cbac0",
+    "command_source": 2,
+    "eligible": true
+  },
+  "own_home": [
+    3187.2529296875,
+    3240.34814453125,
+    210.0
+  ],
+  "waypoints": [
+    {
+      "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-030636-commander\\own-routes\\00001367-786.json",
+      "source_sha256": "107ed868e9473ed5ca60d3cf8fb5bf09c7f3d0946910a982408b08320ef1154b",
+      "source_object_id": 786,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        2374.15966796875,
+        2850.0,
+        210.0
+      ],
+      "observed_frame": 1367
+    },
+    {
+      "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-030636-commander\\own-routes\\00000489-768.json",
+      "source_sha256": "48089cc80413dd320d523b8abc503f1b6a6d0d0620fda086f00c7619b24d544d",
+      "source_object_id": 768,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        1971.9827880859375,
+        2491.98291015625,
+        210.0
+      ],
+      "observed_frame": 489
+    },
+    {
+      "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-030636-commander\\own-routes\\00000632-768.json",
+      "source_sha256": "a8106f7c865210fb146740094cd5e153e22bd47481d22bcc22d9b7ac06a79c34",
+      "source_object_id": 768,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        1790.0,
+        1987.989990234375,
+        210.0
+      ],
+      "observed_frame": 632
+    },
+    {
+      "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-030636-commander\\own-routes\\00000732-768.json",
+      "source_sha256": "ba9bd57b4e1125e7e0beb437246167fb32e4b32f4d55568a56e17019e14041e1",
+      "source_object_id": 768,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        1471.3121337890625,
+        1554.377685546875,
+        210.0
+      ],
+      "observed_frame": 732
+    },
+    {
+      "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261025-030636-commander\\own-routes\\00000752-768.json",
+      "source_sha256": "3c72730e9ad0ee5fb5e2c26155c9a0cd5c1103b353a1451b839ce19cfe96c91f",
+      "source_object_id": 768,
+      "type_hash": "0x33026fa1",
+      "xyz": [
+        1423.26806640625,
+        1476.73193359375,
+        210.0
+      ],
+      "observed_frame": 752
+    }
+  ],
+  "model_eligible": false,
+  "sdk_calls": 0,
+  "policy": "up_to_six_actual_own_route_waypoints_toward_farthest_observed_own_ground_route_from_own_home",
+  "note": "Only past own positions. Reaching each waypoint is unproven until actual native arrival; terrain/water/obstacle issues remain possible and must fail honestly."
+}

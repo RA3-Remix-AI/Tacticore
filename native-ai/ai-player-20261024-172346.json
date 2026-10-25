@@ -1,0 +1,57 @@
+{
+  "pid": 43656,
+  "source_snapshot": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\reports\\snapshot-20261024-172239.json",
+  "players": [
+    {
+      "owner": "0x31954d0",
+      "owner_index": 3,
+      "owner_vtable": "0xc5bce0",
+      "ai_player": "0x4645dc0",
+      "ai_player_vtable": "0xc60f60",
+      "ai_player_first_0x120_bytes": "600fc6000407c600d054190344f6c500d05419030000000000000000dc5d6404dc5d64041cf40200000000000000000044f6c500d05419030100000000000000005e6404005e6404f4f40200000000000000000044f6c500d05419030200000000000000245e6404245e6404ccf50200000000000000000044f6c500d05419030300000000000000485e6404485e6404a4f60200000000000000000044f6c500d054190304000000000000006c5e64046c5e64047cf70200000000000000000044f6c500d0541903050000000000803f905e6404905e640454f8020000609f4500103746fc02c600989e1703c89e1703c89e1703fcf8020001f90200190800008c2bd711f40ac600d80ac60008fcc500d4f7c500bcf90200d85e6404d85e6404",
+      "components": [
+        {
+          "label": "unit_builder_part_1",
+          "address": "0x4646294",
+          "vtable": "0xc5f484",
+          "setter": "0x885ae0",
+          "first_32_bytes": "84f4c50074f4c500d054190344eec50001100300000000000000000000000000",
+          "setter_first_32_bytes": "8a442404884110c20400ccccccccccccb8f0f1c500c3cccccccccccccccccccc"
+        },
+        {
+          "label": "unit_builder_part_2",
+          "address": "0x4646324",
+          "vtable": "0xc5f440",
+          "setter": "0x885ae0",
+          "first_32_bytes": "40f4c50030f4c500d054190344eec50001130300000000000000000040636404",
+          "setter_first_32_bytes": "8a442404884110c20400ccccccccccccb8f0f1c500c3cccccccccccccccccccc"
+        },
+        {
+          "label": "base_builder",
+          "address": "0x4646218",
+          "vtable": "0xc5f8f8",
+          "setter": "0x893020",
+          "first_32_bytes": "f8f8c500e8f8c500b0f8c50054646404b0616404d054190344eec500010d0300",
+          "setter_first_32_bytes": "8a44240488411cc20400ccccccccccccb814f9c500c3cccccccccccccccccccc"
+        }
+      ]
+    }
+  ],
+  "units": [
+    {
+      "address": "0x46ce7a0",
+      "name": "JapanMiner",
+      "owner": "0x31954d0",
+      "ai": "0x6dbd2f8",
+      "hp": 500.0,
+      "command_source_raw": 2,
+      "xyz": [
+        3205.644287109375,
+        3450.179443359375,
+        210.0
+      ]
+    }
+  ],
+  "mutations": false,
+  "note": "Offsets established by static call-chain analysis; component labels are candidates until dynamic toggle/production validation. Sources 0/1/2/3 follow SDK CommandSourceType."
+}

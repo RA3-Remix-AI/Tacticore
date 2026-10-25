@@ -1,0 +1,116 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "scope": "Independent final native production/payment/dedup/stop review; no new game calls",
+  "session_id": "9feb4b8b-b7d5-450a-b80c-5cd1f944ccfd",
+  "pid": 47332,
+  "player_id": 3,
+  "commander_id": "57e668b4-4d89-43bd-bc92-0dd436f046ef",
+  "personality_instance_id": "0x7664d9d9",
+  "executable_sha256": "ec230c6ae1eaee30b0b4fa6ba29d417c974ecae46d6715dfbe786a815935c165",
+  "package_sha256": "2d7873e1b2d2c79950ff9da70b5452b1210370a6d6cbec1eaa69201a7d3d0665",
+  "checks": {
+    "session_commander_identity": true,
+    "unique_native_command_task_ids": true,
+    "one_native_enqueue_per_command": true,
+    "native_price_and_actual_payment": true,
+    "real_creation_completion_live": true,
+    "public_feedback_matches_native": true,
+    "budget_accounting": true,
+    "cadence_bound": true,
+    "final_unit_scope": true,
+    "native_stop_and_independent_bytes": true,
+    "host_to_native_dispatch_join": true,
+    "feedback_gap_explained": true
+  },
+  "totals": {
+    "commands": 14,
+    "normal_enqueues": 14,
+    "produced_objects": 14,
+    "actual_resource_debit_calls": 930,
+    "native_cost": 1595,
+    "actual_paid": 1595,
+    "unit_counts": {
+      "flak": 3,
+      "conscript": 11
+    },
+    "production_type_switches": 3,
+    "host_started_feedbacks": 14,
+    "host_completed_feedbacks": 13,
+    "native_completed": 14,
+    "host_failed_feedbacks": 0
+  },
+  "unconsumed_native_completions": [
+    {
+      "task_id": "b9ce1809-a30b-4d10-b16c-170b70e3baca",
+      "command_id": "3f1e9792-504f-4c71-918e-2b38f05a8fa0",
+      "queue_id": 38,
+      "object_id": 818,
+      "completion_frame": 4247,
+      "reason": "Native completion occurred before final settlement; host observed terminal result before consuming the last feedback."
+    }
+  ],
+  "dedup_scope": {
+    "no_duplicate_dispatch_in_final_run": true,
+    "live_replay_tests_in_this_run": false,
+    "prior_live_replay_evidence": {
+      "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\production\\persistent\\capability-evidence.json",
+      "sha256": "3747204c14b89e683c0d5f22693de957d7495fb7df31a55d72a9dc0afd6e0a25"
+    }
+  },
+  "stop": {
+    "native_phase": 2,
+    "error": 0,
+    "restore_mask": 31,
+    "active_callbacks": 0,
+    "independently_read_function_bytes_restored": true
+  },
+  "sources": {
+    "session": {
+      "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261024-192645-commander\\session.json",
+      "sha256": "aef04a560ad2d8f4556ae3449a02df209edfc49b8e3da2ef96bdf51239d9b8a6"
+    },
+    "status": {
+      "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261024-192645-commander\\persistent-production-status.json",
+      "sha256": "2c4463941ba1f5eb9063a6ded264e87c8a70da7b8212ad6baf0a3b7d244f20dd"
+    },
+    "audit": {
+      "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261024-192645-commander\\persistent-production.jsonl",
+      "sha256": "ff5619b89434fe45954314828cd14ac61ea0fb08419aef83fc3d4b35014d9282"
+    },
+    "host_audit": {
+      "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261024-192645-commander\\battle-host\\host-events.jsonl",
+      "sha256": "6343050837591a52f2e86a1d74f17ebecc33a9d68bcd1e16002dd9cb570f0893"
+    },
+    "native_readonly_state": {
+      "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\production\\persistent\\final-native-state-review-192645.json",
+      "sha256": "60d320ab546df98f54242d237999aed9ebb144ba16a745682fa823132e771016"
+    },
+    "independent_stop_bytes": {
+      "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\production\\persistent\\final-stop-bytes-review-192645.json",
+      "sha256": "c32d2319882ddacbfa1d3fd2cf9a8b97cdcfc1a109abd9302b123a713d89384f"
+    },
+    "dll": {
+      "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\production\\persistent\\bin-v2\\ProductionPersistent.dll",
+      "sha256": "4709bb1b2745bfe3cac9b5c27d412197ffc97c67b4e2dd7635ff2434accf5e87"
+    },
+    "host_binary": {
+      "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\production\\persistent\\bin-v2\\persistent_host.exe",
+      "sha256": "4bc2f86935f86eab2369818e02111d3b3197a8c73f66fbd324389322bb87dca1"
+    },
+    "client": {
+      "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\production\\persistent\\client.py",
+      "sha256": "9adbf5e3e92e2a483fc5de76ad2ab516c92f8b3f1997a78ef0c25f935ee2b1b3"
+    },
+    "natural_guard": {
+      "path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\production\\natural_evidence.py",
+      "sha256": "7929522788bda467c5d290472096409fd4d8332dc28e0ecd852a758bf1e51413"
+    }
+  },
+  "limits": {
+    "controlled_baseline_ab_comparison_verified": false,
+    "bear_enabled": false,
+    "game_winner_gui_review_owned_by_parent": true
+  },
+  "note": "Attribution uses original production-node TLS, native resource debit return and node+0x68; production exit uses original create/complete plus object identity/live samples. Global cash differences or first scans are not acceptance evidence. The 13 host feedbacks versus 14 native completions is a settlement lag, not a failed order."
+}

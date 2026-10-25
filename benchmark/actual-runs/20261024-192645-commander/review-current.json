@@ -1,0 +1,402 @@
+{
+  "schema_version": 1,
+  "reviewed_at_utc": "2026-10-24T11:33:20.785961+00:00",
+  "source_kind": "live_game_host_artifact_review",
+  "binding": {
+    "session_id": "9feb4b8b-b7d5-450a-b80c-5cd1f944ccfd",
+    "player_id": 3,
+    "commander_id": "57e668b4-4d89-43bd-bc92-0dd436f046ef"
+  },
+  "trial_kind": "prearmed_whole_match_integration_candidate",
+  "attempt_scope": null,
+  "opponent": "local_human_slot_idle_integration",
+  "whole_match_acceptance_passed": false,
+  "personality_comparison_passed": false,
+  "result_finalized": false,
+  "host": {
+    "host_pid": 44932,
+    "state": "result_candidate",
+    "reason_code": "native_result_requires_visual_confirmation",
+    "execution": {
+      "enabled": false,
+      "dry_run": false,
+      "executor_connected": false,
+      "remaining_budget": 3405
+    }
+  },
+  "model": {
+    "requests": 17,
+    "accepted": 16,
+    "rejected": 0,
+    "invalid_policy_rate": 0.0,
+    "timeouts": 0,
+    "adapter_errors": 1,
+    "held_decisions": 48,
+    "transport": {
+      "attempts": 17,
+      "retries": 0,
+      "timeouts": 0,
+      "responses": 16,
+      "max_request_bytes": 10255
+    }
+  },
+  "strategy": {
+    "engine_plan_changes_including_initial": 5,
+    "intent_transitions_excluding_initial": 4,
+    "retained_full_intent_observations": 2,
+    "retained_full_intent_transitions": 0,
+    "full_intent_history_complete": false,
+    "first_host_match_game_seconds": 0.8666666666666667,
+    "first_model_request_game_seconds": 0.8666666666666667,
+    "first_logged_game_seconds": 0.8666666666666667,
+    "last_logged_game_seconds": 287.1333333333333,
+    "intent_transitions_per_observed_game_minute": 0.8383791336748952
+  },
+  "context": {
+    "memory_metrics": {
+      "context_builds": 17,
+      "compactions": 29,
+      "max_payload_bytes": 5760,
+      "expired_enemy_facts": 0
+    },
+    "compressed_history": {
+      "events_compacted": 29,
+      "counts_by_kind": {
+        "session_observed": 1,
+        "decision": 12,
+        "execution_feedback": 16
+      },
+      "completed_tasks": {
+        "build": 8,
+        "raid": 0,
+        "attack": 0,
+        "combined_arms": 0
+      },
+      "failed_tasks": {
+        "build": 0,
+        "raid": 0,
+        "attack": 0,
+        "combined_arms": 0
+      },
+      "last_compacted_game_time": 185.13333333333333
+    },
+    "retained_full_intents": [
+      {
+        "stance": "pressure",
+        "production_focus": "balanced",
+        "economy_policy": "expand_if_defensible",
+        "tech_policy": "hold_current_tier",
+        "budget": {
+          "army": 0.45,
+          "economy": 0.35,
+          "reserve": 0.15,
+          "tech": 0.05
+        },
+        "objective_region": "home_base",
+        "expires_at_game_seconds": 281.8,
+        "origin": "model"
+      },
+      {
+        "stance": "pressure",
+        "production_focus": "balanced",
+        "economy_policy": "expand_if_defensible",
+        "tech_policy": "hold_current_tier",
+        "budget": {
+          "army": 0.45,
+          "economy": 0.35,
+          "reserve": 0.15,
+          "tech": 0.05
+        },
+        "objective_region": "home_base",
+        "expires_at_game_seconds": 299.53333333333336,
+        "origin": "model"
+      }
+    ],
+    "per_request_input_bytes": null,
+    "compaction_counter_semantics": "One per older event folded into summary; not number of batch compression passes.",
+    "note": "Only retained maxima and counters are logged; no per-request byte series or compression ratio can be reconstructed."
+  },
+  "tasks": {
+    "host_counters": {
+      "dispatches": 14,
+      "started": 14,
+      "completed": 13,
+      "failed": 0,
+      "blocked": 0
+    },
+    "unique_retained_tasks_by_status": {
+      "completed": 6,
+      "unavailable": 10,
+      "cancelled": 3
+    },
+    "observed_started": 14,
+    "host_reported_completed": 13,
+    "started_without_terminal_feedback": 1,
+    "observed_started_failed": 0,
+    "prestart_rejections_not_failed_tasks": 0,
+    "completion_rate_known_started_outcomes": 1.0,
+    "note": "Planned, unavailable, cancelled and pending tasks are not failures; host completion requires independent production correlation."
+  },
+  "production": {
+    "same_session_package_preflight": true,
+    "commands_dispatched_in_audit": 14,
+    "native_spent_committed": 1595,
+    "latest_command_statuses": {
+      "completed": 14
+    },
+    "observed_paid_including_pending": 1595,
+    "fully_verified_units": 14,
+    "verified_paid_credits": 1595,
+    "units": [
+      {
+        "task_id": "594c070dbe124c0db3128371af9d8087",
+        "command_id": "93694e35-c04a-4a5b-9f31-2c22d79348cf",
+        "seq": 1,
+        "unit": "flak",
+        "queue_id": 1,
+        "object_id": 768,
+        "cost": 220,
+        "paid": 220,
+        "enqueue_frame": 670,
+        "completion_frame": 769
+      },
+      {
+        "task_id": "0ab92c099c7b49828b084c0bf5682cb3",
+        "command_id": "5d59b15c-5369-4edf-b215-d8619eb68248",
+        "seq": 2,
+        "unit": "conscript",
+        "queue_id": 5,
+        "object_id": 772,
+        "cost": 85,
+        "paid": 85,
+        "enqueue_frame": 936,
+        "completion_frame": 1053
+      },
+      {
+        "task_id": "fe94838c73704c79959089e4bf3c54fc",
+        "command_id": "b03cd706-2155-441f-a16d-e26868bcc5d1",
+        "seq": 3,
+        "unit": "conscript",
+        "queue_id": 6,
+        "object_id": 774,
+        "cost": 85,
+        "paid": 85,
+        "enqueue_frame": 1200,
+        "completion_frame": 1271
+      },
+      {
+        "task_id": "ef7c8de2a43548bab1cc34118650a14d",
+        "command_id": "fdde84d2-af78-404c-9ee8-1802ba570bd3",
+        "seq": 4,
+        "unit": "flak",
+        "queue_id": 10,
+        "object_id": 778,
+        "cost": 220,
+        "paid": 220,
+        "enqueue_frame": 1461,
+        "completion_frame": 1584
+      },
+      {
+        "task_id": "9e100c481a764ca7813a0d21d60faf13",
+        "command_id": "6c87332c-d130-407e-b226-a2048bd12974",
+        "seq": 5,
+        "unit": "flak",
+        "queue_id": 14,
+        "object_id": 783,
+        "cost": 220,
+        "paid": 220,
+        "enqueue_frame": 1790,
+        "completion_frame": 1964
+      },
+      {
+        "task_id": "eb893c878309497fa7b88fe4ed73886d",
+        "command_id": "b06aaa92-accc-4905-ab07-c41ccff0a95c",
+        "seq": 6,
+        "unit": "conscript",
+        "queue_id": 18,
+        "object_id": 788,
+        "cost": 85,
+        "paid": 85,
+        "enqueue_frame": 2053,
+        "completion_frame": 2277
+      },
+      {
+        "task_id": "c620e6ff704d417e8963a32f027e0d24",
+        "command_id": "5bf0a5cf-3ede-45d0-83d0-2ea083316096",
+        "seq": 7,
+        "unit": "conscript",
+        "queue_id": 19,
+        "object_id": 789,
+        "cost": 85,
+        "paid": 85,
+        "enqueue_frame": 2316,
+        "completion_frame": 2387
+      },
+      {
+        "task_id": "f593136a470a48ed87a3d36baac707ca",
+        "command_id": "f3a8d055-5c12-4047-852e-b22338a1f2e3",
+        "seq": 8,
+        "unit": "conscript",
+        "queue_id": 23,
+        "object_id": 795,
+        "cost": 85,
+        "paid": 85,
+        "enqueue_frame": 2514,
+        "completion_frame": 2713
+      },
+      {
+        "task_id": "2ef012760d4a476799852c5dcb779fbb",
+        "command_id": "f902fe46-3352-4034-857d-be210607d0cf",
+        "seq": 9,
+        "unit": "conscript",
+        "queue_id": 24,
+        "object_id": 796,
+        "cost": 85,
+        "paid": 85,
+        "enqueue_frame": 2778,
+        "completion_frame": 2849
+      },
+      {
+        "task_id": "547724d182654f80906bc625bef5780f",
+        "command_id": "2d4bc843-2715-471a-a970-f35132e934b5",
+        "seq": 10,
+        "unit": "conscript",
+        "queue_id": 28,
+        "object_id": 802,
+        "cost": 85,
+        "paid": 85,
+        "enqueue_frame": 3043,
+        "completion_frame": 3192
+      },
+      {
+        "task_id": "7bdae53a4565429e9d48b7208c6de34e",
+        "command_id": "78dc7f03-d1a9-4e71-be6d-c9bff023dc62",
+        "seq": 11,
+        "unit": "conscript",
+        "queue_id": 32,
+        "object_id": 808,
+        "cost": 85,
+        "paid": 85,
+        "enqueue_frame": 3375,
+        "completion_frame": 3642
+      },
+      {
+        "task_id": "d5c4f9f5646c41cc810293c193f7db27",
+        "command_id": "d5b87437-192e-44ae-a725-33ef5c69f76d",
+        "seq": 12,
+        "unit": "conscript",
+        "queue_id": 33,
+        "object_id": 810,
+        "cost": 85,
+        "paid": 85,
+        "enqueue_frame": 3708,
+        "completion_frame": 3779
+      },
+      {
+        "task_id": "1048da5dc99744079b5c9add3e7e1265",
+        "command_id": "9173a957-44b5-48c6-9bed-309211de5e34",
+        "seq": 13,
+        "unit": "conscript",
+        "queue_id": 37,
+        "object_id": 816,
+        "cost": 85,
+        "paid": 85,
+        "enqueue_frame": 3910,
+        "completion_frame": 4150
+      },
+      {
+        "task_id": "b9ce1809a30b4d10b16c170b70e3baca",
+        "command_id": "3f1e9792-504f-4c71-918e-2b38f05a8fa0",
+        "seq": 14,
+        "unit": "conscript",
+        "queue_id": 38,
+        "object_id": 818,
+        "cost": 85,
+        "paid": 85,
+        "enqueue_frame": 4177,
+        "completion_frame": 4247
+      }
+    ],
+    "host_completed_tasks_with_production_proof": [
+      "0ab92c099c7b49828b084c0bf5682cb3",
+      "1048da5dc99744079b5c9add3e7e1265",
+      "2ef012760d4a476799852c5dcb779fbb",
+      "547724d182654f80906bc625bef5780f",
+      "594c070dbe124c0db3128371af9d8087",
+      "7bdae53a4565429e9d48b7208c6de34e",
+      "9e100c481a764ca7813a0d21d60faf13",
+      "c620e6ff704d417e8963a32f027e0d24",
+      "d5c4f9f5646c41cc810293c193f7db27",
+      "eb893c878309497fa7b88fe4ed73886d",
+      "ef7c8de2a43548bab1cc34118650a14d",
+      "f593136a470a48ed87a3d36baac707ca",
+      "fe94838c73704c79959089e4bf3c54fc"
+    ]
+  },
+  "natural_production": {
+    "native_calls": 1,
+    "mutates_arguments": false,
+    "note": "Passive native baseline observation is not model-dispatched spending or completion evidence."
+  },
+  "outcome": {
+    "native_candidates": [
+      {
+        "native_index": 0,
+        "victory_frame": 0,
+        "defeat_frame": 4284,
+        "quit_frame": 0,
+        "outcome_evidence": "defeat_frame_recorded"
+      }
+    ],
+    "native_verified_flag": false,
+    "gui_confirmation": null,
+    "note": "Await root native/GUI outcome evidence before finalizing. Host stopped/fault does not mean match ended."
+  },
+  "sources": {
+    "session.json": {
+      "sha256": "aef04a560ad2d8f4556ae3449a02df209edfc49b8e3da2ef96bdf51239d9b8a6",
+      "bytes": 1575
+    },
+    "natural-production.json": {
+      "sha256": "41fd3e3f2c45901c47856a393b6af93aad2fe11db46892125268f8f8331f40b8",
+      "bytes": 641
+    },
+    "persistent-production.jsonl": {
+      "sha256": "ff5619b89434fe45954314828cd14ac61ea0fb08419aef83fc3d4b35014d9282",
+      "bytes": 93175
+    },
+    "persistent-production-status.json": {
+      "sha256": "2c4463941ba1f5eb9063a6ded264e87c8a70da7b8212ad6baf0a3b7d244f20dd",
+      "bytes": 9356
+    },
+    "battle-host/host-events.jsonl": {
+      "sha256": "6343050837591a52f2e86a1d74f17ebecc33a9d68bcd1e16002dd9cb570f0893",
+      "bytes": 27726
+    },
+    "battle-host/plans.jsonl": {
+      "sha256": "2eae94a832729bcf6d3f18b9a973f8d744dbeb7c46cdcbca2631dd4009244926",
+      "bytes": 35949
+    },
+    "battle-host/host-status.json": {
+      "sha256": "6be2ef525e9624a6cf33751b3cefbb2c67604ec9f279b4c67ab499a52bdc75d9",
+      "bytes": 1860
+    },
+    "battle-host/agent-state.json": {
+      "sha256": "a73230e68474a4e5be122910860faed2087f1958f52e85d39a99dc97bab3ef8f",
+      "bytes": 18487
+    },
+    "battle-host/jobs.json": {
+      "sha256": "45f8fc0140606aabf0eb52b96523800fc5a234db97479a74985a9fd182688b25",
+      "bytes": 328
+    },
+    "battle-host/match-state.json": {
+      "sha256": "b6b333c2acc7adb10fa4b9846e5180cf3bf02330a1b862e7a54bafa8a77f3041",
+      "bytes": 2830
+    },
+    "battle-host/dispatch-ledger.json": {
+      "sha256": "7fc253ac467faeb6ee309502056bfd879517b1a3e822f22ff4425fe593612c68",
+      "bytes": 2302
+    }
+  },
+  "warnings": []
+}

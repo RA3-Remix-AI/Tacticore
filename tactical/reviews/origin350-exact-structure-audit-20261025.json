@@ -1,0 +1,671 @@
+{
+  "schema_version": 1,
+  "scope": "read_only_exact_soviet_static_structure_threat_classification_evidence",
+  "package_sha256": "2d7873e1b2d2c79950ff9da70b5452b1210370a6d6cbec1eaa69201a7d3d0665",
+  "compiled_manifest_sha256": "aec863b2e91cecaa4031f87a124c8d04e6bd45862d38fa76a823b69e9a8fafc5",
+  "template_safety_sha256": "1d14e41e10224fb2a8215a2321a7fbbbeae8434b8c006a80fd314f4a11e7719e",
+  "evidence_type": "source_inheritance_and_fragment_audit_not_runtime_binary_absence_proof",
+  "radius_unchanged": 350,
+  "mutations": false,
+  "sdk_calls": 0,
+  "templates": [
+    {
+      "template": "SovietConstructionYard",
+      "type_hash": "0xc16ff13f",
+      "compiled_asset_instance_hash": "0x4f6d830d",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\SovietConstructionYard.xml",
+          "sha256": "80725f1317dcf4d1dd1fc5577ca1c51e0081f220b113f788bc3230ec8ec1e80a"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseSovietStructure.xml",
+          "sha256": "f60fb9e973fbb8a683a13db5a9b9792d7a9c2050fc7c0a06489402815b8e4ad7"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseStructure.xml",
+          "sha256": "9624d3272632ba33b5f8cca9d8eb50228c0610ea60db14fe68cb00f823ddaea0"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "fragment_sources": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\GenericPackPower.xml",
+          "sha256": "d55b275c80aa3597f5f165c985cf2cecb78c7b0472e3ea3893724a6fff7584cb"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\GenericBuildingRepair.xml",
+          "sha256": "adec2ff56f5127ecc5c5c3016d69de086248eabbd8dda1ddfc508ac65e740caf"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\GenericEngineerContain.xml",
+          "sha256": "c3942b3805668d134b0fd08a2a30c4d2b317a7fade01955a7198bbc96c26f07c"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\SovietConYardDestruction.xml",
+          "sha256": "2782f948a70db2a95cf0648469cb3d01d692acf0c8a93f31ed1b4fc2d210b901"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\SovietConYardSuicide.xml",
+          "sha256": "0460add8c27568ef47049de62f65a21382e6a840f08869d6332c97e49dfb24b1"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\InfiltratorContainVision.xml",
+          "sha256": "2574dadaa88173994aeda3e59280df4a39a32bc15b5da0fdca61ab298332654e"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\InfiltratorContainRadarFreeze.xml",
+          "sha256": "52c5730e9480d262f71283862f4f0feab495180168c43824499c9499a2866fe4"
+        }
+      ],
+      "normal_weapon_definitions": [],
+      "firing_or_transport_containers": [],
+      "capture_infiltration_modules": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\GenericEngineerContain.xml",
+          "tag": "EngineerContain",
+          "attributes": {
+            "id": "ModuleTag_EngineerContain",
+            "NameOfVoiceToUseForFriendlyEnter": "VoiceEngineerRepair",
+            "NameOfVoiceToUseForHostileEnter": "VoiceCaptureBuilding",
+            "EvaEventForRepair": "BuildingRepaired",
+            "EvaEventForCapture": "EnemyBuildingCaptured",
+            "FXForRepair": "FX_Building_Repaired",
+            "FXForCapture": "FX_Building_Captured",
+            "FXForCaptureAndReplace": "FX_Building_Captured",
+            "ImmediatelyEnabled": "true"
+          }
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\InfiltratorContainVision.xml",
+          "tag": "InfiltratorContain",
+          "attributes": {
+            "id": "ModuleTag_InfiltratorContain",
+            "Effect": "VISION",
+            "Duration": "-1s",
+            "ObjectRef": "VisionObserver"
+          }
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\InfiltratorContainRadarFreeze.xml",
+          "tag": "InfiltratorContain",
+          "attributes": {
+            "id": "ModuleTag_InfiltratorContainRadarFreeze",
+            "Effect": "RADAR_FREEZE",
+            "Duration": "60s"
+          }
+        }
+      ],
+      "conditional_weapons": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseStructure.xml",
+          "tag": "FireWeaponWhenDead",
+          "attributes": {
+            "id": "ModuleTag_CatalystDeathWeapon",
+            "InitiallyActive": "true",
+            "DeathWeapon": "CatalystBuildingDeathWeapon",
+            "ContinueToBezierDestination": "false",
+            "UseMyKillerAsWeaponSource": "true"
+          }
+        }
+      ],
+      "creation_and_conversion_modules": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\SovietConstructionYard.xml",
+          "tag": "CreateObjectDie",
+          "attributes": {
+            "id": "ModuleTag_CreateObjectDieOnLand",
+            "CreationList": "SBConstructionYard_Die_OCL"
+          }
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\SovietConstructionYard.xml",
+          "tag": "CreateObjectDie",
+          "attributes": {
+            "id": "ModuleTag_CreateObjectDieOnWater",
+            "CreationList": "SBConstructionYardPlatform_Die_OCL"
+          }
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\SovietConstructionYard.xml",
+          "tag": "ProductionUpdate",
+          "attributes": {
+            "id": "ModuleTag_ProductionUpdate",
+            "Type": "MAIN_STRUCTURE",
+            "MaxQueueEntries": "1"
+          }
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\SovietConstructionYard.xml",
+          "tag": "ProductionUpdate",
+          "attributes": {
+            "id": "ModuleTag_OtherProductionUpdate",
+            "Type": "OTHER_STRUCTURE",
+            "MaxQueueEntries": "1"
+          }
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\SovietConstructionYard.xml",
+          "tag": "ReplaceSelfSpecialAbility",
+          "attributes": {
+            "id": "ModuleTag_ReplaceSelf",
+            "SpecialPowerTemplate": "SpecialPower_PackReplaceSelf",
+            "Options": "RECONSTITUTE_STORED_COMMAND",
+            "NewObjectUnpackTime": "2.0s",
+            "ReplaceOptions": "COPY_UPGRADES DISABLE_DURING_REPLACE DISABLE_NEW_OBJECT_DURING_UNPACK"
+          }
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\SovietConYardDestruction.xml",
+          "tag": "CreateObjectDie",
+          "attributes": {
+            "id": "ModuleTag_CreateOccupiedDie",
+            "CreationList": "OCL_SovietConYardBuildingDestruction"
+          }
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\SovietConYardSuicide.xml",
+          "tag": "CreateObjectDie",
+          "attributes": {
+            "id": "ModuleTag_CreateOccupiedSuicide",
+            "CreationList": "OCL_SovietConYardBuildingSuicide"
+          }
+        }
+      ],
+      "source_no_normal_weapon_set": true,
+      "source_no_garrison_or_passenger_fire_module": true,
+      "runtime_weapon_inventory_empty_verified": false,
+      "runtime_passenger_inventory_empty_verified": false,
+      "strict_no_weapon_no_occupant_classification": "unknown_keep_threat",
+      "autonomous_direct_fire_candidate_only": true
+    },
+    {
+      "template": "SovietRefinery",
+      "type_hash": "0xc45aaeab",
+      "compiled_asset_instance_hash": "0x7663344d",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\SovietRefinery.xml",
+          "sha256": "9b8bbf7bf5e083f1aa1ae90df63526a4c3fdb5af7ce6f7424d9a9cf26f86442a"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseSovietStructure.xml",
+          "sha256": "f60fb9e973fbb8a683a13db5a9b9792d7a9c2050fc7c0a06489402815b8e4ad7"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseStructure.xml",
+          "sha256": "9624d3272632ba33b5f8cca9d8eb50228c0610ea60db14fe68cb00f823ddaea0"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "fragment_sources": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\GenericBuildingRepair.xml",
+          "sha256": "adec2ff56f5127ecc5c5c3016d69de086248eabbd8dda1ddfc508ac65e740caf"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\GenericEngineerContain.xml",
+          "sha256": "c3942b3805668d134b0fd08a2a30c4d2b317a7fade01955a7198bbc96c26f07c"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\GenericSovietBuildingDestruction.xml",
+          "sha256": "65e8ca8af9414a99a4bec2d8fff60d8c50671553714a99f8ab6cca2066fdf2d6"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\GenericSovietBuildingSuicide.xml",
+          "sha256": "60648a2cc6779f141a585e1833283f9435fa23a9a2e222a02031447140473a59"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\GenericRefineryPlacementHint.xml",
+          "sha256": "fb0bb7bf9571202c8f8d7e4fab02e75ed0d479a86124a5439d45f6e53ca7e095"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\InfiltratorContainEconomic.xml",
+          "sha256": "c047997d856c7c3aaa391ac996fbbde42134bb123068b13bf9340ca53416026b"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\GenericRefineryStructurePlacementBehavior.xml",
+          "sha256": "34f3a0f93d485942d9cd69cb265d477fed8c89b290d7897604bd1d13ce49c510"
+        }
+      ],
+      "normal_weapon_definitions": [],
+      "firing_or_transport_containers": [],
+      "capture_infiltration_modules": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\GenericEngineerContain.xml",
+          "tag": "EngineerContain",
+          "attributes": {
+            "id": "ModuleTag_EngineerContain",
+            "NameOfVoiceToUseForFriendlyEnter": "VoiceEngineerRepair",
+            "NameOfVoiceToUseForHostileEnter": "VoiceCaptureBuilding",
+            "EvaEventForRepair": "BuildingRepaired",
+            "EvaEventForCapture": "EnemyBuildingCaptured",
+            "FXForRepair": "FX_Building_Repaired",
+            "FXForCapture": "FX_Building_Captured",
+            "FXForCaptureAndReplace": "FX_Building_Captured",
+            "ImmediatelyEnabled": "true"
+          }
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\InfiltratorContainEconomic.xml",
+          "tag": "InfiltratorContain",
+          "attributes": {
+            "id": "ModuleTag_InfiltratorContain",
+            "Effect": "STEAL_MONEY",
+            "Amount": "2000",
+            "BlockedDuration": "30s"
+          }
+        }
+      ],
+      "conditional_weapons": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseStructure.xml",
+          "tag": "FireWeaponWhenDead",
+          "attributes": {
+            "id": "ModuleTag_CatalystDeathWeapon",
+            "InitiallyActive": "true",
+            "DeathWeapon": "CatalystBuildingDeathWeapon",
+            "ContinueToBezierDestination": "false",
+            "UseMyKillerAsWeaponSource": "true"
+          }
+        }
+      ],
+      "creation_and_conversion_modules": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\SovietRefinery.xml",
+          "tag": "CreateObjectDie",
+          "attributes": {
+            "id": "ModuleTag_CreateObjectDie",
+            "CreationList": "SBRefinery_Die_OCL"
+          }
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\SovietRefinery.xml",
+          "tag": "CreateObjectDie",
+          "attributes": {
+            "id": "ModuleTag_CreateObjectDieOnWater",
+            "CreationList": "SBRefineryPlatform_Die_OCL"
+          }
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\SovietRefinery.xml",
+          "tag": "SpawnBehavior",
+          "attributes": {
+            "id": "ModuleTag_Spawn",
+            "SpawnNumberData": "1",
+            "SpawnReplaceDelayData": "9999s",
+            "IsOneShotData": "true",
+            "FadeInTime": "1.0s",
+            "SpawnOnUnpack": "true",
+            "CanReclaimOrphans": "false",
+            "SetPurchasePrice": "true"
+          }
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\SovietRefinery.xml",
+          "tag": "ProductionUpdate",
+          "attributes": {
+            "id": "ModuleTag_ProductionUpdate",
+            "GiveNoXP": "true",
+            "Type": "VEHICLE",
+            "NumDoorAnimations": "1",
+            "DoorOpeningTime": "0.66s",
+            "DoorWaitOpenTime": "3.00s",
+            "DoorCloseTime": "0.66s",
+            "NewObjectFadeInTime": "0.5s"
+          }
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\GenericSovietBuildingDestruction.xml",
+          "tag": "CreateObjectDie",
+          "attributes": {
+            "id": "ModuleTag_CreateOccupiedDie",
+            "CreationList": "OCL_GenericSovietBuildingDestruction"
+          }
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\GenericSovietBuildingSuicide.xml",
+          "tag": "CreateObjectDie",
+          "attributes": {
+            "id": "ModuleTag_CreateOccupiedSuicide",
+            "CreationList": "OCL_GenericSovietBuildingSuicide"
+          }
+        }
+      ],
+      "source_no_normal_weapon_set": true,
+      "source_no_garrison_or_passenger_fire_module": true,
+      "runtime_weapon_inventory_empty_verified": false,
+      "runtime_passenger_inventory_empty_verified": false,
+      "strict_no_weapon_no_occupant_classification": "unknown_keep_threat",
+      "autonomous_direct_fire_candidate_only": true
+    },
+    {
+      "template": "SovietBarracks",
+      "type_hash": "0x80d4ea1e",
+      "compiled_asset_instance_hash": "0xdea32d1b",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\SovietBarracks.xml",
+          "sha256": "656c1845986b315744f85df2532700daaa56389a367c4be27563992f19ce7fcd"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseSovietStructure.xml",
+          "sha256": "f60fb9e973fbb8a683a13db5a9b9792d7a9c2050fc7c0a06489402815b8e4ad7"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseStructure.xml",
+          "sha256": "9624d3272632ba33b5f8cca9d8eb50228c0610ea60db14fe68cb00f823ddaea0"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "fragment_sources": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\GenericBuildingRepair.xml",
+          "sha256": "adec2ff56f5127ecc5c5c3016d69de086248eabbd8dda1ddfc508ac65e740caf"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\GenericEngineerContain.xml",
+          "sha256": "c3942b3805668d134b0fd08a2a30c4d2b317a7fade01955a7198bbc96c26f07c"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\GenericSovietBuildingDestruction.xml",
+          "sha256": "65e8ca8af9414a99a4bec2d8fff60d8c50671553714a99f8ab6cca2066fdf2d6"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\GenericSovietBuildingSuicide.xml",
+          "sha256": "60648a2cc6779f141a585e1833283f9435fa23a9a2e222a02031447140473a59"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\InfiltratorContainInfantry.xml",
+          "sha256": "913afc40279040681bcd8bdd8c48fe8988be0194b2fa3121c322c1c740d5c2bb"
+        }
+      ],
+      "normal_weapon_definitions": [],
+      "firing_or_transport_containers": [],
+      "capture_infiltration_modules": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\GenericEngineerContain.xml",
+          "tag": "EngineerContain",
+          "attributes": {
+            "id": "ModuleTag_EngineerContain",
+            "NameOfVoiceToUseForFriendlyEnter": "VoiceEngineerRepair",
+            "NameOfVoiceToUseForHostileEnter": "VoiceCaptureBuilding",
+            "EvaEventForRepair": "BuildingRepaired",
+            "EvaEventForCapture": "EnemyBuildingCaptured",
+            "FXForRepair": "FX_Building_Repaired",
+            "FXForCapture": "FX_Building_Captured",
+            "FXForCaptureAndReplace": "FX_Building_Captured",
+            "ImmediatelyEnabled": "true"
+          }
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\InfiltratorContainInfantry.xml",
+          "tag": "InfiltratorContain",
+          "attributes": {
+            "id": "ModuleTag_InfiltratorContain",
+            "Effect": "VISION_UNITS",
+            "Duration": "30s",
+            "UnitDuration": "30s",
+            "ObjectRef": "UnitVisionObserver",
+            "UnitFilter": "InfiltrationInfantryObjectFilter",
+            "StructureFilter": "InfiltrationInfantryStructuresFilter"
+          }
+        }
+      ],
+      "conditional_weapons": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseStructure.xml",
+          "tag": "FireWeaponWhenDead",
+          "attributes": {
+            "id": "ModuleTag_CatalystDeathWeapon",
+            "InitiallyActive": "true",
+            "DeathWeapon": "CatalystBuildingDeathWeapon",
+            "ContinueToBezierDestination": "false",
+            "UseMyKillerAsWeaponSource": "true"
+          }
+        }
+      ],
+      "creation_and_conversion_modules": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\SovietBarracks.xml",
+          "tag": "CreateObjectDie",
+          "attributes": {
+            "id": "ModuleTag_CreateObjectDie",
+            "CreationList": "SBBarracks_Die_OCL"
+          }
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\SovietBarracks.xml",
+          "tag": "ProductionUpdate",
+          "attributes": {
+            "id": "ModuleTag_06",
+            "GiveNoXP": "true",
+            "Type": "INFANTRY",
+            "NumDoorAnimations": "1",
+            "DoorOpeningTime": "0.66s",
+            "DoorWaitOpenTime": "1.0s",
+            "DoorCloseTime": "0.66s",
+            "NewObjectFadeInTime": "0.5s"
+          }
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\GenericSovietBuildingDestruction.xml",
+          "tag": "CreateObjectDie",
+          "attributes": {
+            "id": "ModuleTag_CreateOccupiedDie",
+            "CreationList": "OCL_GenericSovietBuildingDestruction"
+          }
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\GenericSovietBuildingSuicide.xml",
+          "tag": "CreateObjectDie",
+          "attributes": {
+            "id": "ModuleTag_CreateOccupiedSuicide",
+            "CreationList": "OCL_GenericSovietBuildingSuicide"
+          }
+        }
+      ],
+      "source_no_normal_weapon_set": true,
+      "source_no_garrison_or_passenger_fire_module": true,
+      "runtime_weapon_inventory_empty_verified": false,
+      "runtime_passenger_inventory_empty_verified": false,
+      "strict_no_weapon_no_occupant_classification": "unknown_keep_threat",
+      "autonomous_direct_fire_candidate_only": true
+    },
+    {
+      "template": "SovietPowerPlant",
+      "type_hash": "0xcf8d9f20",
+      "compiled_asset_instance_hash": "0xda7d1d0f",
+      "source_chain": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\SovietPowerPlant.xml",
+          "sha256": "b338c05d9ac8032f96888f2c174bdd4e2ef895ce36d9914473f5f416ec7aa183"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseSovietStructure.xml",
+          "sha256": "f60fb9e973fbb8a683a13db5a9b9792d7a9c2050fc7c0a06489402815b8e4ad7"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseStructure.xml",
+          "sha256": "9624d3272632ba33b5f8cca9d8eb50228c0610ea60db14fe68cb00f823ddaea0"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseObject.xml",
+          "sha256": "427972d37dd68f0f09d5ce53092f495b7ea2bb7fa970053bd1a81a2869635292"
+        }
+      ],
+      "fragment_sources": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\GenericBuildingRepair.xml",
+          "sha256": "adec2ff56f5127ecc5c5c3016d69de086248eabbd8dda1ddfc508ac65e740caf"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\GenericEngineerContain.xml",
+          "sha256": "c3942b3805668d134b0fd08a2a30c4d2b317a7fade01955a7198bbc96c26f07c"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\GenericSovietBuildingDestruction.xml",
+          "sha256": "65e8ca8af9414a99a4bec2d8fff60d8c50671553714a99f8ab6cca2066fdf2d6"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\GenericSovietBuildingSuicide.xml",
+          "sha256": "60648a2cc6779f141a585e1833283f9435fa23a9a2e222a02031447140473a59"
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\InfiltratorContainEnergy.xml",
+          "sha256": "1c9e23590ae0a7a67c6b83ec6df4a7e2d88fc24ea8985622f64f2f679042ed2a"
+        }
+      ],
+      "normal_weapon_definitions": [],
+      "firing_or_transport_containers": [],
+      "capture_infiltration_modules": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\GenericEngineerContain.xml",
+          "tag": "EngineerContain",
+          "attributes": {
+            "id": "ModuleTag_EngineerContain",
+            "NameOfVoiceToUseForFriendlyEnter": "VoiceEngineerRepair",
+            "NameOfVoiceToUseForHostileEnter": "VoiceCaptureBuilding",
+            "EvaEventForRepair": "BuildingRepaired",
+            "EvaEventForCapture": "EnemyBuildingCaptured",
+            "FXForRepair": "FX_Building_Repaired",
+            "FXForCapture": "FX_Building_Captured",
+            "FXForCaptureAndReplace": "FX_Building_Captured",
+            "ImmediatelyEnabled": "true"
+          }
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\InfiltratorContainEnergy.xml",
+          "tag": "InfiltratorContain",
+          "attributes": {
+            "id": "ModuleTag_InfiltratorContain",
+            "Effect": "ENERGY",
+            "Amount": "0.2",
+            "ObjectRef": "EnergyDisabler",
+            "StructureFilter": "InfiltrationEnergyStructuresFilter"
+          }
+        }
+      ],
+      "conditional_weapons": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\BaseObjects\\BaseStructure.xml",
+          "tag": "FireWeaponWhenDead",
+          "attributes": {
+            "id": "ModuleTag_CatalystDeathWeapon",
+            "InitiallyActive": "true",
+            "DeathWeapon": "CatalystBuildingDeathWeapon",
+            "ContinueToBezierDestination": "false",
+            "UseMyKillerAsWeaponSource": "true"
+          }
+        }
+      ],
+      "creation_and_conversion_modules": [
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\SovietPowerPlant.xml",
+          "tag": "CreateObjectDie",
+          "attributes": {
+            "id": "ModuleTag_CreateObjectDieOnLand",
+            "CreationList": "SBPowerPlant_Die_OCL"
+          }
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\SovietPowerPlant.xml",
+          "tag": "CreateObjectDie",
+          "attributes": {
+            "id": "ModuleTag_CreateObjectDieOnWater",
+            "CreationList": "SBPowerPlantPlatform_Die_OCL"
+          }
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\Mods\\TriadFront\\data\\objects\\SovietPowerPlant.xml",
+          "tag": "ProductionUpdate",
+          "attributes": {
+            "id": "ModuleTag_ProductionUpdate",
+            "GiveNoXP": "true"
+          }
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\GenericSovietBuildingDestruction.xml",
+          "tag": "CreateObjectDie",
+          "attributes": {
+            "id": "ModuleTag_CreateOccupiedDie",
+            "CreationList": "OCL_GenericSovietBuildingDestruction"
+          }
+        },
+        {
+          "path": "E:\\RA3Modding\\SDK\\SAGEXML\\Includes\\GenericSovietBuildingSuicide.xml",
+          "tag": "CreateObjectDie",
+          "attributes": {
+            "id": "ModuleTag_CreateOccupiedSuicide",
+            "CreationList": "OCL_GenericSovietBuildingSuicide"
+          }
+        }
+      ],
+      "source_no_normal_weapon_set": true,
+      "source_no_garrison_or_passenger_fire_module": true,
+      "runtime_weapon_inventory_empty_verified": false,
+      "runtime_passenger_inventory_empty_verified": false,
+      "strict_no_weapon_no_occupant_classification": "unknown_keep_threat",
+      "autonomous_direct_fire_candidate_only": true
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "E:\\RA3Modding\\SDK\\Schemas\\xsd\\Modules\\BaseModules.xsd",
+      "sha256": "079fe2abdb7c8422712d567763dd8591afc12c2e0382cc4e31b7defa31759c76"
+    },
+    {
+      "path": "E:\\RA3Modding\\SDK\\Schemas\\xsd\\Modules\\EngineerContain.xsd",
+      "sha256": "689ede5454ecfe949d1db89619fa581e3a7645a15ad37b4f19c8c7876ba82f5f"
+    },
+    {
+      "path": "E:\\RA3Modding\\SDK\\Schemas\\xsd\\Modules\\InfiltratorContain.xsd",
+      "sha256": "9fa47932473b81e0f0f7d2b5588daf0ef15c38de3cec2a49080e5a182641a4db"
+    },
+    {
+      "path": "E:\\RA3Modding\\SDK\\Schemas\\xsd\\Modules\\GarrisonContain.xsd",
+      "sha256": "56358078ad3e824568762b7c067e4ff8bb9a29f0361a440ffc0dc5bc1a861759"
+    },
+    {
+      "path": "E:\\RA3Modding\\SDK\\Schemas\\xsd\\Modules\\OpenContain.xsd",
+      "sha256": "42d93ba9c03a916e1605d38fd5587325da2f93ce77483c0bde824827eb13afe0"
+    },
+    {
+      "path": "E:\\RA3Modding\\SDK\\Schemas\\xsd\\AssetTypeGameObject.xsd",
+      "sha256": "ac8dabafb7e4bee5655dbc027ef869e7ceb7b7e447eb1d53f0ea2886a8d75457"
+    },
+    {
+      "path": "E:\\RA3Modding\\SDK\\SAGEXML\\GlobalData\\Weapon.xml",
+      "sha256": "7a82e52aa6142f96271173195366227b21a552657bd683f7a33a22e770e1bad1"
+    },
+    {
+      "path": "E:\\RA3Modding\\SDK\\SAGEXML\\GlobalData\\ObjectCreationLists.xml",
+      "sha256": "4e276f81673654035560d71e8755bcc1808428267487250623f02cb582d78f0b"
+    }
+  ],
+  "findings": {
+    "catalyst_death_weapon": {
+      "source": "BaseStructure",
+      "trigger_death_type": "CATALYST",
+      "weapon": "CatalystBuildingDeathWeapon",
+      "damage": 200,
+      "radius": 100,
+      "delay_seconds": 1.5,
+      "damage_type": "EXPLOSIVE"
+    },
+    "capture_contain_is_not_firing_garrison": "EngineerContain and InfiltratorContain derive ContainModuleData; GarrisonContain derives OpenContainModuleData and has separate passenger infrastructure. This source distinction is not live passenger-count evidence.",
+    "transport_slot_count": "TransportSlotCount is an object slot-cost attribute, not proof of passenger capacity or absence.",
+    "destroy_sell_spawns": "GenericSovietBuildingDestruction/Suicide create SovietAntiInfantryInfantry; Refinery separately spawns SovietMiner; ConYard can replace itself with mobile MCV.",
+    "mobile_policy": "All mobile entities, including economic/mining and crushing vehicles, remain threats.",
+    "unknown_policy": "Unknown/armed/garrison-capable/runtime-unverified objects remain threats. No template is authorized for exclusion by this audit."
+  }
+}

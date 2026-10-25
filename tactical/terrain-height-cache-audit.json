@@ -1,0 +1,39 @@
+{
+  "executable_sha256": "ec230c6ae1eaee30b0b4fa6ba29d417c974ecae46d6715dfbe786a815935c165",
+  "mutations": false,
+  "sdk_calls": 0,
+  "scope": "read_only_candidate_not_enabled_in_grounded_status",
+  "cache": {
+    "validity_word_offset": "0x48",
+    "validity_mask": "0x4",
+    "value_float_offset": "0x5c",
+    "meaning": "native Z minus queried surface height; fallback path not yet fully classified"
+  },
+  "evidence": [
+    {
+      "name": "cached_getter",
+      "address": "0x7e2a90",
+      "bytes": "51568bf1f6464804754ed9463c8b0d688fce006a008d4424085083ec08d95c2404d94638d91c24e8c47c070084c0741af30f104640f30f5c442404834e4804f30f11465cd9465c5e59c38bcee8efcbffffd95e5c834e4804d9465c5e59c3",
+      "claim": "validity check; terrain query; compute Z minus surface; store5c; setvalid4; cached return"
+    },
+    {
+      "name": "position_writer_invalidation",
+      "address": "0x7e3de0",
+      "bytes": "8b10d94424048956388b4804894e3c8b50088b068b4014836648f951d91c248d4c240c895640518d54",
+      "claim": "writes X/Y then clears cache bits2/4 before writing Z and notifying"
+    },
+    {
+      "name": "fallback_height_query",
+      "address": "0x7e2ada",
+      "bytes": "8bcee8efcbffffd95e5c834e4804d9465c5e59c3",
+      "claim": "when primary terrain query fails,7df6d0 supplies value before caching"
+    }
+  ],
+  "not_proved": [
+    "not all transform writers have been audited",
+    "normal free ground160 positive contrast still pending",
+    "no current airborne physics sample captured with cache valid",
+    "old789 history contains only status84 and cannot be upgraded retroactively",
+    "cache_invalid or nonfinite must remain unknown; cached value0 without valid bit is not a positive proof"
+  ]
+}
