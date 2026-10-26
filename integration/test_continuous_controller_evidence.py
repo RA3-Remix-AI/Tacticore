@@ -43,14 +43,14 @@ class ControllerReader(unittest.TestCase):
   self.write()
  def write(self):self.path.write_text(json.dumps(self.r),encoding='utf-8')
  def test_both_families_keep_lease_older_than_actual_model_issue(self):
-  for version in (13,14,15,16,17):
+  for version in (13,14,15,16,17,18):
    self.fixture(version);out=m.bound_report(self.host,self.receipt,self.entry,terminal=True)
    self.assertEqual((out['lease_issued_frame'],out['model_issued_frame']),(100,200));self.assertTrue(out['model_started'])
  def test_receipt_cannot_use_outer_lease_issue_as_model_issue(self):
   self.receipt['execution']['issued_frame']=100
   with self.assertRaisesRegex(ValueError,'confused lease'):m.bound_report(self.host,self.receipt,self.entry)
- def scene_fixture(self):
-  self.fixture(17);self.r['host_exit']=9;self.r['native']['error']=31;self.r['events'].append(dict(kind=4,seq=4,frame=0,native_error=31));self.write()
+ def scene_fixture(self,version=17):
+  self.fixture(version);self.r['host_exit']=9;self.r['native']['error']=31;self.r['events'].append(dict(kind=4,seq=4,frame=0,native_error=31));self.write()
   path=self.run/'original-scene-sidecar.json';path.write_text('{"actual_reader_test_boundary":true}')
   proof=dict(sidecar_path=str(path),sidecar_sha256=hashlib.sha256(path.read_bytes()).hexdigest(),source_sha256=hashlib.sha256(self.path.read_bytes()).hexdigest(),control_release_verified=True,scene_disposed_control_release=True,actors=[dict(role=r,object_id=oid,released=True,returned=False,disposed=False) for r,oid in enumerate((101,102))])
   proof.update({k:False for k in ('restoration_verified','return_verified','physical_retreat_verified','completed','goal_observed','completion_claim')})
@@ -58,11 +58,14 @@ class ControllerReader(unittest.TestCase):
   self.q.control_release=lambda r:dict(control_release_verified=False)
   original=m._load
   reader=SimpleNamespace(verify_path=lambda *args:copy.deepcopy(proof))
-  patch.object(m,'_load',side_effect=lambda path,name:reader if name=='continuous_exact_scene_release17' else original(path,name)).start()
+  patch.object(m,'_load',side_effect=lambda path,name:reader if name in ('continuous_exact_scene_release17','continuous_exact_scene_release18') else original(path,name)).start()
   return proof
  def test17_scene_certificate_releases_exclusivity_without_rewriting_raw(self):
   self.scene_fixture();before=self.path.read_bytes();out=m.terminal_facts(self.host,self.receipt,self.entry)
   self.assertTrue(out['control_release']['control_release_verified']);self.assertFalse(out['control_release']['restoration_verified']);self.assertFalse(out['qualification']['effect_verified']);self.assertEqual(self.path.read_bytes(),before)
+ def test18_scene_certificate_is_family_bound_and_still_not_restoration(self):
+  self.scene_fixture(18);out=m.terminal_facts(self.host,self.receipt,self.entry)
+  self.assertTrue(out['control_release']['control_release_verified']);self.assertFalse(out['control_release']['restoration_verified']);self.assertFalse(out['qualification']['effect_verified'])
  def test17_scene_receipt_boolean_does_not_replace_reader(self):
   proof=self.scene_fixture();proof['control_release_verified']=False
   with self.assertRaisesRegex(ValueError,'closure unproven'):m.terminal_facts(self.host,self.receipt,self.entry)

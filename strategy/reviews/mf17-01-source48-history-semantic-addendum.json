@@ -1,0 +1,26 @@
+{
+  "protocol": "mf17_source48_history_semantic_addendum_v1",
+  "original_history_review": "strategy/reviews/mf17-01-source48-history-independent.json",
+  "original_history_review_sha256": "2390e45336dae7aa2718949591c1639c481383bfa1bc35633064a1aa0c2429f2",
+  "native_argument_review": "acceptance\\runs\\20261026-091118-commander\\mf17-op48-readonly-arguments-v2.json",
+  "native_argument_review_sha256": "d2a3b18a66091ae9507d5e032344cbf92118d5fa6be82fb067300f32b640bcff",
+  "actual_executable_independent_checks": {
+    "executable_sha": true,
+    "constructor_actual_bytes": true,
+    "dispatch_table_case48": true
+  },
+  "qualification_status": "not_passed",
+  "source_granted": false,
+  "clarification": "The numerical Command.word10/team match is only a coincidence of saved raw values. Actual constructor leaves word10 and word14 uninitialized; case48 does not consume word10. It may be reused stack data and cannot identify a team argument, Native AI squad initiator, retained team membership or collision-yield upstream caller.",
+  "still_supported": "word5 is an initialized actual Thing argument; saved seven historical authorized OS13 streams identify that address as enemy776/player4 then, not as a current1660 identity authorization.",
+  "unchanged_unknowns": [
+    "No dynamic upstream call stack in actual17",
+    "Exact upstream among six known callers remains unknown",
+    "No legal Move or Source credit for opcode48/source2/caller alone"
+  ],
+  "old_raw_sha256": "d4cea0de6f8af5ed7346542567ce7e5fc179a66fa683d3b3307b5c4da32a5ed8",
+  "old_raw_unchanged": true,
+  "game_memory_reads": 0,
+  "sdk_calls": 0,
+  "game_memory_writes": false
+}

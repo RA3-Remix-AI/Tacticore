@@ -10,7 +10,7 @@ import uuid
 
 ROOT=Path(__file__).resolve().parent
 EXPECTED='ec230c6ae1eaee30b0b4fa6ba29d417c974ecae46d6715dfbe786a815935c165'
-CONTROLLER_FAMILIES={'mission-formation-v13':(0x4d463133,13),'mission-formation-v14':(0x4d463134,14),'mission-formation-v15':(0x4d463135,15),'mission-formation-v16':(0x4d463136,16),'mission-formation-v17':(0x4d463137,17)}
+CONTROLLER_FAMILIES={'mission-formation-v13':(0x4d463133,13),'mission-formation-v14':(0x4d463134,14),'mission-formation-v15':(0x4d463135,15),'mission-formation-v16':(0x4d463136,16),'mission-formation-v17':(0x4d463137,17),'mission-formation-v18':(0x4d463138,18)}
 
 
 def _load(path,name):
@@ -143,12 +143,13 @@ def _scene_release17(bound,receipt,entry):
     results=receipt.get('unit_results',[])
     claimed=results[0].get('scene_release') if len(results)==1 else None
     if claimed is None:return None
-    if entry.get('executor_directory')!='mission-formation-v17':raise ValueError('Continuous scene release executor changed')
+    directory=entry.get('executor_directory')
+    if directory not in ('mission-formation-v17','mission-formation-v18'):raise ValueError('Continuous scene release executor changed')
     path=Path(claimed['sidecar_path']).resolve()
     if not path.is_relative_to(bound['path'].parent):raise ValueError('Continuous17 scene sidecar outside bound run')
     raw=path.read_bytes()
     if hashlib.sha256(raw).hexdigest()!=claimed.get('sidecar_sha256'):raise ValueError('Continuous17 scene sidecar digest changed')
-    reader=_load(ROOT.parent/'tactical/mission-formation-v17/scene_terminal_release.py','continuous_exact_scene_release17')
+    reader=_load(ROOT.parent/'tactical'/directory/'scene_terminal_release.py','continuous_exact_scene_release'+str(CONTROLLER_FAMILIES[directory][1]))
     proof=reader.verify_path(path,bound['path'])
     if proof.get('source_sha256')!=bound['sha256'] or proof.get('control_release_verified') is not True or proof.get('scene_disposed_control_release') is not True:
         raise ValueError('Continuous17 scene closure unproven')
@@ -288,7 +289,7 @@ def verify_formation_release(facts,entry,qualifier=None):
     expected=dict(pid=pre['pid'],session_id=report['session_id'],commander_id=pre['commander_id'],command_id=request['command_id'],task_id=request['task_id'],seq=request['seq'],token=request['token'],owner=pre['owner'],logic=pre['logic'],native_binary_sha256=report['native_binary_sha256'])
     if any(terminal.get(key)!=value or type(terminal.get(key)) is not type(value) for key,value in expected.items()) or terminal.get('mutations') is not False or terminal.get('timer')!=0 or terminal.get('active')!=0 or terminal.get('restore_mask')!=mask:
         raise ValueError('Continuous formation terminal identity changed')
-    if directory not in ('mission-formation','mission-formation-v2','mission-formation-v3','mission-formation-v4','mission-formation-v5','mission-formation-v6','mission-formation-v7','mission-formation-v8','mission-formation-v9','mission-formation-v10','mission-formation-v12','mission-formation-v13','mission-formation-v14','mission-formation-v15','mission-formation-v16','mission-formation-v17'):raise ValueError('Unknown formation release executor')
+    if directory not in ('mission-formation','mission-formation-v2','mission-formation-v3','mission-formation-v4','mission-formation-v5','mission-formation-v6','mission-formation-v7','mission-formation-v8','mission-formation-v9','mission-formation-v10','mission-formation-v12','mission-formation-v13','mission-formation-v14','mission-formation-v15','mission-formation-v16','mission-formation-v17','mission-formation-v18'):raise ValueError('Unknown formation release executor')
     folder=ROOT.parent/'tactical'/directory
     layout=json.loads((folder/'inert-layout.json').read_text())
     if terminal.get('layout')!=layout or layout.get('dll_sha256')!=report['native_binary_sha256']:raise ValueError('Continuous formation terminal layout changed')

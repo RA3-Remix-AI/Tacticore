@@ -57,11 +57,19 @@ class Held(unittest.TestCase):
         for change in ({"reserve_deadline_frame":1351},{"hard_deadline_frame":5401}):
             with self.assertRaises(ValueError):reg.bind_lease_clock(CTRL,dict(record,**change))
         with self.assertRaises(ValueError):m.HeldFormationRegistry(SESSION,COMMANDER,executor_directory="mission-formation-v17",reserve_duration_frames=300)
+    def test_trusted_eighteen_preserves_450_and_original_hard_deadline(self):
+        reg=m.HeldFormationRegistry(SESSION,COMMANDER,executor_directory="mission-formation-v18",reserve_duration_frames=450)
+        reg.prearm_controller(dict(prearm(),reserve_offset_frames=450))
+        record=dict(clock(900),reserve_deadline_frame=1350);reg.bind_lease_clock(CTRL,record)
+        self.assertEqual(reg.controller(CTRL)["hard_deadline_frame"],5400)
+        for change in ({"reserve_deadline_frame":1351},{"hard_deadline_frame":5401}):
+            with self.assertRaises(ValueError):reg.bind_lease_clock(CTRL,dict(record,**change))
+        with self.assertRaises(ValueError):m.HeldFormationRegistry(SESSION,COMMANDER,executor_directory="mission-formation-v18",reserve_duration_frames=300)
     def test_clock_policy_cannot_be_upgraded_by_records_or_wrong_family(self):
         for family in ("mission-formation-v13","mission-formation-v14","mission-formation-v15"):
             old=m.HeldFormationRegistry(SESSION,COMMANDER,executor_directory=family)
             with self.subTest(family=family),self.assertRaisesRegex(ValueError,"policy"):old.prearm_controller(dict(prearm(),reserve_offset_frames=450))
-        for family,duration in (("mission-formation-v13",450),("mission-formation-v14",450),("mission-formation-v15",450),("mission-formation-v16",300),("mission-formation-v18",450),("mission-formation-v16",True),("mission-formation-v16",451)):
+        for family,duration in (("mission-formation-v13",450),("mission-formation-v14",450),("mission-formation-v15",450),("mission-formation-v16",300),("mission-formation-v19",450),("mission-formation-v16",True),("mission-formation-v16",451)):
             with self.subTest(family=family,duration=duration),self.assertRaisesRegex(ValueError,"policy"):m.HeldFormationRegistry(SESSION,COMMANDER,executor_directory=family,reserve_duration_frames=duration)
         new=m.HeldFormationRegistry(SESSION,COMMANDER,executor_directory="mission-formation-v16",reserve_duration_frames=450)
         with self.assertRaisesRegex(ValueError,"policy"):new.prearm_controller(prearm())

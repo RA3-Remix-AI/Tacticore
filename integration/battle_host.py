@@ -103,7 +103,7 @@ class Host:
   self.natural_path=args.natural_observation or Path(self.session['run_directory'])/'natural-production.json'
   self.tactical=TacticalBridge(self,tactical) if tactical else None
   self.reserve_controller=None
-  pair_grants=[g for g in tactical['grants'] if g.get('executor_directory') in ('mission-formation-v13','mission-formation-v14','mission-formation-v15','mission-formation-v16','mission-formation-v17') and (g.get('module'),g.get('purpose'))==('combined_arms','coordinate_force')] if tactical else []
+  pair_grants=[g for g in tactical['grants'] if g.get('executor_directory') in ('mission-formation-v13','mission-formation-v14','mission-formation-v15','mission-formation-v16','mission-formation-v17','mission-formation-v18') and (g.get('module'),g.get('purpose'))==('combined_arms','coordinate_force')] if tactical else []
   if pair_grants:
    if len(pair_grants)!=1:raise ValueError('one_paid_pair_controller_scope_required')
    from reserve_controller import ReserveController

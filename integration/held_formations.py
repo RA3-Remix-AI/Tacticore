@@ -90,7 +90,7 @@ class HeldFormationRegistry:
     def __init__(self, session_id, commander_id, player_id=3, *, max_ready_age_frames=30, executor_directory="mission-formation-v13", reserve_duration_frames=RESERVE_FRAMES):
         # Caller supplies these only from a source-verified family grant. No
         # model/public record can select or extend the native clock policy.
-        policies = {"mission-formation-v13":300, "mission-formation-v14":300, "mission-formation-v15":300, "mission-formation-v16":450, "mission-formation-v17":450}
+        policies = {"mission-formation-v13":300, "mission-formation-v14":300, "mission-formation-v15":300, "mission-formation-v16":450, "mission-formation-v17":450, "mission-formation-v18":450}
         if type(executor_directory) is not str or executor_directory not in policies or type(reserve_duration_frames) is not int or reserve_duration_frames not in (300,450) or reserve_duration_frames != policies[executor_directory]:
             raise ValueError("held_untrusted_clock_family_policy")
         self.executor_directory = executor_directory

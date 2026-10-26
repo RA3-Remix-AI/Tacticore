@@ -100,5 +100,15 @@ class HeldBridge(unittest.IsolatedAsyncioTestCase):
   self.assertTrue(receipt['scene_disposed_control_release_verified']);self.assertEqual(len(receipt['unit_results']),1);self.assertEqual(receipt['unit_results'][0]['object_ids'],[781,784]);self.assertEqual(receipt['unit_results'][0]['scene_release'],proof)
   self.reserve.record['scene_release']['return_verified']=True
   with self.assertRaises(ValueError):receipt_for(self.reserve,entry,self.host.binding)
+ async def test_eighteen_paired_scene_certificate_stays_one_failed_paired_result(self):
+  await self.bridge.dispatch();entry=self.bridge.sent[self.job['task_id']];entry['executor_directory']='mission-formation-v18';raw=self.reserve.runtime.report
+  raw.update(status='finished',host_exit=9,assessment=dict(combined_arms_verified=True,checks={'cached':True},restoration={'restoration_verified':True}))
+  raw['native']['mission_commit']={'status':1};raw['native']['controller']['mission_commit_frame']=1001
+  proof=dict(scene_disposed_control_release=True,sidecar_path='software-scene.json',sidecar_sha256='a'*64,**{k:False for k in ('restoration_verified','return_verified','physical_retreat_verified','completed','goal_observed','completion_claim')})
+  self.reserve.record={'scene_release':proof};receipt=receipt_for(self.reserve,entry,self.host.binding)
+  self.assertEqual(receipt['status'],'failed');self.assertFalse(receipt['completed']);self.assertFalse(receipt['goal_observed']);self.assertFalse(receipt['restoration_verified']);self.assertFalse(receipt['execution']['restoration_verified'])
+  self.assertTrue(receipt['scene_disposed_control_release_verified']);self.assertEqual(len(receipt['unit_results']),1);self.assertEqual(receipt['unit_results'][0]['object_ids'],[781,784]);self.assertEqual(receipt['unit_results'][0]['scene_release'],proof)
+  self.reserve.record['scene_release']['return_verified']=True
+  with self.assertRaises(ValueError):receipt_for(self.reserve,entry,self.host.binding)
 
 if __name__=='__main__':unittest.main()

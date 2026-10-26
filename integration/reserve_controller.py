@@ -17,7 +17,7 @@ import uuid
 from held_formations import HeldFormationRegistry, SCOPE
 
 ROOT=Path(__file__).resolve().parents[1]
-CONTROLLER_DIRECTORIES=('mission-formation-v13','mission-formation-v14','mission-formation-v15','mission-formation-v16','mission-formation-v17')
+CONTROLLER_DIRECTORIES=('mission-formation-v13','mission-formation-v14','mission-formation-v15','mission-formation-v16','mission-formation-v17','mission-formation-v18')
 
 def atomic(path,value):
     path=Path(path);path.parent.mkdir(parents=True,exist_ok=True)
@@ -295,10 +295,10 @@ class ReserveController:
         self.update_scope()
 
     def _verify_scene_release(self,proof):
-        if self.directory!='mission-formation-v17' or type(proof) is not dict:raise ValueError('reserve_scene_unapproved_family')
+        if self.directory not in ('mission-formation-v17','mission-formation-v18') or type(proof) is not dict:raise ValueError('reserve_scene_unapproved_family')
         path=Path(proof['sidecar_path']).resolve()
         if not path.is_relative_to(self.output.resolve()) or hashlib.sha256(path.read_bytes()).hexdigest()!=proof.get('sidecar_sha256'):raise ValueError('reserve_scene_sidecar_binding')
-        spec=importlib.util.spec_from_file_location('host_mf17_scene_release',ROOT/'tactical/mission-formation-v17/scene_terminal_release.py');reader=importlib.util.module_from_spec(spec);spec.loader.exec_module(reader)
+        spec=importlib.util.spec_from_file_location('host_'+self.directory.replace('-','_')+'_scene_release',ROOT/'tactical'/self.directory/'scene_terminal_release.py');reader=importlib.util.module_from_spec(spec);spec.loader.exec_module(reader)
         verified=reader.verify_path(path,self.runtime.output)
         if any(verified.get(k)!=v for k,v in dict(controller_id=self.config['controller_id'],lease_id=self.config['lease_id'],session_id=self.host.binding.session_id,pid=self.host.session['pid'],source_sha256=hashlib.sha256(Path(self.runtime.output).read_bytes()).hexdigest(),sidecar_sha256=proof['sidecar_sha256']).items()) or verified.get('scene_closed_verified') is not True or verified.get('scene_disposed_control_release') is not True or verified.get('control_release_verified') is not True or any(verified.get(k) is not False for k in ('restoration_verified','return_verified','physical_retreat_verified','completed','goal_observed','completion_claim')):raise ValueError('reserve_scene_exclusive_release_unproven')
         expected=sorted(self.held_registry.claimed_actor_ids());actual=sorted(a['object_id'] for a in verified.get('actors',[]) if not a.get('never_held') and a.get('released') is True)

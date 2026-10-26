@@ -1,0 +1,62 @@
+{
+  "protocol": "native18_software_readiness_v1",
+  "runtime_native_unexecuted": true,
+  "field_verified": false,
+  "source_capability_granted": false,
+  "sdk_calls": 0,
+  "game_access": false,
+  "cases": {
+    "breadcrumb": 65,
+    "pending_and_yield_denial": 149,
+    "scheduler": 46,
+    "tls_offset8": 15,
+    "stance": 23,
+    "controller": 155,
+    "actual_production_router": 28,
+    "total": 481
+  },
+  "binary_pins": {
+    "native_binary_sha256": "641635ec211a8c48bcf1765faf5a6db743588b0f1175240298e15e08464da3c8",
+    "native_host_sha256": "aff9d63ee49878c2aeb0c42b218a1d1ecd584c807a8a0d6a1266acd6542d87b7",
+    "native_source_sha256": "b90909b5a9659dbb6fc04c0cfc2631396b68779feb4931a4813448549901944e",
+    "native_shared_sha256": "7894c6cb78f24492cc457c86a6bffdc3b139a669d3aca95bc8209a06696b8e1d"
+  },
+  "native_includes_sha256": {
+    "breadcrumb.cpp.inc": "fd66420747a0c9ba139d134d9ed018f8d93c698dad14d69ed06bdf2f2055121d",
+    "common.cpp.inc": "2cf8f2bf357dc2249f8c270cf81c9365ff6a9a0bdd4c00e4354218d9c168282a",
+    "controller.cpp.inc": "2305cc8117086e75a672d0178092ec07e5c01998c0603cbe02a7714649fb9dd1",
+    "event.cpp.inc": "32706ca8cfe485d05aa7ba8e1ccabfabb09e2b74a41aa98e5f54962e1333fd2e",
+    "host_pulse.cpp.inc": "0b1166da6c45f0ff47219916c4df062a23e8c9357e2cc2fc32f731c72bc6308e",
+    "mission_state.cpp.inc": "de3e882d9a7b6cb9af2692e64cee2d3fc6d32cebf9a7e8428803e4b2dfdb0eef",
+    "origin_scan.cpp.inc": "5c3323074709dc8ec49efcd3a1afe27d9e28b10363ead893bef0e2d24cac6352",
+    "pending.cpp.inc": "d4f672989fd5b68fb152ce81cfc05e671c549f98595b9a6afc614a303482ecb5",
+    "scheduler.cpp.inc": "ad7748da0571d229b70cd43bfac1c3b4e6f24fad5bbb32a9aa743317cbe4bbb5",
+    "stance.cpp.inc": "fc85fd3e6d45d33570c5a3fcf721de7f594614cf73fb9c3ea82cc80032f757e5"
+  },
+  "artifact_hashes": {
+    "revision.json": "164806d348e30a5265e1b0852118915a936f37571f487c892006d721621432a6",
+    "inert-layout.json": "6470e0b6cbeccc501e1afcec06bbb1691e98de2fc1ca6db846cf113fcf226539",
+    "tls-alignment-proof.json": "86fcbb7539fd6233e1603ba7390d466b8f60c44ee4bec181afd3b19907ec3279",
+    "native-software-regression.json": "46153662506ca7e91b2e0d794e3338bf42e80a8e68a00e4061d7bf2989a203fa",
+    "pending-regression-results.json": "a92dd65b91784982ca9b16b63cb4966cce61f756b9327422492f146b586d5223",
+    "controller-regression-results.json": "fdb69e689c43c6749bd70d3aa248cdabd5b35c4fa8e4fa97836c32aa12deac47",
+    "event-payload-regression.json": "747f6fa99864c4fba0e993c637f1a96045ed39b13470a2b1c768488b22bda115",
+    "yield-denial-native-positive.json": "2efdeb6b44a9ab49de01c7defed92b4b62f3cf53b780773add1ef937a7b98580",
+    "simulation-2km-native.json": "ddf3a0fa1ad5c82ec2a112547824c2909e1a594d0c7644315c4f039f5161eece",
+    "test_breadcrumb_native.cpp": "d6e6449da71f6473f0ba5b18215b9632a4a3b9f87b2a2205ad246a75f29312eb",
+    "test_controller_native.cpp": "a84a515a3dbe7c18b955cb20c07d059ef9c0badc5fe2e07e0f1c9845d4f879a5",
+    "test_event_payload_native.cpp": "3e6e47011a784dac63dc1a48abe285e10ea08a29ff084197fdc57926c67d1157",
+    "test_pending_native.cpp": "cee757b1c88941012aa3a02090099798abd602b24e87324c7b286f434072ad95",
+    "test_scheduler_native.cpp": "796ec99e1bba0ea17ecdd82cf0ec2540fe549d3875c7ae12d015d94022c4b0c9",
+    "test_stance_native.cpp": "fb340099e501a82eab0b57629d9f9ed7b821cacf5ef08bde2f4d0f7c7514620c",
+    "test_tls_alignment_native.cpp": "341ea6e8588b990bf737b3ca4172c2446a49976444b34992465bd567c8c12e42"
+  },
+  "old17_unchanged": {
+    "native_binary_sha256": true,
+    "native_host_sha256": true,
+    "native_source_sha256": true,
+    "native_shared_sha256": true,
+    "all17compiled_includes": true
+  },
+  "boundary": "Denied precise local-yield only; unknown input still original foreign cleanup; no Move/effect credit."
+}

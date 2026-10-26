@@ -1,0 +1,112 @@
+68f01910 <__ZL20clear_dispatch_wordsPVj.constprop.0>:
+
+68f01910:	a1 b8 14 f8 68       	mov    0x68f814b8,%eax
+68f01915:	64 8b 15 2c 00 00 00 	mov    %fs:0x2c,%edx
+68f0191c:	8b 04 82             	mov    (%edx,%eax,4),%eax
+68f0191f:	c7 80 04 00 00 00 00 	movl   $0x0,0x4(%eax)
+68f01926:	00 00 00 
+68f01929:	c7 80 08 00 00 00 00 	movl   $0x0,0x8(%eax)
+68f01930:	00 00 00 
+68f01933:	c7 80 0c 00 00 00 00 	movl   $0x0,0xc(%eax)
+68f0193a:	00 00 00 
+68f0193d:	c7 80 10 00 00 00 00 	movl   $0x0,0x10(%eax)
+68f01944:	00 00 00 
+68f01947:	c3                   	ret
+68f01948:	2e 8d b4 26 00 00 00 	lea    %cs:0x0(%esi,%eiz,1),%esi
+68f0194f:	00 
+
+
+68f01950 <__ZL18clear_move_contextv>:
+
+68f01950:	eb be                	jmp    68f01910 <__ZL20clear_dispatch_wordsPVj.constprop.0>
+68f01952:	8d b6 00 00 00 00    	lea    0x0(%esi),%esi
+68f01958:	2e 8d b4 26 00 00 00 	lea    %cs:0x0(%esi,%eiz,1),%esi
+68f0195f:	00 
+
+
+68f01960 <__ZL18set_dispatch_wordsPVjjjjj.constprop.0>:
+
+68f01960:	56                   	push   %esi
+68f01961:	64 8b 35 2c 00 00 00 	mov    %fs:0x2c,%esi
+68f01968:	53                   	push   %ebx
+68f01969:	89 c3                	mov    %eax,%ebx
+68f0196b:	a1 b8 14 f8 68       	mov    0x68f814b8,%eax
+68f01970:	8b 04 86             	mov    (%esi,%eax,4),%eax
+68f01973:	89 98 04 00 00 00    	mov    %ebx,0x4(%eax)
+68f01979:	89 90 08 00 00 00    	mov    %edx,0x8(%eax)
+68f0197f:	8b 54 24 0c          	mov    0xc(%esp),%edx
+68f01983:	89 88 0c 00 00 00    	mov    %ecx,0xc(%eax)
+68f01989:	89 90 10 00 00 00    	mov    %edx,0x10(%eax)
+68f0198f:	5b                   	pop    %ebx
+68f01990:	5e                   	pop    %esi
+68f01991:	c3                   	ret
+68f01992:	8d b6 00 00 00 00    	lea    0x0(%esi),%esi
+68f01998:	2e 8d b4 26 00 00 00 	lea    %cs:0x0(%esi,%eiz,1),%esi
+68f0199f:	00 
+
+
+68f019a0 <__ZL16set_move_contextjjjj>:
+
+68f019a0:	eb be                	jmp    68f01960 <__ZL18set_dispatch_wordsPVjjjjj.constprop.0>
+68f019a2:	8d b6 00 00 00 00    	lea    0x0(%esi),%esi
+68f019a8:	2e 8d b4 26 00 00 00 	lea    %cs:0x0(%esi,%eiz,1),%esi
+68f019af:	00 
+
+
+68f019b0 <__ZL20store_dispatch_wordsPVjRK19MoveDispatchContext.constprop.0>:
+
+68f019b0:	53                   	push   %ebx
+68f019b1:	89 c2                	mov    %eax,%edx
+68f019b3:	8b 08                	mov    (%eax),%ecx
+68f019b5:	64 8b 1d 2c 00 00 00 	mov    %fs:0x2c,%ebx
+68f019bc:	a1 b8 14 f8 68       	mov    0x68f814b8,%eax
+68f019c1:	8b 04 83             	mov    (%ebx,%eax,4),%eax
+68f019c4:	89 88 04 00 00 00    	mov    %ecx,0x4(%eax)
+68f019ca:	8b 4a 04             	mov    0x4(%edx),%ecx
+68f019cd:	89 88 08 00 00 00    	mov    %ecx,0x8(%eax)
+68f019d3:	8b 4a 08             	mov    0x8(%edx),%ecx
+68f019d6:	8b 52 0c             	mov    0xc(%edx),%edx
+68f019d9:	89 88 0c 00 00 00    	mov    %ecx,0xc(%eax)
+68f019df:	89 90 10 00 00 00    	mov    %edx,0x10(%eax)
+68f019e5:	5b                   	pop    %ebx
+68f019e6:	c3                   	ret
+68f019e7:	90                   	nop
+68f019e8:	2e 8d b4 26 00 00 00 	lea    %cs:0x0(%esi,%eiz,1),%esi
+68f019ef:	00 
+
+
+68f019f0 <__ZL20restore_move_contextRK19MoveDispatchContext>:
+
+68f019f0:	eb be                	jmp    68f019b0 <__ZL20store_dispatch_wordsPVjRK19MoveDispatchContext.constprop.0>
+68f019f2:	8d b6 00 00 00 00    	lea    0x0(%esi),%esi
+68f019f8:	2e 8d b4 26 00 00 00 	lea    %cs:0x0(%esi,%eiz,1),%esi
+68f019ff:	00 
+
+
+68f01a00 <__ZL19load_dispatch_wordsPVKj.constprop.0>:
+
+68f01a00:	64 8b 0d 2c 00 00 00 	mov    %fs:0x2c,%ecx
+68f01a07:	8b 15 b8 14 f8 68    	mov    0x68f814b8,%edx
+68f01a0d:	8b 14 91             	mov    (%ecx,%edx,4),%edx
+68f01a10:	8b 8a 04 00 00 00    	mov    0x4(%edx),%ecx
+68f01a16:	89 08                	mov    %ecx,(%eax)
+68f01a18:	8b 8a 08 00 00 00    	mov    0x8(%edx),%ecx
+68f01a1e:	89 48 04             	mov    %ecx,0x4(%eax)
+68f01a21:	8b 8a 0c 00 00 00    	mov    0xc(%edx),%ecx
+68f01a27:	8b 92 10 00 00 00    	mov    0x10(%edx),%edx
+68f01a2d:	89 48 08             	mov    %ecx,0x8(%eax)
+68f01a30:	89 50 0c             	mov    %edx,0xc(%eax)
+68f01a33:	c3                   	ret
+68f01a34:	8d 74 26 00          	lea    0x0(%esi,%eiz,1),%esi
+68f01a38:	2e 8d b4 26 00 00 00 	lea    %cs:0x0(%esi,%eiz,1),%esi
+68f01a3f:	00 
+
+
+68f01a40 <__ZL17load_move_contextv>:
+
+68f01a40:	e8 bb ff ff ff       	call   68f01a00 <__ZL19load_dispatch_wordsPVKj.constprop.0>
+68f01a45:	c3                   	ret
+68f01a46:	66 90                	xchg   %ax,%ax
+68f01a48:	2e 8d b4 26 00 00 00 	lea    %cs:0x0(%esi,%eiz,1),%esi
+68f01a4f:	00 
+
