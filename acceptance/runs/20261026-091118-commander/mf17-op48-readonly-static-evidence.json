@@ -1,0 +1,102 @@
+{
+  "protocol": "mf17_opcode48_readonly_static_evidence_v1",
+  "mutations": false,
+  "sdk_calls": 0,
+  "executable_sha256": "ec230c6ae1eaee30b0b4fa6ba29d417c974ecae46d6715dfbe786a815935c165",
+  "original_raw_sha256": "d4cea0de6f8af5ed7346542567ce7e5fc179a66fa683d3b3307b5c4da32a5ed8",
+  "disassembly_sha256": "91c0b9ff06c588d7e9079fb038f50421770bf7cbaf2e7c9b863d760e8a080029",
+  "actual_dispatch_pre": {
+    "seq": 2376,
+    "frame": 1660,
+    "thread": 57280,
+    "role": 1,
+    "unit_id": 805,
+    "caller": 6896042,
+    "tag": 0,
+    "state_id": 94,
+    "path": 0
+  },
+  "original_command23": [
+    48,
+    2,
+    1163825152,
+    1162924032,
+    1129447424,
+    94160912,
+    0,
+    0,
+    0,
+    0,
+    106961760,
+    0,
+    0,
+    0,
+    94185232,
+    0,
+    0,
+    0,
+    0,
+    12683372,
+    0,
+    0,
+    6899968
+  ],
+  "command_xyz": [
+    3561.0,
+    3341.0,
+    210.0
+  ],
+  "raw_requesting_thing_word5": "0x59cc810",
+  "actual_actor_update_vt": "0xc48670",
+  "native_dispatch_table": {
+    "table": "0x787d4c",
+    "opcode": 48,
+    "entry_bytes": "457c7800",
+    "target": "0x787c45",
+    "vt_offset": "0x18c",
+    "actual_aiupdate_handler": "0x755cd0"
+  },
+  "handler_state_switch": {
+    "instruction": "0x755df2 push 0x1a; 0x755df4 virtual state switch",
+    "raw": "8b4e3c8b118b423c55ffd08b4e3c8b118b42206a1affd0"
+  },
+  "actual_post_dispatch_sample": {
+    "seq": 2379,
+    "frame": 1660,
+    "role": 1,
+    "unit_id": 805,
+    "state_id": 26,
+    "path": 0,
+    "source": 1,
+    "own_hp": 120.0,
+    "x": 2770.0,
+    "y": 2810.0,
+    "z": 210.0
+  },
+  "actual_state_vt": "0xc553d0",
+  "state26_vt_getter": {
+    "vt": "0xc553d0",
+    "getter": "0x7f6ac0",
+    "getter_bytes": "b82454c500c3",
+    "literal": "UnitAIMoveOutOfTheWayState"
+  },
+  "direct_constructor_callers": [
+    "0x6949fb",
+    "0x694a4b",
+    "0x6981bf",
+    "0x71c42e",
+    "0x755da8",
+    "0x77c369"
+  ],
+  "interpretation": {
+    "opcode48_can_enter_MoveOutOfTheWay": true,
+    "actual_state26_after_dispatch": true,
+    "task_owned_move_credit": false,
+    "actual_upstream_caller_recorded": false,
+    "actual_requester_identity_known": false,
+    "strategic_AI_takeover_proven": false,
+    "harmlessness_proven": false,
+    "permission_to_allow_opcode48": false
+  },
+  "limit": "DG captures only immediate dispatcher return address, not caller above 0x693960; current old address is not dereferenced."
+}

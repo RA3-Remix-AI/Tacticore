@@ -1,0 +1,96 @@
+{
+  "protocol": "mf17_opcode48_readonly_argument_analysis_v2",
+  "mutations": false,
+  "sdk_calls": 0,
+  "exe_sha256": "ec230c6ae1eaee30b0b4fa6ba29d417c974ecae46d6715dfbe786a815935c165",
+  "disassembly_sha256": "9a50dc39de55dc434724fadc1b8cb11c868cb283269ab26cb9709382fe0b4e83",
+  "constructor": {
+    "address": "0x828ed0",
+    "defined_words": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      11,
+      12,
+      13,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21
+    ],
+    "not_initialized_word_indices": [
+      10,
+      14
+    ],
+    "flag_byte_offset": 88,
+    "body_hex": "8b4424040f57c08a54240c568bf18b4c240c8906894e0433c089461489461889461c89462089462489462c8946308946348d4e2c89463c894640894644f30f114648894650c7464c6c88c1008946548856588b41048b115052f30f114608f30f11460cf30f114610e8b392dbff8bc65ec20c00",
+    "subcall": "0x5e21f0 with ECX=Command+0x2c and both passed begin/end zero; empty vector erase only leaves vector_end zero; it does not touch Command+0x28"
+  },
+  "opcode48_wrapper": {
+    "address": "0x693960",
+    "args": [
+      "Thing* reference at stackarg1",
+      "float3* at stackarg2",
+      "source uint32 at stackarg3"
+    ],
+    "writes_after_constructor": [
+      "command[2:5]=*arg2",
+      "command[5]=arg1"
+    ],
+    "dispatch_return": "0x6939aa",
+    "word10_written": false,
+    "word14_written": false
+  },
+  "case48_consumer": {
+    "dispatch_table_entry": "0x787d4c+48*4 -> 0x787c45",
+    "passed_args": [
+      "command[5]",
+      "&command[2]",
+      "command[1]"
+    ],
+    "actual_vt": "0xc48670",
+    "vt18c": "0x755cd0",
+    "word10_consumed": false,
+    "team_parameter_proven": false
+  },
+  "handler_755cd0": {
+    "uses_first_arg_Thing": true,
+    "first_arg_unitID_read": "0x755dc6 mov EAX,[EBP+0xdc]",
+    "stored_old_and_new_referenceID": [
+      "0x755dc0 [self+0x1e8] -> [self+0x1ec]",
+      "0x755dd4 arg1.object_id -> [self+0x1e8]"
+    ],
+    "state_switch": "0x755df2 push0x1a, virtual SM+20",
+    "goal_arg_read_in_direct_handler": false,
+    "third_source_read_in_direct_handler": false,
+    "normal_return_bytes": "c20c00"
+  },
+  "six_callers": {
+    "0x6949fb": "grid-index loop -> Thing lists -> actual Thing+374+24; source2, arg1=this+0xc, goal=this",
+    "0x694a4b": "second grid Thing-list chain; same payload",
+    "0x6981bf": "candidate Thing loop, excludes same Thing/id; proximity test; source2, arg1=EBP[0], goal=EBP+8",
+    "0x71c42e": "pointer from self+0xc; actualtarget Thing+374; source2, arg1=ESI, goal=ESI+38",
+    "0x755da8": "same handler can forward via actual module/transport path before state switch; passes original arg1/goal/source",
+    "0x77c369": "list iteration actualThing->AIUpdate, filters state26 and stored objectIDs; source2, arg1=ESI, goal=ESI+38"
+  },
+  "conclusions": {
+    "word10_exact_team_match_is_not_proof_of_team_argument": true,
+    "word10_may_be_reused_stack_contents": true,
+    "word5_is_real_argument_not_uninitialized": true,
+    "actual_dynamic_upstream_callsite_available": false,
+    "strategic_AI_member_retention_proven": false,
+    "local_yield_upstream_proven": false,
+    "allow_unknown48": false
+  },
+  "limits": "No current hidden enemy read, no old pointer dereference, no new observation hooks, frozen17/raw unchanged."
+}

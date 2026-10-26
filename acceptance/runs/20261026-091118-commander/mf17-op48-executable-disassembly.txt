@@ -1,0 +1,279 @@
+
+E:\RedRar3\Data\RA3_1.12.game:     file format pei-i386
+
+
+Disassembly of section .text:
+
+00693960 <.text+0x292960>:
+  693960:	83 ec 5c             	sub    $0x5c,%esp
+  693963:	8b 44 24 68          	mov    0x68(%esp),%eax
+  693967:	56                   	push   %esi
+  693968:	6a 01                	push   $0x1
+  69396a:	50                   	push   %eax
+  69396b:	8b f1                	mov    %ecx,%esi
+  69396d:	6a 30                	push   $0x30
+  69396f:	8d 4c 24 10          	lea    0x10(%esp),%ecx
+  693973:	e8 58 55 19 00       	call   0x828ed0
+  693978:	8b 44 24 68          	mov    0x68(%esp),%eax
+  69397c:	8b 4c 24 64          	mov    0x64(%esp),%ecx
+  693980:	8b 10                	mov    (%eax),%edx
+  693982:	89 4c 24 18          	mov    %ecx,0x18(%esp)
+  693986:	8b 48 04             	mov    0x4(%eax),%ecx
+  693989:	89 54 24 0c          	mov    %edx,0xc(%esp)
+  69398d:	8b 50 08             	mov    0x8(%eax),%edx
+  693990:	8b 06                	mov    (%esi),%eax
+  693992:	89 4c 24 10          	mov    %ecx,0x10(%esp)
+  693996:	8d 4c 24 04          	lea    0x4(%esp),%ecx
+  69399a:	89 54 24 14          	mov    %edx,0x14(%esp)
+  69399e:	8b 10                	mov    (%eax),%edx
+  6939a0:	51                   	push   %ecx
+  6939a1:	8b ce                	mov    %esi,%ecx
+  6939a3:	c6 44 24 60 00       	movb   $0x0,0x60(%esp)
+  6939a8:	ff d2                	call   *%edx
+  6939aa:	8b 44 24 54          	mov    0x54(%esp),%eax
+  6939ae:	85 c0                	test   %eax,%eax
+  6939b0:	c7 44 24 50 78 8a be 	movl   $0xbe8a78,0x50(%esp)
+  6939b7:	00 
+  6939b8:	5e                   	pop    %esi
+  6939b9:	74 16                	je     0x6939d1
+  6939bb:	83 40 04 ff          	addl   $0xffffffff,0x4(%eax)
+  6939bf:	8b c8                	mov    %eax,%ecx
+  6939c1:	83 c0 04             	add    $0x4,%eax
+  6939c4:	83 38 00             	cmpl   $0x0,(%eax)
+  6939c7:	7f 08                	jg     0x6939d1
+  6939c9:	8b 01                	mov    (%ecx),%eax
+  6939cb:	8b 10                	mov    (%eax),%edx
+  6939cd:	6a 01                	push   $0x1
+  6939cf:	ff d2                	call   *%edx
+  6939d1:	8b 44 24 2c          	mov    0x2c(%esp),%eax
+  6939d5:	85 c0                	test   %eax,%eax
+  6939d7:	74 09                	je     0x6939e2
+  6939d9:	50                   	push   %eax
+  6939da:	e8 51 2e d8 ff       	call   0x416830
+  6939df:	83 c4 04             	add    $0x4,%esp
+  6939e2:	8b 44 24 1c          	mov    0x1c(%esp),%eax
+  6939e6:	85 c0                	test   %eax,%eax
+  6939e8:	74 09                	je     0x6939f3
+  6939ea:	50                   	push   %eax
+  6939eb:	e8 40 2e d8 ff       	call   0x416830
+  6939f0:	83 c4 04             	add    $0x4,%esp
+  6939f3:	83 c4 5c             	add    $0x5c,%esp
+  6939f6:	c2 0c 00             	ret    $0xc
+  6939f9:	cc                   	int3
+  6939fa:	cc                   	int3
+  6939fb:	cc                   	int3
+  6939fc:	cc                   	int3
+  6939fd:	cc                   	int3
+  6939fe:	cc                   	int3
+  6939ff:	cc                   	int3
+
+
+E:\RedRar3\Data\RA3_1.12.game:     file format pei-i386
+
+
+Disassembly of section .text:
+
+00787c45 <.text+0x386c45>:
+  787c45:	8b 06                	mov    (%esi),%eax
+  787c47:	8b 57 14             	mov    0x14(%edi),%edx
+  787c4a:	8b 80 8c 01 00 00    	mov    0x18c(%eax),%eax
+  787c50:	55                   	push   %ebp
+  787c51:	8d 4f 08             	lea    0x8(%edi),%ecx
+  787c54:	51                   	push   %ecx
+  787c55:	52                   	push   %edx
+  787c56:	8b ce                	mov    %esi,%ecx
+  787c58:	ff d0                	call   *%eax
+  787c5a:	eb 5f                	jmp    0x787cbb
+
+
+E:\RedRar3\Data\RA3_1.12.game:     file format pei-i386
+
+
+Disassembly of section .text:
+
+00755cd0 <.text+0x354cd0>:
+  755cd0:	53                   	push   %ebx
+  755cd1:	55                   	push   %ebp
+  755cd2:	8b 6c 24 0c          	mov    0xc(%esp),%ebp
+  755cd6:	85 ed                	test   %ebp,%ebp
+  755cd8:	56                   	push   %esi
+  755cd9:	57                   	push   %edi
+  755cda:	8b f1                	mov    %ecx,%esi
+  755cdc:	0f 84 2e 01 00 00    	je     0x755e10
+  755ce2:	80 be 3e 04 00 00 00 	cmpb   $0x0,0x43e(%esi)
+  755ce9:	0f 85 21 01 00 00    	jne    0x755e10
+  755cef:	8b 4e 08             	mov    0x8(%esi),%ecx
+  755cf2:	e8 19 17 fc ff       	call   0x717410
+  755cf7:	84 c0                	test   %al,%al
+  755cf9:	0f 84 11 01 00 00    	je     0x755e10
+  755cff:	8b 06                	mov    (%esi),%eax
+  755d01:	8b 90 00 02 00 00    	mov    0x200(%eax),%edx
+  755d07:	8b ce                	mov    %esi,%ecx
+  755d09:	ff d2                	call   *%edx
+  755d0b:	84 c0                	test   %al,%al
+  755d0d:	0f 84 fd 00 00 00    	je     0x755e10
+  755d13:	8b 7e 08             	mov    0x8(%esi),%edi
+  755d16:	8b 87 88 00 00 00    	mov    0x88(%edi),%eax
+  755d1c:	c1 e8 1c             	shr    $0x1c,%eax
+  755d1f:	a8 01                	test   $0x1,%al
+  755d21:	74 28                	je     0x755d4b
+  755d23:	8b 4e 3c             	mov    0x3c(%esi),%ecx
+  755d26:	e8 55 9b ea ff       	call   0x5ff880
+  755d2b:	85 c0                	test   %eax,%eax
+  755d2d:	75 1c                	jne    0x755d4b
+  755d2f:	8b ad 74 03 00 00    	mov    0x374(%ebp),%ebp
+  755d35:	85 ed                	test   %ebp,%ebp
+  755d37:	0f 84 d3 00 00 00    	je     0x755e10
+  755d3d:	c6 85 3c 04 00 00 01 	movb   $0x1,0x43c(%ebp)
+  755d44:	5f                   	pop    %edi
+  755d45:	5e                   	pop    %esi
+  755d46:	5d                   	pop    %ebp
+  755d47:	5b                   	pop    %ebx
+  755d48:	c2 0c 00             	ret    $0xc
+  755d4b:	8b cf                	mov    %edi,%ecx
+  755d4d:	e8 1e f1 fe ff       	call   0x744e70
+  755d52:	8b f8                	mov    %eax,%edi
+  755d54:	85 ff                	test   %edi,%edi
+  755d56:	74 68                	je     0x755dc0
+  755d58:	8b cf                	mov    %edi,%ecx
+  755d5a:	e8 81 7d fa ff       	call   0x6fdae0
+  755d5f:	85 c0                	test   %eax,%eax
+  755d61:	74 5d                	je     0x755dc0
+  755d63:	8b cf                	mov    %edi,%ecx
+  755d65:	e8 76 7d fa ff       	call   0x6fdae0
+  755d6a:	8b 10                	mov    (%eax),%edx
+  755d6c:	8b c8                	mov    %eax,%ecx
+  755d6e:	8b 82 84 00 00 00    	mov    0x84(%edx),%eax
+  755d74:	ff d0                	call   *%eax
+  755d76:	8b d8                	mov    %eax,%ebx
+  755d78:	85 db                	test   %ebx,%ebx
+  755d7a:	74 44                	je     0x755dc0
+  755d7c:	8b 8f 74 03 00 00    	mov    0x374(%edi),%ecx
+  755d82:	85 c9                	test   %ecx,%ecx
+  755d84:	74 3a                	je     0x755dc0
+  755d86:	8b 11                	mov    (%ecx),%edx
+  755d88:	8b 82 0c 02 00 00    	mov    0x20c(%edx),%eax
+  755d8e:	ff d0                	call   *%eax
+  755d90:	84 c0                	test   %al,%al
+  755d92:	75 2c                	jne    0x755dc0
+  755d94:	8b 4c 24 1c          	mov    0x1c(%esp),%ecx
+  755d98:	8b 54 24 18          	mov    0x18(%esp),%edx
+  755d9c:	51                   	push   %ecx
+  755d9d:	8b 8f 74 03 00 00    	mov    0x374(%edi),%ecx
+  755da3:	52                   	push   %edx
+  755da4:	55                   	push   %ebp
+  755da5:	83 c1 24             	add    $0x24,%ecx
+  755da8:	e8 b3 db f3 ff       	call   0x693960
+  755dad:	8b 03                	mov    (%ebx),%eax
+  755daf:	8b 90 c8 01 00 00    	mov    0x1c8(%eax),%edx
+  755db5:	8b cb                	mov    %ebx,%ecx
+  755db7:	ff d2                	call   *%edx
+  755db9:	5f                   	pop    %edi
+  755dba:	5e                   	pop    %esi
+  755dbb:	5d                   	pop    %ebp
+  755dbc:	5b                   	pop    %ebx
+  755dbd:	c2 0c 00             	ret    $0xc
+  755dc0:	8b 8e e8 01 00 00    	mov    0x1e8(%esi),%ecx
+  755dc6:	8b 85 dc 00 00 00    	mov    0xdc(%ebp),%eax
+  755dcc:	89 8e ec 01 00 00    	mov    %ecx,0x1ec(%esi)
+  755dd2:	8b ce                	mov    %esi,%ecx
+  755dd4:	89 86 e8 01 00 00    	mov    %eax,0x1e8(%esi)
+  755dda:	e8 81 97 f9 ff       	call   0x6ef560
+  755ddf:	8b 4e 3c             	mov    0x3c(%esi),%ecx
+  755de2:	8b 11                	mov    (%ecx),%edx
+  755de4:	8b 42 3c             	mov    0x3c(%edx),%eax
+  755de7:	55                   	push   %ebp
+  755de8:	ff d0                	call   *%eax
+  755dea:	8b 4e 3c             	mov    0x3c(%esi),%ecx
+  755ded:	8b 11                	mov    (%ecx),%edx
+  755def:	8b 42 20             	mov    0x20(%edx),%eax
+  755df2:	6a 1a                	push   $0x1a
+  755df4:	ff d0                	call   *%eax
+  755df6:	6a 00                	push   $0x0
+  755df8:	83 ec 08             	sub    $0x8,%esp
+  755dfb:	8d 96 4c 01 00 00    	lea    0x14c(%esi),%edx
+  755e01:	8b cc                	mov    %esp,%ecx
+  755e03:	52                   	push   %edx
+  755e04:	e8 87 4c f3 ff       	call   0x68aa90
+  755e09:	8b ce                	mov    %esi,%ecx
+  755e0b:	e8 f0 6e fb ff       	call   0x70cd00
+  755e10:	5f                   	pop    %edi
+  755e11:	5e                   	pop    %esi
+  755e12:	5d                   	pop    %ebp
+  755e13:	5b                   	pop    %ebx
+  755e14:	c2 0c 00             	ret    $0xc
+  755e17:	cc                   	int3
+  755e18:	cc                   	int3
+  755e19:	cc                   	int3
+  755e1a:	cc                   	int3
+  755e1b:	cc                   	int3
+  755e1c:	cc                   	int3
+  755e1d:	cc                   	int3
+  755e1e:	cc                   	int3
+  755e1f:	cc                   	int3
+
+
+E:\RedRar3\Data\RA3_1.12.game:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0077c300 <.text+0x37b300>:
+  77c300:	8b 44 24 14          	mov    0x14(%esp),%eax
+  77c304:	8b 48 10             	mov    0x10(%eax),%ecx
+  77c307:	3b 48 04             	cmp    0x4(%eax),%ecx
+  77c30a:	74 68                	je     0x77c374
+  77c30c:	8b 11                	mov    (%ecx),%edx
+  77c30e:	83 c1 08             	add    $0x8,%ecx
+  77c311:	3b d3                	cmp    %ebx,%edx
+  77c313:	89 48 10             	mov    %ecx,0x10(%eax)
+  77c316:	74 58                	je     0x77c370
+  77c318:	8b 75 0c             	mov    0xc(%ebp),%esi
+  77c31b:	3b f3                	cmp    %ebx,%esi
+  77c31d:	74 e1                	je     0x77c300
+  77c31f:	8b 8a 74 03 00 00    	mov    0x374(%edx),%ecx
+  77c325:	3b cb                	cmp    %ebx,%ecx
+  77c327:	74 d7                	je     0x77c300
+  77c329:	8b 51 3c             	mov    0x3c(%ecx),%edx
+  77c32c:	8b 82 88 00 00 00    	mov    0x88(%edx),%eax
+  77c332:	3b c3                	cmp    %ebx,%eax
+  77c334:	8b be dc 00 00 00    	mov    0xdc(%esi),%edi
+  77c33a:	74 06                	je     0x77c342
+  77c33c:	83 78 04 1a          	cmpl   $0x1a,0x4(%eax)
+  77c340:	74 0d                	je     0x77c34f
+  77c342:	8b 52 04             	mov    0x4(%edx),%edx
+  77c345:	3b d3                	cmp    %ebx,%edx
+  77c347:	74 16                	je     0x77c35f
+  77c349:	83 7a 04 1a          	cmpl   $0x1a,0x4(%edx)
+  77c34d:	75 10                	jne    0x77c35f
+  77c34f:	39 b9 e8 01 00 00    	cmp    %edi,0x1e8(%ecx)
+  77c355:	74 a9                	je     0x77c300
+  77c357:	39 b9 ec 01 00 00    	cmp    %edi,0x1ec(%ecx)
+  77c35d:	74 a1                	je     0x77c300
+  77c35f:	6a 02                	push   $0x2
+  77c361:	8d 56 38             	lea    0x38(%esi),%edx
+  77c364:	52                   	push   %edx
+  77c365:	56                   	push   %esi
+  77c366:	83 c1 24             	add    $0x24,%ecx
+  77c369:	e8 f2 75 f1 ff       	call   0x693960
+  77c36e:	eb 90                	jmp    0x77c300
+
+
+E:\RedRar3\Data\RA3_1.12.game:     file format pei-i386
+
+
+Disassembly of section .text:
+
+007f6ac0 <.text+0x3f5ac0>:
+  7f6ac0:	b8 24 54 c5 00       	mov    $0xc55424,%eax
+  7f6ac5:	c3                   	ret
+  7f6ac6:	cc                   	int3
+  7f6ac7:	cc                   	int3
+  7f6ac8:	cc                   	int3
+  7f6ac9:	cc                   	int3
+  7f6aca:	cc                   	int3
+  7f6acb:	cc                   	int3
+  7f6acc:	cc                   	int3
+  7f6acd:	cc                   	int3
+  7f6ace:	cc                   	int3
+  7f6acf:	cc                   	int3
