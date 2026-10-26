@@ -1,0 +1,686 @@
+{
+  "protocol": "producer_install_barrier_readonly_v2",
+  "mutations": false,
+  "sdk_calls": 0,
+  "game_memory_writes": false,
+  "reader_sha256": "c28e8003f610e4a7d3b9c5464408c74b84833e048d32d320dbceef7b2eccc739",
+  "module_base": "0x72170000",
+  "image_size": 122880,
+  "samples": [
+    {
+      "elapsed_seconds": 0.0,
+      "phase": 1,
+      "error": 0,
+      "stop_requested": 0,
+      "entries": [
+        {
+          "address": "0x7ba770",
+          "expected": "81ec3c010000f605486bce0001535657",
+          "length": 16,
+          "actual": "e9db899b7100f605486bce0001535657"
+        },
+        {
+          "address": "0x70f440",
+          "expected": "83ec08558b6c241085ed568bf1",
+          "length": 13,
+          "actual": "83ec08558b6c241085ed568bf1"
+        },
+        {
+          "address": "0x849220",
+          "expected": "81ecb4000000568bf18b46148b4e04",
+          "length": 15,
+          "actual": "81ecb4000000568bf18b46148b4e04"
+        },
+        {
+          "address": "0x73e390",
+          "expected": "83ec208b4424248b54242c5355",
+          "length": 13,
+          "actual": "83ec208b4424248b54242c5355"
+        },
+        {
+          "address": "0x789bf0",
+          "expected": "51568bf180be3801000000",
+          "length": 11,
+          "actual": "51568bf180be3801000000"
+        }
+      ],
+      "states": [
+        "installed",
+        "original",
+        "original",
+        "original",
+        "original"
+      ]
+    },
+    {
+      "elapsed_seconds": 0.015000000013969839,
+      "phase": 1,
+      "error": 0,
+      "stop_requested": 0,
+      "entries": [
+        {
+          "address": "0x7ba770",
+          "expected": "81ec3c010000f605486bce0001535657",
+          "length": 16,
+          "actual": "e9db899b7100f605486bce0001535657"
+        },
+        {
+          "address": "0x70f440",
+          "expected": "83ec08558b6c241085ed568bf1",
+          "length": 13,
+          "actual": "83ec08558b6c241085ed568bf1"
+        },
+        {
+          "address": "0x849220",
+          "expected": "81ecb4000000568bf18b46148b4e04",
+          "length": 15,
+          "actual": "81ecb4000000568bf18b46148b4e04"
+        },
+        {
+          "address": "0x73e390",
+          "expected": "83ec208b4424248b54242c5355",
+          "length": 13,
+          "actual": "83ec208b4424248b54242c5355"
+        },
+        {
+          "address": "0x789bf0",
+          "expected": "51568bf180be3801000000",
+          "length": 11,
+          "actual": "51568bf180be3801000000"
+        }
+      ],
+      "states": [
+        "installed",
+        "original",
+        "original",
+        "original",
+        "original"
+      ]
+    },
+    {
+      "elapsed_seconds": 0.045999999972991645,
+      "phase": 1,
+      "error": 0,
+      "stop_requested": 0,
+      "entries": [
+        {
+          "address": "0x7ba770",
+          "expected": "81ec3c010000f605486bce0001535657",
+          "length": 16,
+          "actual": "e9db899b7100f605486bce0001535657"
+        },
+        {
+          "address": "0x70f440",
+          "expected": "83ec08558b6c241085ed568bf1",
+          "length": 13,
+          "actual": "83ec08558b6c241085ed568bf1"
+        },
+        {
+          "address": "0x849220",
+          "expected": "81ecb4000000568bf18b46148b4e04",
+          "length": 15,
+          "actual": "81ecb4000000568bf18b46148b4e04"
+        },
+        {
+          "address": "0x73e390",
+          "expected": "83ec208b4424248b54242c5355",
+          "length": 13,
+          "actual": "83ec208b4424248b54242c5355"
+        },
+        {
+          "address": "0x789bf0",
+          "expected": "51568bf180be3801000000",
+          "length": 11,
+          "actual": "51568bf180be3801000000"
+        }
+      ],
+      "states": [
+        "installed",
+        "original",
+        "original",
+        "original",
+        "original"
+      ]
+    },
+    {
+      "elapsed_seconds": 0.062000000034458935,
+      "phase": 1,
+      "error": 0,
+      "stop_requested": 0,
+      "entries": [
+        {
+          "address": "0x7ba770",
+          "expected": "81ec3c010000f605486bce0001535657",
+          "length": 16,
+          "actual": "e9db899b7100f605486bce0001535657"
+        },
+        {
+          "address": "0x70f440",
+          "expected": "83ec08558b6c241085ed568bf1",
+          "length": 13,
+          "actual": "e91b34a6716c241085ed568bf1"
+        },
+        {
+          "address": "0x849220",
+          "expected": "81ecb4000000568bf18b46148b4e04",
+          "length": 15,
+          "actual": "81ecb4000000568bf18b46148b4e04"
+        },
+        {
+          "address": "0x73e390",
+          "expected": "83ec208b4424248b54242c5355",
+          "length": 13,
+          "actual": "83ec208b4424248b54242c5355"
+        },
+        {
+          "address": "0x789bf0",
+          "expected": "51568bf180be3801000000",
+          "length": 11,
+          "actual": "51568bf180be3801000000"
+        }
+      ],
+      "states": [
+        "installed",
+        "installed",
+        "original",
+        "original",
+        "original"
+      ]
+    },
+    {
+      "elapsed_seconds": 0.0779999999795109,
+      "phase": 1,
+      "error": 0,
+      "stop_requested": 0,
+      "entries": [
+        {
+          "address": "0x7ba770",
+          "expected": "81ec3c010000f605486bce0001535657",
+          "length": 16,
+          "actual": "e9db899b7100f605486bce0001535657"
+        },
+        {
+          "address": "0x70f440",
+          "expected": "83ec08558b6c241085ed568bf1",
+          "length": 13,
+          "actual": "e91b34a6716c241085ed568bf1"
+        },
+        {
+          "address": "0x849220",
+          "expected": "81ecb4000000568bf18b46148b4e04",
+          "length": 15,
+          "actual": "81ecb4000000568bf18b46148b4e04"
+        },
+        {
+          "address": "0x73e390",
+          "expected": "83ec208b4424248b54242c5355",
+          "length": 13,
+          "actual": "83ec208b4424248b54242c5355"
+        },
+        {
+          "address": "0x789bf0",
+          "expected": "51568bf180be3801000000",
+          "length": 11,
+          "actual": "51568bf180be3801000000"
+        }
+      ],
+      "states": [
+        "installed",
+        "installed",
+        "original",
+        "original",
+        "original"
+      ]
+    },
+    {
+      "elapsed_seconds": 0.10900000005494803,
+      "phase": 1,
+      "error": 0,
+      "stop_requested": 0,
+      "entries": [
+        {
+          "address": "0x7ba770",
+          "expected": "81ec3c010000f605486bce0001535657",
+          "length": 16,
+          "actual": "e9db899b7100f605486bce0001535657"
+        },
+        {
+          "address": "0x70f440",
+          "expected": "83ec08558b6c241085ed568bf1",
+          "length": 13,
+          "actual": "e91b34a6716c241085ed568bf1"
+        },
+        {
+          "address": "0x849220",
+          "expected": "81ecb4000000568bf18b46148b4e04",
+          "length": 15,
+          "actual": "81ecb4000000568bf18b46148b4e04"
+        },
+        {
+          "address": "0x73e390",
+          "expected": "83ec208b4424248b54242c5355",
+          "length": 13,
+          "actual": "83ec208b4424248b54242c5355"
+        },
+        {
+          "address": "0x789bf0",
+          "expected": "51568bf180be3801000000",
+          "length": 11,
+          "actual": "51568bf180be3801000000"
+        }
+      ],
+      "states": [
+        "installed",
+        "installed",
+        "original",
+        "original",
+        "original"
+      ]
+    },
+    {
+      "elapsed_seconds": 0.125,
+      "phase": 1,
+      "error": 0,
+      "stop_requested": 0,
+      "entries": [
+        {
+          "address": "0x7ba770",
+          "expected": "81ec3c010000f605486bce0001535657",
+          "length": 16,
+          "actual": "e9db899b7100f605486bce0001535657"
+        },
+        {
+          "address": "0x70f440",
+          "expected": "83ec08558b6c241085ed568bf1",
+          "length": 13,
+          "actual": "e91b34a6716c241085ed568bf1"
+        },
+        {
+          "address": "0x849220",
+          "expected": "81ecb4000000568bf18b46148b4e04",
+          "length": 15,
+          "actual": "e92b87927100568bf18b46148b4e04"
+        },
+        {
+          "address": "0x73e390",
+          "expected": "83ec208b4424248b54242c5355",
+          "length": 13,
+          "actual": "83ec208b4424248b54242c5355"
+        },
+        {
+          "address": "0x789bf0",
+          "expected": "51568bf180be3801000000",
+          "length": 11,
+          "actual": "51568bf180be3801000000"
+        }
+      ],
+      "states": [
+        "installed",
+        "installed",
+        "installed",
+        "original",
+        "original"
+      ]
+    },
+    {
+      "elapsed_seconds": 0.14000000001396984,
+      "phase": 1,
+      "error": 0,
+      "stop_requested": 0,
+      "entries": [
+        {
+          "address": "0x7ba770",
+          "expected": "81ec3c010000f605486bce0001535657",
+          "length": 16,
+          "actual": "e9db899b7100f605486bce0001535657"
+        },
+        {
+          "address": "0x70f440",
+          "expected": "83ec08558b6c241085ed568bf1",
+          "length": 13,
+          "actual": "e91b34a6716c241085ed568bf1"
+        },
+        {
+          "address": "0x849220",
+          "expected": "81ecb4000000568bf18b46148b4e04",
+          "length": 15,
+          "actual": "e92b87927100568bf18b46148b4e04"
+        },
+        {
+          "address": "0x73e390",
+          "expected": "83ec208b4424248b54242c5355",
+          "length": 13,
+          "actual": "83ec208b4424248b54242c5355"
+        },
+        {
+          "address": "0x789bf0",
+          "expected": "51568bf180be3801000000",
+          "length": 11,
+          "actual": "51568bf180be3801000000"
+        }
+      ],
+      "states": [
+        "installed",
+        "installed",
+        "installed",
+        "original",
+        "original"
+      ]
+    },
+    {
+      "elapsed_seconds": 0.1559999999590218,
+      "phase": 1,
+      "error": 0,
+      "stop_requested": 0,
+      "entries": [
+        {
+          "address": "0x7ba770",
+          "expected": "81ec3c010000f605486bce0001535657",
+          "length": 16,
+          "actual": "e9db899b7100f605486bce0001535657"
+        },
+        {
+          "address": "0x70f440",
+          "expected": "83ec08558b6c241085ed568bf1",
+          "length": 13,
+          "actual": "e91b34a6716c241085ed568bf1"
+        },
+        {
+          "address": "0x849220",
+          "expected": "81ecb4000000568bf18b46148b4e04",
+          "length": 15,
+          "actual": "e92b87927100568bf18b46148b4e04"
+        },
+        {
+          "address": "0x73e390",
+          "expected": "83ec208b4424248b54242c5355",
+          "length": 13,
+          "actual": "83ec208b4424248b54242c5355"
+        },
+        {
+          "address": "0x789bf0",
+          "expected": "51568bf180be3801000000",
+          "length": 11,
+          "actual": "51568bf180be3801000000"
+        }
+      ],
+      "states": [
+        "installed",
+        "installed",
+        "installed",
+        "original",
+        "original"
+      ]
+    },
+    {
+      "elapsed_seconds": 0.18700000003445894,
+      "phase": 1,
+      "error": 0,
+      "stop_requested": 0,
+      "entries": [
+        {
+          "address": "0x7ba770",
+          "expected": "81ec3c010000f605486bce0001535657",
+          "length": 16,
+          "actual": "e9db899b7100f605486bce0001535657"
+        },
+        {
+          "address": "0x70f440",
+          "expected": "83ec08558b6c241085ed568bf1",
+          "length": 13,
+          "actual": "e91b34a6716c241085ed568bf1"
+        },
+        {
+          "address": "0x849220",
+          "expected": "81ecb4000000568bf18b46148b4e04",
+          "length": 15,
+          "actual": "e92b87927100568bf18b46148b4e04"
+        },
+        {
+          "address": "0x73e390",
+          "expected": "83ec208b4424248b54242c5355",
+          "length": 13,
+          "actual": "e96b3ca37124248b54242c5355"
+        },
+        {
+          "address": "0x789bf0",
+          "expected": "51568bf180be3801000000",
+          "length": 11,
+          "actual": "51568bf180be3801000000"
+        }
+      ],
+      "states": [
+        "installed",
+        "installed",
+        "installed",
+        "installed",
+        "original"
+      ]
+    },
+    {
+      "elapsed_seconds": 0.2029999999795109,
+      "phase": 1,
+      "error": 0,
+      "stop_requested": 0,
+      "entries": [
+        {
+          "address": "0x7ba770",
+          "expected": "81ec3c010000f605486bce0001535657",
+          "length": 16,
+          "actual": "e9db899b7100f605486bce0001535657"
+        },
+        {
+          "address": "0x70f440",
+          "expected": "83ec08558b6c241085ed568bf1",
+          "length": 13,
+          "actual": "e91b34a6716c241085ed568bf1"
+        },
+        {
+          "address": "0x849220",
+          "expected": "81ecb4000000568bf18b46148b4e04",
+          "length": 15,
+          "actual": "e92b87927100568bf18b46148b4e04"
+        },
+        {
+          "address": "0x73e390",
+          "expected": "83ec208b4424248b54242c5355",
+          "length": 13,
+          "actual": "e96b3ca37124248b54242c5355"
+        },
+        {
+          "address": "0x789bf0",
+          "expected": "51568bf180be3801000000",
+          "length": 11,
+          "actual": "51568bf180be3801000000"
+        }
+      ],
+      "states": [
+        "installed",
+        "installed",
+        "installed",
+        "installed",
+        "original"
+      ]
+    },
+    {
+      "elapsed_seconds": 0.21799999999348074,
+      "phase": 1,
+      "error": 0,
+      "stop_requested": 0,
+      "entries": [
+        {
+          "address": "0x7ba770",
+          "expected": "81ec3c010000f605486bce0001535657",
+          "length": 16,
+          "actual": "e9db899b7100f605486bce0001535657"
+        },
+        {
+          "address": "0x70f440",
+          "expected": "83ec08558b6c241085ed568bf1",
+          "length": 13,
+          "actual": "e91b34a6716c241085ed568bf1"
+        },
+        {
+          "address": "0x849220",
+          "expected": "81ecb4000000568bf18b46148b4e04",
+          "length": 15,
+          "actual": "e92b87927100568bf18b46148b4e04"
+        },
+        {
+          "address": "0x73e390",
+          "expected": "83ec208b4424248b54242c5355",
+          "length": 13,
+          "actual": "e96b3ca37124248b54242c5355"
+        },
+        {
+          "address": "0x789bf0",
+          "expected": "51568bf180be3801000000",
+          "length": 11,
+          "actual": "51568bf180be3801000000"
+        }
+      ],
+      "states": [
+        "installed",
+        "installed",
+        "installed",
+        "installed",
+        "original"
+      ]
+    },
+    {
+      "elapsed_seconds": 0.25,
+      "phase": 1,
+      "error": 0,
+      "stop_requested": 0,
+      "entries": [
+        {
+          "address": "0x7ba770",
+          "expected": "81ec3c010000f605486bce0001535657",
+          "length": 16,
+          "actual": "e9db899b7100f605486bce0001535657"
+        },
+        {
+          "address": "0x70f440",
+          "expected": "83ec08558b6c241085ed568bf1",
+          "length": 13,
+          "actual": "e91b34a6716c241085ed568bf1"
+        },
+        {
+          "address": "0x849220",
+          "expected": "81ecb4000000568bf18b46148b4e04",
+          "length": 15,
+          "actual": "e92b87927100568bf18b46148b4e04"
+        },
+        {
+          "address": "0x73e390",
+          "expected": "83ec208b4424248b54242c5355",
+          "length": 13,
+          "actual": "e96b3ca37124248b54242c5355"
+        },
+        {
+          "address": "0x789bf0",
+          "expected": "51568bf180be3801000000",
+          "length": 11,
+          "actual": "e9bb8e9e71be3801000000"
+        }
+      ],
+      "states": [
+        "installed",
+        "installed",
+        "installed",
+        "installed",
+        "installed"
+      ]
+    },
+    {
+      "elapsed_seconds": 0.26500000001396984,
+      "phase": 1,
+      "error": 0,
+      "stop_requested": 0,
+      "entries": [
+        {
+          "address": "0x7ba770",
+          "expected": "81ec3c010000f605486bce0001535657",
+          "length": 16,
+          "actual": "e9db899b7100f605486bce0001535657"
+        },
+        {
+          "address": "0x70f440",
+          "expected": "83ec08558b6c241085ed568bf1",
+          "length": 13,
+          "actual": "e91b34a6716c241085ed568bf1"
+        },
+        {
+          "address": "0x849220",
+          "expected": "81ecb4000000568bf18b46148b4e04",
+          "length": 15,
+          "actual": "e92b87927100568bf18b46148b4e04"
+        },
+        {
+          "address": "0x73e390",
+          "expected": "83ec208b4424248b54242c5355",
+          "length": 13,
+          "actual": "e96b3ca37124248b54242c5355"
+        },
+        {
+          "address": "0x789bf0",
+          "expected": "51568bf180be3801000000",
+          "length": 11,
+          "actual": "e9bb8e9e71be3801000000"
+        }
+      ],
+      "states": [
+        "installed",
+        "installed",
+        "installed",
+        "installed",
+        "installed"
+      ]
+    }
+  ],
+  "ready": true,
+  "original_loaded_entries": {
+    "module_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\production\\persistent\\bin-v2\\ProductionPersistent.dll",
+    "module_sha256": "4709bb1b2745bfe3cac9b5c27d412197ffc97c67b4e2dd7635ff2434accf5e87",
+    "module_base": "0x72170000",
+    "pe_offset": 128,
+    "image_size": 122880,
+    "entries": [
+      {
+        "address": "0x7ba770",
+        "expected": "81ec3c010000f605486bce0001535657",
+        "length": 16,
+        "actual": "e9db899b7100f605486bce0001535657",
+        "jump_target": "0x72173150"
+      },
+      {
+        "address": "0x70f440",
+        "expected": "83ec08558b6c241085ed568bf1",
+        "length": 13,
+        "actual": "e91b34a6716c241085ed568bf1",
+        "jump_target": "0x72172860"
+      },
+      {
+        "address": "0x849220",
+        "expected": "81ecb4000000568bf18b46148b4e04",
+        "length": 15,
+        "actual": "e92b87927100568bf18b46148b4e04",
+        "jump_target": "0x72171950"
+      },
+      {
+        "address": "0x73e390",
+        "expected": "83ec208b4424248b54242c5355",
+        "length": 13,
+        "actual": "e96b3ca37124248b54242c5355",
+        "jump_target": "0x72172000"
+      },
+      {
+        "address": "0x789bf0",
+        "expected": "51568bf180be3801000000",
+        "length": 11,
+        "actual": "e9bb8e9e71be3801000000",
+        "jump_target": "0x72172ab0"
+      }
+    ]
+  }
+}

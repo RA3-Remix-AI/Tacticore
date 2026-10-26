@@ -1,0 +1,43 @@
+{
+  "scope": "MF16_one_shot_reserve450_and_own_admissionHP_risk_only",
+  "checks": {
+    "runtime_compiled_joint": true,
+    "all10includes_joint": true,
+    "tls_sealed": true,
+    "actual_namespace16_headers": true,
+    "old15_native_unchanged": true
+  },
+  "cases": {
+    "controller": 155,
+    "breadcrumb": 65,
+    "pending": 75,
+    "scheduler": 46,
+    "tls": 15,
+    "stance": 23,
+    "production_router": 16
+  },
+  "total_cases": 395,
+  "fixtures": {
+    "controller-pair-ready.bin": "9758a383587d8f000cc00fd1dfb9026bfbfc9415d6a394d12edcdb6cde887b7a",
+    "controller-commit-accepted.bin": "5d668434eaa983d8d9c5424a0e863bf34f4b7fd46f9d628ded8ad860c0b56b0a",
+    "controller-producer-wait.bin": "6e3e18caa17ebcf865ce443a6a568116378a982228e984641b175f24190190bc",
+    "controller-spawn-wait.bin": "cd44871159913f991208af4e694306684446102938cc0ac09d904b37317a721a",
+    "controller-risk-positive.bin": "f8fbfed2bda6c6115c429cfbaed6f0669651947ff301cbd1564371c982fab0b2",
+    "origin-hidden-positive.bin": "651fa8728c7cca06fc1a43d8d50104ad5378a094345899c668046cdf891e1881",
+    "origin-visible-positive.bin": "d991c89c322b8e2cf8672f2eee507e6b95ada3937519a2a6b333f64a84827377",
+    "origin-visible-blocked.bin": "db423024d6e52ccc76dec72071e122de0660ca1f642f78223bdaf2455e58b252"
+  },
+  "actual_split_receipts_fixture_sha256": "a02088912e9cbb09781a807e5bf79b88e2346dd1dd9371d4cf8d0352c102eb32",
+  "native_revision_sha256": "816a4e487c8fda83af3500b25a6864d8fb812447b4bf65e900194c7ce756691d",
+  "test_sources": {
+    "test_breadcrumb_native.cpp": "810960b6bda2f8822a3cc5605d9f16b043910d8280cfc9e0ff288927747e0208",
+    "test_controller_native.cpp": "aefef81b5d146bd9ebb76390b194e2610873e3f1a7e99c905d1ab1f05fd253f8",
+    "test_event_payload_native.cpp": "28257e9148e49e20d5a52d67a12f1800f5c95b0b7b7fcf86d856d6ed8b26392c",
+    "test_pending_native.cpp": "68b72c4bb0b0c3afea7c3464ca0bc808c620aee7b5fd8c4220cc5c62128d1b2f",
+    "test_scheduler_native.cpp": "8d631750cc65cd870b023c8599e341cbbff8a7ca1928d6e8d47d5ef0900f726a",
+    "test_stance_native.cpp": "fb340099e501a82eab0b57629d9f9ed7b821cacf5ef08bde2f4d0f7c7514620c",
+    "test_tls_alignment_native.cpp": "341ea6e8588b990bf737b3ca4172c2446a49976444b34992465bd567c8c12e42"
+  },
+  "field_verified": false,
+  "mission_source_granted": false
+}

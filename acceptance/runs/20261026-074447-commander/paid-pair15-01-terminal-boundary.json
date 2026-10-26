@@ -1,0 +1,86 @@
+{
+  "protocol": "mf15_lifecycle_terminal_boundary_v1",
+  "raw_sha256": "ff9c921da87f87c4bee7cbc3754130d6897cb2a5880feca7b1c28018af366b85",
+  "request": {
+    "command_id": "f8e5c5d4-277c-43a4-a6d5-cb27adc3e821",
+    "task_id": "99ee41b3-dbe1-4d78-89a7-546e1a17cac3",
+    "seq": 681201062,
+    "token": 801968440,
+    "allocation_scope": "prebound_paid_pair",
+    "startup_deadline_frame": 2157,
+    "startup_wall_ms": 60000,
+    "reserve_duration_frames": 300,
+    "lease_duration_frames": 4500,
+    "total_paid_max": 305,
+    "reserve_floor": 1000
+  },
+  "session_id": "484fa3c5-df27-4837-b26e-9bc342b7f448",
+  "phase": 4,
+  "error": 32,
+  "controller": {
+    "stage": 5,
+    "error": 0,
+    "reserve_start_frame": 1366,
+    "reserve_deadline_frame": 1666,
+    "hard_deadline_frame": 5866,
+    "lease_issued_frame": 1366,
+    "pair_ready_frame": 1610,
+    "mission_commit_frame": 1631,
+    "approach_frame": 1631,
+    "clock_frozen": 1,
+    "bound_mask": 3,
+    "held_mask": 0,
+    "ready_mask": 3,
+    "channel_claimed": 0,
+    "producer_snapshots": 61,
+    "producer_retry_count": 327,
+    "scope_verified": 1,
+    "untasked_cleanup": 0
+  },
+  "issued_frame": 1366,
+  "returned_frame": 2581,
+  "attack_calls": 0,
+  "damage_count": 0,
+  "damage_total": 0.0,
+  "home_arrivals": [
+    0,
+    0
+  ],
+  "slot_outcomes": [
+    {
+      "id": 803,
+      "borrow_frame": 1366,
+      "ready_frame": 1422,
+      "restore_verified": 1,
+      "return_verified": 1,
+      "disposed_verified": 0
+    },
+    {
+      "id": 808,
+      "borrow_frame": 1546,
+      "ready_frame": 1610,
+      "restore_verified": 0,
+      "return_verified": 0,
+      "disposed_verified": 1
+    }
+  ],
+  "terminal_17bytes": true,
+  "terminal_header_same": true,
+  "terminal_binding": true,
+  "timer0": true,
+  "active0": true,
+  "restore_mask": 131071,
+  "production_5bytes": true,
+  "production_final": {
+    "native_phase": 2,
+    "native_error": 0,
+    "restore_mask": 31,
+    "active_callbacks": 0,
+    "spent_committed": 305
+  },
+  "original_request_source_pins_unchanged": true,
+  "completion_claim": false,
+  "mission_source_granted": false,
+  "mutations": false,
+  "sdk_calls_for_evidence": 0
+}

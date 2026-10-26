@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "controller_id": "f8e5c5d4-277c-43a4-a6d5-cb27adc3e821",
+  "lease_id": "99ee41b3-dbe1-4d78-89a7-546e1a17cac3",
+  "formation_uuid": "5c057c5d-4736-5f47-a7be-7e021eb81df1",
+  "formation_version": 1,
+  "seq": 681201062,
+  "startup_deadline_frame": 2157,
+  "startup_wall_ms": 60000,
+  "slots": [
+    {
+      "role": 0,
+      "command_id": "194f08a5-8ee2-413d-b537-c605c78d7f87",
+      "task_id": "ca21817a-4550-44f6-8c50-10e7481a2059",
+      "seq": 1,
+      "unit": "conscript",
+      "cost": 85,
+      "factory": "0x4a264f0",
+      "factory_id": 765,
+      "iface": "0x653c704"
+    },
+    {
+      "role": 1,
+      "command_id": "e6e258c2-9ecd-4189-859c-e15b9b29f580",
+      "task_id": "44257897-16e6-412d-a69c-c4a63daa75bf",
+      "seq": 2,
+      "unit": "flak",
+      "cost": 220,
+      "factory": "0x4a264f0",
+      "factory_id": 765,
+      "iface": "0x653c704"
+    }
+  ]
+}
