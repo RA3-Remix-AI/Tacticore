@@ -1,0 +1,42 @@
+{
+  "scope": "Native17_retreat_only_parallel_uninterrupted_home_software_no_game",
+  "checks": {
+    "runtime_joint": true,
+    "all10includes": true,
+    "tls_sealed": true,
+    "namespace17_allfixtures": true
+  },
+  "cases": {
+    "breadcrumb": 65,
+    "pending": 80,
+    "scheduler": 46,
+    "tls": 15,
+    "stance": 23,
+    "controller": 155,
+    "production_router": 22
+  },
+  "total_cases": 406,
+  "fixtures": {
+    "controller-pair-ready.bin": "449a9de3a37a3ef220c89588289f23bbf6c03f933dae4abe8d355cd3e11127a1",
+    "controller-commit-accepted.bin": "e2184e1c401e428667959279bdb5952edb5f8e9ae032c02c1e81ec8baf365747",
+    "controller-producer-wait.bin": "63329c209d2bbcd52eea18056341f9e58483fad5631fb0fed398e1d4504818ee",
+    "controller-spawn-wait.bin": "b6877bd68be14da4eddddf2234a5de978fcd01ac8af44fb7695b1c765b276933",
+    "controller-risk-positive.bin": "9a9fc51381cafe7eace225b1384f8f3870fc98024e10a1a76f85627973e73a2b",
+    "origin-hidden-positive.bin": "1985e4a22d38953ee2d7ca5356b7441aeef533bcddb93f15555143579e7d7889",
+    "origin-visible-positive.bin": "be13c8c07e4605db65f03f013acedfc6bbc473035254e546ad3289e03c634a58",
+    "origin-visible-blocked.bin": "ad59ef4a942096cec1337d30bc709359884d86e53439dd1c7075adc3268a4d1c"
+  },
+  "parallel_raw_trace_sha256": "ddf3a0fa1ad5c82ec2a112547824c2909e1a594d0c7644315c4f039f5161eece",
+  "test_sources": {
+    "test_breadcrumb_native.cpp": "d6e6449da71f6473f0ba5b18215b9632a4a3b9f87b2a2205ad246a75f29312eb",
+    "test_controller_native.cpp": "d7b35c573b89a51bbed7caae7ed8396183201100d96d1b9aa075dee0691c9809",
+    "test_event_payload_native.cpp": "2e3f44fdf2de07a95a337e8d27c7bb58c1b4fc58f29e9471fe8f6162862f316d",
+    "test_pending_native.cpp": "c4a4cb59c2aeb51d08d50235f03a5a5dea98e72356256447d6382b8e8317f038",
+    "test_scheduler_native.cpp": "552dabac48593857f611c772a2092af0dd8c681574e05dea9bbe5f4ce733f6b6",
+    "test_stance_native.cpp": "fb340099e501a82eab0b57629d9f9ed7b821cacf5ef08bde2f4d0f7c7514620c",
+    "test_tls_alignment_native.cpp": "341ea6e8588b990bf737b3ca4172c2446a49976444b34992465bd567c8c12e42"
+  },
+  "native_revision_sha256": "efd871cb470006c90ce27751fa7ddbd67bfd67cf79c0109d40152d970475dd7b",
+  "field_verified": false,
+  "mission_source_granted": false
+}

@@ -41,5 +41,22 @@ class SceneReleaseBoundary(unittest.TestCase):
  def test_scene_flag_cannot_exist_without_actual_sidecar(self):
   self.receipt['unit_results']=[]
   with self.assertRaises(ValueError):self.check()
+ def test_seventeen_uses_pinned_local_reader_and_exact_controller_pair(self):
+  self.entry.update(executor_directory='mission-formation-v17',object_ids=[1,2]);self.receipt['object_ids']=[1,2]
+  self.b.host.binding=types.SimpleNamespace(session_id='s');self.b.host.session['pid']=123
+  self.bound['report']={'controller_config':{'controller_id':'c','lease_id':'l'}}
+  self.verified.update(controller_id='c',lease_id='l',session_id='s',pid=123,scene_closed_verified=True,actors=[dict(role=0,object_id=1,never_held=False,released=True),dict(role=1,object_id=2,never_held=False,released=True)])
+  paths=[]
+  def load(path,name):
+   paths.append(Path(path))
+   if Path(path).name=='evidence.py':return types.SimpleNamespace(executor_schema=lambda directory:{'scene_release_reader':'scene_terminal_release.py'})
+   return types.SimpleNamespace(verify_path=lambda *args:self.verified)
+  with patch.object(bridge,'bound_report',return_value=self.bound),patch.object(bridge,'module',side_effect=load):
+   self.assertTrue(self.b.verify_scene_release(self.receipt,self.entry)['scene_disposed_control_release'])
+   self.assertEqual(paths[-1],bridge.ROOT.parent/'tactical/mission-formation-v17/scene_terminal_release.py')
+   for key,value in (('controller_id','other'),('lease_id','other'),('pid',124),('scene_closed_verified',False),('actors',[])):
+    original=self.verified[key];self.verified[key]=value
+    with self.subTest(key=key),self.assertRaises(ValueError):self.b.verify_scene_release(self.receipt,self.entry)
+    self.verified[key]=original
 
 if __name__=='__main__':unittest.main()

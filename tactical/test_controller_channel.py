@@ -19,7 +19,7 @@ class Channel(unittest.TestCase):
   self.e.release_controller_channel(self.controller,independently_verified=True);self.assertIsNone(self.e.external_controller_channel)
  def task(self):return dict(task_id=uid(),command_id=uid(),seq=1,module='combined_arms',purpose='coordinate_force')
  def test_paid_capability_cannot_spawn_the_free_unit_backend(self):
-  for directory in ('mission-formation-v13','mission-formation-v14','mission-formation-v15','mission-formation-v16'):
+  for directory in ('mission-formation-v13','mission-formation-v14','mission-formation-v15','mission-formation-v16','mission-formation-v17'):
    self.e.capabilities={'combined_arms':['coordinate_force']};self.e.capability_grants={('combined_arms','coordinate_force'):{'executor_directory':directory}}
    result=self.e.submit(self.task());self.assertFalse(result['accepted']);self.assertEqual(result['reason_code'],'prebound_paid_pair_requires_existing_controller');self.assertTrue(self.e.pending.empty())
  def test_occupied_channel_rejects_tasks_and_cannot_report_stopped(self):

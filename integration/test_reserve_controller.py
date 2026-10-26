@@ -95,7 +95,7 @@ class Coordination(unittest.IsolatedAsyncioTestCase):
             self.assertIsNone(runtime.host);self.assertFalse(runtime.intent);self.assertIsNone(runtime.shared)
             legacy=runtime_type()
             self.assertEqual(Path(legacy.arm.__globals__['__file__']).resolve(),(ROOT/'tactical/mission-formation-v13/lease.py').resolve())
-        for directory in ('mission-formation-v12','../mission-formation-v14','mission-formation-v17',None):
+        for directory in ('mission-formation-v12','../mission-formation-v14','mission-formation-v18',None):
             with self.subTest(directory=directory),self.assertRaises(ValueError):runtime_type(directory)
             bad=dict(grant,executor_directory=directory)
             with self.assertRaises(ValueError):ReserveController(self.host,bad)
@@ -122,6 +122,20 @@ class Coordination(unittest.IsolatedAsyncioTestCase):
         await coordinator.poll()
         state=coordinator.held_registry.controller(coordinator.config['controller_id'])
         self.assertEqual((state['reserve_start_frame'],state['reserve_deadline_frame'],state['hard_deadline_frame']),(1710,2160,6210))
+    async def test_trusted_seventeen_main_factory_without_sdk_and_450_policy(self):
+        grant=dict(module='combined_arms',purpose='coordinate_force',executor_directory='mission-formation-v17',stop_schema={'reserve_duration_frames':450,'wrapper_filename':'lease.py'})
+        coordinator=ReserveController(self.host,grant,runtime_factory=self.coordinator.runtime_factory)
+        with patch.object(ctypes,'WinDLL',side_effect=AssertionError('no Windows API')),patch.object(subprocess,'Popen',side_effect=AssertionError('no host launch')),patch.object(subprocess,'run',side_effect=AssertionError('no SDK subprocess')):
+            factory=runtime_type(coordinator.directory,coordinator.wrapper_filename)
+            runtime=factory(self.host.args.session,{'test':'unarmed'},self.root/'unarmed17.json',self.host.natural_path)
+            self.assertEqual(Path(factory.arm.__globals__['__file__']).resolve(),(ROOT/'tactical/mission-formation-v17/lease.py').resolve())
+            self.assertIsNone(runtime.host);self.assertFalse(runtime.intent);self.assertIsNone(runtime.shared)
+        self.assertTrue(await coordinator.maybe_prepare())
+        self.assertEqual(coordinator.held_registry.controller(coordinator.config['controller_id'])['reserve_offset_frames'],450)
+        self.runtime.facts=dict(self.facts(),clock=dict(verified=True,start=1710,reserve_deadline=2160,hard_deadline=6210))
+        await coordinator.poll()
+        state=coordinator.held_registry.controller(coordinator.config['controller_id'])
+        self.assertEqual((state['reserve_deadline_frame'],state['hard_deadline_frame']),(2160,6210))
     async def test_trusted_sixteen_v2_factory_import_and_same_path_no_launch_hash(self):
         grant=dict(module='combined_arms',purpose='coordinate_force',executor_directory='mission-formation-v16',stop_schema={'reserve_duration_frames':450,'wrapper_filename':'lease_v2.py'})
         original=self.coordinator.runtime_factory
@@ -147,13 +161,13 @@ class Coordination(unittest.IsolatedAsyncioTestCase):
         self.assertTrue(coordinator.owns_channel());self.assertIsNotNone(self.host.tactical.executor.owner)
         self.assertTrue(coordinator.record['no_launch_unproved'])
     async def test_wrapper_allowlist_rejects_other_families_and_paths(self):
-        for family,wrapper in (('mission-formation-v13','lease_v2.py'),('mission-formation-v14','lease_v2.py'),('mission-formation-v15','lease_v2.py'),('mission-formation-v16','../lease.py'),('mission-formation-v16','C:/lease.py'),('mission-formation-v16','other.py'),('mission-formation-v16',None)):
-            grant=dict(module='combined_arms',purpose='coordinate_force',executor_directory=family,stop_schema={'reserve_duration_frames':450 if family.endswith('16') else 300,'wrapper_filename':wrapper})
+        for family,wrapper in (('mission-formation-v13','lease_v2.py'),('mission-formation-v14','lease_v2.py'),('mission-formation-v15','lease_v2.py'),('mission-formation-v17','lease_v2.py'),('mission-formation-v16','../lease.py'),('mission-formation-v16','C:/lease.py'),('mission-formation-v16','other.py'),('mission-formation-v16',None)):
+            grant=dict(module='combined_arms',purpose='coordinate_force',executor_directory=family,stop_schema={'reserve_duration_frames':450 if family in ('mission-formation-v16','mission-formation-v17') else 300,'wrapper_filename':wrapper})
             with self.subTest(family=family,wrapper=wrapper):
                 with self.assertRaises(ValueError):ReserveController(self.host,grant)
                 with self.assertRaises(ValueError):runtime_type(family,wrapper)
     async def test_trusted_grant_clock_policy_must_match_runtime_family(self):
-        for family,duration in (('mission-formation-v13',450),('mission-formation-v14',450),('mission-formation-v15',450),('mission-formation-v16',300),('mission-formation-v16',True),('mission-formation-v16',451)):
+        for family,duration in (('mission-formation-v13',450),('mission-formation-v14',450),('mission-formation-v15',450),('mission-formation-v16',300),('mission-formation-v16',True),('mission-formation-v16',451),('mission-formation-v17',300),('mission-formation-v17',True),('mission-formation-v17',451)):
             grant=dict(module='combined_arms',purpose='coordinate_force',executor_directory=family,stop_schema={'reserve_duration_frames':duration})
             with self.subTest(family=family,duration=duration),self.assertRaises(ValueError):ReserveController(self.host,grant)
         with self.assertRaises(ValueError):ReserveController(self.host,dict(module='combined_arms',purpose='coordinate_force',executor_directory='mission-formation-v16'))
@@ -180,6 +194,26 @@ class Coordination(unittest.IsolatedAsyncioTestCase):
         self.coordinator.runtime_factory=factory
         with self.assertRaises(ValueError):await self.coordinator.maybe_prepare()
         self.assertTrue(self.coordinator.owns_channel());self.assertIsNotNone(self.host.tactical.executor.owner);self.assertTrue(self.coordinator.record['no_launch_unproved'])
+    async def test_scene_seventeen_releases_only_verified_claims_and_never_marks_effect_completed(self):
+        grant=dict(module='combined_arms',purpose='coordinate_force',executor_directory='mission-formation-v17',stop_schema={'reserve_duration_frames':450})
+        coordinator=ReserveController(self.host,grant,runtime_factory=self.coordinator.runtime_factory)
+        self.assertTrue(await coordinator.maybe_prepare());runtime=self.runtime
+        runtime.facts=dict(self.facts(True),clock=dict(verified=True,start=1710,reserve_deadline=2160,hard_deadline=6210))
+        coordinator.normalize(runtime.facts);runtime.report.update(status='finished',host_exit=9,events=[dict(frame=1830),dict(frame=0)],assessment={'effect_verified':True})
+        runtime.output.write_text('{}');sidecar=coordinator.output/'scene.json';sidecar.write_text('{}');file_sha=hashlib.sha256(sidecar.read_bytes()).hexdigest()
+        proof=dict(sidecar_path=str(sidecar),sidecar_sha256=file_sha,source_sha256=hashlib.sha256(runtime.output.read_bytes()).hexdigest(),controller_id=coordinator.config['controller_id'],lease_id=coordinator.config['lease_id'],session_id=SESSION,pid=123,scene_closed_verified=True,scene_disposed_control_release=True,control_release_verified=True,actors=[dict(role=0,object_id=800,released=True,never_held=False),dict(role=1,object_id=801,released=True,never_held=False)],**{key:False for key in ('restoration_verified','return_verified','physical_retreat_verified','completed','goal_observed','completion_claim')})
+        runtime.release=dict(proof,scene_release=copy.deepcopy(proof))
+        fake_reader=types.SimpleNamespace(verify_path=lambda *args:proof);spec=types.SimpleNamespace(loader=types.SimpleNamespace(exec_module=lambda module:None))
+        with patch('reserve_controller.importlib.util.spec_from_file_location',return_value=spec),patch('reserve_controller.importlib.util.module_from_spec',return_value=fake_reader),patch.object(self.host.executor,'status',side_effect=AssertionError('no ended-scene producer query')):
+            await coordinator.poll()
+        state=coordinator.held_registry.controller(coordinator.config['controller_id'])
+        self.assertEqual(state['terminal']['status'],'failed');self.assertEqual(state['terminal']['reason_code'],'scene_closed');self.assertEqual(state['release']['proof_sha256'],file_sha)
+        self.assertTrue(coordinator.closed);self.assertFalse(coordinator.owns_channel());self.assertIsNone(self.host.tactical.executor.owner);self.assertEqual(coordinator.record['release_kind'],'scene_closed_exclusive_control_only')
+    async def test_failed_scene_attempt_keeps_claims_and_global_channel(self):
+        await self.prepare();self.coordinator.normalize(self.facts(True));self.runtime.report.update(status='finished',events=[dict(frame=1830)])
+        self.runtime.release={'control_release_verified':False,'source_sha256':'a'*64,'scene_release':{'scene_disposed_control_release':False,'control_release_verified':False}}
+        await self.coordinator.poll()
+        self.assertTrue(self.coordinator.owns_channel());self.assertFalse(self.coordinator.closed);self.assertEqual(self.coordinator.held_registry.claimed_actor_ids(),{800,801});self.assertIsNotNone(self.host.tactical.executor.owner)
     async def test_no_current_visible_ground_opportunity_waits_without_channel_or_one_use(self):
         target=self.host.collector.private_targets['opportunity']
         for position in ([100,0,0],[3000,0,0]):

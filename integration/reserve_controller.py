@@ -17,7 +17,7 @@ import uuid
 from held_formations import HeldFormationRegistry, SCOPE
 
 ROOT=Path(__file__).resolve().parents[1]
-CONTROLLER_DIRECTORIES=('mission-formation-v13','mission-formation-v14','mission-formation-v15','mission-formation-v16')
+CONTROLLER_DIRECTORIES=('mission-formation-v13','mission-formation-v14','mission-formation-v15','mission-formation-v16','mission-formation-v17')
 
 def atomic(path,value):
     path=Path(path);path.parent.mkdir(parents=True,exist_ok=True)
@@ -264,24 +264,46 @@ class ReserveController:
             native=self.runtime.report.get('native',{})
             if self.runtime.report.get('status')=='finished':
                 proof=await asyncio.to_thread(self.runtime.verified_release)
+                scene=None
+                if proof.get('scene_release') is not None:
+                    if proof['scene_release'].get('scene_disposed_control_release') is True:
+                        scene=await asyncio.to_thread(self._verify_scene_release,proof['scene_release'])
+                        proof=dict(proof,control_release_verified=True,actors=scene['actors'])
+                    else:
+                        if proof.get('control_release_verified') is True:raise ValueError('reserve_scene_failed_proof_cannot_release')
+                        self.record['scene_release_wait']=copy.deepcopy(proof['scene_release'])
                 self.record['native_terminal_seen']=dict(source_sha256=proof.get('source_sha256'),release_verified=proof.get('control_release_verified') is True,has_model_task=self.record['mission_mapping'] is not None)
                 self.persist()
                 if proof.get('control_release_verified') is True:
                     if not self.record['terminal_recorded']:
                         mission=self.held_registry.controller(self.config['controller_id'])['mission_commit']
                         frame=max([0]+[e['frame'] for e in self.runtime.report.get('events',[])])
-                        self.held_registry.record_terminal(self.config['controller_id'],dict(self._binding(),status='completed' if mission and self.runtime.report.get('assessment',{}).get('effect_verified') is True else 'failed',reason_code='native_terminal',observed_frame=frame,proof_sha256=proof['source_sha256']))
+                        self.held_registry.record_terminal(self.config['controller_id'],dict(self._binding(),status='completed' if scene is None and mission and self.runtime.report.get('assessment',{}).get('effect_verified') is True else 'failed',reason_code='scene_closed' if scene else 'native_terminal',observed_frame=frame,proof_sha256=scene['sidecar_sha256'] if scene else proof['source_sha256']))
                         self.record['terminal_recorded']=True
                     expected=sorted(self.held_registry.claimed_actor_ids());actual=sorted(a['object_id'] for a in proof.get('actors',[]) if not a.get('never_held') and a.get('released') is True)
                     if expected!=actual:raise ValueError('reserve_release_actor_set_changed')
-                    self.held_registry.record_verified_release(self.config['controller_id'],dict(self._binding(),object_ids=expected,observed_frame=max([0]+[e['frame'] for e in self.runtime.report.get('events',[])]),proof_sha256=proof['source_sha256'],independently_verified=True,channel_release_verified=True))
+                    self.held_registry.record_verified_release(self.config['controller_id'],dict(self._binding(),object_ids=expected,observed_frame=max([0]+[e['frame'] for e in self.runtime.report.get('events',[])]),proof_sha256=scene['sidecar_sha256'] if scene else proof['source_sha256'],independently_verified=True,channel_release_verified=True))
                     for order in self.record['orders']:
                         if order['state']=='pending':order['state']='abandoned'
                     await asyncio.to_thread(self.host.tactical.executor.release_controller_channel,self.config['controller_id'],independently_verified=True)
+                    if scene:
+                        self.record.update(scene_release=copy.deepcopy(scene),release_kind='scene_closed_exclusive_control_only')
+                        self.event('paid_pair_scene_closed_control_release',controller_id=self.config['controller_id'],evidence_sha256=scene['sidecar_sha256'],restoration_verified=False,return_verified=False,goal_observed=False)
                     self.record['release_verified']=True;self.persist();await asyncio.to_thread(self.runtime.close);self.closed=True
-        await self.receive_production()
+        if self.record.get('release_kind')!='scene_closed_exclusive_control_only':await self.receive_production()
         if not self.closed:await self._submit_due(round(self.host.last_snapshot['game_time_seconds']*15))
         self.update_scope()
+
+    def _verify_scene_release(self,proof):
+        if self.directory!='mission-formation-v17' or type(proof) is not dict:raise ValueError('reserve_scene_unapproved_family')
+        path=Path(proof['sidecar_path']).resolve()
+        if not path.is_relative_to(self.output.resolve()) or hashlib.sha256(path.read_bytes()).hexdigest()!=proof.get('sidecar_sha256'):raise ValueError('reserve_scene_sidecar_binding')
+        spec=importlib.util.spec_from_file_location('host_mf17_scene_release',ROOT/'tactical/mission-formation-v17/scene_terminal_release.py');reader=importlib.util.module_from_spec(spec);spec.loader.exec_module(reader)
+        verified=reader.verify_path(path,self.runtime.output)
+        if any(verified.get(k)!=v for k,v in dict(controller_id=self.config['controller_id'],lease_id=self.config['lease_id'],session_id=self.host.binding.session_id,pid=self.host.session['pid'],source_sha256=hashlib.sha256(Path(self.runtime.output).read_bytes()).hexdigest(),sidecar_sha256=proof['sidecar_sha256']).items()) or verified.get('scene_closed_verified') is not True or verified.get('scene_disposed_control_release') is not True or verified.get('control_release_verified') is not True or any(verified.get(k) is not False for k in ('restoration_verified','return_verified','physical_retreat_verified','completed','goal_observed','completion_claim')):raise ValueError('reserve_scene_exclusive_release_unproven')
+        expected=sorted(self.held_registry.claimed_actor_ids());actual=sorted(a['object_id'] for a in verified.get('actors',[]) if not a.get('never_held') and a.get('released') is True)
+        if expected!=actual:raise ValueError('reserve_scene_original_actor_set_changed')
+        return verified
 
     def update_scope(self):
         private=self.held_registry.private_formations()

@@ -229,15 +229,19 @@ class TacticalBridge:
    if receipt.get('scene_disposed_control_release_verified'):raise ValueError('Scene release lacks independent proof')
    return None
   if len(results)!=1 or len(proofs)!=1 or receipt.get('scene_disposed_control_release_verified') is not True or receipt.get('status') not in ('failed','cancelled') or receipt.get('completed') is not False or receipt.get('goal_observed') is not False or receipt.get('restoration_verified') is not False or execution_from_receipt(receipt,entry)['goal_observed'] is not False or execution_from_receipt(receipt,entry)['restoration_verified'] is not False:raise ValueError('Scene release cannot claim goal or restoration')
-  if entry.get('mission_protocol')!=PROTOCOL or entry.get('executor_directory') not in ('mission-combat-v7','mission-formation-v4','mission-formation-v5','mission-formation-v6','mission-formation-v7','mission-formation-v8','mission-formation-v9','mission-formation-v10','mission-formation-v12') or receipt.get('object_ids')!=entry.get('object_ids'):raise ValueError('Unapproved scene release scope')
+  if entry.get('mission_protocol')!=PROTOCOL or entry.get('executor_directory') not in ('mission-combat-v7','mission-formation-v4','mission-formation-v5','mission-formation-v6','mission-formation-v7','mission-formation-v8','mission-formation-v9','mission-formation-v10','mission-formation-v12','mission-formation-v17') or receipt.get('object_ids')!=entry.get('object_ids'):raise ValueError('Unapproved scene release scope')
   bound=bound_report(self.host,receipt,entry);proof=proofs[0];path=Path(proof['sidecar_path']).resolve();run=Path(self.host.session['run_directory']).resolve()
   if not path.is_relative_to(run) or hashlib.sha256(path.read_bytes()).hexdigest()!=proof.get('sidecar_sha256'):raise ValueError('Scene release sidecar outside match or changed')
   schema=module(ROOT.parent/'tactical/evidence.py','host_scene_release_schema').executor_schema(entry['executor_directory'])
   name=schema.get('scene_release_reader','scene_terminal_release.py')
   if not isinstance(name,str) or Path(name).name!=name or not name.endswith('.py'):raise ValueError('Invalid trusted scene reader filename')
-  reader=module(ROOT.parent/'tactical'/name,'host_scene_terminal_release')
+  reader_path=ROOT.parent/'tactical'/entry['executor_directory']/name if entry['executor_directory']=='mission-formation-v17' else ROOT.parent/'tactical'/name
+  reader=module(reader_path,'host_scene_terminal_release')
   verified=reader.verify_path(path,bound['path'])
   if verified.get('source_sha256')!=bound['sha256'] or verified.get('sidecar_sha256')!=proof.get('sidecar_sha256') or verified.get('scene_disposed_control_release') is not True or verified.get('semantics')!='scene_disposed_exclusive_control_released' or any(verified.get(k) is not False for k in ('restoration_verified','return_verified','physical_retreat_verified','completed','goal_observed','completion_claim')):raise ValueError('Scene release actual proof failed')
+  if entry['executor_directory']=='mission-formation-v17':
+   report=bound['report'];config=report['controller_config'];actors=sorted(a['object_id'] for a in verified.get('actors',[]) if a.get('never_held') is False and a.get('released') is True)
+   if verified.get('controller_id')!=config['controller_id'] or verified.get('lease_id')!=config['lease_id'] or verified.get('session_id')!=self.host.binding.session_id or verified.get('pid')!=self.host.session['pid'] or actors!=sorted(entry['object_ids']) or verified.get('scene_closed_verified') is not True:raise ValueError('Scene controller actors or lease changed')
   return verified
 
  async def request_mission_retreats(self):

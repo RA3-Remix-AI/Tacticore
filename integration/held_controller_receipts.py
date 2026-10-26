@@ -6,7 +6,7 @@ No executor or controller is started here.
 """
 import copy,uuid
 
-DIRECTORIES=('mission-formation-v13','mission-formation-v14','mission-formation-v15','mission-formation-v16')
+DIRECTORIES=('mission-formation-v13','mission-formation-v14','mission-formation-v15','mission-formation-v16','mission-formation-v17')
 
 def receipt_for(controller,entry,binding):
     directory=entry.get('executor_directory')
@@ -31,5 +31,10 @@ def receipt_for(controller,entry,binding):
     receipt=dict(command_id=entry['command_id'],task_id=entry['task_id'],seq=entry['seq'],session_id=binding.session_id,commander_id=binding.commander_id,player_id=binding.player_id,module=entry['module'],purpose=entry['purpose'],executor_directory=directory,object_ids=list(entry['object_ids']),formation_versions=dict(entry['formation_versions']),active_report=str(runtime.output),accepted=True,started=bool(issued),issued_frame=issued,expires_frame=entry['expires_frame'],status='completed' if completed else 'failed' if terminal else 'started' if issued else 'queued',completed=completed,goal_observed=completed,restoration_verified=restored,command_source='game_thread_bridge',interference='none' if completed else 'unknown',dispatch_attempted=True,wrapper_attempted=False,no_dispatch_verified=False,mission=copy.deepcopy(report.get('progress')) if acknowledged else None,unit_results=[])
     if terminal:
         receipt['unit_results']=[dict(report=str(runtime.output),object_ids=list(entry['object_ids']),assessment=copy.deepcopy(assessment),batch_restoration=copy.deepcopy(release),expected_restore_mask=131071)]
+        scene=(getattr(controller,'record',None) or {}).get('scene_release') if directory=='mission-formation-v17' else None
+        if scene is not None:
+            if scene.get('scene_disposed_control_release') is not True or any(scene.get(k) is not False for k in ('restoration_verified','return_verified','physical_retreat_verified','completed','goal_observed','completion_claim')):raise ValueError('held_scene_release_cannot_claim_return_or_effect')
+            receipt.update(status='failed',completed=False,goal_observed=False,restoration_verified=False,scene_disposed_control_release_verified=True)
+            receipt['unit_results'][0]['scene_release']=copy.deepcopy(scene)
     receipt['execution']={key:copy.deepcopy(receipt[key]) for key in ('formation_versions','issued_frame','expires_frame','command_source','interference','goal_observed','restoration_verified')}
     return receipt

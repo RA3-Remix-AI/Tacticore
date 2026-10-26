@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "status": "formal_match_blocked_pending_coordination_source",
+  "scope": "software_and_saved_evidence_review_only",
+  "game_mutations": 0,
+  "real_model_requests_this_review": 0,
+  "extra_recorders": 0,
+  "tests": {
+    "integration_related": {
+      "passed": 135,
+      "command": "..\\.venv\\Scripts\\python.exe -m unittest test_scene_terminal_release_mf17 test_scene_release_boundary test_reserve_controller test_held_controller_bridge test_tactical_bridge test_battle_host test_held_formations test_mission_match_preflight -q"
+    },
+    "strategy_memory": {
+      "passed": 38,
+      "command": "..\\.venv\\Scripts\\python.exe -m unittest test_pydantic_mission_memory test_mission_audit test_missions -q"
+    }
+  },
+  "trusted_parent_policy": {
+    "legacy_13_14_15_reserve_frames": 300,
+    "family16_reserve_frames": 450,
+    "family17_reserve_frames": 450,
+    "hard_frames": 4500,
+    "first_borrow_clock_write_once": true,
+    "family17_wrapper": "lease.py",
+    "family16_wrappers": [
+      "lease.py",
+      "lease_v2.py"
+    ],
+    "source_grant_required": true
+  },
+  "scene17": {
+    "reader": "tactical/mission-formation-v17/scene_terminal_release.py",
+    "only_terminal": "phase4/error31/host_exit9",
+    "requirements": [
+      "Source-pinned reader and actual inert-layout RVA/DLL",
+      "two complete identical actual headers and original controller/lease/slot/commit bindings",
+      "two closed scene samples at least100ms apart: frame0/live_head0/mode9/ownerAI0",
+      "17 pristine executable entry bytes and timer0",
+      "independently verified historical actual borrow facts, unique terminal frame0 retained"
+    ],
+    "transition_wait_seconds": 2,
+    "maximum_exclusive_sibling_attempts": 3,
+    "failed_originals_preserved": true,
+    "claims_release_only": true,
+    "normal_return_verified": false,
+    "physical_home_verified": false,
+    "effect_verified": false,
+    "field_scene_validation_this_review": false
+  },
+  "formal_command": {
+    "template": ".venv\\Scripts\\python.exe integration/run_native_opponent_match.py --session <fresh-final-session.json> --manifest <three-qualified-continuous-sources.json> --require-mission-effects --library <configured-library.v2.json> --model-backend pydantic",
+    "host_interval_seconds": 1,
+    "required_opponent": "active_native_soviet_oleg_medium_player4",
+    "model_player": 3,
+    "observer_player": 2,
+    "starting_credits": 10000,
+    "fresh_unarmed_lobby_required": true,
+    "calibration_commands_allowed": 0,
+    "natural_result_visual_review_required": true
+  },
+  "memory_evidence": {
+    "actual_provider": "DeepSeek",
+    "actual_backend": "pydantic",
+    "source": "simulated",
+    "scope": "real_provider_synthetic_context_only",
+    "source_report": "acceptance/model-probe-pydantic-memory-20261025-01/probe-result.json",
+    "source_sha256": "9dd109ff8a834764c4c62137a77f5ee82ba3fb4db782838b9f75b8c4738537c1",
+    "actual_requests": 2,
+    "accepted_game_seconds": [
+      116,
+      170
+    ],
+    "original_plan_ttl": 145,
+    "same_mission_id": "734ba8a8-1a2a-4d7c-a180-a1bdfc30bb3b",
+    "same_deadline_game_seconds": 280,
+    "post_ttl_events_compacted": 20,
+    "wire_max_bytes": 15457,
+    "live_battlefield_or_sdk_grant": false
+  },
+  "remaining": [
+    "Actual MF17 coordination qualification must prove attack damage, physical Flak support, both physical retreat/home and independent control release with frozen sources; prior16V2 hit5 and failed withdrawal is insufficient.",
+    "Create three-source continuous manifest only after qualified coordination source. Existing continuous-mission-v7-partial-sources.json contains attack and raid only.",
+    "Run one fresh actual Pydantic/DeepSeek commander vs active native Oleg Medium match to natural settlement; calibration cannot be relabelled.",
+    "This-match audit must correlate unique accepted post-original-plan-TTL compacted request context retaining the same mission/target/formation/hard deadline; synthetic provider test cannot satisfy this field requirement.",
+    "This-match independent raw requalification must show effects for attack, raid and coordination. Dispatch ACK, counters, casualties, Return or scene closure do not alone establish those effects.",
+    "Scene17 closure is software-tested; actual scene shutdown certificate still needs field review. A live dead actor or cleanup52 is not disposed or released."
+  ],
+  "sha256": {
+    "integration/reserve_controller.py": "c8191cbc1bfa1487288cf7009b2105c3d2ebe9eac58cfe1e47bd3fe734d3cab6",
+    "integration/held_formations.py": "0756e1cee6b60e62b6ee103b6ffe40a42ed05f7de5a20b9bcd829c6840405539",
+    "integration/battle_host.py": "c5fd86ea09c37ff82110268310245f0c595f7cb7e010374a0200b6ee34eba434",
+    "integration/held_controller_receipts.py": "bf5242c3fb384afec6323a3ef6168de06d5c21535152509cc076dd5ea053abdf",
+    "integration/tactical_bridge.py": "b347d22a8c227874e319553224b14cb37a9acbf7506f95906fdd5d25c22e0de8",
+    "integration/run_native_opponent_match.py": "122cd13317e887ceb3ff4165e96942c5d0af9d03df074330bb3efc5e903cb308",
+    "tactical/mission-formation-v17/scene_terminal_release.py": "ad6905bed60521dfc6b220f68e5c5df637fd2dfdbcb749c8fb8e6758a77e9a0b",
+    "strategy/battle_agent.py": "44c123c98fbf5c67314d32dc2efd6e7aad4d901737d3faaf734395181ba7843f",
+    "strategy/mission_audit.py": "c34beb8aa7924d5167262bc67a205335ab0160dda0d27312c6e1e04531d09f32"
+  }
+}
