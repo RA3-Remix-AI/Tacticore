@@ -33,6 +33,18 @@ class FormationTests(unittest.TestCase):
         current=self.refresh(eligible=available)
         self.assertEqual(len(current),2)
         self.assertEqual(next(f for f in current if f['formation_id']==main)['roles'],first[0]['roles'])
+    def test_controller_claims_exclude_live_eligible_units_and_invalidate_old_roster(self):
+        original=self.refresh();fid=original[0]['formation_id']
+        forms=self.registry.refresh(self.units,set(range(1,8)),lambda point:'home_base',claimed_ids={1,7})
+        self.assertFalse({1,7}&{oid for f in self.registry.private.values() for oid in f['object_ids']})
+        self.assertGreater(next(f for f in forms if f['formation_id']==fid)['version'],original[0]['version'])
+        self.refresh()
+        self.assertTrue({1,7}<={oid for f in self.registry.private.values() for oid in f['object_ids']})
+    def test_external_controller_cannot_take_an_existing_inflight_formation(self):
+        first=self.refresh();fid=first[0]['formation_id'];self.registry.reserve([fid])
+        actor=self.registry.private[fid]['object_ids'][0]
+        with self.assertRaisesRegex(ValueError,'already allocated'):
+            self.registry.refresh(self.units,set(range(1,8)),lambda point:'home_base',claimed_ids={actor})
     def test_air_is_unavailable_without_purpose_evidence(self):
         self.assertEqual(self.refresh([unit(90,'0x40acad6d')],{90}),[])
     def test_air_scout_is_separate_and_never_joins_ground_force(self):

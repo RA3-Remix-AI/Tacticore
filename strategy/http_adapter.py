@@ -183,6 +183,17 @@ def load_profile(library_path: Path, commander_id: str) -> Profile:
         raise AdapterError("library_or_credential_unavailable") from None
 
 
+def prebound_pair_versions(context: dict) -> dict:
+    """Only exact Host-manifest scope + currently offered real public pair."""
+    capability=context.get('capability_manifest',{}).get('combined_arms',{})
+    if capability.get('state')!='planned_only' or capability.get('reason_code')!='host_evidence_present' or 'coordinate_force' not in capability.get('verified_purposes',[]):return {}
+    scope=capability.get('purpose_allocation_scopes',{}).get('coordinate_force',{})
+    versions=scope.get('formation_versions')
+    if scope.get('scope')!='prebound_paid_pair' or type(scope.get('request_force_fraction')) not in (int,float) or scope['request_force_fraction']!=1 or type(versions) is not dict or len(versions)!=1:return {}
+    forms=context.get('working_memory',{}).get('battlefield',{}).get('formations',[])
+    return {f['formation_id']:f['version'] for f in forms if f.get('formation_id') in versions and type(f.get('version')) is int and f['version']==versions[f['formation_id']] and f.get('available') is True and f.get('roles')=={'infantry':1,'anti_air':1} and all(type(v) is int for v in f['roles'].values())}
+
+
 def tactical_example(context: dict) -> list:
     """One legal example from the frozen message only; never a capability grant."""
     memory=context.get("working_memory",{});field=memory.get("battlefield") or {}
@@ -190,7 +201,8 @@ def tactical_example(context: dict) -> list:
     regions=set(context.get("allowed_regions",[]));manifest=context.get("capability_manifest",{})
     reserved={fid for goal in memory.get("active_goals",[]) if goal.get("status") in {"dispatch_pending","active"} for fid in goal.get("formation_ids",[])}
     forms=[f for f in field.get("formations",[]) if f.get("available") is True and f.get("formation_id") not in reserved]
-    available_units=sum(count for formation in forms for count in formation.get("roles",{}).values())
+    paid_pairs=prebound_pair_versions(context)
+    free_units=sum(count for formation in forms if formation["formation_id"] not in paid_pairs for count in formation.get("roles",{}).values())
     contacts=[c for c in field.get("contacts",[]) if c.get("currently_visible") is True and c.get("stealth_state") in {"visible","detected"} and c.get("relation")=="enemy" and c.get("region_id") in regions and 0<=context["game_time_seconds"]-c["observed_at_game_seconds"]<=3]
     descriptors=[r for r in field.get("regions",[]) if r.get("region_id") in regions]
     opportunities=[("attack",["main_attack"]),("raid",["harass_economy","recon"]),("combined_arms",["coordinate_force","defend_base"])]
@@ -208,11 +220,15 @@ def tactical_example(context: dict) -> list:
             allowed_roles=capability.get("purpose_actor_roles",{}).get(purpose)
             if allowed_roles is not None and (not isinstance(allowed_roles,list) or not allowed_roles):continue
             for formation in forms:
+                paid=formation['formation_id'] in paid_pairs
+                if paid and (module,purpose)!=('combined_arms','coordinate_force'):continue
+                if paid_pairs and (module,purpose)==('combined_arms','coordinate_force') and not paid:continue
+                available_units=2 if paid else free_units
                 roles=sorted(role for role,count in formation.get("roles",{}).items() if count>0)
                 if allowed_roles is not None:
                     if module=="combined_arms" and any(role not in allowed_roles for role in roles):continue
                     roles=[role for role in roles if role in allowed_roles]
-                if not roles or module=="combined_arms" and (len(roles)<2 or available_units<4):continue
+                if not roles or module=="combined_arms" and (len(roles)<2 or not paid and available_units<4):continue
                 if module!="combined_arms" and available_units<2:continue
                 target=None;region=None
                 continuous=capability.get('mission_protocol')=='continuous_tactical_v1' and purpose in capability.get('verified_mission_purposes',[])
@@ -229,7 +245,7 @@ def tactical_example(context: dict) -> list:
                     if not candidates:continue
                     candidates.sort(key=lambda r:(r.get("currently_visible") is True,r["region_id"]))
                     region=candidates[0]["region_id"]
-                return [dict(module=module,purpose=purpose,target_region=region,target_contact_id=target,formation_ids=[formation["formation_id"]],required_roles=roles if module=="combined_arms" else roles[:1],force_fraction=.5 if module=="combined_arms" or available_units<4 else .25)]
+                return [dict(module=module,purpose=purpose,target_region=region,target_contact_id=target,formation_ids=[formation["formation_id"]],required_roles=roles if module=="combined_arms" else roles[:1],force_fraction=1 if paid else .5 if module=="combined_arms" or available_units<4 else .25)]
     return []
 
 
@@ -248,6 +264,11 @@ def system_prompt(profile: Profile, context: dict) -> str:
     }
     example["tactical_tasks"]=tactical_example(context)
     if example["tactical_tasks"]:example.update(valid_for_game_seconds=45,objective_region=example["tactical_tasks"][0]["target_region"])
+    paid_pairs=prebound_pair_versions(context)
+    allocation_rules=("Free-unit Host allocation remains floor(N * min(0.5, force_fraction)); free single-actor tasks need N>=2 and free two-role tasks need N>=4. "
+        "Only the exact formation versions "+json.dumps(paid_pairs,sort_keys=True)+" have the explicit prebound_paid_pair scope: coordinate_force uses request force_fraction=1 for that whole already-paid controlled pair, with its own quota, maximum two actors/305 paid/reserve floor1000. No free-army N>=4 requirement applies to that pair. Never assign that held pair to attack, raid, recon or another purpose. "
+        if paid_pairs else "Host allocation is floor(N * min(0.5, force_fraction)), where N is the verified controllable own-unit count; a single-actor task needs at least 1 allocated unit. With only 2 or 3 available units use 0.5; with fewer than 2 do not propose a task. Two-actor coordinate_force needs at least 4 available units at 0.5. ")
+    fraction_rule="Free-scope fractions cannot exceed 1-reserve; the exact prebound_paid_pair coordinate_force fraction1 has a separate paid-pair quota. " if paid_pairs else "fractions cannot exceed 1-reserve. "
     return (
         "You are an enemy commander in a Red Alert 3 mod. Return exactly one JSON object, no prose or Markdown. "
         "Propose high-level production and tactical priorities only; local game logic executes. Never output code, "
@@ -285,16 +306,15 @@ def system_prompt(profile: Profile, context: dict) -> str:
         "Verified recon/main_attack/harass_economy use one actor: required_roles must contain exactly ONE allowed role. "
         "For an air target, main_attack must select required_roles=[\"anti_air\"] and a formation containing anti_air; "
         "infantry cannot shoot that target. coordinate_force still requires the two reviewed ground roles. "
-        "Host allocation is floor(N * min(0.5, force_fraction)), where N is the verified controllable own-unit count; "
-        "a single-actor task needs at least 1 allocated unit. With only 2 or 3 available units use 0.5; with fewer "
-        "than 2 do not propose a task. Two-actor coordinate_force needs at least 4 available units at 0.5. "
+        f"{allocation_rules}"
         "Use 45 game seconds validity for tactical requests so the host has its bounded dispatch window. "
         "Optional tactical_tasks is a list, maximum 3 with one per module. Default to [] unless working_memory.battlefield "
         "supplies available formations and capability_manifest verifies that exact module/purpose. Each item has exactly "
         "module, purpose, target_region, target_contact_id (string or null), formation_ids (list), required_roles (list), "
         "force_fraction (0.01..1). Purposes: raid=recon or harass_economy; attack=main_attack; "
         "combined_arms=coordinate_force or defend_base. Formation IDs cannot overlap across tasks; sum of tactical force "
-        "fractions cannot exceed 1-reserve. main_attack and harass_economy require a currently visible enemy contact ID "
+        f"{fraction_rule}"
+        "main_attack and harass_economy require a currently visible enemy contact ID "
         "from this message, with visible/detected stealth state; harass_economy also requires economy role. "
         "recon uses region only (contact null); last_seen and unknown stealth cannot identify an attack target. "
         "combined_arms requires at least two known roles; defend_base requires self/ally region. "

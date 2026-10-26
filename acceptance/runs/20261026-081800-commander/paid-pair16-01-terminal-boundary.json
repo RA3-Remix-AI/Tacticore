@@ -1,0 +1,143 @@
+{
+  "protocol": "mf16_physical_home_terminal_boundary_v1",
+  "raw_sha256": "64bd113485a953d0d0e5addd27d150b6adb2a8ce591a0848c3e79e6c09974ba5",
+  "session_id": "71817b9d-7864-4de1-a7ff-dbf0de9ff73e",
+  "request": {
+    "command_id": "de41d158-da1a-4c38-879f-366e1f30f89f",
+    "task_id": "0e5eb988-d95f-46f6-9bce-b6aa2d59b5a8",
+    "seq": 683171281,
+    "token": 2646450690,
+    "allocation_scope": "prebound_paid_pair",
+    "startup_deadline_frame": 1824,
+    "startup_wall_ms": 60000,
+    "reserve_duration_frames": 450,
+    "lease_duration_frames": 4500,
+    "total_paid_max": 305,
+    "reserve_floor": 1000
+  },
+  "phase": 3,
+  "error": 0,
+  "controller": {
+    "stage": 5,
+    "error": 0,
+    "reserve_start_frame": 1062,
+    "reserve_deadline_frame": 1512,
+    "hard_deadline_frame": 5562,
+    "lease_issued_frame": 1062,
+    "pair_ready_frame": 1330,
+    "mission_commit_frame": 1366,
+    "approach_frame": 1366,
+    "clock_frozen": 1,
+    "bound_mask": 3,
+    "held_mask": 0,
+    "ready_mask": 3,
+    "channel_claimed": 0,
+    "producer_snapshots": 63,
+    "producer_retry_count": 405,
+    "scope_verified": 1,
+    "untasked_cleanup": 0
+  },
+  "issued_frame": 1062,
+  "returned_frame": 2558,
+  "attack_calls": 0,
+  "damage_count": 0,
+  "damage_total": 0.0,
+  "home_arrivals": [
+    3,
+    3
+  ],
+  "retreat_reason": 2,
+  "retreat_completed": 15,
+  "retreat_displacement": [
+    822.2379760742188,
+    945.2587890625
+  ],
+  "slot_outcomes": [
+    {
+      "id": 798,
+      "borrow_frame": 1062,
+      "ready_frame": 1120,
+      "restore_verified": 1,
+      "return_verified": 1,
+      "disposed_verified": 0
+    },
+    {
+      "id": 803,
+      "borrow_frame": 1262,
+      "ready_frame": 1330,
+      "restore_verified": 1,
+      "return_verified": 1,
+      "disposed_verified": 0
+    }
+  ],
+  "stance_restore_after": [
+    0,
+    0
+  ],
+  "actual_home_events": [
+    {
+      "seq": 4406,
+      "frame": 2479,
+      "kind": 91,
+      "role": 1,
+      "x": 3065.10302734375,
+      "y": 3003.79248046875,
+      "z": 210.0,
+      "own_hp": 120.0
+    },
+    {
+      "seq": 4524,
+      "frame": 2552,
+      "kind": 91,
+      "role": 0,
+      "x": 3070.0,
+      "y": 2950.0,
+      "z": 210.0,
+      "own_hp": 87.5
+    },
+    {
+      "seq": 4545,
+      "frame": 2558,
+      "kind": 66,
+      "role": 0,
+      "x": 3070.0,
+      "y": 2950.0,
+      "z": 210.0,
+      "own_hp": 87.5
+    },
+    {
+      "seq": 4546,
+      "frame": 2558,
+      "kind": 66,
+      "role": 1,
+      "x": 3065.10302734375,
+      "y": 3003.79248046875,
+      "z": 210.0,
+      "own_hp": 120.0
+    }
+  ],
+  "native_risk167_observed": false,
+  "minimum_visible_front_target_distance": [
+    633.9025656535473,
+    1429
+  ],
+  "terminal_17bytes": true,
+  "terminal_header_equal": true,
+  "terminal_binding": true,
+  "timer0": true,
+  "active0": true,
+  "mask": 131071,
+  "production_5bytes": true,
+  "production_final": {
+    "native_phase": 2,
+    "native_error": 0,
+    "restore_mask": 31,
+    "active_callbacks": 0,
+    "spent_committed": 305
+  },
+  "frozen_sources_actual_match": true,
+  "mission_effect_verified": false,
+  "mission_source_granted": false,
+  "mutations": false,
+  "sdk_calls_for_evidence": 0
+}

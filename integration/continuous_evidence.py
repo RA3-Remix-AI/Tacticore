@@ -3,12 +3,14 @@ import hashlib
 import importlib.util
 import json
 import re
+import struct
 from pathlib import Path
 import sys
 import uuid
 
 ROOT=Path(__file__).resolve().parent
 EXPECTED='ec230c6ae1eaee30b0b4fa6ba29d417c974ecae46d6715dfbe786a815935c165'
+CONTROLLER_FAMILIES={'mission-formation-v13':(0x4d463133,13),'mission-formation-v14':(0x4d463134,14),'mission-formation-v15':(0x4d463135,15),'mission-formation-v16':(0x4d463136,16)}
 
 
 def _load(path,name):
@@ -23,7 +25,129 @@ def _executor_filename(directory,key,default):
     return name
 
 
+def _same_uuid13(a,b):
+    return type(a) is str and type(b) is str and uuid.UUID(a).int!=0 and uuid.UUID(a)==uuid.UUID(b)
+
+
+def _bound_report13(host,receipt,entry,*,terminal=False):
+    """The outer controller lease is older than this parent mission command."""
+    results=receipt.get('unit_results',[])
+    if results and len(results)!=1:raise ValueError('Continuous13 ambiguous native report')
+    source=results[0].get('report') if results else receipt.get('active_report')
+    if not source:
+        if terminal:raise ValueError('Continuous13 terminal raw missing')
+        return None
+    path=Path(source).resolve();run=Path(host.session['run_directory']).resolve()
+    if not path.is_relative_to(run):raise ValueError('Continuous13 raw outside current match')
+    try:data=path.read_bytes();report=json.loads(data.decode('utf-8-sig'))
+    except (FileNotFoundError,json.JSONDecodeError):
+        if terminal:raise
+        return None
+    pre=report.get('preflight',{});n=report.get('native',{});outer=report.get('request',{});mr=report.get('mission_request')
+    if report.get('session_id')!=host.binding.session_id or pre.get('pid')!=host.session['pid'] or pre.get('commander_id')!=host.binding.commander_id or pre.get('player_id')!=host.binding.player_id:
+        raise ValueError('Continuous13 foreign game binding')
+    if not isinstance(mr,dict):raise ValueError('Continuous13 original model publication missing')
+    expected=entry.get('object_ids')
+    if entry.get('module')!='combined_arms' or not isinstance(expected,list) or len(expected)!=2 or expected[0]==expected[1] or any(type(x) is not int or x<=0 for x in expected):raise ValueError('Continuous13 exact paid pair missing')
+    if receipt.get('object_ids')!=expected or results and results[0].get('object_ids')!=expected:raise ValueError('Continuous13 receipt pair changed')
+    if report.get('package_sha256')!=host.session['mod_sha256'] or report.get('executable_sha256')!=EXPECTED:raise ValueError('Continuous13 package changed')
+    family=entry['executor_directory'];qualifier=_qualifier(family,'continuous_controller_binding')
+    if not qualifier.source_pins(report):raise ValueError('Continuous13 source bundle changed')
+    if (n.get('magic'),n.get('version'))!=CONTROLLER_FAMILIES[family] or n.get('pid')!=pre['pid'] or n.get('thread')!=pre.get('window_thread') or n.get('session_id')!=host.binding.session_id or n.get('commander_id')!=host.binding.commander_id:
+        raise ValueError('Continuous13 native namespace changed')
+    if any(outer.get(k)!=n.get(k) for k in ('command_id','task_id','seq','token')) or type(outer.get('seq')) is not int or outer['seq']<=0 or type(outer.get('token')) is not int or outer['token']<=0:
+        raise ValueError('Continuous13 outer controller envelope changed')
+    for key,target in (('controller_id','command_id'),('lease_id','task_id')):
+        if key in entry and not _same_uuid13(entry[key],outer[target]):raise ValueError('Continuous13 another controller lease')
+    if not _same_uuid13(entry['command_id'],mr.get('parent_command_id')) or not _same_uuid13(entry['task_id'],mr.get('parent_task_id')) or type(mr.get('seq')) is not int or mr['seq']!=entry['seq']:
+        raise ValueError('Continuous13 parent command mapping changed')
+    child_command=str(uuid.uuid5(uuid.UUID(entry['command_id']),'formation'));child_task=str(uuid.uuid5(uuid.UUID(entry['task_id']),'formation'))
+    if not _same_uuid13(mr.get('child_command_id'),child_command) or not _same_uuid13(mr.get('child_task_id'),child_task):raise ValueError('Continuous13 deterministic child mapping changed')
+    commit=n.get('mission_commit',{});body=commit.get('body',{});ctl=n.get('controller',{})
+    if not terminal and commit.get('generation') in (0,2) and commit.get('status')==0:
+        if receipt.get('started') is True:raise ValueError('Continuous13 pending body falsely started')
+        return None
+    raw=bytes.fromhex(mr['commit_body_hex']);prefix=bytes.fromhex(mr['commit_prefix_hex'])
+    if len(raw)!=284 or len(prefix)!=252:raise ValueError('Continuous13 commit body size changed')
+    typed=qualifier.controller.plain(qualifier.controller.L.MissionCommitBody13.from_buffer_copy(raw));digest=hashlib.sha256(prefix).digest()
+    if raw[:252]!=prefix or typed!=body or list(struct.unpack('<8I',digest))!=body.get('digest_sha256') or mr['digest_sha256']!=digest.hex():raise ValueError('Continuous13 original binary commit seal changed')
+    if qualifier.controller.ident(body['controller'])!=outer['command_id'] or qualifier.controller.ident(body['lease'])!=outer['task_id'] or qualifier.controller.ident(body['command'])!=child_command or qualifier.controller.ident(body['task'])!=child_task or not _same_uuid13(qualifier.controller.ident(body['parent_command']),entry['command_id']) or not _same_uuid13(qualifier.controller.ident(body['parent_task']),entry['task_id']) or body['seq']!=entry['seq']:
+        raise ValueError('Continuous13 original typed commit identity changed')
+    actors=[qualifier.actor(report,role) for role in (0,1)]
+    if [a['object_id'] for a in actors]!=expected or [body['front_id'],body['support_id']]!=expected:raise ValueError('Continuous13 actual paid-slot actors changed')
+    if not qualifier.controller.parent_request_audit(report)['verified']:raise ValueError('Continuous13 original public parent request changed')
+    if 'public_command_path' in entry and Path(entry['public_command_path']).resolve()!=Path(mr['public_command_path']).resolve():raise ValueError('Continuous13 original parent file changed')
+    if 'public_command_sha256' in entry and entry['public_command_sha256']!=mr['public_command_sha256']:raise ValueError('Continuous13 original parent digest changed')
+    public=mr['public_command'];versions=dict(public['formation_versions'])
+    if versions!=entry.get('formation_versions') or public.get('target_contact_id')!=entry.get('target_contact_id') or not entry.get('target_contact_id'):raise ValueError('Continuous13 formation or contact changed')
+    target=report.get('private_target',{})
+    if entry.get('target_object_id') is not None:
+        if target.get('object_id')!=entry['target_object_id'] or body.get('target_id')!=entry['target_object_id'] or commit.get('status')==1 and n.get('target_id')!=entry['target_object_id'] or target.get('type_hash')!=entry.get('target_type_hash') or target.get('owner_player_id')!=entry.get('target_owner_player_id'):raise ValueError('Continuous13 target identity changed')
+    records=[qualifier.controller.reserve_record(e) for e in report.get('events',[]) if e.get('kind') in qualifier.controller.RS_KINDS]
+    audits=[(qualifier.controller.input_audit,(report,)),(qualifier.controller.producer_arm_audit,(report,)),(qualifier.controller.producer_audit,(report,)),(qualifier.controller.clock_audit,(report,records)),(qualifier.controller.cohort_audit,(report,records)),(qualifier.controller.borrow_audit,(report,)),(qualifier.controller.ready_audit,(report,records)),(qualifier.controller.stop_audit,(report,records)),(qualifier.controller.origin_audit,(report,records)),(qualifier.controller.precommit_audit,(report,))]
+    if CONTROLLER_FAMILIES[family][1]>=15:audits.append((qualifier.controller.spawn_wait_audit,(report,records)))
+    if not all(fn(*args)['verified'] is True for fn,args in audits):
+        raise ValueError('Continuous13 original actual lease admission missing')
+    issued=n.get('issued_frame');hard=entry['expires_frame']
+    if type(issued) is not int or issued<=0 or issued!=ctl.get('lease_issued_frame') or issued!=ctl.get('reserve_start_frame') or hard!=issued+4500 or ctl.get('hard_deadline_frame')!=hard or n.get('mission_deadline_frame')!=hard or body.get('hard_deadline_frame')!=hard or public.get('expires_frame')!=hard:
+        raise ValueError('Continuous13 original lease deadline renewed')
+    accepted=[e for e in report['events'] if e.get('kind')==153];rejected=[e for e in report['events'] if e.get('kind')==154]
+    started=commit.get('generation')==2 and commit.get('status')==1
+    denial=commit.get('generation')==2 and commit.get('status')==2
+    if started:
+        frame=ctl.get('mission_commit_frame')
+        valid=type(frame) is int and frame>0 and len(accepted)==1 and not rejected and accepted[0]['frame']==commit.get('ack_frame')==ctl.get('approach_frame')==frame
+        if not valid:
+            if terminal:raise ValueError('Continuous13 acceptance lacks original153')
+            return None
+        if not entry['dispatch_frame']<=frame<hard or frame<issued or frame>=ctl['reserve_deadline_frame']:raise ValueError('Continuous13 model issue clock changed')
+        if receipt.get('started') is False or receipt.get('issued_frame',frame)!=frame or receipt.get('execution',{}).get('issued_frame',frame)!=frame:raise ValueError('Continuous13 receipt confused lease and mission issue')
+        if not qualifier.controller.commit_audit(report,records)['verified'] or not qualifier.controller.target_proof_audit(report,records)['verified']:
+            if terminal:raise ValueError('Continuous13 actual committed scope or target proof missing')
+            return None
+    elif denial:
+        frame=commit.get('ack_frame')
+        if len(rejected)!=1 or accepted or type(frame) is not int or rejected[0]['frame']!=frame or not entry['dispatch_frame']<=frame<ctl['reserve_deadline_frame'] or ctl.get('mission_commit_frame')!=0 or ctl.get('approach_frame')!=0:raise ValueError('Continuous13 rejection lacks original154')
+        if receipt.get('started') is not False or receipt.get('issued_frame',0)!=0 or receipt.get('execution',{}).get('issued_frame',0)!=0:raise ValueError('Continuous13 rejected mission falsely started')
+    else:
+        if terminal:raise ValueError('Continuous13 terminal commit not acknowledged')
+        return None
+    if terminal and (report.get('status')!='finished' or type(report.get('host_exit')) is not int or n.get('phase') not in (3,4) or n.get('active')!=0):raise ValueError('Continuous13 native terminal unproven')
+    return dict(report=report,path=path,sha256=hashlib.sha256(data).hexdigest(),model_started=bool(started),model_accept_seq=accepted[0]['seq'] if started else None,model_issued_frame=ctl['mission_commit_frame'] if started else 0,lease_issued_frame=issued,model_commit_rejected=bool(denial))
+
+
+def _terminal_facts13(host,receipt,entry):
+    bound=_bound_report13(host,receipt,entry,terminal=True);q=_qualifier(entry['executor_directory'],'continuous_controller_terminal')
+    release=q.control_release(bound['report'])
+    if release.get('control_release_verified') is not True:raise ValueError('Continuous13 controller control release unproven')
+    result=q.qualify(bound['report'])
+    if receipt.get('status')=='completed':
+        if bound['report'].get('host_exit')!=0 or not bound['model_started'] or release.get('restoration_verified') is not True or release.get('return_verified') is not True or result.get('combined_arms_verified') is not True or not result.get('checks') or not all(x is True for x in result['checks'].values()) or any(result.get(k) is not True for k in ('effect_verified','approach_verified','retreat_verified','restoration_verified')):
+            raise ValueError('Continuous13 completion lacks actual effect home stance and Return')
+    facts=dict(bound,qualification=result,control_release=release)
+    verify_formation_release(facts,entry,q)
+    return facts
+
+
+def _model_rejection_facts13(host,receipt,entry):
+    facts=_terminal_facts13(host,receipt,entry);r=facts['report'];n=r['native'];commit=n['mission_commit']
+    if facts['model_started'] or not facts['model_commit_rejected'] or receipt.get('started') is not False or receipt.get('status')=='completed':raise ValueError('Continuous13 model rejection falsely accepted')
+    forbidden=(12,13,34,35,37,39,40,41,42,43,64,76,80,81,85,86,89,92,95)
+    for role in (0,1):
+        begin=next((e['seq'] for e in r['events'] if e.get('kind')==14 and e.get('tag')==1 and e.get('role')==role),None)
+        if begin is None or any(e.get('role')==role and e['seq']>=begin and e.get('kind') in forbidden for e in r['events']):raise ValueError('Continuous13 rejected model has controlled combat or core navigation')
+    if any(n.get(k)!=0 for k in ('attack_calls','attack_facade_calls','attack_private_calls','toggle_calls','toggle_hook_calls','damage_count','commit_own_calls')):raise ValueError('Continuous13 rejected model has combat counters')
+    held=all((n if role==0 else n['support']).get('detach_calls')==1 for role in (0,1))
+    if not held:raise ValueError('Continuous13 model rejection must retain real controller lease history')
+    family=CONTROLLER_FAMILIES[entry['executor_directory']][1]
+    proof=dict(protocol=f'mf{family}_model_rejection_after_actual_reserve_v1',model_mission_never_started=True,no_dispatch_verified=True,exclusive_control_never_held=False,controller_lease_was_held=True,control_release_verified=True,restoration_verified=facts['control_release']['restoration_verified'],return_verified=facts['control_release']['return_verified'],completion_claim=False,model_combat_sdk_calls=0,model_issued_frame=0,lease_issued_frame=facts['lease_issued_frame'],actual_reject_frame=commit['ack_frame'],reason=commit['reason'])
+    return dict(sha256=facts['sha256'],path=facts['path'],proof=proof,control_release=facts['control_release'])
+
+
 def _qualifier(directory,namespace):
+    if directory in CONTROLLER_FAMILIES:
+        filename=_executor_filename(directory,'qualifier_filename','formation_mission_qualification.py')
+        return _load(ROOT.parent/'tactical'/directory/filename,namespace+'_'+directory.replace('-','_'))
     tactical=ROOT.parent/'tactical'
     if str(tactical) not in sys.path:sys.path.insert(0,str(tactical))
     files={'mission-combat':'mission_combat_qualification.py','mission-combat-v2':'mission_combat_v2_qualification.py','mission-combat-v3':'mission_combat_v3_qualification.py','mission-combat-v4':'mission_combat_v4_qualification.py','mission-combat-v5':'mission_combat_v5_qualification_v2.py','mission-combat-v6':'mission_combat_v6_runtime_qualification.py','mission-combat-v7':'mission_combat_v7_runtime_qualification.py','mission-formation':'mission-formation/formation_mission_qualification.py','mission-formation-v2':'mission-formation-v2/formation_mission_qualification.py','mission-formation-v3':'mission-formation-v3/formation_mission_qualification_v4.py','mission-formation-v4':'mission-formation-v4/formation_mission_qualification_traffic_v2.py','mission-formation-v5':'mission-formation-v5/formation_mission_qualification.py','mission-formation-v6':'mission-formation-v6/formation_mission_qualification.py','mission-formation-v7':'mission-formation-v7/formation_mission_qualification.py','mission-formation-v8':'mission-formation-v8/formation_mission_qualification.py','mission-formation-v9':'mission-formation-v9/formation_mission_qualification.py','mission-formation-v10':'mission-formation-v10/formation_mission_qualification.py','mission-formation-v12':'mission-formation-v12/formation_mission_qualification.py'}
@@ -38,6 +162,8 @@ def _qualifier(directory,namespace):
 
 
 def bound_report(host,receipt,entry,*,terminal=False):
+    if entry.get('executor_directory') in CONTROLLER_FAMILIES:
+        return _bound_report13(host,receipt,entry,terminal=terminal)
     results=receipt.get('unit_results',[])
     if results:
         if len(results)!=1:raise ValueError('Continuous mission must have one bound native report')
@@ -97,6 +223,8 @@ def bound_report(host,receipt,entry,*,terminal=False):
 
 
 def terminal_facts(host,receipt,entry):
+    if entry.get('executor_directory') in CONTROLLER_FAMILIES:
+        return _terminal_facts13(host,receipt,entry)
     bound=bound_report(host,receipt,entry,terminal=True)
     directory=entry['executor_directory']
     qualifier=_qualifier(directory,'continuous_terminal')
@@ -126,7 +254,7 @@ def verify_formation_release(facts,entry,qualifier=None):
     expected=dict(pid=pre['pid'],session_id=report['session_id'],commander_id=pre['commander_id'],command_id=request['command_id'],task_id=request['task_id'],seq=request['seq'],token=request['token'],owner=pre['owner'],logic=pre['logic'],native_binary_sha256=report['native_binary_sha256'])
     if any(terminal.get(key)!=value or type(terminal.get(key)) is not type(value) for key,value in expected.items()) or terminal.get('mutations') is not False or terminal.get('timer')!=0 or terminal.get('active')!=0 or terminal.get('restore_mask')!=mask:
         raise ValueError('Continuous formation terminal identity changed')
-    if directory not in ('mission-formation','mission-formation-v2','mission-formation-v3','mission-formation-v4','mission-formation-v5','mission-formation-v6','mission-formation-v7','mission-formation-v8','mission-formation-v9','mission-formation-v10','mission-formation-v12'):raise ValueError('Unknown formation release executor')
+    if directory not in ('mission-formation','mission-formation-v2','mission-formation-v3','mission-formation-v4','mission-formation-v5','mission-formation-v6','mission-formation-v7','mission-formation-v8','mission-formation-v9','mission-formation-v10','mission-formation-v12','mission-formation-v13','mission-formation-v14','mission-formation-v15','mission-formation-v16'):raise ValueError('Unknown formation release executor')
     folder=ROOT.parent/'tactical'/directory
     layout=json.loads((folder/'inert-layout.json').read_text())
     if terminal.get('layout')!=layout or layout.get('dll_sha256')!=report['native_binary_sha256']:raise ValueError('Continuous formation terminal layout changed')
@@ -151,6 +279,9 @@ def progress_evidence(host,receipt,entry,progress):
     """Reconstruct the published revision even if the active report advanced."""
     bound=bound_report(host,receipt,entry)
     if bound is None:return None
+    if entry.get('executor_directory') in CONTROLLER_FAMILIES:
+        if not bound['model_started']:raise ValueError('Continuous13 progress before actual model acceptance')
+        if type(progress.get('revision')) is not int or progress['revision']<bound['model_accept_seq']:raise ValueError('Continuous13 progress before original153')
     report=bound['report'];revision=progress['revision']
     history=[event for event in report.get('events',[]) if event.get('seq',0)<=revision]
     if not history or history[-1].get('seq')!=revision or history[-1].get('frame')!=progress['observed_frame']:
@@ -165,6 +296,8 @@ def progress_evidence(host,receipt,entry,progress):
 
 def pre_dispatch_facts(host,receipt,entry):
     """Recheck a child wrapper refusal; exit text alone is never an attestation."""
+    if entry.get('executor_directory') in CONTROLLER_FAMILIES:
+        return _model_rejection_facts13(host,receipt,entry)
     results=receipt.get('unit_results',[])
     if not results:
         if receipt.get('wrapper_attempted') is not False or receipt.get('no_dispatch_verified') is not True or receipt.get('dispatch_attempted') is not False:

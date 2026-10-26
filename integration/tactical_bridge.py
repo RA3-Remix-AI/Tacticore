@@ -4,6 +4,7 @@ from pathlib import Path
 from live_state import atomic_json
 from continuous_contract import PROTOCOL,MAX_DURATION_FRAMES,mission_limits,progress_from_receipt
 from continuous_evidence import terminal_facts,progress_evidence,pre_dispatch_facts,bound_report
+from held_controller_receipts import DIRECTORIES as PAID_CONTROLLER_DIRECTORIES
 
 ROOT=Path(__file__).resolve().parent
 
@@ -89,26 +90,51 @@ class TacticalBridge:
   for job in host.agent.jobs()['jobs']:
    if job['module']=='build' or not job.get('host_dispatch_candidate') or job['task_id'] in self.sent:continue
    versions=dict(job['formation_versions']);identifiers=list(job['formation_ids'])
-   if not identifiers or any(fid not in collector.private_formations or collector.private_formations[fid]['version']!=versions[fid] or fid in collector.formations.reserved for fid in identifiers):continue
    grant=next((g for g in self.evidence['grants'] if (g['module'],g['purpose'])==(job['module'],job['purpose'])),None)
+   reserve=getattr(host,'reserve_controller',None)
+   held=bool(grant and grant.get('executor_directory') in PAID_CONTROLLER_DIRECTORIES and reserve is not None and len(identifiers)==1 and reserve.owns_formation(identifiers[0]))
+   if reserve is not None and reserve.owns_channel() and not held:continue
+   if grant and grant.get('executor_directory') in PAID_CONTROLLER_DIRECTORIES and not held:continue
+   if held:
+    formation=reserve.formation(identifiers[0]);private=reserve.private_formation(identifiers[0])
+    if formation.get('available') is not True or formation['version']!=versions.get(identifiers[0]):continue
+    private_formations={identifiers[0]:private}
+   else:private_formations=collector.private_formations
+   if not identifiers or any(fid not in private_formations or private_formations[fid]['version']!=versions[fid] or fid in collector.formations.reserved for fid in identifiers):continue
    continuous=mission_limits(grant) if grant else None
    target=getattr(collector,'private_targets',{}).get(job.get('target_contact_id')) if continuous else None
    if continuous and (not isinstance(target,dict) or type(target.get('object_id')) is not int or target['object_id']<=0 or target.get('owner_player_id')==host.binding.player_id):continue
    frame=int(host.last_snapshot['game_time_seconds']*15);expiry=frame+continuous['duration_frames'] if continuous else int(job['expires_at_game_seconds']*15)
+   if held:
+    expiry=reserve.hard_deadline(identifiers[0])
+    if not frame<expiry<=frame+MAX_DURATION_FRAMES:continue
    if not continuous and expiry-frame<300:
     # No queue or reservation exists yet; this is an explicit local preflight rejection.
     continue
    if not continuous and expiry-frame>900:expiry=frame+900
    self.sequence+=1;command=str(uuid.uuid4());task=job['task_id']
-   allowed=sorted({oid for fid in identifiers for oid in collector.private_formations[fid]['object_ids']})
+   allowed=sorted({oid for fid in identifiers for oid in private_formations[fid]['object_ids']})
    self.sent[task]=dict(task_id=task,command_id=command,seq=self.sequence,module=job['module'],purpose=job['purpose'],target_contact_id=job.get('target_contact_id'),formation_versions=versions,allowed_object_ids=allowed,object_ids=None,dispatch_frame=frame,expires_frame=expiry,started=False,terminal=False,queued=False)
    if continuous:self.sent[task].update(mission_protocol=PROTOCOL,executor_directory=grant['executor_directory'],retreat_region='home_base',target_object_id=target['object_id'],target_type_hash=target.get('type_hash'),target_owner_player_id=target.get('owner_player_id'),model_plan_id=job.get('plan_id'),model_plan_generation=job.get('generation'),model_plan_expires_game_seconds=job.get('expires_at_game_seconds'))
-   self.persist();collector.formations.reserve(identifiers)
+   if held:self.sent[task]['object_ids']=list(private['object_ids'])
+   self.persist()
+   if not held:collector.formations.reserve(identifiers)
    if continuous:host.agent.host_commit_task(task,mission_deadline_game_seconds=expiry/15,retreat_region='home_base')
    else:host.agent.host_commit_task(task)
    request=dict(job,command_id=command,seq=self.sequence,session_id=host.binding.session_id,player_id=host.binding.player_id,commander_id=host.binding.commander_id,expires_frame=expiry)
    if continuous:request.update(mission_id=str(uuid.UUID(task)),mission_deadline_game_seconds=expiry/15,retreat_region='home_base')
-   try:receipt=await asyncio.to_thread(self.executor.submit,request)
+   try:
+    if held:
+     # Agent dataclasses retain tuples; the original public wire envelope is
+     # JSON. Freeze that representation before hashing or Native validation.
+     request=json.loads(json.dumps(request,allow_nan=False))
+     source=host.output/('held-mission-'+command+'.json');atomic_json(source,request)
+     self.sent[task].update(public_command_path=str(source),public_command_sha256=hashlib.sha256(source.read_bytes()).hexdigest(),controller_id=reserve.config['controller_id'],lease_id=reserve.config['lease_id'],allocation_scope='prebound_paid_pair')
+     self.persist()
+     await reserve.commit(request,formation,collector.visibility_proof_path,public_command_source=source)
+     from held_controller_receipts import receipt_for
+     receipt=receipt_for(reserve,self.sent[task],host.binding)
+    else:receipt=await asyncio.to_thread(self.executor.submit,request)
    except BaseException:
     host.event('tactical_dispatch_unknown',task_id=task,command_id=command);raise
    if receipt.get('accepted') is True and receipt.get('command_id')==command:
@@ -131,6 +157,10 @@ class TacticalBridge:
  def verify_completed(self,receipt,entry):
   host=self.host
   if receipt.get('status')!='completed' or receipt.get('completed') is not True or receipt.get('goal_observed') is not True or receipt.get('restoration_verified') is not True:raise ValueError('Tactical completion unproven')
+  if entry.get('executor_directory') in PAID_CONTROLLER_DIRECTORIES:
+   facts=terminal_facts(host,receipt,entry)
+   if facts['qualification'].get('combined_arms_verified') is not True:raise ValueError('Paid pair lacks independently verified effects')
+   return
   reports=receipt.get('unit_results',[])
   if not reports:raise ValueError('Tactical completion lacks raw reports')
   verifier=module(ROOT.parent/'tactical/evidence.py','host_tactical_completion_evidence')
@@ -215,10 +245,18 @@ class TacticalBridge:
   for request in self.host.agent.pending_mission_retreats():
    entry=self.sent.get(request['task_id'])
    if not entry or entry['terminal'] or entry.get('retreat_request_sent'):continue
-   result=await asyncio.to_thread(self.executor.request_mission_retreat,request['task_id'],request['reason'])
+   result=await self.request_retreat(entry,request['reason'])
    if result.get('accepted') is True:
     entry['retreat_request_sent']=True;entry['retreat_request_reason']=request['reason'];self.persist()
     self.host.event('mission_retreat_requested',task_id=request['task_id'],reason_code=request['reason'])
+
+ async def request_retreat(self,entry,reason):
+  if entry.get('executor_directory') in PAID_CONTROLLER_DIRECTORIES:
+   reserve=self.host.reserve_controller
+   if reserve.runtime is None or reserve.closed:return dict(accepted=False)
+   await asyncio.to_thread(reserve.runtime.request_retreat)
+   return dict(accepted=True,task_id=entry['task_id'],reason=reason)
+  return await asyncio.to_thread(self.executor.request_mission_retreat,entry['task_id'],reason)
 
  def observe_mission(self,receipt,entry):
   """Phase telemetry stays separate from independently qualified effects."""
@@ -272,6 +310,10 @@ class TacticalBridge:
  async def receive(self):
   if self.executor is None:return
   host=self.host;status=await asyncio.to_thread(self.executor.status)
+  reserve=getattr(host,'reserve_controller',None)
+  if reserve is not None:
+   from held_controller_receipts import receipt_for
+   status['ledger']=list(status.get('ledger',[]))+[receipt_for(reserve,e,host.binding) for e in self.sent.values() if e.get('executor_directory') in PAID_CONTROLLER_DIRECTORIES and not e['terminal']]
   await self.request_mission_retreats()
   for receipt in status.get('ledger',[]):
    task=receipt.get('task_id');entry=self.sent.get(task)
@@ -309,7 +351,7 @@ class TacticalBridge:
      if execution['restoration_verified']:host.collector.formations.release(entry['formation_versions'])
      else:
       self.persist();raise RuntimeError('Tactical restoration unverified')
-    elif receipt.get('no_dispatch_verified') is True or receipt.get('dispatch_attempted') is False:
+    elif receipt.get('no_dispatch_verified') is True or receipt.get('dispatch_attempted') is False or entry.get('executor_directory') in PAID_CONTROLLER_DIRECTORIES:
      if entry.get('mission_protocol')==PROTOCOL:
       proof=pre_dispatch_facts(host,receipt,entry)
       entry['rejection_receipt']=receipt;self.persist();host.agent.certify_mission_not_dispatched(task,evidence_sha256=proof['sha256'])
@@ -323,12 +365,16 @@ class TacticalBridge:
   if self.executor is None:return dict(state='not_started')
   self.draining=True
   for entry in self.sent.values():
-   if entry.get('mission_protocol')==PROTOCOL and not entry['terminal']:await asyncio.to_thread(self.executor.request_mission_retreat,entry['task_id'],'host_stop')
+   if entry.get('mission_protocol')==PROTOCOL and not entry['terminal']:await self.request_retreat(entry,'host_stop')
   # Continuous withdrawal may traverse the verified outbound route in reverse.
   # Continue polling feedback while native logic owns the units; stop is final.
   deadline=time.monotonic()+(135 if any(e.get('mission_protocol')==PROTOCOL and not e['terminal'] for e in self.sent.values()) else 0)
   while any(e.get('mission_protocol')==PROTOCOL and not e['terminal'] for e in self.sent.values()) and time.monotonic()<deadline:
+   reserve=getattr(self.host,'reserve_controller',None)
+   if reserve is not None and reserve.runtime is not None and not reserve.closed:await reserve.poll()
    await self.receive();await asyncio.sleep(.2)
+  reserve=getattr(self.host,'reserve_controller',None)
+  if reserve is not None and reserve.runtime is not None and not reserve.closed:await reserve.stop()
   status=await asyncio.to_thread(self.executor.stop);deadline=time.monotonic()+35
   while status.get('state')=='return_pending' and time.monotonic()<deadline:
    await asyncio.sleep(.2);status=await asyncio.to_thread(self.executor.stop)

@@ -253,7 +253,7 @@ class Plan:
         return result
 
 
-def validate_policy(raw: Any, request: Snapshot, latest: Snapshot, binding: Binding, max_response_age: float) -> Plan:
+def validate_policy(raw: Any, request: Snapshot, latest: Snapshot, binding: Binding, max_response_age: float, *, paid_pair_formations=None) -> Plan:
     expected={"schema_version", "commander_id", "session_id", "player_id", "snapshot_id", "based_on_game_time_seconds", "valid_for_game_seconds", "stance", "production_focus", "economy_policy", "tech_policy", "budget", "objective_region", "reason_code"}
     if isinstance(raw,dict) and "tactical_tasks" in raw:expected.add("tactical_tasks")
     d = _keys(raw,expected,"policy_fields")
@@ -290,7 +290,13 @@ def validate_policy(raw: Any, request: Snapshot, latest: Snapshot, binding: Bind
         raise ContractError("objective_required")
     reason = _enum(d["reason_code"], REASONS, "reason_code")
     tactical=validate_intents(d.get("tactical_tasks",[]),request,latest)
-    if sum(task.force_fraction for task in tactical)>1-budget["reserve"]+1e-6:raise ContractError("tactical_force_total")
+    scoped = paid_pair_formations or {}
+    def paid_pair(task):
+        return (task.module=="combined_arms" and task.purpose=="coordinate_force" and task.force_fraction==1
+                and len(task.formation_ids)==1 and dict(task.formation_versions)=={task.formation_ids[0]:scoped.get(task.formation_ids[0])}
+                and task.formation_ids[0] in scoped and set(task.required_roles)=={"infantry","anti_air"})
+    if any(set(task.formation_ids)&set(scoped) and not paid_pair(task) for task in tactical):raise ContractError("paid_pair_scope")
+    if sum(task.force_fraction for task in tactical if not paid_pair(task))>1-budget["reserve"]+1e-6:raise ContractError("tactical_force_total")
     return Plan(uuid.uuid4().hex, binding.commander_id, binding.session_id, binding.player_id, request.snapshot_id, based, based + duration, stance, focus, economy, tech, values, target, reason, "model",tactical)
 
 
@@ -342,6 +348,9 @@ class StrategyEngine:
         self._accepted_at = float("-inf")
         self._state = "idle"
         self._reassessment_requested = False
+        self.paid_pair_formations = {}
+        self._urgent_capability_epochs = set()
+        self._urgent_capability_epoch = None
         self._write_status("idle")
 
     def observe(self, raw: Mapping | Snapshot) -> Snapshot:
@@ -405,11 +414,12 @@ class StrategyEngine:
                 return self._finish("paused", "game_paused", "holding")
             age = request.game_time_seconds - self._accepted_at
             interrupt = bool(set(request.events) & CRITICAL_EVENTS) or self._reassessment_requested
-            if self._usable(self.current, request) and self.current.origin == "model" and age < self.min_hold and (not interrupt or age < min(2.0, self.min_hold)):
+            if self._usable(self.current, request) and self.current.origin == "model" and age < self.min_hold and self._urgent_capability_epoch is None and (not interrupt or age < min(2.0, self.min_hold)):
                 return self._finish("held", "minimum_hold", "holding")
             if self._pending is not None and not self._pending.done():
                 return self._local("adapter_still_cancelling")
             request_id = uuid.uuid4().hex
+            self._urgent_capability_epoch = None
             self._reassessment_requested = False
             self.metrics["requests"] += 1
             self.audit.emit(self.binding, event="request", request_id=request_id, snapshot_id=request.snapshot_id, game_time_seconds=request.game_time_seconds)
@@ -449,7 +459,7 @@ class StrategyEngine:
                 if self._reassessment_requested:
                     raise ContractError("reassessment_after_request")
                 assert self.latest is not None
-                plan = validate_policy(response, request, self.latest, self.binding, self.max_response_age)
+                plan = validate_policy(response, request, self.latest, self.binding, self.max_response_age, paid_pair_formations=self.paid_pair_formations)
                 if self.latest.paused:
                     if not self._usable(self.current, self.latest):
                         self.current = None
@@ -479,6 +489,34 @@ class StrategyEngine:
         if self._pending is not None and not self._pending.done():
             self._pending.cancel()
         self._finish("stopped", "user_stopped", "stopped")
+
+    def set_prebound_paid_pairs(self, formations):
+        """Trusted Host only, after exact controlled pair provenance validation."""
+        if type(formations) is not dict or len(formations)>1:
+            raise ContractError("paid_pair_scope")
+        for key,version in formations.items():
+            _identifier(key,"paid_pair_formation")
+            _integer(version,1,2**31-1,"paid_pair_version")
+        self.paid_pair_formations=dict(formations)
+
+    def request_urgent_capability(self, epoch):
+        """One Host-verified readiness edge; model output cannot invoke this."""
+        if type(epoch) is not str or not 1<=len(epoch)<=128 or any(ord(ch)<33 for ch in epoch):
+            raise ContractError("urgent_capability_epoch")
+        if epoch in self._urgent_capability_epochs:return False
+        if len(self._urgent_capability_epochs)>=128:raise ContractError("urgent_capability_capacity")
+        self._urgent_capability_epochs.add(epoch)
+        self._urgent_capability_epoch=epoch
+        self._reassessment_requested=True
+        self.audit.emit(self.binding,event="urgent_capability_requested",reason_code="capability_changed",snapshot_id=self.latest.snapshot_id if self.latest else None,game_time_seconds=self.latest.game_time_seconds if self.latest else None)
+        return True
+
+    async def drain_obsolete_request(self):
+        """Host cancels its outer decision first, then awaits actual transport."""
+        pending=self._pending
+        if pending is not None:
+            if not pending.done():pending.cancel()
+            await asyncio.gather(pending,return_exceptions=True)
 
     def request_reassessment(self, reason_code: str):
         """Trusted local feedback can request review without inventing game events."""

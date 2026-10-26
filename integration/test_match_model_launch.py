@@ -11,6 +11,7 @@ class MatchModelLaunch(unittest.TestCase):
   command=runner.host_command(Path('session.json'),Path('sources.json'),library,'pydantic')
   self.assertEqual(command[command.index('--library')+1],str(library.resolve()))
   self.assertEqual(command[command.index('--model-backend')+1],'pydantic')
+  self.assertEqual(command[command.index('--interval')+1],'1')
   self.assertNotIn('--api-key',command)
 
  def test_preflight_reads_only_selected_library_and_exports_redacted_readiness(self):

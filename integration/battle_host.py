@@ -102,6 +102,12 @@ class Host:
   self.remaining_budget=args.total_budget
   self.natural_path=args.natural_observation or Path(self.session['run_directory'])/'natural-production.json'
   self.tactical=TacticalBridge(self,tactical) if tactical else None
+  self.reserve_controller=None
+  pair_grants=[g for g in tactical['grants'] if g.get('executor_directory') in ('mission-formation-v13','mission-formation-v14','mission-formation-v15','mission-formation-v16') and (g.get('module'),g.get('purpose'))==('combined_arms','coordinate_force')] if tactical else []
+  if pair_grants:
+   if len(pair_grants)!=1:raise ValueError('one_paid_pair_controller_scope_required')
+   from reserve_controller import ReserveController
+   self.reserve_controller=ReserveController(self,pair_grants[0])
 
  def event(self,kind,**fields):
   value=dict(kind=kind,session_id=self.binding.session_id,player_id=self.binding.player_id,commander_id=self.binding.commander_id,wall_seconds=round(time.monotonic()-self.started,3),**fields)
@@ -111,6 +117,7 @@ class Host:
   status=dict(schema_version=1,kind='battle_host_v1',source='game_bridge',session_id=self.binding.session_id,pid=self.session['pid'],process_start=self.session['start_time'],mod_sha256=self.session['mod_sha256'],registry_revision=self.session['registry_revision'],host_pid=os.getpid(),host_start_time=self.host_start_time,host_creation_filetime=self.host_creation_filetime,binding=dict(player_id=self.binding.player_id,commander_id=self.binding.commander_id,commander_name=self.binding.commander_name,connection_id=self.binding.connection_id,computer_verified=self.collector.owner is not None),state=self.phase,reason_code=self.reason,
    execution=dict(enabled=self.executor_ready and self.phase=='running',dry_run=not self.args.execute,executor_connected=self.executor_ready,remaining_budget=self.remaining_budget),
    model_backend=getattr(self.adapter,'backend_name','unknown'),current_plan=self.engine.current.public() if self.engine.current else None,last_result=self.last_result,metrics=dict(self.engine.metrics),transport=dict(self.adapter.metrics),memory=dict(self.agent.metrics),task_counters=dict(self.counters),jobs=self.agent.jobs()['jobs'],latest_snapshot=dict(snapshot_id=self.last_snapshot['snapshot_id'],game_time_seconds=self.last_snapshot['game_time_seconds'],paused=self.last_snapshot['paused'],resources=self.last_snapshot['resources']) if self.last_snapshot else None)
+  if getattr(self,'reserve_controller',None) is not None:status['paid_pair_controller']=self.reserve_controller.public_status()
   if getattr(self,'tactical',None) is not None:status['tactical']=dict(connected=self.tactical.executor is not None,counters=self.tactical.counters)
   if hasattr(self.agent,'missions'):status['missions']=self.agent.missions.public()
   if self.last_snapshot and self.last_snapshot.get('battlefield') is not None:
@@ -186,6 +193,9 @@ class Host:
 
  async def dispatch(self):
   if not self.executor_ready or self.last_snapshot['paused']:return
+  reserve=getattr(self,'reserve_controller',None)
+  if reserve is not None:
+   if await reserve.maybe_prepare() or reserve.blocks_build():return
   own_path=self.output/'own-state.json'
   if own_path.exists():
    own=json.loads(own_path.read_text(encoding='utf-8'))
@@ -220,6 +230,21 @@ class Host:
      self.phase='fault';self.reason='dispatch_outcome_unknown';self.event('dispatch_unknown',task_id=task['task_id']);raise RuntimeError('dispatch_outcome_unknown')
    atomic_json(self.output/'dispatch-ledger.json',self.sent)
 
+ async def urgent_controller_decision(self):
+  reserve=getattr(self,'reserve_controller',None)
+  if reserve is None:return False
+  epoch=reserve.urgent_ready_epoch()
+  if epoch is None or not self.engine.request_urgent_capability(epoch):return False
+  # Cancel the obsolete outer decision and await its actual transport before
+  # starting another request. No provider overlap or implicit urgent retries.
+  if self.pending is not None:
+   if not self.pending.done():self.pending.cancel()
+   await asyncio.gather(self.pending,return_exceptions=True)
+   self.pending=None
+  await self.engine.drain_obsolete_request()
+  self.event('paid_pair_ready_reassessment',epoch=epoch,game_time_seconds=self.last_snapshot['game_time_seconds'])
+  return True
+
  def has_result_candidate(self,state):
   rows=state.get('result_records',[])
   return any(row.get('victory_frame') for row in rows) or (self.session.get('scenario',{}).get('participant_count')==2 and any(row.get('defeat_frame') for row in rows))
@@ -247,6 +272,7 @@ class Host:
     while time.monotonic()-self.started<self.args.max_wall_seconds:
      if self.stop_requested():self.reason='user_stop';break
      try:
+      if getattr(self,'reserve_controller',None) is not None and self.reserve_controller.runtime is not None:await self.reserve_controller.poll()
       if hasattr(self.collector,'required_regions'):self.collector.required_regions={job['target_region'] for job in self.agent.jobs()['jobs'] if job.get('target_region') and job.get('status') in ('dispatch_pending','active','planned')}
       snapshot=await asyncio.to_thread(self.collector.collect)
      except Exception as sampling_error:
@@ -259,7 +285,9 @@ class Host:
       else:self.phase='fault';self.reason='game_lifecycle_unavailable';self.event('sampling_failed')
       break
      sampling_failures=0
-     self.last_snapshot=snapshot;self.agent.observe(snapshot)
+     self.last_snapshot=snapshot
+     if getattr(self,'reserve_controller',None) is not None:self.reserve_controller.update_scope()
+     self.agent.observe(snapshot)
      if snapshot['snapshot_id']==1:self.event('entered_match',first_game_time_seconds=snapshot['game_time_seconds'])
      if self.has_result_candidate(self.collector.native):
       self.phase='result_candidate';self.reason='native_result_requires_visual_confirmation';self.event('native_result_candidate');break
@@ -273,6 +301,7 @@ class Host:
      if getattr(self,'tactical',None) is not None:await self.tactical.receive()
      await self.dispatch()
      if getattr(self,'tactical',None) is not None:await self.tactical.dispatch()
+     await self.urgent_controller_decision()
      if self.pending is None:self.pending=asyncio.create_task(self.agent.decide(self.last_snapshot,self.adapter))
      self.publish()
      await asyncio.sleep(self.args.interval)
@@ -297,8 +326,12 @@ class Host:
     if getattr(self,'tactical',None) is not None:
      try:await self.tactical.stop()
      except Exception as error:self.phase='fault';self.reason='tactical_restoration_unverified';self.event('tactical_restoration_unverified',error_type=type(error).__name__)
+    if getattr(self,'reserve_controller',None) is not None:
+     try:await self.reserve_controller.stop()
+     except Exception as error:self.phase='fault';self.reason='reserve_control_release_unverified';self.event('reserve_control_release_unverified',error_type=type(error).__name__)
     self.agent.stop()
     if self.executor is not None:
+
      stopped=await asyncio.to_thread(self.executor.stop)
      if stopped.get('native_phase') is not None and (stopped.get('native_phase')!=2 or stopped.get('restore_mask')!=31 or stopped.get('active_callbacks')!=0):
       self.phase='fault';self.reason='executor_restoration_unverified';self.event('executor_restoration_unverified')

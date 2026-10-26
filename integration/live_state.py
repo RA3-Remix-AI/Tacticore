@@ -1,6 +1,6 @@
 """Version-pinned own-player sampler for a single, persistent battle host."""
 from __future__ import annotations
-import hashlib,importlib.util,json,math,sys,time
+import copy,hashlib,importlib.util,json,math,sys,time,uuid
 from collections import Counter
 from pathlib import Path,PureWindowsPath
 ROOT=Path(__file__).resolve().parent
@@ -47,7 +47,7 @@ def verify_scenario_map(native_path,scenario):
  if actual.suffix.lower()!='.map' or actual.stem.lower()!=expected.lower() or actual.parent.name.lower()!=expected.lower():raise ValueError('Native map differs from recorded scenario')
 
 class LiveBattleState:
- def __init__(self,session_path,commander_id,player_id=3,*,foci=('native_baseline',),output=None,visibility=False,air_scout=False,mission_history=False,mission_admission_filename='mission_actor_admission.py'):
+ def __init__(self,session_path,commander_id,player_id=3,*,foci=('native_baseline',),output=None,visibility=False,air_scout=False,mission_history=False,mission_admission_filename='mission_actor_admission.py',held_formations=None):
   if mission_admission_filename not in ('mission_actor_admission.py','mission_actor_admission_v2.py'):raise ValueError('Unknown trusted mission admission reader')
   self.mission_admission_module=None
   if mission_admission_filename!='mission_actor_admission.py':
@@ -55,6 +55,8 @@ class LiveBattleState:
    self.mission_admission_module=importlib.util.module_from_spec(spec);spec.loader.exec_module(self.mission_admission_module)
   self.session_path=Path(session_path);self.session_raw=self.session_path.read_bytes()
   self.session=json.loads(self.session_raw.decode('utf-8-sig'));self.commander_id=commander_id;self.player_id=player_id
+  self.held_formations=held_formations;self.private_held_formations={};self.held_claimed_actor_ids=frozenset()
+  self._held_registry_claims()
   package=verify_session_package(self.session)
   self.package_digest=hashlib.sha256(package.read_bytes()).hexdigest()
   registry_path=Path(self.session['registry']);self.registry_raw=registry_path.read_bytes();self.registry=json.loads(self.registry_raw)
@@ -73,8 +75,85 @@ class LiveBattleState:
   def slug(value):return 'm'+str(-value) if value<0 else str(value)
   return 'region_'+slug(math.floor(point[0]/512))+'_'+slug(math.floor(point[1]/512))
 
+ def _held_registry_claims(self):
+  """Trusted normalized controller registry only; no game reads or release."""
+  held=getattr(self,'held_formations',None)
+  if held is None:return frozenset()
+  try:
+   binding=(str(uuid.UUID(held.session_id)),str(uuid.UUID(held.commander_id)),held.player_id)
+   expected=(str(uuid.UUID(self.session['session_id'])),str(uuid.UUID(self.commander_id)),self.player_id)
+  except (AttributeError,ValueError,TypeError) as error:raise ValueError('held_registry_binding') from error
+  if binding!=expected or type(held.player_id) is not int or type(self.player_id) is not int or self.player_id!=3:raise ValueError('held_registry_binding')
+  claims=frozenset(held.claimed_actor_ids())
+  if any(type(actor) is not int or not 1<=actor<=0xffffffff for actor in claims):raise ValueError('held_registry_claims')
+  return claims
+
+ def refresh_formations(self,own_objects,eligible_ids,frame):
+  """Pure own-roster overlay; cached controller proof never establishes life.
+
+  Legacy private_formations remains the exact free version/object_ids/role
+  schema. Extended controller records stay in private_held_formations and can
+  only be routed by the separate MF13 branch. Missing rows/HP0/type mismatch
+  make a held pair unavailable; they NEVER release claims or certify disposal.
+  """
+  self.private_held_formations={};self.held_claimed_actor_ids=frozenset()
+  if type(frame) is not int or not 0<=frame<=0xffffffff:raise ValueError('held_overlay_frame')
+  claimed=self._held_registry_claims()
+  self.held_claimed_actor_ids=claimed
+  public=self.formations.refresh(own_objects,set(eligible_ids)-claimed,self.region_of,claimed_ids=claimed)
+  self.private_formations=copy.deepcopy(self.formations.private)
+  held=getattr(self,'held_formations',None)
+  if held is None:return public
+  private=held.private_formations();descriptors=held.public_formations(frame)
+  if type(private) is not dict or type(descriptors) is not list:raise ValueError('held_overlay_schema')
+  if set(private)&set(self.private_formations):raise ValueError('held_formation_id_collision')
+  own={}
+  for obj in own_objects:
+   actor=obj.get('object_id')
+   if type(actor) is not int or actor not in claimed:continue
+   if actor in own:raise ValueError('held_owned_identity_duplicated')
+   own[actor]=obj
+  checked={};live_roles={};live_points={}
+  for fid,record in private.items():
+   if type(record) is not dict or record.get('control_owner')!='mf13' or type(record.get('version')) is not int or record['version']<1:raise ValueError('held_overlay_private')
+   actors=record.get('object_ids');proofs=record.get('proof_metadata')
+   if type(actors) is not list or len(actors)!=2 or any(type(actor) is not int or actor not in claimed for actor in actors) or len(set(actors))!=2 or type(proofs) is not dict or set(proofs)!={'front','support'}:raise ValueError('held_overlay_pair')
+   native=held.controller(record['controller_id'])
+   if native.get('lease_id')!=record.get('lease_id') or native.get('formation_id')!=fid or native.get('formation_version')!=record['version']:raise ValueError('held_overlay_control_binding')
+   roles=Counter();points=[];live=[];unavailable=[]
+   for name,actor in zip(('front','support'),actors):
+    proof=proofs[name];kind=0x19ab11af if name=='front' else 0x2c358c61;role='infantry' if name=='front' else 'anti_air'
+    if proof.get('object_id')!=actor or proof.get('type_hash')!=kind or proof.get('role')!=role or proof.get('lease_id')!=record['lease_id'] or proof.get('controller_id')!=record['controller_id'] or proof.get('session_id')!=held.session_id:raise ValueError('held_overlay_slot_binding')
+    obj=own.get(actor);hp=obj.get('hp') if obj else None;xyz=obj.get('xyz') if obj else None
+    try:actual_kind=int(obj.get('type_hash',''),0) if obj else None
+    except (ValueError,TypeError):actual_kind=None
+    positive=(obj is not None and actual_kind==kind and type(hp) in (float,int) and math.isfinite(hp) and hp>0)
+    point=(isinstance(xyz,(list,tuple)) and len(xyz)==3 and all(type(value) in (float,int) and math.isfinite(value) for value in xyz))
+    if positive:
+     roles[role]+=1;live.append(actor)
+     if point:points.append(list(xyz))
+    else:unavailable.append(actor)
+   updated=copy.deepcopy(record)
+   updated['own_roster_observation']=dict(frame=frame,present_positive_hp_ids=live,missing_or_unavailable_ids=unavailable,pair_present_positive_hp=len(live)==2,disposal_verified=False,control_release_verified=False)
+   checked[fid]=updated;live_roles[fid]=dict(roles);live_points[fid]=points
+  seen=set()
+  for descriptor in descriptors:
+   if type(descriptor) is not dict or set(descriptor)!={'formation_id','version','roles','region_id','available'} or type(descriptor['available']) is not bool:raise ValueError('held_overlay_public_fields')
+   fid=descriptor['formation_id']
+   if fid in seen or fid not in checked or descriptor['version']!=checked[fid]['version']:raise ValueError('held_overlay_public_binding')
+   seen.add(fid);roles=live_roles[fid]
+   if not roles:continue
+   current=copy.deepcopy(descriptor);current['roles']=roles
+   current['available']=descriptor['available'] and checked[fid]['own_roster_observation']['pair_present_positive_hp']
+   if live_points[fid]:current['region_id']=self.region_of(live_points[fid][0])
+   public.append(current)
+  self.private_held_formations=checked
+  return public
+
  def collect_battlefield(self,own,raw):
-  if not self.visibility_enabled:return None,own['logic_frame_candidate']/15
+  if not self.visibility_enabled:
+   self.private_held_formations={}
+   return None,own['logic_frame_candidate']/15
   sys.path.insert(0,str(ROOT.parent/'visibility'))
   memory=Memory(self.session['pid'],self.session)
   try:
@@ -93,7 +172,9 @@ class LiveBattleState:
     if len(owners)!=1:raise ValueError('Own-player identity unavailable')
     owner=next(iter(owners))
    script_team=memory.u32(memory.u32(owner+0x8c)+0x10)
+   claimed=self._held_registry_claims()
    for candidate in raw['candidates']:
+    if candidate['object_id'] in claimed:continue
     if candidate['type_hash'] not in self.formations.allowed_hashes:continue
     thing=int(candidate['address'],0);update=int(candidate['ai_address'],0);team=memory.u32(thing+0x414)
     # These troops remain in own totals, not independently mobile cohorts.
@@ -106,8 +187,7 @@ class LiveBattleState:
    admission_frame=memory.u32(logic+0x50)
    if admission_frame<frame:raise ValueError('Game clock moved backwards during admission sample')
    if admission_frame-own['logic_frame_candidate']>3 or memory.u32(logic+0x15c)!=own['pause_type_candidate']:raise RetryableSample('own_admission_visibility_sample_skew')
-   battlefield['formations']=self.formations.refresh(own['own_objects'],eligible,self.region_of)
-   self.private_formations=dict(self.formations.private)
+   battlefield['formations']=self.refresh_formations(own['own_objects'],eligible,admission_frame)
    self.private_targets=dict(self.visibility_reader.private_targets)
    points=dict(self.visibility_reader.region_points)
    private_points={rid:dict(xyz=list(point),observed_frame=int(now*15)) for rid,point in points.items()}
@@ -150,6 +230,7 @@ class LiveBattleState:
 
  def collect(self):
   self.private_targets={}
+  self.private_held_formations={}
   try:return self._collect()
   except RetryableSample:raise
   except (ValueError,RuntimeError) as error:

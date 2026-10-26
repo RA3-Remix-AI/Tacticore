@@ -33,7 +33,7 @@ class TacticalExecutor:
  def __init__(self,session_path,natural_observation_path,commander_id,player_id=3):
   if player_id!=3:raise ValueError('only_bound_player3_verified')
   self.session_path=Path(session_path);self.natural_path=Path(natural_observation_path);self.commander_id=str(uuid.UUID(str(commander_id)));self.player_id=player_id
-  self.lock=threading.RLock();self.pending=queue.Queue();self.stopping=threading.Event();self.ledger={};self.command_ids={};self.task_ids={};self.last_seq=0;self.native_seq=0;self.active=None;self.worker=None;self.formations={};self.regions={};self.capabilities={};self.capability_grants={};self.public_fingerprints={};self.reserved_units=set();self.contacts={};self.private_visible_positions={};self.visibility_proof_path=None;self.mission_context=None;self.state='not_started'
+  self.lock=threading.RLock();self.pending=queue.Queue();self.stopping=threading.Event();self.ledger={};self.command_ids={};self.task_ids={};self.last_seq=0;self.native_seq=0;self.active=None;self.worker=None;self.formations={};self.regions={};self.capabilities={};self.capability_grants={};self.public_fingerprints={};self.reserved_units=set();self.contacts={};self.private_visible_positions={};self.visibility_proof_path=None;self.mission_context=None;self.state='not_started';self.external_controller_channel=None
  def _audit(self,event):
   if not hasattr(self,'audit'):return
   with self.audit.open('a',encoding='utf-8') as f:f.write(json.dumps(event,ensure_ascii=False,allow_nan=False)+'\n');f.flush();__import__('os').fsync(f.fileno())
@@ -52,6 +52,18 @@ class TacticalExecutor:
    obs=json.loads(self.natural_path.read_text(encoding='utf-8-sig'));backend.compatible_natural_calls(obs,self.session['pid'])
    if obs['window_thread']!=pre['window_thread']:raise ValueError('natural_thread_mismatch')
    self.native_seq=int(time.monotonic()*1000)&0x7fffffff;self.run=Path(self.session['run_directory']);self.audit=self.run/'tactical-executor.jsonl';self.state='running';self.worker=threading.Thread(target=self._work,daemon=True);self.worker.start();self._audit(dict(event='started',session_id=self.session['session_id'],capabilities=self.capabilities));return self.status()
+ def claim_controller_channel(self,controller_id):
+  controller_id=str(uuid.UUID(str(controller_id)))
+  with self.lock:
+   if self.state!='running':raise ValueError('executor_stopped')
+   if self.external_controller_channel==controller_id:return True
+   if self.external_controller_channel is not None or self.active is not None or not self.pending.empty() or self.reserved_units or any(r.get('status') in ('queued','running','started') for r in self.ledger.values()):return False
+   self.external_controller_channel=controller_id;return True
+ def release_controller_channel(self,controller_id,*,independently_verified=False):
+  controller_id=str(uuid.UUID(str(controller_id)))
+  with self.lock:
+   if independently_verified is not True or self.external_controller_channel!=controller_id:raise ValueError('controller_channel_release_unverified')
+   self.external_controller_channel=None
  def update_context(self,formations,regions,contacts=None,visibility_proof_path=None,private_visible_positions=None,mission_context=None):
   """Trusted host only: own ObjectID rosters/version and known region points.
   No pointer, enemy memory or model supplied target point is admitted here.
@@ -79,6 +91,8 @@ class TacticalExecutor:
    if visibility_proof_path is not None:self.visibility_proof_path=str(Path(visibility_proof_path).resolve())
  def manifest(self):
   result=dict(schema_version=1,source='game_bridge',player_id=3,force_fraction=dict(request_min=.01,request_max=1.,allocation_cap=.5,denominator='all_live_verified_controllable_conscript_flak_and_proven_twinblade_union',rounding='floor',minimum_units=dict(main_attack=1,harass_economy=1,coordinate_force=2)),expiry=dict(min_remaining_frames=300,max_remaining_frames=900,logical_fps=15),lease_max_frames=180,return_observation_frames=90,coordinate_force=dict(roles=['infantry','anti_air'],unit_count=2,stages=['support_hold_front_advance','support_advance_behind_front'],max_move_calls=2 if self.capability_grants.get(('combined_arms','coordinate_force'),{}).get('executor_directory')=='formation-stop-v2' else 3,max_stop_calls=2 if self.capability_grants.get(('combined_arms','coordinate_force'),{}).get('executor_directory')=='formation-stop-v2' else 0,advance_distance=80,rear_spacing=80,support_target='front_initial_position'),attack=dict(unit_count=1,max_attack_orders=1,native_burst=True,weapon_mode='Conscript_normal_button_prepares_AK_when_required' if any(g.get('executor_directory')=='ordered-combo' for g in self.capability_grants.values()) else 'Conscript_AK47_current_getter_required',lease_frames=180,stop_before_and_after=True,target='current_verified_visible_ground_contact') if any(g.get('executor_directory') in ['ordered-attack','ordered-combo'] for g in self.capability_grants.values()) else dict(unit_count=1,max_shots=1,target='current_verified_visible_contact'),purpose_actor_roles={module:{purpose:grant['stop_schema']['actor_roles'] for (registered_module,purpose),grant in self.capability_grants.items() if registered_module==module} for module in self.capabilities},supported_purposes={k:list(v) for k,v in self.capabilities.items()},evidence=[{key:value for key,value in g.items() if key!='raw_assessment'} for g in self.capability_grants.values()])
+  result['external_controller_channel']=dict(occupied=getattr(self,'external_controller_channel',None) is not None)
+  if self.capability_grants.get(('combined_arms','coordinate_force'),{}).get('executor_directory') in ('mission-formation-v13','mission-formation-v14','mission-formation-v15','mission-formation-v16'):result['coordinate_force'].update(allocation_scope='prebound_paid_pair',request_force_fraction=1,allocation_fraction_cap=1,maximum_actors=2,maximum_actual_paid=305,reserve_floor=1000,uses_existing_controller=True)
   mission_grants=[g for g in self.capability_grants.values() if g.get('stop_schema',{}).get('mission_protocol')=='continuous_tactical_v1']
   if mission_grants:
    result.update(mission_protocol='continuous_tactical_v1',mission_duration_frames=4500,lease_max_frames=4500,expiry=dict(min_remaining_frames=300,max_remaining_frames=4500,logical_fps=15),mission_stages=['approach','prepare','engage','retreat','restored'],retreat_point_source='trusted_own_base_adjacent_sample_or_actor_origin')
@@ -105,6 +119,8 @@ class TacticalExecutor:
     if command in self.public_fingerprints:
      if self.public_fingerprints[command]!=fingerprint:raise ValueError('command_id_conflict')
      return dict(self.ledger[command])
+    if getattr(self,'external_controller_channel',None) is not None:raise ValueError('native_channel_owned_by_controller')
+    if self.capability_grants.get((module,purpose),{}).get('executor_directory') in ('mission-formation-v13','mission-formation-v14','mission-formation-v15','mission-formation-v16'):raise ValueError('prebound_paid_pair_requires_existing_controller')
     for key,value in [('session_id',self.session['session_id']),('player_id',3),('commander_id',self.commander_id)]:
      if key in task and task[key]!=value:raise ValueError('task_binding_mismatch')
     ids=task.get('formation_ids',());versions=dict(task.get('formation_versions',()));required_roles=set(task.get('required_roles',()))
@@ -624,4 +640,4 @@ class TacticalExecutor:
      if self._certify_queue_rejection(receipt,'stop_before_dispatch'):self.reserved_units.difference_update(receipt['object_ids'])
      receipt.update(status='cancelled',reason_code='stop_before_dispatch')
   if self.worker:self.worker.join(timeout=1)
-  with self.lock:self.state='return_pending' if self.reserved_units or self.worker and self.worker.is_alive() else 'stopped';result=self.status();self._audit(dict(event='stop_requested',status=result));return result
+  with self.lock:self.state='return_pending' if getattr(self,'external_controller_channel',None) is not None or self.reserved_units or self.worker and self.worker.is_alive() else 'stopped';result=self.status();self._audit(dict(event='stop_requested',status=result));return result

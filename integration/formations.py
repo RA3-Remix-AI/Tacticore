@@ -21,7 +21,9 @@ class FormationRegistry:
 
     def release(self,formation_ids):self.reserved.difference_update(formation_ids)
 
-    def refresh(self,own_objects,eligible_ids,region_for_point):
+    def refresh(self,own_objects,eligible_ids,region_for_point,*,claimed_ids=()):
+        external_held=set(claimed_ids)
+        if any(type(ident) is not int or ident<1 for ident in external_held):raise ValueError('Invalid external unit claim')
         live={}
         for obj in own_objects:
             ident=obj.get('object_id');hp=obj.get('hp',0);kind=obj.get('type_hash','').lower()
@@ -30,6 +32,8 @@ class FormationRegistry:
             if ident in live:raise ValueError('Own object identity duplicated')
             live[ident]=dict(obj,role=self.roles[kind])
         held={oid for fid in self.reserved for oid in self.private[fid]['object_ids']}
+        if held & external_held:raise ValueError('Native unit control already allocated')
+        held.update(external_held)
         infantry=sorted(oid for oid,obj in live.items() if obj['role']=='infantry' and oid in eligible_ids and oid not in held)
         support=sorted(oid for oid,obj in live.items() if obj['role']=='anti_air' and oid in eligible_ids and oid not in held)
         main_id='formation_'+uuid.uuid5(uuid.UUID(self.session),'main_force').hex[:16]

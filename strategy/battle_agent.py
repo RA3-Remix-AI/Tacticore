@@ -95,7 +95,7 @@ class ModuleTask:
 
 class TaskCoordinator:
     def __init__(self,engine:StrategyEngine,build_evidence:BuildEvidence|None=None,tactical_evidence:TacticalEvidence|None=None):
-        self.engine=engine;self.build_evidence=build_evidence;self.tactical_evidence=tactical_evidence;self.tasks=[];self.failures={};self.history=deque(maxlen=16);self.generation=0;self.quarantined_formations={}
+        self.engine=engine;self.build_evidence=build_evidence;self.tactical_evidence=tactical_evidence;self.tasks=[];self.failures={};self.history=deque(maxlen=16);self.generation=0;self.quarantined_formations={};self.paid_pair_formations={}
         if build_evidence is not None:
             b=engine.binding
             if build_evidence.session_id!=b.session_id or build_evidence.player_id!=b.player_id or build_evidence.source not in {"simulated","game_bridge"}:
@@ -131,7 +131,20 @@ class TaskCoordinator:
         if not self.verified_tactical(module,purpose,source):return None
         return next((roles for name,goal,roles in self.tactical_evidence.actor_roles if (name,goal)==(module,purpose)),None)
 
+    def is_paid_pair_request(self,request,source):
+        return (request.module=="combined_arms" and request.purpose=="coordinate_force" and request.force_fraction==1
+                and len(request.formation_ids)==1 and request.formation_ids[0] in self.paid_pair_formations
+                and dict(request.formation_versions)=={request.formation_ids[0]:self.paid_pair_formations[request.formation_ids[0]]}
+                and set(request.required_roles)=={"infantry","anti_air"} and self.verified_tactical(request.module,request.purpose,source))
+
+    def force_cost(self,request,source):
+        # Independent quota for the SAME real paid pair. Preserve the original
+        # request fraction=1; never invent a smaller free-army allocation.
+        return 0 if self.is_paid_pair_request(request,source) else request.force_fraction
+
     def validate_actor_roles(self,module,purpose,formation_ids,required_roles,battlefield,source,target_role=None):
+        scoped=set(formation_ids)&set(self.paid_pair_formations)
+        if scoped and (module!="combined_arms" or purpose!="coordinate_force" or len(formation_ids)!=1 or set(required_roles)!={"infantry","anti_air"}):raise ContractError("paid_pair_scope")
         allowed=self.allowed_actor_roles(module,purpose,source)
         if allowed is None:return  # Legacy trusted evidence has no role restriction.
         if not isinstance(required_roles,(list,tuple)) or not required_roles or any(not isinstance(role,str) or role not in allowed for role in required_roles):raise ContractError("tactical_actor_roles")
@@ -170,7 +183,7 @@ class TaskCoordinator:
                 # Repeating its request must not let a higher-priority new task
                 # claim the same roster or budget ahead of the existing lease.
                 if task.request.key() not in requested:result.append(task)
-                locks.update(task.request.resource_locks);claimed_formations.update(task.request.formation_ids);spend+=task.request.spend_fraction;force+=task.request.force_fraction
+                locks.update(task.request.resource_locks);claimed_formations.update(task.request.formation_ids);spend+=task.request.spend_fraction;force+=self.force_cost(task.request,source)
             elif task.request.key() not in requested:self.history.append(task.public())
         for request in sorted(requests,key=lambda x:-x.priority):
             if request.module not in MODULES or request.purpose not in PURPOSES[request.module] or request.key() in keys:
@@ -200,7 +213,8 @@ class TaskCoordinator:
             elif locks & set(request.resource_locks):status,reason="blocked","resource_conflict"
             elif claimed_formations & set(request.formation_ids):status,reason="blocked","formation_conflict"
             elif set(request.formation_ids)&set(self.quarantined_formations):status,reason="blocked","restoration_unverified"
-            elif spend+request.spend_fraction>spend_cap+1e-6 or force+request.force_fraction>force_cap+1e-6:status,reason="blocked","budget_conflict"
+            elif set(request.formation_ids)&set(self.paid_pair_formations) and not self.is_paid_pair_request(request,source):status,reason="blocked","paid_pair_scope"
+            elif spend+request.spend_fraction>spend_cap+1e-6 or force+self.force_cost(request,source)>force_cap+1e-6:status,reason="blocked","budget_conflict"
             elif self.failures.get(request.key(),{}).get("retry_after",0)>at:status,reason="blocked","failure_backoff"
             elif request.module=="build" and request.purpose=="native_baseline":status,reason="planned","passive_native_ai"
             elif request.module=="build" and self.build_evidence is not None and self.build_evidence.source==source and request.focus in self.build_evidence.supported_foci:status,reason="planned","awaiting_host_dispatch"
@@ -208,7 +222,7 @@ class TaskCoordinator:
             else:status,reason="unavailable","not_verified"
             # Abstract planning allocation only, never an allocation of real units.
             if status!="blocked" and status not in IN_FLIGHT:
-                spend+=request.spend_fraction;force+=request.force_fraction;locks.update(request.resource_locks);claimed_formations.update(request.formation_ids)
+                spend+=request.spend_fraction;force+=self.force_cost(request,source);locks.update(request.resource_locks);claimed_formations.update(request.formation_ids)
             if status!=task.status or reason!=task.reason_code:task.updated_at_game_seconds=at
             task.status,task.reason_code=status,reason;result.append(task)
         self.tasks=result
@@ -366,11 +380,18 @@ class BattleAgent:
     def pending_mission_retreats(self):
         return [{'task_id':m.task_id,'mission_id':m.mission_id,'reason':m.retreat_requested_reason} for m in self.missions.active.values() if m.retreat_requested_reason and m.phase!='restored' and not(m.observations and m.observations.scene_closed_verified)]
 
+    def set_prebound_paid_pairs(self, formations):
+        """Trusted exact-FID capability metadata, never a model JSON field."""
+        self.engine.set_prebound_paid_pairs(formations)
+        self.goals.paid_pair_formations=dict(formations)
+
     def capability_manifest(self):
         source=self.latest.source if self.latest else 'simulated';manifest=self.goals.capability_manifest(source)
         for module,value in manifest.items():
             purposes=[p for p in value.get('verified_purposes',[]) if self.missions.permits(module,p,source)]
             if purposes:value.update(mission_protocol='continuous_tactical_v1',verified_mission_purposes=purposes,mission_max_duration_game_seconds=self.missions.evidence.max_duration_game_seconds)
+        if self.goals.paid_pair_formations:
+            manifest["combined_arms"]["purpose_allocation_scopes"]={"coordinate_force":{"scope":"prebound_paid_pair","formation_versions":dict(self.goals.paid_pair_formations),"request_force_fraction":1,"maximum_actors":2,"maximum_actual_paid":305,"reserve_floor":1000,"meaning":"Use the whole already-paid controlled pair; other free-army task fractions retain their original caps."}}
         return manifest
 
     def record_mission_progress(self,task_id,raw,*,observations,evidence_sha256,verified_terminal_clock=None):

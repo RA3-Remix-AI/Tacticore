@@ -22,7 +22,7 @@ def model_connection(library,backend):
 
 def host_command(session_path,manifest_path,library,backend):
  production=ROOT.parent/'acceptance/runs/20261024-183816-commander'
- return [sys.executable,str(ROOT/'battle_host.py'),'--session',str(session_path),'--commander',COMMANDER,'--player','3','--execute','--with-visibility','--wait-for-match','--max-wall-seconds','3600','--total-budget','4000','--reserve','1000','--library',str(library.resolve()),'--model-backend',backend,'--evidence',str(production/'production-trace-20261024-184048-9696c7b3.json'),'--persistent-evidence',str(production/'persistent-production-status.json'),'--tactical-evidence',str(manifest_path)]
+ return [sys.executable,str(ROOT/'battle_host.py'),'--session',str(session_path),'--commander',COMMANDER,'--player','3','--execute','--with-visibility','--wait-for-match','--interval','1','--max-wall-seconds','3600','--total-budget','4000','--reserve','1000','--library',str(library.resolve()),'--model-backend',backend,'--evidence',str(production/'production-trace-20261024-184048-9696c7b3.json'),'--persistent-evidence',str(production/'persistent-production-status.json'),'--tactical-evidence',str(manifest_path)]
 
 def preflight(session_path,manifest_path,require_missions=False):
  session=json.loads(session_path.read_text(encoding='utf-8-sig'));scenario=session.get('scenario',{})

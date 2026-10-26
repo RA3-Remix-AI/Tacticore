@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "reviewer": "full_match_readiness_v8",
+  "updated_local": "2026-10-26T06:55:09.791174",
+  "status": "software_checked_only",
+  "scope": "Host/Coordinator/held overlay/scoped quota/urgent memory planning/prompt and independent read-only Bridge review",
+  "field_verified": false,
+  "native_capability_granted": false,
+  "real_model_requests_made_by_review": 0,
+  "gui_or_game_commands": 0,
+  "source_state": "Own implementation frozen pending joint seal; Root Bridge UUID correction independently retested. Native/q implementation and field validation are separate.",
+  "test_runs": [
+    {
+      "suite": "integration",
+      "tests": 104,
+      "status": "passed",
+      "command": "..\\.venv\\Scripts\\python.exe -m unittest test_reserve_controller test_battle_host test_formations test_held_overlay test_held_formations test_live_visibility test_mission_match_preflight -q",
+      "seconds": 0.916
+    },
+    {
+      "suite": "strategy",
+      "tests": 149,
+      "status": "passed",
+      "command": "..\\.venv\\Scripts\\python.exe -m unittest test_paid_pair_scope test_engine test_battle_agent test_inflight_reservations test_host_commit test_missions test_mission_audit test_tactical_prompt test_tactical_contract test_http_adapter test_pydantic_mission_memory -q",
+      "seconds": 12.057
+    },
+    {
+      "suite": "independent_parent_bridge",
+      "tests": 42,
+      "status": "passed",
+      "command": "..\\.venv\\Scripts\\python.exe -m unittest test_held_controller_bridge test_tactical_bridge -q",
+      "seconds": 1.448
+    },
+    {
+      "suite": "independent_client_channel",
+      "tests": 5,
+      "status": "passed",
+      "command": "..\\.venv\\Scripts\\python.exe -m unittest test_controller_channel -q",
+      "seconds": 0.001
+    }
+  ],
+  "implementation": [
+    "Only current accepted MODEL balanced build task with exact plan/generation, sufficient305 budget and verified combined_arms capability can authorize preparation; original parent build and two child production IDs recorded",
+    "Current player-authorized visible ground opportunity600..2600 from owned barracks, no currently visible enemy within500; only read-only opportunity filtering, not safety/target selection",
+    "Client channel claim before held prearm/Native install; first actual verified Native borrow freezes global300/4500; each original paid role claimed without waiting for peer",
+    "Reserve slots remain excluded from free rosters and legacy admission; actual own missing/HP0/type mismatch disables public assignment without releasing actor claims",
+    "Actor source facts only from Runtime.verified_facts, no Header masks grant permission. Waiting/half-published facts retain earlier claims",
+    "Two normal producer submissions exactly85+220, original minInterval150; preallocated seqs protect second order, existing global producer budget remains authoritative",
+    "Exact trusted paid FID has force_fraction1 with independent whole-pair quota; free scopes retain old caps and plan.reserve constraints at policy, goals and runtime layers",
+    "Actual new Pydantic factory imports the same scope-aware system_prompt; exact-pair example uses force1 and cannot teach assigning held pair to attack/raid",
+    "Once-per-ready controller epoch cancels/drains obsolete transport before immediate planning, bypassing old2/15 hold for that epoch, without parallel requests or urgent auto retries",
+    "Mission mapping persisted before reusing same Runtime.commit; original hard deadline unchanged, identical published request can read same ACK, conflicting/ambiguous retry rejected",
+    "Native verified_release exact role set needed to release both ledgers/channel and close runtime; untasked terminal remains auditable",
+    "Prelaunch failure rollback only after arm worker ended and Runtime verified_no_launch identity/file/config/wrapper/session hashes prove zero SDK/closed mapping; unknown intent retains claims"
+  ],
+  "bridge_review": {
+    "blocking_found_and_fixed_by_root": "Real Goals task IDs are UUID.hex; Runtime canonicalizes parent_task_id. receipt_for originally compared strings. Root now compares UUID semantic identity and preserves original receipt task key. New real32hex fixture passed.",
+    "known_pending_owned_by_q": "MF13-specific continuous_evidence/progress/terminal/pre-dispatch readers must bind outer lease plus post-hoc MissionCommit/body/actors and use mission_commit_frame instead of early borrow. Generic old-family reader cannot be reused by mutating raw data.",
+    "additional_success_path_blocking_found": false,
+    "closed_runtime": "After verified release, coordinator closes handles but leaves immutable report available; Bridge receipt projection can drain from that report without re-polling the closed mapping.",
+    "casualty_behavior": "Current Bridge faults conservatively on failed started missions with restoration_verifiedFalse, even when exclusive control release/disposal independently proved. It never promotes release into stance restoration/success. A future explicit MF13 failure-continuation path should keep these facts separate if LLM should continue after such a casualty."
+  },
+  "remaining_dependencies": [
+    "Native13 and q joint source seal plus actual paid pair readiness timing, model commit, approach/effect/physical retreat/restore proof",
+    "q MF13 continuous readers and independent full-match audit bindings",
+    "Fresh real Pydantic model match vs active native Oleg, actual all-three tactical effects, accepted post-original-plan-TTL compressed same-mission contexts, native natural settlement; no software test implies any of these"
+  ],
+  "sha256": {
+    "integration/reserve_controller.py": "5d912463162a4423bd328108fa6a64a5ed7c2a3787d7ce9dfc17ecb2c6b11a06",
+    "integration/test_reserve_controller.py": "72bd08e81a6bbac868f57c8560123be9e477cc5aee7cd0c417df9d99db80991e",
+    "integration/battle_host.py": "1350553a8e3453eb6dae682e6ab5d7b0ebedd050c51a114a465a7f72b00aefb0",
+    "integration/held_formations.py": "48bc9461a4b3458ccd1da292bf02a37ebd2529a7740a2355fd3b05de7e63ac52",
+    "integration/test_held_formations.py": "6f41c50e2facb28f9e0ae71139c565bc243f1e3c9b69bfe01746241157a0d9bc",
+    "integration/formations.py": "b48a12f10d6f0785a3eb350be7c24d44f22a1fb2e588c2970491c08673e833f0",
+    "integration/live_state.py": "8fe2c1df8b6e30b2eaa9331ca5d6d553d1bbb3f4f164d89425f8fd4f03085ea9",
+    "integration/test_held_overlay.py": "62660ac2967e7193becaa1a474a40dec29c8ab616af6a7b8ba71cf62fcfdc743",
+    "strategy/battle_agent.py": "44c123c98fbf5c67314d32dc2efd6e7aad4d901737d3faaf734395181ba7843f",
+    "strategy/engine.py": "a7c3dbd56e8a9d4c117678968f746f14b321e14360a921a0b108488f1d11ae7f",
+    "strategy/http_adapter.py": "2b019a33f2f418e918ace7803c7b30e8510e5fc68745a46a001bed882abeabf8",
+    "strategy/test_paid_pair_scope.py": "ff34e0d274a6e8f78b161f90eb570387fabbf0b1195dc75fe0220bb3d2972b96",
+    "integration/tactical_bridge.py": "9b0ec666630937c6e55f7f61379359101f4d89bfede216fb503ba7e3b57052a5",
+    "integration/held_controller_receipts.py": "fae1947876864bd750e0329219b54e4a84888a52bf069ee40feb1a8d62f33193",
+    "integration/test_held_controller_bridge.py": "3348344bb4a6ac9dcbe597472c87b06351623c791502b3ef12cd253d0dc0d4b8",
+    "tactical/client.py": "1a7f5518c9f7206b5154b0c97ac9f146c0c4f17969c4bcaa2c69bcf1bbfe0484",
+    "tactical/test_controller_channel.py": "1aa34ec319a1fdee2f56474dc0ade3f613e91ae649c864e500a220123f447d2a"
+  }
+}
