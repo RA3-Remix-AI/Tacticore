@@ -32,7 +32,7 @@ class ControllerReader(unittest.TestCase):
   session=str(uuid.UUID(int=1));commander=str(uuid.UUID(int=2));parent=str(uuid.UUID(int=3));task=str(uuid.UUID(int=4));outer=str(uuid.UUID(int=5));lease=str(uuid.UUID(int=6));child=str(uuid.uuid5(uuid.UUID(parent),'formation'));child_task=str(uuid.uuid5(uuid.UUID(task),'formation'))
   body=self.real.controller.L.MissionCommitBody13()
   for key,value in dict(controller=outer,lease=lease,parent_command=parent,parent_task=task,command=child,task=child_task).items():getattr(body,key)[:]=struct.unpack('<4I',uuid.UUID(value).bytes)
-  body.seq=7;body.front_id=101;body.support_id=102;body.reserve_start_frame=100;body.reserve_deadline_frame=550 if version==16 else 400;body.hard_deadline_frame=4600
+  body.seq=7;body.front_id=101;body.support_id=102;body.reserve_start_frame=100;body.reserve_deadline_frame=550 if version>=16 else 400;body.hard_deadline_frame=4600
   prefix=bytes(body)[:252];digest=hashlib.sha256(prefix).digest();body.digest_sha256[:]=struct.unpack('<8I',digest)
   public=dict(formation_versions=[['formation_example',1]],target_contact_id='contact_example',expires_frame=4600)
   self.r=dict(session_id=session,package_sha256='mod',executable_sha256=m.EXPECTED,preflight=dict(pid=123,commander_id=commander,player_id=3,window_thread=8),request=dict(command_id=outer,task_id=lease,seq=9,token=10),native=dict(magic=magic,version=version,pid=123,thread=8,session_id=session,commander_id=commander,command_id=outer,task_id=lease,seq=9,token=10,issued_frame=100,mission_deadline_frame=4600,mission_commit=dict(generation=2,status=1,ack_frame=200,body=self.real.controller.plain(body)),controller=dict(lease_issued_frame=100,reserve_start_frame=100,reserve_deadline_frame=400,hard_deadline_frame=4600,mission_commit_frame=200,approach_frame=200),detach_calls=1,support=dict(detach_calls=1),phase=4,active=0),mission_request=dict(parent_command_id=parent,parent_task_id=task,child_command_id=child,child_task_id=child_task,seq=7,commit_body_hex=bytes(body).hex(),commit_prefix_hex=prefix.hex(),digest_sha256=digest.hex(),public_command=public,public_command_path=str(self.run/'original-public.json'),public_command_sha256='source'),events=[dict(kind=14,tag=1,role=0,seq=1,frame=100),dict(kind=14,tag=1,role=1,seq=2,frame=101),dict(kind=153,seq=3,frame=200)],status='finished',host_exit=0)
@@ -43,12 +43,44 @@ class ControllerReader(unittest.TestCase):
   self.write()
  def write(self):self.path.write_text(json.dumps(self.r),encoding='utf-8')
  def test_both_families_keep_lease_older_than_actual_model_issue(self):
-  for version in (13,14,15,16):
+  for version in (13,14,15,16,17):
    self.fixture(version);out=m.bound_report(self.host,self.receipt,self.entry,terminal=True)
    self.assertEqual((out['lease_issued_frame'],out['model_issued_frame']),(100,200));self.assertTrue(out['model_started'])
  def test_receipt_cannot_use_outer_lease_issue_as_model_issue(self):
   self.receipt['execution']['issued_frame']=100
   with self.assertRaisesRegex(ValueError,'confused lease'):m.bound_report(self.host,self.receipt,self.entry)
+ def scene_fixture(self):
+  self.fixture(17);self.r['host_exit']=9;self.r['native']['error']=31;self.r['events'].append(dict(kind=4,seq=4,frame=0,native_error=31));self.write()
+  path=self.run/'original-scene-sidecar.json';path.write_text('{"actual_reader_test_boundary":true}')
+  proof=dict(sidecar_path=str(path),sidecar_sha256=hashlib.sha256(path.read_bytes()).hexdigest(),source_sha256=hashlib.sha256(self.path.read_bytes()).hexdigest(),control_release_verified=True,scene_disposed_control_release=True,actors=[dict(role=r,object_id=oid,released=True,returned=False,disposed=False) for r,oid in enumerate((101,102))])
+  proof.update({k:False for k in ('restoration_verified','return_verified','physical_retreat_verified','completed','goal_observed','completion_claim')})
+  self.receipt['unit_results']=[dict(report=str(self.path),object_ids=[101,102],scene_release=copy.deepcopy(proof))]
+  self.q.control_release=lambda r:dict(control_release_verified=False)
+  original=m._load
+  reader=SimpleNamespace(verify_path=lambda *args:copy.deepcopy(proof))
+  patch.object(m,'_load',side_effect=lambda path,name:reader if name=='continuous_exact_scene_release17' else original(path,name)).start()
+  return proof
+ def test17_scene_certificate_releases_exclusivity_without_rewriting_raw(self):
+  self.scene_fixture();before=self.path.read_bytes();out=m.terminal_facts(self.host,self.receipt,self.entry)
+  self.assertTrue(out['control_release']['control_release_verified']);self.assertFalse(out['control_release']['restoration_verified']);self.assertFalse(out['qualification']['effect_verified']);self.assertEqual(self.path.read_bytes(),before)
+ def test17_scene_receipt_boolean_does_not_replace_reader(self):
+  proof=self.scene_fixture();proof['control_release_verified']=False
+  with self.assertRaisesRegex(ValueError,'closure unproven'):m.terminal_facts(self.host,self.receipt,self.entry)
+ def test17_scene_sidecar_must_bind_original_raw_digest(self):
+  proof=self.scene_fixture();proof['source_sha256']='0'*64
+  with self.assertRaisesRegex(ValueError,'closure unproven'):m.terminal_facts(self.host,self.receipt,self.entry)
+ def test17_scene_sidecar_bytes_must_match_receipt_digest(self):
+  self.scene_fixture();self.receipt['unit_results'][0]['scene_release']['sidecar_sha256']='0'*64
+  with self.assertRaisesRegex(ValueError,'digest changed'):m.terminal_facts(self.host,self.receipt,self.entry)
+ def test17_scene_false_physical_home_or_return_claim_rejected(self):
+  proof=self.scene_fixture();proof['return_verified']=True
+  with self.assertRaisesRegex(ValueError,'physical outcome'):m.terminal_facts(self.host,self.receipt,self.entry)
+ def test17_scene_completion_never_inherits_failed_qualification(self):
+  self.scene_fixture();self.receipt['status']='completed'
+  with self.assertRaisesRegex(ValueError,'not mission completion'):m.terminal_facts(self.host,self.receipt,self.entry)
+ def test17_scene_wrong_actor_or_foreign_sidecar_rejected(self):
+  proof=self.scene_fixture();proof['actors'][0]['object_id']=999
+  with self.assertRaisesRegex(ValueError,'actor release changed'):m.terminal_facts(self.host,self.receipt,self.entry)
  def test_parent_uuid_hex_is_compared_without_rewriting_raw(self):
   self.entry['task_id']=uuid.UUID(self.entry['task_id']).hex;self.entry['command_id']=uuid.UUID(self.entry['command_id']).hex;before=self.path.read_bytes()
   self.assertTrue(m.bound_report(self.host,self.receipt,self.entry)['model_started']);self.assertEqual(before,self.path.read_bytes())
