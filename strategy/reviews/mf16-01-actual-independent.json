@@ -1,0 +1,571 @@
+{
+  "protocol": "mf16_01_actual_independent_review_v1",
+  "raw_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261026-081800-commander\\paid-pair16-01-controller.json",
+  "raw_sha256": "64bd113485a953d0d0e5addd27d150b6adb2a8ce591a0848c3e79e6c09974ba5",
+  "source_pins": true,
+  "mission_passed": false,
+  "tactical_source_granted": false,
+  "model_http_origin_verified": false,
+  "scope": "Manual calibration: same-lease paid reserve to accepted mission, actual FOV-lost physical withdrawal and both normalReturns. No attack/damage/effect source; no retrospective v2 Source.",
+  "terminal": {
+    "status": "finished",
+    "host_exit": 0,
+    "phase": 3,
+    "error": 0,
+    "events": 4580,
+    "final_frame": 2588,
+    "retreat_started": 1969,
+    "returned_frame": 2558,
+    "retreat_reason": 2,
+    "home_arrivals": [
+      3,
+      3
+    ]
+  },
+  "original_qualification": {
+    "status": "not_passed",
+    "checks": {
+      "actual_protocol_namespace": true,
+      "compiled_source_revision": true,
+      "identity_and_outer_lease": true,
+      "actual_native_pointer_binding": true,
+      "exact_actors": true,
+      "published_monotonic_log": true,
+      "critical_finite": true,
+      "role_thread_and_owner": true,
+      "fixed_navigation_limits": true,
+      "original_deadline": true,
+      "explicit_ground_target": true,
+      "original_paid_controller_and_write_once_commit": true,
+      "explicit_actual_wait_anchor_replans": false,
+      "explicit_actual_retreat_departure": true,
+      "explicit_actual_pending_lineage": true,
+      "original_thread_bounded_scheduler": true,
+      "compiled_tls_scalar_alignment": true,
+      "actual_owned_raw_weapon_asset_capture": false,
+      "normal_stance_ownership_and_restore": true,
+      "raw_dispatch_diagnostic_counter_links": true,
+      "actual_breadcrumb_publications": true,
+      "actual_positive_path_motion": true,
+      "normal_move_chains": true,
+      "every_follow_actual_arrival_and_stop": true,
+      "conditional_branches_if_observed": true,
+      "legal_frozen_memory_and_current_fire": true,
+      "lease_scoped_no_native_override": true,
+      "fresh_admission_actual_origins": true,
+      "actual_nonlethal_packet_commit_ammo_support": false,
+      "both_physical_retreat_origins": true,
+      "finished_host_and_native": true,
+      "actual_long_approach": false,
+      "actual_long_retreat": true,
+      "frozen_phase_deadlines": false,
+      "effect_precedes_source_damage_retreat": false,
+      "actual_paired_follow_checkpoints": true,
+      "bounded_actual_commands": true,
+      "two_live_pool_returns_and_actual_pristine_terminal": true
+    },
+    "effect_verified": false,
+    "source_damage_amount": 0,
+    "approach_verified": false,
+    "long_approach_verified": false,
+    "retreat_verified": true,
+    "long_retreat_verified": true,
+    "restoration_verified": true,
+    "combined_arms_verified": false
+  },
+  "controller_checks": {
+    "input": true,
+    "producer_arm": true,
+    "producer": true,
+    "producer_wait": true,
+    "spawn_wait": true,
+    "risk": true,
+    "cohort": true,
+    "borrow": true,
+    "clock": true,
+    "ready": true,
+    "commit": true,
+    "precommit": true,
+    "stops": true,
+    "origin": true,
+    "target_proof": true,
+    "parent_request": true
+  },
+  "actual_reserve_window": {
+    "first_borrow": 1062,
+    "ready": 1330,
+    "commit": 1366,
+    "reserve_deadline": 1512,
+    "hard_deadline": 5562,
+    "duration": 450,
+    "remaining_at_ready": 182,
+    "remaining_at_commit": 146
+  },
+  "actual_target": {
+    "object_id": 789,
+    "type_hash": "0x2c358c61",
+    "observed_frame": 1354,
+    "initial_distance_from_anchor": [
+      815.8238538110032,
+      859.9224607806855
+    ],
+    "first_hidden_sample_frame": 1431,
+    "last_visible_sample_frame": 1429
+  },
+  "paid_and_roles": [
+    {
+      "role": 0,
+      "object_id": 798,
+      "command": {
+        "seq": 1,
+        "id": [
+          1012568614,
+          2051717065,
+          1633658241,
+          2474657879
+        ],
+        "task": [
+          2227379853,
+          1799544016,
+          1146004649,
+          3656351059
+        ],
+        "session": [
+          2642116977,
+          3779945592,
+          4040949671,
+          1056415710
+        ],
+        "commander": [
+          3026773591,
+          3175319885,
+          3557659324,
+          4014403638
+        ],
+        "hash": 430641583,
+        "budget": 85,
+        "reserve": 1000,
+        "expires": 1774,
+        "queue_limit": 2,
+        "requested_tick": 683172828,
+        "factory": 93446304,
+        "factory_id": 765,
+        "iface": 104941124
+      },
+      "paid": 85,
+      "cost": 85,
+      "debit_count": 60,
+      "cash": 4058,
+      "liability": 43,
+      "cash_required": 1128,
+      "completion_frame": 1030,
+      "first_receipt_capture": 1031,
+      "anchor": [
+        3065.77734375,
+        2947.888671875,
+        210.0
+      ],
+      "anchor_frame": 1120,
+      "minimum_own_hp": 87.5,
+      "home91": [
+        {
+          "seq": 4524,
+          "frame": 2552,
+          "xyz": [
+            3070.0,
+            2950.0,
+            210.0
+          ]
+        }
+      ],
+      "final66": [
+        {
+          "seq": 4545,
+          "frame": 2558,
+          "hp": 87.5,
+          "xyz": [
+            3070.0,
+            2950.0,
+            210.0
+          ]
+        }
+      ],
+      "normal_return": [
+        {
+          "seq": 4559,
+          "frame": 2558,
+          "team": 91563648
+        }
+      ],
+      "stance_restore": {
+        "module": 104874232,
+        "vtable": 12812176,
+        "backref": 93488544,
+        "data": 252513504,
+        "definition_list": 253551344,
+        "definition_count": 4,
+        "definition_entries": [
+          1,
+          0,
+          0,
+          0,
+          2,
+          0,
+          3,
+          0
+        ],
+        "original_enum": 0,
+        "set_calls": 1,
+        "set_return": 1,
+        "set_before": 0,
+        "set_after": 2,
+        "restore_calls": 1,
+        "restore_return": 1,
+        "restore_before": 2,
+        "restore_after": 0,
+        "restored": 1,
+        "automatic_stop2": 2,
+        "private_automatic_stop2": 2,
+        "foreign_calls": 0,
+        "capture_frame": 1062
+      }
+    },
+    {
+      "role": 1,
+      "object_id": 803,
+      "command": {
+        "seq": 2,
+        "id": [
+          4145112081,
+          1296452451,
+          3169457829,
+          155670059
+        ],
+        "task": [
+          395531205,
+          2252756694,
+          2114059709,
+          941925558
+        ],
+        "session": [
+          2642116977,
+          3779945592,
+          4040949671,
+          1056415710
+        ],
+        "commander": [
+          3026773591,
+          3175319885,
+          3557659324,
+          4014403638
+        ],
+        "hash": 741706849,
+        "budget": 220,
+        "reserve": 1000,
+        "expires": 1774,
+        "queue_limit": 2,
+        "requested_tick": 683182812,
+        "factory": 93446304,
+        "factory_id": 765,
+        "iface": 104941124
+      },
+      "paid": 220,
+      "cost": 220,
+      "debit_count": 90,
+      "cash": 3283,
+      "liability": 95,
+      "cash_required": 1315,
+      "completion_frame": 1231,
+      "first_receipt_capture": 1232,
+      "anchor": [
+        3065.48974609375,
+        3005.48974609375,
+        210.0
+      ],
+      "anchor_frame": 1330,
+      "minimum_own_hp": 120.0,
+      "home91": [
+        {
+          "seq": 4406,
+          "frame": 2479,
+          "xyz": [
+            3065.10302734375,
+            3003.79248046875,
+            210.0
+          ]
+        }
+      ],
+      "final66": [
+        {
+          "seq": 4546,
+          "frame": 2558,
+          "hp": 120.0,
+          "xyz": [
+            3065.10302734375,
+            3003.79248046875,
+            210.0
+          ]
+        }
+      ],
+      "normal_return": [
+        {
+          "seq": 4572,
+          "frame": 2558,
+          "team": 91563648
+        }
+      ],
+      "stance_restore": {
+        "module": 104872880,
+        "vtable": 12812176,
+        "backref": 93492384,
+        "data": 251653760,
+        "definition_list": 253551344,
+        "definition_count": 4,
+        "definition_entries": [
+          1,
+          0,
+          0,
+          0,
+          2,
+          0,
+          3,
+          0
+        ],
+        "original_enum": 0,
+        "set_calls": 1,
+        "set_return": 1,
+        "set_before": 0,
+        "set_after": 2,
+        "restore_calls": 1,
+        "restore_return": 1,
+        "restore_before": 2,
+        "restore_after": 0,
+        "restored": 1,
+        "automatic_stop2": 2,
+        "private_automatic_stop2": 2,
+        "foreign_calls": 0,
+        "capture_frame": 1262
+      }
+    }
+  ],
+  "physical_retreat": {
+    "verified": true,
+    "checks": {
+      "two_role_retreat_boundary": true,
+      "last_front_move_after_leader_home_and_follow_stop": true,
+      "both_actual_home_three_frames_and_final_stops": true,
+      "retreat_within_fixed_limit": true,
+      "actual_retreat_follow": true
+    },
+    "roles": [
+      {
+        "role": 0,
+        "verified": true,
+        "home_arrival_frames": [
+          2548,
+          2550,
+          2552
+        ],
+        "retreat_displacement": 822.2379903819868
+      },
+      {
+        "role": 1,
+        "verified": true,
+        "home_arrival_frames": [
+          2475,
+          2477,
+          2479
+        ],
+        "retreat_displacement": 945.2587491666012
+      }
+    ],
+    "long_retreat_verified": true
+  },
+  "control_release": {
+    "restoration_verified": true,
+    "stance_restoration_verified": true,
+    "control_release_verified": true,
+    "return_verified": true,
+    "disposed_verified": false,
+    "actors": [
+      {
+        "role": 0,
+        "object_id": 798,
+        "returned": true,
+        "disposed": false,
+        "never_held": false,
+        "released": true
+      },
+      {
+        "role": 1,
+        "object_id": 803,
+        "returned": true,
+        "disposed": false,
+        "never_held": false,
+        "released": true
+      }
+    ],
+    "semantics": "independent_native_pool_return_or_readonly_disposal",
+    "completion_claim": false
+  },
+  "actual_terminal": {
+    "readonly_verified": true,
+    "entries": 17,
+    "entries_verified": true,
+    "double_header_verified": true,
+    "timer": 0,
+    "active": 0,
+    "mask": 131071
+  },
+  "branch_coverage": {
+    "risk": {
+      "verified": true,
+      "observed": false,
+      "checks": {
+        "original_paired_observation": true,
+        "original_global_clocks": true,
+        "actual_model_accept_before_risk": true,
+        "same_frame_reason3_retreat": true,
+        "no_new_move_or_attack_before_retreat": true,
+        "first_observed_threshold_crossing": true
+      },
+      "source_authority_granted": false,
+      "completion_claim": false
+    },
+    "retreat_departure": {
+      "verified": true,
+      "observed": true,
+      "success_verified": true,
+      "field_verified": false,
+      "checks": {
+        "one_shot_closed_window": true,
+        "real_first_published_origin": true,
+        "immutable_full_echo": true,
+        "both_stop_three_and_positive_surface": true,
+        "source_header_unchanged": true,
+        "initial_gap_and_fixed_start": true,
+        "raw_paired_path_and_first_eligible_close": true,
+        "window_no_follow_regroup_or_restart": true,
+        "success_before_immediate_original_follow": true,
+        "failure_cleanup_without_reopen": true
+      },
+      "start_seq": 3447,
+      "end_seq": 3467,
+      "start_frame": 1975,
+      "end_frame": 1983,
+      "reason": 1,
+      "initial_gap": 157.6277967094478,
+      "actual_path": 26.667258712917942,
+      "rounds": [
+        {
+          "frame": 1977,
+          "path": 6.66675394766019,
+          "clear": 6.66675394766019,
+          "gap": 164.25344827394852,
+          "reason": 0,
+          "leader": [
+            2595.79296875,
+            2179.3896484375,
+            280.0
+          ]
+        },
+        {
+          "frame": 1979,
+          "path": 13.333629356458971,
+          "clear": 13.333629354777065,
+          "gap": 170.88239577978604,
+          "reason": 0,
+          "leader": [
+            2599.10986328125,
+            2173.6064453125,
+            280.0
+          ]
+        },
+        {
+          "frame": 1981,
+          "path": 20.00038330411916,
+          "clear": 20.000383301876614,
+          "gap": 177.51408455133887,
+          "reason": 0,
+          "leader": [
+            2602.426513671875,
+            2167.8232421875,
+            280.0
+          ]
+        },
+        {
+          "frame": 1983,
+          "path": 26.667258712917942,
+          "clear": 26.66725870955413,
+          "gap": 184.14840597448847,
+          "reason": 1,
+          "leader": [
+            2605.743408203125,
+            2162.0400390625,
+            279.9710693359375
+          ]
+        }
+      ],
+      "source_index": 17,
+      "source_published_seq": 3446,
+      "semantics": "raw_protocol_only_no_field_capability"
+    },
+    "wait_replan": {
+      "observed": false,
+      "verified": false,
+      "checks": {
+        "bounded_attempts": true,
+        "pairs_and_order": true,
+        "old_origins_preserved": false,
+        "every_observed_replan": true
+      }
+    },
+    "pending_lineage": {
+      "observed": false,
+      "verified": true
+    }
+  },
+  "effect_absent": {
+    "attack_calls": 0,
+    "attack_facade": 0,
+    "attack_private": 0,
+    "weapon_entry": 0,
+    "damage_count": 0,
+    "commit_own_calls": 0,
+    "source_damage_amount": 0
+  },
+  "inherited_analysis_errors": {
+    "wait_home": "Frozen wait helper compares original71 borrow XYZ2910,2890 to the actual later reserve anchor. No96/97 occurred. Both safe homes exactly match actual slot anchors and original153/two76 binding; old helper/raw unchanged.",
+    "post_return_support_attack": [
+      {
+        "seq": 4573,
+        "kind": 12,
+        "role": 1,
+        "frame": 2575,
+        "tag": 0,
+        "team": 104677600,
+        "source": 2,
+        "mission_stage": 4
+      },
+      {
+        "seq": 4574,
+        "kind": 13,
+        "role": 1,
+        "frame": 2575,
+        "tag": 0,
+        "team": 104677600,
+        "source": 0,
+        "mission_stage": 4
+      }
+    ],
+    "post_return_explanation": "Only12/13 were after completeReturn5 seq4572/f2558, at2575 seq4573/4574 under new native team. Owned-lease native_attack counters0. Frozen effect gate used mission_stage4 instead of actual lease interval; new v2 may explain the subfact but cannot Source-pass this old raw."
+  },
+  "source_hashes": {
+    "tactical\\mission-formation-v16\\formation_mission_qualification.py": "130554ac25d6530591bd8ae19948171f2d41abaf612311c601bcfd8380917969",
+    "tactical\\mission-formation-v16\\reserve_controller_audit.py": "9378249fadc562c4f475b64c3d28f54daff0eeaf5c473e45f4f093bfa3a77817",
+    "tactical\\mission-formation-v16\\wait_anchor_replan.py": "eb19f3890a5a6bfaa604f92fd70132231330d6dd92233b932530434b7c0c7b04",
+    "tactical\\mission-formation-v16\\lease.py": "9eae85e852ae86bf9f0cde9bdc3cace11a66c4cbfe1913e40e2c8854f9810005",
+    "tactical\\mission-formation-v16\\revision.json": "816a4e487c8fda83af3500b25a6864d8fb812447b4bf65e900194c7ce756691d",
+    "acceptance\\runs\\20261026-081800-commander\\paid-pair16-01-controller.json": "64bd113485a953d0d0e5addd27d150b6adb2a8ce591a0848c3e79e6c09974ba5"
+  }
+}

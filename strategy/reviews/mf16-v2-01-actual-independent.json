@@ -1,0 +1,631 @@
+{
+  "protocol": "mf16_v2_01_actual_independent_review_v1",
+  "raw_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261026-082848-commander\\paid-pair16-v2-01-controller.json",
+  "raw_sha256": "8ba17e7350f41ce96be6cc16cd5b3a7ef2cff7eee096fcbeadc4b3a8275a1737",
+  "source_pins": true,
+  "full_mission_passed": false,
+  "tactical_source_granted": false,
+  "model_http_origin_verified": false,
+  "scope": "Single actual manual calibration. Actual AK damage and Flak positional support verified; retreat/home/front restoration/Return not completed. No stitching with old16 physical return or retrospective Source.",
+  "terminal": {
+    "status": "finished",
+    "host_exit": 9,
+    "phase": 4,
+    "error": 52,
+    "last_frame": 2663,
+    "events": 4161,
+    "issued": 1174,
+    "attack": 2159,
+    "retreat_started": 2163,
+    "retreat_reason": 1,
+    "cleanup_started": 2573,
+    "returned": 0,
+    "home_arrivals": [
+      0,
+      0
+    ],
+    "controller": {
+      "stage": 5,
+      "error": 0,
+      "reserve_start_frame": 1174,
+      "reserve_deadline_frame": 1624,
+      "hard_deadline_frame": 5674,
+      "lease_issued_frame": 1174,
+      "pair_ready_frame": 1329,
+      "mission_commit_frame": 1344,
+      "approach_frame": 1344,
+      "clock_frozen": 1,
+      "bound_mask": 3,
+      "held_mask": 1,
+      "ready_mask": 3,
+      "channel_claimed": 1,
+      "producer_snapshots": 58,
+      "producer_retry_count": 428,
+      "scope_verified": 1,
+      "untasked_cleanup": 0
+    }
+  },
+  "qualification": {
+    "status": "not_passed",
+    "checks": {
+      "actual_protocol_namespace": true,
+      "compiled_source_revision": true,
+      "identity_and_outer_lease": true,
+      "actual_native_pointer_binding": true,
+      "exact_actors": true,
+      "published_monotonic_log": true,
+      "critical_finite": true,
+      "role_thread_and_owner": true,
+      "fixed_navigation_limits": true,
+      "original_deadline": true,
+      "explicit_ground_target": true,
+      "original_paid_controller_and_write_once_commit": true,
+      "explicit_actual_wait_anchor_replans": true,
+      "explicit_actual_retreat_departure": true,
+      "explicit_actual_pending_lineage": true,
+      "original_thread_bounded_scheduler": true,
+      "compiled_tls_scalar_alignment": true,
+      "actual_owned_raw_weapon_asset_capture": true,
+      "normal_stance_ownership_and_restore": false,
+      "raw_dispatch_diagnostic_counter_links": true,
+      "actual_breadcrumb_publications": true,
+      "actual_positive_path_motion": true,
+      "normal_move_chains": true,
+      "every_follow_actual_arrival_and_stop": false,
+      "conditional_branches_if_observed": true,
+      "legal_frozen_memory_and_current_fire": true,
+      "lease_scoped_no_native_override": false,
+      "fresh_admission_actual_origins": true,
+      "actual_nonlethal_packet_commit_ammo_support": true,
+      "both_physical_retreat_origins": false,
+      "finished_host_and_native": false,
+      "actual_long_approach": true,
+      "actual_long_retreat": false,
+      "frozen_phase_deadlines": false,
+      "effect_precedes_source_damage_retreat": true,
+      "actual_paired_follow_checkpoints": true,
+      "bounded_actual_commands": true,
+      "two_live_pool_returns_and_actual_pristine_terminal": false
+    },
+    "effect_verified": true,
+    "source_damage_amount": 5.0,
+    "approach_verified": true,
+    "long_approach_verified": true,
+    "retreat_verified": false,
+    "long_retreat_verified": false,
+    "restoration_verified": false,
+    "combined_arms_verified": false
+  },
+  "controller_section_checks": {
+    "input": true,
+    "producer_arm": true,
+    "producer": true,
+    "producer_wait": true,
+    "spawn_wait": true,
+    "risk": true,
+    "cohort": true,
+    "borrow": true,
+    "clock": true,
+    "ready": true,
+    "commit": true,
+    "precommit": true,
+    "stops": true,
+    "origin": true,
+    "target_proof": true,
+    "parent_request": true
+  },
+  "actual_paid_roles": [
+    {
+      "role": 0,
+      "object_id": 801,
+      "command": {
+        "seq": 1,
+        "id": [
+          804799171,
+          1028341263,
+          1364325793,
+          906101112
+        ],
+        "task": [
+          1402088964,
+          3360453543,
+          611282098,
+          653385453
+        ],
+        "session": [
+          735968364,
+          3125397939,
+          2998562988,
+          191250373
+        ],
+        "commander": [
+          3026773591,
+          3175319885,
+          3557659324,
+          4014403638
+        ],
+        "hash": 430641583,
+        "budget": 85,
+        "reserve": 1000,
+        "expires": 1826,
+        "queue_limit": 2,
+        "requested_tick": 684498015,
+        "factory": 78344160,
+        "factory_id": 765,
+        "iface": 102624268
+      },
+      "paid": 85,
+      "cost": 85,
+      "debit_count": 60,
+      "cash": 3637,
+      "liability": 195,
+      "cash_required": 1280
+    },
+    {
+      "role": 1,
+      "object_id": 804,
+      "command": {
+        "seq": 2,
+        "id": [
+          1545784916,
+          1011575690,
+          3447994267,
+          277116399
+        ],
+        "task": [
+          3689128983,
+          256531662,
+          993994630,
+          2492380128
+        ],
+        "session": [
+          735968364,
+          3125397939,
+          2998562988,
+          191250373
+        ],
+        "commander": [
+          3026773591,
+          3175319885,
+          3557659324,
+          4014403638
+        ],
+        "hash": 741706849,
+        "budget": 220,
+        "reserve": 1000,
+        "expires": 1826,
+        "queue_limit": 2,
+        "requested_tick": 684508031,
+        "factory": 78344160,
+        "factory_id": 765,
+        "iface": 102624268
+      },
+      "paid": 220,
+      "cost": 220,
+      "debit_count": 90,
+      "cash": 3064,
+      "liability": 0,
+      "cash_required": 1220
+    }
+  ],
+  "effect": {
+    "verified": true,
+    "checks": {
+      "one_explicit_normal_script_attack": true,
+      "same_order_packet_commit_ammo_and_support": true,
+      "actual_same_entry_ammo_chain": true,
+      "actual_immutable_ak_asset": true,
+      "normal_prepare_and_two_clean_stops": true,
+      "dual_stop_before_attack": true,
+      "no_support_attack": true
+    },
+    "qualified_hits": [
+      {
+        "body_event_seq": 3166,
+        "commit_event_seq": 3165,
+        "ammo_event_seq": 3169,
+        "body_frame": 2162,
+        "paired_support_frame": 2161,
+        "damage": 5.0,
+        "packet": {
+          "argument_address": "0x1af18c",
+          "source_actor_id": 801,
+          "weapon_asset_id": "0x447ea26e",
+          "warhead_asset_id": "0x447ea26e",
+          "damage_type": "GUN",
+          "damage_type_id": 21,
+          "requested_damage": 5.0,
+          "actual_damage": 5.0,
+          "packet_word_offset": 36,
+          "caller_return": "0x78e313"
+        }
+      }
+    ],
+    "source_damage_amount": 5.0,
+    "prepare_checks": {
+      "exact_toggle_button": true,
+      "initial_actual_weapon_capture": true,
+      "prepare_stage_order": true,
+      "optional_normal_toggle": true,
+      "prepare_idle_ak_raw": true,
+      "bounded_prepare_reconstituted_stops": true
+    },
+    "post_return_native": [],
+    "lethal_verified": false,
+    "scope": "Conscript direct AK and Flak positional support during actual borrowed interval; post-Return native actions confer no mission credit"
+  },
+  "asset_metadata": {
+    "verified": true,
+    "checks": {
+      "original_native_binding": true,
+      "actual_owned_actor_authorized": true,
+      "actual_readonly_double_asset_words": true,
+      "true_observation_clock": true
+    },
+    "scope": "actual_immutable_weapon_metadata_only_no_effect_or_entry_liveness_credit"
+  },
+  "actual_retreat_departure": {
+    "verified": true,
+    "observed": true,
+    "success_verified": true,
+    "field_verified": false,
+    "checks": {
+      "one_shot_closed_window": true,
+      "real_first_published_origin": true,
+      "immutable_full_echo": true,
+      "both_stop_three_and_positive_surface": true,
+      "source_header_unchanged": true,
+      "initial_gap_and_fixed_start": true,
+      "raw_paired_path_and_first_eligible_close": true,
+      "window_no_follow_regroup_or_restart": true,
+      "success_before_immediate_original_follow": true,
+      "failure_cleanup_without_reopen": true
+    },
+    "start_seq": 3196,
+    "end_seq": 3218,
+    "start_frame": 2169,
+    "end_frame": 2179,
+    "reason": 1,
+    "initial_gap": 140.35606475348513,
+    "actual_path": 30.00018528643578,
+    "rounds": [
+      {
+        "frame": 2171,
+        "path": 3.3332726244563835,
+        "clear": 3.3332726244563835,
+        "gap": 143.68577174507544,
+        "reason": 0,
+        "leader": [
+          2013.334228515625,
+          1850.1513671875,
+          210.0
+        ]
+      },
+      {
+        "frame": 2173,
+        "path": 9.99981787336915,
+        "clear": 9.999817873369151,
+        "gap": 150.34565979135695,
+        "reason": 0,
+        "leader": [
+          2019.993896484375,
+          1850.4541015625,
+          210.0
+        ]
+      },
+      {
+        "frame": 2175,
+        "path": 16.666607011058026,
+        "clear": 16.6666070110525,
+        "gap": 157.00635610325315,
+        "reason": 0,
+        "leader": [
+          2026.65380859375,
+          1850.7568359375,
+          210.0
+        ]
+      },
+      {
+        "frame": 2177,
+        "path": 23.333396148746903,
+        "clear": 23.333396148739006,
+        "gap": 163.66754855608193,
+        "reason": 0,
+        "leader": [
+          2033.313720703125,
+          1851.0595703125,
+          210.0
+        ]
+      },
+      {
+        "frame": 2179,
+        "path": 30.00018528643578,
+        "clear": 30.000185286426564,
+        "gap": 170.32917894097343,
+        "reason": 1,
+        "leader": [
+          2039.9736328125,
+          1851.3623046875,
+          210.0
+        ]
+      }
+    ],
+    "source_index": 22,
+    "source_published_seq": 3195,
+    "semantics": "raw_protocol_only_no_field_capability"
+  },
+  "wait_anchor_replans": {
+    "verified": true,
+    "observed": false,
+    "field_verified": false,
+    "checks": {
+      "bounded_attempts": true,
+      "pairs_and_order": true,
+      "old_origins_preserved": true,
+      "every_observed_replan": true
+    },
+    "attempts": [],
+    "old_goal_arrival_claim": false,
+    "unobserved_status": "unproven_not_field_certified"
+  },
+  "risk_coverage": {
+    "verified": true,
+    "observed": false,
+    "checks": {
+      "original_paired_observation": true,
+      "original_global_clocks": true,
+      "actual_model_accept_before_risk": true,
+      "same_frame_reason3_retreat": true,
+      "no_new_move_or_attack_before_retreat": true,
+      "first_observed_threshold_crossing": true
+    },
+    "source_authority_granted": false,
+    "completion_claim": false
+  },
+  "pending_coverage": {
+    "observed": false,
+    "verified": true
+  },
+  "loss_timeline": [
+    {
+      "role": 0,
+      "object_id": 801,
+      "baseline_hp": 100.0,
+      "first_observed_loss": {
+        "seq": 3909,
+        "kind": 3,
+        "role": 0,
+        "frame": 2543,
+        "tag": 0,
+        "arg": 0,
+        "own_hp": 94.375,
+        "target_visible": 0,
+        "x": 2730.0,
+        "y": 2030.0,
+        "z": 210.0,
+        "state_id": 94,
+        "path": 0,
+        "mission_stage": 3,
+        "motion_state": 1,
+        "actual_gap": 213.46295166015625,
+        "native_error": 0
+      },
+      "first_zero_hp": {
+        "seq": 3953,
+        "kind": 3,
+        "role": 0,
+        "frame": 2573,
+        "tag": 0,
+        "arg": 0,
+        "own_hp": 0.0,
+        "target_visible": 0,
+        "x": 2789.629638671875,
+        "y": 2069.753173828125,
+        "z": 210.0,
+        "state_id": 13,
+        "path": 0,
+        "mission_stage": 3,
+        "motion_state": 1,
+        "actual_gap": 234.45834350585938,
+        "native_error": 32
+      },
+      "minimum_observed_hp": 0.0,
+      "incoming_damage_source": "not captured; no attacker attribution",
+      "restore": {
+        "module": 111423080,
+        "vtable": 12812176,
+        "backref": 78349280,
+        "data": 251956448,
+        "definition_list": 252994288,
+        "definition_count": 4,
+        "definition_entries": [
+          1,
+          0,
+          0,
+          0,
+          2,
+          0,
+          3,
+          0
+        ],
+        "original_enum": 0,
+        "set_calls": 1,
+        "set_return": 1,
+        "set_before": 0,
+        "set_after": 2,
+        "restore_calls": 0,
+        "restore_return": 0,
+        "restore_before": 0,
+        "restore_after": 0,
+        "restored": 0,
+        "automatic_stop2": 1,
+        "private_automatic_stop2": 1,
+        "foreign_calls": 0,
+        "capture_frame": 1174
+      }
+    },
+    {
+      "role": 1,
+      "object_id": 804,
+      "baseline_hp": 120.0,
+      "first_observed_loss": null,
+      "first_zero_hp": null,
+      "minimum_observed_hp": 120.0,
+      "incoming_damage_source": "not captured; no attacker attribution",
+      "restore": {
+        "module": 111602456,
+        "vtable": 12812176,
+        "backref": 78354400,
+        "data": 251096704,
+        "definition_list": 252994288,
+        "definition_count": 4,
+        "definition_entries": [
+          1,
+          0,
+          0,
+          0,
+          2,
+          0,
+          3,
+          0
+        ],
+        "original_enum": 0,
+        "set_calls": 1,
+        "set_return": 1,
+        "set_before": 0,
+        "set_after": 2,
+        "restore_calls": 1,
+        "restore_return": 1,
+        "restore_before": 2,
+        "restore_after": 0,
+        "restored": 1,
+        "automatic_stop2": 2,
+        "private_automatic_stop2": 2,
+        "foreign_calls": 0,
+        "capture_frame": 1274
+      }
+    }
+  ],
+  "retreat_boundaries": [
+    {
+      "seq": 3184,
+      "kind": 89,
+      "role": 0,
+      "frame": 2163,
+      "tag": 0,
+      "arg": 1,
+      "own_hp": 100.0,
+      "target_visible": 1,
+      "x": 1870.244873046875,
+      "y": 1837.0732421875,
+      "z": 210.0,
+      "state_id": 94,
+      "path": 0,
+      "mission_stage": 3,
+      "motion_state": 0,
+      "actual_gap": 140.35606384277344,
+      "native_error": 0
+    },
+    {
+      "seq": 3185,
+      "kind": 89,
+      "role": 1,
+      "frame": 2163,
+      "tag": 0,
+      "arg": 1,
+      "own_hp": 120.0,
+      "target_visible": 1,
+      "x": 2010.00439453125,
+      "y": 1850.0,
+      "z": 210.0,
+      "state_id": 94,
+      "path": 0,
+      "mission_stage": 3,
+      "motion_state": 0,
+      "actual_gap": 140.35606384277344,
+      "native_error": 0
+    }
+  ],
+  "retreat_follow_start_frames": [
+    2179,
+    2229,
+    2263,
+    2299,
+    2337,
+    2371,
+    2405,
+    2441,
+    2475,
+    2509,
+    2545
+  ],
+  "normal_follow_audit": {
+    "verified": false,
+    "checks": {
+      "prior_actual_crumb": true,
+      "strict_reference_order": true,
+      "actual_leader_one_hundred_ahead": true,
+      "leader_clear_of_goal": true,
+      "normal_follow_input": true,
+      "three_distinct_arrival": false,
+      "stop_before_next": false
+    }
+  },
+  "control_release": {
+    "restoration_verified": false,
+    "stance_restoration_verified": false,
+    "control_release_verified": false,
+    "return_verified": false,
+    "disposed_verified": false,
+    "actors": [
+      {
+        "role": 0,
+        "object_id": 801,
+        "returned": false,
+        "disposed": false,
+        "never_held": false,
+        "released": false
+      },
+      {
+        "role": 1,
+        "object_id": 804,
+        "returned": true,
+        "disposed": false,
+        "never_held": false,
+        "released": true
+      }
+    ],
+    "semantics": "unknown",
+    "completion_claim": false
+  },
+  "terminal_observations": {
+    "actual_entry_count": 17,
+    "actual_entries_pristine": true,
+    "timer": 0,
+    "active": 0,
+    "mask": 131071,
+    "both_headers_31148_equal": true,
+    "full_terminal_audit": false,
+    "controller_held_mask": 1,
+    "controller_channel_claimed": 1,
+    "interpretation": "Pristine hooks/timer do not close the remaining front role/control claim. Front has no verified Return or independent disposal; do not report release/restoration/home."
+  },
+  "sufficient_failure": {
+    "first_zero_hp_and_lifecycle_frame": 2573,
+    "cleanup_timeout_frame": 2663,
+    "cleanup_timeout_delta": 90,
+    "source_rule": "common.cpp.inc fatal_cleanup: no alive front Return and no two positive absence proofs, then90f timeout sets52",
+    "failure_is_not_departure_bootstrap": true,
+    "bootstrap_closed_frame": 2179,
+    "first_observed_loss_after_retreat_frames": 380,
+    "pre_engage_hp_threshold_is_not_coverage_here": "First loss occurs long after already entering retreat; RK16 observedFalse, not a demonstrated early-retreat response."
+  },
+  "source_hashes": {
+    "tactical\\mission-formation-v16\\formation_mission_qualification_v2.py": "4f36a7b2887264c5b6c0875cf0922a51659ff5487b7dde78fc4b15aa34887ebf",
+    "tactical\\mission-formation-v16\\wait_anchor_replan_v2.py": "4f3630aa12fcfea521d365274a4f8cf74154ae152b070e1bd9e648e3046d7df1",
+    "tactical\\mission-formation-v16\\lease_v2.py": "101feaeb6605ea105f7fcb6f0a5f05f4142320a0a412d36f1bf0953b4c204b8a",
+    "tactical\\mission-formation-v16\\reserve_controller_audit.py": "9378249fadc562c4f475b64c3d28f54daff0eeaf5c473e45f4f093bfa3a77817",
+    "tactical\\mission-formation-v16\\revision.json": "816a4e487c8fda83af3500b25a6864d8fb812447b4bf65e900194c7ce756691d",
+    "acceptance\\runs\\20261026-082848-commander\\paid-pair16-v2-01-controller.json": "8ba17e7350f41ce96be6cc16cd5b3a7ef2cff7eee096fcbeadc4b3a8275a1737"
+  }
+}

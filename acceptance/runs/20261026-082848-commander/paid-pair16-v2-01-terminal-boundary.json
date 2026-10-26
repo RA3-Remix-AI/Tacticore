@@ -1,0 +1,132 @@
+{
+  "protocol": "mf16_v2_hit_then_lifecycle_failure_boundary_v1",
+  "raw_sha256": "8ba17e7350f41ce96be6cc16cd5b3a7ef2cff7eee096fcbeadc4b3a8275a1737",
+  "request": {
+    "command_id": "868681a9-7a1c-457d-85e6-ff71b76fb740",
+    "task_id": "61931ec7-7e85-41c3-b9db-5439b10e9828",
+    "seq": 684496468,
+    "token": 857363924,
+    "allocation_scope": "prebound_paid_pair",
+    "startup_deadline_frame": 1876,
+    "startup_wall_ms": 60000,
+    "reserve_duration_frames": 450,
+    "lease_duration_frames": 4500,
+    "total_paid_max": 305,
+    "reserve_floor": 1000
+  },
+  "session_id": "6cfcdd2b-b3c9-49ba-ac70-bab2c53f660b",
+  "phase": 4,
+  "error": 52,
+  "controller": {
+    "stage": 5,
+    "error": 0,
+    "reserve_start_frame": 1174,
+    "reserve_deadline_frame": 1624,
+    "hard_deadline_frame": 5674,
+    "lease_issued_frame": 1174,
+    "pair_ready_frame": 1329,
+    "mission_commit_frame": 1344,
+    "approach_frame": 1344,
+    "clock_frozen": 1,
+    "bound_mask": 3,
+    "held_mask": 1,
+    "ready_mask": 3,
+    "channel_claimed": 1,
+    "producer_snapshots": 58,
+    "producer_retry_count": 428,
+    "scope_verified": 1,
+    "untasked_cleanup": 0
+  },
+  "issued_frame": 1174,
+  "returned_frame": 0,
+  "attack_calls": 1,
+  "damage_count": 1,
+  "damage_total": 5.0,
+  "home_arrivals": [
+    0,
+    0
+  ],
+  "retreat_reason": 1,
+  "slot_outcomes": [
+    {
+      "id": 801,
+      "borrow_frame": 1174,
+      "ready_frame": 1218,
+      "restore_verified": 0,
+      "return_verified": 0,
+      "disposed_verified": 0
+    },
+    {
+      "id": 804,
+      "borrow_frame": 1274,
+      "ready_frame": 1329,
+      "restore_verified": 1,
+      "return_verified": 1,
+      "disposed_verified": 0
+    }
+  ],
+  "actual_task_packet_events": [
+    {
+      "seq": 3165,
+      "frame": 2162,
+      "kind": 24,
+      "role": 0,
+      "target_id": 766,
+      "damage_source": 801,
+      "damage_before": 1200.0,
+      "damage_after": 1195.0,
+      "damage_reported": 5.0
+    },
+    {
+      "seq": 3166,
+      "frame": 2162,
+      "kind": 20,
+      "role": 0,
+      "target_id": 766,
+      "damage_source": 801,
+      "damage_before": 1200.0,
+      "damage_after": 1195.0,
+      "damage_reported": 5.0
+    }
+  ],
+  "actual_retreat_begin": [
+    {
+      "seq": 3184,
+      "frame": 2163,
+      "kind": 89,
+      "role": 0,
+      "arg": 1,
+      "own_hp": 100.0,
+      "target_visible": 1
+    },
+    {
+      "seq": 3185,
+      "frame": 2163,
+      "kind": 89,
+      "role": 1,
+      "arg": 1,
+      "own_hp": 120.0,
+      "target_visible": 1
+    }
+  ],
+  "terminal_original17bytes": true,
+  "header_double_equal": true,
+  "binding": true,
+  "timer0": true,
+  "active0": true,
+  "mask": 131071,
+  "production_original5bytes": true,
+  "production_final": {
+    "native_phase": 2,
+    "native_error": 0,
+    "restore_mask": 31,
+    "active_callbacks": 0,
+    "spent_committed": 305
+  },
+  "frozen_sources_actual_match": true,
+  "mission_completed": false,
+  "combined_source_granted": false,
+  "front_exclusive_release_verified": false,
+  "mutations": false,
+  "sdk_calls_for_evidence": 0
+}
