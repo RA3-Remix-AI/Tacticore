@@ -1,0 +1,109 @@
+{
+  "status": "passed",
+  "scope": "real_provider_synthetic_mission_context_only",
+  "source": "simulated",
+  "backend": "pydantic",
+  "provider": "DeepSeek",
+  "connection_id": "23968c8e-25d3-47bd-8c84-5f0d5bbfd43b",
+  "commander_id": "57e668b4-4d89-43bd-bc92-0dd436f046ef",
+  "session_id": "a7ee0980-a1b8-41d1-8d12-93157d12edef",
+  "library_path": "C:\\Users\\Administrator\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\TriadFrontCommander\\library.v2.json",
+  "checks": {
+    "default_backend": true,
+    "two_actual_requests": true,
+    "two_actual_responses": true,
+    "no_backend_retries": true,
+    "both_decisions_accepted": true,
+    "event_history_compacted": true,
+    "mission_identity_and_deadline_preserved": true,
+    "accepted_post_ttl_context": true,
+    "bounded_actual_wire": true
+  },
+  "decisions": [
+    {
+      "snapshot_id": 2,
+      "game_time_seconds": 116,
+      "status": "accepted",
+      "reason_code": "valid_policy"
+    },
+    {
+      "snapshot_id": 40,
+      "game_time_seconds": 170,
+      "status": "accepted",
+      "reason_code": "valid_policy"
+    }
+  ],
+  "context_metadata": [
+    {
+      "protocol": "model_mission_context_audit_v1",
+      "source": "simulated",
+      "session_id": "a7ee0980-a1b8-41d1-8d12-93157d12edef",
+      "player_id": 3,
+      "commander_id": "57e668b4-4d89-43bd-bc92-0dd436f046ef",
+      "snapshot_id": 2,
+      "game_time_seconds": 116.0,
+      "payload_sha256": "411b9d6574ca03f6ca6730a79602b751fba65d022d9775bb1b18c5a301c8267a",
+      "payload_bytes": 7435,
+      "events_compacted": 0,
+      "context_builds": 2,
+      "missions": [
+        {
+          "mission_id": "d4c15c73-ddd4-41fc-9b18-3b6597ea4572",
+          "task_id": "d4c15c73ddd441fc9b183b6597ea4572",
+          "module": "attack",
+          "purpose": "main_attack",
+          "target_contact_id": "contact_ore",
+          "deadline_game_seconds": 280,
+          "phase": "approach",
+          "progress_seq": 1
+        }
+      ]
+    },
+    {
+      "protocol": "model_mission_context_audit_v1",
+      "source": "simulated",
+      "session_id": "a7ee0980-a1b8-41d1-8d12-93157d12edef",
+      "player_id": 3,
+      "commander_id": "57e668b4-4d89-43bd-bc92-0dd436f046ef",
+      "snapshot_id": 40,
+      "game_time_seconds": 170.0,
+      "payload_sha256": "369527f732e56389a67c8cfaced2b8424a7204f16004565b59ab87ced0083f2b",
+      "payload_bytes": 7225,
+      "events_compacted": 20,
+      "context_builds": 3,
+      "missions": [
+        {
+          "mission_id": "d4c15c73-ddd4-41fc-9b18-3b6597ea4572",
+          "task_id": "d4c15c73ddd441fc9b183b6597ea4572",
+          "module": "attack",
+          "purpose": "main_attack",
+          "target_contact_id": "contact_ore",
+          "deadline_game_seconds": 280,
+          "phase": "approach",
+          "progress_seq": 2
+        }
+      ]
+    }
+  ],
+  "transport": {
+    "attempts": 2,
+    "retries": 0,
+    "timeouts": 0,
+    "responses": 2,
+    "max_request_bytes": 15457
+  },
+  "memory": {
+    "context_builds": 3,
+    "compactions": 21,
+    "max_payload_bytes": 7435,
+    "expired_enemy_facts": 0,
+    "context_rejections": 0,
+    "post_response_guard_rejections": 0
+  },
+  "error_type": null,
+  "adapter_error_code": null,
+  "elapsed_seconds": 2.328,
+  "real_game_commands": 0,
+  "game_actuator_created": false,
+  "actual_battlefield_effect_verified": false
+}
