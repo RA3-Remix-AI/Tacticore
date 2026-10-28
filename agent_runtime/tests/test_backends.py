@@ -7,6 +7,7 @@ import asyncio
 import json
 import os
 import unittest
+from unittest.mock import patch
 
 from engine import ContractError, Snapshot, StrategyEngine, parse_model_json
 from fixtures import COMMANDER, CONNECTION, binding, policy, snapshot
@@ -182,11 +183,17 @@ class FrameworkTests(unittest.IsolatedAsyncioTestCase):
 
     async def test_deadline_cancels_actual_framework_run(self):
         cancelled = asyncio.Event()
+        loop=asyncio.get_running_loop();origin=loop.time();elapsed=0
         async def fake(messages, info):
+            nonlocal elapsed
+            # Advance the test clock after the real framework enters its model
+            # call. Cold SDK setup is not the behavior under test here.
+            elapsed=1
             try: await asyncio.sleep(10)
             finally: cancelled.set()
-        with self.assertRaisesRegex(RuntimeAdapterError, "deadline_exceeded"):
-            await self.backend(fake, timeout=.02)(context())
+        with patch.object(loop,'time',side_effect=lambda:origin+elapsed):
+            with self.assertRaisesRegex(RuntimeAdapterError, "deadline_exceeded"):
+                await self.backend(fake, timeout=.02)(context())
         self.assertTrue(cancelled.is_set())
 
     async def test_external_cancellation_propagates(self):

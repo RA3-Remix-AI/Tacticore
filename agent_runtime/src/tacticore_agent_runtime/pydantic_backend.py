@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import asyncio
+import hashlib
 from contextlib import asynccontextmanager
 import json
 from typing import Callable
@@ -41,6 +42,7 @@ class PydanticBackend(CallableBackend):
         self.metrics = {"attempts": 0, "retries": 0, "timeouts": 0, "responses": 0, "max_request_bytes": 0}
         self.last_error_code = None
         self.last_diagnostics = None
+        self.last_transport_receipt = None
 
     def input_size(self, context: dict) -> int:
         # Existing BattleAgent can compact against this bound before committing
@@ -54,6 +56,7 @@ class PydanticBackend(CallableBackend):
     async def run(self, request: PolicyRequest) -> dict:
         self.last_error_code = None
         self.last_diagnostics = None
+        self.last_transport_receipt = None
         async def once():
             encoded = encode_context(request.context, self.max_input_bytes)
             context = json.loads(encoded)  # isolate the request from caller mutations
@@ -147,9 +150,10 @@ async def openai_compatible_backend(profile, *, parse_json: Callable[[str], dict
         async def aclose(self): await self.stream.aclose()
 
     class BoundedTransport(httpx2.AsyncBaseTransport):
-        def __init__(self): self.inner = transport or httpx2.AsyncHTTPTransport(retries=0)
+        def __init__(self): self.inner = transport if transport is not None else httpx2.AsyncHTTPTransport(retries=0)
         async def handle_async_request(self, request):
-            request_bytes = len(await request.aread())
+            request_body = await request.aread()
+            request_bytes = len(request_body)
             backend.metrics["max_request_bytes"] = max(backend.metrics["max_request_bytes"], request_bytes)
             if request_bytes > max_input_bytes:
                 raise RuntimeAdapterError("input_budget_exceeded")
@@ -178,6 +182,18 @@ async def openai_compatible_backend(profile, *, parse_json: Callable[[str], dict
                     raise RuntimeAdapterError("incomplete_or_refused_completion")
                 if not isinstance(message.get("content"), str) or not message["content"].strip():
                     raise RuntimeAdapterError("invalid_completion")
+                expected_origin = (request.url.scheme == ('https' if endpoint.tls else 'http')
+                    and request.url.host.lower() == endpoint.host.lower()
+                    and (request.url.port or (443 if endpoint.tls else 80)) == endpoint.port
+                    and request.url.path == endpoint.path and not request.url.query)
+                # Only the owned default network transport can attest HTTPS.
+                # Hash body bytes; never persist bodies, headers or credentials.
+                backend.last_transport_receipt = dict(schema_version=1,source='bounded_provider_transport',
+                    injected_transport=transport is not None,expected_origin=expected_origin,
+                    https=endpoint.tls,loopback=endpoint.loopback,http_status=response.status_code,
+                    request_bytes=request_bytes,response_bytes=len(raw),
+                    request_sha256=hashlib.sha256(request_body).hexdigest(),response_sha256=hashlib.sha256(raw).hexdigest(),
+                    response_complete=True,real_network_verified=transport is None and expected_origin and endpoint.tls and not endpoint.loopback)
             except BaseException:
                 await response.aclose()
                 raise

@@ -1,0 +1,524 @@
+{
+  "protocol": "mf18_actual_independent_review_v1",
+  "source_report": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261026-095539-commander\\paid-pair18-01-controller.json",
+  "source_sha256": "b20a99e6b006b0529dfed61ed814c397b5b5ca55152b31c1b3dcaec00f4014f6",
+  "source_pins_verified": true,
+  "qualification_status": "not_passed",
+  "field_source_granted": false,
+  "mission_success": false,
+  "host_exit": 9,
+  "native_terminal": {
+    "phase": 4,
+    "error": 74,
+    "mission_stage": 5,
+    "issued_frame": 1162,
+    "returned_frame": 1616,
+    "attack_calls": 0,
+    "damage_count": 0,
+    "retreat_started": 0,
+    "retreat_reason": 0,
+    "home_arrivals": [
+      0,
+      0
+    ],
+    "restore_mask": 131071,
+    "active": 0,
+    "overflow": 0
+  },
+  "controller": {
+    "stage": 5,
+    "error": 74,
+    "reserve_start_frame": 1162,
+    "reserve_deadline_frame": 1612,
+    "hard_deadline_frame": 5662,
+    "lease_issued_frame": 1162,
+    "pair_ready_frame": 1326,
+    "mission_commit_frame": 0,
+    "approach_frame": 0,
+    "clock_frozen": 1,
+    "bound_mask": 3,
+    "held_mask": 0,
+    "ready_mask": 3,
+    "channel_claimed": 0,
+    "producer_snapshots": 62,
+    "producer_retry_count": 420,
+    "scope_verified": 1,
+    "untasked_cleanup": 1
+  },
+  "mission_commit": {
+    "generation": 0,
+    "status": 0,
+    "reason": 0,
+    "ack_frame": 0
+  },
+  "mission_request_unpublished": true,
+  "first_sufficient_failure": {
+    "reason": "original reserve deadline reached without write-once mission publication",
+    "error": 74,
+    "first_borrow": 1162,
+    "pair_ready": 1326,
+    "reserve_deadline": 1612,
+    "remaining_frames_at_ready": 286,
+    "remaining_nominal_seconds_at_15fps": 19.066666666666666,
+    "actual_return_frame": 1616,
+    "deadline_renewed": false
+  },
+  "audit_sections": {
+    "input": {
+      "verified": true,
+      "checks": {
+        "actual_namespace": true,
+        "immutable_outer_uuid": true,
+        "exact_policy": true,
+        "process_and_producer_binding": true,
+        "formation_binding": true,
+        "bounded_startup": true,
+        "exact_two_paid_slots": true,
+        "distinct_bound_commands": true
+      }
+    },
+    "producer_arm": {
+      "verified": true,
+      "checks": {
+        "header_before_hex": true,
+        "header_after_hex": true,
+        "original_reader_and_readonly_scope": true,
+        "raw_header_continuity": true,
+        "exact_arm_command_and_process": true,
+        "actual_player_runtime": true,
+        "actual_loaded_pe32_identity": true,
+        "all_five_actual_installed_entries": true
+      }
+    },
+    "producer": {
+      "verified": true,
+      "checks": {
+        "original_rpc1_pairs": true,
+        "exact_binding": true,
+        "paid_original_receipts": true,
+        "immutable_payment_projection": true,
+        "header_output_join": true
+      }
+    },
+    "producer_wait": {
+      "verified": true,
+      "checks": {
+        "original_closed_pairs": true,
+        "original_metadata_and_flags": true,
+        "monotonic_cumulative_counter": true,
+        "raw_decisive_failure_witness": true
+      }
+    },
+    "spawn_wait": {
+      "verified": true,
+      "checks": {
+        "exact_passive_wait_surface": true,
+        "original_team_owner_chain": true,
+        "no_cohort_or_sdk_credit": true,
+        "original_fixed_sample": true,
+        "unchanged_age_factory_and_clocks": true,
+        "consecutive_actual_body_frames": true
+      }
+    },
+    "risk": {
+      "verified": true,
+      "checks": {
+        "original_paired_observation": true,
+        "original_global_clocks": true,
+        "actual_model_accept_before_risk": true,
+        "same_frame_reason3_retreat": true,
+        "no_new_move_or_attack_before_retreat": true,
+        "first_observed_threshold_crossing": true
+      }
+    },
+    "cohort": {
+      "verified": true,
+      "checks": {
+        "actual_positive_samples": true,
+        "immutable_first_baseline": true,
+        "actual_team_chain_and_cohort": true,
+        "exact_final_three": true,
+        "borrow_after_accept": true
+      }
+    },
+    "borrow": {
+      "verified": true,
+      "checks": {}
+    },
+    "clock": {
+      "verified": true,
+      "checks": {
+        "single_actual_first_borrow_clock": true,
+        "fixed_original_deadlines": true,
+        "no_reset_renewal": true,
+        "bounded_borrow_and_commit": true
+      }
+    },
+    "ready": {
+      "verified": true,
+      "checks": {
+        "single_proposal_and_brake": true,
+        "original_first_and_second_proposal": true,
+        "frozen_observed_path": true,
+        "actual_three_brake_samples": true,
+        "strict_actual_anchor": true,
+        "second_role_actual_pair_geometry": true,
+        "complete_ready_holding": true,
+        "same_frame_pair": true
+      }
+    },
+    "commit": {
+      "verified": false,
+      "checks": {
+        "one_accepted_write_once_commit": false,
+        "separate_exact_parent_child_and_lease": false,
+        "exact_pair_and_public_scope": false,
+        "no_clock_renewal": false,
+        "current_target_and_proof": false,
+        "same_lease_dispatch_no_reborrow": false,
+        "original_body_seal": false
+      }
+    },
+    "precommit": {
+      "verified": true,
+      "checks": {
+        "actual_borrow_boundaries": true,
+        "no_controlled_attack_before_model": true,
+        "no_target_mirror_before_accept": true
+      }
+    },
+    "stops": {
+      "verified": true,
+      "checks": {
+        "fixed_actual_frame_coverage": true,
+        "three_initial_and_brake_stops": true,
+        "explicit_normal_stop_source": true
+      }
+    },
+    "origin": {
+      "verified": true,
+      "checks": {
+        "complete_original_chunk_stream": true,
+        "every_admitted_sample_current_clear": true
+      }
+    },
+    "target_proof": {
+      "verified": false,
+      "checks": {
+        "well_formed_original_target_proof": false
+      }
+    },
+    "parent_request": {
+      "verified": false,
+      "checks": {
+        "well_formed_original_parent_request": false
+      }
+    }
+  },
+  "conditional_yield_denials": {
+    "verified": true,
+    "observed": false,
+    "checks": {
+      "original_pairs": true,
+      "actual_owned_before": true,
+      "raw_before_after_decision": true,
+      "paired_dispatch_links": true,
+      "unchanged_counters_and_ticket": true,
+      "bounded_normal_denials": true,
+      "common_stack_preserved": true,
+      "common_actor_surface_matches": true,
+      "original_controlled_actor": true,
+      "immutable_hard_clock": true,
+      "actual_own_move_counts": true
+    },
+    "records": [],
+    "denials_by_role": [
+      0,
+      0
+    ],
+    "model_eligible": false,
+    "private_diagnostic_only": true,
+    "move_authority_granted": false,
+    "fov_authority_granted": false,
+    "completion_claim": false,
+    "field_verified": false,
+    "scope": "private_exact_engine_op48_denial_only_no_forward_or_move_credit"
+  },
+  "coverage": {
+    "172": 0,
+    "173": 0,
+    "168": 0,
+    "169": 0,
+    "170": 0,
+    "171": 0,
+    "89": 0,
+    "167": 0,
+    "12": 0,
+    "13": 0,
+    "20": 0,
+    "24": 0,
+    "153": 0,
+    "154": 0
+  },
+  "coverage_statement": "No YL18 engine-denial or PR17 parallel-retreat event occurred. Conditional denial audit being true does not prove branch coverage. No mission was published or accepted, no attack/damage/home outcome; not_passed remains.",
+  "actual_dual_stance_restore_and_live_return": {
+    "restoration_verified": true,
+    "stance_restoration_verified": true,
+    "control_release_verified": true,
+    "return_verified": true,
+    "disposed_verified": false,
+    "actors": [
+      {
+        "role": 0,
+        "object_id": 801,
+        "returned": true,
+        "disposed": false,
+        "never_held": false,
+        "released": true
+      },
+      {
+        "role": 1,
+        "object_id": 803,
+        "returned": true,
+        "disposed": false,
+        "never_held": false,
+        "released": true
+      }
+    ],
+    "semantics": "independent_native_pool_return_or_readonly_disposal",
+    "completion_claim": false
+  },
+  "actual_terminal_readonly_verified": true,
+  "qualification_failed_checks": {
+    "exact_actors": false,
+    "fixed_navigation_limits": false,
+    "explicit_ground_target": false,
+    "original_paid_controller_and_write_once_commit": false,
+    "explicit_actual_wait_anchor_replans": false,
+    "explicit_actual_parallel_retreat": false,
+    "actual_owned_raw_weapon_asset_capture": false,
+    "actual_breadcrumb_publications": false,
+    "actual_positive_path_motion": false,
+    "every_follow_actual_arrival_and_stop": false,
+    "legal_frozen_memory_and_current_fire": false,
+    "fresh_admission_actual_origins": false,
+    "actual_nonlethal_packet_commit_ammo_support": false,
+    "both_physical_retreat_origins": false,
+    "finished_host_and_native": false,
+    "actual_long_approach": false,
+    "actual_long_retreat": false,
+    "frozen_phase_deadlines": false,
+    "effect_precedes_source_damage_retreat": false,
+    "actual_paired_follow_checkpoints": false,
+    "bounded_actual_commands": false
+  },
+  "key_original_events": [
+    {
+      "seq": 688,
+      "kind": 144,
+      "role": 0,
+      "frame": 1162,
+      "arg": 3,
+      "tag": 0,
+      "native_error": 0,
+      "own_hp": 100.0,
+      "x": 2930.458251953125,
+      "y": 2910.714599609375,
+      "z": 210.0
+    },
+    {
+      "seq": 689,
+      "kind": 145,
+      "role": 0,
+      "frame": 1162,
+      "arg": 0,
+      "tag": 0,
+      "native_error": 0,
+      "own_hp": 100.0,
+      "x": 2930.458251953125,
+      "y": 2910.714599609375,
+      "z": 210.0
+    },
+    {
+      "seq": 796,
+      "kind": 150,
+      "role": 0,
+      "frame": 1218,
+      "arg": 3,
+      "tag": 0,
+      "native_error": 0,
+      "own_hp": 100.0,
+      "x": 3083.654052734375,
+      "y": 2950.0,
+      "z": 210.0
+    },
+    {
+      "seq": 797,
+      "kind": 151,
+      "role": 0,
+      "frame": 1218,
+      "arg": 3,
+      "tag": 0,
+      "native_error": 0,
+      "own_hp": 100.0,
+      "x": 3083.654052734375,
+      "y": 2950.0,
+      "z": 210.0
+    },
+    {
+      "seq": 1543,
+      "kind": 144,
+      "role": 1,
+      "frame": 1262,
+      "arg": 3,
+      "tag": 0,
+      "native_error": 0,
+      "own_hp": 120.0,
+      "x": 2930.458251953125,
+      "y": 2910.714599609375,
+      "z": 210.0
+    },
+    {
+      "seq": 1782,
+      "kind": 150,
+      "role": 1,
+      "frame": 1326,
+      "arg": 3,
+      "tag": 0,
+      "native_error": 0,
+      "own_hp": 120.0,
+      "x": 3091.48779296875,
+      "y": 3017.70068359375,
+      "z": 210.0
+    },
+    {
+      "seq": 1783,
+      "kind": 151,
+      "role": 1,
+      "frame": 1326,
+      "arg": 3,
+      "tag": 0,
+      "native_error": 0,
+      "own_hp": 120.0,
+      "x": 3091.48779296875,
+      "y": 3017.70068359375,
+      "z": 210.0
+    },
+    {
+      "seq": 1784,
+      "kind": 152,
+      "role": 0,
+      "frame": 1326,
+      "arg": 0,
+      "tag": 0,
+      "native_error": 0,
+      "own_hp": 100.0,
+      "x": 3083.654052734375,
+      "y": 2950.0,
+      "z": 210.0
+    },
+    {
+      "seq": 2959,
+      "kind": 5,
+      "role": 0,
+      "frame": 1616,
+      "arg": 0,
+      "tag": 3,
+      "native_error": 74,
+      "own_hp": 100.0,
+      "x": 3083.654052734375,
+      "y": 2950.0,
+      "z": 210.0
+    },
+    {
+      "seq": 2971,
+      "kind": 5,
+      "role": 1,
+      "frame": 1616,
+      "arg": 0,
+      "tag": 3,
+      "native_error": 74,
+      "own_hp": 120.0,
+      "x": 3091.48779296875,
+      "y": 3017.70068359375,
+      "z": 210.0
+    },
+    {
+      "seq": 2972,
+      "kind": 4,
+      "role": 0,
+      "frame": 1616,
+      "arg": 0,
+      "tag": 0,
+      "native_error": 74,
+      "own_hp": 100.0,
+      "x": 3083.654052734375,
+      "y": 2950.0,
+      "z": 210.0
+    }
+  ],
+  "paid_production": {
+    "driver_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261026-095539-commander\\paid-pair18-01.json",
+    "driver_sha256": "c9e6cd4f1bd7d1cb487d79adab9496eb3105fd6c260f32654f461234af7e8e75",
+    "protocol": "running_paid_pair_controller18_calibration_v1",
+    "model_requests": 0,
+    "paid_orders_verified": true,
+    "committed_spent": 305,
+    "stop_phase": 2,
+    "stop_mask": 31,
+    "ledger": [
+      {
+        "command_id": "7b87ebbc-72b5-4d11-9c59-64d4df0815fc",
+        "task_id": "6ab79b3f-1363-478c-b5f0-1c529d03caa1",
+        "seq": 1,
+        "status": "completed",
+        "accepted": true,
+        "started": true,
+        "completed": true,
+        "reason_code": "native_0",
+        "unit": "conscript",
+        "queue_id": 11,
+        "object_id": 801,
+        "cost": 85,
+        "paid": 85,
+        "paid_verified": true,
+        "created": true,
+        "completion_observed": true,
+        "live_samples": 511,
+        "payment_error": 0,
+        "enqueue_frame": 973,
+        "completion_frame": 1131,
+        "queue_preserved": true
+      },
+      {
+        "command_id": "8b6ed826-bada-44fc-9f04-3d3149f6de16",
+        "task_id": "bab211ae-3534-4f21-a4fd-8f3e080568e8",
+        "seq": 2,
+        "status": "completed",
+        "accepted": true,
+        "started": true,
+        "completed": true,
+        "reason_code": "native_0",
+        "unit": "flak",
+        "queue_id": 12,
+        "object_id": 803,
+        "cost": 220,
+        "paid": 220,
+        "paid_verified": true,
+        "created": true,
+        "completion_observed": true,
+        "live_samples": 411,
+        "payment_error": 0,
+        "enqueue_frame": 1125,
+        "completion_frame": 1231,
+        "queue_preserved": true
+      }
+    ]
+  },
+  "cause_limits": "The raw independently proves expiry without publication. It does not record each calibration target-selector attempt or precise reason that no eligible current-visible target was selected, so no more specific selector/caller timing cause is asserted.",
+  "original_raw_unchanged": true,
+  "old_evidence_stitched": false,
+  "game_memory_reads": 0,
+  "sdk_calls": 0,
+  "game_memory_writes": false
+}

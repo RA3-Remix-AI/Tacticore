@@ -6,6 +6,10 @@
 
 ## 当前工程状态
 
+当前目标已改为[宏观指挥、原生AI操作](docs/commander-macro-goal-20261027.md)：核心决定建造、侦察、兵种与部队调度；原生AI继续负责单位操作。源代码默认Host已切为`macro_native`并拒绝旧微操证据，完整宿主442项软件检查通过；新宏观接口及发布包仍需实机验证。能力缺口见[宏观接口矩阵](docs/commander-macro-interface-matrix-20261027.md)。
+
+历史微操实验：原生通道三段生命周期、两次交接及54项复核，真实Host两笔移动/驻留/回家/归还及47项复核等原始证据保留；这些不再是当前目标的实施主线或前置验收。最新进度见[新架构实施状态](docs/architecture-implementation-status.md)。
+
 | 部分 | 当前状态 |
 | --- | --- |
 | 决策模型层 | `agent_runtime/` 使用 PydanticAI 2.61.0，三个模型 CLI 默认选择 `pydantic`；`legacy` 仅为显式回退 |
@@ -54,6 +58,8 @@
 本机保存不等于游戏生效；初始资金、Agent 生产支出上限和资源保留底线分别管理。详细交互、依赖和验收条件见 [Feature 路线图](docs/desktop-next/feature-roadmap.md)，Windows 侧按 [验证交接](docs/windows-validation.md) 推进。
 
 ## 先从哪里开始
+
+- **当前建设安排（2026-10-26）**：已按用户授权开始新架构多 Agent 实施；旧实机试错线保持停止。阅读 [架构建设与迭代计划](docs/architecture-iteration-plan-20261026.md)、[实施状态](docs/architecture-implementation-status.md) 和 [独立审查](strategy/reviews/architecture-iteration-audit-20261026.md)。
 
 - **Windows 策略验证与本批合并**：[Windows 验证交接](docs/windows-validation.md)，按环境、离线回归、模型联调、受控实战的顺序推进。
 - **查看本侧改动**：[Unreleased 改动说明](CHANGELOG.md)，包含默认后端变化、旧桌面移除和配置目录变化。

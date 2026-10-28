@@ -7,6 +7,7 @@ from observe_production import Memory,read_owner,read_factory,k,w,EXPECTED
 from session_package import verify_session_package
 from run_flak import durable_write
 from natural_evidence import compatible_natural_calls
+from session_history import unknown_session
 from read_selected_personality import inspect_player,resolve_registry
 
 U=c.c_uint32;L=c.c_int32
@@ -60,7 +61,7 @@ class ProductionExecutor:
   if layout!=dict(command=c.sizeof(Command),receipt=c.sizeof(Receipt),persistent=c.sizeof(Persistent),request=Persistent.request.offset,ledger=Persistent.ledger.offset):raise RuntimeError('native_shared_layout_mismatch')
   self.session_bytes=self.session_path.read_bytes();self.session=json.loads(self.session_bytes.decode('utf-8-sig'));self.package=verify_session_package(self.session);self.registry_path=Path(self.session['registry']);self.registry_digest=hashlib.sha256(self.registry_path.read_bytes()).hexdigest();self.registry=json.loads(self.registry_path.read_text(encoding='utf-8-sig'))
   if self.registry['registry_revision']!=self.session['registry_revision']:raise RuntimeError('registry_revision_mismatch')
-  if self.session['session_id'] in json.loads((PRODUCTION/'unknown_sessions.json').read_text()):raise RuntimeError('session_unknown_previous_execution')
+  if unknown_session(self.session['session_id'],bridge_root=BRIDGE):raise RuntimeError('session_unknown_previous_execution')
   snap=json.loads(self.snapshot_path.read_text(encoding='utf-8-sig'));obs=json.loads(self.natural_path.read_text(encoding='utf-8-sig'))
   if snap['pid']!=self.session['pid'] or snap['sha256']!=EXPECTED:raise RuntimeError('natural_evidence_mismatch')
   compatible_natural_calls(obs,self.session['pid'])

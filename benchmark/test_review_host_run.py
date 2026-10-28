@@ -36,6 +36,50 @@ class ReviewTests(unittest.TestCase):
         sources['battle-host/host-events.jsonl'] = [dict(session_id='other')]
         with self.assertRaises(ValueError): review(sources)
 
+    def feedback(self, *rows):
+        sources = self.fixture()
+        binding = sources['battle-host/host-status.json']['binding']
+        sources['battle-host/host-events.jsonl'] = [dict(binding, kind='task_feedback', task_id=task, status=status)
+                                                   for task, status in rows]
+        return review(sources)
+
+    def test_orphan_completion_is_raw_report_only(self):
+        result = self.feedback(('a', 'completed'))
+        self.assertEqual(result['tasks']['host_reported_completed'], 1)
+        self.assertEqual(result['tasks']['observed_started_completed'], 0)
+        self.assertEqual(result['tasks']['prestart_completions_not_completed_tasks'], 1)
+        self.assertIsNone(result['tasks']['completion_rate_known_started_outcomes'])
+        self.assertFalse(result['whole_match_acceptance_passed'])
+
+    def test_late_start_cannot_retroactively_certify_completion(self):
+        result = self.feedback(('a', 'completed'), ('a', 'started'), ('a', 'completed'))
+        self.assertEqual(result['tasks']['observed_started'], 1)
+        self.assertEqual(result['tasks']['observed_started_completed'], 0)
+        self.assertIsNone(result['tasks']['completion_rate_known_started_outcomes'])
+
+    def test_repeated_ordered_completion_is_one_outcome(self):
+        result = self.feedback(('a', 'started'), ('a', 'started'), ('a', 'completed'), ('a', 'completed'),
+                               ('b', 'started'), ('b', 'failed'), ('c', 'started'))
+        self.assertEqual(result['tasks']['observed_started_completed'], 1)
+        self.assertEqual(result['tasks']['observed_started_failed'], 1)
+        self.assertEqual(result['tasks']['started_without_terminal_feedback'], 1)
+        self.assertEqual(result['tasks']['completion_rate_known_started_outcomes'], .5)
+
+    def test_conflicting_terminals_never_double_count(self):
+        for states in [('completed', 'failed'), ('failed', 'completed'), ('completed', 'cancelled')]:
+            result = self.feedback(('a', 'started'), *(('a', state) for state in states))
+            self.assertEqual(result['tasks']['started_with_conflicting_terminal_feedback'], 1)
+            self.assertEqual(result['tasks']['observed_started_completed'], 0)
+            self.assertEqual(result['tasks']['observed_started_failed'], 0)
+            self.assertEqual(result['tasks']['started_without_terminal_feedback'], 0)
+            self.assertIsNone(result['tasks']['completion_rate_known_started_outcomes'])
+
+    def test_prestart_rejection_does_not_poison_later_valid_start(self):
+        result = self.feedback(('a', 'failed'), ('a', 'started'), ('a', 'completed'))
+        self.assertEqual(result['tasks']['prestart_rejections_not_failed_tasks'], 1)
+        self.assertEqual(result['tasks']['observed_started_completed'], 1)
+        self.assertEqual(result['tasks']['completion_rate_known_started_outcomes'], 1.)
+
     def test_cost_without_created_unit_not_complete(self):
         sources = self.fixture()
         row = dict(status='completed', command_id='c', seq=1, accepted=True, started=True,

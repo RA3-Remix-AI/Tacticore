@@ -73,7 +73,7 @@ class Sessions(unittest.IsolatedAsyncioTestCase):
         await agent.decide(snapshot(),model);task=agent.goals.tasks[0]
         agent.record_feedback(feedback(agent,task,"started"));await agent.decide(snapshot(2,116,events=[]),model)
         self.assertIs(agent.goals.tasks[0],task)
-        self.assertEqual(task.request.spend_fraction,.8)
+        self.assertEqual(task.request.spend_fraction,.5)
         agent.observe(snapshot(3,200,events=[]));agent.jobs()
         self.assertIn(task,agent.goals.tasks);agent.record_feedback(feedback(agent,task))
 

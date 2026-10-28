@@ -10,6 +10,7 @@ from engine import Binding,StrategyEngine,ContractError
 from battle_agent import BattleAgent,BuildEvidence,TacticalEvidence,MissionEvidence
 from http_adapter import load_profile,AdapterError
 from model_backend import BACKENDS,DEFAULT_BACKEND,RuntimeAdapterError,check_backend_available,create_backend
+from host_runtime.python_runtime import script_command
 from service import player_lease
 from assess_trace import assess
 from live_state import LiveBattleState,atomic_json,RetryableSample
@@ -18,12 +19,20 @@ from observe_production import Memory
 from read_match_state import snapshot as native_match_snapshot
 from tactical_bridge import TacticalBridge,verify_manifest,air_scout_authorized,module as load_path_module
 from continuous_contract import mission_limits
+from host_runtime.application import apply_commander_draft,load_commander_draft,observe_applied_backend
+from host_runtime.contracts import ContractError as ProfileContractError
+from host_runtime.macro_control import require_macro_configuration,MODEL_BOUNDARY,CONTROL_MODE
 
 def production_executor_type():
  return load_path_module(ROOT.parent/'production/persistent/client.py','host_bound_production_executor').ProductionExecutor
 
-def capability_evidence(path,session):
- path=Path(path).resolve();allowed=(ROOT.parent/'acceptance/runs').resolve()
+def acceptance_root(root=None):
+ path=Path(root) if root is not None else ROOT.parent/'acceptance/runs'
+ if not path.is_absolute() or str(path).startswith('\\\\'):raise ValueError('Invalid trusted acceptance root')
+ return path.resolve()
+
+def capability_evidence(path,session,*,root=None):
+ path=Path(path).resolve();allowed=acceptance_root(root)
  if not path.is_relative_to(allowed):raise ValueError('Evidence must belong to recorded acceptance runs')
  report=json.loads(path.read_text(encoding='utf-8-sig'))
  if report.get('mod_sha256')!=session['mod_sha256']:raise ValueError('Capability package differs')
@@ -56,9 +65,9 @@ def verified_completion(receipt,entry):
   and receipt.get('paid')==receipt['cost'] and type(receipt.get('object_id')) is int and receipt['object_id']>0
   and receipt.get('live_samples',0)>0 and receipt.get('payment_error')==0)
 
-def conscript_evidence(path,session):
+def conscript_evidence(path,session,*,root=None):
  path=Path(path).resolve()
- if not path.is_relative_to((ROOT.parent/'acceptance/runs').resolve()):raise ValueError('Persistent evidence outside acceptance runs')
+ if not path.is_relative_to(acceptance_root(root)):raise ValueError('Persistent evidence outside acceptance runs')
  state=json.loads(path.read_text(encoding='utf-8-sig'));audit=path.with_name('persistent-production.jsonl')
  records=[json.loads(line) for line in audit.read_text(encoding='utf-8-sig').splitlines()]
  if not any(x.get('event')=='attach_preflight' and x.get('package_sha256')==session['mod_sha256'] and x.get('session_id')==state.get('session_id') for x in records):raise ValueError('Persistent package evidence mismatch')
@@ -69,22 +78,48 @@ def conscript_evidence(path,session):
 
 class Host:
  def __init__(self,args):
+  self.control_mode=require_macro_configuration(args)
   self.args=args;self.session=json.loads(args.session.read_text(encoding='utf-8-sig'))
+  self.runtime_production=None;self.runtime_tactical=None;self.runtime_tactical_transport=None;self.runtime_tactical_attach_attempted=False
+  self.runtime_tactical_rotation_attempted=False;self.runtime_tactical_epochs=[]
+  self.runtime_tactical_retirement=None;self.runtime_tactical_resume_attempted=False
+  # Historical single-unit scheduling is not part of the current macro mode.
+  # Its module remains available for historical replay, never instantiated here.
+  self.runtime_model_tasks=None
+  if (getattr(args,'runtime_report',None) is None)!=(getattr(args,'runtime_sha256',None) is None):raise ProfileContractError('runtime_evidence_pin_required')
+  if getattr(args,'runtime_report',None) is not None and not getattr(args,'runtime_ledger',None):raise ProfileContractError('runtime_tactical_requires_ledger')
+  if (getattr(args,'runtime_recovery_report',None)is None)!=(getattr(args,'runtime_recovery_sha256',None)is None):raise ProfileContractError('first_home_evidence_pin_required')
+  if getattr(args,'runtime_recovery_report',None)is not None and getattr(args,'runtime_report',None)is None:raise ProfileContractError('first_home_requires_baseline_scope')
+  if (getattr(args,'runtime_run_id',None) or getattr(args,'runtime_host_id',None)) and not getattr(args,'runtime_ledger',None):raise ValueError('runtime_identity_requires_ledger')
+  if getattr(args,'runtime_ledger',None) is not None:
+   if not args.execute or args.check:raise ValueError('runtime_ledger_requires_execute_without_check')
+   if getattr(args,'tactical_evidence',None):raise ValueError('runtime_tactical_migration_not_implemented')
   self.profile=load_profile(args.library,args.commander)
-  self.evidence=capability_evidence(args.evidence,self.session) if args.evidence else None
+  self.profile_application=None
+  if getattr(args,'commander_draft',None) is not None:
+   self.profile_application=apply_commander_draft(self.profile,load_commander_draft(args.commander_draft))
+   self.profile=self.profile_application.profile
+  self.evidence=capability_evidence(args.evidence,self.session,root=getattr(args,'acceptance_root',None)) if args.evidence else None
   if args.persistent_evidence:
    if self.evidence is None:raise ValueError('Persistent evidence requires base production evidence')
-   extra=conscript_evidence(args.persistent_evidence,self.session);self.evidence['supported_foci']+=extra['supported_foci'];self.evidence['persistent']=extra
+   extra=conscript_evidence(args.persistent_evidence,self.session,root=getattr(args,'acceptance_root',None));self.evidence['supported_foci']+=extra['supported_foci'];self.evidence['persistent']=extra
   if args.execute and self.evidence is None:raise ValueError('Execution requires verified production evidence')
+  if getattr(args,'runtime_ledger',None) is not None:
+   from host_runtime.host_production import from_host
+   self.runtime_production=from_host(self,args.runtime_ledger)
+   self.evidence['supported_foci']=self.runtime_production.supported_foci
   foci=('native_baseline',)+tuple(self.evidence['supported_foci'] if self.evidence else ())
   self.output=Path(self.session['run_directory'])/'battle-host';self.output.mkdir(parents=True,exist_ok=True)
   prior=self.output/'dispatch-ledger.json'
-  if args.execute and prior.exists() and json.loads(prior.read_text(encoding='utf-8-sig')):raise ValueError('Dispatched session requires explicit recovery; refusing replay')
+  if args.execute and prior.exists():
+   previous=json.loads(prior.read_text(encoding='utf-8-sig'))
+   if previous and (self.runtime_production is None or any(not entry.get('terminal') or entry.get('kind')!='runtime_production' for entry in previous.values())):raise ValueError('Dispatched session requires explicit recovery; refusing replay')
   tactical=verify_manifest(args.tactical_evidence,self.session,args.commander) if getattr(args,'tactical_evidence',None) else None
+  if self.runtime_production is not None and tactical:raise ValueError('runtime_tactical_migration_not_implemented')
   if tactical and not args.execute:raise ValueError('Tactical execution requires trusted execution host')
   self.collector=LiveBattleState(args.session,args.commander,args.player,foci=foci,output=self.output,visibility=bool(getattr(args,'with_visibility',False) or tactical),air_scout=air_scout_authorized(tactical),mission_history=bool(tactical and any(mission_limits(g) for g in tactical['grants'])),mission_admission_filename=mission_admission_filename(tactical))
   self.binding=Binding(self.session['session_id'],args.player,args.commander,self.profile.commander_name,self.profile.connection_id)
-  self.engine=StrategyEngine(self.binding,timeout_seconds=args.model_timeout+.5,max_response_age_seconds=20,min_hold_game_seconds=15,audit_path=self.output/'plans.jsonl',status_path=self.output/'strategy-status.json',provenance_description='Validated computer-perspective bridge; unknown power and unseen enemies remain unknown. Only listed purpose-level capabilities may execute. Tactical tasks need at least 20 game seconds left after model response, up to 60 seconds. Prefer 45-second plans. Force fractions are budget ceilings; the host allocates at most half of eligible infantry. coordinate_force is a local two-role staged advance, not a whole-map formation order. Only supplied currently visible enemy contacts may be attacked.')
+  self.engine=StrategyEngine(self.binding,timeout_seconds=args.model_timeout+.5,max_response_age_seconds=20,min_hold_game_seconds=15,audit_path=self.output/'plans.jsonl',status_path=self.output/'strategy-status.json',provenance_description=MODEL_BOUNDARY)
   evidence=BuildEvidence(self.evidence['evidence_id'],self.session['session_id'],args.player,'game_bridge',supported_foci=self.evidence['supported_foci']) if args.execute else None
   tactical_assertion=TacticalEvidence(tactical['evidence_id'],self.session['session_id'],args.player,'game_bridge',supported_purposes=tactical['supported_purposes'],actor_roles=tactical['actor_roles']) if tactical else None
   mission_grants=[g for g in tactical['grants'] if mission_limits(g)] if tactical else []
@@ -97,8 +132,11 @@ class Host:
   self.started=time.monotonic();self.counters=dict(dispatches=0,started=0,completed=0,failed=0,blocked=0)
   self.stop_path=self.output/'stop.json';self.journal=self.output/'host-events.jsonl'
   self.host_creation_filetime,self.host_start_time=own_process_identity()
-  self.observer=None;self.observer_output=None
+  self.observer=None;self.observer_output=None;self.observer_error=None
   self.route_process=None;self.route_log=None
+  if self.profile_application is not None:
+   self.event('commander_profile_applied',**self.profile_application.public())
+   self.adapter=observe_applied_backend(self.adapter,self.profile_application,event_sink=lambda kind,payload:self.event(kind,**payload))
   self.remaining_budget=args.total_budget
   self.natural_path=args.natural_observation or Path(self.session['run_directory'])/'natural-production.json'
   self.tactical=TacticalBridge(self,tactical) if tactical else None
@@ -111,14 +149,49 @@ class Host:
 
  def event(self,kind,**fields):
   value=dict(kind=kind,session_id=self.binding.session_id,player_id=self.binding.player_id,commander_id=self.binding.commander_id,wall_seconds=round(time.monotonic()-self.started,3),**fields)
+  runtime=getattr(self,'runtime_production',None)
+  if runtime is not None:runtime.event(kind,value,game_frame=int(self.last_snapshot['game_time_seconds']*15) if self.last_snapshot else None,monotonic_ns=time.monotonic_ns())
   with self.journal.open('a',encoding='utf-8') as out:out.write(json.dumps(value,ensure_ascii=False,allow_nan=False)+'\n');out.flush()
 
+ def record_proposals(self):
+  # Durable provenance precedes dispatch and survives bounded agent memory.
+  jobs=self.agent.jobs()['jobs']
+  if not hasattr(self,'_recorded_plan_ids'):self._recorded_plan_ids=set();self._recorded_task_ids=set()
+  plan=getattr(self.engine,'current',None)
+  if plan is not None and plan.plan_id not in self._recorded_plan_ids:
+   self.event('plan_applied',plan_id=plan.plan_id,snapshot_id=plan.snapshot_id,plan=plan.public())
+   self._recorded_plan_ids.add(plan.plan_id)
+  for task in jobs:
+   if task['task_id'] in self._recorded_task_ids:continue
+   self.event('task_proposed',task_id=task['task_id'],plan_id=task.get('plan_id'),generation=task.get('generation'),
+              snapshot_id=self.last_snapshot['snapshot_id'] if self.last_snapshot else None,proposal=task,
+              execution_authorized=False)
+   self._recorded_task_ids.add(task['task_id'])
+  return jobs
+
+ def public_jobs(self):
+  current=self.agent.jobs()['jobs'];history=list(getattr(getattr(self.agent,'goals',None),'history',[]))
+  scheduler=getattr(self,'runtime_model_tasks',None)
+  rows=(scheduler.jobs()if scheduler is not None else [])+current+list(reversed(history))
+  seen=set();public=[]
+  for row in rows:
+   if row['task_id'] in seen:continue
+   seen.add(row['task_id']);public.append(row)
+  return public[:64]
+
  def publish(self):
+  self.record_proposals()
   status=dict(schema_version=1,kind='battle_host_v1',source='game_bridge',session_id=self.binding.session_id,pid=self.session['pid'],process_start=self.session['start_time'],mod_sha256=self.session['mod_sha256'],registry_revision=self.session['registry_revision'],host_pid=os.getpid(),host_start_time=self.host_start_time,host_creation_filetime=self.host_creation_filetime,binding=dict(player_id=self.binding.player_id,commander_id=self.binding.commander_id,commander_name=self.binding.commander_name,connection_id=self.binding.connection_id,computer_verified=self.collector.owner is not None),state=self.phase,reason_code=self.reason,
-   execution=dict(enabled=self.executor_ready and self.phase=='running',dry_run=not self.args.execute,executor_connected=self.executor_ready,remaining_budget=self.remaining_budget),
-   model_backend=getattr(self.adapter,'backend_name','unknown'),current_plan=self.engine.current.public() if self.engine.current else None,last_result=self.last_result,metrics=dict(self.engine.metrics),transport=dict(self.adapter.metrics),memory=dict(self.agent.metrics),task_counters=dict(self.counters),jobs=self.agent.jobs()['jobs'],latest_snapshot=dict(snapshot_id=self.last_snapshot['snapshot_id'],game_time_seconds=self.last_snapshot['game_time_seconds'],paused=self.last_snapshot['paused'],resources=self.last_snapshot['resources']) if self.last_snapshot else None)
+   execution=dict(control_mode=getattr(self,'control_mode','legacy_unclassified'),unit_operation_policy='native_ai',enabled=self.executor_ready and self.phase=='running',dry_run=not self.args.execute,executor_connected=self.executor_ready,remaining_budget=self.remaining_budget),
+   model_backend=getattr(self.adapter,'backend_name','unknown'),current_plan=self.engine.current.public() if self.engine.current else None,last_result=self.last_result,metrics=dict(self.engine.metrics),transport=dict(self.adapter.metrics),memory=dict(self.agent.metrics),task_counters=dict(self.counters),jobs=self.public_jobs(),latest_snapshot=dict(snapshot_id=self.last_snapshot['snapshot_id'],game_time_seconds=self.last_snapshot['game_time_seconds'],paused=self.last_snapshot['paused'],resources=self.last_snapshot['resources']) if self.last_snapshot else None)
   if getattr(self,'reserve_controller',None) is not None:status['paid_pair_controller']=self.reserve_controller.public_status()
+  if getattr(self,'runtime_production',None) is not None:status['runtime_production']=self.runtime_production.public()
+  if getattr(self,'runtime_tactical',None) is not None:status['runtime_tactical']=self.runtime_tactical.snapshot()
+  if getattr(self,'runtime_model_tasks',None) is not None:status['runtime_model_tasks']=self.runtime_model_tasks.public()
+  if getattr(self,'runtime_tactical_epochs',None):status['runtime_tactical_lifecycle']=dict(retired_epochs=self.runtime_tactical_epochs,recovery_required=getattr(self,'runtime_tactical_rotation_attempted',False))
   if getattr(self,'tactical',None) is not None:status['tactical']=dict(connected=self.tactical.executor is not None,counters=self.tactical.counters)
+  if getattr(self,'profile_application',None) is not None:
+   status['profile_application']=self.profile_application.public();status['profile_consumption']=self.adapter.observation()
   if hasattr(self.agent,'missions'):status['missions']=self.agent.missions.public()
   if self.last_snapshot and self.last_snapshot.get('battlefield') is not None:
    battlefield=self.last_snapshot['battlefield'];status['visibility']=dict(viewer_player_id=battlefield['viewer_player_id'],verified=battlefield['visibility_verified'],currently_visible=sum(c['currently_visible'] for c in battlefield['contacts']),last_seen=sum(not c['currently_visible'] for c in battlefield['contacts']),formations=len(battlefield['formations']))
@@ -129,10 +202,91 @@ class Host:
   try:return json.loads(self.stop_path.read_text(encoding='utf-8-sig')).get('session_id')==self.binding.session_id
   except (ValueError,OSError):return False
 
+ def attach_runtime_actor(self,production_task_id):
+  """Attach for read-only opportunities; does not Reserve or Borrow an actor."""
+  if getattr(self,'control_mode',None)==CONTROL_MODE:raise ProfileContractError('unit_control_disabled_in_macro_mode')
+  if not self.executor_ready or self.last_snapshot['paused']:raise ProfileContractError('runtime_tactical_not_ready')
+  if self.phase!='running' or (getattr(self,'stop_path',None) is not None and self.stop_requested()):raise ProfileContractError('runtime_tactical_not_ready')
+  if getattr(self,'runtime_tactical_rotation_attempted',False):raise ProfileContractError('tactical_owner_requires_explicit_recovery')
+  entry=self.sent.get(production_task_id)
+  if entry is None or entry.get('kind')!='runtime_production':raise ProfileContractError('runtime_completed_conscript_required')
+  if self.runtime_tactical is None:
+   if self.runtime_tactical_attach_attempted:raise ProfileContractError('tactical_owner_requires_explicit_recovery')
+   self.runtime_tactical_attach_attempted=True
+   from host_runtime.host_tactical import from_host
+   self.runtime_tactical=from_host(self,entry['request_id'])
+   self.event('runtime_tactical_attached',producer_command_id=self.runtime_tactical.producer_command_id,purpose='move_hold_return')
+  elif self.runtime_tactical.producer_command_id!=entry['command_id']:
+   raise ProfileContractError('runtime_actor_switch_requires_recovery')
+  return self.runtime_tactical
+
+ def reserve_runtime_task(self,task_id,production_task_id,*,lease_frames=750):
+  """Trusted host-only single-actor entry; not a model/WebView authority API."""
+  self.attach_runtime_actor(production_task_id)
+  actor=self.runtime_tactical.actor.identity
+  return self.runtime_tactical.reserve(task_id,object_id=actor.object_id,actor_generation=actor.generation,lease_frames=lease_frames)
+
+ def commit_runtime_task(self,task_id,*,target_point_id,hold_frames=15):
+  if getattr(self,'control_mode',None)==CONTROL_MODE:raise ProfileContractError('unit_control_disabled_in_macro_mode')
+  if self.runtime_tactical is None:raise ProfileContractError('runtime_tactical_not_attached')
+  if getattr(self,'runtime_tactical_rotation_attempted',False):raise ProfileContractError('tactical_owner_requires_explicit_recovery')
+  if self.phase!='running' or (getattr(self,'stop_path',None) is not None and self.stop_requested()):raise ProfileContractError('runtime_tactical_not_ready')
+  return self.runtime_tactical.commit(task_id,target_point_id=target_point_id,hold_frames=hold_frames)
+
+ def renew_runtime_tactical(self,*,production_request_id=None):
+  if getattr(self,'control_mode',None)==CONTROL_MODE:raise ProfileContractError('unit_control_disabled_in_macro_mode')
+  """Host-owned lifecycle entry; never accepts model-supplied native evidence."""
+  if not self.executor_ready or self.last_snapshot['paused'] or self.phase!='running':raise ProfileContractError('runtime_tactical_not_ready')
+  if getattr(self,'stop_path',None) is not None and self.stop_requested():raise ProfileContractError('runtime_tactical_not_ready')
+  from host_runtime.host_tactical import renew_from_host
+  owner=(renew_from_host(self) if production_request_id is None else
+      renew_from_host(self,production_request_id=production_request_id))
+  self.runtime_tactical=owner
+  self.event('runtime_tactical_epoch_renewed',run_id=owner.run_id,binding_hash=owner.binding.binding_hash,purpose='move_hold_return')
+  return owner.snapshot()
+
+ def suspend_runtime_tactical(self):
+  if getattr(self,'control_mode',None)==CONTROL_MODE:raise ProfileContractError('unit_control_disabled_in_macro_mode')
+  if not self.executor_ready or self.last_snapshot['paused'] or self.phase!='running' or self.stop_requested():raise ProfileContractError('runtime_tactical_not_ready')
+  from host_runtime.host_tactical import suspend_from_host
+  retirement=suspend_from_host(self)
+  self.event('runtime_tactical_waiting_successor',run_id=retirement.run_id,manifest_sha256=retirement.manifest_sha256)
+  return dict(state='retired_waiting_successor',run_id=retirement.run_id)
+
+ def resume_runtime_tactical(self,production_task_id):
+  if getattr(self,'control_mode',None)==CONTROL_MODE:raise ProfileContractError('unit_control_disabled_in_macro_mode')
+  if not self.executor_ready or self.last_snapshot['paused'] or self.phase!='running' or self.stop_requested():raise ProfileContractError('runtime_tactical_not_ready')
+  entry=self.sent.get(production_task_id)
+  if entry is None or entry.get('kind')!='runtime_production':raise ProfileContractError('runtime_completed_conscript_required')
+  from host_runtime.host_tactical import resume_from_host
+  self.runtime_tactical=resume_from_host(self,production_request_id=entry['request_id'])
+  self.event('runtime_tactical_epoch_renewed',run_id=self.runtime_tactical.run_id,binding_hash=self.runtime_tactical.binding.binding_hash,purpose='move_hold_return')
+  return self.runtime_tactical
+
+ async def receive_runtime_tactical(self):
+  if getattr(self,'runtime_tactical_retirement',None) is not None:return
+  owner=getattr(self,'runtime_tactical',None)
+  if owner is None:return
+  outcome=await asyncio.to_thread(owner.poll)
+  if outcome is not None and outcome['status']=='uncertain':
+   self.reason='tactical_control_release_unverified'
+   raise ProfileContractError('tactical_unknown_requires_reconciliation')
+
+ async def stop_runtime_tactical(self):
+  owner=getattr(self,'runtime_tactical',None)
+  try:
+   if owner is not None:await asyncio.to_thread(owner.shutdown)
+  finally:
+   scheduler=getattr(self,'runtime_model_tasks',None)
+   if owner is not None and scheduler is not None:scheduler.on_host_stop()
+   pending=getattr(self,'runtime_tactical_transport',None)
+   if pending is not None and (owner is None or pending is not owner.transport):
+    await asyncio.to_thread(pending.close)
+
  def start_route_recorder(self):
   if not getattr(self.collector,'mission_history',False):return
   self.route_log=(self.output/'own-route-recorder.log').open('w',encoding='utf-8')
-  self.route_process=subprocess.Popen([sys.executable,str(ROOT/'record_own_routes.py'),'--session',str(self.args.session.resolve()),'--commander',self.binding.commander_id,'--max-wall-seconds',str(min(7200,self.args.max_wall_seconds+180))],stdout=self.route_log,stderr=self.route_log,creationflags=getattr(subprocess,'CREATE_NO_WINDOW',0))
+  self.route_process=subprocess.Popen(script_command(ROOT/'record_own_routes.py',['--session',str(self.args.session.resolve()),'--commander',self.binding.commander_id,'--max-wall-seconds',str(min(7200,self.args.max_wall_seconds+180))]),stdout=self.route_log,stderr=self.route_log,creationflags=getattr(subprocess,'CREATE_NO_WINDOW',0))
   self.event('own_route_recorder_started',observer_pid=self.route_process.pid,source='own_ground_only',game_commands=0)
 
  async def stop_route_recorder(self):
@@ -153,18 +307,22 @@ class Host:
   candidate=min(candidates,key=lambda value:int(value['address'],0))
   if not self.natural_path.exists() and self.observer is None:
    self.observer_output=self.natural_path.open('w',encoding='utf-8')
-   self.observer=subprocess.Popen([str(ROOT.parent/'production/bin/observe_build.exe'),str(self.session['pid']),'30'],stdout=self.observer_output,stderr=subprocess.DEVNULL,text=True)
+   self.observer_error=(self.output/'natural-observer.stderr.log').open('w',encoding='utf-8')
+   self.observer=subprocess.Popen([str(ROOT.parent/'production/bin/observe_build.exe'),str(self.session['pid']),'30'],stdout=self.observer_output,stderr=self.observer_error,text=True)
    self.event('natural_observer_started')
   if self.observer is not None:
    if self.observer.poll() is None:self.reason='waiting_for_native_production_observation';return
    if self.observer_output is not None:self.observer_output.close();self.observer_output=None
-   if self.observer.returncode!=0:raise RuntimeError('native_observer_failed')
+   if self.observer.returncode!=0:
+    self.event('natural_observer_failed',exit_code=self.observer.returncode)
+    raise RuntimeError('native_observer_failed')
   if not self.natural_path.exists():self.reason='waiting_for_native_production_observation';return
   ProductionExecutor=production_executor_type()
   self.executor=ProductionExecutor(self.args.session,self.collector.latest_snapshot_path,candidate['address'],self.binding.commander_id,self.natural_path,total_budget=self.args.total_budget,reserve_floor=self.args.reserve,min_interval_frames=150)
   result=await asyncio.to_thread(self.executor.start)
   # The actual native handshake, not presence of a JSON file, authorizes dispatch.
   if not isinstance(result,dict) or result.get('state')!='running' or result.get('native_phase')!=1 or result.get('native_error')!=0 or result.get('personality_binding_verified') is not True:raise RuntimeError('executor_handshake_failed')
+  if getattr(self,'runtime_production',None) is not None:self.runtime_production.attach(self.executor)
   self.executor_ready=True;self.event('executor_connected')
 
  def feedback(self,task_id,status,reason,at):
@@ -178,21 +336,31 @@ class Host:
   terminal_restored=allow_stopped and status.get('native_phase')==2 and status.get('restore_mask')==31 and status.get('active_callbacks')==0 and status.get('native_error')==0
   if not terminal_restored and (status.get('native_phase')!=1 or status.get('native_error')!=0 or status.get('local_error') is not None):raise RuntimeError('executor_lost')
   # Client normalization provides completed only after native node/payment/create correlation.
+  frames=[r['enqueue_frame']for r in status.get('ledger',[])if r.get('accepted') is True and type(r.get('enqueue_frame')) is int and r['enqueue_frame']>=0]
+  if frames:self.production_not_before_frame=max(getattr(self,'production_not_before_frame',0),max(frames)+150)
   for receipt in status.get('ledger',[]):
    task_id=receipt.get('task_id');entry=self.sent.get(task_id)
    if entry is None or entry.get('terminal'):continue
+   if getattr(self,'runtime_production',None) is not None:receipt=self.runtime_production.observe(receipt,entry)
    phase=receipt.get('status')
    if verified_completion(receipt,entry):
     self.feedback(task_id,'completed','ok',self.last_snapshot['game_time_seconds']);entry['terminal']=True
    elif phase in ('failed','rejected','no_dispatch_rejected'):
     self.feedback(task_id,'failed','execution_error',self.last_snapshot['game_time_seconds']);entry['terminal']=True
+   elif getattr(self,'runtime_production',None) is not None and phase=='unknown':
+    self.feedback(task_id,'failed','execution_error',self.last_snapshot['game_time_seconds'])
+    self.phase='fault';self.reason='dispatch_outcome_unknown';raise RuntimeError('dispatch_outcome_unknown')
+  if getattr(self,'runtime_production',None) is not None:atomic_json(self.output/'dispatch-ledger.json',self.sent)
   self.remaining_budget=max(0,self.args.total_budget-status.get('spent_committed',0))
   if not any(task.status=='active' for task in self.agent.goals.tasks):
    foci=[focus for focus in self.evidence['supported_foci'] if self.remaining_budget>=(220 if focus=='anti_air' else 85)]
    self.collector.foci=('native_baseline',)+tuple(foci)
 
  async def dispatch(self):
+  jobs=self.record_proposals()
   if not self.executor_ready or self.last_snapshot['paused']:return
+  if getattr(self,'runtime_model_tasks',None) is not None and self.runtime_model_tasks.blocks_production():return
+  if int(self.last_snapshot['game_time_seconds']*15)<getattr(self,'production_not_before_frame',0):return
   reserve=getattr(self,'reserve_controller',None)
   if reserve is not None:
    if await reserve.maybe_prepare() or reserve.blocks_build():return
@@ -204,7 +372,7 @@ class Host:
     if address is not None and int(factory['address'],0)!=address:continue
     nodes=factory.get('queue_candidate',{}).get('nodes')
     if isinstance(nodes,list) and len(nodes)>2:return
-  for task in self.agent.jobs()['jobs']:
+  for task in jobs:
    if not task.get('host_dispatch_candidate') or task['task_id'] in self.sent:continue
    if task.get('module')!='build' or task.get('focus') not in self.evidence['supported_foci']:continue
    focus=task['focus'];own=self.last_snapshot['production']['own_roles']
@@ -213,15 +381,25 @@ class Host:
    if now>=task['expires_at_game_seconds']:continue
    budget=min(1000,self.remaining_budget,int(self.last_snapshot['resources']['credits']*task['budget']['fraction']))
    if budget<(220 if unit=='flak' else 85):self.feedback(task['task_id'],'blocked','insufficient_funds',now);continue
-   self.sequence+=1
-   command=dict(session_id=self.binding.session_id,player_id=self.binding.player_id,commander_id=self.binding.commander_id,command_id=str(uuid.uuid4()),task_id=task['task_id'],seq=self.sequence,unit=unit,budget=budget,reserve=self.args.reserve,expires_frame=int(task['expires_at_game_seconds']*15))
-   self.sent[task['task_id']]=dict(command_id=command['command_id'],seq=self.sequence,queue_id=None,terminal=False)
+   runtime=getattr(self,'runtime_production',None)
+   if runtime is not None:
+    prepared=runtime.prepare(task['task_id'],unit=unit,budget=budget,reserve=self.args.reserve,expires_frame=min(int(task['expires_at_game_seconds']*15),int(now*15)+900))
+    self.sent[task['task_id']]=prepared.export_entry()
+   else:
+    self.sequence+=1
+    command=dict(session_id=self.binding.session_id,player_id=self.binding.player_id,commander_id=self.binding.commander_id,command_id=str(uuid.uuid4()),task_id=task['task_id'],seq=self.sequence,unit=unit,budget=budget,reserve=self.args.reserve,expires_frame=int(task['expires_at_game_seconds']*15))
+    self.sent[task['task_id']]=dict(command_id=command['command_id'],seq=self.sequence,queue_id=None,terminal=False)
    atomic_json(self.output/'dispatch-ledger.json',self.sent)
-   self.event('dispatch_pending',task_id=task['task_id'],command_id=command['command_id'],seq=self.sequence)
-   receipt=await asyncio.to_thread(self.executor.submit,command)
+   self.event('dispatch_pending',task_id=task['task_id'],command_id=self.sent[task['task_id']]['command_id'],seq=self.sent[task['task_id']]['seq'])
+   if runtime is not None:
+    outcome=await asyncio.to_thread(runtime.dispatch,prepared)
+    receipt=runtime.legacy_receipt(outcome)
+   else:receipt=await asyncio.to_thread(self.executor.submit,command)
    self.counters['dispatches']+=1
    if receipt.get('status') in ('accepted','queued','started','completed') and receipt.get('accepted') is True:
     self.sent[task['task_id']]['queue_id']=receipt['queue_id']
+    enqueue=receipt.get('enqueue_frame')
+    self.production_not_before_frame=max(getattr(self,'production_not_before_frame',0),max(int(now*15),enqueue if type(enqueue)is int else 0)+150)
     self.feedback(task['task_id'],'started','ok',now)
    else:
     # Outcomes lacking a definitive pre-dispatch refusal are never retried.
@@ -285,7 +463,9 @@ class Host:
       else:self.phase='fault';self.reason='game_lifecycle_unavailable';self.event('sampling_failed')
       break
      sampling_failures=0
+     snapshot['macro_control']=dict(mode=CONTROL_MODE,available_actions=[])
      self.last_snapshot=snapshot
+     if getattr(self,'runtime_model_tasks',None) is not None:await self.runtime_model_tasks.prepare(snapshot)
      if getattr(self,'reserve_controller',None) is not None:self.reserve_controller.update_scope()
      self.agent.observe(snapshot)
      if snapshot['snapshot_id']==1:self.event('entered_match',first_game_time_seconds=snapshot['game_time_seconds'])
@@ -298,8 +478,10 @@ class Host:
      await self.connect_executor()
      if getattr(self,'tactical',None) is not None:await self.tactical.connect()
      await self.receive_receipts()
+     await self.receive_runtime_tactical()
      if getattr(self,'tactical',None) is not None:await self.tactical.receive()
      await self.dispatch()
+     if getattr(self,'runtime_model_tasks',None) is not None:await self.runtime_model_tasks.dispatch()
      if getattr(self,'tactical',None) is not None:await self.tactical.dispatch()
      await self.urgent_controller_decision()
      if self.pending is None:self.pending=asyncio.create_task(self.agent.decide(self.last_snapshot,self.adapter))
@@ -326,28 +508,46 @@ class Host:
     if getattr(self,'tactical',None) is not None:
      try:await self.tactical.stop()
      except Exception as error:self.phase='fault';self.reason='tactical_restoration_unverified';self.event('tactical_restoration_unverified',error_type=type(error).__name__)
+    try:await self.stop_runtime_tactical()
+    except Exception as error:self.phase='fault';self.reason='tactical_restoration_unverified';self.event('tactical_restoration_unverified',error_type=type(error).__name__)
     if getattr(self,'reserve_controller',None) is not None:
      try:await self.reserve_controller.stop()
      except Exception as error:self.phase='fault';self.reason='reserve_control_release_unverified';self.event('reserve_control_release_unverified',error_type=type(error).__name__)
     self.agent.stop()
     if self.executor is not None:
 
-     stopped=await asyncio.to_thread(self.executor.stop)
+     if getattr(self,'runtime_production',None) is not None and self.runtime_production.gateway is not None:
+      outcome=await asyncio.to_thread(self.runtime_production.stop)
+      stopped=outcome.get('receipt',{}).get('facts',{})
+      if outcome['status']!='released':self.phase='fault';self.reason='executor_restoration_unverified';self.event('executor_restoration_unverified')
+     else:stopped=await asyncio.to_thread(self.executor.stop)
      if stopped.get('native_phase') is not None and (stopped.get('native_phase')!=2 or stopped.get('restore_mask')!=31 or stopped.get('active_callbacks')!=0):
       self.phase='fault';self.reason='executor_restoration_unverified';self.event('executor_restoration_unverified')
     if self.observer is not None and self.observer.poll() is None:
      try:await asyncio.to_thread(self.observer.wait,35)
      except subprocess.TimeoutExpired:self.phase='fault';self.reason='observer_restoration_unverified'
     if self.observer_output is not None:self.observer_output.close()
+    if getattr(self,'observer_error',None) is not None:self.observer_error.close()
     await self.stop_route_recorder()
     self.executor_ready=False
     if self.phase not in ('fault','result_candidate'):self.phase='stopped'
     self.publish();self.event('host_stopped',reason_code=self.reason)
+    if getattr(self,'runtime_production',None) is not None:self.runtime_production.close()
   return dict(state=self.phase,reason_code=self.reason,metrics=self.engine.metrics,task_counters=self.counters,runtime=str(self.output))
 
 def parser():
  p=argparse.ArgumentParser(description=__doc__)
+ p.add_argument('--control-mode',choices=(CONTROL_MODE,),default=CONTROL_MODE,help='Macro decisions; native AI retains unit operation')
  p.add_argument('--session',type=Path,required=True);p.add_argument('--commander',required=True);p.add_argument('--player',type=int,default=3);p.add_argument('--library',type=Path,default=default_library())
+ p.add_argument('--acceptance-root',type=Path,help='Trusted native bootstrap evidence root; never read from session/model/RPC data')
+ p.add_argument('--commander-draft',type=Path,help='Bounded canonical commander profile draft; same commander/connection only; no credentials')
+ p.add_argument('--runtime-ledger',type=Path,help='Opt in to durable scoped production gateway; requires --execute and excludes --check')
+ p.add_argument('--runtime-run-id',help='Trusted desktop launch run UUID; requires --runtime-ledger')
+ p.add_argument('--runtime-host-id',help='Trusted desktop launch host UUID; requires --runtime-ledger')
+ p.add_argument('--runtime-report',type=Path,help='Native-bootstrap reviewed movement report; requires explicit SHA pin and runtime ledger')
+ p.add_argument('--runtime-sha256',help='Exact reviewed runtime report SHA-256; independently requalified against current build')
+ p.add_argument('--runtime-recovery-report',type=Path,help='Pinned first-home recovery bundle; also requires current flags0 runtime evidence')
+ p.add_argument('--runtime-recovery-sha256',help='Exact first-home recovery bundle SHA-256; no diagnostic injection authority')
  p.add_argument('--evidence',type=Path);p.add_argument('--persistent-evidence',type=Path);p.add_argument('--natural-observation',type=Path);p.add_argument('--execute',action='store_true')
  p.add_argument('--check',action='store_true',help='Read-only readiness check; makes no HTTP request or native call')
  p.add_argument('--wait-for-match',action='store_true',help='Arm the host before game start; no model/native calls until actual UUID binding')
@@ -376,6 +576,8 @@ def main():
  except KeyboardInterrupt:print(json.dumps(dict(state='stopped',reason_code='keyboard_interrupt')))
  except RuntimeAdapterError as error:
   print(json.dumps(dict(can_start=False,state='fault',reason_code=str(error))));return 1
+ except ProfileContractError as error:
+  print(json.dumps(dict(can_start=False,state='fault',reason_code=error.code)));return 1
  except Exception as error:
   if args.check:print(json.dumps(dict(can_start=False,state='fault',reason_code='waiting_for_active_match' if isinstance(error,ValueError) else type(error).__name__)))
   else:print(json.dumps(dict(state='fault',reason_code=type(error).__name__)))

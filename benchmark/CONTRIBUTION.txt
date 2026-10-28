@@ -1,0 +1,76 @@
+三源贡献与固定输入风格比较（离线软件，不授予实机验收）
+
+入口
+1. contribution.summarize(document)：按 native/script/model 分开配置应用、模型返回、决策、任务启动、花费、效果、物理回家、控制归还、结算。
+2. contribution.compare_runs([document,...])：相同实验条件、同一稳定指挥官/档案修订/有效哈希，不同run和session的记录对照。
+3. contribution.compare_style_decisions([document,...])：只将 input_sha256 相同的模型决策按风格分组；允许风格配置哈希不同，禁止同一风格配置漂移。不把选择不同当作实战行为或胜率差异。
+4. contribution.adapt_host_events(...)：对当前 battle_host.event JSONL 的白名单适配。
+5. contribution.adapt_host_diagnostics(export, conditions=..., evidence_sha256=..., decision_inputs=None, plan_origins=None, task_origins=None)：对当前 tacticore_redacted_diagnostics v1 的真实入口。
+
+CLI（从 benchmark/ 执行；使用项目 .venv/Scripts/python.exe）
+python contribution.py summarize input.json --output new-summary.json
+python contribution.py compare native.json script.json model.json --output new-comparison.json
+python contribution.py styles steady.json pressure.json --output new-style-review.json
+python contribution.py diagnostics downloaded-redacted-diagnostics.json --conditions conditions.json --output new-attribution.json
+输出使用独占创建，已存在文件拒绝覆盖。输入只读，不启动游戏、宿主、网络或模型，不读取凭据。
+
+标准文档（严格字段，schema_version=1）
+{
+  "schema_version": 1,
+  "binding": {
+    "run_id":"run-one", "session_id":"session-one", "player_id":3,
+    "commander_id":"commander-one", "profile_revision":3,
+    "effective_hash":"64位小写SHA256"
+  },
+  "conditions": {
+    "experiment_id":"source-comparison-v1", "map_id":"industrial", "faction":"soviet",
+    "opponent_id":"medium-native", "difficulty":"medium",
+    "game_sha256":"64位小写SHA256", "mod_sha256":"64位小写SHA256",
+    "window_seconds":600, "seed_control":"uncontrolled", "seed":null
+  },
+  "provenance":"synthetic",
+  "events":[]
+}
+provenance 可为 synthetic 或 recorded_assertions。后者每事件必须带 evidence_sha256，但哈希只关联来源，不证明来源内容的游戏语义。
+条件未知时可以明确填 unrecorded 生成单份摘要；compare_runs 会拒绝将未记录条件冒充匹配。controlled 必须给真实整数seed；uncontrolled必须null，不声称随机轨迹相同。
+
+事件公共字段
+event_id（唯一安全标识）、seq（严格递增，可有合法缺口）、game_seconds（不回退，位于window内）、binding（逐字段相同）、origin（native/script/model）、kind、data、evidence_sha256（合成可null）。
+
+事件kind / data
+configuration_applied / {}
+model_consumed / {call_id, transport:provider_transport|injected_transport|unknown}（仅model）
+decision / {decision_id,input_sha256,intent_sha256,style}
+execution_started / {task_id,decision_id}（model必须引用更早的同源decision；原生和脚本可null）
+spend / {task_id,command_id,credits}
+effect / {task_id,effect_id,effect_kind:damage|production|economic_disruption|coordination,amount}
+returned_home / {task_id}
+control_released / {task_id}
+task_result / {task_id,status:completed|failed|cancelled|unknown}
+settlement / {outcome:win|loss|draw|unknown,reason:natural|user_stop|fault|unknown}
+
+任务/花费/效果必须关联之前观察到的同源任务启动；一个task不能跨源复用。相同command/effect不可重复计数。矛盾终态单列conflicting并退出完成率分母。取消、未知、pending不算失败。没有观测分母或花费/效果时为null。完整关联的完成断言要求效果、home、release均早于completed；事后补标签不能反向补齐完成信用。
+
+与当前宿主接线
+adapt_host_diagnostics 检查现有完整binding_hash、timeline_sha256、事件数量/截断、全局seq窗口和档案修订。unprojected_event仅记排除；合法seq缺口不当成缺帧。
+commander_profile_applied 与 commander_model_response_returned 是明确模型层事件，可统计配置/返回断言。
+task_feedback、plan_applied等没有明确来源时，不默认归为模型；排除计数保留。若主线有独立可复核的来源关联，可传：
+  plan_origins = {plan_id: "model"|"script"|"native"}
+  task_origins = {task_id: "model"|"script"|"native"}
+  decision_inputs = {plan_id: {"input_sha256":真实冻结模型输入SHA, "style":明确风格标识}}
+函数只提取决策意图的结构化字段计算hash，去除ID、时间和解释，不输出自由文本或provider正文。缺少input hash时不伪造固定输入风格比较。
+adapter不会根据dispatch_pending、一般completed、Stop、native_result_candidate或任何单一bool自动创造花费、伤害、home、release和自然结算事件。对应生产/原生采集器需在独立核验后显式提交标准事件；适配器声明仍是 externally_unverified。
+
+主线还需提供的真实采样
+1. 原生基线、脚本、模型三源明确执行归属和独立run/session，冻结相同地图/阵营/难度/对手协议/版本/观察窗；profile稳定。
+2. decision_id→冻结输入hash→规范意图hash→task_id→生产command/真实付款/单位身份的关联。
+3. 每笔本任务射击/伤害/生产等效果的原始采集引用；home和控制归还分别记录；真实自然结算与用户停止/fault分开。
+4. 风格比较至少包含同冻结输入的不同风格决策，真实行为差异和匹配整局另做验证。当前没有真人投票就保持未覆盖。
+
+可信结论边界
+所有输出永远保留 game_effect_verified=false、whole_match_acceptance_passed=false、causal_advantage_established=false（对应函数字段）。工具能报告结构关联完整性、覆盖和差异；不能靠synthetic/live标签、SHA或成功回执授予真实伤害、自然结算、模型优势或G8整体验收。
+仅允许标识符和白名单结构，拒绝未知字段、重复JSON键、NaN、跨绑定/修订、重复事件和时钟回退。不要将凭据塞进任何合法ID；工具不承诺识别被伪装成ID的秘密。
+
+验证
+python -B -m unittest -v test_contribution test_review_host_run test_aggregate
+合成样例及实际candidate13适配结果位于项目外 parallel-development/20261027-saturday/benchmark/，不写入历史对局原件。

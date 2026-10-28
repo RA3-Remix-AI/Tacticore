@@ -57,6 +57,36 @@ def intent(strategy):
     return {k: strategy.get(k) for k in ('stance', 'production_focus', 'economy_policy',
             'tech_policy', 'budget', 'objective_region')}
 
+
+def task_outcomes(feedback):
+    """Count ordered observations, preserving raw reports and ambiguous outcomes."""
+    started, reported_completed, prestart_completed, prestart_failed = set(), set(), set(), set()
+    terminals = {}
+    for row in feedback:
+        task, state = row['task_id'], row.get('status')
+        if state == 'completed':
+            reported_completed.add(task)
+        if state == 'started':
+            started.add(task)
+        elif state in ('completed', 'failed', 'cancelled'):
+            if task in started:
+                terminals.setdefault(task, set()).add(state)
+            elif state == 'completed':
+                prestart_completed.add(task)
+            elif state == 'failed':
+                prestart_failed.add(task)
+    conflicts = {task for task, states in terminals.items() if len(states) > 1}
+    # A later start cannot retroactively certify an earlier completion. Likewise,
+    # conflicting terminal feedback is neither a completed nor a failed outcome.
+    completed = {task for task, states in terminals.items() if states == {'completed'}} - prestart_completed
+    failed = {task for task, states in terminals.items() if states == {'failed'}}
+    cancelled = {task for task, states in terminals.items() if states == {'cancelled'}}
+    return dict(started=started, reported_completed=reported_completed, completed=completed,
+                failed=failed, cancelled=cancelled, conflicts=conflicts,
+                prestart_completed=prestart_completed, prestart_failed=prestart_failed,
+                pending=started-set(terminals))
+
+
 def review(sources, hashes=None, warnings=None):
     warnings = list(warnings or [])
     session = sources.get('session.json', {})
@@ -90,10 +120,12 @@ def review(sources, hashes=None, warnings=None):
         observations[task['task_id']] = task
     task_statuses = Counter(t.get('status', 'unknown') for t in observations.values())
     feedback = [x for x in events if x.get('kind') == 'task_feedback']
-    started_ids = {x['task_id'] for x in feedback if x.get('status') == 'started'}
-    completed_ids = {x['task_id'] for x in feedback if x.get('status') == 'completed'}
-    failed_ids = {x['task_id'] for x in feedback if x.get('status') == 'failed'} & started_ids
-    prestart_failures = {x['task_id'] for x in feedback if x.get('status') == 'failed'} - started_ids
+    outcomes = task_outcomes(feedback)
+    started_ids, completed_ids, failed_ids = (outcomes[k] for k in ('started', 'completed', 'failed'))
+    if outcomes['prestart_completed']:
+        warnings.append('Completion feedback without an earlier observed start is not a known started outcome.')
+    if outcomes['conflicts']:
+        warnings.append('Conflicting terminal task feedback is excluded from completed/failed outcomes.')
     pstatus = sources.get('persistent-production-status.json')
     audit = sources.get('persistent-production.jsonl')
     production = None
@@ -173,9 +205,13 @@ def review(sources, hashes=None, warnings=None):
                     'note': 'Only retained maxima and counters are logged; no per-request byte series or compression ratio can be reconstructed.'},
         'tasks': {'host_counters': status.get('task_counters'),
                   'unique_retained_tasks_by_status': dict(task_statuses),
-                  'observed_started': len(started_ids), 'host_reported_completed': len(completed_ids),
-                  'started_without_terminal_feedback': len(started_ids-completed_ids-failed_ids),
-                  'observed_started_failed': len(failed_ids), 'prestart_rejections_not_failed_tasks': len(prestart_failures),
+                  'observed_started': len(started_ids), 'host_reported_completed': len(outcomes['reported_completed']),
+                  'observed_started_completed': len(completed_ids),
+                  'prestart_completions_not_completed_tasks': len(outcomes['prestart_completed']),
+                  'started_without_terminal_feedback': len(outcomes['pending']),
+                  'started_with_conflicting_terminal_feedback': len(outcomes['conflicts']),
+                  'observed_started_cancelled': len(outcomes['cancelled']),
+                  'observed_started_failed': len(failed_ids), 'prestart_rejections_not_failed_tasks': len(outcomes['prestart_failed']),
                   'completion_rate_known_started_outcomes': len(completed_ids) / (len(completed_ids) + len(failed_ids)) if completed_ids or failed_ids else None,
                   'note': 'Planned, unavailable, cancelled and pending tasks are not failures; host completion requires independent production correlation.'},
         'production': production,

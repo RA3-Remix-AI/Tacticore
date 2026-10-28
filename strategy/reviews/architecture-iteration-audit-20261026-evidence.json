@@ -1,0 +1,219 @@
+{
+  "schema_version": 1,
+  "kind": "architecture_iteration_readonly_audit",
+  "created_at": "2026-10-26T02:32:05.885207+00:00",
+  "repository_head": "2ffc1c81060d70f6f2aba79444e451d171bdbc6f",
+  "scope": "Static source review, existing evidence inspection, and one synthetic pure-function reproduction. No game access, SDK calls, credentials or model requests. Does not grant tactical capability.",
+  "projection_reproduction": {
+    "both_policies_pass_validate_policy": true,
+    "synthetic_fixture_source": "strategy/fixtures.py",
+    "raw_a": {
+      "schema_version": 1,
+      "commander_id": "5cfc416a-8b8f-405a-9832-c163f8c1792b",
+      "session_id": "45b37922-a953-4d54-bc3b-4a34804c1c56",
+      "player_id": 3,
+      "snapshot_id": 1,
+      "based_on_game_time_seconds": 100.0,
+      "valid_for_game_seconds": 30,
+      "stance": "defend",
+      "production_focus": "balanced",
+      "economy_policy": "expand_if_defensible",
+      "tech_policy": "advance_if_affordable",
+      "budget": {
+        "economy": 0.6,
+        "army": 0.1,
+        "tech": 0.1,
+        "reserve": 0.2
+      },
+      "objective_region": "home_base",
+      "reason_code": "air_threat"
+    },
+    "raw_b": {
+      "schema_version": 1,
+      "commander_id": "5cfc416a-8b8f-405a-9832-c163f8c1792b",
+      "session_id": "45b37922-a953-4d54-bc3b-4a34804c1c56",
+      "player_id": 3,
+      "snapshot_id": 1,
+      "based_on_game_time_seconds": 100.0,
+      "valid_for_game_seconds": 30,
+      "stance": "defend",
+      "production_focus": "balanced",
+      "economy_policy": "stabilize",
+      "tech_policy": "hold_current_tier",
+      "budget": {
+        "economy": 0.1,
+        "army": 0.6,
+        "tech": 0.1,
+        "reserve": 0.2
+      },
+      "objective_region": "home_base",
+      "reason_code": "air_threat"
+    },
+    "projected_requests_a": [
+      {
+        "module": "build",
+        "purpose": "production_focus",
+        "target_region": null,
+        "focus": "balanced",
+        "spend_fraction": 0.7999999999999999,
+        "force_fraction": 0,
+        "resource_locks": [
+          "production_queue"
+        ],
+        "priority": 80,
+        "target_contact_id": null,
+        "formation_ids": [],
+        "formation_versions": [],
+        "required_roles": []
+      },
+      {
+        "module": "combined_arms",
+        "purpose": "defend_base",
+        "target_region": "home_base",
+        "focus": null,
+        "spend_fraction": 0,
+        "force_fraction": 0,
+        "resource_locks": [],
+        "priority": 40,
+        "target_contact_id": null,
+        "formation_ids": [],
+        "formation_versions": [],
+        "required_roles": []
+      }
+    ],
+    "projected_requests_b": [
+      {
+        "module": "build",
+        "purpose": "production_focus",
+        "target_region": null,
+        "focus": "balanced",
+        "spend_fraction": 0.7999999999999999,
+        "force_fraction": 0,
+        "resource_locks": [
+          "production_queue"
+        ],
+        "priority": 80,
+        "target_contact_id": null,
+        "formation_ids": [],
+        "formation_versions": [],
+        "required_roles": []
+      },
+      {
+        "module": "combined_arms",
+        "purpose": "defend_base",
+        "target_region": "home_base",
+        "focus": null,
+        "spend_fraction": 0,
+        "force_fraction": 0,
+        "resource_locks": [],
+        "priority": 40,
+        "target_contact_id": null,
+        "formation_ids": [],
+        "formation_versions": [],
+        "required_roles": []
+      }
+    ],
+    "requests_equal": true,
+    "interpretation": "Different accepted economic/tech policies and economy/army budget splits project to identical requests when focus/stance/reserve are held fixed. This proves the projection collapse only, not that all possible style changes have no effect."
+  },
+  "mf18": {
+    "review": "strategy/reviews/mf18-01-actual-independent.json",
+    "raw_path": "C:\\Users\\Administrator\\Documents\\Red Alert 3\\bridge-probe\\acceptance\\runs\\20261026-095539-commander\\paid-pair18-01-controller.json",
+    "raw_sha256": "b20a99e6b006b0529dfed61ed814c397b5b5ca55152b31c1b3dcaec00f4014f6",
+    "raw_sha_matches_review": true,
+    "status": "not_passed",
+    "native_terminal": {
+      "phase": 4,
+      "error": 74,
+      "mission_stage": 5,
+      "issued_frame": 1162,
+      "returned_frame": 1616,
+      "attack_calls": 0,
+      "damage_count": 0,
+      "retreat_started": 0,
+      "retreat_reason": 0,
+      "home_arrivals": [
+        0,
+        0
+      ],
+      "restore_mask": 131071,
+      "active": 0,
+      "overflow": 0
+    },
+    "first_sufficient_failure": {
+      "reason": "original reserve deadline reached without write-once mission publication",
+      "error": 74,
+      "first_borrow": 1162,
+      "pair_ready": 1326,
+      "reserve_deadline": 1612,
+      "remaining_frames_at_ready": 286,
+      "remaining_nominal_seconds_at_15fps": 19.066666666666666,
+      "actual_return_frame": 1616,
+      "deadline_renewed": false
+    },
+    "coverage": {
+      "172": 0,
+      "173": 0,
+      "168": 0,
+      "169": 0,
+      "170": 0,
+      "171": 0,
+      "89": 0,
+      "167": 0,
+      "12": 0,
+      "13": 0,
+      "20": 0,
+      "24": 0,
+      "153": 0,
+      "154": 0
+    },
+    "cause_limits": "The raw independently proves expiry without publication. It does not record each calibration target-selector attempt or precise reason that no eligible current-visible target was selected, so no more specific selector/caller timing cause is asserted."
+  },
+  "mf16": {
+    "review": "strategy/reviews/mf16-01-actual-independent.json",
+    "terminal": {
+      "status": "finished",
+      "host_exit": 0,
+      "phase": 3,
+      "error": 0,
+      "events": 4580,
+      "final_frame": 2588,
+      "retreat_started": 1969,
+      "returned_frame": 2558,
+      "retreat_reason": 2,
+      "home_arrivals": [
+        3,
+        3
+      ]
+    },
+    "qualification": {
+      "status": "not_passed",
+      "effect_verified": false,
+      "source_damage_amount": 0,
+      "approach_verified": false,
+      "long_approach_verified": false,
+      "retreat_verified": true,
+      "long_retreat_verified": true,
+      "restoration_verified": true,
+      "combined_arms_verified": false
+    },
+    "scope": "Manual calibration: same-lease paid reserve to accepted mission, actual FOV-lost physical withdrawal and both normalReturns. No attack/damage/effect source; no retrospective v2 Source."
+  },
+  "files_at_audit": {
+    "strategy/battle_agent.py": "44c123c98fbf5c67314d32dc2efd6e7aad4d901737d3faaf734395181ba7843f",
+    "strategy/http_adapter.py": "2b019a33f2f418e918ace7803c7b30e8510e5fc68745a46a001bed882abeabf8",
+    "integration/battle_host.py": "3b5bcdc4aace08071f6b3ba2e1f34e2dcec2f4c66c234e3210ddf96252a67093",
+    "integration/reserve_controller.py": "febf7e0ba03946e9fb75932eb8acb0ec3d4516dc19404305970ce999fa2b701a",
+    "integration/run_native_opponent_match.py": "122cd13317e887ceb3ff4165e96942c5d0af9d03df074330bb3efc5e903cb308",
+    "acceptance/calibration/paid_pair_controller_v18.py": "b5acd8e59bbfa7fd5e4ec330f5d63a6ac17deeecaf9b7efec2bc1748108f58ae",
+    "tactical/mission-formation-v18/lease.cpp": "b90909b5a9659dbb6fc04c0cfc2631396b68779feb4931a4813448549901944e",
+    "tactical/mission-formation-v18/controller.cpp.inc": "2305cc8117086e75a672d0178092ec07e5c01998c0603cbe02a7714649fb9dd1",
+    "tactical/mission-formation-v18/common.cpp.inc": "2cf8f2bf357dc2249f8c270cf81c9365ff6a9a0bdd4c00e4354218d9c168282a",
+    "tactical/mission-formation-v18/formation_mission_qualification.py": "03ffbf66434fd3d752d817e8537598e328c297f53aae25c6b0a060a8c9bc415f",
+    "desktop-ui/src/App.tsx": "2010cdd64716054528ed02099ab2f404cd99548fa2b835dd48cc5da899627ccc",
+    "desktop-ui/src/state/preferences.ts": "1e9ae39bbe74285b160217f18159913b069f275be097a3b9e6fb4f1792d54804",
+    "desktop-ui/src-tauri/src/lib.rs": "4996fb45d90524e6c1d1fa03a501ede104be44f953f7086695deb9ec68d58535",
+    "strategy/reviews/mf16-01-actual-independent.json": "b02bccaeeda694b816beabeb16b6d311fe5bd975116f01ec1a8403f70e42a41b",
+    "strategy/reviews/mf18-01-actual-independent.json": "f6738bb5551bc08a80bdf8d18fc950a84768fede03ca33129979e36ae0d31487"
+  }
+}

@@ -1,0 +1,632 @@
+{
+  "binding": {
+    "session_id": "45b37922-a953-4d54-bc3b-4a34804c1c56",
+    "player_id": 3,
+    "commander_id": "5cfc416a-8b8f-405a-9832-c163f8c1792b",
+    "commander_name": "演练 · 突击指挥官",
+    "connection_id": "93190523-f22e-4ed5-8ddd-0327c6754297"
+  },
+  "purpose": "coordinate_force",
+  "rows": [
+    {
+      "snapshot": {
+        "schema_version": 1,
+        "session_id": "45b37922-a953-4d54-bc3b-4a34804c1c56",
+        "player_id": 3,
+        "snapshot_id": 1,
+        "game_time_seconds": 100.0,
+        "source": "simulated",
+        "paused": false,
+        "resources": {
+          "credits": 4000.0,
+          "power_balance": 50.0
+        },
+        "capabilities": {
+          "production_focus": [
+            "native_baseline",
+            "balanced",
+            "anti_air",
+            "anti_armor",
+            "economy"
+          ],
+          "regions": [
+            "home_base",
+            "north_expansion",
+            "east_ore"
+          ]
+        },
+        "production": {
+          "queued_count": 2,
+          "idle_producers": 1,
+          "own_roles": {
+            "anti_air": 0,
+            "infantry": 8
+          }
+        },
+        "enemy_observations": [],
+        "events": [],
+        "battlefield": {
+          "schema_version": 1,
+          "viewer_player_id": 3,
+          "visibility_verified": true,
+          "regions": [
+            {
+              "region_id": "home_base",
+              "relation": "self",
+              "observed_at_game_seconds": 100,
+              "currently_visible": true,
+              "role_counts": {}
+            },
+            {
+              "region_id": "east_ore",
+              "relation": "enemy",
+              "observed_at_game_seconds": 100,
+              "currently_visible": true,
+              "role_counts": {
+                "economy": 1
+              }
+            }
+          ],
+          "contacts": [
+            {
+              "contact_id": "contact_ore",
+              "owner_player_id": 4,
+              "relation": "enemy",
+              "role": "economy",
+              "region_id": "east_ore",
+              "observed_at_game_seconds": 100,
+              "currently_visible": true,
+              "stealth_state": "visible"
+            }
+          ],
+          "formations": [
+            {
+              "formation_id": "formation_main",
+              "version": 1,
+              "roles": {
+                "anti_air": 2,
+                "infantry": 4
+              },
+              "region_id": "home_base",
+              "available": true
+            },
+            {
+              "formation_id": "formation_raid",
+              "version": 1,
+              "roles": {
+                "armor": 2
+              },
+              "region_id": "home_base",
+              "available": true
+            }
+          ]
+        }
+      },
+      "game_frame": 1500,
+      "monotonic_ms": 1000
+    },
+    {
+      "snapshot": {
+        "schema_version": 1,
+        "session_id": "45b37922-a953-4d54-bc3b-4a34804c1c56",
+        "player_id": 3,
+        "snapshot_id": 2,
+        "game_time_seconds": 101,
+        "source": "simulated",
+        "paused": false,
+        "resources": {
+          "credits": 4000,
+          "power_balance": 50
+        },
+        "capabilities": {
+          "production_focus": [
+            "native_baseline",
+            "balanced",
+            "anti_air",
+            "anti_armor",
+            "economy"
+          ],
+          "regions": [
+            "home_base",
+            "north_expansion",
+            "east_ore"
+          ]
+        },
+        "production": {
+          "queued_count": 2,
+          "idle_producers": 1,
+          "own_roles": {
+            "infantry": 8,
+            "anti_air": 0
+          }
+        },
+        "enemy_observations": [],
+        "events": [],
+        "battlefield": {
+          "schema_version": 1,
+          "viewer_player_id": 3,
+          "visibility_verified": true,
+          "regions": [
+            {
+              "region_id": "home_base",
+              "relation": "self",
+              "observed_at_game_seconds": 101,
+              "currently_visible": true,
+              "role_counts": {}
+            },
+            {
+              "region_id": "east_ore",
+              "relation": "enemy",
+              "observed_at_game_seconds": 101,
+              "currently_visible": true,
+              "role_counts": {
+                "economy": 1
+              }
+            }
+          ],
+          "contacts": [
+            {
+              "contact_id": "contact_ore",
+              "owner_player_id": 4,
+              "relation": "enemy",
+              "role": "economy",
+              "region_id": "east_ore",
+              "observed_at_game_seconds": 101,
+              "currently_visible": true,
+              "stealth_state": "visible"
+            }
+          ],
+          "formations": [
+            {
+              "formation_id": "formation_main",
+              "version": 1,
+              "roles": {
+                "infantry": 4,
+                "anti_air": 2
+              },
+              "region_id": "home_base",
+              "available": true
+            },
+            {
+              "formation_id": "formation_raid",
+              "version": 1,
+              "roles": {
+                "armor": 2
+              },
+              "region_id": "home_base",
+              "available": true
+            }
+          ]
+        }
+      },
+      "game_frame": 1515,
+      "monotonic_ms": 2000,
+      "feedback": {
+        "session_id": "45b37922-a953-4d54-bc3b-4a34804c1c56",
+        "player_id": 3,
+        "commander_id": "5cfc416a-8b8f-405a-9832-c163f8c1792b",
+        "source": "simulated",
+        "task_id": "3b121550-e211-5aaf-b227-dcc9b779c6d2",
+        "mission_id": "3b121550-e211-5aaf-b227-dcc9b779c6d2",
+        "progress_seq": 1,
+        "at_game_seconds": 101,
+        "phase": "prepare",
+        "target_contact_id": "contact_ore",
+        "formation_versions": [
+          [
+            "formation_main",
+            1
+          ]
+        ],
+        "evidence_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "observations": {
+          "target_currently_visible": true,
+          "approach_verified": true,
+          "source_damage_amount": 0,
+          "coordination_verified": true,
+          "retreat_verified": false,
+          "restoration_verified": false,
+          "no_dispatch_verified": false,
+          "distance_to_goal": null,
+          "interference": "none",
+          "disposed_verified": false,
+          "scene_closed_verified": false
+        }
+      }
+    },
+    {
+      "snapshot": {
+        "schema_version": 1,
+        "session_id": "45b37922-a953-4d54-bc3b-4a34804c1c56",
+        "player_id": 3,
+        "snapshot_id": 3,
+        "game_time_seconds": 102,
+        "source": "simulated",
+        "paused": false,
+        "resources": {
+          "credits": 4000,
+          "power_balance": 50
+        },
+        "capabilities": {
+          "production_focus": [
+            "native_baseline",
+            "balanced",
+            "anti_air",
+            "anti_armor",
+            "economy"
+          ],
+          "regions": [
+            "home_base",
+            "north_expansion",
+            "east_ore"
+          ]
+        },
+        "production": {
+          "queued_count": 2,
+          "idle_producers": 1,
+          "own_roles": {
+            "infantry": 8,
+            "anti_air": 0
+          }
+        },
+        "enemy_observations": [],
+        "events": [],
+        "battlefield": {
+          "schema_version": 1,
+          "viewer_player_id": 3,
+          "visibility_verified": true,
+          "regions": [
+            {
+              "region_id": "home_base",
+              "relation": "self",
+              "observed_at_game_seconds": 102,
+              "currently_visible": true,
+              "role_counts": {}
+            },
+            {
+              "region_id": "east_ore",
+              "relation": "enemy",
+              "observed_at_game_seconds": 102,
+              "currently_visible": true,
+              "role_counts": {
+                "economy": 1
+              }
+            }
+          ],
+          "contacts": [
+            {
+              "contact_id": "contact_ore",
+              "owner_player_id": 4,
+              "relation": "enemy",
+              "role": "economy",
+              "region_id": "east_ore",
+              "observed_at_game_seconds": 102,
+              "currently_visible": true,
+              "stealth_state": "visible"
+            }
+          ],
+          "formations": [
+            {
+              "formation_id": "formation_main",
+              "version": 1,
+              "roles": {
+                "infantry": 4,
+                "anti_air": 2
+              },
+              "region_id": "home_base",
+              "available": true
+            },
+            {
+              "formation_id": "formation_raid",
+              "version": 1,
+              "roles": {
+                "armor": 2
+              },
+              "region_id": "home_base",
+              "available": true
+            }
+          ]
+        }
+      },
+      "game_frame": 1530,
+      "monotonic_ms": 3000,
+      "feedback": {
+        "session_id": "45b37922-a953-4d54-bc3b-4a34804c1c56",
+        "player_id": 3,
+        "commander_id": "5cfc416a-8b8f-405a-9832-c163f8c1792b",
+        "source": "simulated",
+        "task_id": "3b121550-e211-5aaf-b227-dcc9b779c6d2",
+        "mission_id": "3b121550-e211-5aaf-b227-dcc9b779c6d2",
+        "progress_seq": 2,
+        "at_game_seconds": 102,
+        "phase": "engage",
+        "target_contact_id": "contact_ore",
+        "formation_versions": [
+          [
+            "formation_main",
+            1
+          ]
+        ],
+        "evidence_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "observations": {
+          "target_currently_visible": true,
+          "approach_verified": false,
+          "source_damage_amount": 5,
+          "coordination_verified": false,
+          "retreat_verified": false,
+          "restoration_verified": false,
+          "no_dispatch_verified": false,
+          "distance_to_goal": null,
+          "interference": "none",
+          "disposed_verified": false,
+          "scene_closed_verified": false
+        }
+      }
+    },
+    {
+      "snapshot": {
+        "schema_version": 1,
+        "session_id": "45b37922-a953-4d54-bc3b-4a34804c1c56",
+        "player_id": 3,
+        "snapshot_id": 4,
+        "game_time_seconds": 103,
+        "source": "simulated",
+        "paused": false,
+        "resources": {
+          "credits": 4000,
+          "power_balance": 50
+        },
+        "capabilities": {
+          "production_focus": [
+            "native_baseline",
+            "balanced",
+            "anti_air",
+            "anti_armor",
+            "economy"
+          ],
+          "regions": [
+            "home_base",
+            "north_expansion",
+            "east_ore"
+          ]
+        },
+        "production": {
+          "queued_count": 2,
+          "idle_producers": 1,
+          "own_roles": {
+            "infantry": 8,
+            "anti_air": 0
+          }
+        },
+        "enemy_observations": [],
+        "events": [],
+        "battlefield": {
+          "schema_version": 1,
+          "viewer_player_id": 3,
+          "visibility_verified": true,
+          "regions": [
+            {
+              "region_id": "home_base",
+              "relation": "self",
+              "observed_at_game_seconds": 103,
+              "currently_visible": true,
+              "role_counts": {}
+            },
+            {
+              "region_id": "east_ore",
+              "relation": "enemy",
+              "observed_at_game_seconds": 103,
+              "currently_visible": true,
+              "role_counts": {
+                "economy": 1
+              }
+            }
+          ],
+          "contacts": [
+            {
+              "contact_id": "contact_ore",
+              "owner_player_id": 4,
+              "relation": "enemy",
+              "role": "economy",
+              "region_id": "east_ore",
+              "observed_at_game_seconds": 103,
+              "currently_visible": true,
+              "stealth_state": "visible"
+            }
+          ],
+          "formations": [
+            {
+              "formation_id": "formation_main",
+              "version": 1,
+              "roles": {
+                "infantry": 4,
+                "anti_air": 2
+              },
+              "region_id": "home_base",
+              "available": true
+            },
+            {
+              "formation_id": "formation_raid",
+              "version": 1,
+              "roles": {
+                "armor": 2
+              },
+              "region_id": "home_base",
+              "available": true
+            }
+          ]
+        }
+      },
+      "game_frame": 1545,
+      "monotonic_ms": 4000,
+      "feedback": {
+        "session_id": "45b37922-a953-4d54-bc3b-4a34804c1c56",
+        "player_id": 3,
+        "commander_id": "5cfc416a-8b8f-405a-9832-c163f8c1792b",
+        "source": "simulated",
+        "task_id": "3b121550-e211-5aaf-b227-dcc9b779c6d2",
+        "mission_id": "3b121550-e211-5aaf-b227-dcc9b779c6d2",
+        "progress_seq": 3,
+        "at_game_seconds": 103,
+        "phase": "retreat",
+        "target_contact_id": "contact_ore",
+        "formation_versions": [
+          [
+            "formation_main",
+            1
+          ]
+        ],
+        "evidence_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "observations": {
+          "target_currently_visible": true,
+          "approach_verified": false,
+          "source_damage_amount": 0,
+          "coordination_verified": false,
+          "retreat_verified": true,
+          "restoration_verified": false,
+          "no_dispatch_verified": false,
+          "distance_to_goal": null,
+          "interference": "none",
+          "disposed_verified": false,
+          "scene_closed_verified": false
+        }
+      }
+    },
+    {
+      "snapshot": {
+        "schema_version": 1,
+        "session_id": "45b37922-a953-4d54-bc3b-4a34804c1c56",
+        "player_id": 3,
+        "snapshot_id": 5,
+        "game_time_seconds": 104,
+        "source": "simulated",
+        "paused": false,
+        "resources": {
+          "credits": 4000,
+          "power_balance": 50
+        },
+        "capabilities": {
+          "production_focus": [
+            "native_baseline",
+            "balanced",
+            "anti_air",
+            "anti_armor",
+            "economy"
+          ],
+          "regions": [
+            "home_base",
+            "north_expansion",
+            "east_ore"
+          ]
+        },
+        "production": {
+          "queued_count": 2,
+          "idle_producers": 1,
+          "own_roles": {
+            "infantry": 8,
+            "anti_air": 0
+          }
+        },
+        "enemy_observations": [],
+        "events": [],
+        "battlefield": {
+          "schema_version": 1,
+          "viewer_player_id": 3,
+          "visibility_verified": true,
+          "regions": [
+            {
+              "region_id": "home_base",
+              "relation": "self",
+              "observed_at_game_seconds": 104,
+              "currently_visible": true,
+              "role_counts": {}
+            },
+            {
+              "region_id": "east_ore",
+              "relation": "enemy",
+              "observed_at_game_seconds": 104,
+              "currently_visible": true,
+              "role_counts": {
+                "economy": 1
+              }
+            }
+          ],
+          "contacts": [
+            {
+              "contact_id": "contact_ore",
+              "owner_player_id": 4,
+              "relation": "enemy",
+              "role": "economy",
+              "region_id": "east_ore",
+              "observed_at_game_seconds": 104,
+              "currently_visible": true,
+              "stealth_state": "visible"
+            }
+          ],
+          "formations": [
+            {
+              "formation_id": "formation_main",
+              "version": 1,
+              "roles": {
+                "infantry": 4,
+                "anti_air": 2
+              },
+              "region_id": "home_base",
+              "available": true
+            },
+            {
+              "formation_id": "formation_raid",
+              "version": 1,
+              "roles": {
+                "armor": 2
+              },
+              "region_id": "home_base",
+              "available": true
+            }
+          ]
+        }
+      },
+      "game_frame": 1560,
+      "monotonic_ms": 5000,
+      "feedback": {
+        "session_id": "45b37922-a953-4d54-bc3b-4a34804c1c56",
+        "player_id": 3,
+        "commander_id": "5cfc416a-8b8f-405a-9832-c163f8c1792b",
+        "source": "simulated",
+        "task_id": "3b121550-e211-5aaf-b227-dcc9b779c6d2",
+        "mission_id": "3b121550-e211-5aaf-b227-dcc9b779c6d2",
+        "progress_seq": 4,
+        "at_game_seconds": 104,
+        "phase": "restored",
+        "target_contact_id": "contact_ore",
+        "formation_versions": [
+          [
+            "formation_main",
+            1
+          ]
+        ],
+        "evidence_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "observations": {
+          "target_currently_visible": true,
+          "approach_verified": false,
+          "source_damage_amount": 0,
+          "coordination_verified": false,
+          "retreat_verified": true,
+          "restoration_verified": true,
+          "no_dispatch_verified": false,
+          "distance_to_goal": null,
+          "interference": "none",
+          "disposed_verified": false,
+          "scene_closed_verified": false
+        }
+      }
+    }
+  ],
+  "capability_purposes": [
+    "coordinate_force"
+  ],
+  "allowed_roles": [
+    "infantry",
+    "anti_air"
+  ]
+}

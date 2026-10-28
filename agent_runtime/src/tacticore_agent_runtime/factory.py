@@ -49,6 +49,7 @@ class NetworkBackend(CallableBackend):
         self.metrics = {"attempts": 0, "retries": 0, "timeouts": 0, "responses": 0, "max_request_bytes": 0}
         self.last_error_code = None
         self.last_diagnostics = None
+        self.last_transport_receipt = None
 
     def input_size(self, context):
         # Measure an oversized candidate so BattleAgent can compact it; reject
@@ -60,6 +61,7 @@ class NetworkBackend(CallableBackend):
     async def run(self, request: PolicyRequest):
         self.last_error_code = None
         self.last_diagnostics = None
+        self.last_transport_receipt = None
         before_timeouts = self.metrics["timeouts"]
         async def once():
             async with self._semaphore:
@@ -74,6 +76,7 @@ class NetworkBackend(CallableBackend):
                     finally:
                         self.last_error_code = backend.last_error_code
                         self.last_diagnostics = backend.last_diagnostics
+                        self.last_transport_receipt = backend.last_transport_receipt
         try:
             return await within_deadline(request, self._timeout, once)
         except asyncio.CancelledError:

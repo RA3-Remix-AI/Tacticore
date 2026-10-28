@@ -206,7 +206,7 @@ class TaskCoordinator:
             if task is not None and task.plan_id!=plan_id and task.status not in IN_FLIGHT:
                 self.history.append(task.public());task=None
             if task is None:
-                self.generation+=1;task=ModuleTask(uuid.uuid4().hex,request,"planned","plan_only",at,plan_id,self.generation,expires_at_game_seconds)
+                self.generation+=1;task=ModuleTask(str(uuid.uuid4()),request,"planned","plan_only",at,plan_id,self.generation,expires_at_game_seconds)
             if task.status in IN_FLIGHT:request=task.request
             else:task.request=request
             if task.status in IN_FLIGHT|{"completed","failed","cancelled"}:status,reason=task.status,task.reason_code
@@ -240,7 +240,7 @@ class BattleAgent:
         if not isinstance(enemy_ttl_game_seconds,(float,int)) or not 5<=enemy_ttl_game_seconds<=300:raise ContractError("enemy_ttl")
         self.engine=engine;self.events=deque();self.event_capacity=event_capacity;self.dialogue=deque(maxlen=dialogue_turns)
         self.context_budget=context_budget_bytes;self.enemy_ttl=enemy_ttl_game_seconds;self.enemy_facts={};self.latest=None
-        self.feedback=deque(maxlen=8);self.goals=TaskCoordinator(engine,build_evidence,tactical_evidence);self.memory_path=memory_path;self.jobs_path=jobs_path;self.contact_facts={}
+        self.feedback=deque(maxlen=8);self.runtime_feedback=deque(maxlen=8);self.goals=TaskCoordinator(engine,build_evidence,tactical_evidence);self.memory_path=memory_path;self.jobs_path=jobs_path;self.contact_facts={}
         self.missions=MissionBoard(engine.binding,mission_evidence)
         self.summary={"events_compacted":0,"counts_by_kind":{},"completed_tasks":{m:0 for m in MODULES},"failed_tasks":{m:0 for m in MODULES},"last_compacted_game_time":None}
         self.event_id=0;self.last_prompt_event=0;self.last_prompt_snapshot=None;self.last_intent=None
@@ -259,6 +259,22 @@ class BattleAgent:
                 self.summary[key][old["module"]]+=1
             self.metrics["compactions"]+=1
         self.events.append(record)
+
+    def record_runtime_feedback(self,raw,at):
+        """Trusted owner feedback, separate from combat modules and coverage."""
+        from battlefield import number
+        from runtime_tasks import opaque
+        fields={'task_id','plan_id','purpose','status','reason_code'}
+        if not isinstance(raw,dict) or set(raw)-fields-{'physical_home','control_released','mission_effect_verified'} or not fields<=set(raw):raise ContractError('runtime_feedback_fields')
+        opaque(raw['task_id']);opaque(raw['plan_id']);number(at,0,86400,'runtime_feedback_time')
+        if raw['purpose']!='move_hold_return' or raw['status'] not in {'dispatch_pending','active','stopping','completed','failed','uncertain'}:raise ContractError('runtime_feedback_status')
+        allowed={'accepted_model_local_intent','ready_committing_exact_model_endpoint','local_maneuver_verified','local_maneuver_not_completed','reserve_rejected','commit_rejected','plan_expired_before_commit','model_endpoint_no_longer_approved','host_stopped','control_release_unknown','native_channel_budget'}
+        if raw['reason_code'] not in allowed:raise ContractError('runtime_feedback_reason')
+        if any(type(raw[k]) is not bool for k in set(raw)-fields):raise ContractError('runtime_feedback_facts')
+        if raw['status']=='completed' and not all(raw.get(k) is True for k in ('physical_home','control_released','mission_effect_verified')):raise ContractError('runtime_feedback_completion')
+        row=dict(raw,at_game_seconds=at);self.runtime_feedback.append(row)
+        self._event('local_maneuver_feedback',at,**raw)
+        self._write_memory()
 
     def observe(self,raw):
         snapshot=self.engine.observe(raw)
@@ -299,9 +315,16 @@ class BattleAgent:
         return snapshot
 
     def _requests(self,plan):
+        # Macro actions have their own native policy controller. Descriptive
+        # stance/composition fields must not also create legacy unit jobs.
+        latest=getattr(self,'latest',None)
+        if latest is not None and latest.macro_control is not None:return []
         budget=dict(plan.budget);target=plan.objective_region;requests=[]
         if plan.production_focus=="native_baseline":requests.append(TaskRequest("build","native_baseline",None,"native_baseline",0,0,(),80))
-        else:requests.append(TaskRequest("build","production_focus",None,plan.production_focus,budget["economy"]+budget["army"]+budget["tech"],0,("production_queue",),80))
+        # This executor produces military units only. Economic/technology shares
+        # remain unallocated until their own verified actuators exist; they must
+        # not silently become additional infantry spending.
+        else:requests.append(TaskRequest("build","production_focus",None,plan.production_focus,budget["army"],0,("production_queue",),80))
         field=max(0,1-budget["reserve"])
         if plan.stance in {"raid","scout"}:requests.append(TaskRequest("raid","harass_economy" if plan.stance=="raid" else "recon",target,None,0,field*.4,("raid_force",),60))
         if plan.stance=="pressure":requests.append(TaskRequest("attack","main_attack",target,None,0,field,("main_force",),60))
@@ -535,13 +558,21 @@ class BattleAgent:
     def _intent(self):
         plan=self.engine.current
         if plan is None or (self.latest is not None and self.latest.game_time_seconds>=plan.expires_at_game_seconds):return None
-        return {"stance":plan.stance,"production_focus":plan.production_focus,"economy_policy":plan.economy_policy,"tech_policy":plan.tech_policy,"budget":dict(plan.budget),"objective_region":plan.objective_region,"expires_at_game_seconds":plan.expires_at_game_seconds,"origin":plan.origin,"tactical_tasks":[task.public() for task in plan.tactical_tasks]}
+        budget=dict(plan.budget)
+        execution_projection={"control_mode":"native_assist","production_spend_fraction":0 if plan.production_focus=="native_baseline" else budget["army"],"unallocated_budget":{"economy":budget["economy"],"tech":budget["tech"]},"policy_support":{"economy_policy":"advisory_no_economic_actuator","tech_policy":"advisory_no_technology_actuator"}}
+        if self.latest is not None and self.latest.macro_control is not None:
+            execution_projection=dict(control_mode='macro_native',unit_operation_policy='native_ai',
+                macro_actions=list(plan.macro_actions),macro_production=plan.macro_production.public() if plan.macro_production else None,
+                effect_verified=False)
+        return {"stance":plan.stance,"production_focus":plan.production_focus,"economy_policy":plan.economy_policy,"tech_policy":plan.tech_policy,"budget":budget,"execution_projection":execution_projection,"objective_region":plan.objective_region,"expires_at_game_seconds":plan.expires_at_game_seconds,"origin":plan.origin,"tactical_tasks":[task.public() for task in plan.tactical_tasks],"runtime_task":plan.runtime_task.public() if plan.runtime_task is not None else None,"macro_actions":list(plan.macro_actions)}
 
     def context(self,request,*,commit=True,wire_size=None,wire_limit=None):
         """Build a bounded summary+delta, never raw objects, addresses, or full map."""
         self._synchronize_goals();snapshot=self.latest
         if snapshot is None:raise ContractError("no_agent_snapshot")
         priority=[]
+        pinned_regions=set(dict(snapshot.macro_regions or ()).values())
+        priority.extend(sorted(pinned_regions))
         if self.engine.current and self.engine.current.objective_region in snapshot.regions:priority.append(self.engine.current.objective_region)
         priority.extend(task.request.target_region for task in self.goals.tasks if task.request.target_region)
         priority.extend(snapshot.regions)
@@ -567,18 +598,31 @@ class BattleAgent:
             "conversation_tail":list(self.dialogue),
             "context_limits":{"maximum_bytes":self.context_budget,"regions_omitted":len(snapshot.regions)-len(regions),"contacts_omitted":len(self.contact_facts)-len(selected),"formations_omitted":len(battlefield.formations)-len(battlefield_context["formations"]) if battlefield else 0,"details_truncated":bool(len(self.contact_facts)>len(selected) or (battlefield and len(battlefield.formations)>len(battlefield_context["formations"])))},
         }
+        if snapshot.macro_control is not None:
+            payload.update(control_mode='macro_native',allowed_macro_actions=list(snapshot.macro_control),
+                macro_policy_catalog=request['macro_policy_catalog'])
+            payload['working_memory']['battlefield']['formations']=[]
+            payload['capability_manifest']={key:value for key,value in manifest.items() if key=='build'}
+            payload['pending_decisions']=[dict(module='macro',question='choose_available_macro_policy')]
         if self.missions.evidence is not None:payload['working_memory']['persistent_missions']=self.missions.context()
+        if snapshot.runtime_opportunity is not None:
+            payload['runtime_opportunity']=snapshot.runtime_opportunity.public()
+        if snapshot.runtime_preparation is not None:payload['runtime_preparation']=snapshot.runtime_preparation.public()
+        if self.runtime_feedback:payload['working_memory']['local_maneuver_feedback']=list(self.runtime_feedback)
         def length():return len(json.dumps(payload,ensure_ascii=False,allow_nan=False,separators=(",",":")).encode("utf-8"))
         while length()>self.context_budget or (wire_size is not None and wire_limit is not None and wire_size(payload)>wire_limit):
             payload["context_limits"]["details_truncated"]=True
             if payload["conversation_tail"]:payload["conversation_tail"].pop(0)
+            elif payload['working_memory'].get('local_maneuver_feedback'):payload['working_memory']['local_maneuver_feedback'].pop(0)
             elif payload["working_memory"]["recent_execution_feedback"]:payload["working_memory"]["recent_execution_feedback"].pop(0)
             elif len(payload["delta"]["verified_events"])>1:payload["delta"]["verified_events"].pop(0)
             elif payload["working_memory"]["active_goals"]:payload["working_memory"]["active_goals"].pop()
             elif payload["working_memory"]["battlefield"]["contacts"]:payload["working_memory"]["battlefield"]["contacts"].pop();payload["context_limits"]["contacts_omitted"]+=1
             elif payload["working_memory"]["battlefield"]["regions"]:payload["working_memory"]["battlefield"]["regions"].pop()
             elif payload["working_memory"]["battlefield"]["formations"]:payload["working_memory"]["battlefield"]["formations"].pop();payload["context_limits"]["formations_omitted"]+=1
-            elif len(payload["allowed_regions"])>1:payload["allowed_regions"].pop();payload["context_limits"]["regions_omitted"]+=1
+            elif len(payload["allowed_regions"])>1 and any(region not in pinned_regions for region in payload["allowed_regions"]):
+                index=next(i for i in range(len(payload['allowed_regions'])-1,-1,-1) if payload['allowed_regions'][i] not in pinned_regions)
+                payload['allowed_regions'].pop(index);payload['context_limits']['regions_omitted']+=1
             elif payload["working_memory"]["verified_enemy_facts"]:payload["working_memory"]["verified_enemy_facts"].pop(0)
             elif len(payload["working_memory"]["failure_memory"])>1:payload["working_memory"]["failure_memory"].pop(0)
             elif payload["working_memory"]["current_strategy"] and payload["working_memory"]["current_strategy"]["tactical_tasks"]:payload["working_memory"]["current_strategy"]["tactical_tasks"].pop(0)

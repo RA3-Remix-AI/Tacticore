@@ -16,6 +16,8 @@ import tempfile
 from typing import Any, Awaitable, Callable, Mapping
 import uuid
 from battlefield import Battlefield,TacticalIntent,validate_intents
+from runtime_tasks import RuntimeOpportunity,RuntimeIntent,RuntimePreparation,validate_runtime_intent
+from macro_policy import parse_control,parse_counts,parse_region_targets,validate_region_target,validate_actions,public_descriptions,validate_production,ProductionQuantity
 
 SCHEMA_VERSION = 1
 FOCI = frozenset({"native_baseline", "balanced", "anti_air", "anti_armor", "infantry", "naval", "economy"})
@@ -148,11 +150,19 @@ class Snapshot:
     enemy_observations: tuple[tuple[str, int, float, bool], ...]
     events: tuple[str, ...]
     battlefield: Battlefield | None = None
+    runtime_opportunity: RuntimeOpportunity | None = None
+    runtime_preparation: RuntimePreparation | None = None
+    macro_control: tuple[str,...] | None = None
+    macro_counts: tuple | None = None
+    macro_regions: tuple | None = None
 
     @classmethod
     def from_dict(cls, raw: Any) -> "Snapshot":
         expected={"schema_version", "session_id", "player_id", "snapshot_id", "game_time_seconds", "source", "paused", "resources", "capabilities", "production", "enemy_observations", "events"}
         if isinstance(raw,dict) and "battlefield" in raw:expected.add("battlefield")
+        if isinstance(raw,dict) and "runtime_opportunity" in raw:expected.add("runtime_opportunity")
+        if isinstance(raw,dict) and 'runtime_preparation' in raw:expected.add('runtime_preparation')
+        if isinstance(raw,dict) and 'macro_control' in raw:expected.add('macro_control')
         d = _keys(raw,expected,"snapshot_fields")
         if d["schema_version"] != 1 or type(d["schema_version"]) is not int:
             raise ContractError("schema_version")
@@ -197,7 +207,15 @@ class Snapshot:
         events = tuple(_enum(x, EVENTS, "events") for x in events)
         battlefield=Battlefield.from_dict(d["battlefield"],game_time,set(regions),player_id) if "battlefield" in d else None
         if battlefield is not None and not battlefield.visibility_verified and observations:raise ContractError("unverified_enemy_information")
-        return cls(session_id, player_id, snapshot_id, game_time, source, d["paused"], credits, power, foci, tuple(regions), queued, idle, own_roles, tuple(observations), events,battlefield)
+        runtime=RuntimeOpportunity.from_dict(d['runtime_opportunity']) if d.get('runtime_opportunity') is not None else None
+        preparation=RuntimePreparation.from_dict(d['runtime_preparation']) if d.get('runtime_preparation') is not None else None
+        try:
+            macro=parse_control(d['macro_control']) if 'macro_control' in d else None
+            counts=parse_counts(d['macro_control'],macro) if macro is not None else None
+            macro_regions=parse_region_targets(d['macro_control'],macro,regions) if macro is not None else None
+        except ValueError as error:raise ContractError(str(error)) from None
+        if macro is not None and (runtime is not None or preparation is not None):raise ContractError('macro_mode_rejects_unit_opportunity')
+        return cls(session_id, player_id, snapshot_id, game_time, source, d["paused"], credits, power, foci, tuple(regions), queued, idle, own_roles, tuple(observations), events,battlefield,runtime,preparation,macro,counts,macro_regions)
 
     def model_context(self, binding: Binding) -> dict:
         """Only game observations and commander ID; no connection or credentials."""
@@ -211,6 +229,9 @@ class Snapshot:
             "enemy_observations": [{"role": role, "count": count, "observed_at_game_seconds": at, "currently_visible": visible} for role, count, at, visible in self.enemy_observations],
             "events": list(self.events),
             **({"battlefield":self.battlefield.public()} if self.battlefield is not None else {}),
+            **({'runtime_opportunity':self.runtime_opportunity.public()} if self.runtime_opportunity is not None else {}),
+            **({'runtime_preparation':self.runtime_preparation.public()} if self.runtime_preparation is not None else {}),
+            **(dict(control_mode='macro_native',allowed_macro_actions=list(self.macro_control),macro_policy_catalog=public_descriptions(self.macro_control,self.macro_counts,self.macro_regions)) if self.macro_control is not None else {}),
         }
 
     def to_dict(self) -> dict:
@@ -224,6 +245,11 @@ class Snapshot:
             "enemy_observations": [{"role": role, "count": count, "observed_at_game_seconds": at, "currently_visible": visible} for role, count, at, visible in self.enemy_observations],
             "events": list(self.events),
             **({"battlefield":self.battlefield.public()} if self.battlefield is not None else {}),
+            **({'runtime_opportunity':self.runtime_opportunity.public()} if self.runtime_opportunity is not None else {}),
+            **({'runtime_preparation':self.runtime_preparation.public()} if self.runtime_preparation is not None else {}),
+            **({'macro_control':dict(mode='macro_native',available_actions=list(self.macro_control),
+                **({'production_counts':{action:list(values) for action,values in self.macro_counts}} if self.macro_counts is not None else {}),
+                **({'region_targets':dict(self.macro_regions)} if self.macro_regions is not None else {}))} if self.macro_control is not None else {}),
         }
 
 
@@ -245,17 +271,24 @@ class Plan:
     reason_code: str
     origin: str
     tactical_tasks: tuple[TacticalIntent,...] = ()
+    runtime_task: RuntimeIntent | None = None
+    macro_actions: tuple[str,...] = ()
+    macro_production: ProductionQuantity | None = None
 
     def public(self) -> dict:
         result = asdict(self)
         result["budget"] = dict(self.budget)
         result["tactical_tasks"]=[task.public() for task in self.tactical_tasks]
+        result['macro_actions']=list(self.macro_actions)
         return result
 
 
 def validate_policy(raw: Any, request: Snapshot, latest: Snapshot, binding: Binding, max_response_age: float, *, paid_pair_formations=None) -> Plan:
     expected={"schema_version", "commander_id", "session_id", "player_id", "snapshot_id", "based_on_game_time_seconds", "valid_for_game_seconds", "stance", "production_focus", "economy_policy", "tech_policy", "budget", "objective_region", "reason_code"}
     if isinstance(raw,dict) and "tactical_tasks" in raw:expected.add("tactical_tasks")
+    if isinstance(raw,dict) and 'runtime_task' in raw:expected.add('runtime_task')
+    if isinstance(raw,dict) and 'macro_actions' in raw:expected.add('macro_actions')
+    if isinstance(raw,dict) and 'macro_production' in raw:expected.add('macro_production')
     d = _keys(raw,expected,"policy_fields")
     if type(d["schema_version"]) is not int or d["schema_version"] != 1:
         raise ContractError("schema_version")
@@ -286,9 +319,23 @@ def validate_policy(raw: Any, request: Snapshot, latest: Snapshot, binding: Bind
     target = d["objective_region"]
     if target is not None and (not isinstance(target, str) or target not in request.regions or target not in latest.regions):
         raise ContractError("objective_region")
-    if stance != "defend" and target is None:
+    # Budget, production and native-target scouting do not consume an explicit
+    # region. Their advisory stance must not invent one merely to pass validation.
+    raw_macro=d.get('macro_actions',[])
+    macro_without_region=(request.macro_control is not None and latest.macro_control is not None
+        and type(raw_macro) is list and not any(action in ('deployattack','deploydefense') for action in raw_macro if isinstance(action,str)))
+    if stance != "defend" and target is None and not macro_without_region:
         raise ContractError("objective_required")
     reason = _enum(d["reason_code"], REASONS, "reason_code")
+    if request.macro_control is not None or latest.macro_control is not None:
+        if request.macro_control is None or latest.macro_control is None:raise ContractError('macro_control_mode_changed')
+        if d.get('tactical_tasks') or d.get('runtime_task') is not None:raise ContractError('macro_mode_rejects_unit_tasks')
+    try:
+        macro=validate_actions(d.get('macro_actions',[]),request.macro_control,latest.macro_control)
+        validate_region_target(macro,target,request.macro_regions,latest.macro_regions)
+        production=validate_production(d.get('macro_production'),macro,macro_mode=request.macro_control is not None,
+            request_counts=request.macro_counts,latest_counts=latest.macro_counts)
+    except ValueError as error:raise ContractError(str(error)) from None
     tactical=validate_intents(d.get("tactical_tasks",[]),request,latest)
     scoped = paid_pair_formations or {}
     def paid_pair(task):
@@ -297,7 +344,8 @@ def validate_policy(raw: Any, request: Snapshot, latest: Snapshot, binding: Bind
                 and task.formation_ids[0] in scoped and set(task.required_roles)=={"infantry","anti_air"})
     if any(set(task.formation_ids)&set(scoped) and not paid_pair(task) for task in tactical):raise ContractError("paid_pair_scope")
     if sum(task.force_fraction for task in tactical if not paid_pair(task))>1-budget["reserve"]+1e-6:raise ContractError("tactical_force_total")
-    return Plan(uuid.uuid4().hex, binding.commander_id, binding.session_id, binding.player_id, request.snapshot_id, based, based + duration, stance, focus, economy, tech, values, target, reason, "model",tactical)
+    runtime=validate_runtime_intent(d.get('runtime_task'),request,latest)
+    return Plan(str(uuid.uuid4()), binding.commander_id, binding.session_id, binding.player_id, request.snapshot_id, based, based + duration, stance, focus, economy, tech, values, target, reason, "model",tactical,runtime,macro,production)
 
 
 class Audit:
@@ -368,16 +416,22 @@ class StrategyEngine:
         return snapshot
 
     def _usable(self, plan: Plan | None, snapshot: Snapshot) -> bool:
-        return bool(plan and plan.commander_id == self.binding.commander_id and plan.session_id == snapshot.session_id and plan.player_id == snapshot.player_id and plan.based_on_game_time_seconds <= snapshot.game_time_seconds < plan.expires_at_game_seconds and plan.production_focus in snapshot.available_foci and (plan.objective_region is None or plan.objective_region in snapshot.regions))
+        return bool(plan and plan.commander_id == self.binding.commander_id and plan.session_id == snapshot.session_id and plan.player_id == snapshot.player_id and plan.based_on_game_time_seconds <= snapshot.game_time_seconds < plan.expires_at_game_seconds and plan.production_focus in snapshot.available_foci and (plan.objective_region is None or plan.objective_region in snapshot.regions)
+            and all(action in (snapshot.macro_control or ()) for action in plan.macro_actions)
+            and all(action not in ('deployattack','deploydefense') or dict(snapshot.macro_regions or ()).get(action)==plan.objective_region
+                for action in plan.macro_actions)
+            and (plan.macro_production is None or snapshot.macro_counts is None
+                 or plan.macro_production.additional_count in dict(snapshot.macro_counts).get(plan.macro_production.action,()))
+            and (snapshot.macro_control is None or not plan.tactical_tasks and plan.runtime_task is None))
 
     def _fallback_plan(self, snapshot: Snapshot) -> Plan:
-        return Plan(uuid.uuid4().hex, self.binding.commander_id, self.binding.session_id, self.binding.player_id, snapshot.snapshot_id, snapshot.game_time_seconds, snapshot.game_time_seconds + 10, "defend", "native_baseline", "stabilize", "hold_current_tier", (("army", .4), ("economy", .35), ("reserve", .25), ("tech", 0.0)), None, "balanced_default", "local_fallback")
+        return Plan(str(uuid.uuid4()), self.binding.commander_id, self.binding.session_id, self.binding.player_id, snapshot.snapshot_id, snapshot.game_time_seconds, snapshot.game_time_seconds + 10, "defend", "native_baseline", "stabilize", "hold_current_tier", (("army", .4), ("economy", .35), ("reserve", .25), ("tech", 0.0)), None, "balanced_default", "local_fallback")
 
     @staticmethod
     def _intent(plan: Plan | None):
         if plan is None:
             return None
-        return (plan.stance, plan.production_focus, plan.economy_policy, plan.tech_policy, plan.budget, plan.objective_region,plan.tactical_tasks)
+        return (plan.stance, plan.production_focus, plan.economy_policy, plan.tech_policy, plan.budget, plan.objective_region,plan.tactical_tasks,plan.runtime_task,plan.macro_actions,plan.macro_production)
 
     def _set_plan(self, plan: Plan):
         if self._intent(self.current) != self._intent(plan):
@@ -418,7 +472,7 @@ class StrategyEngine:
                 return self._finish("held", "minimum_hold", "holding")
             if self._pending is not None and not self._pending.done():
                 return self._local("adapter_still_cancelling")
-            request_id = uuid.uuid4().hex
+            request_id = str(uuid.uuid4())
             self._urgent_capability_epoch = None
             self._reassessment_requested = False
             self.metrics["requests"] += 1

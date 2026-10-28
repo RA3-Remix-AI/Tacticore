@@ -35,6 +35,8 @@ import { ConnectionsPage } from "./pages/ConnectionsPage";
 import { RecordsPage } from "./pages/RecordsPage";
 import { PreparationPage } from "./pages/PreparationPage";
 import { RadioPage } from "./pages/RadioPage";
+import NativeApp from './NativeApp';
+import { nativeAvailable } from './runtime/nativeRpc';
 import {
   loadSettings,
   saveSettings,
@@ -94,6 +96,9 @@ const pages = [
 ] as const;
 type Page = (typeof pages)[number]["id"];
 export default function App() {
+  return nativeAvailable() ? <NativeApp /> : <DemoApp />;
+}
+function DemoApp() {
   const [page, setPage] = useState<Page>("preparation");
   const [settings, setSettings] = useState<Settings>(initial);
   const [dirty, setDirty] = useState(false);

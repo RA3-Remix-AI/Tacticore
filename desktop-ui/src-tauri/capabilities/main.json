@@ -1,7 +1,7 @@
 {
   "$schema": "../gen/schemas/desktop-schema.json",
   "identifier": "main-window",
-  "description": "Offline local UI only; no native commands are granted.",
+  "description": "Main window may call the bounded named host RPC only.",
   "windows": ["main"],
-  "permissions": []
+  "permissions": ["allow-host-request", "allow-diagnostics-read"]
 }
