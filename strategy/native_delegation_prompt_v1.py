@@ -44,7 +44,9 @@ def prompt(profile, context, example, allowed, preferences):
         from macro_policy import strategic_default_prompt
         schema = STRATEGY_DECLARATION_SCHEMA
         facts = context['macro_strategy'].get('fact_catalog', {})
-        ref = next((key for key, value in facts.items() if value is not None), next(iter(facts), None))
+        # The SDK sorts context keys. Keep preparation and send-time prompts identical.
+        ref = ('own.credits' if facts.get('own.credits') is not None else
+               next((key for key in sorted(facts) if facts[key] is not None), next(iter(sorted(facts)), None)))
         example['macro_strategy'] = dict(
             strategy_id=None, objective='hold', phase='wait', public_fact_refs=[ref],
             expected_observation='no_change', continue_conditions=['capability_available'],
