@@ -44,6 +44,23 @@ class SamplingBoundaryTests(unittest.TestCase):
         self.assertEqual(host.last_production_feedback['observed_new_queue_count'],2)
         self.assertEqual([c[0] for c in fixture.calls],[['produceflak','budgetarmy'],[]])
 
+    def test_strategy_consumes_valid_first_queue_before_automatic_release(self):
+        from host_runtime.test_macro_production_runtime import ProductionRuntimeTests
+        from host_runtime.test_macro_production_feedback import sample
+        fixture=ProductionRuntimeTests();fixture.setUp();fixture.dispatch()
+        builder,census=sample(2090,[(18,0),(19,0)])
+        for row in census['own_objects']:row['hp']=100.
+        host=MacroHost.__new__(MacroHost);host.controller=fixture.controller;host.event=Mock()
+        host.sampler=SimpleNamespace(scope=fixture.scope);host.latest=dict(game_time_seconds=130.)
+        host.transport=SimpleNamespace(native_status=lambda:dict(last_frame=2090))
+        captured=[]
+        host.strategy_runtime=SimpleNamespace(observe=lambda controller,native,at:captured.append(
+            (controller.production_feedback()['policy_released'],controller.production_feedback()['observed_new_queue_count'],at)))
+        self.assertTrue(host.production_tick(dict(build_observation=builder,observation=dict(construction_feedback=census))))
+        self.assertEqual(len(captured),1)
+        self.assertEqual(captured[0][:2],(False,2))
+        self.assertTrue(host.controller.production_feedback()['policy_released'])
+
     def test_discarded_builder_pair_still_delivers_lawful_visibility_to_memory(self):
         first=tactical_snapshot(1,100);visible=tactical_snapshot(2,101);hidden=tactical_snapshot(3,102)
         visible['battlefield']['contacts'][0]['region_id']='north_expansion'
@@ -65,6 +82,8 @@ class SamplingBoundaryTests(unittest.TestCase):
             self.assertFalse(fact['currently_visible']);self.assertEqual(host.agent.engine.metrics['requests'],0)
             self.assertEqual(len((host.output/'macro-snapshots.jsonl').read_text().splitlines()),3)
 
+    @unittest.skipUnless((Path(__file__).resolve().parents[1]/'reports/macro-desktop-e35c5ee5-c2e5-4c55-90a4-52b9ab0d9f94/policy-probe.jsonl').is_file(),
+                         'requires the local historical telemetry archive; not distributed with source')
     def test_actual_failed_native_pair_is_discarded_before_controller_refresh_or_any_send(self):
         root=Path(__file__).resolve().parents[1]
         rows=[json.loads(s) for s in (root/'reports/macro-desktop-e35c5ee5-c2e5-4c55-90a4-52b9ab0d9f94/policy-probe.jsonl').read_text().splitlines()]

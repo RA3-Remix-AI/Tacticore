@@ -11,6 +11,7 @@ from dataclasses import dataclass, field, fields, is_dataclass, replace
 import hashlib
 import json
 import math
+import re
 from pathlib import Path
 from typing import Callable, Mapping
 
@@ -19,6 +20,39 @@ from .contracts import ContractError, integer
 from .profiles import EffectiveProfile, normalize_profile
 
 MAX_DRAFT_BYTES = 65536
+
+# This is deliberately independent of exception strings and provider payloads.
+SAFE_BACKEND_ERROR_CODES = frozenset({
+    'context_object', 'context_json', 'input_budget_exceeded',
+    'adapter_commander_mismatch', 'framework_request_failed',
+    'incomplete_model_response', 'invalid_policy_json', 'deadline_exceeded',
+    'deadline_invalid', 'protocol_version', 'timeout_configuration',
+    'transport_cancelled', 'network_not_enabled', 'credential_unavailable',
+    'endpoint_not_chat_completions', 'endpoint_requires_tls',
+    'provider_response_too_large', 'provider_response_bounds',
+    'provider_http_status', 'invalid_completion', 'incomplete_or_refused_completion',
+    'instrumented_model_forbidden', 'token_configuration', 'input_budget_configuration',
+    'transport_connect_timeout', 'transport_read_timeout', 'transport_write_timeout',
+    'transport_pool_timeout', 'transport_connect_failed', 'transport_read_failed',
+    'transport_write_failed', 'transport_protocol_failed', 'transport_network_failed',
+    'transport_timeout', 'transport_failed', 'invalid_completion_encoding',
+})
+SAFE_BACKEND_METRICS = ('attempts', 'retries', 'timeouts', 'responses', 'max_request_bytes')
+
+
+def safe_backend_diagnostics(backend) -> dict:
+    """Fixed local code and bounded counters only; never inspect an exception."""
+    code = getattr(backend, 'last_error_code', None)
+    accepted = (type(code) is str and (code in SAFE_BACKEND_ERROR_CODES
+        or re.fullmatch(r'http_status_[1-5][0-9]{2}', code) is not None))
+    metrics = getattr(backend, 'metrics', None)
+    counters = {}
+    if type(metrics) is dict:
+        for key in SAFE_BACKEND_METRICS:
+            value = metrics.get(key)
+            if type(value) is int and 0 <= value <= 2**53-1:
+                counters[key] = value
+    return {'error_code': code if accepted else None, 'transport_metrics': counters}
 
 
 def load_commander_draft(path: Path, *, max_bytes: int = MAX_DRAFT_BYTES) -> dict:
@@ -96,18 +130,21 @@ def apply_commander_draft(base_profile, draft: Mapping, *,
 class AppliedBackend:
     """Transparent accounting wrapper around the existing backend interface."""
     def __init__(self, backend, application: AppliedProfile, *, event_sink: Callable | None = None,
-                 transport_mode: str = "provider_transport"):
+                 transport_mode: str = "provider_transport",request_admission=None):
         if transport_mode not in ("provider_transport", "injected_transport"):
             raise ContractError("invalid_transport_mode")
         self._backend = backend
         self.application = application
         self._event_sink = event_sink
         self.transport_mode = transport_mode
+        self._request_admission=request_admission
         self._call_sequence = 0
         self._responses_returned = 0
         self._last_stage = "backend_constructed"
         self._network_verified = False
         self._transport_receipt = None
+        self._last_failure_diagnostics = None
+        self._last_response_diagnostics = None
         self._emit("commander_model_backend_constructed", "backend_constructed")
 
     def _emit(self, event_type, stage, **facts):
@@ -121,6 +158,8 @@ class AppliedBackend:
         return {**self.application.public(), "stage": self._last_stage,
                 "transport_mode": self.transport_mode, "real_network_verified": self._network_verified,
                 "transport_receipt": self._transport_receipt,
+                "failure_diagnostics": self._last_failure_diagnostics,
+                "response_diagnostics": self._last_response_diagnostics,
                 "calls_started": self._call_sequence, "responses_returned": self._responses_returned,
                 "model_response_received": self._responses_returned > 0}
 
@@ -137,10 +176,15 @@ class AppliedBackend:
         return fields
 
     async def _call(self, operation, context):
-        self._call_sequence += 1
-        sequence = self._call_sequence
-        context_fields = self._context_fields(context)
-        self._emit("commander_model_call_started", "call_started", call_sequence=sequence, **context_fields)
+        from contextlib import nullcontext
+        with self._request_admission() if self._request_admission is not None else nullcontext() as admission:
+            self._call_sequence += 1
+            sequence = self._call_sequence
+            context_fields = self._context_fields(context)
+            if admission is not None:context_fields['admission_id']=admission['admission_id']
+            self._last_failure_diagnostics = None
+            self._last_response_diagnostics = None
+            self._emit("commander_model_call_started", "call_started", call_sequence=sequence, **context_fields)
         try:
             result = await operation()
         except asyncio.CancelledError:
@@ -149,9 +193,18 @@ class AppliedBackend:
         except Exception:
             # No exception string or response body: provider failures can contain
             # request/credential data and must not escape via telemetry.
-            self._emit("commander_model_call_failed", "call_failed", call_sequence=sequence, **context_fields)
+            self._last_failure_diagnostics = safe_backend_diagnostics(self._backend)
+            self._emit("commander_model_call_failed", "call_failed", call_sequence=sequence,
+                       backend_diagnostics=self._last_failure_diagnostics, **context_fields)
             raise
         self._responses_returned += 1
+        # Recompute from the local parsed object and actual request; do not
+        # trust a backend's arbitrary diagnostic payload or export raw values.
+        try:
+            from http_adapter import structure_diagnostics
+            self._last_response_diagnostics = structure_diagnostics(result,context)
+        except Exception:
+            self._last_response_diagnostics = {'diagnostics_unavailable': True}
         if self.transport_mode == 'provider_transport':
             from tacticore_agent_runtime.factory import NetworkBackend
             if type(self._backend) is NetworkBackend and self._backend._transport is None:
@@ -164,7 +217,8 @@ class AppliedBackend:
                     self._transport_receipt = dict(receipt)
                     self._network_verified = True
         self._emit("commander_model_response_returned", "response_returned", call_sequence=sequence,
-                   model_response_received=True, transport_receipt=self._transport_receipt, **context_fields)
+                   model_response_received=True, transport_receipt=self._transport_receipt,
+                   response_diagnostics=self._last_response_diagnostics, **context_fields)
         return result
 
     async def __call__(self, context):
@@ -179,13 +233,13 @@ class AppliedBackend:
 
 
 def observe_applied_backend(backend, application: AppliedProfile, *, event_sink=None,
-                            transport_mode="provider_transport") -> AppliedBackend:
-    return AppliedBackend(backend, application, event_sink=event_sink, transport_mode=transport_mode)
+                            transport_mode="provider_transport",request_admission=None) -> AppliedBackend:
+    return AppliedBackend(backend, application, event_sink=event_sink, transport_mode=transport_mode,request_admission=request_admission)
 
 
-def create_applied_backend(application: AppliedProfile, *, event_sink=None, **factory_options) -> AppliedBackend:
+def create_applied_backend(application: AppliedProfile, *, event_sink=None,request_admission=None, **factory_options) -> AppliedBackend:
     # model_backend is the repository's normal bootstrap to the unique factory.
     from model_backend import create_backend
     backend = create_backend(application.profile, **factory_options)
     mode = "injected_transport" if factory_options.get("transport") is not None else "provider_transport"
-    return observe_applied_backend(backend, application, event_sink=event_sink, transport_mode=mode)
+    return observe_applied_backend(backend, application, event_sink=event_sink, transport_mode=mode,request_admission=request_admission)

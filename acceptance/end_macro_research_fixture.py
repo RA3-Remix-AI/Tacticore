@@ -53,6 +53,16 @@ def main():
     if (final['session_id']!=session['session_id'] or final['pid']!=session['pid']
             or final['process_creation_filetime']!=session['process_creation_filetime'] or final['unknown_command_ids']!=[]
             or final['cleanup_verified'] is not True):raise ValueError('research_host_release_required')
+    if not a.fixed_driver:
+        # The explicit new V5 route precedes any native observation below.
+        # Existing older research grammars retain their original boundaries.
+        sys.path.insert(0,str(ROOT/'integration'))
+        from host_runtime.macro_catalog_release_route_v1 import requires_v5
+        if requires_v5(run/'battle-host',release=release):
+            from acceptance.end_released_macro_fixture import review_transport_release
+            manifest_path=a.transport/'source'/next(row['copy'] for row in json.loads((a.transport/'preflight.json').read_text())['sources']
+                if Path(row['path']).name=='build-manifest.json')
+            review_transport_release(path,a.transport,json.loads(manifest_path.read_text()),final)
     k.OpenMutexW.argtypes=[w.DWORD,w.BOOL,w.LPCWSTR];k.OpenMutexW.restype=w.HANDLE
     lease=k.OpenMutexW(0x100000,False,'Local\\RA3MacroPolicyLease_'+str(session['pid']))
     if lease:

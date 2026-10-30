@@ -33,3 +33,14 @@
 /acceptance/runs/20261026-091118-commander/** -text whitespace=cr-at-eol
 /acceptance/model-probe-pydantic-memory-20261026-01/** -text whitespace=cr-at-eol
 /acceptance/runs/20261026-095539-commander/** -text whitespace=cr-at-eol
+
+# Current runtime publishers/SDKs also bind source bytes, not just Python ASTs.
+# Prevent core.autocrlf from invalidating those bindings in a Windows checkout.
+/strategy/*.py text eol=lf
+/integration/**/*.py text eol=lf
+/agent_runtime/**/*.py text eol=lf
+/native-ai/**/*.py text eol=lf
+/native-ai/**/*.cpp text eol=lf
+/native-ai/**/*.h text eol=lf
+/acceptance/*.py text eol=lf
+/probe.py text eol=lf

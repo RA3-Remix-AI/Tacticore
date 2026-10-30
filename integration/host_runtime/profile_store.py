@@ -157,6 +157,7 @@ class ProfileStore:
         except ContractError as error:
             reason = error.code
         return dict(profile_id=profile_id, name=commander["name"], revision=draft["revision"],
+                    provider=connections[commander['connection_id']]['provider'],
                     connection_id=commander["connection_id"], model=effective["model"] if effective else "",
                     personality=effective["personality"] if effective else commander["personality"],
                     doctrine=draft["doctrine"], preferences=effective["preferences"] if effective else draft.get("preferences"),

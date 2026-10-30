@@ -86,7 +86,7 @@ class DefaultBackendTests(unittest.IsolatedAsyncioTestCase):
                 else: choice["message"]["tool_calls"] = [{"id": "unexpected", "type": "function", "function": {"name": "move_unit", "arguments": "{}"}}]
                 return httpx2.Response(200, json=body)
             backend = create_backend(profile(), transport=httpx2.MockTransport(handler))
-            with self.subTest(mutation=mutation), self.assertRaisesRegex(RuntimeAdapterError, "framework_request_failed"):
+            with self.subTest(mutation=mutation), self.assertRaisesRegex(RuntimeAdapterError, "incomplete_or_refused_completion"):
                 await backend(context())
             self.assertEqual(len(calls), 1)
 

@@ -9,9 +9,10 @@ use std::time::Duration;
 
 const MAX_LINE: usize = 65536;
 const OPERATIONS: &[&str] = &[
-    "profiles.list", "profiles.get", "profiles.save", "connections.list", "session.inspect",
-    "run.check", "run.start", "run.status", "run.stop", "diagnostics.export",
+    "profiles.list", "profiles.get", "profiles.save", "connections.list", "session.inspect", "session.discover", "session.prepare",
+    "run.resume", "run.check", "run.start", "run.status", "run.stop", "diagnostics.export",
 ];
+const CONTROL_OPERATIONS: &[&str] = &["run.resume", "run.status", "run.stop", "diagnostics.export"];
 
 struct ServiceProcess {
     child: Child,
@@ -28,7 +29,15 @@ struct RuntimeRegistration {
     library_sha256: String,
 }
 
-struct RuntimeSource { library: PathBuf, home: PathBuf, fingerprint: String }
+struct RuntimeSource { library: PathBuf, home: PathBuf, fingerprint: String, configuration: bool, control: bool }
+
+impl RuntimeSource {
+    fn module(&self) -> &'static str {
+        if self.control { "host_runtime.control_only_server_v1" }
+        else if self.configuration { "host_runtime.connection_config_server_v1" }
+        else { "host_runtime.bridge_service" }
+    }
+}
 
 fn runtime_source() -> Result<RuntimeSource, String> {
     let local = std::env::var_os("LOCALAPPDATA").ok_or("local_state_unavailable")?;
@@ -56,7 +65,16 @@ fn source_at(home: PathBuf) -> Result<RuntimeSource, String> {
     if library.len() > 1024*1024 || format!("{:x}", Sha256::digest(&library)) != record.library_sha256 {
         return Err("registered_library_changed".into());
     }
-    Ok(RuntimeSource { library: record.library_path, home, fingerprint: format!("{:x}", Sha256::digest(&bytes)) })
+    Ok(RuntimeSource { library: record.library_path, home, fingerprint: format!("{:x}", Sha256::digest(&bytes)), configuration: false, control: false })
+}
+
+fn control_source_at(home: PathBuf) -> Result<RuntimeSource, String> {
+    if !home.is_absolute() || home.to_string_lossy().starts_with("\\\\") {
+        return Err("local_state_unavailable".into());
+    }
+    let fingerprint=format!("control-v1:{:x}",Sha256::digest(home.to_string_lossy().as_bytes()));
+    // No registration/library read or fallback: this mode has no such input.
+    Ok(RuntimeSource { library: PathBuf::new(), home, fingerprint, configuration: false, control: true })
 }
 
 impl Drop for ServiceProcess {
@@ -92,19 +110,24 @@ impl ServiceProcess {
         if !python.is_absolute() {return Err("runtime_layout_unavailable".into());}
         let prefix=serde_json::to_string(&venv.to_string_lossy()).map_err(|_|"runtime_layout_unavailable")?;
         let imports=serde_json::to_string(&vec![integration.to_string_lossy().to_string(),venv.join("Lib/site-packages").to_string_lossy().to_string()]).map_err(|_|"runtime_layout_unavailable")?;
-        let bootstrap=format!("import sys,runpy;sys.prefix=sys.exec_prefix={prefix};sys.path[:0]={imports};sys.argv[0]='host_runtime.bridge_service';runpy.run_module('host_runtime.bridge_service',run_name='__main__')");
+        let module=source.module();
+        let bootstrap=format!("import sys,runpy;sys.prefix=sys.exec_prefix={prefix};sys.path[:0]={imports};sys.argv[0]='{module}';runpy.run_module('{module}',run_name='__main__')");
         Self::launch(source,python,integration,Some(bootstrap))
     }
 
     fn launch(source: &RuntimeSource, python: PathBuf, integration: PathBuf, bootstrap: Option<String>) -> Result<Self, String> {
         let mut command = Command::new(python);
         command.args(["-I", "-S", "-B"]);
-        match bootstrap {Some(code)=>{command.args(["-c",&code]);},None=>{command.args(["-m","host_runtime.bridge_service"]);}}
+        let module=source.module();
+        match bootstrap {Some(code)=>{command.args(["-c",&code]);},None=>{command.args(["-m",module]);}}
         command.current_dir(integration)
-            .arg("--library")
-            .arg(&source.library)
             .arg("--state-dir").arg(source.home.join("desktop-runtime"))
             .stdin(Stdio::piped()).stdout(Stdio::piped()).stderr(Stdio::null());
+        if !source.control { command.arg("--library").arg(&source.library); }
+        if source.configuration {
+            command.arg("--registration").arg(source.home.join("desktop-runtime-config.json"))
+                .arg("--commander-id").arg("57e668b4-4d89-43bd-bc92-0dd436f046ef");
+        }
         #[cfg(windows)] {
             use std::os::windows::process::CommandExt;
             command.creation_flags(0x08000000); // CREATE_NO_WINDOW
@@ -148,10 +171,19 @@ impl ServiceProcess {
 }
 
 #[derive(Default)]
-struct BridgeState { process: Option<ServiceProcess>, source: Option<String> }
+struct BridgeState { process: Option<ServiceProcess>, source: Option<String>, configuration: Option<ServiceProcess>, configuration_source: Option<String> }
+
+#[derive(Default)]
+struct ControlBridgeState { process: Option<ServiceProcess>, source: Option<String> }
 
 #[derive(Clone, Default)]
-pub struct HostBridge(Arc<Mutex<BridgeState>>);
+pub struct HostBridge(Arc<Mutex<BridgeState>>, Arc<Mutex<ControlBridgeState>>);
+
+fn public_id(value: Option<&Value>) -> bool {
+    value.and_then(Value::as_str).is_some_and(|id| id.len()==36 && id.bytes().enumerate().all(|(i,b)| {
+        if [8,13,18,23].contains(&i) {b==b'-'} else {b.is_ascii_hexdigit()&&!b.is_ascii_uppercase()}
+    }))
+}
 
 fn validate(request: &Value) -> Result<(), String> {
     let object = request.as_object().ok_or("request_invalid")?;
@@ -164,6 +196,19 @@ fn validate(request: &Value) -> Result<(), String> {
     if id.len() != 36 || !id.bytes().enumerate().all(|(i, b)| {
         if [8, 13, 18, 23].contains(&i) { b == b'-' } else { b.is_ascii_hexdigit() && !b.is_ascii_uppercase() }
     }) { return Err("request_invalid".into()); }
+    let args = object.get("args").and_then(Value::as_object).ok_or("request_invalid")?;
+    match object.get("operation").and_then(Value::as_str) {
+        Some("session.discover" | "run.resume") if !args.is_empty() => return Err("request_invalid".into()),
+        Some("run.status" | "diagnostics.export") if args.len()!=1 || !public_id(args.get("run_id")) => return Err("request_invalid".into()),
+        Some("run.stop") if args.len()!=2 || !public_id(args.get("run_id")) || !public_id(args.get("session_id")) => return Err("request_invalid".into()),
+        Some("session.prepare") => {
+            let id = args.get("candidate_id").and_then(Value::as_str).ok_or("request_invalid")?;
+            if args.len() != 1 || id.len() != 36 || !id.bytes().enumerate().all(|(i,b)| {
+                if [8,13,18,23].contains(&i) {b==b'-'} else {b.is_ascii_hexdigit()&&!b.is_ascii_uppercase()}
+            }) { return Err("request_invalid".into()); }
+        },
+        _ => {},
+    }
     Ok(())
 }
 
@@ -204,8 +249,27 @@ pub async fn host_request(request: Value, bridge: tauri::State<'_, HostBridge>) 
     validate(&request)?;
     let state = bridge.inner().clone();
     tauri::async_runtime::spawn_blocking(move || {
+        let local = std::env::var_os("LOCALAPPDATA").ok_or("local_state_unavailable")?;
+        dispatch_host_at(&state, &request, PathBuf::from(local).join("Tacticore"))
+    }).await.map_err(|_| "bridge_unavailable".to_owned())?
+}
+
+fn dispatch_host_at(state: &HostBridge, request: &Value, home: PathBuf) -> Result<Value, String> {
+        validate(request)?;
+        if request.get("operation").and_then(Value::as_str).is_some_and(|op| CONTROL_OPERATIONS.contains(&op)) {
+            // STOP/status cannot queue behind a stalled configuration exchange.
+            let mut slot=state.1.lock().map_err(|_|"bridge_unavailable")?;
+            let source=control_source_at(home)?;
+            if slot.source.as_ref().is_some_and(|old| old!=&source.fingerprint) {slot.process=None;}
+            if slot.process.is_none() {
+                slot.process=Some(ServiceProcess::spawn(&source)?);slot.source=Some(source.fingerprint);
+            }
+            let result=slot.process.as_mut().ok_or("bridge_unavailable")?.exchange(request);
+            if result.is_err() {slot.process=None;} // Unknown is never replayed.
+            return result;
+        }
         let mut slot = state.0.lock().map_err(|_| "bridge_unavailable")?;
-        let source = match runtime_source() {
+        let source = match source_at(home) {
             Ok(source) => source,
             Err(error) => {
                 // A missing/changed registration also invalidates the existing
@@ -223,10 +287,71 @@ pub async fn host_request(request: Value, bridge: tauri::State<'_, HostBridge>) 
             slot.process = Some(ServiceProcess::spawn(&source)?);
             slot.source = Some(source.fingerprint);
         }
-        let result = slot.process.as_mut().ok_or("bridge_unavailable")?.exchange(&request);
+        let result = slot.process.as_mut().ok_or("bridge_unavailable")?.exchange(request);
         if result.is_err() { slot.process = None; } // Never retry an uncertain delivery.
         result
-    }).await.map_err(|_| "bridge_unavailable".to_owned())?
+}
+
+
+// Independent configuration source selection never admits a game Host. It may
+// open the old registered library identity so the signed transaction service
+// can reconcile an interrupted hash update. Ordinary source_at stays strict.
+fn configuration_source_at(home: PathBuf) -> Result<RuntimeSource, String> {
+    let config=home.join("desktop-runtime-config.json");
+    if !config.exists() {
+        return Ok(RuntimeSource {library:home.join("library.v2.json"),home,fingerprint:"first-use-v1".into(),configuration:true,control:false});
+    }
+    let file=std::fs::File::open(config).map_err(|_|"runtime_configuration_invalid")?;
+    let mut bytes=Vec::new();file.take(16385).read_to_end(&mut bytes).map_err(|_|"runtime_configuration_invalid")?;
+    if bytes.len()>16384 {return Err("runtime_configuration_invalid".into());}
+    let record:RuntimeRegistration=serde_json::from_slice(&bytes).map_err(|_|"runtime_configuration_invalid")?;
+    let id=record.registration_id.as_bytes();
+    if record.schema_version!=1 || id.len()!=36 || !id.iter().enumerate().all(|(i,b)| {
+        if [8,13,18,23].contains(&i) {*b==b'-'} else {b.is_ascii_hexdigit()&&!b.is_ascii_uppercase()}
+    }) || !record.library_path.is_absolute() || record.library_path.to_string_lossy().starts_with("\\\\")
+      || record.library_sha256.len()!=64 || !record.library_sha256.bytes().all(|b|b.is_ascii_hexdigit()&&!b.is_ascii_uppercase()) {
+        return Err("runtime_configuration_invalid".into());
+    }
+    Ok(RuntimeSource {library:record.library_path,home,fingerprint:format!("{:x}",Sha256::digest(&bytes)),configuration:true,control:false})
+}
+
+fn validate_configuration(request:&Value)->Result<(),String> {
+    let object=request.as_object().ok_or("request_invalid")?;
+    let operations=["connections.configuration","connections.configure","connections.recover","connections.cleanup_retired","connections.bootstrap"];
+    if object.len()!=4 || request.get("schema_version")!=Some(&Value::from(1))
+      || !request.get("args").is_some_and(Value::is_object)
+      || !request.get("operation").and_then(Value::as_str).is_some_and(|v|operations.contains(&v))
+      || serde_json::to_vec(request).map_err(|_|"request_invalid")?.len()>16384 {return Err("request_invalid".into());}
+    let id=request.get("request_id").and_then(Value::as_str).ok_or("request_invalid")?;
+    if id.len()!=36 || !id.bytes().enumerate().all(|(i,b)|if [8,13,18,23].contains(&i){b==b'-'}else{b.is_ascii_hexdigit()&&!b.is_ascii_uppercase()}) {
+        return Err("request_invalid".into());
+    }
+    Ok(())
+}
+
+#[tauri::command]
+pub async fn connection_config_request(request:Value,bridge:tauri::State<'_,HostBridge>)->Result<Value,String> {
+    validate_configuration(&request)?;
+    let state=bridge.inner().clone();
+    tauri::async_runtime::spawn_blocking(move|| {
+        let mut slot=state.0.lock().map_err(|_|"bridge_unavailable")?;
+        let local=std::env::var_os("LOCALAPPDATA").ok_or("local_state_unavailable")?;
+        let source=configuration_source_at(PathBuf::from(local).join("Tacticore"))?;
+        if slot.configuration_source.as_ref().is_some_and(|old|old!=&source.fingerprint) {slot.configuration=None;}
+        if slot.configuration.is_none() {
+            slot.configuration=Some(ServiceProcess::spawn(&source)?);
+            slot.configuration_source=Some(source.fingerprint);
+        }
+        let result=slot.configuration.as_mut().ok_or("bridge_unavailable")?.exchange(&request);
+        if result.is_err(){slot.configuration=None;}
+        if result.as_ref().is_ok_and(|value|value.get("ok")==Some(&Value::Bool(true)))
+          && matches!(request.get("operation").and_then(Value::as_str),Some("connections.configure"|"connections.recover"|"connections.bootstrap")) {
+            // Successful mutation invalidates old profile/readiness observations.
+            // This stops only the configuration pipe; it never kills a game Host.
+            slot.process=None;slot.source=None;slot.configuration=None;slot.configuration_source=None;
+        }
+        result
+    }).await.map_err(|_|"bridge_unavailable".to_owned())?
 }
 
 #[cfg(test)]
@@ -255,6 +380,28 @@ mod tests {
     }
 
     #[test]
+    fn discovery_and_resume_are_named_bounded_operations() {
+        for operation in ["session.discover", "run.resume"] {
+            let request = serde_json::json!({"schema_version":1,"request_id":"45b37922-a953-4d54-bc3b-4a34804c1c56",
+                                            "operation":operation,"args":{}});
+            assert!(validate(&request).is_ok());
+            let mut invalid=request.clone();invalid["args"]["pid"]=Value::from(123);
+            assert!(validate(&invalid).is_err());
+        }
+    }
+
+    #[test]
+    fn prepare_accepts_opaque_candidate_only_and_never_a_path_or_pid() {
+        let request = serde_json::json!({"schema_version":1,"request_id":"45b37922-a953-4d54-bc3b-4a34804c1c56",
+            "operation":"session.prepare","args":{"candidate_id":"45b37922-a953-4d54-bc3b-4a34804c1c56"}});
+        assert!(validate(&request).is_ok());
+        let mut invalid=request.clone();invalid["args"]["path"]=Value::from("C:/private");
+        assert!(validate(&invalid).is_err());
+        let mut invalid=request.clone();invalid["args"]["candidate_id"]=Value::from("arbitrary");
+        assert!(validate(&invalid).is_err());
+    }
+
+    #[test]
     fn explicit_registered_source_has_bound_identity_and_content() {
         let (root, record) = fixture(); write(&root, &record);
         let source = source_at(root.clone()).unwrap();
@@ -277,4 +424,105 @@ mod tests {
         assert!(matches!(source_at(root.clone()), Err(code) if code == "runtime_configuration_invalid"));
         cleanup(root);
     }
+
+    #[test]
+    fn configuration_channel_is_bounded_and_never_accepts_game_operations() {
+        let mut request=serde_json::json!({"schema_version":1,"request_id":"11111111-1111-4111-8111-111111111111","operation":"connections.configuration","args":{}});
+        assert!(validate_configuration(&request).is_ok());
+        for operation in ["run.start","run.stop","run.check","model.call"] {
+            request["operation"]=Value::String(operation.into());assert!(validate_configuration(&request).is_err());
+        }
+        request["operation"]=Value::String("connections.configure".into());
+        request["args"]=serde_json::json!({"api_key":"x".repeat(16384)});
+        assert!(validate_configuration(&request).is_err());
+    }
+
+    #[test]
+    fn recovery_source_selection_does_not_relax_ordinary_host_source_validation() {
+        let (root,record)=fixture();write(&root,&record);
+        std::fs::write(root.join("library.json"),b"interrupted library hash update").unwrap();
+        assert!(source_at(root.clone()).is_err());
+        let source=configuration_source_at(root.clone()).unwrap();
+        assert!(source.configuration);assert_eq!(source.library,root.join("library.json"));
+        cleanup(root);
+    }
+
+    #[test]
+    fn first_use_configuration_paths_are_native_fixed_and_relative_registration_is_rejected() {
+        let (root,record)=fixture();
+        let source=configuration_source_at(root.clone()).unwrap();
+        assert_eq!(source.library,root.join("library.v2.json"));assert!(source.configuration);
+        let mut invalid=record.clone();invalid["library_path"]=Value::String("relative.json".into());write(&root,&invalid);
+        assert!(configuration_source_at(root.clone()).is_err());cleanup(root);
+    }
+
+    fn control_fixture() -> PathBuf {
+        let base=PathBuf::from("D:/CodexScratch/tacticore-control-only-channel-20261029-v1/rust-tests");
+        std::fs::create_dir_all(&base).unwrap();
+        let root=base.join(format!("control-{}-{}",std::process::id(),SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_nanos()));
+        std::fs::create_dir(&root).unwrap();root
+    }
+
+    fn cleanup_control(root: PathBuf) {
+        assert!(root.starts_with("D:/CodexScratch/tacticore-control-only-channel-20261029-v1/rust-tests"));
+        assert!(root.file_name().unwrap().to_string_lossy().starts_with("control-"));
+        std::fs::remove_dir_all(root).unwrap();
+    }
+
+    #[test]
+    fn real_control_dispatch_survives_cold_broken_registration_without_creating_ledgers() {
+        let root=control_fixture();
+        std::fs::write(root.join("desktop-runtime-config.json"),b"broken registry").unwrap();
+        assert!(source_at(root.clone()).is_err());
+        let bridge=HostBridge::default();
+        for op in CONTROL_OPERATIONS {
+            let args=match *op {
+                "run.resume"=>serde_json::json!({}),
+                "run.stop"=>serde_json::json!({"run_id":"11111111-1111-4111-8111-111111111111","session_id":"22222222-2222-4222-8222-222222222222"}),
+                _=>serde_json::json!({"run_id":"11111111-1111-4111-8111-111111111111"}),
+            };
+            let request=serde_json::json!({"schema_version":1,"request_id":"33333333-3333-4333-8333-333333333333","operation":op,"args":args});
+            let result=dispatch_host_at(&bridge,&request,root.clone()).unwrap();
+            if *op=="run.resume" {
+                assert_eq!(result["ok"],true);assert!(result["result"]["run"].is_null());
+            } else {assert_eq!(result["error"]["code"],"run_not_found");}
+        }
+        assert!(!root.join("desktop-runtime").exists());
+        drop(bridge);cleanup_control(root);
+    }
+
+    #[test]
+    fn control_dispatch_does_not_wait_for_ordinary_configuration_mutex() {
+        let root=control_fixture();let bridge=HostBridge::default();
+        let held=bridge.0.lock().unwrap();
+        let copied=bridge.clone();let home=root.clone();let(tx,rx)=mpsc::channel();
+        let worker=std::thread::spawn(move|| {
+            let request=serde_json::json!({"schema_version":1,"request_id":"33333333-3333-4333-8333-333333333333","operation":"run.resume","args":{}});
+            tx.send(dispatch_host_at(&copied,&request,home)).unwrap();
+        });
+        let result=rx.recv_timeout(Duration::from_secs(8)).expect("control queued behind ordinary/configuration lock").unwrap();
+        assert_eq!(result["ok"],true);
+        drop(held);worker.join().unwrap();drop(bridge);cleanup_control(root);
+    }
+
+    #[test]
+    fn control_route_never_relaxes_normal_admission_or_accepts_path_pid_arguments() {
+        let (root,record)=fixture();write(&root,&record);
+        std::fs::write(root.join("library.json"),b"prepared new library, old registry").unwrap();
+        let bridge=HostBridge::default();
+        for operation in ["run.check","run.start","profiles.list","profiles.save","session.inspect"] {
+            let request=serde_json::json!({"schema_version":1,"request_id":"33333333-3333-4333-8333-333333333333","operation":operation,"args":{}});
+            assert!(matches!(dispatch_host_at(&bridge,&request,root.clone()),Err(code) if code=="registered_library_changed"));
+        }
+        for operation in CONTROL_OPERATIONS {
+            let request=serde_json::json!({"schema_version":1,"request_id":"33333333-3333-4333-8333-333333333333","operation":operation,"args":{"path":"C:/outside","pid":123}});
+            assert!(validate(&request).is_err());
+        }
+        let source=control_source_at(root.clone()).unwrap();
+        assert!(source.control&&!source.configuration&&source.library.as_os_str().is_empty());
+        assert_eq!(source.module(),"host_runtime.control_only_server_v1");
+        assert!(control_source_at(PathBuf::from("relative")).is_err());
+        cleanup(root);
+    }
+
 }

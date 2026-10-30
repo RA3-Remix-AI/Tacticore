@@ -18,6 +18,8 @@ BEFORE = ROOT/'reports/macro-group-role-wire-repair-20261028-v1/http_adapter.bef
 
 def historical_context():
     path = ROOT/'acceptance/runs/20261028-133800-macro-probe/battle-host/host-events.jsonl'
+    if not path.is_file():
+        raise unittest.SkipTest('requires local archived wire contexts; not distributed with source')
     rows = [json.loads(line) for line in path.read_text(encoding='utf8').splitlines()]
     context = copy.deepcopy([r['context'] for r in rows if r['kind']=='model_macro_request_context'][-1])
     scope = json.loads((ROOT/'reports/macro-group-role-desktop-bootstrap-20261028-v1/qualification.json').read_text(encoding='utf8'))['scope']
@@ -52,6 +54,8 @@ def accumulated_feedback_context():
     return context,profile
 
 
+@unittest.skipUnless((ROOT/'acceptance/runs/20261028-133800-macro-probe/battle-host/host-events.jsonl').is_file() and BEFORE.is_file(),
+                     'requires local archived wire contexts and pre-fix source')
 class MacroGroupRoleWireTests(unittest.TestCase):
     def test_accumulated_domain_feedback_with_full_scope_and_maximum_style_fits(self):
         context,profile=accumulated_feedback_context()

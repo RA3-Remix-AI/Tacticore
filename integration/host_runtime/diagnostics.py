@@ -19,6 +19,9 @@ import tomllib
 import uuid
 
 from .contracts import ContractError, canonical_json, content_hash, identifier
+from .macro_strategy_diagnostics import (STRATEGY_EVENTS,StrategyEvidence,journal_receipts,
+    project_strategy_event,event_seconds,project_declaration,prepare_strategy_extension)
+from .macro_expansion_diagnostics_v4 import EVENTS_V4,project_expansion_event_v4
 
 ROOT = Path(__file__).resolve().parents[2]
 # A normal macro match can exceed 2,000 repeated native observations. Keep the
@@ -26,7 +29,8 @@ ROOT = Path(__file__).resolve().parents[2]
 MAX_EXPORT_EVENTS = 10000
 MAX_EXPORT_BYTES = 8 * 1024 * 1024
 EVENTS = frozenset({"run_registered", "command_reserved", "dispatch_intent_committed", "command_outcome", "native_sequence_reserved",
-    'macro_native_feedback','macro_host_stop_started','model_macro_dispatch_prepared','model_macro_native_acknowledged','model_macro_dispatch_unknown',
+    'macro_strategy_review','macro_strategy_declared','macro_strategy_outcome','macro_strategy_budget_observed',
+    'macro_native_feedback','macro_unified_feedback','macro_host_stop_started','model_macro_dispatch_prepared','model_macro_native_acknowledged','model_macro_dispatch_unknown',
     'model_macro_production_prepared','model_macro_production_acknowledged','macro_production_preference_released','macro_production_feedback',
     'model_macro_scout_prepared','model_macro_scout_acknowledged','macro_scout_preference_released','macro_scouting_feedback',
     'model_macro_region_prepared','model_macro_region_acknowledged','macro_region_preference_released','macro_regional_feedback',
@@ -39,7 +43,7 @@ EVENTS = frozenset({"run_registered", "command_reserved", "dispatch_intent_commi
     "commander_model_backend_constructed", "commander_model_call_started", "commander_model_response_returned",
     "commander_model_call_failed", "commander_model_call_cancelled",'runtime_model_task_feedback',
     'runtime_model_preparation_exhausted','runtime_tactical_waiting_successor','runtime_tactical_epoch_renewed'})
-IDENTIFIERS = frozenset({"profile_id", "connection_id", "session_id", "commander_id", "host_id", "task_id", "plan_id", "request_id", "command_id"})
+IDENTIFIERS = frozenset({"profile_id", "connection_id", "session_id", "commander_id", "host_id", "task_id", "plan_id", "request_id", "command_id", "admission_id"})
 HASHES = frozenset({"effective_hash", "binding_hash", "fingerprint", "channel_hash", "traits_sha256", "game_sha256", "mod_sha256"})
 CODES = frozenset({"operation", "status", "reason_code", "state", "stage", "application_scope", "transport_mode", "module", "purpose", "focus", "source"})
 NUMBERS = frozenset({"player_id", "profile_revision", "revision", "schema_version", "personality", "traits_bytes", "call_sequence", "calls_started",
@@ -75,15 +79,62 @@ def project_fields(value):
     return result
 
 
-def project_event(event, expected=None, binding=None):
-    known = event["event_type"] in EVENTS
+def project_event(event, expected=None, binding=None, strategy_evidence=None):
+    known = event["event_type"] in EVENTS or event['event_type'] in EVENTS_V4
     result = dict(seq=event["seq"], event_type=event["event_type"] if known else "unprojected_event",
                   created_at=event["created_at"], payload_sha256=content_hash(event["payload"]),
                   payload_projected=known)
-    for key in ("command_id", "game_frame", "monotonic_ns"):
+    for key in ("game_frame", "monotonic_ns") if event['event_type'] in STRATEGY_EVENTS else ("command_id", "game_frame", "monotonic_ns"):
         if event.get(key) is not None:result[key] = event[key]
+    if event['event_type'] in EVENTS_V4:
+        try:result['facts']=project_expansion_event_v4(event['event_type'],event['payload'])
+        except ContractError:
+            result.update(facts={},payload_projected=False,projection_reason_code='macro_expansion_diagnostics_invalid')
+        return result
+    if event['event_type'] in STRATEGY_EVENTS:
+        try:result['facts']=project_strategy_event(event['event_type'],event['payload'],binding=binding,
+            evidence=strategy_evidence,at=event_seconds(event))
+        except ContractError:
+            result.update(facts={},payload_projected=False,projection_reason_code='macro_strategy_diagnostics_invalid')
+        return result
     if known:
         result["facts"] = project_fields(event["payload"])
+        if event['event_type']=='macro_unified_feedback':
+            from .strategic_unified_feedback_v5 import project_unified_feedback
+            try:result['facts']=project_unified_feedback(event['payload'])
+            except ContractError:result.update(facts={},payload_projected=False,projection_reason_code='unified_feedback_invalid')
+            return result
+        if event['event_type']=='macro_native_feedback':
+            payload=event['payload'];shares=payload.get('native_account_shares');selected=payload.get('selected_policy')
+            if selected in ('budgeteconomy','budgetarmy','budgettech'):result['facts']['selected_policy']=selected
+            elif selected is None:result['facts']['selected_policy']=None
+            accounts=('investment','special_operations','production','defense','technology','slush_fund')
+            if (type(shares) is dict and set(shares)==set(accounts)
+                    and all(type(shares[k]) in (int,float) and math.isfinite(shares[k]) and 0<=shares[k]<=1 for k in accounts)
+                    and abs(sum(shares.values())-1)<=1e-5):
+                result['facts']['native_account_shares']={k:shares[k] for k in accounts}
+                from .desktop_backend import _module
+                BUDGET_PRESETS=_module('macro_policy',directory=ROOT/'strategy').BUDGET_PRESETS
+                result['facts']['native_effect_verified']=bool(payload.get('native_effect_verified') is True
+                    and payload.get('status')=='native_budget_adopted' and type(selected) is str and selected in BUDGET_PRESETS
+                    and all(abs(shares[k]-BUDGET_PRESETS[selected][k])<=1e-5 for k in accounts))
+            if type(payload.get('observed_frame')) is int and 0<payload['observed_frame']<=0xffffffff:
+                result['facts']['observed_frame']=payload['observed_frame']
+        if event['event_type'] in ('macro_production_feedback','macro_construction_feedback'):
+            payload=event['payload'];action=payload.get('action')
+            from .desktop_backend import _module
+            ACTIONS=_module('macro_policy',directory=ROOT/'strategy').ACTIONS
+            if type(action) is str and ACTIONS.get(action) in ('production','construction'):
+                result['facts']['action']=action
+                for key in ('observed_new_queue_count','new_own_unit_observations','new_own_construction_object_observations',
+                        'fully_paid_queue_observations','additional_count_requested'):
+                    value=payload.get(key)
+                    if type(value) is int and 0<=value<=100000:result['facts'][key]=value
+                for key in ('builder_frame','own_census_frame'):
+                    value=payload.get(key)
+                    if type(value) is int and 0<value<=0xffffffff:result['facts'][key]=value
+                if type(payload.get('policy_released')) is bool:result['facts']['policy_released']=payload['policy_released']
+                result['facts'].update(payment_verified=False,completed_units_verified=False,construction_completed_verified=False)
         if isinstance(event["payload"].get("receipt"), dict):
             result["facts"]["receipt"] = project_fields(event["payload"]["receipt"])
         if event['event_type'] in ('macro_regional_feedback','macro_region_preference_released',
@@ -149,7 +200,9 @@ def project_event(event, expected=None, binding=None):
 
 def recent_events(journal, run_id, *, limit=30, expected=None, binding=None):
     page = journal.latest_events(run_id, limit=limit)
-    events = [project_event(event, expected, binding) for event in page["events"]]
+    evidence=(StrategyEvidence(page['events'],journal_receipts(journal.commands_for_run(run_id)),binding)
+        if any(event['event_type'] in STRATEGY_EVENTS for event in page['events']) else None)
+    events = [project_event(event, expected, binding,evidence) for event in page["events"]]
     cursor = dict(first_seq=page["first_seq"], last_seq=page["last_seq"], total_count=page["total_count"],
                   overflow=page["total_count"] - len(events), truncated=page["truncated"], window="latest")
     return events, cursor
@@ -204,13 +257,16 @@ def project_plan(value):
     actions=value.get('macro_actions')
     if (isinstance(actions,list) and len(actions)<=5 and all(type(action) is str and action in {
             'budgeteconomy','budgetarmy','budgettech','build_airfield','buildreactor','buildtech','economyrefinery',
-            'produceconscript','produceflak','producetank','scout','deployattack','deploydefense','regroup','reinforce','withdraw'} for action in actions)):
+            'produceconscript','produceflak','producetank','scout','deployattack','deploydefense','regroup','reinforce','withdraw',
+            'buildpower','buildbarracks','buildfactory','buildrefinery','buildbattlelab','producesickle','producebullfrog',
+            'expand','pauseconstruction','advanceconstruction','pauseproduction','advanceproduction'} for action in actions)):
         result['macro_actions']=list(actions)
     quantity=value.get('macro_production')
     if (type(quantity) is dict and set(quantity)=={'action','additional_count'}
-            and quantity['action'] in ('produceconscript','produceflak','producetank')
+            and quantity['action'] in ('produceconscript','produceflak','producetank','producesickle','producebullfrog')
             and quantity['action'] in result.get('macro_actions',())
-            and type(quantity['additional_count']) is int and 1<=quantity['additional_count']<=3):
+            and type(quantity['additional_count']) is int and 1<=quantity['additional_count']<=3
+            and (quantity['action'] not in ('producesickle','producebullfrog') or quantity['additional_count']==1)):
         result['macro_production']=dict(quantity)
     enums = dict(stance={"defend","scout","pressure","raid","expand"},
         production_focus={"native_baseline","balanced","anti_air","anti_armor","infantry","naval","economy"},
@@ -221,6 +277,9 @@ def project_plan(value):
         if isinstance(item,str) and item in allowed:result[key]=item
     if result.get("reason_code") not in {"air_threat","armor_threat","economy_window","defensive_emergency","balanced_default","tech_window"}:
         result.pop("reason_code",None)
+    if value.get('macro_strategy') is not None:
+        try:result['macro_strategy']=project_declaration(value['macro_strategy'])
+        except ContractError:pass
     budget=value.get("budget")
     if (isinstance(budget,dict) and set(budget)=={"economy","army","tech","reserve"}
         and all(type(x) in (int,float) and math.isfinite(x) and 0<=x<=1 for x in budget.values())
@@ -274,6 +333,7 @@ def software_manifest():
     for relative in ("desktop-ui/package.json", "agent_runtime/pyproject.toml", "integration/battle_host.py",
                      "integration/host_runtime/desktop_backend.py", "integration/host_runtime/diagnostics.py",
                      "integration/host_runtime/journal.py", "integration/host_runtime/profiles.py", "integration/host_runtime/host_production.py",
+                     "integration/host_runtime/macro_strategy_diagnostics.py","integration/host_runtime/macro_strategy_public.py",
                      "production/persistent/bin-v2/ProductionPersistent.dll", "production/persistent/bin-v2/persistent_host.exe"):
         row = _file_index(relative, ROOT / relative, ROOT)
         if relative.endswith("package.json"):
@@ -301,11 +361,14 @@ def create_export(state_dir, *, run_id, request_id, binding, profile, status, jo
     else:
         page = journal.latest_events(run_id, limit=MAX_EXPORT_EVENTS)
         expected = dict(profile_revision=profile["revision"], effective_hash=profile["effective_hash"]) if profile else None
-        timeline = [project_event(event, expected, binding) for event in page["events"]]
+        evidence=(StrategyEvidence(page['events'],journal_receipts(journal.commands_for_run(run_id)),binding)
+            if any(event['event_type'] in STRATEGY_EVENTS for event in page['events']) else None)
+        timeline = [project_event(event, expected, binding,evidence) for event in page["events"]]
+        public_status,strategy_extension,strategy_index=prepare_strategy_extension(status,raw_files,page['events'])
         document = dict(schema_version=1, kind="tacticore_redacted_diagnostics", redacted=True, export_id=export_id, run_id=run_id,
             generated_at=datetime.now(timezone.utc).isoformat(), binding=binding.public(), binding_hash=binding.binding_hash,
             effective_profile=project_profile(profile) if profile else None,
-            effective_profile_available=profile is not None, status=status, timeline=timeline,
+            effective_profile_available=profile is not None, status=public_status, timeline=timeline,
             events=dict(total_count=page["total_count"], exported_count=len(timeline), first_seq=page["first_seq"],
                 last_seq=page["last_seq"], truncated=page["truncated"], window="latest",
                 source_snapshot_sha256=content_hash(page["events"]), timeline_sha256=content_hash(timeline)),
@@ -314,6 +377,9 @@ def create_export(state_dir, *, run_id, request_id, binding, profile, status, jo
                            private_native_addresses=False, credentials=False, unknown_event_payloads=False),
             authority="sqlite_command_journal", native_release_verified=False,
             evidence_note="Reported events and file hashes are not independent proof of game outcome or control release.")
+        if strategy_extension is not None:
+            document['macro_strategy_extension']=strategy_extension
+            if strategy_index is not None:document['raw_file_index'].append(strategy_index)
         raw = (canonical_json(document) + "\n").encode("utf-8")
         if len(raw) > MAX_EXPORT_BYTES:raise ContractError("diagnostics_unavailable")
         # UUID is derived from request identity. Exclusive creation preserves a

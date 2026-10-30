@@ -1,0 +1,568 @@
+[
+  {
+    "name": "running_pending",
+    "capabilities": {
+      "native_macro": true,
+      "available_macro_actions": [
+        "budgeteconomy",
+        "budgetarmy",
+        "scout",
+        "withdraw",
+        "buildpower",
+        "producebullfrog"
+      ],
+      "macro_production_counts": {
+        "producebullfrog": [
+          1
+        ]
+      },
+      "supported_units": [
+        "bullfrog"
+      ],
+      "supported_foci": [
+        "infantry"
+      ]
+    },
+    "status": {
+      "execution": {
+        "commander_boundary": "native_ai_details_v1"
+      },
+      "current_plan": {
+        "macro_actions": [
+          "withdraw"
+        ],
+        "macro_production": null,
+        "production_focus": "native_baseline",
+        "tactical_tasks": [],
+        "runtime_task": null
+      },
+      "macro_feedback": {
+        "status": "native_budget_pending",
+        "selected_policy": "budgetarmy"
+      }
+    },
+    "preflight_capabilities": {
+      "native_macro": true,
+      "available_macro_actions": [
+        "budgeteconomy",
+        "budgetarmy",
+        "scout",
+        "withdraw"
+      ],
+      "macro_production_counts": {},
+      "supported_units": [],
+      "supported_foci": [
+        "native_baseline"
+      ],
+      "commander_boundary": "native_ai_details_v1"
+    },
+    "public_record": {
+      "schema_version": 1,
+      "kind": "commander_strategic_client_record_v1",
+      "boundary": "strategic_only",
+      "available_actions": [
+        "budgeteconomy",
+        "budgetarmy",
+        "scout",
+        "withdraw"
+      ],
+      "current_actions": [
+        "withdraw"
+      ],
+      "current_intent_state": "reported",
+      "budget_adoption": "pending",
+      "budget_policy": "budgetarmy",
+      "unconnected_intents": [
+        "native_construction_pause",
+        "native_production_pause",
+        "resource_expansion"
+      ],
+      "details_owner": "native_ai",
+      "record_only": true,
+      "dispatch_authorized": false,
+      "native_acceptance_proves_success": false,
+      "extra_preferences_clear_is_global_stop": false
+    }
+  },
+  {
+    "name": "cleared_extras",
+    "capabilities": {
+      "native_macro": true,
+      "available_macro_actions": [
+        "budgeteconomy",
+        "budgetarmy",
+        "scout",
+        "withdraw",
+        "buildpower",
+        "producebullfrog"
+      ],
+      "macro_production_counts": {
+        "producebullfrog": [
+          1
+        ]
+      },
+      "supported_units": [
+        "bullfrog"
+      ],
+      "supported_foci": [
+        "infantry"
+      ]
+    },
+    "status": {
+      "execution": {
+        "commander_boundary": "native_ai_details_v1"
+      },
+      "current_plan": {
+        "macro_actions": [],
+        "macro_production": null,
+        "production_focus": "native_baseline",
+        "tactical_tasks": [],
+        "runtime_task": null
+      },
+      "macro_feedback": {
+        "status": "native_delegation_observed",
+        "selected_policy": null
+      }
+    },
+    "preflight_capabilities": {
+      "native_macro": true,
+      "available_macro_actions": [
+        "budgeteconomy",
+        "budgetarmy",
+        "scout",
+        "withdraw"
+      ],
+      "macro_production_counts": {},
+      "supported_units": [],
+      "supported_foci": [
+        "native_baseline"
+      ],
+      "commander_boundary": "native_ai_details_v1"
+    },
+    "public_record": {
+      "schema_version": 1,
+      "kind": "commander_strategic_client_record_v1",
+      "boundary": "strategic_only",
+      "available_actions": [
+        "budgeteconomy",
+        "budgetarmy",
+        "scout",
+        "withdraw"
+      ],
+      "current_actions": [],
+      "current_intent_state": "reported",
+      "budget_adoption": "not_observed",
+      "budget_policy": null,
+      "unconnected_intents": [
+        "native_construction_pause",
+        "native_production_pause",
+        "resource_expansion"
+      ],
+      "details_owner": "native_ai",
+      "record_only": true,
+      "dispatch_authorized": false,
+      "native_acceptance_proves_success": false,
+      "extra_preferences_clear_is_global_stop": false
+    }
+  },
+  {
+    "name": "history_precision",
+    "capabilities": {
+      "native_macro": true,
+      "available_macro_actions": [
+        "budgeteconomy",
+        "budgetarmy",
+        "scout",
+        "withdraw",
+        "buildpower",
+        "producebullfrog"
+      ],
+      "macro_production_counts": {
+        "producebullfrog": [
+          1
+        ]
+      },
+      "supported_units": [
+        "bullfrog"
+      ],
+      "supported_foci": [
+        "infantry"
+      ]
+    },
+    "status": {
+      "execution": {
+        "commander_boundary": "historical_precision"
+      },
+      "current_plan": {
+        "macro_actions": [
+          "producebullfrog"
+        ],
+        "macro_production": {
+          "action": "producebullfrog",
+          "additional_count": 1
+        },
+        "production_focus": "native_baseline",
+        "tactical_tasks": [],
+        "runtime_task": null
+      },
+      "macro_feedback": {
+        "status": "native_budget_pending",
+        "selected_policy": "budgetarmy"
+      }
+    },
+    "preflight_capabilities": {
+      "native_macro": true,
+      "available_macro_actions": [
+        "budgeteconomy",
+        "budgetarmy",
+        "scout",
+        "withdraw"
+      ],
+      "macro_production_counts": {},
+      "supported_units": [],
+      "supported_foci": [
+        "native_baseline"
+      ],
+      "commander_boundary": "native_ai_details_v1"
+    },
+    "public_record": {
+      "schema_version": 1,
+      "kind": "commander_strategic_client_record_v1",
+      "boundary": "historical_precision",
+      "available_actions": [],
+      "current_actions": null,
+      "current_intent_state": "awaiting",
+      "budget_adoption": "unavailable",
+      "budget_policy": null,
+      "unconnected_intents": [
+        "native_construction_pause",
+        "native_production_pause",
+        "resource_expansion"
+      ],
+      "details_owner": "native_ai",
+      "record_only": true,
+      "dispatch_authorized": false,
+      "native_acceptance_proves_success": false,
+      "extra_preferences_clear_is_global_stop": false
+    }
+  },
+  {
+    "name": "unverified_marker",
+    "capabilities": {
+      "native_macro": true,
+      "available_macro_actions": [
+        "budgeteconomy",
+        "budgetarmy",
+        "scout",
+        "withdraw",
+        "buildpower",
+        "producebullfrog"
+      ],
+      "macro_production_counts": {
+        "producebullfrog": [
+          1
+        ]
+      },
+      "supported_units": [
+        "bullfrog"
+      ],
+      "supported_foci": [
+        "infantry"
+      ]
+    },
+    "status": {
+      "execution": {},
+      "current_plan": {
+        "macro_actions": [
+          "withdraw"
+        ],
+        "macro_production": null,
+        "production_focus": "native_baseline",
+        "tactical_tasks": [],
+        "runtime_task": null
+      },
+      "macro_feedback": {
+        "status": "native_budget_pending",
+        "selected_policy": "budgetarmy"
+      }
+    },
+    "preflight_capabilities": {
+      "native_macro": true,
+      "available_macro_actions": [
+        "budgeteconomy",
+        "budgetarmy",
+        "scout",
+        "withdraw"
+      ],
+      "macro_production_counts": {},
+      "supported_units": [],
+      "supported_foci": [
+        "native_baseline"
+      ],
+      "commander_boundary": "native_ai_details_v1"
+    },
+    "public_record": {
+      "schema_version": 1,
+      "kind": "commander_strategic_client_record_v1",
+      "boundary": "unverified",
+      "available_actions": [],
+      "current_actions": null,
+      "current_intent_state": "awaiting",
+      "budget_adoption": "unavailable",
+      "budget_policy": null,
+      "unconnected_intents": [
+        "native_construction_pause",
+        "native_production_pause",
+        "resource_expansion"
+      ],
+      "details_owner": "native_ai",
+      "record_only": true,
+      "dispatch_authorized": false,
+      "native_acceptance_proves_success": false,
+      "extra_preferences_clear_is_global_stop": false
+    }
+  },
+  {
+    "name": "precision_refused",
+    "capabilities": {
+      "native_macro": true,
+      "available_macro_actions": [
+        "budgeteconomy",
+        "budgetarmy",
+        "scout",
+        "withdraw",
+        "buildpower",
+        "producebullfrog"
+      ],
+      "macro_production_counts": {
+        "producebullfrog": [
+          1
+        ]
+      },
+      "supported_units": [
+        "bullfrog"
+      ],
+      "supported_foci": [
+        "infantry"
+      ]
+    },
+    "status": {
+      "execution": {
+        "commander_boundary": "native_ai_details_v1"
+      },
+      "current_plan": {
+        "macro_actions": [
+          "producebullfrog"
+        ],
+        "macro_production": {
+          "action": "producebullfrog",
+          "additional_count": 1
+        },
+        "production_focus": "native_baseline",
+        "tactical_tasks": [],
+        "runtime_task": null
+      },
+      "macro_feedback": {
+        "status": "native_budget_pending",
+        "selected_policy": "budgetarmy"
+      }
+    },
+    "preflight_capabilities": {
+      "native_macro": true,
+      "available_macro_actions": [
+        "budgeteconomy",
+        "budgetarmy",
+        "scout",
+        "withdraw"
+      ],
+      "macro_production_counts": {},
+      "supported_units": [],
+      "supported_foci": [
+        "native_baseline"
+      ],
+      "commander_boundary": "native_ai_details_v1"
+    },
+    "public_record": {
+      "schema_version": 1,
+      "kind": "commander_strategic_client_record_v1",
+      "boundary": "strategic_only",
+      "available_actions": [
+        "budgeteconomy",
+        "budgetarmy",
+        "scout",
+        "withdraw"
+      ],
+      "current_actions": null,
+      "current_intent_state": "invalid",
+      "budget_adoption": "pending",
+      "budget_policy": "budgetarmy",
+      "unconnected_intents": [
+        "native_construction_pause",
+        "native_production_pause",
+        "resource_expansion"
+      ],
+      "details_owner": "native_ai",
+      "record_only": true,
+      "dispatch_authorized": false,
+      "native_acceptance_proves_success": false,
+      "extra_preferences_clear_is_global_stop": false
+    }
+  },
+  {
+    "name": "economy_priority",
+    "capabilities": {
+      "native_macro": true,
+      "available_macro_actions": [
+        "budgeteconomy",
+        "budgetarmy",
+        "scout",
+        "withdraw",
+        "buildpower",
+        "producebullfrog"
+      ],
+      "macro_production_counts": {
+        "producebullfrog": [
+          1
+        ]
+      },
+      "supported_units": [
+        "bullfrog"
+      ],
+      "supported_foci": [
+        "infantry"
+      ]
+    },
+    "status": {
+      "execution": {
+        "commander_boundary": "native_ai_details_v1"
+      },
+      "current_plan": {
+        "macro_actions": [
+          "budgeteconomy"
+        ],
+        "macro_production": null,
+        "production_focus": "native_baseline",
+        "tactical_tasks": [],
+        "runtime_task": null
+      },
+      "macro_feedback": {
+        "status": "native_budget_pending",
+        "selected_policy": "budgeteconomy"
+      }
+    },
+    "preflight_capabilities": {
+      "native_macro": true,
+      "available_macro_actions": [
+        "budgeteconomy",
+        "budgetarmy",
+        "scout",
+        "withdraw"
+      ],
+      "macro_production_counts": {},
+      "supported_units": [],
+      "supported_foci": [
+        "native_baseline"
+      ],
+      "commander_boundary": "native_ai_details_v1"
+    },
+    "public_record": {
+      "schema_version": 1,
+      "kind": "commander_strategic_client_record_v1",
+      "boundary": "strategic_only",
+      "available_actions": [
+        "budgeteconomy",
+        "budgetarmy",
+        "scout",
+        "withdraw"
+      ],
+      "current_actions": [
+        "budgeteconomy"
+      ],
+      "current_intent_state": "reported",
+      "budget_adoption": "pending",
+      "budget_policy": "budgeteconomy",
+      "unconnected_intents": [
+        "native_construction_pause",
+        "native_production_pause",
+        "resource_expansion"
+      ],
+      "details_owner": "native_ai",
+      "record_only": true,
+      "dispatch_authorized": false,
+      "native_acceptance_proves_success": false,
+      "extra_preferences_clear_is_global_stop": false
+    }
+  },
+  {
+    "name": "awaiting_model",
+    "capabilities": {
+      "native_macro": true,
+      "available_macro_actions": [
+        "budgeteconomy",
+        "budgetarmy",
+        "scout",
+        "withdraw",
+        "buildpower",
+        "producebullfrog"
+      ],
+      "macro_production_counts": {
+        "producebullfrog": [
+          1
+        ]
+      },
+      "supported_units": [
+        "bullfrog"
+      ],
+      "supported_foci": [
+        "infantry"
+      ]
+    },
+    "status": {
+      "execution": {
+        "commander_boundary": "native_ai_details_v1"
+      },
+      "current_plan": null,
+      "macro_feedback": null
+    },
+    "preflight_capabilities": {
+      "native_macro": true,
+      "available_macro_actions": [
+        "budgeteconomy",
+        "budgetarmy",
+        "scout",
+        "withdraw"
+      ],
+      "macro_production_counts": {},
+      "supported_units": [],
+      "supported_foci": [
+        "native_baseline"
+      ],
+      "commander_boundary": "native_ai_details_v1"
+    },
+    "public_record": {
+      "schema_version": 1,
+      "kind": "commander_strategic_client_record_v1",
+      "boundary": "strategic_only",
+      "available_actions": [
+        "budgeteconomy",
+        "budgetarmy",
+        "scout",
+        "withdraw"
+      ],
+      "current_actions": null,
+      "current_intent_state": "awaiting",
+      "budget_adoption": "unavailable",
+      "budget_policy": null,
+      "unconnected_intents": [
+        "native_construction_pause",
+        "native_production_pause",
+        "resource_expansion"
+      ],
+      "details_owner": "native_ai",
+      "record_only": true,
+      "dispatch_authorized": false,
+      "native_acceptance_proves_success": false,
+      "extra_preferences_clear_is_global_stop": false
+    }
+  }
+]

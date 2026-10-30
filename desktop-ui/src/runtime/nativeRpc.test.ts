@@ -28,3 +28,11 @@ test('fixed server rejection remains inspectable without exposing arbitrary mess
   const rpc=createHostRpc(async()=>({schema_version:1,request_id:id,ok:false,error:{code:'profile_revision_conflict',message:'not public'}}));
   await assert.rejects(rpc('profiles.save',{},id),(error:unknown)=>error instanceof HostError && error.code==='profile_revision_conflict' && !error.message.includes('not public'));
 });
+
+test('discovery, preparation and resume remain named operations with opaque arguments',async()=>{
+  const calls:unknown[]=[];
+  const rpc=createHostRpc(async(_command,args)=>{calls.push(args.request);return {schema_version:1,request_id:id,ok:true,result:{}};});
+  await rpc('session.discover',{},id);await rpc('session.prepare',{candidate_id:id},id);await rpc('run.resume',{},id);
+  assert.deepEqual(calls.map(value=>(value as {operation:string}).operation),['session.discover','session.prepare','run.resume']);
+  assert.deepEqual((calls[1] as {args:unknown}).args,{candidate_id:id});
+});

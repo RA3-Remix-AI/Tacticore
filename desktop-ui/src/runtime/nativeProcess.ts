@@ -20,8 +20,8 @@ export function eventDescription(event:NativeEvent){
 }
 export function runLocksControls(state:string|undefined,releaseVerified?:boolean){
   // A stop/fault/result candidate is not independent control-release evidence.
-  if(releaseVerified===true&&(state==='fault'||state==='result_candidate'))return false;
-  return state!==undefined&&!['completed','stopped'].includes(state);
+  if(state===undefined)return false;
+  return !(['completed','stopped','fault','result_candidate'].includes(state)&&releaseVerified===true);
 }
 export function releaseDescription(verified:boolean|undefined){return verified===true?'已收到独立控制归还验证':'尚未收到独立控制归还验证';}
 export function localPreparationDescription(state:string|undefined){

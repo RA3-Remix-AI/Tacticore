@@ -643,7 +643,7 @@ function DemoApp() {
           </p>
           <a
             className="text-action"
-            href="https://github.com/RA3-Remix/Tacticore"
+            href="https://github.com/RA3-Remix-AI/Tacticore"
             target="_blank"
             rel="noreferrer"
           >

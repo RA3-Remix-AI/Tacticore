@@ -66,27 +66,30 @@ def register_session_source(store,root,session,production=None,persistent=None,*
     if existing_root and existing_root['session_root']!=str(root):raise ContractError('session_root_conflict')
     backend=DesktopBackend(store,registration_root=root)
     try:
-        rows=backend._db.execute('SELECT * FROM launches').fetchall()
-        try:
-            old=backend._registration() if backend.registration_path.exists() else None
-        except ContractError:
-            # Lobby verification legitimately changes the recorded session before
-            # the first launch. Only an explicit trusted replacement can refresh
-            # that pin, and every existing launch still needs verified release.
-            if not replace_stopped:raise
-            old=object()
-        if old!=registration and (old is not None or rows):
-            if not replace_stopped:raise ContractError('session_registration_conflict')
-            for row in rows:
-                status=backend._status(row)
-                if (status.get('state') not in ('stopped','completed','fault','result_candidate') or status.get('native_release_verified') is not True
-                    or backend.journal.unresolved(row['run_id'])):
-                    raise ContractError('run_state_conflict')
-        record=register_root(root,store.state_dir)
-        backend.register_session(registration.session_path,registration.production_report,registration.persistent_status,
-            runtime_report=registration.runtime_report,runtime_sha256=registration.runtime_sha256,
-            runtime_recovery_report=registration.runtime_recovery_report,runtime_recovery_sha256=registration.runtime_recovery_sha256,macro_bundle=registration.macro_bundle)
-        return dict(schema_version=1,registered=True,root_registration_id=record['registration_id'],root_fingerprint=record['fingerprint'],session_registration_sha256=hashlib.sha256(backend.registration_path.read_bytes()).hexdigest(),restart_required=True,game_access=False,credentials_copied=False)
+        # Serialize source replacement with run.start's durable launch claim.
+        with backend._transaction():
+            rows=backend._db.execute('SELECT * FROM launches').fetchall()
+            try:
+                old=backend._registration() if backend.registration_path.exists() else None
+            except ContractError:
+                # Lobby verification legitimately changes the recorded session before
+                # the first launch. Only an explicit trusted replacement can refresh
+                # that pin, and every existing launch still needs verified release.
+                if not replace_stopped:raise
+                old=object()
+            if old!=registration and (old is not None or rows):
+                if not replace_stopped:raise ContractError('session_registration_conflict')
+                for row in rows:
+                    status=backend._status(row)
+                    from .strategic_unified_unknown_return_v5 import unresolved_ownership
+                    if (status.get('state') not in ('stopped','completed','fault','result_candidate') or status.get('native_release_verified') is not True
+                        or unresolved_ownership(backend,row,status)):
+                        raise ContractError('run_state_conflict')
+            record=register_root(root,store.state_dir)
+            backend.register_session(registration.session_path,registration.production_report,registration.persistent_status,
+                runtime_report=registration.runtime_report,runtime_sha256=registration.runtime_sha256,
+                runtime_recovery_report=registration.runtime_recovery_report,runtime_recovery_sha256=registration.runtime_recovery_sha256,macro_bundle=registration.macro_bundle)
+            return dict(schema_version=1,registered=True,root_registration_id=record['registration_id'],root_fingerprint=record['fingerprint'],session_registration_sha256=hashlib.sha256(backend.registration_path.read_bytes()).hexdigest(),restart_required=True,game_access=False,credentials_copied=False)
     finally:backend.close()
 
 

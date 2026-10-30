@@ -5,6 +5,7 @@ import asyncio
 import hashlib
 from contextlib import asynccontextmanager
 import json
+import re
 from typing import Callable
 
 from pydantic_ai import Agent
@@ -13,6 +14,65 @@ from pydantic_ai.models.instrumented import InstrumentedModel
 from pydantic_ai.usage import UsageLimits
 
 from .protocol import CallableBackend, PolicyRequest, RuntimeAdapterError, encode_context, within_deadline
+
+
+SAFE_RUNTIME_CODES = frozenset({
+    'context_object', 'context_json', 'input_budget_exceeded',
+    'adapter_commander_mismatch', 'framework_request_failed',
+    'incomplete_model_response', 'invalid_policy_json', 'deadline_exceeded',
+    'deadline_invalid', 'protocol_version', 'timeout_configuration',
+    'transport_cancelled', 'network_not_enabled', 'credential_unavailable',
+    'endpoint_not_chat_completions', 'endpoint_requires_tls',
+    'provider_response_too_large', 'provider_response_bounds',
+    'provider_http_status', 'invalid_completion', 'incomplete_or_refused_completion',
+    'instrumented_model_forbidden', 'token_configuration', 'input_budget_configuration',
+    'transport_connect_timeout', 'transport_read_timeout', 'transport_write_timeout',
+    'transport_pool_timeout', 'transport_connect_failed', 'transport_read_failed',
+    'transport_write_failed', 'transport_protocol_failed', 'transport_network_failed',
+    'transport_timeout', 'transport_failed', 'invalid_completion_encoding',
+})
+
+
+def _runtime_code(error):
+    """Read one exact local code, never stringify or export an exception."""
+    if isinstance(error, RuntimeAdapterError) and len(error.args) == 1:
+        code = error.args[0]
+        if type(code) is str and (code in SAFE_RUNTIME_CODES
+                or re.fullmatch(r'http_status_[1-5][0-9]{2}', code) is not None):
+            return code
+    return None
+
+
+def _framework_code(error):
+    # The OpenAI SDK wraps transport errors in APIConnectionError. Recover only
+    # our explicit safe cause, not the wrapper's message/body/status attributes.
+    seen = set()
+    for _ in range(8):
+        if not isinstance(error, BaseException) or id(error) in seen: break
+        seen.add(id(error))
+        code = _runtime_code(error)
+        if code is not None: return code
+        error = error.__cause__
+    return 'framework_request_failed'
+
+
+def _transport_code(error):
+    import httpx2
+    for kind, code in (
+        (httpx2.ConnectTimeout, 'transport_connect_timeout'),
+        (httpx2.ReadTimeout, 'transport_read_timeout'),
+        (httpx2.WriteTimeout, 'transport_write_timeout'),
+        (httpx2.PoolTimeout, 'transport_pool_timeout'),
+        (httpx2.ConnectError, 'transport_connect_failed'),
+        (httpx2.ReadError, 'transport_read_failed'),
+        (httpx2.WriteError, 'transport_write_failed'),
+        (httpx2.ProtocolError, 'transport_protocol_failed'),
+        (httpx2.NetworkError, 'transport_network_failed'),
+        (httpx2.TimeoutException, 'transport_timeout'),
+        (httpx2.TransportError, 'transport_failed'),
+    ):
+        if isinstance(error, kind): return code
+    return 'framework_request_failed'
 
 
 class PydanticBackend(CallableBackend):
@@ -78,10 +138,12 @@ class PydanticBackend(CallableBackend):
                                     "max_retries": 0, "timeout": self._timeout,
                                     "extra_body": self._extra_body},
                     usage_limits=UsageLimits(request_limit=1, tool_calls_limit=0))
-            except Exception:
+            except RuntimeAdapterError as error:
+                raise RuntimeAdapterError(_runtime_code(error) or 'framework_request_failed') from None
+            except Exception as error:
                 # Cancellation (BaseException) propagates. Framework/provider
                 # messages may contain a prompt or endpoint; do not expose them.
-                raise RuntimeAdapterError("framework_request_failed") from None
+                raise RuntimeAdapterError(_framework_code(error)) from None
             if result.response.finish_reason != "stop":
                 raise RuntimeAdapterError("incomplete_model_response")
             try:
@@ -98,8 +160,8 @@ class PydanticBackend(CallableBackend):
             self.last_error_code = "transport_cancelled"
             raise
         except RuntimeAdapterError as error:
-            self.last_error_code = str(error)
-            if str(error) == "deadline_exceeded": self.metrics["timeouts"] += 1
+            self.last_error_code = _runtime_code(error) or 'framework_request_failed'
+            if self.last_error_code == "deadline_exceeded": self.metrics["timeouts"] += 1
             raise
 
 
@@ -152,6 +214,11 @@ async def openai_compatible_backend(profile, *, parse_json: Callable[[str], dict
     class BoundedTransport(httpx2.AsyncBaseTransport):
         def __init__(self): self.inner = transport if transport is not None else httpx2.AsyncHTTPTransport(retries=0)
         async def handle_async_request(self, request):
+            try:
+                return await self._bounded_request(request)
+            except httpx2.TransportError as error:
+                raise RuntimeAdapterError(_transport_code(error)) from None
+        async def _bounded_request(self, request):
             request_body = await request.aread()
             request_bytes = len(request_body)
             backend.metrics["max_request_bytes"] = max(backend.metrics["max_request_bytes"], request_bytes)
@@ -169,8 +236,13 @@ async def openai_compatible_backend(profile, *, parse_json: Callable[[str], dict
                 if len(raw) > 131072:
                     raise RuntimeAdapterError("provider_response_bounds")
                 if response.status_code != 200:
-                    raise RuntimeAdapterError("provider_http_status")
-                body = decode_completion(raw, 131072)
+                    status = response.status_code
+                    code = f'http_status_{status}' if type(status) is int and 100 <= status <= 599 else 'provider_http_status'
+                    raise RuntimeAdapterError(code)
+                try:
+                    body = decode_completion(raw, 131072)
+                except Exception:
+                    raise RuntimeAdapterError('invalid_completion_encoding') from None
                 choices = body.get("choices") if isinstance(body, dict) else None
                 if not isinstance(choices, list) or not 1 <= len(choices) <= 16 or not isinstance(choices[0], dict):
                     raise RuntimeAdapterError("invalid_completion")

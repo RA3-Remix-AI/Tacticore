@@ -1,0 +1,45 @@
+import assert from 'node:assert/strict';
+import {createRequire} from 'node:module';
+import {fileURLToPath} from 'node:url';
+import {build} from '../node_modules/vite/dist/node/index.js';
+import {mkdtempSync,readFileSync,readdirSync,rmSync} from 'node:fs';
+import {tmpdir} from 'node:os';
+import {join,resolve,basename,sep} from 'node:path';
+const require=createRequire(import.meta.url);
+const modules=process.env.PLAYWRIGHT_NODE_MODULES??'C:/Users/Administrator/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules';
+const {chromium}=require(modules+'/playwright');
+const root=fileURLToPath(new URL('../',import.meta.url));
+const temporary=mkdtempSync(join(tmpdir(),'ra3-component-notice-'));
+await build({root,base:'./',publicDir:false,build:{outDir:temporary,emptyOutDir:false,rollupOptions:{input:join(root,'component-tests/connection-query-notice-v1.html')}},logLevel:'error'});
+const asset=readdirSync(join(temporary,'assets')).find(name=>name.endsWith('.js'));
+const source=readFileSync(join(temporary,'assets',asset),'utf8');
+let browser;
+try{
+ browser=await chromium.launch({executablePath:process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE??'C:/Program Files/Google/Chrome/Application/chrome.exe',headless:true});
+ const context=await browser.newContext();
+ const page=await context.newPage();
+ async function mount(search=''){await page.goto('about:blank');await page.setContent('<div id="root"></div>');await page.evaluate(value=>{window.fixtureSearch=value;},search);await page.addScriptTag({type:'module',content:source});}
+ await mount();
+ await page.getByRole('status').filter({hasText:'已读取当前本机配置'}).waitFor();
+ assert.match(await page.getByRole('status').innerText(),/本次仅检查凭据是否已保存，未验证密钥或远端可用性/);
+ assert.equal((await page.evaluate(()=>window.fakeCalls)).queries,1);
+ await page.getByRole('button',{name:'保存连接',exact:true}).click();
+ await page.getByRole('status').filter({hasText:'连接已保存'}).waitFor();
+ await page.getByRole('button',{name:'重新查询连接',exact:true}).click();
+ await page.getByRole('status').filter({hasText:'已读取当前本机配置'}).waitFor();
+ const normal=await page.evaluate(()=>window.fakeCalls);assert.equal(normal.queries,3);assert.equal(normal.saves,1);assert.equal(normal.savedCallbacks,1);
+ await mount('?pending=1');
+ await page.getByRole('status').filter({hasText:'上次配置更新尚未核验'}).waitFor();
+ assert.doesNotMatch(await page.getByRole('status').innerText(),/已读取当前本机配置/);
+ await page.getByRole('button',{name:'核对未完成的保存',exact:true}).click();
+ await page.getByRole('status').filter({hasText:'未完成的保存已核对恢复'}).waitFor();
+ assert.equal((await page.evaluate(()=>window.fakeCalls)).recoveries,1);
+ await mount('?fail_second=1');
+ await page.getByRole('status').filter({hasText:'已读取当前本机配置'}).waitFor();
+ await page.getByRole('button',{name:'重新查询连接',exact:true}).click();
+ await page.getByRole('status').filter({hasText:'操作未完成'}).waitFor();
+ assert.equal((await page.evaluate(()=>window.fakeCalls)).queries,2);
+ assert.doesNotMatch(await page.getByRole('status').innerText(),/已读取当前本机配置/);
+ console.log(JSON.stringify({passed:true,component_cases:4,real_component_mounted:true,native_invokes:0,user_configuration_accessed:false,model_calls:0,game_access:false,normal_fake_rpc_calls:normal}));
+ await context.close();
+}finally{if(browser)await browser.close();if(resolve(temporary).startsWith(resolve(tmpdir())+sep)&&basename(temporary).startsWith('ra3-component-notice-'))rmSync(temporary,{recursive:true,force:true});}

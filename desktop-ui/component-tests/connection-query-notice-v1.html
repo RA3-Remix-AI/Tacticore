@@ -1,0 +1,23 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="UTF-8"></head><body><div id="root"></div>
+<script type="module">
+import React from 'react';
+import {createRoot} from 'react-dom/client';
+import {ConnectionConfigPanelV1} from '/src/ConnectionConfigPanelV1.tsx';
+import {HostError} from '/src/runtime/nativeRpc.ts';
+const params=new URLSearchParams(window.fixtureSearch??location.search);
+let pending=params.has('pending');
+window.fakeCalls={queries:0,saves:0,recoveries:0,savedCallbacks:0};
+const reference={configuration_request_id:'11111111-1111-4111-8111-111111111111',expected_config_fingerprint:'a'.repeat(64)};
+const rows=[{id:'22222222-2222-4222-8222-222222222222',name:'Fake local connection',provider:'OpenAI',endpoint:'https://example.invalid/v1',model:'fake-local-model',remember_key:false,credential_configured:false,credential_check:'not_stored'}];
+async function rpc(operation,args){
+ if(operation==='connections.configuration'){
+  window.fakeCalls.queries++;
+  if(params.has('fail_second')&&window.fakeCalls.queries===2)throw new HostError('connection_config_unavailable','fake-query');
+  return {schema_version:1,ready:!pending,config_fingerprint:pending?null:'a'.repeat(64),connections:pending?[]:rows,recovery:pending?[reference]:[],retired_credentials:[],remote_connection_tested:false,host_recheck_required:true};
+ }
+ if(operation==='connections.configure'){window.fakeCalls.saves++;return {saved:true};}
+ if(operation==='connections.recover'){window.fakeCalls.recoveries++;pending=false;return {saved:true};}
+ throw new Error('test operation refused');
+}
+createRoot(document.getElementById('root')).render(React.createElement(ConnectionConfigPanelV1,{locked:false,rpc,onSaved:()=>{window.fakeCalls.savedCallbacks++;}}));
+</script></body></html>

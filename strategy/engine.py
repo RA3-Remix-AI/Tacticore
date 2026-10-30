@@ -274,12 +274,15 @@ class Plan:
     runtime_task: RuntimeIntent | None = None
     macro_actions: tuple[str,...] = ()
     macro_production: ProductionQuantity | None = None
+    macro_strategy: dict | None = None
 
     def public(self) -> dict:
         result = asdict(self)
         result["budget"] = dict(self.budget)
         result["tactical_tasks"]=[task.public() for task in self.tactical_tasks]
         result['macro_actions']=list(self.macro_actions)
+        if self.macro_strategy is None:
+            result.pop('macro_strategy')
         return result
 
 
@@ -289,6 +292,7 @@ def validate_policy(raw: Any, request: Snapshot, latest: Snapshot, binding: Bind
     if isinstance(raw,dict) and 'runtime_task' in raw:expected.add('runtime_task')
     if isinstance(raw,dict) and 'macro_actions' in raw:expected.add('macro_actions')
     if isinstance(raw,dict) and 'macro_production' in raw:expected.add('macro_production')
+    if isinstance(raw,dict) and 'macro_strategy' in raw:expected.add('macro_strategy')
     d = _keys(raw,expected,"policy_fields")
     if type(d["schema_version"]) is not int or d["schema_version"] != 1:
         raise ContractError("schema_version")
@@ -335,6 +339,12 @@ def validate_policy(raw: Any, request: Snapshot, latest: Snapshot, binding: Bind
         validate_region_target(macro,target,request.macro_regions,latest.macro_regions)
         production=validate_production(d.get('macro_production'),macro,macro_mode=request.macro_control is not None,
             request_counts=request.macro_counts,latest_counts=latest.macro_counts)
+        declaration=None
+        if 'macro_strategy' in d:
+            if request.macro_control is None or latest.macro_control is None:
+                raise ValueError('macro_strategy_requires_macro_mode')
+            from macro_strategy import validate_strategy_declaration
+            declaration=validate_strategy_declaration(d['macro_strategy'])
     except ValueError as error:raise ContractError(str(error)) from None
     tactical=validate_intents(d.get("tactical_tasks",[]),request,latest)
     scoped = paid_pair_formations or {}
@@ -345,7 +355,7 @@ def validate_policy(raw: Any, request: Snapshot, latest: Snapshot, binding: Bind
     if any(set(task.formation_ids)&set(scoped) and not paid_pair(task) for task in tactical):raise ContractError("paid_pair_scope")
     if sum(task.force_fraction for task in tactical if not paid_pair(task))>1-budget["reserve"]+1e-6:raise ContractError("tactical_force_total")
     runtime=validate_runtime_intent(d.get('runtime_task'),request,latest)
-    return Plan(str(uuid.uuid4()), binding.commander_id, binding.session_id, binding.player_id, request.snapshot_id, based, based + duration, stance, focus, economy, tech, values, target, reason, "model",tactical,runtime,macro,production)
+    return Plan(str(uuid.uuid4()), binding.commander_id, binding.session_id, binding.player_id, request.snapshot_id, based, based + duration, stance, focus, economy, tech, values, target, reason, "model",tactical,runtime,macro,production,declaration)
 
 
 class Audit:
@@ -422,7 +432,8 @@ class StrategyEngine:
                 for action in plan.macro_actions)
             and (plan.macro_production is None or snapshot.macro_counts is None
                  or plan.macro_production.additional_count in dict(snapshot.macro_counts).get(plan.macro_production.action,()))
-            and (snapshot.macro_control is None or not plan.tactical_tasks and plan.runtime_task is None))
+            and (snapshot.macro_control is None or not plan.tactical_tasks and plan.runtime_task is None)
+            and (plan.macro_strategy is None or snapshot.macro_control is not None))
 
     def _fallback_plan(self, snapshot: Snapshot) -> Plan:
         return Plan(str(uuid.uuid4()), self.binding.commander_id, self.binding.session_id, self.binding.player_id, snapshot.snapshot_id, snapshot.game_time_seconds, snapshot.game_time_seconds + 10, "defend", "native_baseline", "stabilize", "hold_current_tier", (("army", .4), ("economy", .35), ("reserve", .25), ("tech", 0.0)), None, "balanced_default", "local_fallback")
@@ -431,7 +442,8 @@ class StrategyEngine:
     def _intent(plan: Plan | None):
         if plan is None:
             return None
-        return (plan.stance, plan.production_focus, plan.economy_policy, plan.tech_policy, plan.budget, plan.objective_region,plan.tactical_tasks,plan.runtime_task,plan.macro_actions,plan.macro_production)
+        result=(plan.stance, plan.production_focus, plan.economy_policy, plan.tech_policy, plan.budget, plan.objective_region,plan.tactical_tasks,plan.runtime_task,plan.macro_actions,plan.macro_production)
+        return result if plan.macro_strategy is None else (*result,json.dumps(plan.macro_strategy,sort_keys=True,separators=(',',':')))
 
     def _set_plan(self, plan: Plan):
         if self._intent(self.current) != self._intent(plan):
@@ -505,6 +517,20 @@ class StrategyEngine:
                 except asyncio.CancelledError:
                     self.metrics["adapter_errors"] += 1
                     return self._local("adapter_cancelled")
+                except ContractError as error:
+                    # Only exact local boundary codes may cross this async
+                    # transport boundary. Arbitrary exception text stays out
+                    # of user status, logs and diagnostics.
+                    if str(error) in {
+                        'strategic_boundary_policy_required',
+                        'strategic_boundary_detailed_action_refused',
+                        'strategic_boundary_quantity_refused',
+                        'strategic_boundary_composition_refused',
+                        'strategic_boundary_unit_orders_refused',
+                    }:
+                        raise
+                    self.metrics["adapter_errors"] += 1
+                    return self._local("adapter_error")
                 except Exception:
                     self.metrics["adapter_errors"] += 1
                     return self._local("adapter_error")

@@ -5,6 +5,25 @@ from export_macro_timeline import project,outcome_event
 
 
 class MacroTimelineTests(unittest.TestCase):
+    def test_expansion_ack_requires_exact_native_record_and_keeps_queue_semantics(self):
+        event=dict(kind='model_macro_expansion_acknowledged',command_id='known',seq=1,
+            actions=['producesickle','budgetarmy'],additional_count=1,admission_schema_version=4,
+            native_gate_acknowledged=True,native_effect_verified=False)
+        ack={'known':dict(seq=1,native=dict(last_frame=1500))}
+        result=project([event],ack,[])[0]
+        self.assertEqual(result['additional_count'],1)
+        self.assertIn('镰刀机甲',result['actions'])
+        with self.assertRaisesRegex(ValueError,'missing_native_ack'):project([event],{},[])
+
+    def test_not_delivered_host_record_is_not_independent_nonpublication_proof(self):
+        context=dict(kind='model_macro_request_context',context=dict(game_time_seconds=100))
+        event=dict(kind='macro_admission_request_not_delivered',reason_code='privatecredential123')
+        result=project([context,event],{},[])[0]
+        self.assertEqual(result['type'],'not_delivered_record')
+        self.assertEqual(result['time_basis'],'request_snapshot_lower_bound')
+        self.assertFalse(result['facts']['native_nonpublication_independently_verified'])
+        self.assertNotIn('privatecredential123',json.dumps(result))
+
     def test_native_base_defense_retains_semantics_without_waypoint_progress_claim(self):
         event=dict(kind='macro_regional_feedback',source='native_regional_group_observation',action='deploydefense',
             target_region='region_8_3',observed_frame=1500,active_native_tactics=1,allocated_native_groups=1,

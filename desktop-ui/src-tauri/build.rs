@@ -11,6 +11,6 @@ fn main() {
     };
     println!("cargo:rustc-env=TACTICORE_RUNTIME_MANIFEST_SHA256={digest}");
     tauri_build::try_build(tauri_build::Attributes::new()
-        .app_manifest(tauri_build::AppManifest::new().commands(&["host_request", "diagnostics_read"])))
+        .app_manifest(tauri_build::AppManifest::new().commands(&["host_request", "diagnostics_read", "connection_config_request"])))
         .expect("Unable to generate the native RPC permission manifest");
 }

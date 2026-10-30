@@ -1,0 +1,55 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="UTF-8"></head><body><div id="root"></div>
+<script type="module">
+import React from 'react';
+import {createRoot} from 'react-dom/client';
+import NativeApp from '/src/NativeApp.tsx';
+import {preferencePresets} from '/src/state/preferences.ts';
+const params=new URLSearchParams(window.fixtureSearch??'');
+let requestSequence=0;
+Object.defineProperty(window.crypto,'randomUUID',{configurable:true,value:()=>`aaaaaaaa-aaaa-4aaa-8aaa-${(++requestSequence).toString(16).padStart(12,'0')}`});
+const profileId='11111111-1111-4111-8111-111111111111',connectionId='22222222-2222-4222-8222-222222222222';
+const sessionId='33333333-3333-4333-8333-333333333333',runId='44444444-4444-4444-8444-444444444444';
+const reference={configuration_request_id:'55555555-5555-4555-8555-555555555555',expected_config_fingerprint:'a'.repeat(64)};
+const preferences=preferencePresets[1];
+const draft={schema_version:1,profile_id:profileId,name:'人工指挥官',revision:1,connection_id:connectionId,model:'fixture-model',doctrine:preferences.doctrine,custom_traits:'',preferences:preferences.values};
+const profile={profile_id:profileId,name:draft.name,revision:1,connection_id:connectionId,model:'fixture-model',draft,state:'library',validation:{ok:true,reason_code:''},effective:{effective_hash:'b'.repeat(64),traits:'',traits_bytes:0,axis_support:{}}};
+const connection={id:connectionId,name:'人工连接',provider:'OpenAI',endpoint:'http://127.0.0.1:9/v1',model:'fixture-model',remember_key:false,credential_configured:false,credential_check:'not_stored'};
+let mode=params.get('mode')??'ready',holdConfiguration=params.has('hold_configuration'),holdCheck=false,checkResolver;
+let initialized=!params.has('first_use');
+let run=params.has('active_run')?{run_id:runId,session_id:sessionId,profile_id:profileId,state:'running',native_release_verified:false}:null;
+window.fakeCalls={};
+window.setConfigurationMode=value=>{mode=value;};
+window.holdRunCheck=()=>{holdCheck=true;};
+window.releaseRunCheck=()=>{holdCheck=false;checkResolver?.();};
+function readiness(){return {ready:true,session_id:sessionId,ready_token:'fake-never-native',expires_at:Date.now()+60_000,session:{id:sessionId,map:'Artificial',player_name:'P3',faction:'Soviet'}};}
+window.__TAURI_INTERNALS__={invoke:async(command,{request})=>{
+ const operation=request.operation;
+ window.fakeCalls[operation]=(window.fakeCalls[operation]??0)+1;
+ let result;
+ const replyError=code=>({schema_version:1,request_id:request.request_id,ok:false,error:{code}});
+ if(command==='connection_config_request'){
+  if(operation==='connections.configuration'){
+   if(holdConfiguration)await new Promise(resolve=>{window.releaseConfiguration=()=>{holdConfiguration=false;resolve();};});
+   if(!initialized)return replyError('connection_setup_required');
+   if(mode==='unknown')return replyError('connection_config_unavailable');
+   result={schema_version:1,ready:mode==='ready',config_fingerprint:mode==='ready'?'a'.repeat(64):null,connections:mode==='ready'?[connection]:[],recovery:mode==='ready'?[]:[reference],retired_credentials:[],remote_connection_tested:false,host_recheck_required:true};
+  }else if(operation==='connections.recover'){mode='ready';result={saved:true};}
+  else if(operation==='connections.bootstrap'){initialized=true;mode='ready';result={initialized:true};}
+  else throw new Error('Unexpected artificial configuration operation');
+ }else if(command==='host_request'){
+  if(!initialized)return replyError('runtime_library_unregistered');
+  if(operation==='profiles.list')result={profiles:[profile]};
+  else if(operation==='connections.list')result={connections:[connection]};
+  else if(operation==='run.resume')result={run,observation_only:true,other_unreleased_runs:0};
+  else if(operation==='run.check'){
+   if(holdCheck)await new Promise(resolve=>{checkResolver=resolve;});
+   result=readiness();
+  }else if(operation==='run.status')result=run;
+  else if(operation==='run.stop'){run={...run,state:'stopped',native_release_verified:true};result=run;}
+  else if(operation==='session.inspect')result={session:null};
+  else throw new Error('Unexpected artificial host operation: '+operation);
+ }else throw new Error('Unexpected real native command');
+ return {schema_version:1,request_id:request.request_id,ok:true,result};
+}};
+createRoot(document.getElementById('root')).render(React.createElement(NativeApp));
+</script></body></html>

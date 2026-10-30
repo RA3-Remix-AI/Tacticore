@@ -14,7 +14,10 @@ test('unknown/fault/result states remain locked and are never permission to retr
   assert.equal(preservePendingStart('readiness_expired'),false);
 });
 test('stopped host does not imply verified physical native release',()=>{
-  assert.equal(runLocksControls('stopped'),false);
+  assert.equal(runLocksControls('stopped'),true);
+  assert.equal(runLocksControls('completed'),true);
+  assert.equal(runLocksControls('stopped',true),false);
+  assert.equal(runLocksControls('completed',true),false);
   assert.equal(releaseDescription(false),'尚未收到独立控制归还验证');
   assert.equal(releaseDescription(undefined),'尚未收到独立控制归还验证');
   assert.equal(releaseDescription(true),'已收到独立控制归还验证');

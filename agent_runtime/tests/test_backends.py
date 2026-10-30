@@ -262,7 +262,7 @@ class FrameworkTests(unittest.IsolatedAsyncioTestCase):
             system_prompt=lambda ctx: system_prompt(selected, ctx), allow_network=True,
             transport=httpx2.MockTransport(transport)) as backend:
             with self.assertRaises(RuntimeAdapterError) as caught: await backend(context())
-        self.assertEqual(str(caught.exception), "framework_request_failed")
+        self.assertEqual(caught.exception.args, ("http_status_429",))
         self.assertEqual(len(calls), 1)
 
     async def test_redirect_and_oversized_response_do_not_follow_or_retry(self):
@@ -276,7 +276,7 @@ class FrameworkTests(unittest.IsolatedAsyncioTestCase):
             async with openai_compatible_backend(selected, parse_json=parse_model_json,
                 system_prompt=lambda ctx: system_prompt(selected, ctx), allow_network=True,
                 transport=httpx2.MockTransport(transport)) as backend:
-                with self.assertRaisesRegex(RuntimeAdapterError, "framework_request_failed"):
+                with self.assertRaisesRegex(RuntimeAdapterError, "http_status_302" if status == 302 else "provider_response_bounds"):
                     await backend(context())
             self.assertEqual(len(calls), 1)
 

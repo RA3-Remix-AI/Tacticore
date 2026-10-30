@@ -261,6 +261,37 @@ def macro_system_prompt(profile: Profile,context:dict) -> str:
         stance='defend',production_focus='native_baseline',economy_policy='stabilize',tech_policy='hold_current_tier',
         budget=dict(economy=.35,army=.4,tech=0,reserve=.25),objective_region=None,reason_code='balanced_default',
         macro_actions=[],macro_production=None,tactical_tasks=[],runtime_task=None)
+    if context.get('native_delegation',{}).get('kind')=='native_ai_details_v1':
+        from native_delegation_prompt_v1 import prompt
+        return prompt(profile,context,example,allowed,preferences)
+    if isinstance(context.get('macro_strategy'),dict):
+        from macro_strategy import STRATEGY_DECLARATION_SCHEMA
+        from macro_policy import strategic_default_prompt
+        schema=STRATEGY_DECLARATION_SCHEMA
+        facts=context['macro_strategy'].get('fact_catalog')
+        if type(facts) is not dict or not facts:raise AdapterError('macro_strategy_fact_catalog_missing')
+        # A complete, non-executing shape example, never a host-generated model
+        # declaration or a substitute for the response's own grounded choice.
+        ref='own.credits' if facts.get('own.credits') is not None else next((k for k,v in facts.items() if v is not None),next(iter(facts)))
+        example['macro_strategy']=dict(strategy_id=None,objective='hold',phase='wait',public_fact_refs=[ref],
+            expected_observation='no_change',continue_conditions=['capability_available'],
+            replan_conditions=['facts_changed'],resource_priorities=dict(example['budget']))
+        choices={key:'|'.join(value) if isinstance(value,list) else value for key,value in allowed.items()}
+        choices.pop('production_focus')  # The exact offered values are already in the user input.
+        choices.update({key:'|'.join(schema[key]) for key in ('objective','phase','expected_observation')})
+        choices['conditions']='|'.join(schema['condition_values'])
+        return (
+            'JSON only;Example=shape;ground goals/actions;macro_strategy REQUIRED even[]. '
+            'Copy IDs/time;native AI owns units;no scripts/coords/orders. '
+            'macro_actions=flat allowed_macro_actions strings,NEVER objects;<=1nonbudget+1budget;[]releases. '
+            'macro_production=null when macro_actions has no produce*;else ONLY {action:that string,additional_count:catalog int}. '
+            'deployment:objective_region=catalog target_region;TTL5..60,budget sum1,reserve.05.. .6. '
+            'No unknown retry;keep ID/objective;null:new. '
+            'refs1..4=fact_catalog keys;conditions1..3 unique;priorities0..1 sum1;aliases/full keys. '
+            +strategic_default_prompt()+
+            '\nEnums: '+json.dumps(choices,ensure_ascii=False,separators=(',',':'))+
+            '\nExample: '+json.dumps(example,ensure_ascii=False,separators=(',',':'))+
+            '\nStyle: '+json.dumps({k:preferences[k] for k in ('personality','traits')},ensure_ascii=False,separators=(',',':')))
     return (
         'Red Alert 3 macro commander: return one JSON policy as in the example, copying exact binding/snapshot fields. '
         'Original native AI performs movement, formations, targeting, firing and skills; no unit selection, scripts or arbitrary coordinates. '
@@ -391,6 +422,22 @@ def structure_diagnostics(policy,context):
     for name in ["schema_version","commander_id","session_id","player_id","snapshot_id","based_on_game_time_seconds","valid_for_game_seconds","budget","objective_region"]:
         diagnostics[name]={"type":kind(policy.get(name))}
     diagnostics["binding_matches"]={name:policy.get(name)==context.get(name) for name in ["commander_id","session_id","player_id","snapshot_id"]}
+    if context.get('control_mode')=='macro_native':
+        from macro_policy_diagnostics import action_shape,production_shape
+        diagnostics['macro_actions']=action_shape(policy,context)
+        diagnostics['macro_production']=production_shape(policy,context)
+    if isinstance(context.get('macro_strategy'),dict):
+        from macro_strategy import DECLARATION_FIELDS
+        expected={'schema_version','commander_id','session_id','player_id','snapshot_id','based_on_game_time_seconds',
+            'valid_for_game_seconds','stance','production_focus','economy_policy','tech_policy','budget','objective_region',
+            'reason_code','macro_actions','macro_production','tactical_tasks','runtime_task','macro_strategy'}
+        diagnostics['macro_policy_shape']={'fields_match':set(policy)==expected,
+            'missing_fields':sorted(expected-set(policy)),'extra_field_count':len(set(policy)-expected)}
+        declared=policy.get('macro_strategy')
+        diagnostics['macro_strategy']={'present':'macro_strategy' in policy,'type':kind(declared),
+            'fields_match':type(declared) is dict and set(declared)==set(DECLARATION_FIELDS),
+            'missing_fields':[key for key in DECLARATION_FIELDS if type(declared) is not dict or key not in declared],
+            'extra_field_count':len(set(declared)-set(DECLARATION_FIELDS)) if type(declared) is dict else 0}
     return diagnostics
 
 

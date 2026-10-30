@@ -4,6 +4,7 @@ import hashlib
 import json
 
 from .contracts import ContractError
+from .macro_bundle_cache import VerifiedFileScopeCache
 from .macro_policy_runtime import verify_budget_scope
 from .macro_production_runtime import verify_production_preference_scope
 from .macro_production_choices import extend_production_scope
@@ -15,6 +16,7 @@ from .macro_base_defense_scope import extend_base_defense_scope,STATIC_SHA as BA
 from .macro_group_role_scope import extend_group_role_scope,STATIC_SHA as GROUP_ROLE_STATIC_SHA,REVISION_STATIC_SHA
 
 ROOT=Path(__file__).resolve().parents[2]
+_FILE_SCOPE_CACHE=VerifiedFileScopeCache(source_paths=(Path(__file__),))
 FIELDS={'schema_version','kind','build','visibility','normal','host_loss','expiry','pins'}
 PRODUCTION_FIELDS=FIELDS|{'production','production_static'}
 CHOICE_FIELDS=PRODUCTION_FIELDS|{'production_choices'}
@@ -24,12 +26,132 @@ SCOUTING_FIELDS=TECHNOLOGY_FIELDS|{'scouting'}
 REGIONAL_FIELDS=SCOUTING_FIELDS|{'qualification_build','regional','regional_static'}
 BASE_DEFENSE_FIELDS=REGIONAL_FIELDS|{'regional_build','base_defense','base_defense_static'}
 GROUP_ROLE_FIELDS=BASE_DEFENSE_FIELDS|{'base_defense_build','group_roles','group_roles_static','group_role_revision_static'}
+EXPANSION_FIELDS={'schema_version','kind','legacy_bundle','build','visibility','normal','host_loss','expiry','expansion_fields','pins'}
+FIXED_CONSUMER_FIELDS=EXPANSION_FIELDS|{'fixed_consumer_contracts'}
 
 
 def digest(path):return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
+def expansion_inputs(value):
+    """Explicit schema10/11 wrappers; older schemas are never silently widened."""
+    from .macro_expansion_scope import verify_expansion_scope,extend_fixed_consumer_scope
+    version=value.get('schema_version')
+    if (type(version) is not int or version not in (10,11)
+            or set(value)!=(FIXED_CONSUMER_FIELDS if version==11 else EXPANSION_FIELDS)
+            or value.get('kind')!=('verified_macro_fixed_consumer_bootstrap' if version==11 else 'verified_macro_expansion_bootstrap')):
+        raise ContractError('macro_expansion_bundle_schema')
+    for name in ('build','visibility','normal','host_loss','expiry'):
+        path=Path(value[name])
+        if not path.is_absolute() or str(path).startswith('\\\\') or not path.is_dir():
+            raise ContractError('macro_expansion_bundle_path')
+    legacy=Path(value['legacy_bundle'])
+    if not legacy.is_absolute() or str(legacy).startswith('\\\\') or not legacy.is_file():
+        raise ContractError('macro_expansion_legacy_bundle_required')
+    header=json.loads(legacy.read_text(encoding='utf-8-sig'))
+    if header.get('schema_version')!=9 or type(header.get('schema_version')) is not int:
+        raise ContractError('macro_expansion_schema9_legacy_required')
+    _,base=load_bundle(legacy)
+    directories=value['expansion_fields']
+    if (type(directories) is not list or len(directories)>7 or len(set(directories))!=len(directories)
+            or any(not Path(path).is_absolute() or not Path(path).is_dir() or str(path).startswith('\\\\') for path in directories)):
+        raise ContractError('macro_expansion_bundle_field_set')
+    scope=verify_expansion_scope(base,build=value['build'],normal=value['normal'],host_loss=value['host_loss'],
+                                  expiry=value['expiry'],field_directories=directories)
+    if version==11:
+        scope=extend_fixed_consumer_scope(scope,build=value['build'],contracts=value['fixed_consumer_contracts'])
+    paths={Path(path) for path in scope.evidence}
+    paths.add(legacy)
+    paths.update(required_files(header))
+    paths.update(ROOT/name for name in ('integration/host_runtime/macro_expansion_scope.py',
+        'integration/host_runtime/macro_expansion_feedback.py','integration/host_runtime/macro_expansion_runtime.py',
+        'integration/host_runtime/resource_reservations.py',
+        'native-ai/macro_readiness_observation.py','native-ai/macro_readiness_observation_v2.py',
+        'native-ai/readiness_dependency_contract.py','native-ai/macro_cost_observation.py',
+        'integration/host_runtime/macro_cost_factory.py','native-ai/macro_cost_supplier.py',
+        'native-ai/macro_payment_observation.py','native-ai/macro_cost_upper_contract.py','native-ai/macro_cost_asset_audit.py',
+        'native-ai/macro_component_diagnostic.py',
+        'integration/host_runtime/application.py',
+        'integration/host_runtime/macro_native_presence.py',
+        'integration/host_runtime/macro_before_attach_review.py',
+        'integration/host_runtime/session_discovery.py',
+        'integration/host_runtime/session_discovery_native.py',
+        'strategy/battle_agent.py','strategy/macro_strategy.py',
+        'agent_runtime/src/tacticore_agent_runtime/factory.py',
+        'agent_runtime/src/tacticore_agent_runtime/pydantic_backend.py',
+        'agent_runtime/src/tacticore_agent_runtime/protocol.py',
+        'agent_runtime/src/tacticore_agent_runtime/legacy.py',
+        'integration/host_runtime/macro_bundle.py','integration/host_runtime/macro_bundle_cache.py','integration/macro_host.py'))
+    paths.update(ROOT/name for name in (
+        'integration/host_runtime/macro_expansion_runtime_v4.py',
+        'integration/host_runtime/macro_expansion_factory_v4.py',
+        'integration/host_runtime/macro_prepared_request_v1.py',
+        'integration/host_runtime/macro_expansion_availability_v1.py',
+        'integration/host_runtime/macro_admission_factory_v4.py',
+        'integration/host_runtime/macro_admission_delivery_v4.py',
+        'integration/host_runtime/macro_admission_feedback_v4.py',
+        'integration/host_runtime/macro_expansion_diagnostics_v4.py',
+        'integration/host_runtime/diagnostics.py',
+        'integration/host_runtime/desktop_backend.py',
+        'integration/host_runtime/macro_strategic_client_v1.py',
+        'integration/host_runtime/bridge_service.py',
+        'desktop-ui/src/NativeApp.tsx',
+        'desktop-ui/src/runtime/nativeRpc.ts',
+        'desktop-ui/src/runtime/macroExpansionView.ts',
+        'integration/host_runtime/raw_admission_publisher_v4.py',
+        'integration/host_runtime/macro_release_review_v4.py',
+        'integration/host_runtime/resource_admission_reservations_v4.py',
+        'integration/host_runtime/resource_admission_reconciliation_v4.py',
+        'integration/host_runtime/resource_settlement_adapter.py',
+        'integration/host_runtime/macro_cost_factory_v2.py',
+        'integration/host_runtime/macro_cost_boot_v4.py',
+        'native-ai/macro_registered_queue_observation.py',
+        'native-ai/macro_payment_observation_v2.py',
+        'native-ai/macro_cost_observation_v2.py',
+        'native-ai/macro_coherent_registered_cost_supplier.py',
+        'native-ai/macro_cost_identity_guard.py',
+        'native-ai/macro_guarded_cost_supplier.py',
+        'native-ai/macro_guarded_cost_supplier_v2.py',
+        'native-ai/read_selected_personality.py',
+        'native-ai/macro_prioritized_financial_window.py',
+        'native-ai/macro_prioritized_cost_supplier.py',
+        'native-ai/macro_queue_owner_coverage_contract.py',
+        'native-ai/macro_attribute_cost_bound.py',
+        'native-ai/macro_active_attribute_cost_supplier.py',
+        'native-ai/macro_quoteless_financial_observation.py',
+        'native-ai/macro_profiled_admission_cost_supplier.py',
+        'strategy/macro_policy_diagnostics.py',
+        'reports/macro-sickle-prioritized-cost-independent-89844-20261029-v1/review.json',
+        'reports/macro-native-attribute-upper-field-68180-independent-20261029-v1.json'))
+    paths.update(Path(value['visibility'])/name for name in ('build-capability.json','template-safety.json'))
+    if version==11:
+        paths.add(ROOT/'integration/host_runtime/macro_consumer_candidate_review.py')
+        # Explicit software closure for future schema12 wrappers. No new action
+        # is granted here; each catalog contract is replayed by its own loader.
+        paths.update(ROOT/name for name in ('integration/host_runtime/macro_catalog_bundle_v12.py',
+            'integration/host_runtime/macro_consumer_catalog_review_v2.py',
+            'integration/host_runtime/macro_consumer_catalog_scope_v2.py',
+            'integration/host_runtime/macro_release_review_v5.py',
+            'integration/host_runtime/macro_catalog_release_route_v1.py',
+            'integration/host_runtime/macro_catalog_release_history_v1.py',
+            'acceptance/export_macro_timeline.py','acceptance/end_released_macro_fixture.py',
+            'acceptance/end_macro_research_fixture.py'))
+        from .macro_catalog_release_history_v1 import executed_algorithm_paths
+        paths.update(executed_algorithm_paths())
+    for name in ('build-capability.json','template-safety.json'):
+        proof=json.loads((Path(value['visibility'])/name).read_text(encoding='utf-8-sig'))
+        if proof.get('package_sha256')!=scope.package_sha256:raise ContractError('macro_expansion_visibility_package_mismatch')
+    return scope,paths
+
+
 def required_files(value):
+    if type(value.get('schema_version')) is int and value['schema_version']==13:
+        from .strategic_unified_bundle_v5 import inputs
+        return list(inputs(value)[1])
+    if type(value.get('schema_version')) is int and value['schema_version']==12:
+        from .macro_catalog_bundle_v12 import required_files_v12
+        return required_files_v12(value)
+    if type(value.get('schema_version')) is int and value['schema_version'] in (10,11):return list(expansion_inputs(value)[1])
     paths=[]
     for key in ('normal','host_loss','expiry'):
         paths.extend(Path(value[key])/name for name in ('preflight.json','final-state.json','policy-probe.jsonl'))
@@ -39,7 +161,11 @@ def required_files(value):
     paths.extend(ROOT/name for name in ('integration/macro_host.py','native-ai/macro-policy-runtime/client.py','native-ai/macro_observation.py',
         'integration/host_runtime/macro_live.py','integration/host_runtime/macro_desktop.py',
         'integration/host_runtime/macro_durable.py','integration/host_runtime/macro_bundle.py',
-        'integration/host_runtime/macro_policy_runtime.py'))
+        'integration/host_runtime/macro_policy_runtime.py',
+        'integration/host_runtime/macro_delegation_boundary_v1.py',
+        'integration/host_runtime/macro_strategic_observation_v1.py',
+        'strategy/native_unified_contract_v5.py',
+        'strategy/native_delegation_prompt_v1.py'))
     if value['schema_version']>=2:
         directory=Path(value['production']);static=Path(value['production_static'])
         paths.extend(directory/name for name in ('driver-preflight.json','count-driver.py',
@@ -117,13 +243,29 @@ def required_files(value):
     return paths
 
 
-def load_bundle(path,session=None):
+def _load_bundle_uncached(path,session=None):
     path=Path(path)
     try:
         size=path.stat().st_size
-        if size>65536:raise ValueError()
+        if size>2*1024*1024:raise ValueError()
         value=json.loads(path.read_text(encoding='utf-8-sig'))
         version=value['schema_version']
+        if type(version) is int and version==13:
+            from .strategic_unified_bundle_v5 import load
+            return load(path,session)
+        if type(version) is int and version==12:
+            from .macro_catalog_bundle_v12 import load_catalog_bundle_v12
+            return load_catalog_bundle_v12(path,session)
+        if type(version) is int and version in (10,11):
+            scope,paths=expansion_inputs(value)
+            if type(value['pins']) is not dict or len(value['pins'])>8192:
+                raise ContractError('macro_expansion_bundle_pin_set')
+            expected={str(file.resolve()):digest(file) for file in paths}
+            if value['pins']!=expected:raise ContractError('macro_expansion_bundle_pins_changed')
+            if session is not None and session['mod_sha256']!=scope.package_sha256:
+                raise ContractError('macro_expansion_bundle_package_mismatch')
+            return value,scope
+        if size>65536:raise ValueError()
         if (version not in (8,9) and size>32768) or (version==8 and size>49152):raise ValueError()
         if (type(version) is not int or version not in (1,2,3,4,5,6,7,8,9)
                 or set(value)!={1:FIELDS,2:PRODUCTION_FIELDS,3:CHOICE_FIELDS,4:CONSTRUCTION_FIELDS,5:TECHNOLOGY_FIELDS,6:SCOUTING_FIELDS,7:REGIONAL_FIELDS,8:BASE_DEFENSE_FIELDS,9:GROUP_ROLE_FIELDS}[version]
@@ -160,6 +302,42 @@ def load_bundle(path,session=None):
         return value,scope
     except (OSError,ValueError,KeyError,TypeError):
         raise ContractError('macro_bundle_not_qualified') from None
+
+
+def load_bundle(path,session=None):
+    """Reuse only a complete file proof; session checks remain per invocation."""
+    try:
+        value,scope=_FILE_SCOPE_CACHE.load(path,_load_bundle_uncached)
+        if session is not None and session['mod_sha256']!=scope.package_sha256:
+            raise ContractError('macro_bundle_not_qualified')
+        return value,scope
+    except (OSError,ValueError,KeyError,TypeError):
+        raise ContractError('macro_bundle_not_qualified') from None
+
+
+def create_expansion_bundle(path,*,legacy_bundle,build,visibility,normal,host_loss,expiry,expansion_fields=()):
+    value=dict(schema_version=10,kind='verified_macro_expansion_bootstrap',
+        **{key:str(Path(item).resolve()) for key,item in dict(legacy_bundle=legacy_bundle,build=build,
+            visibility=visibility,normal=normal,host_loss=host_loss,expiry=expiry).items()},
+        expansion_fields=[str(Path(item).resolve()) for item in expansion_fields],pins={})
+    _,paths=expansion_inputs(value)
+    value['pins']={str(file.resolve()):digest(file) for file in paths}
+    with Path(path).open('x',encoding='utf8') as stream:json.dump(value,stream,ensure_ascii=False,indent=2)
+    return load_bundle(path)[1].public()
+
+
+def create_fixed_consumer_bundle(path,*,legacy_bundle,build,visibility,normal,host_loss,expiry,
+                                 fixed_consumer_contracts,expansion_fields=()):
+    """New immutable schema11 file, for trusted offline qualification tools only."""
+    value=dict(schema_version=11,kind='verified_macro_fixed_consumer_bootstrap',
+        **{key:str(Path(item).resolve()) for key,item in dict(legacy_bundle=legacy_bundle,build=build,
+            visibility=visibility,normal=normal,host_loss=host_loss,expiry=expiry).items()},
+        expansion_fields=[str(Path(item).resolve()) for item in expansion_fields],
+        fixed_consumer_contracts=fixed_consumer_contracts,pins={})
+    _,paths=expansion_inputs(value)
+    value['pins']={str(file.resolve()):digest(file) for file in paths}
+    with Path(path).open('x',encoding='utf8') as stream:json.dump(value,stream,ensure_ascii=False,indent=2)
+    return load_bundle(path)[1].public()
 
 
 def create_bundle(path,*,build,visibility,normal,host_loss,expiry,production=None,production_static=None,production_choices=None,construction=None,technology_budget=None,scouting=None,qualification_build=None,regional=None,regional_static=None,regional_build=None,base_defense=None,base_defense_static=None,base_defense_build=None,group_roles=None,group_roles_static=None,group_role_revision_static=None):

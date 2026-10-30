@@ -13,16 +13,26 @@ from .contracts import ContractError, canonical_json, identifier, integer, objec
 from .profile_store import ProfileStore
 
 MAX_LINE_BYTES = 65536
-OPERATIONS = frozenset({"profiles.list", "profiles.get", "profiles.save", "connections.list", "session.inspect",
-                        "run.check", "run.start", "run.status", "run.stop", "diagnostics.export"})
+OPERATIONS = frozenset({"profiles.list", "profiles.get", "profiles.save", "connections.list", "session.inspect", "session.discover", "session.prepare",
+                        "run.resume", "run.check", "run.start", "run.status", "run.stop", "diagnostics.export"})
 BACKEND_ERROR_CODES = frozenset({"adapter_unavailable", "session_unavailable", "session_changed", "session_mismatch",
     "session_not_ready", "readiness_expired", "readiness_invalid", "profile_revision_conflict", "effective_profile_changed",
     "capability_unavailable", "credentials_unavailable", "run_not_found", "run_already_active", "run_state_conflict",
-    "request_id_conflict", "backend_operation_failed", "diagnostics_unavailable"})
+    "request_id_conflict", "backend_operation_failed", "diagnostics_unavailable",
+    "discovery_policy_invalid", "discovery_source_unavailable", "discovery_source_changed",
+    "session_discovery_unavailable", "session_discovery_too_many_processes", "session_scope_unsupported",
+    "session_probe_invalid", "session_probe_unavailable", "session_paused", "session_candidate_expired",
+    "run_history_unverifiable", "session_preparation_changed", "session_registration_uncertain",
+    "macro_runtime_same_epoch_reattach_unsupported", "session_root_invalid", "session_root_conflict",
+    "session_registration_conflict", "session_registration_changed", "macro_bundle_not_qualified",
+    "model_context_capacity_exceeded_shorten_style", "model_context_capacity_provider_unavailable"})
 
 
 class HostBackend(Protocol):
     def session_inspect(self, args: Mapping, request_id: str) -> dict: ...
+    def session_discover(self, args: Mapping, request_id: str) -> dict: ...
+    def session_prepare(self, args: Mapping, request_id: str) -> dict: ...
+    def run_resume(self, args: Mapping, request_id: str) -> dict: ...
     def run_check(self, profile: Mapping, args: Mapping, request_id: str) -> dict: ...
     def run_start(self, profile: Mapping, args: Mapping, request_id: str) -> dict: ...
     def run_status(self, args: Mapping, request_id: str) -> dict: ...
@@ -33,7 +43,7 @@ class HostBackend(Protocol):
 class UnavailableBackend:
     def _refuse(self, *_):
         raise ContractError("adapter_unavailable")
-    session_inspect = run_check = run_start = run_status = run_stop = diagnostics_export = _refuse
+    session_inspect = session_discover = session_prepare = run_resume = run_check = run_start = run_status = run_stop = diagnostics_export = _refuse
 
 
 def _result_safe(value, depth=0):
@@ -93,6 +103,14 @@ class BridgeService:
         if operation == "profiles.save":
             value = object_fields(args, {"draft", "expected_revision"})
             return self.store.save_profile(request_id, value["draft"], value["expected_revision"])
+        if operation in ("session.discover", "run.resume"):
+            value = object_fields(args, set())
+            method = self.backend.session_discover if operation == "session.discover" else self.backend.run_resume
+            return self._invoke_backend(method, value, request_id)
+        if operation == "session.prepare":
+            value = object_fields(args, {"candidate_id"})
+            identifier(value["candidate_id"])
+            return self._invoke_backend(self.backend.session_prepare, value, request_id)
         if operation == "session.inspect":
             value = object_fields(args, set(), {"profile_id"})
             if "profile_id" in value:
@@ -187,16 +205,25 @@ def main(argv=None):
     args = parser.parse_args(argv)
     store = None
     backend = None
+    fused = None
     try:
         store = ProfileStore(args.library, args.state_dir)
         from .desktop_backend import DesktopBackend
         backend = DesktopBackend(store)
-        serve(BridgeService(store, backend), sys.stdin.buffer, sys.stdout.buffer)
+        from .session_discovery_native import create_discovery
+        # A missing/invalid discovery policy only disables new source preparation;
+        # accepted runs retain their existing status, stop and resume paths.
+        backend.discovery = create_discovery(backend)
+        from .connection_config_rpc_v1 import ConnectionAwareBridgeV1
+        fused = ConnectionAwareBridgeV1(store, backend, registration_path=args.state_dir.parent/'desktop-runtime-config.json')
+        serve(fused, sys.stdin.buffer, sys.stdout.buffer)
     except (ContractError, OSError, sqlite3.Error):
         response = dict(schema_version=1, request_id=None, ok=False, error=dict(code="bridge_startup_failed"))
         sys.stdout.buffer.write((canonical_json(response) + "\n").encode("utf-8")); sys.stdout.buffer.flush()
         return 2
     finally:
+        if fused is not None:
+            fused.close()
         if backend is not None:
             backend.close()
         if store is not None:

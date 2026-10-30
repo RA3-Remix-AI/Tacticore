@@ -564,7 +564,10 @@ class BattleAgent:
             execution_projection=dict(control_mode='macro_native',unit_operation_policy='native_ai',
                 macro_actions=list(plan.macro_actions),macro_production=plan.macro_production.public() if plan.macro_production else None,
                 effect_verified=False)
-        return {"stance":plan.stance,"production_focus":plan.production_focus,"economy_policy":plan.economy_policy,"tech_policy":plan.tech_policy,"budget":budget,"execution_projection":execution_projection,"objective_region":plan.objective_region,"expires_at_game_seconds":plan.expires_at_game_seconds,"origin":plan.origin,"tactical_tasks":[task.public() for task in plan.tactical_tasks],"runtime_task":plan.runtime_task.public() if plan.runtime_task is not None else None,"macro_actions":list(plan.macro_actions)}
+        result={"stance":plan.stance,"production_focus":plan.production_focus,"economy_policy":plan.economy_policy,"tech_policy":plan.tech_policy,"budget":budget,"execution_projection":execution_projection,"objective_region":plan.objective_region,"expires_at_game_seconds":plan.expires_at_game_seconds,"origin":plan.origin,"tactical_tasks":[task.public() for task in plan.tactical_tasks],"runtime_task":plan.runtime_task.public() if plan.runtime_task is not None else None,"macro_actions":list(plan.macro_actions)}
+        if plan.macro_strategy is not None:
+            result['macro_strategy']=json.loads(json.dumps(plan.macro_strategy))
+        return result
 
     def context(self,request,*,commit=True,wire_size=None,wire_limit=None):
         """Build a bounded summary+delta, never raw objects, addresses, or full map."""

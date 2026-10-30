@@ -16,6 +16,7 @@ from ctypes import wintypes
 from datetime import datetime, timezone
 import json
 import os
+import re
 from pathlib import Path, PureWindowsPath
 import secrets
 import sqlite3
@@ -306,8 +307,9 @@ class NativeHostSpawner:
 
 class DesktopBackend:
     def __init__(self, store, *, registration=None, checks=None, spawner=None, now_ms=None,
-                 python_path=None, limits=None, registration_root=None, caller_alive=None):
+                 python_path=None, limits=None, registration_root=None, caller_alive=None, discovery=None):
         self.store = store
+        self.discovery = discovery
         self.state_dir = store.state_dir
         self.registration = registration
         try:
@@ -347,6 +349,9 @@ class DesktopBackend:
         self._children = {}
 
     def close(self):
+        if self.discovery is not None:
+            self.discovery.close()
+            self.discovery = None
         self.journal.close(); self._db.close()
 
     @contextmanager
@@ -417,6 +422,50 @@ class DesktopBackend:
             pass
         raise ContractError("session_unavailable")
 
+    def session_discover(self, args, request_id):
+        if self.discovery is None:
+            raise ContractError('session_discovery_unavailable')
+        return self.discovery.discover(args,request_id)
+
+    def session_prepare(self, args, request_id):
+        if self.discovery is None:
+            raise ContractError('session_discovery_unavailable')
+        with self._lock:
+            result=self.discovery.prepare(args,request_id)
+            # Only a successful trusted discovery registration can refresh this
+            # service's root. Arbitrary external root edits still fail closed.
+            root=load_root(self.state_dir)
+            if root is None or Path(root['session_root'])!=self.discovery.policy.session_root:
+                raise ContractError('session_root_invalid')
+            self._root_record=root;self._root_bootstrap=True
+            self.registration_root=Path(root['session_root'])
+            if isinstance(self.checks,NativeChecks):
+                self.checks.acceptance_root=self.registration_root
+            self._db.execute('DELETE FROM readiness')
+            self.registration=self._registration()
+            registered,_=_object(self.registration.session_path)
+            if result.get('registered') is not True or result.get('session_id')!=registered.get('session_id'):
+                # An old idempotent receipt describes its original operation,
+                # not a different registration installed by a later prepare.
+                raise ContractError('session_preparation_changed')
+            return dict(result,registration_reload_required=False)
+
+    def run_resume(self, args, request_id):
+        # The launch index is authoritative. No directory scan, registration
+        # mutation, model call or new host is performed when reopening the UI.
+        if args:
+            raise ContractError('unexpected_fields')
+        with self._lock:
+            try:
+                statuses=[self._status(row) for row in self._db.execute('SELECT * FROM launches ORDER BY rowid DESC').fetchall()]
+            except (ContractError,ValueError,TypeError,KeyError,JournalError):
+                raise ContractError('run_history_unverifiable') from None
+            terminal={'stopped','completed','fault','result_candidate'}
+            pending=[row for row in statuses if row.get('state') not in terminal or row.get('native_release_verified') is not True]
+            selected=(pending or statuses)
+            return dict(run=selected[0] if selected else None,observation_only=True,
+                        other_unreleased_runs=max(0,len(pending)-1))
+
     def session_inspect(self, args, request_id):
         try:
             registration = self._registration()
@@ -438,6 +487,10 @@ class DesktopBackend:
             require_macro_evidence(registration)
             host_id = str(uuid.uuid4())
             admission = self.checks.check(registration, profile, host_id, self.state_dir, self.store.library_path, self.limits)
+            if isinstance(admission, Admission) and admission.capabilities.get('native_macro') is True:
+                from dataclasses import replace
+                from .macro_strategic_client_v1 import preflight_capabilities
+                admission=replace(admission,capabilities=preflight_capabilities(admission.capabilities))
             if not isinstance(admission, Admission):raise ContractError("session_not_ready")
             channel = admission.binding.public(); channel.pop("host_id")
             with self._lock:
@@ -456,7 +509,8 @@ class DesktopBackend:
         except ContractError as error:
             reason = error.code if error.code in {"session_unavailable", "session_mismatch", "session_not_ready", "run_already_active", "session_registration_changed", "session_root_invalid",
                 "run_state_conflict", "capability_unavailable", "credentials_unavailable", "effective_profile_changed",
-                "legacy_executor_player_unsupported", "macro_mode_rejects_unit_control_evidence"} else "session_not_ready"
+                "legacy_executor_player_unsupported", "macro_mode_rejects_unit_control_evidence",
+                "model_context_capacity_exceeded_shorten_style", "model_context_capacity_provider_unavailable"} else "session_not_ready"
             return dict(ready=False, session_id=None, ready_token=None, expires_at=None, reason_code=reason)
         except Exception:
             return dict(ready=False, session_id=None, ready_token=None, expires_at=None, reason_code="session_not_ready")
@@ -490,17 +544,22 @@ class DesktopBackend:
         require_macro_evidence(registration)
         try:
             admission = self.checks.check(registration, profile, ready["host_id"], self.state_dir, self.store.library_path, self.limits)
+            if isinstance(admission, Admission) and admission.capabilities.get('native_macro') is True:
+                from dataclasses import replace
+                from .macro_strategic_client_v1 import preflight_capabilities
+                admission=replace(admission,capabilities=preflight_capabilities(admission.capabilities))
         except ContractError as error:
             if error.code in {"session_unavailable", "session_mismatch", "session_not_ready", "run_already_active",
                               "capability_unavailable", "credentials_unavailable", "effective_profile_changed", "run_state_conflict",
-                              "legacy_executor_player_unsupported"}:
+                              "legacy_executor_player_unsupported", "model_context_capacity_exceeded_shorten_style",
+                              "model_context_capacity_provider_unavailable"}:
                 raise
             raise ContractError("session_not_ready") from None
         except Exception:
             raise ContractError("session_not_ready") from None
         if admission.binding != binding or admission.admission_hash != ready["admission_hash"]:
             raise ContractError("session_changed")
-        self._predispatch(profile, ready["expires_at"])
+        self._predispatch(profile, ready["expires_at"], registration)
         # The client knows this ID even if the start response is lost. A timeout
         # may query status(request_id); it must never resend a new start intent.
         run_id = request_id
@@ -511,6 +570,14 @@ class DesktopBackend:
         session, _ = _object(registration.session_path)
         output = Path(session["run_directory"]).resolve() / "battle-host"
         with self._transaction():
+            # Source preparation takes this same index write lock. Re-read the
+            # token and source after acquiring it; a completed earlier native
+            # check cannot bridge a concurrent registration replacement.
+            current_ready=self._db.execute('SELECT * FROM readiness WHERE token_hash=?',(token_hash,)).fetchone()
+            if current_ready is None or dict(current_ready)!=dict(ready):
+                raise ContractError('readiness_invalid')
+            if self._registration()!=registration:
+                raise ContractError('session_changed')
             collided = None
             try:
                 channel = binding.public(); channel.pop("host_id")
@@ -545,7 +612,7 @@ class DesktopBackend:
             host_spawn_attempted=False,native_delivery_attempted=False))
         return True
 
-    def _predispatch(self, profile, expires_at):
+    def _predispatch(self, profile, expires_at, registration=None):
         if self.now_ms() >= expires_at:raise ContractError("readiness_expired")
         if not self.caller_alive():raise ContractError("adapter_unavailable")
         current = self.store.get_profile(profile["profile_id"])["profile"]
@@ -553,7 +620,9 @@ class DesktopBackend:
             or current["library_hash"] != profile["library_hash"]
             or current["effective"]["effective_hash"] != profile["effective"]["effective_hash"]):
             raise ContractError("effective_profile_changed")
-        self._registration()
+        current=self._registration()
+        if registration is not None and current!=registration:
+            raise ContractError('session_changed')
 
     def _dispatch_launch(self, profile, request_id, run_id, binding, admission, registration, expires_at):
         require_macro_evidence(registration)
@@ -561,7 +630,7 @@ class DesktopBackend:
         self.journal.reserve_command(run_id, request_id, "host_start", dict(profile_id=profile["profile_id"],
             profile_revision=profile["revision"], effective_hash=profile["effective"]["effective_hash"], admission_hash=admission.admission_hash,
             execution_limits=self.limits.public(), session_summary=dict(admission.session),
-            capabilities={key: admission.capabilities[key] for key in ("control_mode", "native_macro", "available_macro_actions", "macro_production_counts", "base_defense_granted", "base_defense_goal", "group_roles_granted", "supported_units", "supported_foci", "tactics_supported", "runtime_tactical_supported", "runtime_recovery_supported", "runtime_purposes")
+            capabilities={key: admission.capabilities[key] for key in ("control_mode", "native_macro", "native_transport_protocol", "available_macro_actions", "macro_production_counts", "base_defense_granted", "base_defense_goal", "group_roles_granted", "supported_units", "supported_foci", "tactics_supported", "runtime_tactical_supported", "runtime_recovery_supported", "runtime_purposes")
                           if key in admission.capabilities}))
         draft_path = self.state_dir / "runs" / run_id / "commander-draft.json"
         # Resolve the same model before storing the host input; no credentials.
@@ -582,7 +651,7 @@ class DesktopBackend:
             "--runtime-run-id", run_id, "--runtime-host-id", binding.host_id,
             "--total-budget", str(self.limits.production_total_budget), "--reserve", str(self.limits.reserve_floor)]
             command = script_command(INTEGRATION / "battle_host.py", arguments, python=self.python_path)
-        self._predispatch(profile, expires_at)
+        self._predispatch(profile, expires_at, registration)
         self.journal.mark_dispatching(run_id, request_id)
         try:
             if not self.caller_alive():raise ContractError("adapter_unavailable")
@@ -665,6 +734,20 @@ class DesktopBackend:
         result["events"], result["events_cursor"] = recent_events(self.journal, row["run_id"],
             expected=command["payload"], binding=binding)
         receipt=command.get('receipt') or {}
+        if (type(command['payload'].get('capabilities',{}).get('native_transport_protocol')) is int
+                and command['payload']['capabilities']['native_transport_protocol']==5
+                and type(receipt.get('host_pid')) is int and isinstance(receipt.get('host_start_time'),str)
+                and self.spawner.identity(receipt['host_pid'])!=receipt['host_start_time']):
+            try:
+                from .native5_orphan_return_v1 import recover_after_stop
+                if recover_after_stop(self,row,binding,receipt,_atomic):
+                    result.update(state='fault',reason_code='host_process_lost_control_returned',
+                        host_process_alive=False,status_stale=True,native_release_verified=True)
+                    return result
+            except (OSError,ValueError,KeyError,TypeError,OverflowError,ContractError):
+                # Missing or inaccessible evidence cannot be repaired into
+                # success. Native state is only sampled again on a later query.
+                pass
         if (command['operation']=='host_start' and command['status']=='cancelled'
                 and receipt.get('reason_code')=='host_launch_cancelled_before_dispatch'
                 and receipt.get('host_spawn_attempted') is False and receipt.get('native_delivery_attempted') is False
@@ -687,8 +770,35 @@ class DesktopBackend:
             if not host_alive and status.get("state") not in ("stopped", "fault", "result_candidate"):
                 raise ValueError()
             result["state"] = status["state"]
+            reason=status.get('reason_code')
+            if isinstance(reason,str) and re.fullmatch(r'[a-z][a-z0-9_]{0,79}',reason):
+                result['reason_code']=reason
+            result['host_process_alive']=host_alive
+            result['status_age_ms']=max(0,self.now_ms()-(Path(row['output_path'])/'host-status.json').stat().st_mtime_ns//1_000_000)
+            result['status_stale']=not host_alive or result['status_age_ms']>=10_000
             if macro:
                 result['current_plan']=project_plan(status.get('current_plan'))
+                # Identity was checked above. This read-only record exposes
+                # strategic authority and missing intents without inheriting
+                # historical precision grants or changing dispatch/release.
+                from .macro_strategic_client_v1 import project as project_strategic_client
+                try:
+                    result['strategic_client']=project_strategic_client(status, result.get('capabilities', {}))
+                except ContractError:
+                    result['strategic_client_unavailable']=True
+                if status.get('macro_strategy') is not None:
+                    try:
+                        _module('macro_strategy',directory=ROOT/'strategy')
+                        from .macro_strategy_public import project_macro_strategy_state
+                        result['macro_strategy']=project_macro_strategy_state(status['macro_strategy'])
+                    except (ContractError,ImportError):
+                        # Reject only this optional record; never return raw
+                        # strategy state or erase the independent run status.
+                        result['macro_strategy_unavailable']=True
+                if status.get('macro_unified_feedback') is not None:
+                    from .strategic_unified_feedback_v5 import project_unified_feedback
+                    try:result['macro_unified_feedback']=project_unified_feedback(status['macro_unified_feedback'])
+                    except ContractError:result['macro_unified_feedback_unavailable']=True
                 feedback=status.get('macro_feedback') or {}
                 if feedback.get('status') in {'native_budget_adopted','native_budget_pending','native_delegation_observed','native_budget_clearing'}:
                     result['macro_feedback']=dict(status=feedback['status'],selected_policy=feedback.get('selected_policy')
@@ -717,6 +827,17 @@ class DesktopBackend:
                     try:result['macro_regional_feedback']=compact_regional_feedback(regional,
                         status.get('latest_snapshot',{}).get('game_time_seconds',-100))
                     except ContractError:pass
+                # These are bounded records, separate from run-level release
+                # and from any authority to dispatch another request.
+                from .macro_expansion_diagnostics_v4 import expansion_record,admission_record
+                for key,project in (('macro_expansion_feedback',expansion_record),('macro_resource_feedback',admission_record)):
+                    if status.get(key) is None:continue
+                    try:result[key]=project(status[key])
+                    except ContractError:result[key+'_unavailable']=True
+                if status.get('macro_expansion_blocked') is not None:
+                    from .macro_expansion_availability_v1 import availability_record
+                    try:result['macro_expansion_availability']=availability_record(status['macro_expansion_blocked'])
+                    except ContractError:result['macro_expansion_availability_unavailable']=True
             latest = status.get("latest_snapshot")
             if isinstance(latest, dict):
                 public = {}
@@ -789,7 +910,13 @@ class DesktopBackend:
         if record["created"]:
             self.journal.mark_dispatching(row["run_id"], request_id)
             try:
-                _atomic(Path(row["output_path"]) / "stop.json", dict(session_id=binding.session_id))
+                starts=self.journal.commands_for_run(row['run_id'],operation='host_start')
+                unified=any(type(r['payload'].get('capabilities',{}).get('native_transport_protocol')) is int
+                    and r['payload']['capabilities']['native_transport_protocol']==5 for r in starts)
+                if unified:
+                    from .strategic_stop_gate_v1 import StrategicStopGateV1
+                    StrategicStopGateV1(row['run_id'],binding,Path(row['output_path'])).publish_stop(_atomic)
+                else:_atomic(Path(row['output_path'])/'stop.json',dict(session_id=binding.session_id))
                 self.journal.record_outcome(row["run_id"], request_id, "completed", dict(reason_code="host_stop_requested",
                     native_release_verified=False))
             except BaseException:
@@ -814,7 +941,12 @@ class DesktopBackend:
                      ("host_log", run_dir / "host.log", self.state_dir)]
             files.extend((name, output / filename, output) for name, filename in (
                 ("host_status", "host-status.json"), ("host_events", "host-events.jsonl"), ("plans", "plans.jsonl"),
-                ("jobs", "jobs.json"),('macro_feedback','macro-feedback.jsonl'),('macro_release','macro-release.json')))
+                ("jobs", "jobs.json"),('macro_feedback','macro-feedback.jsonl'),('macro_release','macro-release.json'),
+                ('strategic_admission','strategic-admission.jsonl'),('strategic_stop','stop.json'),
+                ('native_no_attachment','native-no-attachment.json')))
+            files.extend((name, output / filename, output) for name, filename in (
+                ('native_orphan_return','native-orphan-return.json'),
+                ('native_orphan_journal','native-orphan-journal.bin')))
             session_dir = Path(row["session_path"]).parent
             files.extend((name, session_dir / filename, session_dir) for name, filename in (
                 ("persistent_status", "persistent-production-status.json"), ("persistent_audit", "persistent-production.jsonl"),

@@ -166,15 +166,20 @@ class BudgetController:
 
 class MacroRequestAudit:
     """Record the exact public agent context passed to the normal backend."""
-    def __init__(self,backend,event,*,feedback_supplier=None,production_supplier=None,construction_supplier=None,infrastructure_supplier=None,scouting_supplier=None,regional_supplier=None,forces_supplier=None,catalog_supplier=None):
+    def __init__(self,backend,event,*,feedback_supplier=None,production_supplier=None,construction_supplier=None,infrastructure_supplier=None,scouting_supplier=None,regional_supplier=None,forces_supplier=None,catalog_supplier=None,strategy_supplier=None,expansion_supplier=None,resource_supplier=None,strategic_only=False):
         self.backend=backend;self.event=event;self.sequence=0;self.feedback_supplier=feedback_supplier
-        self.production_supplier=production_supplier
-        self.construction_supplier=construction_supplier
-        self.infrastructure_supplier=infrastructure_supplier
+        self.production_supplier=None if strategic_only else production_supplier
+        self.construction_supplier=None if strategic_only else construction_supplier
+        self.infrastructure_supplier=None if strategic_only else infrastructure_supplier
         self.scouting_supplier=scouting_supplier
         self.regional_supplier=regional_supplier
         self.forces_supplier=forces_supplier
         self.catalog_supplier=catalog_supplier
+        self.strategy_supplier=strategy_supplier
+        self.expansion_supplier=None if strategic_only else expansion_supplier
+        self.resource_supplier=None if strategic_only else resource_supplier
+        self._last_request_context=None
+        self.strategic_only=strategic_only
 
     def fresh_for_game_seconds(self,game_seconds):
         """Defer asynchronous decisions when sequential native reads diverge.
@@ -196,10 +201,15 @@ class MacroRequestAudit:
                 frame=value.get(key)
                 if type(frame) is int and 0<frame<=0xffffffff and not -15<=game_seconds*15-frame<=30:
                     return False
+        expansion=self.expansion_supplier() if self.expansion_supplier else None
+        if isinstance(expansion,dict):
+            for key in ('builder_frame','own_census_frame'):
+                frame=expansion.get(key)
+                if type(frame) is int and 0<frame<=0xffffffff and not -15<=game_seconds*15-frame<=30:return False
         return True
 
     def prepare(self,context):
-        if self.feedback_supplier is None:return context
+        if self.feedback_supplier is None:return self._prepare_strategy(self._expansion_context(context))
         feedback=self.feedback_supplier()
         if not isinstance(feedback,dict):raise ContractError('macro_latest_feedback_unavailable')
         status=feedback.get('status');selected=feedback.get('selected_policy');actions=feedback.get('actions');frame=feedback.get('observed_frame')
@@ -216,7 +226,7 @@ class MacroRequestAudit:
         compact=dict(source='native_macro_budget_observation',status=status,actions=list(actions),selected_policy=selected,
             observed_frame=frame,native_effect_verified=feedback['native_effect_verified'],payment_verified=False,
             production_queue_observed=False,idle_producers_observed=False,own_roles_coverage='audited_templates_only')
-        result=dict(context,macro_execution_feedback=compact)
+        result=self._expansion_context(dict(context,macro_execution_feedback=compact))
         if self.production_supplier is not None:
             production=self.production_supplier()
             if production is not None:
@@ -250,17 +260,71 @@ class MacroRequestAudit:
         if self.catalog_supplier is not None:
             from .macro_base_defense_scope import defense_catalog_override
             from .macro_group_role_contract import group_role_catalog_overrides
+            from .macro_expansion_scope import expansion_catalog_overrides,EXTRA_ACTIONS
             overrides=self.catalog_supplier()
-            if overrides not in (defense_catalog_override(),group_role_catalog_overrides()):raise ContractError('macro_base_defense_catalog_invalid')
+            if type(overrides) is not dict:raise ContractError('macro_base_defense_catalog_invalid')
+            expanded=expansion_catalog_overrides(tuple(action for action in EXTRA_ACTIONS if action in overrides))
+            if overrides not in (defense_catalog_override(),group_role_catalog_overrides(),expanded):raise ContractError('macro_base_defense_catalog_invalid')
             for action,description in overrides.items():
                 if action not in result.get('allowed_macro_actions',[]):continue
                 old=result.get('macro_policy_catalog',{}).get(action,{})
-                if old.get('target_region')!='region_8_3':raise ContractError('macro_base_defense_catalog_region_binding')
+                if action not in EXTRA_ACTIONS and old.get('target_region')!='region_8_3':raise ContractError('macro_base_defense_catalog_region_binding')
                 result['macro_policy_catalog']={**result['macro_policy_catalog'],action:description}
         if 'macro_policy_catalog' in result:
             from macro_policy import model_catalog
             result['macro_policy_catalog']=model_catalog(result['macro_policy_catalog'])
+        return self._prepare_strategy(result)
+
+    def _expansion_context(self,context):
+        if self.expansion_supplier is None and self.resource_supplier is None:return context
+        result=dict(context)
+        if self.expansion_supplier is not None:
+            expansion=self.expansion_supplier()
+            if expansion is not None:
+                from .macro_expansion_feedback import compact_expansion_feedback
+                result['macro_expansion_feedback']=compact_expansion_feedback(expansion,context['game_time_seconds'])
+        if self.resource_supplier is not None:
+            resource=self.resource_supplier()
+            if resource is not None:
+                from .resource_reservations import compact_reservation
+                result['macro_resource_feedback']=compact_reservation(resource)
+                expanded=result.get('macro_expansion_feedback')
+                if isinstance(expanded,dict) and 'resource_reservation' in expanded:
+                    if expanded['resource_reservation']!=result['macro_resource_feedback']:
+                        raise ContractError('macro_resource_context_binding_mismatch')
+                    # Keep one exact copy of the same current resource facts.
+                    result['macro_expansion_feedback']=dict(expanded)
+                    result['macro_expansion_feedback'].pop('resource_reservation')
         return result
+
+    def _prepare_strategy(self,context):
+        if self.strategic_only:
+            from .macro_delegation_boundary_v1 import restrict_context
+            context=restrict_context(context)
+        if self.strategy_supplier is None:return context
+        from macro_strategy import StrategyError
+        # Build this after all fresh domain feedback and the trusted capability
+        # catalog have been projected. The model cannot supply its own facts.
+        try:value=self.strategy_supplier(context)
+        except StrategyError as error:raise ContractError(str(error)) from None
+        if (type(value) is not dict or value.get('schema_version')!=1
+                or type(value.get('fact_catalog')) is not dict
+                or len(json.dumps(value,ensure_ascii=False,allow_nan=False,separators=(',',':')).encode('utf8'))>1536):
+            raise ContractError('macro_strategy_context_invalid_or_oversized')
+        from macro_policy import project_strategy_defaults
+        try:return project_strategy_defaults(dict(context,macro_strategy=json.loads(json.dumps(value,ensure_ascii=False,allow_nan=False))))
+        except ValueError:raise ContractError('macro_default_contract_invalid') from None
+
+    def request_context_for(self,plan):
+        """Exact last sent request, bound to this accepted plan, never globals."""
+        value=plan.public() if hasattr(plan,'public') else plan
+        context=self._last_request_context
+        if type(value) is not dict or context is None or any(
+                value.get(key)!=context.get(key) for key in ('session_id','commander_id','player_id','snapshot_id')):
+            raise ContractError('macro_strategy_request_binding')
+        if value.get('based_on_game_time_seconds')!=context.get('game_time_seconds'):
+            raise ContractError('macro_strategy_request_binding')
+        return json.loads(json.dumps(context,ensure_ascii=False,allow_nan=False))
 
     def input_size(self,context):
         try:return self.backend.input_size(self.prepare(context))
@@ -277,9 +341,26 @@ class MacroRequestAudit:
         context=self.prepare(context)
         encoded=json.dumps(context,ensure_ascii=False,allow_nan=False,separators=(',',':')).encode('utf-8')
         if len(encoded)>16384:raise ContractError('macro_request_audit_bounds')
+        measure=getattr(self.backend,'input_size',None)
+        if self.strategy_supplier is not None or self.expansion_supplier is not None or self.resource_supplier is not None:
+            if not callable(measure):raise ContractError('macro_request_wire_measurement_required')
+            if measure(context)>16384:raise ContractError('macro_request_audit_wire_bounds')
+        self._last_request_context=json.loads(encoded)
         self.sequence+=1
         self.event('model_macro_request_context',sequence=self.sequence,context=json.loads(encoded),
             context_sha256=hashlib.sha256(encoded).hexdigest(),context_bytes=len(encoded))
-        return await self.backend(context)
+        result=await self.backend(context)
+        if self.strategic_only:
+            from engine import parse_model_json,ContractError as StrategyContractError
+            from .macro_delegation_boundary_v1 import validate_policy
+            try:validate_policy(parse_model_json(result) if isinstance(result,(str,bytes)) else result)
+            except ContractError as error:raise StrategyContractError(error.code) from None
+        if self.strategy_supplier is not None:
+            from engine import parse_model_json
+            value=parse_model_json(result) if isinstance(result,(str,bytes)) else result
+            if type(value) is not dict or 'macro_strategy' not in value:
+                self.event('macro_strategy_response_rejected',reason_code='macro_strategy_declaration_missing')
+                raise ContractError('macro_strategy_declaration_missing')
+        return result
 
     def __getattr__(self,name):return getattr(self.backend,name)

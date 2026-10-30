@@ -21,7 +21,7 @@
 
 - [React + Tauri 桌面](../desktop-ui/README.md)：唯一桌面工程的本地运行与构建。
 - [Windows 原生接线合同](desktop-next/windows-handoff.md)：新 GUI 与宿主之间待实现的协议及验收。
-- [玩家流程](desktop-next/player-guide.md)：当前离线体验与未来真实使用流程。
+- [玩家流程](desktop-next/player-guide.md)：当前 Windows 原生操作、已验范围与独立的浏览器离线演示。
 - [Feature 路线图](desktop-next/feature-roadmap.md)：备战、指挥风格、电台关怀与复盘，均按实施状态标记。
 - [品牌与宣传边界](desktop-next/claims.md)：独立项目身份与能力表述。
 - [本侧验证记录](desktop-next/verification.md)：macOS 已验证结果及 Windows 待验证范围。

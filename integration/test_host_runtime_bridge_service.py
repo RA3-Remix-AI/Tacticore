@@ -59,7 +59,7 @@ class ServiceTests(unittest.TestCase):
         self.assertTrue(self.service.handle(request("connections.list"))["ok"])
 
     def test_default_backend_never_generates_success(self):
-        args = {"session.inspect": {}, "run.check": dict(profile_id=PROFILE, profile_revision=1),
+        args = {"session.inspect": {}, "session.discover": {}, "session.prepare": dict(candidate_id=PROFILE), "run.resume": {}, "run.check": dict(profile_id=PROFILE, profile_revision=1),
             "run.start": dict(profile_id=PROFILE, profile_revision=1, session_id=PROFILE, ready_token="x"),
             "run.status": dict(run_id=PROFILE), "run.stop": dict(run_id=PROFILE, session_id=PROFILE),
             "diagnostics.export": dict(run_id=PROFILE)}
