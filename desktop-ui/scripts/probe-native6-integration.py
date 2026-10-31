@@ -33,7 +33,7 @@ _,_,inventory,build,cap=q.current()
 assert cap['formal_games']==0 and not cap['product_acceptance_verified']
 trial=pathlib.Path(sys.argv[1])/'trial.json';q.create(trial)
 session=dict(mod_sha256=q.PACKAGE_SHA,registry=str(root/'qualification/registry.json'),scenario=dict(
-    commander_id=q.COMMANDER,map_id='TemplePrime',computer_player_index=3,opponent_player_index=4,participant_count=2,observer_player_index=2))
+    commander_id=q.COMMANDER,map_id=q.MAP_ID,computer_player_index=3,opponent_player_index=4,participant_count=2,observer_player_index=2))
 from host_runtime.macro_bundle import load_bundle
 bundle,scope=load_bundle(trial,session)
 assert type(scope) is q.Native6Scope and len(scope.available_actions)==14 and not scope.production_counts

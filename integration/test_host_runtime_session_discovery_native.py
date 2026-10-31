@@ -264,7 +264,7 @@ class CommandLineTests(unittest.TestCase):
         api=native.Win32ReadOnly.__new__(native.Win32ReadOnly);closed=[];records=iter([('other.exe',8),('RA3_1.12.game',101)])
         def advance(handle,pointer):
             try:name,pid=next(records)
-            except StopIteration:return False
+            except StopIteration:c.set_last_error(18);return False
             row=c.cast(pointer,c.POINTER(native.PROCESSENTRY32W)).contents
             row.szExeFile=name;row.th32ProcessID=pid;return True
         api.k=SimpleNamespace(CreateToolhelp32Snapshot=lambda flags,pid:123,Process32FirstW=advance,

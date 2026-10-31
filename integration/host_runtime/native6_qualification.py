@@ -20,6 +20,7 @@ PACKAGE_REPORT_SHA='81ac4d4890ebe8bda7d0541ae8799bca324acd8e9fbffece564a4993fab0
 REGISTRY_SHA='b404ec9c369a27673e2cbd4c7bcc05702740f89d683707ec3cbd469f0c2184c4'
 REGIONS=(('deployattack','region_1_3'),('deploydefense','region_8_3'),('regroup','region_8_3'),('reinforce','region_8_3'),('withdraw','region_8_3'))
 COMMANDER='57e668b4-4d89-43bd-bc92-0dd436f046ef'
+MAP_ID='map_mp_2_black1b'  # TemplePrime is the UI display name, not the engine map ID.
 VISIBILITY_CHECKS={'own_view_differs_from_observer','native_cached_clear_agrees_with_full_footprint',
     'lazy_cache_zero_requires_reconstruction','center_clear_does_not_imply_footprint_clear','observed_first_sighting','observed_loss'}
 VISIBILITY_SIGNATURES={hex(value) for value in (0x992130,0x9912f0,0x98fef0,0x9903b0,0x990493,0x993264,0x844680,0x504e10,0x6fda40)}
@@ -108,7 +109,7 @@ def load(path,session=None):
     if session is not None:
         scenario=session.get('scenario',{})
         if (session.get('mod_sha256')!=PACKAGE_SHA or Path(session.get('registry',''))!=root/'qualification/registry.json'
-                or scenario.get('map_id')!='TemplePrime' or scenario.get('commander_id')!=COMMANDER
+                or scenario.get('map_id')!=MAP_ID or scenario.get('commander_id')!=COMMANDER
                 or type(scenario.get('computer_player_index')) is not int or scenario['computer_player_index']!=3
                 or type(scenario.get('opponent_player_index')) is not int or scenario['opponent_player_index']!=4
                 or scenario.get('participant_count')!=2 or scenario.get('observer_player_index',2)!=2):fail()
@@ -133,5 +134,5 @@ def admit_sdk(build,session):
     # the Host's job; the SDK independently refuses a different package/owner.
     scenario=session.get('scenario',{})
     if (session.get('mod_sha256')!=PACKAGE_SHA or scenario.get('computer_player_index')!=3
-            or scenario.get('commander_id')!=COMMANDER or scenario.get('map_id')!='TemplePrime'):fail()
+            or scenario.get('commander_id')!=COMMANDER or scenario.get('map_id')!=MAP_ID):fail()
     return manifest

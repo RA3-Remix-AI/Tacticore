@@ -2959,13 +2959,14 @@ dependencies = [
 
 [[package]]
 name = "tacticore-desktop"
-version = "0.1.0"
+version = "0.1.0-beta.1"
 dependencies = [
  "serde",
  "serde_json",
  "sha2",
  "tauri",
  "tauri-build",
+ "windows-sys 0.61.2",
 ]
 
 [[package]]

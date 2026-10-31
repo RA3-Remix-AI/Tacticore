@@ -164,12 +164,44 @@ def preflight(repo=REPO, runtime=None):
     return report
 
 
+def candidate_preflight(runtime,repo=REPO):
+    """Build admission for a frozen installer under test; never public upload."""
+    report=dict(schema_version=1,kind='windows_beta_installer_candidate_preflight',ready=False,
+                public_release_ready=False,game_access=False,model_requests=0,blockers=[])
+    try:
+        report['runtime']=verify_inventory(runtime)
+        # Import only reviewed repository tools, not arbitrary package modules.
+        sys.path.insert(0,str(Path(repo)/'integration'))
+        from host_runtime.native6_qualification import verify_qualification
+        verify_qualification(Path(runtime),report['runtime']['manifest_sha256'])
+        stage=read_json(Path(runtime)/'release-stage.json')
+        if stage.get('kind')!='portable_native6_field_trial_candidate' or stage.get('public_release_ready') is not False:
+            raise ValueError('beta_trial_marker_required')
+        tauri=read_json(Path(repo)/'desktop-ui/src-tauri/tauri.conf.json')
+        package=read_json(Path(repo)/'desktop-ui/package.json')
+        cargo=tomllib.loads((Path(repo)/'desktop-ui/src-tauri/Cargo.toml').read_text(encoding='utf-8'))
+        if {tauri['version'],package['version'],cargo['package']['version']}!={'0.1.0-beta.1'}:
+            raise ValueError('beta_version_mismatch')
+        if not tauri['bundle']['active'] or tauri['bundle']['targets']!=['nsis']:
+            raise ValueError('beta_installer_required')
+        sources=read_json(Path(runtime)/'application-sources.json')['files']
+        if any(digest(Path(repo)/name)!=pin for name,pin in sources.items()):
+            raise ValueError('candidate_sources_changed')
+        required={'integration/host_runtime/beta_setup.py','integration/host_runtime/native6_qualification.py'}
+        if not required<=sources.keys():raise ValueError('beta_first_use_source_missing')
+        report['ready']=True
+    except (OSError,ValueError,KeyError,TypeError) as error:
+        report['blockers'].append(dict(code='beta_candidate_invalid',detail=str(error) if re.fullmatch('[a-z0-9_]{1,80}',str(error)) else type(error).__name__))
+    return report
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--runtime', type=Path)
     parser.add_argument('--output', type=Path)
+    parser.add_argument('--candidate',action='store_true')
     args = parser.parse_args()
-    report = preflight(runtime=args.runtime)
+    report = candidate_preflight(args.runtime) if args.candidate else preflight(runtime=args.runtime)
     encoded = json.dumps(report, ensure_ascii=False, indent=2) + '\n'
     if args.output:
         with args.output.open('x', encoding='utf-8') as stream:

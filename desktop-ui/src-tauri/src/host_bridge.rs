@@ -47,8 +47,21 @@ impl RuntimeSource {
 }
 
 fn runtime_source() -> Result<RuntimeSource, String> {
-    let local = std::env::var_os("LOCALAPPDATA").ok_or("local_state_unavailable")?;
-    source_at(PathBuf::from(local).join("Tacticore"))
+    source_at(crate::game_setup::local_home()?)
+}
+
+pub(crate) fn setup_command()->Result<Command,String> {
+    #[cfg(debug_assertions)] {Err("beta_release_required".into())}
+    #[cfg(not(debug_assertions))] {
+        let executable=std::env::current_exe().map_err(|_|"runtime_packaging_invalid")?;
+        let root=executable.parent().ok_or("runtime_packaging_invalid")?.join("runtime");
+        let companion=crate::runtime_package::verify(&root,env!("TACTICORE_RUNTIME_MANIFEST_SHA256"))?;
+        let mut command=Command::new(companion.python);
+        configure_runtime_authority(&mut command,Some(env!("TACTICORE_RUNTIME_MANIFEST_SHA256")));
+        command.args(["-I","-S","-B","-m","host_runtime.beta_setup"]).current_dir(companion.integration);
+        #[cfg(windows)] {use std::os::windows::process::CommandExt;command.creation_flags(0x08000000);}
+        Ok(command)
+    }
 }
 
 fn source_at(home: PathBuf) -> Result<RuntimeSource, String> {
@@ -187,6 +200,13 @@ struct ControlBridgeState { process: Option<ServiceProcess>, source: Option<Stri
 #[derive(Clone, Default)]
 pub struct HostBridge(Arc<Mutex<BridgeState>>, Arc<Mutex<ControlBridgeState>>);
 
+impl HostBridge {
+    pub(crate) fn invalidate_setup(&self)->Result<(),String> {
+        let mut slot=self.0.lock().map_err(|_|"bridge_unavailable")?;
+        slot.process=None;slot.source=None;Ok(())
+    }
+}
+
 fn public_id(value: Option<&Value>) -> bool {
     value.and_then(Value::as_str).is_some_and(|id| id.len()==36 && id.bytes().enumerate().all(|(i,b)| {
         if [8,13,18,23].contains(&i) {b==b'-'} else {b.is_ascii_hexdigit()&&!b.is_ascii_uppercase()}
@@ -229,8 +249,7 @@ pub async fn diagnostics_read(export_id: String, expected_sha256: String) -> Res
         return Err("diagnostics_unavailable".into());
     }
     tauri::async_runtime::spawn_blocking(move || {
-        let local=std::env::var_os("LOCALAPPDATA").ok_or("diagnostics_unavailable")?;
-        let root=PathBuf::from(local).join("Tacticore/desktop-runtime/exports").canonicalize().map_err(|_|"diagnostics_unavailable")?;
+        let root=crate::game_setup::local_home()?.join("desktop-runtime/exports").canonicalize().map_err(|_|"diagnostics_unavailable")?;
         let target=root.join(format!("{}.json",export_id)).canonicalize().map_err(|_|"diagnostics_unavailable")?;
         if target.parent()!=Some(root.as_path()) {return Err("diagnostics_unavailable".into());}
         let file=std::fs::File::open(target).map_err(|_|"diagnostics_unavailable")?;
@@ -257,8 +276,7 @@ pub async fn host_request(request: Value, bridge: tauri::State<'_, HostBridge>) 
     validate(&request)?;
     let state = bridge.inner().clone();
     tauri::async_runtime::spawn_blocking(move || {
-        let local = std::env::var_os("LOCALAPPDATA").ok_or("local_state_unavailable")?;
-        dispatch_host_at(&state, &request, PathBuf::from(local).join("Tacticore"))
+        dispatch_host_at(&state, &request, crate::game_setup::local_home()?)
     }).await.map_err(|_| "bridge_unavailable".to_owned())?
 }
 
@@ -343,8 +361,7 @@ pub async fn connection_config_request(request:Value,bridge:tauri::State<'_,Host
     let state=bridge.inner().clone();
     tauri::async_runtime::spawn_blocking(move|| {
         let mut slot=state.0.lock().map_err(|_|"bridge_unavailable")?;
-        let local=std::env::var_os("LOCALAPPDATA").ok_or("local_state_unavailable")?;
-        let source=configuration_source_at(PathBuf::from(local).join("Tacticore"))?;
+        let source=configuration_source_at(crate::game_setup::local_home()?)?;
         if slot.configuration_source.as_ref().is_some_and(|old|old!=&source.fingerprint) {slot.configuration=None;}
         if slot.configuration.is_none() {
             slot.configuration=Some(ServiceProcess::spawn(&source)?);

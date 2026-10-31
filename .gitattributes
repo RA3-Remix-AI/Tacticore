@@ -50,3 +50,6 @@
 
 # Native6 retains the reviewed Native5 flag API byte-for-byte, including EOF.
 /native-ai/strategic-portable-runtime-v6/flag_api.h whitespace=-blank-at-eof
+
+# Upstream notice bytes are recorded with their original hashes.
+/desktop-ui/notices/upstream/* -text whitespace=cr-at-eol,-blank-at-eof

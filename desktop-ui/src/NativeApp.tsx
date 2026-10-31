@@ -16,6 +16,7 @@ import { applicationView, type AppliedReceipt, type ConsumptionReceipt } from '.
 import { createDiagnosticsDownload, DiagnosticError, saveDiagnosticFile } from './runtime/diagnosticsDownload';
 import { eventDescription, preservePendingStart, releaseDescription, runLocksControls, sameRun, localPreparationDescription, type NativeEvent } from './runtime/nativeProcess';
 import { ConnectionConfigPanelV1 } from './ConnectionConfigPanelV1';
+import { BetaSetupPanel } from './BetaSetupPanel';
 import { configurationAdmissionNotice, type ConnectionConfigurationState } from './runtime/connectionConfigurationStateV1';
 import './native.css';
 
@@ -223,6 +224,7 @@ export default function NativeApp(){
   return <div className="native-app">
     <header className="native-header"><div><p className="eyebrow">TACTICORE / 本机客户端</p><h1>配置指挥官，进入战场</h1></div><span className="native-tag">原生连接</span></header>
     <p role="status" className="native-notice">{configurationAdmissionNotice(configurationState)??notice}</p>
+    <BetaSetupPanel locked={locked} onPrepared={()=>{setReady(null);setSession(null);setCandidates([]);}} />
     <ConnectionConfigPanelV1 locked={locked} onConfigurationState={configurationChanged} onSaved={async()=>{setReady(null);await load();}} />
     <div className="native-grid"><section className="native-panel"><h2>指挥官风格</h2>
       <label>本机指挥官<select value={selected} disabled={busy||locked} onChange={e=>choose(e.target.value)}>{profiles.map(p=><option key={p.profile_id} value={p.profile_id}>{p.name}</option>)}</select></label>

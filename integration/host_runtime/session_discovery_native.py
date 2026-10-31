@@ -226,6 +226,9 @@ def policy_record(session_path, bundle_path, state_dir, session_root):
 def load_policy(state_dir):
     path=_local_path(Path(state_dir)/NAME)
     record,_=read_object(path,16384)
+    if type(record.get('schema_version')) is int and record['schema_version']==2:
+        from .beta_setup import load_policy as installed_policy
+        return installed_policy(state_dir,record)
     object_fields(record,{'schema_version','kind','policy_id','session_root','source_session',
                           'source_session_sha256','files','scope'})
     if record['schema_version']!=1 or type(record['schema_version']) is not int or record['kind']!=KIND:
@@ -289,6 +292,9 @@ class Win32ReadOnly:
                 if row.szExeFile.casefold()==executable_name.casefold():
                     result.append(int(row.th32ProcessID))
                 present=self.k.Process32NextW(handle,c.byref(row))
+            # FALSE is also returned for enumeration errors. A partial/failed
+            # snapshot cannot attest absence of an old Host or Game process.
+            if c.get_last_error()!=18:fail('session_discovery_unavailable')  # ERROR_NO_MORE_FILES
             return result
         finally:
             self.k.CloseHandle(handle)
