@@ -15,6 +15,26 @@ static DWORD started;static uint32_t audit_sequence,callback_serial,last_audit_c
 static uint32_t current_not_after,manager_not_after[2],flag_not_after;
 static bool stopping;static g::Audit last_audit[2];static bool has_audit[2];
 static bool admission_cleanup_pending;
+// One outstanding self wake, including its callback. A ticket prevents the
+// temporary bootstrap hook from clearing a newer wake when it sees the same
+// message a second time. This is scheduling state, never action authority.
+static volatile LONG wake_pending,wake_serial,wake_bootstrap=1;
+using WakePoster=BOOL (WINAPI*)(DWORD,UINT,WPARAM,LPARAM);
+static bool queue_wake(WakePoster post=PostThreadMessageW){
+ if(InterlockedCompareExchange(&wake_pending,-1,0))return true;
+ LONG serial=InterlockedIncrement(&wake_serial);
+ if(serial<=0||serial>0x3fffffff){InterlockedExchange(&wake_pending,0);return false;}
+ LONG ticket=serial|0x40000000;InterlockedExchange(&wake_pending,ticket);
+ if(post(sealed.thread,MESSAGE,MAGIC,(LPARAM)ticket))return true;
+ InterlockedCompareExchange(&wake_pending,0,ticket);return false;
+}
+static bool claim_wake(LPARAM ticket){
+ return ticket>=0x40000001&&ticket<=0x7fffffff&&
+  InterlockedCompareExchange(&wake_pending,-(LONG)ticket,(LONG)ticket)==(LONG)ticket;
+}
+static void finish_wake(LPARAM ticket){
+ if(ticket>=0x40000001&&ticket<=0x7fffffff)InterlockedCompareExchange(&wake_pending,0,-(LONG)ticket);
+}
 extern "C" __declspec(dllexport) LRESULT CALLBACK StrategicCommanderControl(int,WPARAM,LPARAM);
 
 static bool plain_path(const wchar_t* path){
@@ -190,7 +210,7 @@ static void tick(){
  p->active=0;
 }
 static DWORD WINAPI watchdog(void*){
- while(p&&p->phase!=2&&p->phase!=4){PostThreadMessageW(sealed.thread,MESSAGE,MAGIC,0);Sleep(100);}return 0;
+ while(p&&p->phase!=2&&p->phase!=4){if(!InterlockedCompareExchange(&wake_bootstrap,0,0))queue_wake();Sleep(100);}return 0;
 }
 static bool prepare(){
  if(!FIELD_CANDIDATE)return false;
@@ -232,13 +252,16 @@ static bool prepare(){
 extern "C" __declspec(dllexport) LRESULT CALLBACK StrategicCommanderControl(int code,WPARAM wp,LPARAM lp){
  if(!FIELD_CANDIDATE)return CallNextHookEx(NULL,code,wp,lp);
  if(code>=0&&wp==PM_REMOVE&&lp&&((MSG*)lp)->message==MESSAGE&&((MSG*)lp)->wParam==MAGIC){
-  if(!p){
+  LPARAM ticket=((MSG*)lp)->lParam;
+  bool bootstrap=!p&&ticket==0;
+  if(!bootstrap&&!claim_wake(ticket))return CallNextHookEx(NULL,code,wp,lp);
+  if(bootstrap){
    wchar_t name[96];swprintf(name,96,L"Local\\RA3StrategicCommanderV6_%lu",GetCurrentProcessId());
    mapping=OpenFileMappingW(FILE_MAP_ALL_ACCESS,FALSE,name);
    if(mapping)p=(Shared*)MapViewOfFile(mapping,FILE_MAP_ALL_ACCESS,0,0,sizeof(Shared));
    if(p&&!prepare())admission_failure_cleanup();
   }
-  tick();
+  tick();if(bootstrap)InterlockedExchange(&wake_bootstrap,0);else finish_wake(ticket);
  }
  return CallNextHookEx(NULL,code,wp,lp);
 }

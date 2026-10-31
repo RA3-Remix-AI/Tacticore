@@ -112,6 +112,42 @@ class BetaSetup(unittest.TestCase):
         self.assertEqual(target.read_bytes(),original)
         with closing(sqlite3.connect(self.state/'host-runtime.sqlite3')) as db:self.assertEqual(db.execute('SELECT count(*) FROM runs').fetchone()[0],1)
 
+    def test_returned_upgrade_rechecks_full_history_under_both_locks_without_rewriting_rows(self):
+        s.prepare(self.game,self.mod);self.empty_ledgers()
+        # The history decision is isolated here; full valid/invalid return
+        # replay is covered separately by Native6History and the field proof.
+        run=str(uuid.uuid4());binding=json.dumps(dict(original='unchanged'))
+        with closing(sqlite3.connect(self.state/'desktop-launch-index.sqlite3')) as db:
+            db.execute('INSERT INTO launches VALUES (?,?,?,?,?,?,?)',(run,str(uuid.uuid4()),'fingerprint',
+                'original-session','original-output',binding,'channel'));db.commit()
+        with closing(sqlite3.connect(self.state/'host-runtime.sqlite3')) as db:
+            db.execute('INSERT INTO runs VALUES (?,?,?)',(run,binding,'original-time'));db.commit()
+        before={name:(self.state/name).read_bytes() for name in upgrade.DATABASES}
+        from host_runtime.session_discovery_native import NAME
+        old=(self.state/NAME).read_bytes();self.next_manifest()
+        def replay(state,**options):
+            self.assertEqual(state,self.state);self.assertTrue(options['require_process_exit'])
+            for name in upgrade.DATABASES:
+                with closing(sqlite3.connect(self.state/name,timeout=0,isolation_level=None)) as contender:
+                    with self.assertRaises(sqlite3.OperationalError):contender.execute('BEGIN IMMEDIATE')
+        with patch.object(s,'quiet',side_effect=replay) as check:self.assertTrue(s.status()['prepared'])
+        check.assert_called_once()
+        self.assertEqual(before,{name:(self.state/name).read_bytes() for name in upgrade.DATABASES})
+        archive=self.state/'setup-history'/hashlib.sha256(old).hexdigest()
+        report=json.loads((archive/'preservation.json').read_text())
+        self.assertEqual(report['original_rows'],dict(launches=1,commands=0,events=0,native_sequences=0))
+        self.assertFalse(report['records_deleted']);self.assertFalse(report['records_rewritten'])
+        self.assertEqual((archive/NAME).read_bytes(),old)
+
+    def test_unverified_history_cannot_switch_metadata_after_acquiring_upgrade_locks(self):
+        s.prepare(self.game,self.mod);self.empty_ledgers()
+        from host_runtime.session_discovery_native import NAME
+        old=(self.state/NAME).read_bytes();self.next_manifest()
+        with patch.object(s,'quiet',side_effect=ContractError('beta_existing_run_unreleased')):
+            with self.assertRaisesRegex(ContractError,'beta_existing_run_unreleased'):s.status()
+        self.assertEqual((self.state/NAME).read_bytes(),old)
+        self.assertFalse((self.state/'setup-history').exists())
+
     def test_missing_original_ledger_is_not_recreated_to_admit_an_upgrade(self):
         s.prepare(self.game,self.mod);self.empty_ledgers()
         from host_runtime.session_discovery_native import NAME

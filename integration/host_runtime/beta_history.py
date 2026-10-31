@@ -190,7 +190,10 @@ def closed_status(backend,row):
             or status.get('session_id')!=binding.session_id or status.get('pid')!=binding.game_process_id
             or status.get('process_start')!=binding.game_process_start
             or any(status.get(k)!=receipt.get(k) for k in ('host_pid','host_start_time'))):raise ContractError('run_history_unverifiable')
-    if macro:
+    if macro and (Path(row['output_path'])/'native6-context.json').exists():
+        from .native6_history import verified_return
+        verified=verified_return(backend,row,binding,receipt)
+    elif macro:
         backend.historical_report_root=source_root(row)
         cache=getattr(backend,'_file_review_contexts',{})
         if backend.historical_report_root not in cache:cache[backend.historical_report_root]=FileReviewContext(backend.historical_report_root)

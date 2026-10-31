@@ -78,7 +78,7 @@ def check(checks,registration,profile,host_id,state_dir,library_path,limits):
 def released(backend,run_id,binding,host_receipt):
     try:
         if (Path(backend._launch(run_id)['output_path'])/'native6-context.json').exists():
-            from .native6_lifecycle import verified_return
+            from .native6_history import verified_return
             return verified_return(backend,backend._launch(run_id),binding,host_receipt)
         unresolved=backend.journal.unresolved(run_id)
         row=backend._launch(run_id);output=Path(row['output_path'])

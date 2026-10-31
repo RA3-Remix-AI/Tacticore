@@ -470,7 +470,7 @@ def native_epoch(manifest):
 
 def frozen_manifest(row,session,binding):
     if (Path(row['output_path'])/'native6-context.json').exists():
-        from .native6_lifecycle import context
+        from .native6_history import context
         return context(row,session,binding)[1]
     output=_local_path(Path(row['output_path']),directory=True)
     source_root=_local_path(output/'source',directory=True)

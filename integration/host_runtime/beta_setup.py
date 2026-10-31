@@ -18,7 +18,7 @@ from .native6_qualification import current,create,COMMANDER,MAP_ID
 from .native6_runtime_contract import GAME_SHA,PACKAGE_SHA,read,sha
 from .session_discovery import DiscoveryPolicy,TrustedFiles,TERMINAL
 from . import beta_launch
-from .beta_setup_upgrade import no_game,require_indexes,unstarted,preserve,replace_policy
+from .beta_setup_upgrade import no_game,require_indexes,returned,preserve,replace_policy
 
 VERSION='0.1.0-beta.1'
 KIND='native6_installed_discovery_v1'
@@ -47,13 +47,9 @@ def quiet(state,*,require_process_exit=False,legacy=False):
     if not state.exists():return
     plain_local(state)
     if not any((state/name).exists() for name in ('desktop-launch-index.sqlite3','host-runtime.sqlite3')):return
-    from .desktop_backend import DesktopBackend
     from .session_discovery_native import run_records
-    from types import SimpleNamespace
-    if legacy:
-        from .beta_history import open_history
-        backend=open_history(state)
-    else:backend=DesktopBackend(SimpleNamespace(state_dir=state))
+    from .beta_history import open_history
+    backend=open_history(state)
     try:
         for row in run_records(backend):
             if row.state not in TERMINAL or not row.native_release_verified or row.unresolved_count:
@@ -141,10 +137,10 @@ def prepare(game,mod):
         exact_file(launcher_path(state,record),(json.dumps(beta_launch.record(game,config,pin,record['policy_id']),sort_keys=True)+'\n').encode())
     elif old is not None:
         if not indexes_existed:raise ContractError('beta_setup_changed_requires_migration')
-        # Lock both empty ledgers through the policy switch. Existing launches
-        # or commands never get deleted or reclassified to admit an update.
-        with unstarted(state):
-            preserve(state,target,old,old_sha)
+        # Keep both original ledgers locked while independently returned
+        # history is replayed and setup metadata switches. No record changes.
+        with returned(state) as history:
+            preserve(state,target,old,old_sha,history=history)
             exact_file(launcher_path(state,record),(json.dumps(beta_launch.record(game,config,pin,record['policy_id']),sort_keys=True)+'\n').encode())
             replace_policy(target,(json.dumps(record,sort_keys=True)+'\n').encode(),old_sha)
     else:

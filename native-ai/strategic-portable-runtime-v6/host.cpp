@@ -50,9 +50,17 @@ int main(int argc,char** argv){
  HMODULE library=LoadLibraryW(dll);HOOKPROC callback=NULL;
  if(library){FARPROC function=GetProcAddress(library,"StrategicCommanderControl");memcpy(&callback,&function,sizeof(callback));}
  HHOOK hook=callback?SetWindowsHookExW(WH_GETMESSAGE,callback,library,p->binding.thread):NULL;if(!hook)return 8;
+ // A single queued bootstrap is enough. Reposting during dependency hashing
+ // used to fill the Game queue before its own bounded producer was ready.
+ if(!PostMessageW(window,MESSAGE,MAGIC,0)){UnhookWindowsHookEx(hook);UnmapViewOfFile(p);CloseHandle(mapping);CloseHandle(process);FreeLibrary(library);return 10;}
  DWORD started=GetTickCount();
- while(p->phase!=2&&p->phase!=4&&GetTickCount()-started<HARD_WALL_MS+15000){PostMessageW(window,MESSAGE,MAGIC,0);if(GetTickCount()-started>HARD_WALL_MS)p->stop=1;Sleep(25);}
+ while(p->phase!=2&&p->phase!=4&&GetTickCount()-started<HARD_WALL_MS+15000){
+  // The Game owns a pinned hook and watchdog before publishing phase 1.
+  // Remove the temporary hook so one message cannot invoke tick twice.
+  if(hook&&p->phase==1&&p->hook_held){if(UnhookWindowsHookEx(hook))hook=NULL;else p->stop=1;}
+  if(GetTickCount()-started>HARD_WALL_MS)p->stop=1;Sleep(25);
+ }
  printf("{\"phase\":%ld,\"error\":%u,\"lease_held\":%u,\"hook_held\":%u,\"cleanup_verified\":%u}\n",p->phase,p->error,p->lease_held,p->hook_held,p->cleanup_verified);
  bool okay=p->phase==2&&!p->active&&!p->lease_held&&!p->hook_held&&!p->applied_mask&&p->cleanup_verified;
- UnhookWindowsHookEx(hook);UnmapViewOfFile(p);CloseHandle(mapping);CloseHandle(process);if(library)FreeLibrary(library);return okay?0:9;
+ if(hook)UnhookWindowsHookEx(hook);UnmapViewOfFile(p);CloseHandle(mapping);CloseHandle(process);if(library)FreeLibrary(library);return okay?0:9;
 }

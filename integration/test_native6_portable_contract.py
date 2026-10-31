@@ -65,8 +65,8 @@ class PortableNative6Tests(unittest.TestCase):
         self.assertEqual((old / 'flag_api.h').read_bytes(), (new / 'flag_api.h').read_bytes())
         def section(directory, name, begin, end):
             return (directory / name).read_text(encoding='utf-8').split(begin, 1)[1].split(end, 1)[0]
-        self.assertEqual(section(old, 'native.cpp', 'static void tick(){', 'static bool prepare(){'),
-                         section(new, 'native.cpp', 'static void tick(){', 'static bool prepare(){'))
+        self.assertEqual(section(old, 'native.cpp', 'static void tick(){', 'static DWORD WINAPI watchdog('),
+                         section(new, 'native.cpp', 'static void tick(){', 'static DWORD WINAPI watchdog('))
         self.assertEqual(section(old, 'client.py', '    def _command(', '    def close('),
                          section(new, 'client.py', '    def _command(', '    def close('))
         flags = (new / 'flags.h').read_text().replace('row.version=6', 'row.version=5').replace('0x454e4436', '0x454e4435')
