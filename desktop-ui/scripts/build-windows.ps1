@@ -38,7 +38,17 @@ $toolingOverride = $null
 $bundleSnapshot = $null
 $snapshotParent = $null
 if ($BetaCandidate) {
+    $supplementRoot = Join-Path $releaseRoot 'distribution-notices'
+    & $PythonExecutable (Join-Path $PSScriptRoot 'supplement-beta-notices.py') --output $supplementRoot --verify
+    if ($LASTEXITCODE -ne 0) { throw 'Complete installer-only original notices are required.' }
     $candidateTarget = if ($env:CARGO_TARGET_DIR) { $env:CARGO_TARGET_DIR } else { Join-Path $desktopRoot 'src-tauri/target' }
+    $cachedSupplement = Join-Path $candidateTarget 'release/distribution-notices'
+    if (Test-Path -LiteralPath $cachedSupplement) {
+        & $PythonExecutable (Join-Path $PSScriptRoot 'supplement-beta-notices.py') --output $cachedSupplement --verify
+        if ($LASTEXITCODE -ne 0 -or (Get-FileHash -LiteralPath (Join-Path $cachedSupplement 'index.json')).Hash -ne (Get-FileHash -LiteralPath (Join-Path $supplementRoot 'index.json')).Hash) {
+            throw 'Installer notice cache changed. Use a fresh CARGO_TARGET_DIR; existing files were retained.'
+        }
+    }
     $cachedRuntime = Join-Path $candidateTarget 'release/runtime'
     if (Test-Path -LiteralPath $cachedRuntime) {
         $cachedManifest = Join-Path $cachedRuntime 'manifest.json'
@@ -59,6 +69,7 @@ if ($BetaCandidate) {
     $bundleSnapshot = Join-Path $snapshotParent $snapshotName
     New-Item -ItemType Directory -Path $bundleSnapshot | Out-Null
     Copy-Item -LiteralPath (Join-Path $releaseRoot 'runtime') -Destination $bundleSnapshot -Recurse
+    Copy-Item -LiteralPath $supplementRoot -Destination $bundleSnapshot -Recurse
     & $PythonExecutable (Join-Path $PSScriptRoot 'release_preflight.py') --runtime (Join-Path $bundleSnapshot 'runtime') --candidate
     if ($LASTEXITCODE -ne 0) { throw 'Copied beta bundle did not match the frozen candidate.' }
     # Root-relative on the project drive avoids Tauri stripping a different
@@ -66,6 +77,8 @@ if ($BetaCandidate) {
     $snapshotRuntime = (Join-Path $bundleSnapshot 'runtime')
     if ([IO.Path]::GetPathRoot($snapshotRuntime) -ne [IO.Path]::GetPathRoot($desktopRoot)) { throw 'Bundle snapshot must be on the project drive.' }
     $runtimeResources[($snapshotRuntime.Substring(2).Replace('\','/') + '/')] = 'runtime/'
+    $supplementSnapshot = (Join-Path $bundleSnapshot 'distribution-notices')
+    $runtimeResources[($supplementSnapshot.Substring(2).Replace('\','/') + '/')] = 'distribution-notices/'
     @{ build = @{ beforeBuildCommand = 'node.exe node_modules/typescript/bin/tsc --noEmit && node.exe node_modules/vite/bin/vite.js build --config vite.beta.config.ts' }; bundle = @{resources=$runtimeResources} } | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath $toolingOverride -Encoding utf8NoBOM
     $action += ' --config "' + $toolingOverride + '"'
 }
