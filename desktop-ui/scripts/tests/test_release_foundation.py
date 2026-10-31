@@ -151,6 +151,23 @@ class ReleaseFoundationTests(unittest.TestCase):
         self.assertFalse(report['ready'])
         self.assertIn('strategic_native_payload_missing', {r['code'] for r in report['blockers']})
 
+    def test_native6_payload_and_self_reported_pass_bits_do_not_grant_release(self):
+        root, manifest = self.inventory_fixture()
+        payload = {'native/strategic6/StrategicCommanderV6.dll': b'fixture',
+                   'native/strategic6/manager_host.exe': b'fixture',
+                   'native/strategic6/build-manifest.json': b'{"game_qualified":true}'}
+        for name, raw in payload.items():
+            path = root / name
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes(raw)
+            manifest['files'][name] = digest(path)
+        (root / 'manifest.json').write_text(json.dumps(manifest), encoding='utf-8')
+        report = preflight(REPO, root)
+        codes = {row['code'] for row in report['blockers']}
+        self.assertFalse(report['ready'])
+        self.assertIn('native6_offline_candidate_not_qualified', codes)
+        self.assertNotIn('strategic_native_payload_missing', codes)
+
     def test_legacy_packager_requires_explicit_research_opt_in_before_writing(self):
         spec = importlib.util.spec_from_file_location('legacy_packager', SCRIPTS / 'package-runtime.py')
         module = importlib.util.module_from_spec(spec)

@@ -39,8 +39,9 @@ print(json.dumps(dict(imports_confined=True, pydantic_backend_available=True)))
 def probe(runtime):
     runtime = Path(runtime).absolute()
     before = verify_inventory(runtime)
-    if read_json(runtime / 'release-stage.json').get('kind') != 'locked_python_stage':
-        raise ValueError('python_stage_required')
+    stage_kind = read_json(runtime / 'release-stage.json').get('kind')
+    if stage_kind not in ('locked_python_stage', 'portable_native6_offline_candidate'):
+        raise ValueError('offline_companion_stage_required')
     with tempfile.TemporaryDirectory(prefix='tacticore-python-stage-') as temporary:
         temporary = Path(temporary)
         for name in ('host_runtime', 'pydantic_ai', 'openai'):
@@ -87,7 +88,7 @@ def probe(runtime):
     after = verify_inventory(runtime, before['manifest_sha256'])
     if before != after:
         raise ValueError('python_stage_inventory_changed_after_probe')
-    return dict(schema_version=1, kind='locked_python_stage_smoke', **after,
+    return dict(schema_version=1, kind='locked_python_stage_smoke', companion_stage=stage_kind, **after,
                 isolated_imports=True, hostile_cwd_and_python_environment_ignored=True,
                 user_provider_environment_not_inherited=True,
                 pydantic_backend_imported=True, first_use_rpc=True, profile_query_rpc=True, reopen_rpc=True,

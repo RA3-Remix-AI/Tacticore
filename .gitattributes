@@ -47,3 +47,6 @@
 
 # Release provenance records the build tools' bytes as well.
 /desktop-ui/scripts/**/*.py text eol=lf
+
+# Native6 retains the reviewed Native5 flag API byte-for-byte, including EOF.
+/native-ai/strategic-portable-runtime-v6/flag_api.h whitespace=-blank-at-eof

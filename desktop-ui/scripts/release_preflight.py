@@ -144,7 +144,12 @@ def preflight(repo=REPO, runtime=None):
             report['runtime'] = verify_inventory(runtime)
             files = read_json(Path(runtime) / 'manifest.json')['files']
             natives = {PurePosixPath(name).name for name in files}
-            if not {'StrategicCommanderV5.dll', 'manager_host.exe'} <= natives:
+            native6 = {'native/strategic6/StrategicCommanderV6.dll', 'native/strategic6/manager_host.exe',
+                       'native/strategic6/build-manifest.json'} <= files.keys()
+            if native6:
+                report['blockers'].append(dict(code='native6_offline_candidate_not_qualified', path='runtime/native/strategic6',
+                                              detail='The Native6 offline candidate has no field/product grant or accepted natural games.'))
+            elif not {'StrategicCommanderV5.dll', 'manager_host.exe'} <= natives:
                 report['blockers'].append(dict(code='strategic_native_payload_missing', path='runtime',
                                               detail='The current strategic helper/DLL payload is missing.'))
             if 'release-stage.json' in files:
