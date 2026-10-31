@@ -17,9 +17,14 @@ from .native6_paths import known_folder,LOCAL_APP_DATA,DOCUMENTS,plain_local
 from .native6_qualification import current,create,COMMANDER,MAP_ID
 from .native6_runtime_contract import GAME_SHA,PACKAGE_SHA,read,sha
 from .session_discovery import DiscoveryPolicy,TrustedFiles,TERMINAL
+from . import beta_launch
+from .beta_setup_upgrade import no_game,require_indexes,unstarted,preserve,replace_policy
 
 VERSION='0.1.0-beta.1'
 KIND='native6_installed_discovery_v1'
+
+def descriptor_path(state,pin):return state/'sessions'/('native6-trial-'+pin+'.json')
+def launcher_path(state,policy):return state/('game-launch-'+policy['policy_id']+'.json')
 
 
 def locations():
@@ -94,9 +99,16 @@ def prepare(game,mod):
     game,mod=plain_local(game),plain_local(mod)
     if game.name.lower()!='ra3_1.12.game' or sha(game)!=GAME_SHA:raise ContractError('beta_game_unsupported')
     if mod.suffix.lower()!='.big' or sha(mod)!=PACKAGE_SHA:raise ContractError('beta_mod_unsupported')
-    launcher=plain_local(game.parent.parent/'RA3.exe')
-    guard_states()
+    beta_launch.base_config(game)
     home,state,mods,legacy=locations()
+    from .session_discovery_native import SCOPE,NAME
+    target=state/NAME
+    from .session_discovery_native import read_object
+    old,old_sha=read_object(target) if target.exists() else (None,None)
+    indexes_existed=all((state/name).is_file() for name in ('desktop-launch-index.sqlite3','host-runtime.sqlite3'))
+    if old is not None and old.get('runtime_manifest_sha256')!=pin:require_indexes(state)
+    guard_states()
+    no_game()
     for folder in (home,state,mods,state/'sessions'):
         plain_local(folder,existing=False);folder.mkdir(parents=True,exist_ok=True);plain_local(folder)
     destination=mods/'TFCommander.big'
@@ -105,19 +117,18 @@ def prepare(game,mod):
     else:
         # An interrupted copy is kept separate; it is never accepted as the Mod.
         temporary=mods/(uuid.uuid4().hex+'.partial')
-        with mod.open('rb') as source,temporary.open('xb') as target:
-            shutil.copyfileobj(source,target);target.flush();os.fsync(target.fileno())
+        with mod.open('rb') as source,temporary.open('xb') as destination_stream:
+            shutil.copyfileobj(source,destination_stream);destination_stream.flush();os.fsync(destination_stream.fileno())
         if sha(temporary)!=PACKAGE_SHA or sha(mod)!=PACKAGE_SHA:raise ContractError('beta_mod_changed')
         # Rename without replacing unrelated or concurrently created content.
         temporary.rename(destination)
     config=mods/'TFCommander_1.0.SkuDef'
     exact_file(config,b'mod-game 1.12\nadd-big TFCommander.big\n')
-    descriptor=state/'sessions/native6-trial.json'
+    descriptor=descriptor_path(state,pin)
     if descriptor.exists():
         from .native6_qualification import load
         load(descriptor)
     else:create(descriptor)
-    from .session_discovery_native import SCOPE,NAME
     values=dict(game=game,mod_config=config,mod_big=destination,registry=root/'qualification/registry.json',
         macro_bundle=descriptor,package_report=root/'qualification/package.json')
     pins={}
@@ -125,18 +136,22 @@ def prepare(game,mod):
         pins[key]=str(path);pins['mod_sha256' if key=='mod_big' else key+'_sha256']=sha(path)
     record=dict(schema_version=2,kind=KIND,policy_id=str(uuid.uuid4()),session_root=str(state/'sessions'),
         runtime_manifest_sha256=pin,files=pins,scope=dict(SCOPE,native_epoch=6))
-    target=state/NAME
-    if target.exists():
-        old=read(target)
-        if {k:v for k,v in old.items() if k!='policy_id'}!={k:v for k,v in record.items() if k!='policy_id'}:
-            raise ContractError('beta_setup_changed_requires_migration')
+    if old is not None and {k:v for k,v in old.items() if k!='policy_id'}=={k:v for k,v in record.items() if k!='policy_id'}:
         record=old
+        exact_file(launcher_path(state,record),(json.dumps(beta_launch.record(game,config,pin,record['policy_id']),sort_keys=True)+'\n').encode())
+    elif old is not None:
+        if not indexes_existed:raise ContractError('beta_setup_changed_requires_migration')
+        # Lock both empty ledgers through the policy switch. Existing launches
+        # or commands never get deleted or reclassified to admit an update.
+        with unstarted(state):
+            preserve(state,target,old,old_sha)
+            exact_file(launcher_path(state,record),(json.dumps(beta_launch.record(game,config,pin,record['policy_id']),sort_keys=True)+'\n').encode())
+            replace_policy(target,(json.dumps(record,sort_keys=True)+'\n').encode(),old_sha)
     else:
         from .desktop_session_registry import register_root
         register_root(state/'sessions',state)
+        exact_file(launcher_path(state,record),(json.dumps(beta_launch.record(game,config,pin,record['policy_id']),sort_keys=True)+'\n').encode())
         exact_file(target,(json.dumps(record,sort_keys=True)+'\n').encode())
-    exact_file(state/'game-launch.json',(json.dumps(dict(schema_version=1,launcher=str(launcher),launcher_sha256=sha(launcher),
-        game=str(game),game_sha256=GAME_SHA,mod_config=str(config),mod_config_sha256=sha(config)),sort_keys=True)+'\n').encode())
     return dict(schema_version=1,prepared=True,version=VERSION,game_verified=True,mod_verified=True,
         requires_live_discovery=True,host_started=False,native_commands_issued=0,model_requests=0)
 
@@ -163,9 +178,11 @@ def load_policy(state,record):
     if (files.game.name.lower()!='ra3_1.12.game' or files.game_sha256!=GAME_SHA or files.mod_sha256!=PACKAGE_SHA
             or files.mod_big!=mods/'TFCommander.big' or files.mod_config!=mods/'TFCommander_1.0.SkuDef'
             or files.registry!=root/'qualification/registry.json' or files.package_report!=root/'qualification/package.json'
-            or files.macro_bundle!=expected/'sessions/native6-trial.json'):raise ContractError('discovery_policy_invalid')
+            or files.macro_bundle!=descriptor_path(expected,pin)):raise ContractError('discovery_policy_invalid')
     from .native6_qualification import load
     load(files.macro_bundle);validate_mod_file(files.mod_config,files.mod_big)
+    if read(launcher_path(state,record))!=beta_launch.record(files.game,files.mod_config,pin,record['policy_id']):
+        raise ContractError('beta_game_launcher_changed')
     return record,DiscoveryPolicy(files,plain_local(expected/'sessions'),plain_local(expected),**record['scope'])
 
 
@@ -174,6 +191,16 @@ def status():
     from .session_discovery_native import NAME
     target=state/NAME
     if not target.exists():return dict(schema_version=1,prepared=False,version=VERSION)
+    old=read(target);_,pin,_,_,_=current()
+    if old.get('runtime_manifest_sha256')!=pin:
+        from .session_discovery_native import SCOPE
+        if (type(old.get('schema_version')) is not int or old['schema_version']!=2 or old.get('kind')!=KIND
+                or old.get('scope')!=dict(SCOPE,native_epoch=6) or Path(old['session_root'])!=state/'sessions'):
+            raise ContractError('beta_setup_changed_requires_migration')
+        # The previous native picker's selections retain their authorization.
+        # The fresh factory still checks exact Game/Mod/base hashes and can
+        # switch metadata only when both original Host ledgers are empty.
+        prepare(Path(old['files']['game']),Path(old['files']['mod_big']))
     load_policy(state,read(target))
     return dict(schema_version=1,prepared=True,version=VERSION,game_verified=True,mod_verified=True,
         requires_live_discovery=True,host_started=False)
@@ -183,15 +210,16 @@ def launch():
     guard_states();home,state,mods,legacy=locations()
     from .session_discovery_native import NAME,Win32ReadOnly
     _,policy=load_policy(state,read(state/NAME))
-    if Win32ReadOnly().process_ids('RA3_1.12.game'):raise ContractError('beta_game_already_running')
-    record=read(state/'game-launch.json');launcher=plain_local(record['launcher'])
-    if (launcher!=policy.files.game.parent.parent/'RA3.exe' or sha(launcher)!=record['launcher_sha256']
-            or record['game']!=str(policy.files.game) or record['game_sha256']!=policy.files.game_sha256
-            or record['mod_config']!=str(policy.files.mod_config) or record['mod_config_sha256']!=policy.files.mod_config_sha256):
+    no_game()
+    game=policy.files.game
+    if sha(game)!=GAME_SHA or sha(policy.files.mod_big)!=PACKAGE_SHA:
         raise ContractError('beta_game_launcher_changed')
     # User's explicit native button; fixed arguments only. Discovery later
     # validates the actual Game image/incarnation, package, map and own UUID.
-    subprocess.Popen([str(launcher),'-modconfig',str(policy.files.mod_config)],cwd=launcher.parent,
+    # Do not re-read mutable launch JSON after load_policy validated it. The
+    # executed base path is derived again from the verified Game and pins.
+    base=beta_launch.base_config(game)
+    subprocess.Popen(beta_launch.arguments(game,policy.files.mod_config,base),cwd=game.parent.parent,
         stdin=subprocess.DEVNULL,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,creationflags=subprocess.CREATE_NO_WINDOW)
     return dict(schema_version=1,game_launch_requested=True,host_started=False,model_requests=0)
 
