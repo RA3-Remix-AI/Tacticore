@@ -183,6 +183,9 @@ def closed_status(backend,row):
             and len(backend.journal.commands_for_run(row['run_id']))==1):
         return dict(run_id=row['run_id'],session_id=binding.session_id,state='stopped',native_release_verified=True,no_native_execution_started=True)
     host_ended(receipt)
+    from .native6_early_return_history import missing_status_projection
+    early=missing_status_projection(backend,row,binding,start)
+    if early is not None:return early
     status,_=read_object(_local_path(Path(row['output_path'])/'host-status.json'),1024*1024)
     macro=start['payload'].get('capabilities',{}).get('native_macro') is True
     runtime=status.get('runtime_macro' if macro else 'runtime_production',{})
