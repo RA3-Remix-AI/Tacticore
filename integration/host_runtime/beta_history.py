@@ -203,8 +203,12 @@ def closed_status(backend,row):
         finally:sys.path[:]=original
     else:verified=backend._release_receipt(row['run_id'],binding,receipt)
     state=status['state']
-    if (verified and macro and (Path(row['output_path'])/'native-orphan-return.json').exists()
-            and receipt.get('reason_code')=='host_process_lost_control_returned'):
+    orphan_return=(Path(row['output_path'])/'native-orphan-return.json').exists()
+    if macro and (Path(row['output_path'])/'native6-context.json').exists() and verified:
+        from .native6_orphan_return import KIND as ORPHAN
+        stop=backend.journal.get_command(row['run_id'],'macro-stop')
+        orphan_return=stop['status']=='released' and (stop['receipt'] or {}).get('native_release_contract')==ORPHAN
+    if (verified and macro and orphan_return and receipt.get('reason_code')=='host_process_lost_control_returned'):
         state='fault'  # same read-only lost-Host projection as the original backend
     return dict(run_id=row['run_id'],session_id=binding.session_id,state=state,native_release_verified=verified)
 

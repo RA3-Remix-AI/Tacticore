@@ -230,7 +230,8 @@ def main():
         if operation=='status':object_fields(request,{'operation'});result=status()
         elif operation=='prepare':object_fields(request,{'operation','game','mod'});result=prepare(request['game'],request['mod'])
         elif operation=='launch':object_fields(request,{'operation'});result=launch()
-        elif operation=='guard':object_fields(request,{'operation'});guard_states(require_process_exit=True);result={'quiet':True}
+        elif operation=='guard':
+            object_fields(request,{'operation'});guard_states(require_process_exit=True);no_game();result={'quiet':True}
         else:raise ContractError('operation_unsupported')
         print(json.dumps(dict(ok=True,result=result)))
         return 0

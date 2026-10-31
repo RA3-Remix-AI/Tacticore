@@ -1,6 +1,8 @@
 """First-use file preparation and real discovery broker, no Game/model IO."""
 from dataclasses import asdict
 from contextlib import closing
+from contextlib import redirect_stdout
+import io
 import hashlib
 import json
 from pathlib import Path
@@ -233,6 +235,30 @@ class BetaSetup(unittest.TestCase):
                          lambda r:r.update(runtime_manifest_sha256='b'*64)):
             bad=json.loads(json.dumps(record));mutation(bad)
             with self.assertRaises(ContractError):s.load_policy(self.state,bad)
+
+
+class MaintenanceGuard(unittest.TestCase):
+    def invoke(self):
+        with patch('sys.stdin',SimpleNamespace(buffer=io.BytesIO(b'{"operation":"guard"}\n'))),redirect_stdout(io.StringIO()) as output:
+            code=s.main()
+        return code,json.loads(output.getvalue())
+
+    def test_guard_requires_full_return_and_no_game_even_without_registered_match(self):
+        with patch.object(s,'guard_states') as quiet,patch.object(s,'no_game',side_effect=ContractError('beta_game_already_running')):
+            code,result=self.invoke()
+            self.assertEqual(code,2);self.assertFalse(result['ok'])
+            self.assertEqual(result['error']['code'],'beta_game_already_running')
+            quiet.assert_called_once_with(require_process_exit=True)
+
+    def test_unreturned_history_cannot_be_bypassed_by_absent_game(self):
+        with patch.object(s,'guard_states',side_effect=ContractError('beta_existing_run_unreleased')),patch.object(s,'no_game') as absent:
+            code,result=self.invoke()
+            self.assertEqual(code,2);self.assertFalse(result['ok']);absent.assert_not_called()
+
+    def test_returned_history_and_absent_game_allow_guard(self):
+        with patch.object(s,'guard_states'),patch.object(s,'no_game') as absent:
+            code,result=self.invoke()
+            self.assertEqual(code,0);self.assertTrue(result['result']['quiet']);absent.assert_called_once()
 
 
 if __name__=='__main__':unittest.main()

@@ -79,7 +79,18 @@ if ($BetaCandidate) {
     $runtimeResources[($snapshotRuntime.Substring(2).Replace('\','/') + '/')] = 'runtime/'
     $supplementSnapshot = (Join-Path $bundleSnapshot 'distribution-notices')
     $runtimeResources[($supplementSnapshot.Substring(2).Replace('\','/') + '/')] = 'distribution-notices/'
-    @{ build = @{ beforeBuildCommand = 'node.exe node_modules/typescript/bin/tsc --noEmit && node.exe node_modules/vite/bin/vite.js build --config vite.beta.config.ts' }; bundle = @{resources=$runtimeResources} } | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath $toolingOverride -Encoding utf8NoBOM
+    $guardBinary = [IO.Path]::GetFullPath((Join-Path $candidateTarget 'release/tacticore-desktop.exe'))
+    $guardHooks = Join-Path $bundleSnapshot 'installer-guard.nsh'
+    $originalHooks = Join-Path $desktopRoot 'src-tauri/installer-hooks.nsh'
+    foreach ($nsisPath in @($guardBinary,$snapshotRuntime,$originalHooks)) {
+        if ($nsisPath.Contains('$') -or $nsisPath.Contains('"') -or $nsisPath.Contains("`n") -or $nsisPath.Contains("`r")) { throw 'Unsupported NSIS guard source path.' }
+    }
+    @(
+        '!define TACTICORE_GUARD_BINARY "' + $guardBinary + '"'
+        '!define TACTICORE_GUARD_RUNTIME "' + $snapshotRuntime + '"'
+        '!include "' + $originalHooks + '"'
+    ) | Set-Content -LiteralPath $guardHooks -Encoding utf8NoBOM
+    @{ build = @{ beforeBuildCommand = 'node.exe node_modules/typescript/bin/tsc --noEmit && node.exe node_modules/vite/bin/vite.js build --config vite.beta.config.ts' }; bundle = @{resources=$runtimeResources;windows=@{nsis=@{installerHooks=$guardHooks}}} } | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath $toolingOverride -Encoding utf8NoBOM
     $action += ' --config "' + $toolingOverride + '"'
 }
 if (-not $NativeTests -and -not $BetaCandidate -and -not (Get-Command npm.cmd -ErrorAction SilentlyContinue)) {

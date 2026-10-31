@@ -61,6 +61,20 @@ class Native6History(unittest.TestCase):
         (self.source/'0-macro_host.py').write_bytes(b'changed-source')
         with self.assertRaises(ContractError):h.context(self.row,self.session,self.binding)
 
+    def test_current_manifest_replays_from_temporary_installer_without_live_root_rebinding(self):
+        # Installer guard runs beside its own verified new runtime, while the
+        # recorded root is comparison-only data from the original install.
+        before=(live.context,live.runtime_root,live.trusted_pin)
+        with patch.object(h,'trusted_pin',return_value=self.pin),patch.dict(h.PRIOR,{},clear=True),\
+                patch.object(live,'runtime_root',return_value=self.base/'new-installer-guard'):
+            root_function=live.runtime_root
+            self.assertEqual(h.context(self.row,self.session,self.binding)[0],self.value)
+            self.assertIs(live.runtime_root,root_function)
+            self.value['runtime_root']=str(self.base/'substituted-old-root')
+            self.write(self.output/'native6-context.json',self.value)
+            with self.assertRaises(ContractError):h.context(self.row,self.session,self.binding)
+        self.assertEqual((live.context,live.runtime_root,live.trusted_pin),before)
+
     def test_old_manifest_and_build_cannot_repin_themselves(self):
         for filename in ('5-manifest.json','6-build-manifest.json'):
             path=self.source/filename;raw=path.read_bytes();path.write_bytes(raw+b' ')

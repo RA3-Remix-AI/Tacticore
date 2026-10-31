@@ -740,7 +740,7 @@ class DesktopBackend:
                 and self.spawner.identity(receipt['host_pid'])!=receipt['host_start_time']):
             try:
                 if command['payload']['capabilities']['native_transport_protocol']==6:
-                    from .native6_orphan_return import recover_after_stop
+                    from .native6_recovery_route import recover_after_stop
                 else:from .native5_orphan_return_v1 import recover_after_stop
                 if recover_after_stop(self,row,binding,receipt,_atomic):
                     result.update(state='fault',reason_code='host_process_lost_control_returned',
