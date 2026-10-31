@@ -6,7 +6,7 @@ from types import SimpleNamespace
 import unittest
 from unittest.mock import patch
 
-import test_native6_history as history_fixture
+from integration import test_native6_history as history_fixture
 from host_runtime import native6_history as history,native6_lifecycle as original,native6_normal_return_v1 as normal
 from host_runtime import native6_no_attachment as no_attach,native6_orphan_return as orphan,native6_release as release
 from host_runtime import native6_recovery_route as recovery,beta_history
