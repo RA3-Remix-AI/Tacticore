@@ -36,14 +36,34 @@ npm ci
 
 脚本通过 `vswhere` 加载 MSVC 环境并找到用户 Rust 安装，不依赖当前终端已有 cargo/cl PATH。构建输出为 `src-tauri/target/debug/tacticore-desktop.exe`。`npm run build` 只验证 TypeScript 与静态前端，不能替代原生编译和开窗验收。开发窗口使用仓库中的 Python 虚拟环境。
 
-## Windows release companion
+## Windows v0.1-beta 开发
+
+发布工作在独立分支 `release/windows-v0.1-beta` 推进，完整交付顺序与门槛见[发布执行清单](../docs/windows-v0.1-beta-execution.md)。当前先实现锁定 Python 依赖的阶段包；它不包含具备可迁移资格的 Native 战略运行组件，不能作为游戏 beta 分发。
+
+在仓库根目录，使用安装了 `agent_runtime/requirements-pydantic.lock` 精确版本的 Windows x64 CPython 3.12 环境执行：
+
+```powershell
+.venv\Scripts\python.exe -B desktop-ui\scripts\stage-python-runtime.py --output 'C:\TacticoreStage\runtime'
+.venv\Scripts\python.exe -B desktop-ui\scripts\probe-python-stage.py --runtime 'C:\TacticoreStage\runtime' --output 'C:\TacticoreStage\python-smoke.json'
+.venv\Scripts\python.exe -B desktop-ui\scripts\release_preflight.py --runtime 'C:\TacticoreStage\runtime' --output 'C:\TacticoreStage\preflight.json'
+```
+
+输出目录与报告必须是新的。构建机还需要 Git：应用源码仅从受版本管理的 Python 文件中收集，排除未跟踪脚本和 JSON；打包器按锁逐一选择 distribution 并核对 RECORD 的 SHA-256 与大小，拒绝缺失文件、版本冲突、导入钩子和路径逃逸，不再复制整个 site-packages。包内有解释器、锁和构建工具摘要、实际依赖/许可证文件清单及完整文件摘要。当前版本锁尚不是含 wheel 摘要的可重建下载锁，许可证清单中的 `pending` 也不是再分发许可结论。
+
+烟测在临时的全新本机配置中验证 SDK 导入、首次初始化、档案查询和进程重开；不读取用户密钥，不调用模型或游戏。外部同名模块及错误 PYTHONHOME/PYTHONPATH 不得影响导入，烟测前后清单必须一致。它不能代替干净 Windows 上的安装器、WebView2 或游戏验收。
+
+预检目前**预期非零退出**：Native5 helper、DLL 源清单/日志/Mod 路径及 schema13 资格仍绑定开发机，新便携合同、首用游戏接入与安装器尚未完成。报告逐项列出原因。`build-windows.ps1 -ReleaseDirectory ... -PythonExecutable ...` 会先运行同一预检并拒绝未完成候选；直接 release 编译也必须提供运行清单。旧 `package-runtime.py` 默认拒绝运行，只有显式 `--legacy-research` 可重现早期研究快照。
+
+本轮不改旧资格及正式局计数。新 Native 运行组件必须与 SDK、只读归还读取器和用户数据路径一起冻结，随后由唯一实机控制者重新验收。
+
+## 历史 Windows release companion
 
 以下流程和验收属于旧配置／RPC发布快照。当前Native5本机debug候选不继承该发布资格；完整Native5非Python制品及运行闭包尚须另行打包验证。可移植安装不作为本轮战略产品自然验收的新增前置。
 
 从仓库根目录，用当前 Python 3.12 虚拟环境建立一个新的独立目录；再在 `desktop-ui` 构建 release：
 
 ```powershell
-.venv\Scripts\python.exe desktop-ui\scripts\package-runtime.py --output 'C:\TacticoreRelease\runtime'
+.venv\Scripts\python.exe desktop-ui\scripts\package-runtime.py --legacy-research --output 'C:\TacticoreRelease\runtime'
 cd desktop-ui
 .\scripts\build-windows.ps1 -ReleaseDirectory 'C:\TacticoreRelease'
 ```

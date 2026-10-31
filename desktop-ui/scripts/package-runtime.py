@@ -1,4 +1,4 @@
-"""Build an explicit, isolated companion snapshot. Never collect user data."""
+"""Historical Native1 companion builder, not a Windows beta release packager."""
 from __future__ import annotations
 import argparse
 import compileall
@@ -61,7 +61,9 @@ def copy_tree(source, target, predicate):
             shutil.copy2(path, destination)
 
 
-def package(destination):
+def package(destination, *, legacy_research=False):
+    if legacy_research is not True:
+        raise ValueError('legacy_native1_packager_not_beta_use_stage_python_runtime')
     destination = Path(destination).resolve()
     if destination.exists():
         raise ValueError('output_must_be_new')
@@ -104,4 +106,6 @@ def package(destination):
 if __name__ == '__main__':
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output',type=Path,required=True)
-    print(json.dumps(package(parser.parse_args().output)))
+    parser.add_argument('--legacy-research', action='store_true', help='Explicitly build the old non-beta Native1 research snapshot')
+    args = parser.parse_args()
+    print(json.dumps(package(args.output, legacy_research=args.legacy_research)))

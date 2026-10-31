@@ -1,6 +1,16 @@
-param([switch]$NativeTests, [string]$ReleaseDirectory)
+param([switch]$NativeTests, [string]$ReleaseDirectory, [string]$PythonExecutable)
 $ErrorActionPreference = 'Stop'
 $desktopRoot = Split-Path -Parent $PSScriptRoot
+if ($NativeTests -and $ReleaseDirectory) { throw 'Choose native tests or a release build.' }
+if ($ReleaseDirectory) {
+    if (-not $PythonExecutable) {
+        $PythonExecutable = Join-Path (Split-Path -Parent $desktopRoot) '.venv\Scripts\python.exe'
+    }
+    if (-not (Test-Path -LiteralPath $PythonExecutable -PathType Leaf)) { throw 'Supply -PythonExecutable for the release preflight.' }
+    $preflightRuntime = Join-Path (Resolve-Path -LiteralPath $ReleaseDirectory).Path 'runtime'
+    & $PythonExecutable (Join-Path $PSScriptRoot 'release_preflight.py') --runtime $preflightRuntime
+    if ($LASTEXITCODE -ne 0) { throw 'Windows beta release preflight failed. Resolve the reported blockers before building a release.' }
+}
 $cargoBin = Join-Path $env:USERPROFILE '.cargo\bin'
 $vswhere = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio\Installer\vswhere.exe'
 if (-not (Test-Path -LiteralPath $vswhere)) { throw 'Visual Studio Build Tools installer is unavailable.' }
@@ -10,7 +20,6 @@ $developerScript = Join-Path $vsRoot 'Common7\Tools\VsDevCmd.bat'
 $nodeExe = (Get-Command node.exe -ErrorAction Stop).Source
 $nodeBin = Split-Path -Parent $nodeExe
 if (-not (Test-Path -LiteralPath (Join-Path $cargoBin 'cargo.exe'))) { throw 'Rust toolchain is not installed.' }
-if ($NativeTests -and $ReleaseDirectory) { throw 'Choose native tests or a release build.' }
 $previousManifest = $env:TACTICORE_RUNTIME_MANIFEST
 if ($ReleaseDirectory) {
     $releaseRoot = (Resolve-Path -LiteralPath $ReleaseDirectory).Path
