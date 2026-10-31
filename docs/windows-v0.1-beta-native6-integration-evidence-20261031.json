@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "kind": "native6_beta_core_integration_software_evidence",
+  "branch": "release/windows-v0.1-beta",
+  "base_commit": "b1dfdc0a64e893b69e52ae6c697626777a66d698",
+  "candidate": "D:\\CodexScratch\\tacticore-native6-integration-20261031-153213\\candidate-d",
+  "runtime_manifest_sha256": "2195353a337a287b94aed5a3292dbff952afe65698eab1bca51c94613aab1ee1",
+  "native_source_closure_sha256": "eb9ad9a4abec0f55c3a4b9c8ff1544d55b17588488166f1b8c8f9405fb637a9f",
+  "artifacts": {
+    "StrategicCommanderV6.dll": "806a6cf094f856da4a6b761e38eb8fe29a1ea7ed1a8390bf6e1530258066020b",
+    "manager_host.exe": "3fd84c763fcfecf76dd6f1ec409d704de4df6820d04beec701c13338cdd6572a"
+  },
+  "files": 3479,
+  "runtime_input_pins": 3440,
+  "source_pin_limit": 4093,
+  "native_handle_limit": 4096,
+  "application_sources": 853,
+  "qualification_templates": 111,
+  "xml_sources_reaudited_at_build": 113,
+  "qualification_originals_modified": false,
+  "native6_tests": 39,
+  "independent_regressions": 194,
+  "host_regressions": {
+    "passed": 53,
+    "historical_archive_skip": 1
+  },
+  "archive_dependent_tests_not_executable": 7,
+  "foundation_tests": 16,
+  "rust_tests": 14,
+  "first_attach_wait_seconds": 30,
+  "candidate_c_retained_admission_wait_defect": {
+    "manifest_sha256": "eb5e4ec384361abd349838170c98910110b602433212b795760add902a687bda",
+    "cpp_lock_acquisition_ms": 8766,
+    "old_wait_seconds": 8
+  },
+  "reports": {
+    "native6-tests-final.log": {
+      "path": "D:\\CodexScratch\\tacticore-native6-integration-20261031-153213\\native6-tests-final.log",
+      "sha256": "633628b864391f220d441c67bfe1c8e5a2a83286d4c7ecfd8bb7a45754265925"
+    },
+    "independent-regressions-d.log": {
+      "path": "D:\\CodexScratch\\tacticore-native6-integration-20261031-153213\\independent-regressions-d.log",
+      "sha256": "d5084a50300e4d787e77add937426146d046e0bb267a8556340df00d6fcce964"
+    },
+    "legacy-host-tests-a.log": {
+      "path": "D:\\CodexScratch\\tacticore-native6-integration-20261031-153213\\legacy-host-tests-a.log",
+      "sha256": "da29207eb51d3878735b8dd82c3e4158aa74536828dac7a3f706a8d50954866a"
+    },
+    "foundation-tests-final.log": {
+      "path": "D:\\CodexScratch\\tacticore-native6-integration-20261031-153213\\foundation-tests-final.log",
+      "sha256": "33daf534b78625a6f4be993a44450734827dab19558027a8613b40392fb3b36d"
+    },
+    "rust-tests-a.log": {
+      "path": "D:\\CodexScratch\\tacticore-native6-integration-20261031-153213\\rust-tests-a.log",
+      "sha256": "0cdf8be3ba4c774aca034458f31cfd4657ace6e5095cfd1eecf35a7e737f95fb"
+    },
+    "build-d.log": {
+      "path": "D:\\CodexScratch\\tacticore-native6-integration-20261031-153213\\build-d.log",
+      "sha256": "9df5a84da35c4394d7017bc635c024bfa188719efd1120fb5083f5b8df301498"
+    },
+    "export-d.log": {
+      "path": "D:\\CodexScratch\\tacticore-native6-integration-20261031-153213\\export-d.log",
+      "sha256": "4405f42bc4d752dab1fff5d1e469eb6c47938833be1e4844ca0866415fdff291"
+    },
+    "final-first-use-smoke-d.json": {
+      "path": "D:\\CodexScratch\\tacticore-native6-integration-20261031-153213\\final-first-use-smoke-d.json",
+      "sha256": "0c5ff6b0faebfce5de819e29b91f32dfc48e8e28e0c3b5505eb5193b6489ec58"
+    },
+    "relocated-software-smoke-d.json": {
+      "path": "D:\\CodexScratch\\tacticore-native6-integration-20261031-153213\\relocated-software-smoke-d.json",
+      "sha256": "a161c43c245ece2086a8c6f7776bf9852848378f3123041d5472e428982e0791"
+    },
+    "lock-harness-d/result.json": {
+      "path": "D:\\CodexScratch\\tacticore-native6-integration-20261031-153213\\lock-harness-d\\result.json",
+      "sha256": "2dd3f542d3b63de8d313a475fc4f2d1e4fcc8a969ca6e371bf5228fa3ecaec13"
+    },
+    "release-preflight-d.json": {
+      "path": "D:\\CodexScratch\\tacticore-native6-integration-20261031-153213\\release-preflight-d.json",
+      "sha256": "c79717e769c7951e462a64f6d09167737e58b19d80afdc56a5781e2ee59c06f6"
+    }
+  },
+  "game_access": false,
+  "real_model_requests": 0,
+  "formal_games": 0,
+  "public_release_ready": false,
+  "remaining": [
+    "independent_readonly_review",
+    "new_candidate_live_lawful_observation_and_return",
+    "ordinary_first_use_game_and_mod_registration",
+    "active_legacy_state_migration",
+    "internal_trial_native_launcher",
+    "installer_and_clean_windows_acceptance",
+    "same_frozen_release_F01_F07_and_three_natural_games"
+  ]
+}

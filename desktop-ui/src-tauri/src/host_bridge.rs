@@ -14,6 +14,13 @@ const OPERATIONS: &[&str] = &[
 ];
 const CONTROL_OPERATIONS: &[&str] = &["run.resume", "run.status", "run.stop", "diagnostics.export"];
 
+fn configure_runtime_authority(command: &mut Command, pin: Option<&str>) {
+    // A debug launcher must never inherit a release/trial grant from its
+    // caller. Release supplies only the manifest pin compiled into this EXE.
+    command.env_remove("TACTICORE_RUNTIME_MANIFEST_SHA256");
+    if let Some(expected) = pin { command.env("TACTICORE_RUNTIME_MANIFEST_SHA256",expected); }
+}
+
 struct ServiceProcess {
     child: Child,
     input: ChildStdin,
@@ -91,7 +98,7 @@ impl ServiceProcess {
         let executable=std::env::current_exe().map_err(|_| "runtime_packaging_invalid")?;
         let root=executable.parent().ok_or("runtime_packaging_invalid")?.join("runtime");
         let companion=crate::runtime_package::verify(&root,env!("TACTICORE_RUNTIME_MANIFEST_SHA256"))?;
-        Self::launch(source,companion.python,companion.integration,None)
+        Self::launch(source,companion.python,companion.integration,None,Some(env!("TACTICORE_RUNTIME_MANIFEST_SHA256")))
     }
 
     #[cfg(debug_assertions)]
@@ -112,11 +119,12 @@ impl ServiceProcess {
         let imports=serde_json::to_string(&vec![integration.to_string_lossy().to_string(),venv.join("Lib/site-packages").to_string_lossy().to_string()]).map_err(|_|"runtime_layout_unavailable")?;
         let module=source.module();
         let bootstrap=format!("import sys,runpy;sys.prefix=sys.exec_prefix={prefix};sys.path[:0]={imports};sys.argv[0]='{module}';runpy.run_module('{module}',run_name='__main__')");
-        Self::launch(source,python,integration,Some(bootstrap))
+        Self::launch(source,python,integration,Some(bootstrap),None)
     }
 
-    fn launch(source: &RuntimeSource, python: PathBuf, integration: PathBuf, bootstrap: Option<String>) -> Result<Self, String> {
+    fn launch(source: &RuntimeSource, python: PathBuf, integration: PathBuf, bootstrap: Option<String>, runtime_pin: Option<&str>) -> Result<Self, String> {
         let mut command = Command::new(python);
+        configure_runtime_authority(&mut command,runtime_pin);
         command.args(["-I", "-S", "-B"]);
         let module=source.module();
         match bootstrap {Some(code)=>{command.args(["-c",&code]);},None=>{command.args(["-m",module]);}}
@@ -357,6 +365,15 @@ pub async fn connection_config_request(request:Value,bridge:tauri::State<'_,Host
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn runtime_authority_is_supplied_by_native_release_and_removed_in_debug() {
+        let mut debug = Command::new("python.exe");
+        configure_runtime_authority(&mut debug,None);
+        assert!(debug.get_envs().any(|(key,value)|key=="TACTICORE_RUNTIME_MANIFEST_SHA256" && value.is_none()));
+        let mut release = Command::new("python.exe");
+        configure_runtime_authority(&mut release,Some("compiled-pin"));
+        assert!(release.get_envs().any(|(key,value)|key=="TACTICORE_RUNTIME_MANIFEST_SHA256" && value==Some(std::ffi::OsStr::new("compiled-pin"))));
+    }
     use std::time::{SystemTime, UNIX_EPOCH};
 
     fn fixture() -> (PathBuf, serde_json::Value) {

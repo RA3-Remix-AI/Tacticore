@@ -42,7 +42,6 @@ class MacroSampler:
             path=str(ROOT/folder)
             if path not in sys.path:sys.path.insert(0,path)
         from observe_production import Memory
-        from capability import bind_session
         from projection import VisibilityProjection
         from collector import VisibilityCollector
         self.path=Path(session_path);self.raw=self.path.read_bytes();self.session=json.loads(self.raw.decode('utf-8-sig'))
@@ -54,10 +53,18 @@ class MacroSampler:
                 or scenario.get('observer_player_index',2)!=2):raise ContractError('session_mismatch')
         self.registry_path=Path(self.session['registry']);self.registry_raw=self.registry_path.read_bytes()
         self.registry=json.loads(self.registry_raw.decode('utf-8-sig'))
+        if getattr(self.scope,'native_transport_protocol',None)==6:
+            from .native6_transport import native_module
+            _,sdk=native_module();Memory=sdk.Memory
         self.memory=Memory(self.session['pid'],self.session)
         try:
             folder=Path(self.bundle['visibility'])
-            self.proof,self.safety=bind_session(self.memory,self.session,3,folder/'build-capability.json',folder/'template-safety.json')
+            if getattr(self.scope,'native_transport_protocol',None)==6:
+                from .native6_visibility import bind_session as bind_native6
+                self.proof,self.safety=bind_native6(self.memory,self.session,3)
+            else:
+                from capability import bind_session
+                self.proof,self.safety=bind_session(self.memory,self.session,3,folder/'build-capability.json',folder/'template-safety.json')
             if self.proof['commander_id']!=COMMANDER:raise ContractError('session_mismatch')
             self.owner=self.proof['handshake']['player'];self.sequence=0;self.previous=0;self.state=None
             self.collector=VisibilityCollector(self.memory,self.session,3,VisibilityProjection(

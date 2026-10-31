@@ -21,6 +21,7 @@ import re
 import shutil
 import subprocess
 import sys
+import zipfile
 
 APPLICATION_SOURCES = ('integration', 'strategy', 'production', 'native-ai', 'tactical', 'visibility', 'agent_runtime/src')
 
@@ -218,9 +219,66 @@ def seal_stage(destination):
     if not compileall.compile_dir(str(destination), quiet=2, force=True, stripdir=str(destination), prependdir='runtime',
                                   invalidation_mode=py_compile.PycInvalidationMode.CHECKED_HASH):
         raise ValueError('runtime_compile_failed')
+    compact_dependencies(destination)
     files = {p.relative_to(destination).as_posix(): digest(p) for p in sorted(destination.rglob('*')) if p.is_file()}
     manifest = dict(schema_version=1, python='python/python.exe', working_directory='app/integration', files=files)
     raw = (json.dumps(manifest, sort_keys=True, separators=(',', ':')) + '\n').encode('utf-8')
     (destination / 'manifest.json').write_bytes(raw)
     return dict(files=len(files), bytes=sum((destination / name).stat().st_size for name in files),
                 manifest_sha256=hashlib.sha256(raw).hexdigest())
+
+
+def compact_dependencies(destination):
+    """One immutable container for pure dependencies; retain native/file users.
+
+    Preserve all source AND checked caches, including stdlib, as lockable
+    executable inputs. No increased Native handle bound or cache-read bypass.
+    """
+    destination=Path(destination);site=destination/'python/Lib/site-packages'
+    archive=destination/'python/Lib/site-packages.zip'
+    if archive.exists():raise ValueError('runtime_dependency_container_already_exists')
+    keep=set()
+    for path in site.rglob('*'):
+        if not path.is_file():continue
+        plain(path)
+        if path.suffix.lower() in ('.pyd','.dll') or path.suffix=='.py' and '__file__' in path.read_text(encoding='utf-8',errors='strict'):
+            keep.add(path.relative_to(site).parts[0])
+    members={};directories=set();originals=[]
+    with zipfile.ZipFile(archive,'x',compression=zipfile.ZIP_DEFLATED,compresslevel=6) as container:
+        for path in sorted(site.rglob('*')):
+            if not path.is_file() or path.relative_to(site).parts[0] in keep:continue
+            plain(path);name=path.relative_to(site).as_posix();pin=digest(path);raw=path.read_bytes()
+            if hashlib.sha256(raw).hexdigest()!=pin:raise ValueError('runtime_dependency_changed_during_container')
+            parent=Path(name).parent
+            for directory in reversed(parent.parents):
+                if str(directory)!='.':directories.add(directory.as_posix()+'/')
+            if str(parent)!='.':directories.add(parent.as_posix()+'/')
+            info=zipfile.ZipInfo(name,date_time=(1980,1,1,0,0,0));info.compress_type=zipfile.ZIP_DEFLATED
+            container.writestr(info,raw);members[name]=pin;originals.append(path)
+        for name in sorted(directories):container.writestr(zipfile.ZipInfo(name,date_time=(1980,1,1,0,0,0)),b'')
+    with zipfile.ZipFile(archive) as container:
+        if len(container.namelist())!=len(set(container.namelist())):raise ValueError('runtime_dependency_duplicate_container_entry')
+        for name,pin in members.items():
+            if hashlib.sha256(container.read(name)).hexdigest()!=pin:raise ValueError('runtime_dependency_container_changed')
+    for path in originals:
+        if not path.is_relative_to(site) or digest(path)!=members[path.relative_to(site).as_posix()]:
+            raise ValueError('runtime_dependency_changed_during_container')
+        path.unlink()  # only exact, verified files in this invocation's fresh stage
+    for path in sorted((p for p in site.rglob('*') if p.is_dir()),key=lambda p:len(p.parts),reverse=True):
+        if not any(path.iterdir()):path.rmdir()
+    pth=destination/'python/python312._pth'
+    lines=pth.read_text(encoding='utf-8').splitlines()
+    if lines.count('Lib/site-packages')!=1:raise ValueError('runtime_fixed_dependency_import_path_required')
+    lines.insert(lines.index('Lib/site-packages'),'Lib/site-packages.zip')
+    pth.write_text('\n'.join(lines)+'\n',encoding='utf-8',newline='\n')
+    metadata=dict(schema_version=1,kind='verified_pure_python_dependency_container',archive='python/Lib/site-packages.zip',
+                  archive_sha256=digest(archive),members=members,filesystem_groups=sorted(keep),
+                  wheel_download_hash_lock=False,redistribution_review='pending')
+    (destination/'dependency-container.json').write_text(json.dumps(metadata,sort_keys=True,indent=2)+'\n',encoding='utf-8',newline='\n')
+    notice=destination/'third-party-inventory.json'
+    if notice.is_file():
+        inventory=json.loads(notice.read_text(encoding='utf-8'))
+        for row in inventory['dependencies']:
+            row['license_locations']=[dict(kind='zip_member',archive=metadata['archive'],member=name) if name in members
+                else dict(kind='file',path='python/Lib/site-packages/'+name) for name in row['license_files']]
+        notice.write_text(json.dumps(inventory,sort_keys=True,indent=2)+'\n',encoding='utf-8',newline='\n')

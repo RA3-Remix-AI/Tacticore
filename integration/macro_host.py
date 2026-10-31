@@ -43,6 +43,7 @@ from host_runtime.macro_expansion_runtime_v4 import MacroExpansionControllerV4
 from host_runtime.macro_expansion_factory_v4 import create_expansion_controller_v4
 from host_runtime.macro_admission_feedback_v4 import MacroRequestAuditV4,compact_admission_feedback_v4
 from host_runtime.strategic_unified_bundle_v5 import UnifiedStrategicScopeV5
+from host_runtime.native6_qualification import Native6Scope
 from host_runtime.strategic_unified_controller_v5 import UnifiedStrategicControllerV5
 from host_runtime.strategic_unified_feedback_v5 import UnifiedRequestAuditV5,UnifiedStrategyRuntimeV5
 
@@ -51,9 +52,23 @@ LIMITS=dict(production_queue_observed=False,idle_producers_observed=False,
     power_observed=False,payment_verified=False)
 
 
+def is_unified_scope(scope):return type(scope) in (UnifiedStrategicScopeV5,Native6Scope)
+
+
 def native_transport_config(scope,manifest,max_wall_seconds=None):
     """Pure admission before attach; an absolute native guard is only backup."""
     protocol=getattr(scope,'native_transport_protocol',1)
+    if type(protocol) is int and protocol==6:
+        from host_runtime.native6_runtime_contract import FIELD_KIND
+        if (type(scope) is not Native6Scope or manifest.get('kind')!=FIELD_KIND or manifest.get('protocol_version')!=6
+                or manifest.get('package_sha256')!=scope.package_sha256 or manifest.get('admission_ready') is not True
+                or manifest.get('compile_only') is not False or tuple(manifest.get('flags',()))!=tuple(scope.action_flags.values())
+                or len(scope.runtime_manifest_sha256)!=64):raise ContractError('macro_native_transport_protocol_mismatch')
+        wall=3540 if max_wall_seconds is None else max_wall_seconds
+        if type(wall) is not int or not 10<=wall<=3540:raise ContractError('macro_host_wall_bound')
+        return dict(protocol_version=6,client_path=str(ROOT/'integration/host_runtime/native6_transport.py'),
+            max_wall_seconds=wall,maximum_host_wall_seconds=3540,heartbeat_loss_ms=5000,
+            absolute_native_wall_ms=3600000,native_wall_guard_is_backup_only=True)
     if type(protocol) is int and protocol==5:
         if (type(scope) is not UnifiedStrategicScopeV5 or manifest.get('protocol_version')!=5
                 or manifest.get('kind')!='strategic_unified_transport_v5_candidate'
@@ -215,6 +230,9 @@ class MacroHost:
         _atomic(self.output/'host-status.json',status)
 
     def freeze(self):
+        if getattr(self,'transport_config',{}).get('protocol_version')==6:
+            from host_runtime.native6_lifecycle import freeze
+            return freeze(self)
         source=self.output/'source';source.mkdir();rows=[]
         files=[Path(__file__),self.args.session,self.args.macro_bundle,self.args.commander_draft,self.args.binding,
             *sorted((ROOT/'integration/host_runtime').glob('*.py')),*sorted((ROOT/'strategy').glob('*.py')),
@@ -324,13 +342,15 @@ class MacroHost:
         return True
 
     def unified_tick(self,native,*,update_capabilities=True):
-        from host_runtime.strategic_unified_observation_v5 import validate_sample
+        if self.transport_config['protocol_version']==6:
+            from host_runtime.native6_observation import validate_sample
+        else:from host_runtime.strategic_unified_observation_v5 import validate_sample
         frames=validate_sample(native,self.latest,self.transport,self.strategic_transport_binding)
         if frames is None:
             self.event('macro_sample_deferred',reason_code='unified_native_sample_out_of_phase');return False
         state=native['unified_native'];observation=native['observation']
         if not self.controller.observe(observation,state,native['independent_controls']):return False
-        self.capability_sample_frames=frames;self.capability_sample_kind='rooted_strategy_v5'
+        self.capability_sample_frames=frames;self.capability_sample_kind='rooted_strategy_v6' if self.transport_config['protocol_version']==6 else 'rooted_strategy_v5'
         self.last_unified_feedback=self.controller.unified_feedback()
         if update_capabilities or self.latest['paused']:self.update_macro_control(self.latest['game_time_seconds'])
         self.event('macro_unified_feedback',**self.last_unified_feedback)
@@ -587,7 +607,7 @@ class MacroHost:
 
     def create_controller(self):
         scope=self.sampler.scope
-        if type(scope) is UnifiedStrategicScopeV5:
+        if is_unified_scope(scope):
             return UnifiedStrategicControllerV5(self.transport,self.journal,self.run_id,scope,self.binding.session_id,self.expected_hash,self.event)
         if isinstance(scope,ExpansionScope):
             boot=getattr(self,'cost_boot',None)
@@ -665,6 +685,9 @@ class MacroHost:
         self.publication_v4_selected=True
 
     def finish_transport(self):
+        if getattr(self,'transport_config',{}).get('protocol_version')==6:
+            from host_runtime.native6_lifecycle import finish
+            return finish(self)
         if self.transport is None:
             if getattr(self,'transport_config',{}).get('protocol_version')==5:
                 from host_runtime.strategic_no_attachment_v5 import capture,KIND
@@ -784,7 +807,8 @@ class MacroHost:
         try:
             bundle,scope=load_bundle(self.args.macro_bundle,self.session)
             self.product_source_locks=None
-            if type(scope) is UnifiedStrategicScopeV5:
+            if type(scope) is Native6Scope:self.native6_scope=scope
+            if is_unified_scope(scope):
                 from host_runtime.strategic_source_locks_v5 import ProductSourceLocksV5
                 pins={**bundle['pins'],str(self.args.macro_bundle.resolve()):digest(self.args.macro_bundle),
                     str(self.args.session.resolve()):digest(self.args.session),str(Path(self.session['registry']).resolve()):digest(self.session['registry']),
@@ -817,7 +841,7 @@ class MacroHost:
             self.application=apply_commander_draft(load_profile(self.args.library,self.binding.commander_id),self.draft)
             if self.application.effective.effective_hash!=self.expected_hash:raise ContractError('effective_profile_changed')
             self.stop_gate=None
-            if type(self.sampler.scope) is UnifiedStrategicScopeV5:
+            if is_unified_scope(self.sampler.scope):
                 from host_runtime.strategic_stop_gate_v1 import StrategicStopGateV1
                 self.stop_gate=StrategicStopGateV1(self.run_id,self.binding,self.output)
             self.backend=create_applied_backend(self.application,event_sink=lambda kind,payload:self.event(kind,**payload),
@@ -831,10 +855,10 @@ class MacroHost:
             if getattr(self.args,'strategy_mode','legacy')=='declared':
                 memory=MacroStrategyMemory(session_id=self.binding.session_id,commander_id=self.binding.commander_id,
                     player_id=3,profile_revision=self.expected_revision,effective_hash=self.expected_hash)
-                runtime_type=UnifiedStrategyRuntimeV5 if type(self.sampler.scope) is UnifiedStrategicScopeV5 else MacroStrategyRuntime
+                runtime_type=UnifiedStrategyRuntimeV5 if is_unified_scope(self.sampler.scope) else MacroStrategyRuntime
                 self.strategy_runtime=runtime_type(memory,self.event)
             self.prime_startup_snapshots()
-            if type(scope) is UnifiedStrategicScopeV5:
+            if is_unified_scope(scope):
                 from host_runtime.native5_capacity_preflight_v1 import check_native5_capacity
                 from macro_policy import public_descriptions
                 provider=self.profile.get('provider')
@@ -856,14 +880,17 @@ class MacroHost:
                 self.event('macro_native_transport_constructor_begin',constructor_boundary_entered=True,attach_started=None,**admitted)
                 self.transport=module.MacroPolicyProbe.__new__(module.MacroPolicyProbe)
                 self.transport.__init__(self.args.session,self.sampler.owner,Path(self.sampler.bundle['build']),
-                    ROOT/'reports'/('macro-desktop-'+self.run_id),build_feedback=(
+                    (__import__('host_runtime.native6_lifecycle',fromlist=['report_directory']).report_directory(self.session)
+                        if self.transport_config['protocol_version']==6 else ROOT/'reports'/('macro-desktop-'+self.run_id)),build_feedback=(
                         isinstance(self.sampler.scope,ProductionPreferenceScope) and not strategic_only))
                 self.native_transport_attached=True
                 if self.stop_gate is not None:self.transport.configure_stop_gate(self.stop_gate)
                 self.event('macro_native_transport_constructor_returned',constructor_returned=True,attach_started=None)
             if strategic_only:
-                if type(self.sampler.scope) is UnifiedStrategicScopeV5:
-                    from host_runtime.strategic_unified_observation_v5 import bind_transport
+                if is_unified_scope(self.sampler.scope):
+                    if self.transport_config['protocol_version']==6:
+                        from host_runtime.native6_observation import bind_transport
+                    else:from host_runtime.strategic_unified_observation_v5 import bind_transport
                     self.strategic_transport_binding=bind_transport(self.transport,self.session)
                 else:
                     from host_runtime.macro_strategic_observation_v1 import bind_strategic_transport_v1

@@ -103,6 +103,20 @@ class PortableNative6Tests(unittest.TestCase):
         self.assertNotIn('JOURNAL_ROOT', emitted)
         self.assertNotIn('DEPLOYMENT_ROOT', emitted)
 
+    def test_all_stdlib_dependency_source_cache_and_container_are_continuously_pinned(self):
+        names=('app/integration/core.py','python/Lib/json/decoder.py','python/Lib/json/__pycache__/decoder.pyc',
+               'python/Lib/site-packages/retained/core.py','python/Lib/site-packages.zip','dependency-container.json')
+        inventory=dict(files={name:'1'*64 for name in names})
+        self.assertEqual(set(locked_inputs(inventory)),set(names))
+        with self.assertRaisesRegex(ValueError,'bounded'):
+            locked_inputs(dict(files={f'python/Lib/package{i}.py':'2'*64 for i in range(4094)}))
+
+    def test_field_and_offline_closures_are_distinct_and_no_mode_is_inferred_from_json(self):
+        pins={'app/core.py':'1'*64};provenance={'native.cpp':'2'*64}
+        self.assertNotEqual(closure(pins,provenance),closure(pins,provenance,field_candidate=True))
+        self.assertIn('FIELD_CANDIDATE=true',profile(pins,provenance,field_candidate=True))
+        self.assertIn('FIELD_CANDIDATE=false',profile(pins,provenance))
+
     def test_absolute_duplicate_and_escaping_pins_refused(self):
         for pins in ({'C:/dev/source.py': '0' * 64}, {'../source.py': '0' * 64},
                      {'app/x': '0' * 64, 'APP/X': '1' * 64}, {'app/x.': '0' * 64}):

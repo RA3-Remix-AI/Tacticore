@@ -88,6 +88,8 @@ class Probe:
         self.build=plain_local(build);self.manifest=verify(self.build);verify_layout(self.manifest)
         if Path(__file__).resolve()!=self.build.parent.parent/'app/native-ai/strategic-portable-runtime-v6/client.py':raise ValueError('native6_packaged_sdk_required')
         if self.manifest['compile_only'] or not self.manifest['admission_ready']:raise ValueError('native6_offline_candidate_cannot_attach')
+        from host_runtime.native6_qualification import admit_sdk
+        admit_sdk(self.build,self.session)
         self.paths=Native6Paths.current();self.output=plain_local(output,existing=False)
         if self.output.exists() or not self.output.is_relative_to(self.paths.reports):raise ValueError('fresh_owned_manager_report_required')
         if self.output!=self.paths.report(self.session['session_id']):raise ValueError('native6_exact_session_output_required')
@@ -100,6 +102,7 @@ class Probe:
         k.GetProcessTimes.argtypes=[w.HANDLE,*[c.POINTER(w.FILETIME)]*4]
         try:
             self.memory=Memory(self.session['pid'],self.session)
+            if plain_local(self.memory.path)!=plain_local(self.session['game']):raise ValueError('native6_actual_game_image_changed')
             if policy_modules(self.memory):raise ValueError('previous_native_epoch_no_same_pid_reattach')
             if self.session['mod_sha256']!=self.manifest['package_sha256'] or sha(self.session['mod_big'])!=self.manifest['package_sha256']:raise ValueError('actual_deployment_required')
             people=[];manager=self.memory.u32(0xcdd1a0)
@@ -146,14 +149,17 @@ class Probe:
             self.event('attach_prepared',native=self.status(),manifest_sha256=sha(self.build/'build-manifest.json'))
             self.host_log=(self.output/'host.log').open('x',encoding='utf8')
             self.host=subprocess.Popen([str(self.build/'manager_host.exe'),str(b.pid)],stdout=self.host_log,stderr=self.host_log,creationflags=getattr(subprocess,'CREATE_NO_WINDOW',0))
-            deadline=time.monotonic()+8
+            # Complete dependency locks now cover stdlib and all executable
+            # caches too. Leave a bounded admission window for first-use IO;
+            # heartbeat/intent expiry and the STOP barrier remain unchanged.
+            deadline=time.monotonic()+30
+            from host_runtime.native6_readonly_return import record_helper_identity
+            record_helper_identity(self)  # durable even if Host dies before attach ACK
             while s.phase==0 and self.host.poll() is None and time.monotonic()<deadline:time.sleep(.02)
             if s.phase!=1 or s.error or not s.lease_held or not s.hook_held:
                 self.event('attach_not_acknowledged',host_returncode=self.host.poll(),native=self.status())
                 raise ValueError('manager_native_attach_not_verified')
             self.event('attach_acknowledged',native=self.status())
-            from host_runtime.native6_readonly_return import record_helper_identity
-            record_helper_identity(self)
         except BaseException:
             self.close();raise
 

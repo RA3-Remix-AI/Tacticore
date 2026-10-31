@@ -70,6 +70,9 @@ def read_macro_bundle(path):
     """Bounded metadata only; capability admission still uses load_bundle."""
     value,digest=read_object(path,2*1024*1024)
     version=value.get('schema_version')
+    if type(version) is int and version==14:
+        from .native6_qualification import load
+        return load(path)[0],digest
     if type(version) is int and version==13:
         from .strategic_unified_bundle_v5 import header
         header(value)
@@ -450,6 +453,9 @@ class NativeAdapter:
 
 
 def native_epoch(manifest):
+    from .native6_runtime_contract import FIELD_KIND
+    if (manifest.get('kind')==FIELD_KIND and type(manifest.get('protocol_version')) is int
+            and manifest['protocol_version']==6 and manifest.get('admission_ready') is True and manifest.get('compile_only') is False):return 6
     if (manifest.get('kind')=='strategic_unified_transport_v5_candidate' and type(manifest.get('protocol_version')) is int
             and manifest['protocol_version']==5 and manifest.get('admission_ready') is True and manifest.get('compile_only') is False):
         # Fixed protocol identity for history; never permits same-PID reattach.
@@ -457,6 +463,9 @@ def native_epoch(manifest):
     return manifest.get('epoch')
 
 def frozen_manifest(row,session,binding):
+    if (Path(row['output_path'])/'native6-context.json').exists():
+        from .native6_lifecycle import context
+        return context(row,session,binding)[1]
     output=_local_path(Path(row['output_path']),directory=True)
     source_root=_local_path(output/'source',directory=True)
     record,_=read_object(_local_path(output/'sources.json'))
@@ -539,7 +548,7 @@ def run_records(backend):
             # Native5's complete return can settle control ownership while its
             # original delivery records remain uncertain. It grants no effect
             # or retry and never qualifies another use of the same process.
-            if epoch==5 and status.get('native_release_verified') is True and unresolved:
+            if epoch in (5,6) and status.get('native_release_verified') is True and unresolved:
                 from .strategic_unified_unknown_return_v5 import covered_unknown_ownership
                 stop=backend.journal.get_command(row['run_id'],'macro-stop')
                 if covered_unknown_ownership(unresolved,backend.journal.commands_for_run(row['run_id']),stop):

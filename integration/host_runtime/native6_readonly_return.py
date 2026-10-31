@@ -1,8 +1,8 @@
 """Native6 helper seal and independent observation of an ended Host's epoch.
 
-This is not wired into the product ledger. A fresh baseline observation does
-not settle unknown delivery rows or automatically release a run. The current
-Native6 build cannot attach, so only offline/fixture verification is available.
+This reader never changes a ledger or grants return by itself. The separate
+Native6 orphan contract requires durable STOP, ended ownership and a fresh
+independent proof before publishing return. Offline evidence is not a game pass.
 """
 import ctypes as c
 from ctypes import wintypes as w
@@ -97,6 +97,7 @@ def collect_existing_readonly(sdk, session, identity):
         if (helper_after['ended'] is not True or bytes(state.binding) != raw_binding
                 or after != proof['native'] or not verified(raw, after)):
             raise ValueError('native6_recovery_journal_or_epoch_changed')
+        proof.update(native_durable_journal_verified=bool(raw),native_durable_journal_records=len(raw)//4512)
         return dict(kind='native6_readonly_current_baseline_v1', helper_identity=identity,
                     parent_ended=parent, helper_ended_before=helper_before, helper_ended_after=helper_after,
                     current_restoration=proof, mapping_access='FILE_MAP_READ', native_commands_issued=0,

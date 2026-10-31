@@ -20,7 +20,7 @@ def unresolved_ownership(backend,row,status):
     try:
         binding=SessionBinding.from_dict(json.loads(row['binding_json']))
         session=json.loads(Path(row['session_path']).read_bytes())
-        if (frozen_epoch(row,session,binding)==5 and covered_unknown_ownership(unresolved,
+        if (frozen_epoch(row,session,binding) in (5,6) and covered_unknown_ownership(unresolved,
                 backend.journal.commands_for_run(row['run_id']),backend.journal.get_command(row['run_id'],'macro-stop'))):return []
     except (ValueError,KeyError,TypeError,OSError):pass
     return unresolved

@@ -307,6 +307,13 @@ def _load_bundle_uncached(path,session=None):
 def load_bundle(path,session=None):
     """Reuse only a complete file proof; session checks remain per invocation."""
     try:
+        # Native6 authority is the native-launcher manifest pin, not a cached
+        # descriptor. Recheck it on every invocation, including pin changes.
+        if Path(path).stat().st_size<=16384:
+            descriptor=json.loads(Path(path).read_text(encoding='utf-8-sig'))
+            if type(descriptor) is dict and type(descriptor.get('schema_version')) is int and descriptor['schema_version']==14:
+                from .native6_qualification import load
+                return load(path,session)
         value,scope=_FILE_SCOPE_CACHE.load(path,_load_bundle_uncached)
         if session is not None and session['mod_sha256']!=scope.package_sha256:
             raise ContractError('macro_bundle_not_qualified')

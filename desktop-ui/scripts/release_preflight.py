@@ -148,7 +148,7 @@ def preflight(repo=REPO, runtime=None):
                        'native/strategic6/build-manifest.json'} <= files.keys()
             if native6:
                 report['blockers'].append(dict(code='native6_offline_candidate_not_qualified', path='runtime/native/strategic6',
-                                              detail='The Native6 offline candidate has no field/product grant or accepted natural games.'))
+                                              detail='A Native6 development/trial payload does not establish product acceptance or accepted natural games.'))
             elif not {'StrategicCommanderV5.dll', 'manager_host.exe'} <= natives:
                 report['blockers'].append(dict(code='strategic_native_payload_missing', path='runtime',
                                               detail='The current strategic helper/DLL payload is missing.'))

@@ -40,7 +40,7 @@ def probe(runtime):
     runtime = Path(runtime).absolute()
     before = verify_inventory(runtime)
     stage_kind = read_json(runtime / 'release-stage.json').get('kind')
-    if stage_kind not in ('locked_python_stage', 'portable_native6_offline_candidate'):
+    if stage_kind not in ('locked_python_stage', 'portable_native6_offline_candidate', 'portable_native6_field_trial_candidate'):
         raise ValueError('offline_companion_stage_required')
     with tempfile.TemporaryDirectory(prefix='tacticore-python-stage-') as temporary:
         temporary = Path(temporary)

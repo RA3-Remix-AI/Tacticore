@@ -15,6 +15,7 @@ from .native6_paths import plain_local
 GAME_SHA = 'ec230c6ae1eaee30b0b4fa6ba29d417c974ecae46d6715dfbe786a815935c165'
 PACKAGE_SHA = '66025609e788ed18f8eb55b1722e6c197a373f387137b69e6b04118d0a5278f0'
 KIND = 'portable_strategic_native6_offline_candidate'
+FIELD_KIND = 'portable_strategic_native6_field_trial_candidate'
 ACTIONS = ('regroup', 'scout', 'withdraw', 'reinforce', 'budgeteconomy', 'budgetarmy', 'budgettech', 'deployattack', 'deploydefense', 'expand')
 FLAGS = tuple('/5TFMacro_57e668b44d8943bdbc920dd436f046ef_P3_' + name for name in
               ('build_airfield', 'scout', 'buildtech', 'economyrefinery', 'budgeteconomy', 'budgetarmy', 'budgettech', 'deployattack', 'deploydefense', 'expand'))
@@ -103,28 +104,31 @@ def verify_inventory(root, *, expected=None):
 
 def locked_inputs(inventory):
     pins = {name: digest for name, digest in inventory['files'].items()
-            if (name.startswith('app/') and name.endswith(('.py', '.pyc')))
-            or (name.startswith('python/') and name.lower().endswith(('.exe', '.dll', '.pyd', '._pth')))}
+            if (name.startswith('app/') and name.endswith(('.py', '.pyc'))) or name.startswith('qualification/')
+            or (name.startswith('python/') and name.lower().endswith(('.py','.pyc','.exe', '.dll', '.pyd', '._pth','.zip')))
+            or name=='dependency-container.json'}
     pin_map(pins)
     if not 1 <= len(pins) <= MAX_PINS or any(name.startswith('native/') for name in pins):
         raise ValueError('native6_bounded_code_closure_required')
     return pins
 
 
-def closure(pins, provenance):
+def closure(pins, provenance, *, field_candidate=False):
     pin_map(pins)
     pin_map(provenance)
-    return hashlib.sha256(canonical(dict(runtime=pins, build=provenance)).encode('ascii')).hexdigest()
+    value=dict(runtime=pins,build=provenance)
+    if field_candidate:value['field_candidate']=True
+    return hashlib.sha256(canonical(value).encode('ascii')).hexdigest()
 
 
-def profile(pins, provenance):
+def profile(pins, provenance, *, field_candidate=False):
     pin_map(pins)
-    digest = closure(pins, provenance)
+    digest = closure(pins, provenance,field_candidate=field_candidate)
     def octets(value):
         return '{' + ','.join(str(v) for v in bytes.fromhex(value)) + '}'
     rows = ','.join('{L' + json.dumps(name, ensure_ascii=True) + ',' + octets(pin) + '}' for name, pin in sorted(pins.items()))
     return ('#pragma once\n#include <stdint.h>\n#include <wchar.h>\n'
-            'static const bool FIELD_CANDIDATE=false;\n'
+            'static const bool FIELD_CANDIDATE='+('true' if field_candidate else 'false')+';\n'
             'static const unsigned HARD_WALL_MS=3600000;\n'
             'static const char* const FLAG_NAMES[]={' + ','.join(json.dumps(flag) for flag in FLAGS) + '};\n'
             'struct SourcePin {const wchar_t* path;uint8_t sha[32];};\n'
@@ -145,9 +149,10 @@ def verify_build(build):
               'product_capability_granted', 'formal_games', 'game_sha256', 'package_sha256',
               'actions', 'flags', 'input_pins', 'build_source_pins', 'source_closure_sha256', 'artifacts', 'layout'}
     if (type(manifest) is not dict or set(manifest) != fields or type(manifest['schema_version']) is not int
-            or manifest['schema_version'] != 1 or manifest['kind'] != KIND
+            or manifest['schema_version'] != 1 or manifest['kind'] not in (KIND,FIELD_KIND)
             or type(manifest['protocol_version']) is not int or manifest['protocol_version'] != 6
-            or manifest['compile_only'] is not True or manifest['admission_ready'] is not False
+            or type(manifest['compile_only']) is not bool or type(manifest['admission_ready']) is not bool
+            or (manifest['compile_only'],manifest['admission_ready'])!=((True,False) if manifest['kind']==KIND else (False,True))
             or manifest['product_capability_granted'] is not False or type(manifest['formal_games']) is not int
             or manifest['formal_games'] != 0 or manifest['game_sha256'] != GAME_SHA or manifest['package_sha256'] != PACKAGE_SHA
             or manifest['actions'] != list(ACTIONS) or manifest['flags'] != list(FLAGS)):
@@ -156,10 +161,13 @@ def verify_build(build):
     pin_map(pins)
     pin_map(provenance)
     inventory = verify_inventory(root)
-    if pins != locked_inputs(inventory) or manifest['source_closure_sha256'] != closure(pins, provenance):
+    field=manifest['kind']==FIELD_KIND
+    if pins != locked_inputs(inventory) or manifest['source_closure_sha256'] != closure(pins, provenance,field_candidate=field):
         raise ValueError('native6_code_closure_changed')
     if set(manifest['artifacts']) != set(ARTIFACTS) or any(sha(build / name) != manifest['artifacts'][name] for name in ARTIFACTS):
         raise ValueError('native6_artifact_changed')
-    if (build / 'profile.h').read_text(encoding='ascii') != profile(pins, provenance):
+    if (build / 'profile.h').read_text(encoding='ascii') != profile(pins, provenance,field_candidate=field):
         raise ValueError('native6_compiled_profile_changed')
+    if field and 'qualification/native6-trial.json' not in pins:
+        raise ValueError('native6_trial_qualification_required')
     return manifest

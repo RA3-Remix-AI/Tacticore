@@ -735,11 +735,13 @@ class DesktopBackend:
             expected=command["payload"], binding=binding)
         receipt=command.get('receipt') or {}
         if (type(command['payload'].get('capabilities',{}).get('native_transport_protocol')) is int
-                and command['payload']['capabilities']['native_transport_protocol']==5
+                and command['payload']['capabilities']['native_transport_protocol'] in (5,6)
                 and type(receipt.get('host_pid')) is int and isinstance(receipt.get('host_start_time'),str)
                 and self.spawner.identity(receipt['host_pid'])!=receipt['host_start_time']):
             try:
-                from .native5_orphan_return_v1 import recover_after_stop
+                if command['payload']['capabilities']['native_transport_protocol']==6:
+                    from .native6_orphan_return import recover_after_stop
+                else:from .native5_orphan_return_v1 import recover_after_stop
                 if recover_after_stop(self,row,binding,receipt,_atomic):
                     result.update(state='fault',reason_code='host_process_lost_control_returned',
                         host_process_alive=False,status_stale=True,native_release_verified=True)
@@ -912,7 +914,7 @@ class DesktopBackend:
             try:
                 starts=self.journal.commands_for_run(row['run_id'],operation='host_start')
                 unified=any(type(r['payload'].get('capabilities',{}).get('native_transport_protocol')) is int
-                    and r['payload']['capabilities']['native_transport_protocol']==5 for r in starts)
+                    and r['payload']['capabilities']['native_transport_protocol'] in (5,6) for r in starts)
                 if unified:
                     from .strategic_stop_gate_v1 import StrategicStopGateV1
                     StrategicStopGateV1(row['run_id'],binding,Path(row['output_path'])).publish_stop(_atomic)

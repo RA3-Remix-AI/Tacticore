@@ -30,7 +30,7 @@ def check(checks,registration,profile,host_id,state_dir,library_path,limits):
     # the bound host is ready to make provider requests.
     if hashlib.sha256(Path(library_path).read_bytes()).hexdigest()!=profile['library_hash']:
         raise ContractError('effective_profile_changed')
-    if getattr(scope,'native_transport_protocol',None)==5:
+    if getattr(scope,'native_transport_protocol',None) in (5,6):
         from .profiles import normalize_profile
         from .native5_capacity_preflight_v1 import check_native5_capacity
         from macro_policy import public_descriptions
@@ -51,6 +51,9 @@ def check(checks,registration,profile,host_id,state_dir,library_path,limits):
     if getattr(scope,'native_transport_protocol',1)==5:
         from .strategic_native_presence_v5 import require_unused_macro_process
         presence_manifest=dict(manifest,mapping_prefix='Local\\RA3StrategicCommanderV5_')
+    elif getattr(scope,'native_transport_protocol',1)==6:
+        from .native6_presence import require_unused_macro_process
+        presence_manifest=dict(manifest,mapping_prefix='Local\\RA3StrategicCommanderV6_')
     require_unused_macro_process(session['pid'],presence_manifest)
     binding=SessionBinding(1,session['session_id'],3,profile['profile_id'],session['pid'],session['start_time'],host_id,
         digest(session['game']),session['mod_sha256'])
@@ -61,8 +64,8 @@ def check(checks,registration,profile,host_id,state_dir,library_path,limits):
         runtime_recovery_supported=False,runtime_purposes=[],model_response_received=False)
     if hasattr(scope,'available_counts'):
         capabilities['macro_production_counts']={}
-    if getattr(scope,'native_transport_protocol',1)==5:
-        capabilities['native_transport_protocol']=5
+    if getattr(scope,'native_transport_protocol',1) in (5,6):
+        capabilities['native_transport_protocol']=scope.native_transport_protocol
     if hasattr(scope,'model_catalog_overrides'):
         capabilities.update(base_defense_granted=True,base_defense_goal='original_native_defense_of_own_infrastructure')
     if getattr(scope,'native_transport_client',None)=='client_group_roles.py':
@@ -74,6 +77,9 @@ def check(checks,registration,profile,host_id,state_dir,library_path,limits):
 
 def released(backend,run_id,binding,host_receipt):
     try:
+        if (Path(backend._launch(run_id)['output_path'])/'native6-context.json').exists():
+            from .native6_lifecycle import verified_return
+            return verified_return(backend,backend._launch(run_id),binding,host_receipt)
         unresolved=backend.journal.unresolved(run_id)
         row=backend._launch(run_id);output=Path(row['output_path'])
         if (output/'native-orphan-return.json').exists():

@@ -8,7 +8,7 @@
 
 **Windows v0.1-beta 发布开发已启动：** 先完成锁定依赖的独立 Python 阶段包与发布预检，再处理 Native 可迁移化、首次游戏接入和安装器。阶段包不具备游戏发布资格，旧 v9 三局也不替代新安装候选验收。见[发布执行清单](docs/windows-v0.1-beta-execution.md)及[阶段包构建说明](desktop-ui/README.md#windows-v01-beta-开发)。
 
-Native6 已有独立的[可迁移离线候选](docs/windows-v0.1-beta-native6-offline-20261031.md)，完成实际编译、布局交叉核验及中文/空格目录搬迁；当前编译禁止附着游戏，普通客户端的准入、合法观测、Host/STOP 与恢复接入仍待完成。
+Native6 的[首批离线候选](docs/windows-v0.1-beta-native6-offline-20261031.md)保留编译禁止附着的原结论。后续已接入[受信资格、合法观测与 Host/STOP/归还的软件链路](docs/windows-v0.1-beta-native6-integration-20261031.md)，采用独立冻结的有界试运行候选；新候选实机验收、普通用户首用接入与安装器仍待完成，公开发布门禁保持关闭。
 
 ## 当前状态 · 2026-10-30
 

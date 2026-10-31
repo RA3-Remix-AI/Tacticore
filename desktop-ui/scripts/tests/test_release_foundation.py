@@ -13,7 +13,7 @@ import unittest
 
 SCRIPTS = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS))
-from locked_python_runtime import copy_application, copy_locked_dependencies, read_lock
+from locked_python_runtime import copy_application, copy_locked_dependencies, read_lock,compact_dependencies
 from release_preflight import REPO, digest, preflight, verify_inventory
 
 
@@ -202,6 +202,27 @@ class ReleaseFoundationTests(unittest.TestCase):
         self.assertEqual(len(result['files']), 3)
         self.assertFalse((output / 'strategy/local_credentials.py').exists())
         self.assertFalse((output / 'strategy/secret.json').exists())
+
+    def test_dependency_container_preserves_namespace_native_and_file_based_packages(self):
+        import zipfile
+        import subprocess
+        runtime=self.root/'stage';site=runtime/'python/Lib/site-packages'
+        for name,raw in {'pure/__init__.py':b'VALUE=7\n','namespace_plugin/mod.py':b'VALUE=8\n',
+                         'native/__init__.py':b'# native wrapper\n','native/core.pyd':b'fixture',
+                         'file_user/__init__.py':b'FILE=__file__\n'}.items():
+            path=site/name;path.parent.mkdir(parents=True,exist_ok=True);path.write_bytes(raw)
+        (runtime/'python/python312._pth').write_text('Lib\nLib/site-packages\n',encoding='utf-8')
+        compact_dependencies(runtime)
+        archive=runtime/'python/Lib/site-packages.zip'
+        with zipfile.ZipFile(archive) as container:
+            self.assertIn('namespace_plugin/',container.namelist())
+            self.assertEqual(container.read('pure/__init__.py'),b'VALUE=7\n')
+        self.assertFalse((site/'pure/__init__.py').exists())
+        self.assertTrue((site/'native/core.pyd').is_file())
+        self.assertTrue((site/'file_user/__init__.py').is_file())
+        code='import sys;sys.path[:0]='+repr([str(archive),str(site)])+';import pure,namespace_plugin.mod;print(pure.VALUE+namespace_plugin.mod.VALUE)'
+        result=subprocess.run([sys.executable,'-I','-S','-B','-c',code],capture_output=True,text=True,check=True)
+        self.assertEqual(result.stdout.strip(),'15')
 
 
 if __name__ == '__main__':
