@@ -1,5 +1,7 @@
 # 弈核 Tacticore 桌面工程
 
+**2026-11-01 发布版：** [v0.1.0-beta.1](https://github.com/RA3-Remix-AI/Tacticore/releases/tag/v0.1.0-beta.1) 提供无需开发环境的 Windows x64 每用户安装包。Native6 rc09 的限定场景 F01–F07 与三局自然验收已通过，详见[使用说明](../docs/windows-v0.1.0-beta.1-player-guide.md)和[验收报告](../reports/windows-v0.1.0-beta.1/README.md)。以下 debug/Native5 记录保留历史范围，不能代替该版本的制品身份。
+
 这是 React + Tauri 2 工程。浏览器中的六工作区演示与 Windows 原生开发窗口使用不同入口：`npm run dev` 保留离线演示；Tauri 窗口使用 `NativeApp`，经受限的 Rust RPC 与 Python 宿主服务通信。
 
 2026-10-26 的 Windows debug 验收已实际完成原生编译、开窗、读取三个指挥官档案、保存风格以及关闭重开恢复。保存后的同一 revision/hash 也经过一次真实模型 HTTP 请求验证。该探针使用合成观测，没有游戏访问或执行授权，不能证明风格已改变局内行为。实机对局及自然结算仍须单独验收。证据见 [原生验收记录](../reports/desktop-native-acceptance-20261026.json)。

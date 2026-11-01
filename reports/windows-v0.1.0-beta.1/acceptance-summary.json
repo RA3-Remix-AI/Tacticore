@@ -1,0 +1,299 @@
+{
+  "kind": "public_windows_beta_acceptance_summary",
+  "version": "v0.1.0-beta.1",
+  "passed": true,
+  "candidate_id": "windows-beta1-rc09",
+  "source_commit": "acc04f526f31b958b58cd5c4de89c82d5bbc3ca3",
+  "release_set_sha256": "e511de35c37c55a007a1b6449b59055a3af2113b332f45df122d448b0307b905",
+  "ordinary_cohort_id": "rc09-ordinary-cohort2",
+  "ordinary_cohort_sha256": "80e8933c956995bbc40a209fa0c15a8e44e59458d83ad44ac6948e045e375049",
+  "ordinary_profile": {
+    "revision": 11,
+    "effective_sha256": "ba15b4696c6d57826b8fe1dc7db2e605f3cb3fe9d7efd2510a77902f36101591",
+    "traits_utf8_bytes": 840,
+    "provider": "DeepSeek",
+    "model": "deepseek-flash",
+    "mode": "ordinary_user_style"
+  },
+  "runtime": {
+    "manifest_sha256": "a43ab48b1daaf58f8e21091f609b6a7d669d3493e4d7f14946469e74210c1388",
+    "source_closure_sha256": "177cd3feac2707eaa2679956817fee616127f391d4dbc1d160c3e4960835deae"
+  },
+  "runtime_inventory_files": 3950,
+  "native_input_pins": 3462,
+  "artifacts": {
+    "active_state_upgrade_review": {
+      "filename": "automatic-migration-and-retention-review.json",
+      "sha256": "d9cc0629f70fbff11fb1e629497ad7e30e1ee952728bb4d23a6356e2e0392af9"
+    },
+    "client_exe": {
+      "filename": "installed-tacticore-desktop.exe",
+      "sha256": "49ab0d11b996235b0f6b9bb3d4b790638732a9573e89ff13a01f1bb8aac61d75"
+    },
+    "first_use_review": {
+      "filename": "I00-installed-review.json",
+      "sha256": "71012ae20bb72901ab33309585d0b4b7a086e460113358fa42126f8530efb1f1"
+    },
+    "installer": {
+      "filename": "Tacticore_0.1.0-beta.1_x64-setup.exe",
+      "sha256": "e09a622cc01a5caed6cb19bc5e7188cb14fdf15ccb70fa078b4ca7400c503796"
+    },
+    "launcher_review": {
+      "filename": "launcher-review.json",
+      "sha256": "dde7b21e3a4884fdfa6c898b33a7716e44bba19987466785105589ca7571cd7e"
+    },
+    "native_dll": {
+      "filename": "StrategicCommanderV6.dll",
+      "sha256": "5134b1f7610779c175f95dfdc1e6f6a2f1a22096945d00061669a4808e361629"
+    },
+    "native_helper": {
+      "filename": "manager_host.exe",
+      "sha256": "fad2b4912892ef04752a8c57a912623d383910ed7e6fdf8d5fa84f3f6c7b2899"
+    },
+    "source_index": {
+      "filename": "candidate-source-index.json",
+      "sha256": "9502a85aa78916ed0c8b0368f69a858d3b6a8c4689f4a351039419d748c20a85"
+    }
+  },
+  "original_delivery_receipt_sha256": "c97b6a3d9b2a92a1937f78baad015e0f3400d305611305e6b917293aaad57ae9",
+  "original_delivery_gaps_retained": [
+    "rc09 actual lifecycle/F01-F07 and three same-freeze natural games pending"
+  ],
+  "delivery_gaps_resolved_by_final_acceptance_sha256": "64168efc460fff1fde3929d617e16969c236484ca254f289ce88cdccd816c83e",
+  "F01_F07": [
+    {
+      "id": "F01",
+      "passed": true,
+      "evidence_sha256": [
+        "5d77fd65b94aff860183efb127219e7d15b610935ca3f98cd916c94563f4cc0d"
+      ]
+    },
+    {
+      "id": "F02",
+      "passed": true,
+      "evidence_sha256": [
+        "591414e337c3d22326cd2c5d96c805de8cdbe2f94845d4d7b88a1a21b7dad267",
+        "68bb00b6a3c8488d5c53df7b5c2f9a2795920555d6f8f767816f4dc1799e272d"
+      ]
+    },
+    {
+      "id": "F03",
+      "passed": true,
+      "evidence_sha256": [
+        "0692f9b00d596ee742a183256b7629350e4229989b2edcc6b72ed27ccb8efe06",
+        "c2df96f637bf338d7c41adb04da571efdd228b6fc8118f7caa1fd1b137ab55f8",
+        "85824b4b424b19ecbea7c8ec4199c82ab0802f3395e1d595c913bda31d502eca",
+        "5428a6ba3855ddfa60def44b9359af707e43345acd35e3ff2689b55cd2dada71",
+        "ed6e6ef6574c1e22f8d5f988c30e8ae5e4fb585423b782583655efd20e6fbf40",
+        "903795f00a0890556d14b19a19205290dc423462281f3981e71dcb8ddc48a94e",
+        "768ec49ce257b2c1a974d1912cfff8e0b2fb8108de73b88ccd39f229ea1d2666",
+        "6d2a321e97c1357a5e5bf496c4d3d651ababa53b689f17e75523a4594af471e9",
+        "831d1b2681149fe3f2f7ae8c178db0307398dcecc6b958df3fe8935a4b672d04",
+        "1b290b044deb5ed53303fec260a6f47dcb0483b8548433af39e2775e90f72775",
+        "075231b9132d96a111aa4bdc07f4c2a66000b35bbde86e2b36b556495f6c196e"
+      ]
+    },
+    {
+      "id": "F04",
+      "passed": true,
+      "evidence_sha256": [
+        "b073f95fc87d4a5cd67b380b86fee2008c282e68b9b2d70a88b5a7c769468ad3"
+      ]
+    },
+    {
+      "id": "F05",
+      "passed": true,
+      "evidence_sha256": [
+        "71012ae20bb72901ab33309585d0b4b7a086e460113358fa42126f8530efb1f1",
+        "c6aa35ef4235af391eee87748a6632f9cb6096a9d83e928582f0d4dfc53d73bc",
+        "4c4d7f929df51647fa31eecc1b1b063e6e1b73fcde6cbe481b5b5c8e3045055c",
+        "c2df96f637bf338d7c41adb04da571efdd228b6fc8118f7caa1fd1b137ab55f8"
+      ]
+    },
+    {
+      "id": "F06",
+      "passed": true,
+      "evidence_sha256": [
+        "0692f9b00d596ee742a183256b7629350e4229989b2edcc6b72ed27ccb8efe06",
+        "d07a569870c07a0341afe738412d5016a7673ddf617cfc598370fe83b05a8730",
+        "4c4d7f929df51647fa31eecc1b1b063e6e1b73fcde6cbe481b5b5c8e3045055c",
+        "fdd17ffefca2f505110085fdccc7686f45f34c990501ad5a3b417707a494d9ee"
+      ]
+    },
+    {
+      "id": "F07",
+      "passed": true,
+      "evidence_sha256": []
+    }
+  ],
+  "formal_games_passed": 3,
+  "formal_games_required": 3,
+  "natural_games": [
+    {
+      "attempt_id": "C2-N01",
+      "run_id": "4a5df9ee-b23d-492e-ada0-a8b84b4a1026",
+      "session_id": "5253a4e0-54c6-563e-99fd-828bebedfe80",
+      "game_pid": 110408,
+      "game_raw_creation_time": 134379755877334399,
+      "natural_end": true,
+      "full_original_return": true,
+      "ordinary_game_exit": true,
+      "real_provider_responses": 7,
+      "closed_loops": 2,
+      "metrics": {
+        "accepted": 7,
+        "adapter_errors": 1,
+        "plan_changes": 6,
+        "rejected": 0,
+        "requests": 9,
+        "timeouts": 0
+      },
+      "native_outcome": {
+        "winner_player_index": 3,
+        "loser_player_index": 4,
+        "participants": [
+          {
+            "player_index": 3,
+            "manager_index": 0,
+            "player": "0x31ed470",
+            "outcome": "victory",
+            "defeat_frame": 0,
+            "victory_frame": 6743
+          },
+          {
+            "player_index": 4,
+            "manager_index": 1,
+            "player": "0x31ee7d0",
+            "outcome": "defeat",
+            "defeat_frame": 6743,
+            "victory_frame": 0
+          }
+        ]
+      },
+      "evidence_sha256": {
+        "review": "1bf41f0a514bd75a8b313ed54ff8e5aa25b7f87dff9850a34d72df457c47e075",
+        "native_replay": "b214cace26c033141c7ca9959bcdb241c6948d0ee0fcb5a7b9f0971f17ce9e94",
+        "diagnostic": "518633605a1866d0fd5e00ce6ed65b5af6e3d0b70e0c9574db4a766c07e10378"
+      },
+      "independent_full_return_replay_sha256": "60ee54d675080a9207378419e765a167b711c243131e02f78eaf08c6e8c5b880"
+    },
+    {
+      "attempt_id": "C2-N02",
+      "run_id": "adf6cd34-37ba-4c17-8889-fe7d9328cb1e",
+      "session_id": "54a0ade1-5b34-5164-8da1-bd016bc98607",
+      "game_pid": 118480,
+      "game_raw_creation_time": 134379767912784761,
+      "natural_end": true,
+      "full_original_return": true,
+      "ordinary_game_exit": true,
+      "real_provider_responses": 16,
+      "closed_loops": 7,
+      "metrics": {
+        "accepted": 12,
+        "adapter_errors": 0,
+        "plan_changes": 9,
+        "rejected": 4,
+        "requests": 16,
+        "timeouts": 0
+      },
+      "native_outcome": {
+        "winner_player_index": 3,
+        "loser_player_index": 4,
+        "participants": [
+          {
+            "player_index": 3,
+            "manager_index": 0,
+            "player": "0x3237470",
+            "outcome": "victory",
+            "defeat_frame": 0,
+            "victory_frame": 8514
+          },
+          {
+            "player_index": 4,
+            "manager_index": 1,
+            "player": "0x32387d0",
+            "outcome": "defeat",
+            "defeat_frame": 8514,
+            "victory_frame": 0
+          }
+        ]
+      },
+      "evidence_sha256": {
+        "review": "4df9c1335f09ae1544ff2397079a25b3dfa7929304b5351fd5d93188b52445fc",
+        "native_replay": "201516f72c517fc608c6c2c1b2f6f85e17d7def72f7103404e47cd092d17c5fd",
+        "diagnostic": "8b0e0244440f5a105b7643e16010bcf9535d05ef0db84d54cd64449dc4a576ac"
+      },
+      "independent_full_return_replay_sha256": "7fb0112218ff52c4973905a79e28882cc1eb31bad554233d6db3c5f88cdb4516"
+    },
+    {
+      "attempt_id": "C2-N03",
+      "run_id": "4e47b214-a0bf-4f56-876f-02aa71f94c32",
+      "session_id": "cb1c6afd-68b4-50a5-b8c5-f318cf862816",
+      "game_pid": 7208,
+      "game_raw_creation_time": 134379777648876983,
+      "natural_end": true,
+      "full_original_return": true,
+      "ordinary_game_exit": true,
+      "real_provider_responses": 62,
+      "closed_loops": 11,
+      "metrics": {
+        "accepted": 50,
+        "adapter_errors": 1,
+        "plan_changes": 41,
+        "rejected": 12,
+        "requests": 63,
+        "timeouts": 0
+      },
+      "native_outcome": {
+        "winner_player_index": 4,
+        "loser_player_index": 3,
+        "participants": [
+          {
+            "player_index": 3,
+            "manager_index": 0,
+            "player": "0x3109470",
+            "outcome": "defeat",
+            "defeat_frame": 24435,
+            "victory_frame": 0
+          },
+          {
+            "player_index": 4,
+            "manager_index": 1,
+            "player": "0x310a7d0",
+            "outcome": "victory",
+            "defeat_frame": 0,
+            "victory_frame": 24435
+          }
+        ]
+      },
+      "evidence_sha256": {
+        "review": "cacd920761c3c033ec7ad807675297886a6365fce4498f333459b50dbea81668",
+        "native_replay": "ae12dacf31d32b2dc227eae2a91f2a706ee712f2ba205839c950f9003aa37549",
+        "diagnostic": "3f63fb5e82d8917dfb1702fd91202201811ce4eaad2b64f94354d03f4c35f084"
+      },
+      "independent_full_return_replay_sha256": "f1fce890b4a4f51b3a1c88fb2a4a59b319b907ca98d17ccce5370cd76f69d56b"
+    }
+  ],
+  "metrics_total": {
+    "accepted": 69,
+    "adapter_errors": 2,
+    "plan_changes": 56,
+    "requests": 88,
+    "rejected": 16
+  },
+  "independent_publication_audit_sha256": "4076425e4d575236343d767e1a04938efbde1a2d2b9c4612a77857228f2fc628",
+  "explicit_evidence_pins_checked": 160,
+  "raw_STOP_restore_trigger": 2,
+  "all_control_returned": true,
+  "old_attempts_reused": false,
+  "limitations": [
+    "Only RA3 1.12 Traditional Chinese / TemplePrime / P3 Soviet / validated origin / P4 native AI is qualified.",
+    "Existing-user migration and actual GUI workflows are proven; no virgin-machine installation claim.",
+    "Fourteen high-level entries have native adoption/refusal/waiting registration, not guaranteed task completion.",
+    "Expand active feedback did not reach another model turn in the supplemental terminal game; no stronger per-entry closure claim.",
+    "Advance construction/production include already-enabled baseline observations.",
+    "External connection failures are retained with safe isolation and later genuine fresh-snapshot responses; root cause is not fixed.",
+    "Natural winner/loss is not proof of commander-exclusive causality or a win-rate claim."
+  ],
+  "original_evidence": "Sealed locally; hashes published, raw paths/credentials/databases not redistributed."
+}
