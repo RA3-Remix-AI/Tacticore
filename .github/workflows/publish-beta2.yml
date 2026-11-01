@@ -1,0 +1,146 @@
+name: Publish approved Windows beta 2
+
+on:
+  push:
+    branches: [codex/publish-beta2]
+    paths:
+      - .github/workflows/publish-beta2.yml
+      - docs/windows-v0.1.0-beta.2-release-notes.md
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: publish-tacticore-v0.1.0-beta.2
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    if: github.repository == 'RA3-Remix-AI/Tacticore' && github.ref == 'refs/heads/codex/publish-beta2'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      BUILT_SHA: c2afd5db66e2ca9948003c3a91f7d62798359f13
+      RELEASE_TAG: v0.1.0-beta.2
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download exact approved Windows artifact
+        uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: 41285643771
+          name: tacticore-windows-ui-candidate-c2afd5db66e2ca9948003c3a91f7d62798359f13
+          path: approved-artifact
+      - name: Verify original files, identity, and publication preconditions
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import hashlib, json, os, re
+          from pathlib import Path
+          from urllib.request import Request, urlopen
+          from urllib.error import HTTPError
+
+          root = Path('approved-artifact')
+          built = os.environ['BUILT_SHA']
+          tag = os.environ['RELEASE_TAG']
+          runtime_pin = 'a43ab48b1daaf58f8e21091f609b6a7d669d3493e4d7f14946469e74210c1388'
+          installer_pin = '13f943917b7803a09a9dc8980da77519a8f4d8c712c7cbc946117774e5e180f3'
+          installer = 'Tacticore_0.1.0-beta.2_x64-setup.exe'
+          expected = {installer, 'SHA256SUMS.txt', 'ui-rebuild-provenance.json',
+                      'source-preflight.json', 'final-preflight.json', 'python-probe.json',
+                      'native6-probe.json', 'source-byte-comparison.json'}
+          assert {p.name for p in root.iterdir()} == expected, 'Unexpected artifact inventory'
+          assert all((root / name).is_file() and not (root / name).is_symlink() for name in expected)
+          def digest(path):
+              return hashlib.sha256(path.read_bytes()).hexdigest()
+          checked = set()
+          for line in (root / 'SHA256SUMS.txt').read_text(encoding='utf-8').splitlines():
+              match = re.fullmatch(r'([0-9a-f]{64})  ([A-Za-z0-9_.-]+)', line)
+              assert match, 'Invalid checksum entry'
+              pin, name = match.groups()
+              assert name in expected and name not in checked, 'Unexpected or duplicate checksum'
+              assert digest(root / name) == pin, 'Checksum mismatch: ' + name
+              checked.add(name)
+          assert checked == {installer, 'ui-rebuild-provenance.json'}, 'Original checksum inventory changed'
+          assert digest(root / installer) == installer_pin, 'Approved installer identity mismatch'
+          def read(name):
+              return json.loads((root / name).read_text(encoding='utf-8'))
+          provenance = read('ui-rebuild-provenance.json')
+          assert provenance['kind'] == 'windows_ui_installer_rebuild_candidate'
+          assert provenance['source_commit'] == built and provenance['version'] == '0.1.0-beta.2'
+          assert provenance['installer_filename'] == installer and provenance['installer_sha256'] == installer_pin
+          assert provenance['runtime_manifest_sha256'] == runtime_pin
+          assert provenance['runtime_reused_unchanged'] is True
+          assert provenance['windows_game_acceptance_performed'] is False
+          assert provenance['historical_acceptance_reused_as_new_pass'] is False
+          assert provenance['public_release_ready'] is False
+          for name in ('source-preflight.json', 'final-preflight.json'):
+              report = read(name)
+              assert report['ready'] is True and report['public_release_ready'] is False
+              assert report['runtime']['manifest_sha256'] == runtime_pin
+              assert report['blockers'] == []
+          for name in ('python-probe.json', 'native6-probe.json'):
+              report = read(name)
+              assert report['game_access'] is False and report['inventory_unchanged'] is True
+          assert read('source-byte-comparison.json')['blocked'] is False
+          notes = Path('docs/windows-v0.1.0-beta.2-release-notes.md').read_text(encoding='utf-8')
+          assert installer_pin in notes and runtime_pin in notes and built in notes
+
+          def api(path, missing=False):
+              request = Request('https://api.github.com/repos/' + os.environ['GH_REPO'] + '/' + path,
+                                headers={'Authorization': 'Bearer ' + os.environ['GH_TOKEN'],
+                                         'Accept': 'application/vnd.github+json',
+                                         'X-GitHub-Api-Version': '2022-11-28'})
+              try:
+                  with urlopen(request, timeout=30) as response:
+                      return json.load(response)
+              except HTTPError as error:
+                  if missing and error.code == 404:
+                      return None
+                  raise
+          run = api('actions/runs/41285643771')
+          assert run['status'] == 'completed' and run['conclusion'] == 'success'
+          assert run['head_sha'] == built and run['head_repository']['full_name'] == os.environ['GH_REPO']
+          # Reruns never overwrite a published or draft release, even if it is
+          # consistent. Recover incomplete publication explicitly, not by clobber.
+          assert api('releases/tags/' + tag, missing=True) is None, 'Release already exists; refusing overwrite'
+          reference = api('git/ref/tags/' + tag, missing=True)
+          if reference is not None:
+              obj = reference['object']
+              for _ in range(5):
+                  if obj['type'] == 'commit':
+                      break
+                  assert obj['type'] == 'tag', 'Unsupported tag object'
+                  obj = api('git/tags/' + obj['sha'])['object']
+              assert obj['type'] == 'commit' and obj['sha'] == built, 'Existing tag points to another commit'
+          print('Verified all eight original files, successful build identity, and prerelease-only scope.')
+          PY
+      - name: Publish approved prerelease without rebuilding or replacing assets
+        shell: bash
+        run: |
+          gh release create "$RELEASE_TAG" approved-artifact/* \
+            --repo "$GH_REPO" \
+            --target "$BUILT_SHA" \
+            --prerelease \
+            --latest=false \
+            --title '弈核 Tacticore v0.1.0-beta.2 · Windows 界面改版预发布' \
+            --notes-file docs/windows-v0.1.0-beta.2-release-notes.md
+      - name: Verify published release flags and asset inventory
+        shell: bash
+        run: |
+          gh api "repos/$GH_REPO/releases/tags/$RELEASE_TAG" > published-release.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          release = json.loads(Path('published-release.json').read_text())
+          assert release['prerelease'] is True and release['draft'] is False
+          assert release['tag_name'] == 'v0.1.0-beta.2'
+          files = {p.name: p.stat().st_size for p in Path('approved-artifact').iterdir()}
+          assert {a['name']: a['size'] for a in release['assets']} == files
+          print(release['html_url'])
+          PY
