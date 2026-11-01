@@ -111,7 +111,7 @@ $nsisSource = Join-Path $payload 'distribution-notices/source-form/nsis-3.13-sou
 if (-not (Test-Path -LiteralPath $nsisSource -PathType Leaf)) { throw 'Original NSIS source archive missing.' }
 Invoke-Python -Arguments @('-B',(Join-Path $PSScriptRoot 'supplement-beta-notices.py'),'--output',(Join-Path $release 'distribution-notices'),'--nsis-source',$nsisSource)
 Invoke-Python -Arguments @('-B',(Join-Path $PSScriptRoot 'probe-python-stage.py'),'--runtime',$runtime,'--output',(Join-Path $release 'python-probe.json'))
-Invoke-Python -Arguments @('-B',(Join-Path $PSScriptRoot 'probe-native6-runtime.py'),'--runtime',$runtime,'--output',(Join-Path $release 'native6-probe.json'))
+Invoke-Python -Arguments @('-B',(Join-Path $PSScriptRoot 'probe-native6-integration.py'),'--runtime',$runtime,'--output',(Join-Path $release 'native6-probe.json'))
 $previousTarget = $env:CARGO_TARGET_DIR
 try {
     $env:CARGO_TARGET_DIR = $target
