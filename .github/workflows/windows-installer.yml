@@ -53,6 +53,7 @@ jobs:
       - name: Rebuild Windows installer with frozen companion
         run: ./desktop-ui/scripts/rebuild-ui-installer.ps1 -PythonExecutable (Get-Command python.exe).Source
       - name: Upload candidate and verification records
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: tacticore-windows-ui-candidate-${{ github.sha }}
@@ -62,5 +63,6 @@ jobs:
             C:/tacticore-release/ui-rebuild-provenance.json
             C:/tacticore-release/*preflight.json
             C:/tacticore-release/*probe.json
+            C:/tacticore-release/source-byte-comparison.json
           if-no-files-found: error
           retention-days: 30

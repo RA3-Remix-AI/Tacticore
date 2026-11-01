@@ -42,6 +42,68 @@ $payload = $candidates[0].Directory.Parent.FullName
 Copy-Item -LiteralPath (Join-Path $payload 'runtime') -Destination $release -Recurse
 $runtime = Join-Path $release 'runtime'
 $preflight = Join-Path $PSScriptRoot 'release_preflight.py'
+# The installer pins exact Windows source bytes. Diagnose checkout differences
+# and restore ONLY a Git-equivalent LF/CRLF representation with the exact pin.
+# Do not touch the companion, its manifest, or historical acceptance evidence.
+$sourceByteCheck = @'
+import hashlib, json, subprocess, sys
+from pathlib import Path, PurePosixPath
+repo, runtime, report_path = map(Path, sys.argv[1:4])
+base, expected_runtime = sys.argv[4:6]
+sys.path.insert(0, str(repo / 'desktop-ui/scripts'))
+from release_preflight import verify_inventory
+verify_inventory(runtime, expected=expected_runtime)
+sources = json.loads((runtime / 'application-sources.json').read_bytes())['files']
+def sha(raw):
+    return hashlib.sha256(raw).hexdigest()
+def lf(raw):
+    return raw.replace(b'\r\n', b'\n')
+def blob(revision, name):
+    return subprocess.check_output(['git', '-C', str(repo), 'show', revision + ':' + name])
+rows, repairs, blocked = [], [], False
+for name, expected in sorted(sources.items()):
+    parts = PurePosixPath(name).parts
+    if not parts or name.startswith('/') or any(p in ('.', '..') for p in parts) or ':' in name or '\\' in name:
+        raise ValueError('source_byte_path_invalid')
+    path = repo / name
+    if path.is_symlink() or not path.resolve().is_relative_to(repo.resolve()):
+        raise ValueError('source_byte_path_invalid')
+    current = path.read_bytes()
+    if sha(current) == expected:
+        continue
+    head_raw, base_raw = blob('HEAD', name), blob(base, name)
+    forms = {'git_blob': head_raw, 'git_lf': lf(head_raw), 'git_crlf': lf(head_raw).replace(b'\n', b'\r\n')}
+    match = next((form for form, raw in forms.items() if sha(raw) == expected), None)
+    published = (runtime / 'app' / name).read_bytes()
+    published_pin_matches = sha(published) == expected
+    equivalent = lf(current) == lf(head_raw) == lf(base_raw) == lf(published)
+    safe = equivalent and published_pin_matches
+    row = dict(path=name, expected_sha256=expected, current_sha256=sha(current),
+               base_git_sha256=sha(base_raw), git_form_sha256={key:sha(raw) for key,raw in forms.items()},
+               normalized_git_content_equal=equivalent, matching_form=match,
+               published_source_sha256=sha(published), published_pin_matches=published_pin_matches,
+               line_ending_materialization_allowed=safe)
+    rows.append(row)
+    print(json.dumps(row), flush=True)
+    if safe:
+        repairs.append((path, published))
+    else:
+        blocked = True
+report = dict(kind='published_source_byte_comparison', runtime_manifest_sha256=expected_runtime,
+              compared_files=len(sources), mismatches=rows, blocked=blocked, materialized_files=[])
+report_path.write_text(json.dumps(report, indent=2) + '\n', encoding='utf-8')
+if blocked:
+    raise ValueError('published_source_content_mismatch_not_line_endings')
+for path, raw in repairs:
+    path.write_bytes(raw)
+    if path.read_bytes() != raw:
+        raise ValueError('source_byte_materialization_failed')
+    report['materialized_files'].append(path.relative_to(repo).as_posix())
+report_path.write_text(json.dumps(report, indent=2) + '\n', encoding='utf-8')
+verify_inventory(runtime, expected=expected_runtime)
+print(json.dumps(dict(source_files=len(sources), exact_pin_line_ending_repairs=len(repairs))), flush=True)
+'@
+Invoke-Python -Arguments @('-B','-c',$sourceByteCheck,$repo,$runtime,(Join-Path $release 'source-byte-comparison.json'),$baseSource,$runtimeSha)
 Invoke-Python -Arguments @('-B',$preflight,'--runtime',$runtime,'--candidate','--output',(Join-Path $release 'source-preflight.json'))
 # Rebuild only installer data for the exact compiler used today. The original
 # runtime and all historical acceptance records stay byte-for-byte unchanged.
