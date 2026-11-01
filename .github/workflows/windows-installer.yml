@@ -1,0 +1,66 @@
+name: Windows UI installer candidate
+
+on:
+  push:
+    branches: [codex/windows-beta-workspace-ui]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: windows-installer-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  installer:
+    runs-on: windows-2022
+    timeout-minutes: 60
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - name: Preserve manifest-bound source bytes
+        run: git config --global core.autocrlf false
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: desktop-ui/package-lock.json
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Prepare Rust and original standard library notices
+        run: |
+          rustup toolchain install stable --profile default --component rust-docs
+          if ($LASTEXITCODE -ne 0) { throw 'Rust installation failed.' }
+          rustup default stable
+          if ($LASTEXITCODE -ne 0) { throw 'Rust selection failed.' }
+          cargo fetch --locked --manifest-path desktop-ui/src-tauri/Cargo.toml
+          if ($LASTEXITCODE -ne 0) { throw 'Locked Cargo fetch failed.' }
+      - name: Verify frontend
+        working-directory: desktop-ui
+        run: |
+          npm ci
+          if ($LASTEXITCODE -ne 0) { throw 'npm ci failed.' }
+          npm test
+          if ($LASTEXITCODE -ne 0) { throw 'Frontend tests failed.' }
+          npm run typecheck
+          if ($LASTEXITCODE -ne 0) { throw 'Typecheck failed.' }
+      - name: Rebuild Windows installer with frozen companion
+        run: ./desktop-ui/scripts/rebuild-ui-installer.ps1 -PythonExecutable (Get-Command python.exe).Source
+      - name: Upload candidate and verification records
+        uses: actions/upload-artifact@v4
+        with:
+          name: tacticore-windows-ui-candidate-${{ github.sha }}
+          path: |
+            C:/tacticore-release/*setup.exe
+            C:/tacticore-release/SHA256SUMS.txt
+            C:/tacticore-release/ui-rebuild-provenance.json
+            C:/tacticore-release/*preflight.json
+            C:/tacticore-release/*probe.json
+          if-no-files-found: error
+          retention-days: 30
