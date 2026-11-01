@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { invoke } from '@tauri-apps/api/core';
-import { Button } from './components/ui';
-import { preferenceAxes, preferencePresets, type CommanderPreferences } from './state/preferences';
+import { Button, CommanderIcon } from './components/ui';
+import { Flag, Crosshair, UsersThree, Plugs, Scroll, Circuitry, ArrowRight, CheckCircle, Circle } from '@phosphor-icons/react';
+import { preferenceAxes, preferencePresets, commanderPreview, type CommanderPreferences } from './state/preferences';
 import type { Doctrine } from './state/settings';
 import { hostRpc, HostError, type MacroStrategyPublicState, type MacroExpansionRecord, type MacroAdmissionRecord } from './runtime/nativeRpc';
 import { macroStrategyView } from './runtime/macroStrategyView';
@@ -19,6 +20,16 @@ import { ConnectionConfigPanelV1 } from './ConnectionConfigPanelV1';
 import { BetaSetupPanel } from './BetaSetupPanel';
 import { configurationAdmissionNotice, type ConnectionConfigurationState } from './runtime/connectionConfigurationStateV1';
 import './native.css';
+import './native-workspace.css';
+
+const workspaces = [
+  {id:'prepare',label:'战前备战',english:'PREPARATION',icon:Flag,title:'先定战局，再选打法。',description:'准备游戏与模型连接，让指挥官就位。'},
+  {id:'operations',label:'作战中心',english:'OPERATIONS',icon:Crosshair,title:'进入战场，掌握全局。',description:'发现真实对局，核验后交由指挥官接管。'},
+  {id:'commander',label:'指挥官工坊',english:'COMMANDERS',icon:UsersThree,title:'定义你的指挥风格。',description:'选择指挥官，调整决策偏好；保存后在下一次启动时应用。'},
+  {id:'connections',label:'模型连接',english:'CONNECTIONS',icon:Plugs,title:'接通指挥官的思考。',description:'管理本机连接与密钥，远端可用性以实际调用为准。'},
+  {id:'records',label:'运行记录',english:'RECORDS',icon:Scroll,title:'每次指挥，都有据可查。',description:'查看运行回执、执行边界和过程，导出脱敏诊断。'},
+] as const;
+type Workspace = typeof workspaces[number]['id'];
 
 type Draft = {schema_version:1;profile_id:string;name:string;revision:number;connection_id:string;model:string;doctrine:Doctrine;custom_traits:string;preferences?:CommanderPreferences};
 type Profile = {profile_id:string;name:string;revision:number;model:string;connection_id:string;draft:Draft;state:string;validation:{ok:boolean;reason_code:string};
@@ -59,9 +70,9 @@ const reasons:Record<string,string>={
   session_root_conflict:'受信会话来源发生冲突，请先核对本机配置。',session_registration_conflict:'旧对局登记尚不能替换，请先查询运行并确认归还。',
   macro_runtime_same_epoch_reattach_unsupported:'当前游戏进程已使用过指挥通道。请正常退出并重新打开受支持的游戏，再准备下一局。',
   adapter_unavailable:'宿主适配仍未就绪。',profile_library_unavailable:'未找到本机指挥官库，请检查已登记的配置。',
-  runtime_library_unregistered:'请使用本页初始化本机配置或重新查询连接，再载入配置并检查对局。',runtime_library_unavailable:'已登记的指挥官配置库暂不可读取。',
+  runtime_library_unregistered:'请前往“模型连接”初始化本机配置或重新查询连接，再检查对局。',runtime_library_unavailable:'已登记的指挥官配置库暂不可读取。',
   registered_library_changed:'已登记的配置库发生变化，请先核对本机配置，当前操作未执行。',
-  runtime_configuration_invalid:'本机配置登记无效，请在本页查询并核对配置。',runtime_configuration_changed:'本机配置来源已变化，请在本页重新查询连接、载入配置并检查对局。',
+  runtime_configuration_invalid:'本机配置登记无效，请前往“模型连接”查询并核对配置。',runtime_configuration_changed:'本机配置来源已变化，请前往“模型连接”重新查询连接，再载入指挥官配置并检查对局。',
   profile_revision_conflict:'该配置已在另一窗口更新，请重新载入。',traits_budget_exceeded:'风格说明与补充要求合计超过 1200 UTF-8 字节，请缩短补充要求。',
   model_context_capacity_exceeded_shorten_style:'风格说明与战略核心上下文的容量预留合计超限。请缩短补充要求，尤其是大量引号或反斜杠，再重新检查；尚未启用原生指挥通道。',
   model_context_capacity_provider_unavailable:'暂不能确认当前连接提供方的容量配置。请重新载入已保存配置并检查；尚未启用原生指挥通道。',
@@ -97,6 +108,14 @@ function regionalDetail(value:NonNullable<Run['macro_regional_feedback']>){
 const downloadDiagnostics=createDiagnosticsDownload((operation,args)=>hostRpc(operation,args),invoke,saveDiagnosticFile);
 
 export default function NativeApp(){
+  const [workspace,setWorkspace]=useState<Workspace>('prepare');
+  const main=useRef<HTMLElement>(null);
+  useEffect(()=>{
+    main.current?.focus({preventScroll:true});
+    window.scrollTo({top:0,left:0,behavior:'instant'});
+  },[workspace]);
+  const [setupState,setSetupState]=useState<{prepared?:boolean;game_selected?:boolean;mod_selected?:boolean}>({});
+  const activeWorkspace=workspaces.find(item=>item.id===workspace)!;
   const [profiles,setProfiles]=useState<Profile[]>([]),[connections,setConnections]=useState<Connection[]>([]);
   const [selected,setSelected]=useState(''),[draft,setDraft]=useState<Draft|null>(null),[dirty,setDirty]=useState(false);
   const [ready,setReady]=useState<Ready|null>(null),[run,setRun]=useState<Run|null>(lastRun),[session,setSession]=useState<Session|null>(null);
@@ -221,19 +240,60 @@ export default function NativeApp(){
     if(!sameRun(run,value))throw new HostError('delivery_unknown',run.run_id);updateRun(value);setNotice('已请求停止，控制是否归还仍以独立验证为准。');}
   async function download(){if(!run)return;const receipt=await downloadDiagnostics(run);setNotice(`脱敏诊断已生成，已发起下载：${receipt.exported_event_count} / ${receipt.event_count} 条事件${receipt.truncated?'（仅最近记录，已明确截断）':''}。${receipt.effective_profile_available?'':'历史配置快照不可用，文件已注明。'}文件包含完整性哈希，自由文本和原始日志正文未打包。`);}
   const preferences=draft?.preferences??preferencePresets.find(p=>p.doctrine===draft?.doctrine)?.values??preferencePresets[1].values;
-  return <div className="native-app">
-    <header className="native-header"><div><p className="eyebrow">TACTICORE / 本机客户端</p><h1>配置指挥官，进入战场</h1></div><span className="native-tag">原生连接</span></header>
-    <p role="status" className="native-notice">{configurationAdmissionNotice(configurationState)??notice}</p>
-    <BetaSetupPanel locked={locked} onPrepared={()=>{setReady(null);setSession(null);setCandidates([]);}} />
-    <ConnectionConfigPanelV1 locked={locked} onConfigurationState={configurationChanged} onSaved={async()=>{setReady(null);await load();}} />
-    <div className="native-grid"><section className="native-panel"><h2>指挥官风格</h2>
+  const freshSession=session&&session.id!==run?.session_id?session:null;
+  const nextAction = openingWaiting
+    ? {label:'取消等待',reason:'正在等待受支持对局。发现、准备和检查通过后将自动启动。',action:()=>openingAbort.current?.abort(),disabled:false}
+    : locked
+    ? {label:'查询运行状态',reason:'当前运行尚未确认归还。先观察状态；需要结束指挥时使用右上角“请求停止”。',action:()=>void perform(query),disabled:busy}
+    : !configurationReady
+    ? {label:'前往模型连接',reason:configurationAdmissionNotice(configurationState)??'先核对本机连接，才能检查和启动指挥官。',action:()=>setWorkspace('connections'),disabled:false}
+    : !profile?.validation.ok||dirty
+    ? {label:'完善指挥官配置',reason:dirty?'风格有未保存修改。保存后再检查对局。':'请先载入并保存有效的指挥官配置。',action:()=>setWorkspace('commander'),disabled:false}
+    : validReady
+    ? {label:'启动指挥官',reason:'当前配置与对局已通过检查。启动后将调用模型并申请原生指挥通道。',action:()=>void perform(start),disabled:busy}
+    : candidates.length>0
+    ? {label:'准备所选对局',reason:candidateId?'已选择受支持对局，准备后还需检查。':'请选择下方的真实对局，再进行准备。',action:()=>void perform(prepareCandidate),disabled:busy||!candidateId}
+    : freshSession
+    ? {label:'检查对局',reason:'对局已准备，检查当前配置、游戏身份和可用能力。',action:()=>void perform(check),disabled:busy}
+    : {label:'发现游戏 / 准备下一局',reason:'在游戏中进入受支持的对局，再发现并核验游戏身份。',action:()=>void perform(discover),disabled:busy};
+  const runSummary=openingWaiting?'等待进入对局':locked?(stateLabel[run?.state??'']??'运行待核验'):run?'上一轮已归还':'尚未启动';
+  return <div className="native-app native-workspace-shell">
+    <a className="skip-link" href="#native-main-content">跳至工作区内容</a>
+    <aside className="nw-sidebar">
+      <a className="nw-brand" href="#prepare" onClick={event=>{event.preventDefault();setWorkspace('prepare');}}><Circuitry size={31} weight="duotone"/><span><strong>弈核</strong><small>TACTICORE</small></span></a>
+      <p className="nw-sidebar-caption">独立 Agent 指挥系统</p>
+      <nav aria-label="工作区">{workspaces.map(item=><button key={item.id} aria-current={workspace===item.id?'page':undefined} onClick={()=>setWorkspace(item.id)}><item.icon size={23} weight="light"/><span>{item.label}<small>{item.english}</small></span>{workspace===item.id&&<i/>}</button>)}</nav>
+      <div className="nw-sidebar-bottom"><span className="nw-dot"/> 本机工作区<p>WINDOWS / V0.1 BETA</p></div>
+    </aside>
+    <div className="nw-body">
+      <header className="nw-topbar"><div><span className="nw-beta">BETA</span><strong>原生指挥客户端</strong><span className="nw-topbar-note">{runSummary}</span></div>
+        <div className="nw-global-controls">{openingWaiting&&workspace!=='operations'&&<Button onClick={()=>openingAbort.current?.abort()}>取消等待</Button>}<span className="nw-current-commander">{profile?.name??'指挥官待配置'}</span><Button className="nw-stop" disabled={busy||!locked} onClick={()=>void perform(stop)}>请求停止</Button></div>
+      </header>
+      <main id="native-main-content" ref={main} tabIndex={-1} className="nw-content">
+        <header className="nw-page-heading"><p className="eyebrow">{activeWorkspace.english} / {activeWorkspace.label}</p><h1>{activeWorkspace.title}</h1><p>{activeWorkspace.description}</p></header>
+        <p role="status" className="native-notice nw-notice">{configurationAdmissionNotice(configurationState)??notice}</p>
+        <div hidden={workspace!=='prepare'} className="nw-preparation">
+          <div className="nw-preparation-main"><BetaSetupPanel locked={locked} onStatusChange={setSetupState} onPrepared={()=>{setReady(null);setSession(null);setCandidates([]);}} />
+            <section className="native-panel nw-scope"><p className="eyebrow">SUPPORTED MATCH / 当前支持范围</p><h2>为这一局做好准备</h2><div className="nw-scope-values"><div><small>地图</small><strong>TemplePrime</strong></div><div><small>指挥席位</small><strong>P3 · 苏军</strong></div><div><small>对手</small><strong>P4 · 原生电脑</strong></div></div><p className="native-muted">请在游戏大厅设置对局与已验证的出生位置；客户端会在启动前再次核验。</p></section>
+          </div>
+          <aside className="nw-preparation-summary"><section className="native-panel nw-commander-card"><p className="eyebrow">COMMANDER / 本局指挥官</p><div className="nw-commander-identity"><CommanderIcon doctrine={draft?.doctrine??'assault'} size={38}/><div><h2>{profile?.name??'等待载入'}</h2><p>{profile?.model||'模型待配置'}</p></div></div><p className="native-muted">{dirty?'风格有未保存修改':profile?.validation.ok?'当前风格已就绪，等待对局检查':'请先完成连接与指挥官配置'}</p><Button onClick={()=>setWorkspace('commander')}>调整指挥风格 <ArrowRight/></Button></section>
+            <section className="native-panel nw-checklist"><p className="eyebrow">READINESS / 备战进度</p><h2>距离开战，还有哪一步？</h2>{[
+              {title:'游戏与 Mod',ready:setupState.prepared===true,text:setupState.prepared?'本机登记已核验':'选择游戏与兼容 Mod'},
+              {title:'模型连接',ready:configurationReady,text:configurationReady?'本机配置已核验，远端待调用':'尚需核对本机配置'},
+              {title:'指挥官风格',ready:!!profile?.validation.ok&&!dirty,text:dirty?'有未保存修改':profile?.validation.ok?'已准备':'尚待配置'},
+            ].map(item=><div className="nw-check-row" key={item.title}>{item.ready?<CheckCircle size={21}/>:<Circle size={21}/>}<div><strong>{item.title}</strong><small>{item.text}</small></div></div>)}<div className="native-actions"><Button onClick={()=>setWorkspace('connections')}>配置模型连接</Button><Button kind="primary" onClick={()=>setWorkspace('operations')}>进入作战中心 <ArrowRight/></Button></div><p className="native-muted">进入作战中心不会自动启动指挥官。</p></section>
+          </aside>
+        </div>
+        <div hidden={workspace!=='connections'}><ConnectionConfigPanelV1 locked={locked} onConfigurationState={configurationChanged} onSaved={async()=>{setReady(null);await load();}} /></div>
+        <section hidden={workspace!=='commander'} className="native-panel nw-workshop"><p className="eyebrow">DOCTRINE / 决策偏好</p><h2>选择一位指挥官，塑造他的打法</h2>
       <label>本机指挥官<select value={selected} disabled={busy||locked} onChange={e=>choose(e.target.value)}>{profiles.map(p=><option key={p.profile_id} value={p.profile_id}>{p.name}</option>)}</select></label>
       {draft&&profile&&<>
         <p className="native-muted">修订 {profile.revision} · {connection?.name??'连接未找到'} · {profile.model||'模型待配置'}</p>
-        <label>打法预设<select value={preferences.preset} disabled={busy||locked} onChange={e=>{const preset=preferencePresets.find(p=>p.id===e.target.value);if(preset)edit({doctrine:preset.doctrine,preferences:{...preset.values}});}}>{preferencePresets.map(p=><option key={p.id} value={p.id}>{p.label}</option>)}<option value="custom" disabled>自定义</option></select></label>
+        <fieldset className="nw-presets" disabled={busy||locked}><legend>打法预设</legend><div>{preferencePresets.map(preset=><button type="button" key={preset.id} aria-pressed={preferences.preset===preset.id} onClick={()=>edit({doctrine:preset.doctrine,preferences:{...preset.values}})}><CommanderIcon doctrine={preset.doctrine} size={25}/><strong>{preset.label}</strong><span>{preset.description}</span></button>)}</div>{preferences.preset==='custom'&&<p className="native-muted">当前为自定义风格，可继续微调下方倾向。</p>}</fieldset>
         <div className="native-axes">{preferenceAxes.map(axis=><label key={axis.key}><span>{axis.label}<strong>{preferences[axis.key]} / 5</strong></span>
           <input type="range" min="1" max="5" step="1" value={preferences[axis.key]} disabled={busy||locked} onChange={e=>edit({preferences:{...preferences,preset:'custom',[axis.key]:Number(e.target.value)}})}/>
           <small>{axis.descriptions[preferences[axis.key]-1]}</small><small className="native-muted">{profile.effective?.axis_support[axis.key]?.execution_status==='verified_scope'?'已验证部分执行能力':'模型决策偏好；相关执行能力尚未完整验证'}</small></label>)}</div>
+        <div className="nw-style-preview"><p className="eyebrow">STYLE PREVIEW / 风格预览</p><h3>同样的战况，不同的判断</h3><p className="native-muted">以下仅解释当前草稿的决策倾向，不代表真实对局结果。</p><div>{commanderPreview({doctrine:draft.doctrine,preferences}).map(scene=><article key={scene.id}><h4>{scene.title}</h4><p>{scene.text}</p></article>)}</div></div>
         <label>补充要求<textarea rows={4} value={draft.custom_traits} disabled={busy||locked} onChange={e=>edit({custom_traits:e.target.value})}/></label>
         <p className="native-muted">风格说明与补充要求合计最多 1200 UTF-8 字节；当前已保存配置 {number(profile.effective?.traits_bytes)} 字节。</p>
         {!profile.validation.ok&&<p className="native-warning">{reasons[profile.validation.reason_code]??`配置需要处理（${profile.validation.reason_code}）`}</p>}
@@ -244,28 +304,42 @@ export default function NativeApp(){
         <label>指挥官模型<input value={draft.model} disabled={busy||locked} onChange={e=>edit({model:e.target.value})} placeholder="留空使用连接默认模型"/></label>
         <p className="native-muted">列表不会读取密钥。连接和凭据由原生客户端管理；远端可用性以实际模型调用结果为准。</p>
       </>}
-    </section><section className="native-panel"><h2>对局与应用状态</h2>
-      <ol className="native-status"><li>配置：{dirty?'有未保存修改':profile?.state==='saved'?'已保存':'本机库原始配置'}</li>
-        <li>宿主应用：{application.applied?'已收到当前修订的应用回执':'等待当前风格的应用回执'}</li>
-        <li>模型消费：{application.responded?'已收到模型响应':application.called?'已发起模型调用':'等待当前风格的消费回执'}</li>
-        <li>对局：{validReady?'检查通过':currentRun?stateLabel[currentRun.state]??'等待核对宿主状态':identity?'已准备，等待检查':'等待检查'}</li>
-        <li>控制归还：{!currentRun?'当前对局尚未启动指挥官':currentRun.no_native_execution_started?'启动已在派发前取消，未新增原生指挥':releaseDescription(currentRun.native_release_verified)}</li></ol>
-      <p className="native-muted">停止与结算候选均需单独核验控制归还。配置变化后必须重新检查。</p>
-      {validReady&&<p className="native-muted">检查有效期剩余 {Math.max(0,Math.ceil((ready!.expires_at-clock)/1000))} 秒。</p>}
-      {currentRun&&observedAt&&<p className="native-muted">最后成功同步：{new Date(observedAt).toLocaleTimeString('zh-CN')}。查询失败时保留上次观测，不视为当前事实。</p>}
-      {currentRun?.status_stale&&<p className="native-warning">{currentRun.host_process_alive===false?'宿主进程已结束，以下为最后保存的状态。':`宿主状态已 ${Math.floor((currentRun.status_age_ms??0)/1000)} 秒未更新，以下为上次记录。`}</p>}
-      {currentRun?.reason_code&&currentRun.reason_code!=='user_stop'&&<p className="native-muted">{reasons[currentRun.reason_code]??`运行状态说明：${currentRun.reason_code}`}</p>}
-      <div className="native-actions"><Button disabled={busy||locked} onClick={()=>void perform(discover)}>发现游戏 / 准备下一局</Button>
-        <Button disabled={busy} onClick={()=>void perform(resume)}>恢复观察已有宿主</Button></div>
-      {!!candidates.length&&<><label>受支持的对局<select value={candidateId} disabled={busy||locked} onChange={e=>setCandidateId(e.target.value)}>
-        <option value="">请选择对局</option>{candidates.map((candidate,index)=><option key={candidate.candidate_id} value={candidate.candidate_id}>{candidate.display_name} · {index+1}</option>)}</select></label>
-        <div className="native-actions"><Button disabled={busy||locked||!candidateId} onClick={()=>void perform(prepareCandidate)}>准备所选对局</Button></div></>}
-      {run&&!locked&&<p className="native-muted">{run.no_native_execution_started?'上一轮启动在派发前取消，未取得原生控制。':'上一轮已独立确认归还。'}准备下一局时仍须发现并核验新的受支持会话；当前同进程再次接入尚未开放。</p>}
-      <div className="native-actions"><Button disabled={!configurationReady||busy||dirty||locked||!profile?.validation.ok} onClick={()=>void perform(check)}>检查对局</Button>
-        <Button disabled={!configurationReady||busy||dirty||locked||!validReady} onClick={()=>void perform(start)}>启动指挥官</Button>
-        {openingWaiting?<Button onClick={()=>openingAbort.current?.abort()}>取消等待</Button>:
-          <Button disabled={!configurationReady||busy||dirty||locked||!profile?.validation.ok} onClick={()=>void perform(openingStart)}>进入对局后自动启动</Button>}
-        <Button disabled={busy||!locked} onClick={()=>void perform(stop)}>请求停止</Button>{run&&<Button disabled={busy} onClick={()=>void perform(query)}>查询运行状态</Button>}</div>
+      {!profile&&<div className="nw-empty"><UsersThree size={36}/><h3>还没有载入指挥官</h3><p>先完成本机连接，再载入指挥官配置。</p><Button onClick={()=>setWorkspace('connections')}>前往模型连接</Button><Button disabled={busy||locked} onClick={()=>void perform(load)}>重新载入</Button></div>}
+        </section>
+        <div hidden={workspace!=='operations'}>
+          <section className="native-panel nw-next-action"><div><p className="eyebrow">NEXT ACTION / 下一步</p><h2>{openingWaiting?'等待战场就绪':locked?(run?.state==='running'?'指挥进行中，持续观察':'观察运行，确认控制归还'):validReady?'核验已通过，可以启动':'让指挥官进入真实对局'}</h2><p>{nextAction.reason}</p></div><Button kind="primary" disabled={nextAction.disabled} onClick={nextAction.action}>{nextAction.label}<ArrowRight size={18}/></Button></section>
+          <div className="nw-operation-grid"><section className="native-panel"><p className="eyebrow">MATCH / 对局准入</p><h2>发现、准备、核验</h2>
+            <ol className="nw-steps"><li className={candidates.length||freshSession?'is-done':''}>01 发现游戏</li><li className={freshSession?'is-done':''}>02 准备对局</li><li className={validReady?'is-done':''}>03 检查与启动</li></ol>
+            {!!candidates.length&&<label>受支持的对局<select value={candidateId} disabled={busy||locked} onChange={e=>setCandidateId(e.target.value)}><option value="">请选择对局</option>{candidates.map((candidate,index)=><option key={candidate.candidate_id} value={candidate.candidate_id}>{candidate.display_name} · {index+1}</option>)}</select></label>}
+            <dl className="native-facts"><dt>地图</dt><dd>{identity?.map??'等待发现真实对局'}</dd><dt>电脑</dt><dd>{identity?.player_name??'尚未核验'}{identity?.faction==='Soviet'?' · 苏军':''}</dd><dt>准入状态</dt><dd>{validReady?'检查通过':locked?'当前运行已绑定':freshSession?'等待检查':'等待准备下一局'}</dd></dl>
+            {validReady&&<p className="native-muted">检查有效期剩余 {Math.max(0,Math.ceil((ready!.expires_at-clock)/1000))} 秒。</p>}
+            {run&&!locked&&<p className="native-muted">上一轮已确认归还。当前同进程再次接入尚未开放，请正常退出并重新打开受支持的游戏，再准备下一局。</p>}
+            <div className="native-actions">{nextAction.label!=='发现游戏 / 准备下一局'&&<Button disabled={busy||locked} onClick={()=>void perform(discover)}>发现游戏 / 准备下一局</Button>}{nextAction.label!=='检查对局'&&<Button disabled={!configurationReady||busy||dirty||locked||!profile?.validation.ok} onClick={()=>void perform(check)}>检查对局</Button>}</div>
+            {!openingWaiting&&<div className="nw-auto-wait"><Button disabled={!configurationReady||busy||dirty||locked||!profile?.validation.ok} onClick={()=>void perform(openingStart)}>进入对局后自动启动</Button><p className="native-muted">等待最多五分钟；检查通过后自动启动，可随时取消。</p></div>}
+          </section>
+          <section className="native-panel nw-live-card"><p className="eyebrow">LIVE STATUS / 运行观察</p><h2>{runSummary}</h2><dl className="native-facts"><dt>风格应用</dt><dd>{application.applied?'已收到当前修订应用回执':'等待宿主回执'}</dd><dt>模型调用</dt><dd>{application.responded?'已收到模型响应':application.called?'已发起调用':'尚无消费回执'}</dd><dt>控制归还</dt><dd>{run?releaseDescription(run.native_release_verified):'尚未启动指挥官'}</dd></dl>
+            {currentRun&&observedAt&&<p className="native-muted">最后成功同步：{new Date(observedAt).toLocaleTimeString('zh-CN')}。查询失败时保留上次观测。</p>}
+            {currentRun?.status_stale&&<p className="native-warning">状态已过期，以下为宿主最后记录；不代表游戏当前状态。</p>}
+            {currentRun?.reason_code&&currentRun.reason_code!=='user_stop'&&<p className="native-warning">{reasons[currentRun.reason_code]??`运行状态说明：${currentRun.reason_code}`}</p>}
+            <p className="native-muted">停止请求与控制归还分别核验。结束进程或出现结算候选，不等于控制已归还。</p><div className="native-actions"><Button disabled={busy} onClick={()=>void perform(resume)}>恢复观察已有宿主</Button>{run&&nextAction.label!=='查询运行状态'&&<Button disabled={busy} onClick={()=>void perform(query)}>查询运行状态</Button>}<Button onClick={()=>setWorkspace('records')}>查看运行记录 <ArrowRight/></Button></div>
+          </section></div>
+          {capabilities?.native_macro&&<section className="native-panel nw-strategy-summary"><p className="eyebrow">STRATEGY / {display.lastHostSample?'宿主最后战略记录':'当前战略'}</p><h2>{strategy.objective}</h2><div className="nw-scope-values"><div><small>当前阶段</small><strong>{strategy.phase}</strong></div><div><small>期待变化</small><strong>{strategy.expectation}</strong></div><div><small>最近结果</small><strong>{strategy.latest}</strong></div></div><p className="native-muted">{strategy.pending}</p></section>}
+        </div>
+        <div hidden={workspace!=='records'}>
+          {!run&&<section className="native-panel nw-empty"><Scroll size={40}/><h2>还没有运行记录</h2><p>启动指挥官后，这里会显示任务、回执与日志。也可以恢复观察已有宿主。</p><Button disabled={busy} onClick={()=>void perform(resume)}>恢复已有运行记录</Button></section>}
+    {run&&<section className="native-panel native-process"><div className="native-section-heading"><div><h2>{display.historical?'上一局任务与过程记录':'任务与过程记录'}</h2><p className="native-id">运行编号 {run.run_id} · 对局编号 {run.session_id}</p><p className="native-muted">模型请求 {number(run.metrics?.requests)} · 接受方案 {number(run.metrics?.accepted)} · 实际派发 {number(run.task_counters?.dispatches)} · 完成 {number(run.task_counters?.completed)} · 受阻 {number(run.task_counters?.blocked)}</p></div>
+      <Button disabled={busy} onClick={()=>void perform(download)}>下载脱敏诊断</Button></div>
+      {display.historical&&<p className="native-muted">上一局状态：{stateLabel[run.state]??'等待核对宿主状态'} · {releaseDescription(run.native_release_verified)}。{observedAt?`该运行最后成功同步于 ${new Date(observedAt).toLocaleTimeString('zh-CN')}。`:''}</p>}
+      <p className="native-muted">诊断包含事件与配置指纹、版本和源文件哈希；自由文本、模型输入与原始日志正文不会打包。</p>
+      {run.tasks?.length?<ul className="native-tasks">{run.tasks.map(task=><li key={task.task_id}><strong>{moduleNames[task.module??'']??'任务'} · {taskStages[task.status??'']??'等待核验'}</strong>
+        <span>{task.module==='local_maneuver'?'移动、保持、返回':task.purpose??'—'}{task.budget?` · 预算比例 ${Math.round(task.budget.fraction*100)}%`:''}</span>
+        {task.module==='local_maneuver'&&<small>实际回家：{task.physical_home===true?'已核验':'未核验'} · 控制归还：{task.control_released===true?'已核验':'未核验'}</small>}
+        <small>{task.reason_code??''}</small></li>)}</ul>:<p className="native-muted">尚未收到任务记录。启动意图与宿主事件仍会记录在日志中。</p>}
+      {run.tasks_cursor?.truncated&&<p className="native-muted">任务列表仅展示部分记录，共 {run.tasks_cursor.total_count} 项。</p>}
+      <h3>最近日志</h3>{run.events_cursor&&<p className="native-muted">当前 {run.events?.length??0} 条 / 共 {run.events_cursor.total_count} 条{run.events_cursor.truncated?`，另有 ${run.events_cursor.overflow} 条较早记录未在此展开`:''}。</p>}
+      <ol className="native-events">{run.events?.map(event=><li key={event.seq}><span>{eventDescription(event)}</span><time dateTime={event.created_at}>{new Date(event.created_at).toLocaleTimeString('zh-CN')}</time></li>)}</ol>
+    </section>}
+          <section className="native-panel nw-evidence"><p className="eyebrow">EVIDENCE / 详细回执与执行边界</p>
       <h3>绑定的真实对局</h3><dl className="native-facts"><dt>地图</dt><dd>{identity?.map??'尚未核验'}</dd><dt>电脑</dt><dd>{identity?.player_name??'尚未核验'}{identity?.faction==='Soviet'?' · 苏军':''}</dd>
         <dt>{display.lastHostSample?'宿主最后采样时间':'游戏时间'}</dt><dd>{currentRun?.latest_snapshot?.game_time_seconds===undefined?'等待当前对局采样':`${Math.floor(currentRun.latest_snapshot.game_time_seconds)} 秒${currentRun.latest_snapshot.paused?' · 暂停':''}`}</dd>
         <dt>{display.lastHostSample?'宿主最后采样资金':'当前资金'}</dt><dd>{number(currentRun?.latest_snapshot?.resources?.credits)}</dd></dl>
@@ -317,18 +391,10 @@ export default function NativeApp(){
           <p className="native-muted">{admission.next}</p><p className="native-muted">{admission.limits}</p></>
           :<p className="native-warning">{admission.state} {admission.next}</p>}</>}
       {currentRun?.local_preparation&&<p className="native-muted">局部机动准备：{localPreparationDescription(currentRun.local_preparation.state)}</p>}
-    </section></div>
-    {run&&<section className="native-panel native-process"><div className="native-section-heading"><div><h2>{display.historical?'上一局任务与过程记录':'任务与过程记录'}</h2><p className="native-id">运行编号 {run.run_id} · 对局编号 {run.session_id}</p><p className="native-muted">模型请求 {number(run.metrics?.requests)} · 接受方案 {number(run.metrics?.accepted)} · 实际派发 {number(run.task_counters?.dispatches)} · 完成 {number(run.task_counters?.completed)} · 受阻 {number(run.task_counters?.blocked)}</p></div>
-      <Button disabled={busy} onClick={()=>void perform(download)}>下载脱敏诊断</Button></div>
-      {display.historical&&<p className="native-muted">上一局状态：{stateLabel[run.state]??'等待核对宿主状态'} · {releaseDescription(run.native_release_verified)}。{observedAt?`该运行最后成功同步于 ${new Date(observedAt).toLocaleTimeString('zh-CN')}。`:''}</p>}
-      <p className="native-muted">诊断包含事件与配置指纹、版本和源文件哈希；自由文本、模型输入与原始日志正文不会打包。</p>
-      {run.tasks?.length?<ul className="native-tasks">{run.tasks.map(task=><li key={task.task_id}><strong>{moduleNames[task.module??'']??'任务'} · {taskStages[task.status??'']??'等待核验'}</strong>
-        <span>{task.module==='local_maneuver'?'移动、保持、返回':task.purpose??'—'}{task.budget?` · 预算比例 ${Math.round(task.budget.fraction*100)}%`:''}</span>
-        {task.module==='local_maneuver'&&<small>实际回家：{task.physical_home===true?'已核验':'未核验'} · 控制归还：{task.control_released===true?'已核验':'未核验'}</small>}
-        <small>{task.reason_code??''}</small></li>)}</ul>:<p className="native-muted">尚未收到任务记录。启动意图与宿主事件仍会记录在日志中。</p>}
-      {run.tasks_cursor?.truncated&&<p className="native-muted">任务列表仅展示部分记录，共 {run.tasks_cursor.total_count} 项。</p>}
-      <h3>最近日志</h3>{run.events_cursor&&<p className="native-muted">当前 {run.events?.length??0} 条 / 共 {run.events_cursor.total_count} 条{run.events_cursor.truncated?`，另有 ${run.events_cursor.overflow} 条较早记录未在此展开`:''}。</p>}
-      <ol className="native-events">{run.events?.map(event=><li key={event.seq}><span>{eventDescription(event)}</span><time dateTime={event.created_at}>{new Date(event.created_at).toLocaleTimeString('zh-CN')}</time></li>)}</ol>
-    </section>}
+          </section>
+        </div>
+      </main>
+      <footer className="nw-footer"><span><i className="nw-dot"/>{runSummary}</span><span>本机配置 · 独立核验控制归还</span><span>TACTICORE / NATIVE BETA</span></footer>
+    </div>
   </div>;
 }
