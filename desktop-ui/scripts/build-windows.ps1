@@ -4,6 +4,7 @@ $desktopRoot = Split-Path -Parent $PSScriptRoot
 if ($NativeTests -and $ReleaseDirectory) { throw 'Choose native tests or a release build.' }
 if ($BetaCandidate -and -not $ReleaseDirectory) { throw 'A beta installer candidate needs a frozen ReleaseDirectory.' }
 if ($ReleaseDirectory) {
+    $releaseVersion = (Get-Content -LiteralPath (Join-Path $desktopRoot 'src-tauri/tauri.conf.json') -Raw | ConvertFrom-Json).version
     if (-not $PythonExecutable) {
         $PythonExecutable = Join-Path (Split-Path -Parent $desktopRoot) '.venv\Scripts\python.exe'
     }
@@ -125,7 +126,7 @@ try {
         if ($BetaCandidate) {
             $installers = @(Get-ChildItem -LiteralPath (Join-Path $nativeTarget 'release\bundle\nsis') -Filter '*setup.exe' -File)
             if ($installers.Count -ne 1) { throw 'Exactly one beta installer is required.' }
-            Copy-Item -LiteralPath $installers[0].FullName -Destination (Join-Path $releaseRoot 'Tacticore_0.1.0-beta.1_x64-setup.exe')
+            Copy-Item -LiteralPath $installers[0].FullName -Destination (Join-Path $releaseRoot ('Tacticore_{0}_x64-setup.exe' -f $releaseVersion))
         }
     }
 } finally {

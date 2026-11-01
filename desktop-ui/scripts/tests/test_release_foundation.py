@@ -9,12 +9,13 @@ from pathlib import Path
 import sys
 import subprocess
 import tempfile
+import tomllib
 import unittest
 
 SCRIPTS = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS))
 from locked_python_runtime import copy_application, copy_locked_dependencies, read_lock,compact_dependencies
-from release_preflight import REPO, digest, preflight, verify_inventory
+from release_preflight import REPO, digest, preflight, verify_inventory, coordinated_beta_version
 
 
 class ReleaseFoundationTests(unittest.TestCase):
@@ -60,6 +61,36 @@ class ReleaseFoundationTests(unittest.TestCase):
         manifest = dict(schema_version=1, python='python/python.exe', working_directory='app/integration', files=files)
         (root / 'manifest.json').write_text(json.dumps(manifest), encoding='utf-8')
         return root, manifest
+
+    def test_candidate_versions_allow_numbered_beta_and_reject_drift_or_invalid_semver(self):
+        for version in ('0.1.0-beta.1', '0.1.0-beta.2', '0.1.12-beta.10'):
+            with self.subTest(version=version):
+                self.assertEqual(coordinated_beta_version(
+                    {'version': version}, {'version': version}, {'package': {'version': version}}), version)
+        for versions in (('0.1.0-beta.2', '0.1.0-beta.1', '0.1.0-beta.2'),
+                         ('0.1.0-beta.2', '0.1.0-beta.2', '0.1.0-beta.1')):
+            with self.subTest(versions=versions), self.assertRaisesRegex(ValueError, 'beta_version_mismatch'):
+                coordinated_beta_version({'version': versions[0]}, {'version': versions[1]},
+                                         {'package': {'version': versions[2]}})
+        for version in ('0.1.0', '0.2.0-beta.1', '0.1.0-beta', '0.1.00-beta.2',
+                        '0.1.0-beta.02', '0.1.0-beta.2+local', '0.1.0-beta.2\n', None, 2):
+            with self.subTest(version=version), self.assertRaisesRegex(ValueError, 'beta_version_mismatch'):
+                coordinated_beta_version({'version': version}, {'version': version},
+                                         {'package': {'version': version}})
+
+    def test_repository_release_versions_and_lockfiles_match(self):
+        desktop = REPO / 'desktop-ui'
+        tauri = json.loads((desktop / 'src-tauri/tauri.conf.json').read_text(encoding='utf-8'))
+        package = json.loads((desktop / 'package.json').read_text(encoding='utf-8'))
+        cargo = tomllib.loads((desktop / 'src-tauri/Cargo.toml').read_text(encoding='utf-8'))
+        version = coordinated_beta_version(tauri, package, cargo)
+        npm_lock = json.loads((desktop / 'package-lock.json').read_text(encoding='utf-8'))
+        self.assertEqual(npm_lock['version'], version)
+        self.assertEqual(npm_lock['packages']['']['version'], version)
+        cargo_lock = tomllib.loads((desktop / 'src-tauri/Cargo.lock').read_text(encoding='utf-8'))
+        application = [row for row in cargo_lock['package'] if row['name'] == cargo['package']['name']]
+        self.assertEqual([row['version'] for row in application], [version])
+        self.assertIn(version, tauri['app']['windows'][0]['title'])
 
     def test_only_locked_distributions_are_copied_and_private_metadata_is_excluded(self):
         selected = self.distribution()

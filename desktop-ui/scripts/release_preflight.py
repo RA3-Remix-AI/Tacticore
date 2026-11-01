@@ -164,6 +164,16 @@ def preflight(repo=REPO, runtime=None):
     return report
 
 
+def coordinated_beta_version(tauri, package, cargo):
+    """Require one numbered, SemVer-valid beta across the installer and apps."""
+    versions = (tauri['version'], package['version'], cargo['package']['version'])
+    if any(not isinstance(version, str) for version in versions):
+        raise ValueError('beta_version_mismatch')
+    if len(set(versions)) != 1 or not re.fullmatch(r'0\.1\.(?:0|[1-9][0-9]*)-beta\.(?:0|[1-9][0-9]*)', versions[0]):
+        raise ValueError('beta_version_mismatch')
+    return versions[0]
+
+
 def candidate_preflight(runtime,repo=REPO):
     """Build admission for a frozen installer under test; never public upload."""
     report=dict(schema_version=1,kind='windows_beta_installer_candidate_preflight',ready=False,
@@ -180,8 +190,7 @@ def candidate_preflight(runtime,repo=REPO):
         tauri=read_json(Path(repo)/'desktop-ui/src-tauri/tauri.conf.json')
         package=read_json(Path(repo)/'desktop-ui/package.json')
         cargo=tomllib.loads((Path(repo)/'desktop-ui/src-tauri/Cargo.toml').read_text(encoding='utf-8'))
-        if {tauri['version'],package['version'],cargo['package']['version']}!={'0.1.0-beta.1'}:
-            raise ValueError('beta_version_mismatch')
+        coordinated_beta_version(tauri, package, cargo)
         if not tauri['bundle']['active'] or tauri['bundle']['targets']!=['nsis']:
             raise ValueError('beta_installer_required')
         sources=read_json(Path(runtime)/'application-sources.json')['files']
