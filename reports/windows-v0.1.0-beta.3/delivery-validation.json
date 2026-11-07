@@ -1,0 +1,30 @@
+{
+  "scope": "source regressions and metadata checks during local handoff; no added formal credit",
+  "python_tests": 212,
+  "python_failures": 0,
+  "python_errors": 0,
+  "frontend_tests": 133,
+  "frontend_failures": 0,
+  "typecheck_exit": 0,
+  "model_calls_added": 0,
+  "games_added": 0,
+  "cross_machine_verified": false,
+  "isolated_source_python": {
+    "tests_run": 212,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 6,
+    "skip_reasons": [
+      "requires local archived wire contexts; not distributed with source",
+      "requires unpublished desktop-bcd88e90 trial events, profile and snapshots",
+      "requires unpublished terminal-52600 proof and matching Native5 journal"
+    ]
+  },
+  "isolated_source_frontend": {
+    "tests": 133,
+    "failures": 0,
+    "typecheck_exit": 0,
+    "dependencies": "existing locked node_modules; no new dependency installation"
+  },
+  "git_frozen_source_blob_verification": 999
+}

@@ -32,6 +32,14 @@ Interaction checks:
    readiness is revoked; recovering does not automatically restart or reuse it.
 6. Switch workspaces repeatedly. The configuration panel stays mounted, and
    navigation does not requery configuration or reset its draft.
+7. Use the waiting-model and failed-call scenarios, then open operations. The
+   latest call is shown independently from the earlier model-consumption receipt;
+   failure does not guess an authentication cause or submit a retry.
+8. In the active-run scenario, operations shows the scout intent, native task
+   activity and pending reevaluation. Movement never claims mission completion.
+   Stop, wait for release, then prepare another session: old records stay historical.
+9. Check preparation at narrow and wide window sizes. The complete supported
+   lobby settings are readable, including the difference between P3 and spawn 2.
 
 These checks validate React interactions and presentation only. Windows file
 dialogs, DPAPI, packaged native RPC, installation and live-game return must be

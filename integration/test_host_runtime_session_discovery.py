@@ -286,6 +286,36 @@ class SessionDiscoveryTests(unittest.TestCase):
         self.policy = replace(self.policy,map_id='other-map')
         self.assertCode('discovery_policy_invalid',self.make)
 
+    def test_native6_prepares_observed_infinity_map_and_origin_without_rpc_map_input(self):
+        self.broker.close()
+        self.policy=replace(self.policy,native_epoch=6)
+        self.observation=replace(self.observation,native_epoch=6,map_id='map_mp_2_rao1',origin_region='region_7_4')
+        self.broker=self.make()
+        candidate=self.broker.discover({})['candidates'][0]
+        self.assertEqual(candidate['map'],'InfinityIsle')
+        self.assertEqual(candidate['display_name'],'InfinityIsle / P3 苏军')
+        prepared=self.prepare(candidate['candidate_id'])
+        self.assertEqual(prepared['session']['map'],'InfinityIsle')
+        session=json.loads(self.registered[0][0].read_text())
+        self.assertEqual(session['scenario']['map_id'],'map_mp_2_rao1')
+        self.assertEqual(session['scenario']['origin_region'],'region_7_4')
+
+    def test_native6_cross_map_origin_and_changed_map_before_preparation_are_rejected(self):
+        self.broker.close()
+        self.policy=replace(self.policy,native_epoch=6)
+        self.observation=replace(self.observation,native_epoch=6,map_id='map_mp_2_rao1')
+        self.broker=self.make()
+        self.assertEqual(self.broker.discover({})['issues'],['session_scope_unsupported'])
+        self.observation=replace(self.observation,origin_region='region_7_4')
+        candidate=self.candidate()
+        self.observation=replace(self.observation,map_id='map_mp_2_black1b',origin_region='region_8_3')
+        self.assertCode('session_changed',lambda:self.prepare(candidate))
+        self.assertFalse(self.registered)
+
+    def test_old_protocol_does_not_inherit_native6_additional_map(self):
+        self.observation=replace(self.observation,map_id='map_mp_2_rao1',origin_region='region_7_4')
+        self.assertEqual(self.broker.discover({})['issues'],['session_scope_unsupported'])
+
     def test_registration_failure_preserves_typed_reason(self):
         def refuse(*args):
             raise ContractError('run_state_conflict')

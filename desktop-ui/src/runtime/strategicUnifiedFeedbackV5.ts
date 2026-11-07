@@ -5,7 +5,7 @@ export function strategicUnifiedFeedbackV5(value: unknown): string[] {
   const v = value as Record<string, unknown>;
   if (v.source !== 'bound_native_strategy_v5' || v.details_owner !== 'native_ai'
     || !Number.isInteger(v.observed_frame) || Number(v.observed_frame) <= 0
-    || !Array.isArray(v.observations) || v.observations.length > 4) return [];
+    || !Array.isArray(v.observations) || v.observations.length > 5) return [];
   const rows: string[] = [], seen = new Set<string>();
   for (const raw of v.observations) {
     if (typeof raw !== 'object' || raw === null || Array.isArray(raw)) return [];
@@ -17,11 +17,18 @@ export function strategicUnifiedFeedbackV5(value: unknown): string[] {
       || !Number.isInteger(r.observed_frame) || Number(r.observed_frame) > Number(v.observed_frame)
       || Number(v.observed_frame) - Number(r.observed_frame) > 15) return [];
     seen.add(action);
-    const state = !r.preference_active ? '额外偏好已释放。'
+    const state = !r.preference_active && r.active_native_task_observed
+      ? `额外偏好已释放。仍观测到原生任务活动${r.movement_observed ? '和己方成员移动' : '，尚未观测成员移动'}。任务完成尚未核验。`
+      : !r.preference_active ? '额外偏好已释放。'
       : r.component_state_adopted ? `已读回原生调度状态${r.state_already_satisfied ? '（原状态已满足）' : ''}；具体建造、生产结果仍待观察。`
         : r.active_native_task_observed ? `原生任务活动中${r.movement_observed ? '，已观测己方成员移动' : '，尚未观测成员移动'}；任务完成尚未核验。`
           : '偏好仍有效，等待原生采用或可核验效果。';
     rows.push(`${strategicActionLabels[action as keyof typeof strategicActionLabels]}：${state}`);
   }
+  if (v.observations.length === 5 && !v.observations.some(raw => {
+    const r = raw as Record<string, unknown>;
+    return r.action === 'expand' && r.preference_active === false && r.status === 'native_task_active'
+      && r.active_native_task_observed === true;
+  })) return [];
   return rows;
 }

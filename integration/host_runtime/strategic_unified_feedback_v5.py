@@ -37,7 +37,7 @@ def project_unified_feedback(value,*,game_seconds=None):
                 or not 0<value['observed_frame']<=0xffffffff
                 or game_seconds is not None and not -15<=game_seconds*15-value['observed_frame']<=30
                 or value.get('details_owner')!='native_ai' or type(value.get('observations')) is not list
-                or len(value['observations'])>4):raise ContractError('unified_current_feedback_invalid_or_stale')
+                or len(value['observations'])>5):raise ContractError('unified_current_feedback_invalid_or_stale')
         rows=[]
         for row in value['observations']:
             if (type(row) is not dict or row.get('action') not in STRATEGIC_ACTIONS
@@ -51,6 +51,9 @@ def project_unified_feedback(value,*,game_seconds=None):
             rows.append({key:row[key] for key in ('action','status','observed_frame','preference_active','active_native_task_observed',
                 'movement_observed','component_state_adopted','state_already_satisfied','mission_success_verified','exclusive_attribution_verified')})
         if len({r['action'] for r in rows})!=len(rows):raise ContractError('unified_feedback_duplicate_action')
+        if len(rows)==5 and not any(r['action']=='expand' and not r['preference_active']
+                and r['status']=='native_task_active' and r['active_native_task_observed'] for r in rows):
+            raise ContractError('unified_feedback_fifth_row_requires_continuing_native_expansion')
         return dict(source=value['source'],observed_frame=value['observed_frame'],details_owner='native_ai',observations=rows)
 
 class UnifiedStrategyRuntimeV5(MacroStrategyRuntime):

@@ -1,0 +1,79 @@
+{
+  "version": "0.1.0-beta.3",
+  "candidate_id": "windows-beta3-v11",
+  "complete_P0_P1": true,
+  "complete_F01_F07": true,
+  "formal_games_passed": 3,
+  "required_games": 3,
+  "historical_games_reused": false,
+  "cross_machine_verified": false,
+  "fresh_Windows_machine_verified": false,
+  "clean_ordinary_user_on_existing_machine_verified": true,
+  "current_game_control_returned": true,
+  "original_returns_verified": 52,
+  "frozen_files_verified": 8954,
+  "shipping_source_files": 999,
+  "formal_provider": "DeepSeek",
+  "formal_model": "deepseek-flash",
+  "metrics_total": {
+    "accepted": 81,
+    "plan_changes": 80,
+    "rejected": 23,
+    "requests": 107,
+    "adapter_errors": 2
+  },
+  "real_responses": 104,
+  "natural_games": [
+    {
+      "id": "N01-v1",
+      "map_id": "map_mp_2_rao1",
+      "real_responses": 33,
+      "metrics": {
+        "accepted": 25,
+        "adapter_errors": 0,
+        "plan_changes": 24,
+        "rejected": 8,
+        "requests": 34,
+        "timeouts": 0
+      },
+      "winner_player_index": 4,
+      "diagnostic_events": 2461
+    },
+    {
+      "id": "N02-v1",
+      "map_id": "map_mp_2_black1b",
+      "real_responses": 44,
+      "metrics": {
+        "accepted": 29,
+        "adapter_errors": 2,
+        "plan_changes": 34,
+        "rejected": 15,
+        "requests": 46,
+        "timeouts": 0
+      },
+      "winner_player_index": 3,
+      "diagnostic_events": 3028
+    },
+    {
+      "id": "N03-v1",
+      "map_id": "map_mp_2_rao1",
+      "real_responses": 27,
+      "metrics": {
+        "accepted": 27,
+        "adapter_errors": 0,
+        "plan_changes": 22,
+        "rejected": 0,
+        "requests": 27,
+        "timeouts": 0
+      },
+      "winner_player_index": 3,
+      "diagnostic_events": 2262
+    }
+  ],
+  "replay_fidelity_fixed": false,
+  "stronger_same_window_expansion_passed": false,
+  "public_release_created": false,
+  "binary_rebuilt_for_delivery": false,
+  "original_build_base": "36bac49b",
+  "original_build_worktree_dirty": true
+}

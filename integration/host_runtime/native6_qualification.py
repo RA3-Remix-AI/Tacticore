@@ -12,6 +12,7 @@ from .contracts import ContractError
 from .native6_paths import plain_local
 from .native6_runtime_contract import ACTIONS, FLAGS, GAME_SHA, PACKAGE_SHA, FIELD_KIND, read, sha, verify_build, verify_inventory
 from .strategic_unified_bundle_v5 import UnifiedStrategicScopeV5
+from .native6_scenarios import scenario_for_map,scenario_for_session
 
 KIND='native6_manifest_bound_trial'
 CAPABILITY_SHA='fbe66a3c7a638d035022f92c50ec3cf0207cb613069c03d852454619e19a63ef'
@@ -91,6 +92,9 @@ class Native6Scope(UnifiedStrategicScopeV5):
     native_transport_client:str='native6_transport.py'
     runtime_root:Path=Path()
     runtime_manifest_sha256:str=''
+    def model_catalog_overrides(self):
+        from .macro_group_role_contract import native6_group_role_catalog_overrides
+        return native6_group_role_catalog_overrides(self.required_origin_region)
     def public(self):
         return dict(super().public(),native_transport_protocol=6,bounded_field_trial=True,
                     runtime_manifest_sha256=self.runtime_manifest_sha256,formal_natural_games=0,
@@ -106,15 +110,18 @@ def load(path,session=None):
     value=read(path);header(value)
     root,pin,inventory,build,cap=current()
     if Path(value['runtime_root'])!=root or value['runtime_manifest_sha256']!=pin:fail()
+    selected=scenario_for_map(MAP_ID)
     if session is not None:
         scenario=session.get('scenario',{})
+        selected=scenario_for_session(scenario)
         if (session.get('mod_sha256')!=PACKAGE_SHA or Path(session.get('registry',''))!=root/'qualification/registry.json'
-                or scenario.get('map_id')!=MAP_ID or scenario.get('commander_id')!=COMMANDER
+                or scenario.get('commander_id')!=COMMANDER
                 or type(scenario.get('computer_player_index')) is not int or scenario['computer_player_index']!=3
                 or type(scenario.get('opponent_player_index')) is not int or scenario['opponent_player_index']!=4
                 or scenario.get('participant_count')!=2 or scenario.get('observer_player_index',2)!=2):fail()
     evidence=tuple(sorted([(str(root/name),digest) for name,digest in inventory['files'].items()]+[(str(root/'manifest.json'),pin)]))
-    scope=Native6Scope(PACKAGE_SHA,tuple(zip(ACTIONS,FLAGS)),REGIONS,evidence,runtime_root=root,runtime_manifest_sha256=pin)
+    scope=Native6Scope(PACKAGE_SHA,tuple(zip(ACTIONS,FLAGS)),selected.regional_action_regions,evidence,
+        required_origin_region=selected.own_region,runtime_root=root,runtime_manifest_sha256=pin)
     bundle=dict(value,build=str(root/'native/strategic6'),visibility=str(root/'qualification'),pins=dict(evidence))
     return bundle,scope
 
@@ -133,6 +140,8 @@ def admit_sdk(build,session):
     # Descriptor qualification plus live map/own/origin verification remains
     # the Host's job; the SDK independently refuses a different package/owner.
     scenario=session.get('scenario',{})
+    scenario_for_session(scenario)
     if (session.get('mod_sha256')!=PACKAGE_SHA or scenario.get('computer_player_index')!=3
-            or scenario.get('commander_id')!=COMMANDER or scenario.get('map_id')!=MAP_ID):fail()
+            or type(scenario.get('computer_player_index')) is not int
+            or scenario.get('commander_id')!=COMMANDER):fail()
     return manifest

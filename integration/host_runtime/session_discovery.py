@@ -20,6 +20,7 @@ from typing import Callable, Iterable, Mapping
 import uuid
 
 from .contracts import ContractError, canonical_json, identifier, object_fields, sha256
+from .native6_scenarios import scenario_for_map
 
 TERMINAL = frozenset({'stopped', 'completed', 'fault', 'result_candidate'})
 MAX_CANDIDATES = 8
@@ -189,7 +190,11 @@ class SessionDiscovery:
         if not isinstance(p, DiscoveryPolicy) or not isinstance(p.files, TrustedFiles):
             _fail('discovery_policy_invalid')
         identifier(p.commander_id)
-        if (p.map_id != 'map_mp_2_black1b' or p.display_map != 'TemplePrime' or p.faction != 'Soviet'
+        try:selected=scenario_for_map(p.map_id)
+        except ContractError:_fail('discovery_policy_invalid')
+        if (p.display_map != selected.display_map or p.faction != 'Soviet'
+                or (p.native_epoch!=6 and p.map_id!='map_mp_2_black1b')
+                or (p.native_epoch==6 and p.origin_region!=selected.own_region)
                 or (p.player_id, p.opponent_player_id, p.observer_player_id) != (3, 4, 2)
                 or not _int(p.native_epoch) or type(p.candidate_ttl_seconds) is not int
                 or not 1 <= p.candidate_ttl_seconds <= 300
@@ -259,6 +264,9 @@ class SessionDiscovery:
         expected = dict(map_id=self.policy.map_id, faction=self.policy.faction, player_id=3,
                         opponent_player_id=4, observer_player_id=2, commander_id=self.policy.commander_id,
                         origin_region=self.policy.origin_region, native_epoch=self.policy.native_epoch)
+        if self.policy.native_epoch==6:
+            selected=scenario_for_map(value.map_id)
+            expected.update(map_id=selected.map_id,origin_region=selected.own_region)
         if any(getattr(value, key) != item or type(getattr(value, key)) is not type(item)
                for key, item in expected.items()):
             _fail('session_scope_unsupported')
@@ -275,8 +283,10 @@ class SessionDiscovery:
         return value
 
     def _public(self, candidate_id, expires_at):
-        return dict(candidate_id=candidate_id, display_name='TemplePrime / P3 苏军',
-                    map=self.policy.display_map, faction=self.policy.faction,
+        observed=self._candidates[candidate_id]['snapshot']['observation']
+        display_map=scenario_for_map(observed['map_id']).display_map
+        return dict(candidate_id=candidate_id, display_name=display_map+' / P3 苏军',
+                    map=display_map, faction=self.policy.faction,
                     player_id=self.policy.player_id, expires_in_seconds=max(0, int(expires_at-self._now())),
                     requires_preflight=True)
 
@@ -371,9 +381,9 @@ class SessionDiscovery:
                       seed_controlled=False, real_model_calls=0, full_goal_complete=False,
                       discovery=dict(game_instance_id=observation['game_instance_id'], native_epoch=p.native_epoch,
                                      source_fingerprint=snapshot['source_pin']),
-                      scenario=dict(map_id=p.map_id, commander_id=p.commander_id, computer_player_index=3,
+                      scenario=dict(map_id=observation['map_id'], commander_id=p.commander_id, computer_player_index=3,
                                     opponent_player_index=4, observer_player_index=2, participant_count=2,
-                                    faction=p.faction, origin_region=p.origin_region))
+                                    faction=p.faction, origin_region=observation['origin_region']))
         return folder/'session.json', record
 
     def prepare(self, args, request_id):
@@ -454,7 +464,7 @@ class SessionDiscovery:
             receipt = dict(schema_version=1, registered=True, session_id=record['session_id'],
                            candidate_id=value['candidate_id'], requires_preflight=True,
                            registration_reload_required=result.get('restart_required') is True,
-                           session=dict(id=record['session_id'], map=self.policy.display_map,
+                           session=dict(id=record['session_id'], map=scenario_for_map(record['scenario']['map_id']).display_map,
                                         faction=self.policy.faction, player_name=self.policy.commander_id),
                            native_execution_started=False)
             with self._db:

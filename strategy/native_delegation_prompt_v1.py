@@ -37,6 +37,7 @@ def prompt(profile, context, example, allowed, preferences):
     text += ('length<=4;may also choose ZERO OR ONE construction_gate and ZERO OR ONE production_gate. '
              'advance/pause gates affect native scheduling only; native AI still selects all details; '
              'opening and committed tasks may continue. expand requests native expansion subject to stock guards; '
+             'preference_active=false may coexist with observed native expansion task activity after expiry/replacement. '
              '[] restores captured manager baseline, possibly disabled. State/task/movement!=completed mission. '
              if unified else 'length<=2. ')
     if isinstance(context.get('macro_strategy'), dict):

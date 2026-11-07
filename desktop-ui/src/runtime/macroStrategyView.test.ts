@@ -66,3 +66,15 @@ test('unknown but valid reason codes remain generic rather than being echoed int
     assert.doesNotMatch(JSON.stringify(macroStrategyView(value)),/private_future_code|constructor/);
   }
 });
+
+test('a rejected objective change is shown while the previous strategy stays visible',()=>{
+  const value=sample();
+  value.last_guard_reason='strategy_objective_requires_new_id';
+  const view=macroStrategyView(value);
+  assert.equal(view.available,true);
+  assert.equal(view.objective,'补充与调整兵力');
+  assert.match(view.guard,/新目标沿用了旧战略编号/);
+  assert.match(view.guard,/本次意图未派发/);
+  assert.match(view.pending,/1 条宏观意图/);
+  assert.doesNotMatch(view.guard,/通过战略检查/);
+});

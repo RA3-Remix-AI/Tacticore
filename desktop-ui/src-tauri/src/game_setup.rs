@@ -92,7 +92,12 @@ pub async fn game_setup_request(operation:String,state:tauri::State<'_,GameSetup
                    "mod":chosen.mod_big.as_ref().ok_or("beta_select_mod_required")?})
         } else {json!({"operation":operation})};
         let result=pipe(payload)?;
-        if operation=="prepare" {bridge.invalidate_setup()?;}
+        // Startup profile loading can initialize discovery before status
+        // migrates the previous installation's policy. Reopen that service
+        // only after the new policy has passed its complete setup checks.
+        if operation=="prepare" || result.get("setup_changed")==Some(&Value::Bool(true)) {
+            bridge.invalidate_setup()?;
+        }
         Ok(result)
     }).await.map_err(|_|"beta_setup_unavailable".to_string())?
 }

@@ -259,16 +259,21 @@ class MacroRequestAudit:
                 result['macro_regional_feedback']=compact_regional_feedback(regional,context['game_time_seconds'])
         if self.catalog_supplier is not None:
             from .macro_base_defense_scope import defense_catalog_override
-            from .macro_group_role_contract import group_role_catalog_overrides
+            from .macro_group_role_contract import group_role_catalog_overrides,native6_group_role_catalog_overrides
             from .macro_expansion_scope import expansion_catalog_overrides,EXTRA_ACTIONS
             overrides=self.catalog_supplier()
             if type(overrides) is not dict:raise ContractError('macro_base_defense_catalog_invalid')
             expanded=expansion_catalog_overrides(tuple(action for action in EXTRA_ACTIONS if action in overrides))
-            if overrides not in (defense_catalog_override(),group_role_catalog_overrides(),expanded):raise ContractError('macro_base_defense_catalog_invalid')
+            catalogs=(defense_catalog_override(),group_role_catalog_overrides(),expanded)
+            if self.strategic_only:
+                from .native6_scenarios import TEMPLE_PRIME,INFINITY_ISLE
+                catalogs+=tuple(native6_group_role_catalog_overrides(scenario.own_region)
+                    for scenario in (TEMPLE_PRIME,INFINITY_ISLE))
+            if overrides not in catalogs:raise ContractError('macro_base_defense_catalog_invalid')
             for action,description in overrides.items():
                 if action not in result.get('allowed_macro_actions',[]):continue
                 old=result.get('macro_policy_catalog',{}).get(action,{})
-                if action not in EXTRA_ACTIONS and old.get('target_region')!='region_8_3':raise ContractError('macro_base_defense_catalog_region_binding')
+                if action not in EXTRA_ACTIONS and old.get('target_region')!=description['target_region']:raise ContractError('macro_base_defense_catalog_region_binding')
                 result['macro_policy_catalog']={**result['macro_policy_catalog'],action:description}
         if 'macro_policy_catalog' in result:
             from macro_policy import model_catalog

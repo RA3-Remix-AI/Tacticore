@@ -188,7 +188,8 @@ def status():
     target=state/NAME
     if not target.exists():return dict(schema_version=1,prepared=False,version=VERSION)
     old=read(target);_,pin,_,_,_=current()
-    if old.get('runtime_manifest_sha256')!=pin:
+    setup_changed=old.get('runtime_manifest_sha256')!=pin
+    if setup_changed:
         from .session_discovery_native import SCOPE
         if (type(old.get('schema_version')) is not int or old['schema_version']!=2 or old.get('kind')!=KIND
                 or old.get('scope')!=dict(SCOPE,native_epoch=6) or Path(old['session_root'])!=state/'sessions'):
@@ -199,7 +200,7 @@ def status():
         prepare(Path(old['files']['game']),Path(old['files']['mod_big']))
     load_policy(state,read(target))
     return dict(schema_version=1,prepared=True,version=VERSION,game_verified=True,mod_verified=True,
-        requires_live_discovery=True,host_started=False)
+        requires_live_discovery=True,host_started=False,setup_changed=setup_changed)
 
 
 def launch():

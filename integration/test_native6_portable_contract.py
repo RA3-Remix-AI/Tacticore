@@ -62,7 +62,9 @@ class PortableNative6Tests(unittest.TestCase):
         repo = Path(__file__).resolve().parents[1]
         old = repo / 'native-ai/strategic-unified-runtime-v5'
         new = repo / 'native-ai/strategic-portable-runtime-v6'
-        self.assertEqual((old / 'flag_api.h').read_bytes(), (new / 'flag_api.h').read_bytes())
+        # Compare source logic across Windows checkout line endings. Exact
+        # packaged bytes remain separately pinned by verify_build/inventory.
+        self.assertEqual((old / 'flag_api.h').read_text(), (new / 'flag_api.h').read_text())
         def section(directory, name, begin, end):
             return (directory / name).read_text(encoding='utf-8').split(begin, 1)[1].split(end, 1)[0]
         self.assertEqual(section(old, 'native.cpp', 'static void tick(){', 'static DWORD WINAPI watchdog('),

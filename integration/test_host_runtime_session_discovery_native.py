@@ -324,6 +324,25 @@ class ProbeTests(Fixture):
         self.api=SimpleNamespace(creation_filetime=lambda handle:self.ticks)
         self.adapter=native.NativeAdapter(self.p,win32=self.api,readers=self.readers)
     def probe(self):return self.adapter.probe_match(self.process,self.p)
+    def test_native6_reads_infinity_identity_and_binds_its_own_start(self):
+        self.p=replace(self.p,native_epoch=6)
+        self.memory.bytes[self.memory.map_pointer]=b'map_mp_2_rao1\\map_mp_2_rao1.map\x00'.ljust(260,b'\x00')
+        self.census['own_objects'][0]['xyz']=[3981.3955,2188.4282,0]
+        value=self.probe()
+        self.assertEqual(value.map_id,'map_mp_2_rao1')
+        self.assertEqual(value.origin_region,'region_7_4')
+        self.assertEqual(value.player_id,3)
+        self.assertEqual(self.memory.closed,1)
+
+    def test_native6_infinity_rejects_temple_origin_and_mismatched_map_directory(self):
+        self.p=replace(self.p,native_epoch=6)
+        self.memory.bytes[self.memory.map_pointer]=b'map_mp_2_rao1\\map_mp_2_rao1.map\x00'.ljust(260,b'\x00')
+        self.assertCode('session_scope_unsupported',self.probe)
+        self.snap_calls=0
+        self.census['own_objects'][0]['xyz']=[3981.3955,2188.4282,0]
+        self.memory.bytes[self.memory.map_pointer]=b'map_mp_2_black1b\\map_mp_2_rao1.map\x00'.ljust(260,b'\x00')
+        self.assertCode('session_scope_unsupported',self.probe)
+
     def test_probe_binds_native_side_origin_and_stable_identity_without_exposing_pointers(self):
         first=self.probe();self.frames=[105,106];self.snap_calls=0;self.census['frame']=105
         second=self.probe()

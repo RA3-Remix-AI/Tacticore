@@ -25,6 +25,7 @@ from .contracts import ContractError, SessionBinding, canonical_json, identifier
 from .desktop_session_registry import load_root, register_root, register_session_source
 from .macro_bundle import load_bundle
 from .macro_policy_runtime import COMMANDER
+from .native6_scenarios import scenario_for_map
 from .session_discovery import (DiscoveryPolicy, MatchObservation, ProcessIdentity, RunRecord,
                                 SessionDiscovery, TrustedFiles, TERMINAL, _digest, _local_path)
 
@@ -151,12 +152,13 @@ def source_fields(session_path, bundle_path, root, *, qualify):
         fail('discovery_policy_invalid')
     session, session_digest = read_object(session_path)
     scenario = session.get('scenario')
+    selected=scenario_for_map(scenario.get('map_id')) if isinstance(scenario,dict) else None
     if (not isinstance(scenario,dict) or scenario.get('commander_id')!=COMMANDER
             or scenario.get('computer_player_index')!=3 or type(scenario.get('computer_player_index')) is not int
             or scenario.get('opponent_player_index')!=4 or type(scenario.get('opponent_player_index')) is not int
             or scenario.get('observer_player_index',2)!=2 or type(scenario.get('observer_player_index',2)) is not int
             or scenario.get('participant_count')!=2 or type(scenario.get('participant_count')) is not int
-            or scenario.get('map_id')!=SCOPE['map_id'] or Path(session.get('run_directory',''))!=session_path.parent):
+            or selected is None or Path(session.get('run_directory',''))!=session_path.parent):
         fail('discovery_policy_invalid')
     identifier(session.get('session_id'))
     require_creation(session.get('start_time'),session.get('process_creation_filetime'))
@@ -201,9 +203,10 @@ def source_fields(session_path, bundle_path, root, *, qualify):
     epoch=native_epoch(manifest)
     if type(epoch) is not int or epoch<=0 or manifest.get('package_sha256')!=session['mod_sha256']:
         fail('discovery_policy_invalid')
+    if epoch!=6 and selected.map_id!=SCOPE['map_id']:fail('session_scope_unsupported')
     if qualify:
         _, scope=load_bundle(bundle_path,session)
-        if (getattr(scope,'required_origin_region',None)!=SCOPE['origin_region']
+        if (getattr(scope,'required_origin_region',None)!=(selected.own_region if epoch==6 else SCOPE['origin_region'])
                 or scope.package_sha256!=session['mod_sha256']):
             fail('session_scope_unsupported')
     values={}
@@ -419,7 +422,9 @@ class NativeAdapter:
             pointer=memory.u32(logic+0x98);raw=memory.read(pointer,260)
             if b'\x00' not in raw:fail('session_probe_invalid')
             path=PureWindowsPath(raw.split(b'\x00',1)[0].decode('ascii'))
-            if path.suffix.lower()!='.map' or path.stem.lower()!=policy.map_id or path.parent.name.lower()!=policy.map_id:
+            selected=scenario_for_map(path.stem.lower())
+            if (path.suffix.lower()!='.map' or path.parent.name.lower()!=selected.map_id
+                    or (policy.native_epoch!=6 and selected.map_id!=policy.map_id)):
                 fail('session_scope_unsupported')
             stable=('instance_id','personality_wrapper','personality_data','player_template','ai_player','player_index')
             if any(not isinstance(native.get(key),str) for key in stable if key!='player_index'):
@@ -433,7 +438,8 @@ class NativeAdapter:
             if len(point)!=3 or any(type(value) not in (int,float) or not math.isfinite(value) for value in point):
                 fail('session_probe_invalid')
             origin='region_'+str(int(point[0]//512))+'_'+str(int(point[1]//512))
-            if origin!=policy.origin_region:fail('session_scope_unsupported')
+            expected_origin=selected.own_region if policy.native_epoch==6 else policy.origin_region
+            if origin!=expected_origin:fail('session_scope_unsupported')
             after=readers.snapshot(memory.read);identity_after=readers.inspect_player(memory.read,owner)
             if (type(census.get('frame')) is not int or not state['simulation_frame']<=census['frame']<=after['simulation_frame']
                     or memory.u32(0xcd8ce4)!=logic or memory.u32(0xce8c9c)!=players or memory.u32(players+0x30+12)!=owner
@@ -447,7 +453,7 @@ class NativeAdapter:
             instance=hashlib.sha256(canonical_json(facts).encode('utf8')).hexdigest()
             ended=any(row.get(key) for value in (state,after) for row in value.get('result_records',[])
                       for key in ('victory_frame','defeat_frame','quit_frame'))
-            return MatchObservation(process.pid,process.creation_filetime,instance,policy.map_id,resolved['side'],3,4,2,
+            return MatchObservation(process.pid,process.creation_filetime,instance,selected.map_id,resolved['side'],3,4,2,
                 resolved['commander_id'],origin,policy.native_epoch,True,
                 paused=bool(state.get('pause_flag_candidate')) or bool(after.get('pause_flag_candidate')),ended=bool(ended))
         except ContractError:

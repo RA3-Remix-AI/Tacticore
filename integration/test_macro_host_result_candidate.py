@@ -118,5 +118,33 @@ class ResultCandidateTests(unittest.IsolatedAsyncioTestCase):
         self.host.finish_transport.assert_called_once()
         self.assertTrue(any(e['kind']=='macro_result_candidate_archive_failed' for e in self.events()))
 
+    async def test_nested_model_cancellation_finishes_before_host_closes_journal(self):
+        entered = asyncio.Event()
+
+        async def pending_model(context):
+            entered.set()
+            try:
+                await asyncio.Event().wait()
+            except asyncio.CancelledError:
+                # Transport cleanup can yield after the outer decision has
+                # finished cancelling. Its receipt still needs the journal.
+                await asyncio.sleep(.02)
+                self.host.event('commander_model_call_cancelled', call_sequence=1)
+                raise
+
+        decision = asyncio.create_task(self.host.agent.decide(self.host.agent.latest, pending_model))
+        await entered.wait()
+        try:
+            result, _ = await self.run_case('loop')
+            self.assertEqual(result['state'], 'result_candidate')
+            kinds = [event['kind'] for event in self.events()]
+            self.assertIn('commander_model_call_cancelled', kinds)
+            self.assertLess(kinds.index('commander_model_call_cancelled'), kinds.index('host_stopped'))
+            self.assertTrue(self.host.agent.engine._pending.done())
+            self.host.finish_transport.assert_called_once()
+            self.assertEqual(self.native.calls, [])
+        finally:
+            await asyncio.gather(decision, return_exceptions=True)
+
 
 if __name__=='__main__':unittest.main()

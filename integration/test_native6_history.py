@@ -15,6 +15,7 @@ from host_runtime.native6_runtime_contract import GAME_SHA,PACKAGE_SHA,FIELD_KIN
 
 class Native6History(unittest.TestCase):
     def setUp(self):
+        self.shipped_prior=dict(h.PRIOR)
         temp=tempfile.TemporaryDirectory();self.addCleanup(temp.cleanup);self.base=Path(temp.name)
         self.output=self.base/'output';self.source=self.output/'source';self.source.mkdir(parents=True)
         self.root=self.base/'never-import-this-old-root';self.root.mkdir();self.report=self.base/'report';self.report.mkdir()
@@ -49,6 +50,16 @@ class Native6History(unittest.TestCase):
 
     @staticmethod
     def write(path,value):path.write_bytes(value if isinstance(value,bytes) else json.dumps(value,sort_keys=True).encode())
+
+    def test_previous_installed_beta_identity_has_one_exact_source_closure(self):
+        self.assertEqual(self.shipped_prior['3da3125060350f4dd0a0f27cc002fc7ab1b42526bc27f1a0bf3ffd92f69d4304'],
+            'b2a73cc69f5185f1f34af0e28505d7681a4afa3b594189c744f38743022c48ea')
+        self.assertEqual(self.shipped_prior['a43ab48b1daaf58f8e21091f609b6a7d669d3493e4d7f14946469e74210c1388'],
+            '177cd3feac2707eaa2679956817fee616127f391d4dbc1d160c3e4960835deae')
+        self.assertEqual(self.shipped_prior['a6fc0e473dd3d348d07a2e7661dd874eaf88c8f2fde32d89a4c8b2b65cf6c27e'],
+            '8ca54eb34d9c98470d5387a8f0cba90912459ce09e6170c3172c46812660e642')
+        self.assertEqual(self.shipped_prior['3ca984304899a58c2c8bf8e5c8b4669937f839a05078b11ba5807c236cd00911'],
+            'ad69412b47e390c765c24ece14a235776af23d3bbb15f074cf444c8c2561ddc0')
 
     def test_original_context_replays_without_old_code_or_live_global_changes(self):
         before=(live.context,live.verified_return,live.runtime_root,live.trusted_pin)

@@ -184,9 +184,19 @@ class StrategyTests(unittest.TestCase):
             self.memory.review(plan(12), declaration(), context(12), urgent='model_says_urgent')
 
     def test_changing_objective_under_same_id_is_refused(self):
-        _, review = self.start()
+        original, review = self.start()
+        self.finish(original, at=31, outcome='expired')
+        pending = self.memory.review(plan(40, ['regroup']), declaration(review.strategy_id), context(40))
+        before = self.memory.public_state()['current_strategy']
         with self.assertRaisesRegex(StrategyError, 'requires_new_id'):
-            self.memory.review(plan(40), declaration(review.strategy_id, objective='scout'), context(40))
+            self.memory.review(plan(41, ['regroup']), declaration(review.strategy_id, objective='scout'), context(41))
+        self.assertEqual(self.memory.context(context(42))['last_guard_reason'], 'strategy_objective_requires_new_id')
+        self.assertEqual(self.memory.public_state()['current_strategy'], before)
+        with self.assertRaisesRegex(StrategyError, 'review_not_current'):
+            self.memory.record_dispatch(pending, command_id='stale-review', game_seconds=41)
+        corrected = self.memory.review(plan(42, ['regroup']), declaration(objective='scout'), context(42))
+        self.assertTrue(corrected.allowed)
+        self.assertNotEqual(corrected.strategy_id, review.strategy_id)
 
     def test_unknown_delivery_survives_expiry_and_blocks_other_actions_too(self):
         p = plan()

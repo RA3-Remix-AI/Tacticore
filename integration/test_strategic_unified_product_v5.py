@@ -99,6 +99,38 @@ class Dispatch(unittest.TestCase):
         with self.assertRaises(ContractError):self.controller.dispatch(self.plan(['scout']),140,effective_hash='a'*64)
         self.assertEqual(self.calls,[])
 
+    def test_committed_expansion_activity_survives_expiry_and_plan_replacement(self):
+        self.controller.dispatch(self.plan(['expand']),101,effective_hash='a'*64)
+        self.native.update(last_frame=2110,applied_mask=0,flag_phase=4)
+        runtime=dict(authoritative_runtime_membership_verified=True,native_execution_active=True,
+            cleanup_requested=False,flag='expand',address='task',owned_groups=[dict(found=True,
+                all_members_resolved=True,native_id=10,members=[dict(thing_id=20,xyz=[0,0,0])])])
+        observation=dict(observation_complete=True,frame=2110,runtimes=[runtime])
+        controls=dict(frame=2110,components=[dict(enabled=1)]*3)
+        self.controller.observe(observation,self.native,controls)
+        first=self.controller.unified_feedback()['observations'][0]
+        self.assertEqual(first['status'],'native_task_active')
+        self.assertFalse(first['preference_active'])
+        self.assertFalse(first['movement_observed'])
+        replacement=self.plan(['budgetarmy']);replacement.based_on_game_time_seconds=140
+        replacement.expires_at_game_seconds=200
+        self.controller.dispatch(replacement,141,effective_hash='a'*64)
+        observation['frame']=2130;controls['frame']=2130
+        runtime['owned_groups'][0]['members'][0]['xyz']=[20,0,0]
+        self.controller.observe(observation,self.native,controls)
+        feedback=project_unified_feedback(self.controller.unified_feedback(),game_seconds=142)
+        expansion=next(row for row in feedback['observations'] if row['action']=='expand')
+        self.assertTrue(expansion['movement_observed'])
+        self.assertFalse(expansion['preference_active'])
+        self.assertFalse(expansion['mission_success_verified'])
+        self.assertFalse(expansion['exclusive_attribution_verified'])
+        self.assertNotIn('expand',self.controller.action_domain_windows)
+        self.assertEqual(len(self.calls),2)
+        observation['runtimes']=[];self.controller.observe(observation,self.native,controls)
+        observation['runtimes']=[runtime];runtime['owned_groups'][0]['members'][0]['xyz']=[100,0,0]
+        self.controller.observe(observation,self.native,controls)
+        self.assertFalse(self.controller.effects['expand']['movement_observed'])
+
 # These exact retained research artifacts are not source-distribution assets.
 RETURN_PROOF_SOURCE=ROOT/'reports/strategic-unified-natural-terminal-52600-20261029-v1/independent-release.json'
 RETURN_JOURNAL_SOURCE=ROOT/'reports/strategic-unified-native-journal/ebec29bd400f44838a2dec0fcba71a0a.bin'

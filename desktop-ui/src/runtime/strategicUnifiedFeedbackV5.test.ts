@@ -20,3 +20,16 @@ test('observed manager state remains separate from completed construction',()=>{
   assert.deepEqual(strategicUnifiedFeedbackV5({...sample,observations:[{...row,mission_success_verified:true}]}),[]);
   assert.deepEqual(strategicUnifiedFeedbackV5({...sample,observations:[{...row,observed_frame:1600}]}),[]);
 });
+
+test('released preference retains continuing native expansion progress alongside four current domains',()=>{
+  const row={action:'expand',status:'native_task_active',observed_frame:1500,preference_active:false,
+    component_state_adopted:false,state_already_satisfied:false,active_native_task_observed:true,
+    movement_observed:true,mission_success_verified:false,exclusive_attribution_verified:false};
+  const sample={source:'bound_native_strategy_v5',details_owner:'native_ai',observed_frame:1501,
+    observations:['scout','budgetarmy','pauseconstruction','advanceproduction'].map(action=>({...row,action,
+      preference_active:true,active_native_task_observed:false,movement_observed:false,status:'native_waiting_or_no_effect'})).concat([row])};
+  const rows=strategicUnifiedFeedbackV5(sample);
+  assert.equal(rows.length,5);assert.match(rows[4],/额外偏好已释放/);
+  assert.match(rows[4],/原生任务活动和己方成员移动/);assert.match(rows[4],/任务完成尚未核验/);
+  assert.deepEqual(strategicUnifiedFeedbackV5({...sample,observations:sample.observations.map(r=>({...r,preference_active:true}))}),[]);
+});

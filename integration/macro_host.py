@@ -976,7 +976,9 @@ class MacroHost:
             if self.pending:
                 if not self.pending.done():self.pending.cancel()
                 await asyncio.gather(self.pending,return_exceptions=True)
-            if self.agent:self.agent.stop()
+            if self.agent:
+                self.agent.stop()
+                await self.agent.engine.drain_obsolete_request()
             try:self.finish_transport()
             except BaseException:self.phase='fault';self.reason='macro_stop_unverified'
             finally:

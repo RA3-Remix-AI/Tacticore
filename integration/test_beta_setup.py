@@ -114,6 +114,16 @@ class BetaSetup(unittest.TestCase):
         self.assertEqual(target.read_bytes(),original)
         with closing(sqlite3.connect(self.state/'host-runtime.sqlite3')) as db:self.assertEqual(db.execute('SELECT count(*) FROM runs').fetchone()[0],1)
 
+    def test_status_signals_only_a_completed_policy_migration_for_discovery_refresh(self):
+        s.prepare(self.game,self.mod);self.empty_ledgers()
+        self.assertFalse(s.status()['setup_changed'])
+        self.next_manifest()
+        result=s.status()
+        self.assertTrue(result['prepared'])
+        self.assertTrue(result['setup_changed'])
+        self.assertEqual(load_policy(self.state)[0]['runtime_manifest_sha256'],'b'*64)
+        self.assertFalse(s.status()['setup_changed'])
+
     def test_returned_upgrade_rechecks_full_history_under_both_locks_without_rewriting_rows(self):
         s.prepare(self.game,self.mod);self.empty_ledgers()
         # The history decision is isolated here; full valid/invalid return

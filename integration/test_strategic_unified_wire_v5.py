@@ -94,4 +94,20 @@ class Wire(unittest.TestCase):
         self.assertEqual(prepared.measure.prepare(base),before)
         with self.assertRaises(Exception):audit.prepare(base)
 
+    def test_four_current_domains_and_continuing_expansion_keep_original_facts_under_wire_limit(self):
+        agent,audit,adapter,sdk,unified=self.fixture(pressure=True)
+        unified['observations'][0]['action']='scout'
+        continuing=dict(unified['observations'][0],action='expand',preference_active=False,
+            status='native_task_active',active_native_task_observed=True,movement_observed=True)
+        unified['observations'].append(continuing)
+        prepared=prepare_macro_request_v1(agent,audit,agent.latest)
+        base=agent.context(agent.latest.model_context(agent.engine.binding),commit=False,
+            wire_size=prepared.measure.input_size,wire_limit=16384)
+        context=prepared.measure.prepare(base)
+        self.assertLessEqual(adapter.input_size(context),16384-256)
+        self.assertLessEqual(sdk.input_size(context),16384)
+        rows=restore_public_defaults(context)['macro_unified_feedback']['observations']
+        self.assertEqual(len(rows),5)
+        self.assertEqual(rows[-1],{key:continuing[key] for key in rows[-1]})
+
 if __name__=='__main__':unittest.main()

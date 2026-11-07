@@ -82,6 +82,26 @@ class RuntimeSemanticsTests(unittest.TestCase):
     def effects(self):
         return [e for e in self.events if e['kind']=='macro_strategy_outcome' and e['outcome']=='effect_observed']
 
+    def test_rejected_objective_reason_reaches_next_model_context_without_changing_committed_goal(self):
+        _,receipt,original,_,_=self.dispatch()
+        previous=self.memory.public_state()['current_strategy']
+        self.memory.record_outcome(command_id=receipt['command_id'],plan_id=original.plan_id,
+            outcome='expired',game_seconds=140,release_verified=True)
+        proposed,context,_,_=self.build(141,('regroup',),strategy_id=original.strategy_id)
+        changed=replace(proposed,macro_strategy=dict(proposed.macro_strategy,objective='scout'))
+        self.requests[changed.plan_id]=self.requests[proposed.plan_id]
+        with self.assertRaisesRegex(ContractError,'strategy_objective_requires_new_id'):
+            self.review(changed,context)
+        audit=MacroRequestAudit(None,self.event,strategy_supplier=self.memory.context)
+        projected=audit.prepare(context)
+        self.assertEqual(projected['macro_strategy']['last_guard_reason'],'strategy_objective_requires_new_id')
+        self.assertEqual(projected['macro_strategy']['current_strategy']['strategy_id'],original.strategy_id)
+        self.assertEqual(projected['macro_strategy']['current_strategy']['objective'],previous['objective'])
+        corrected=replace(changed,macro_strategy=dict(changed.macro_strategy,strategy_id=None))
+        review=self.review(corrected,context)
+        self.assertTrue(review.allowed)
+        self.assertNotEqual(review.strategy_id,original.strategy_id)
+
     @staticmethod
     def tracker(plan_id,**facts):
         return SimpleNamespace(active_plan=(plan_id,130),tracker=SimpleNamespace(public=lambda:dict(facts)))

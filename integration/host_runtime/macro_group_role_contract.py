@@ -23,3 +23,17 @@ def group_role_catalog_overrides():
             all_units_or_physical_home_return_guaranteed=False,
             arbitrary_unit_selection_supported=False)
     return result
+
+
+def native6_group_role_catalog_overrides(home_region):
+    from .contracts import ContractError
+    from .native6_scenarios import TEMPLE_PRIME, INFINITY_ISLE
+
+    if type(home_region) is not str or home_region not in (TEMPLE_PRIME.own_region, INFINITY_ISLE.own_region):
+        raise ContractError('macro_base_defense_catalog_region_binding')
+    result = group_role_catalog_overrides()
+    for description in result.values():
+        description['target_region'] = home_region
+    result['deploydefense']['region_semantics'] = 'own_home_base_anchor_not_a_specific_structure_or_move_destination'
+    result['reinforce']['region_semantics'] = 'own_home_base_anchor_native_base_selection'
+    return result

@@ -264,7 +264,7 @@ class MacroStrategyMemory:
                 raise StrategyError('strategy_context_unified_source')
             self._frames(unified,at,('observed_frame',))
             rows=unified.get('observations')
-            if type(rows) is not list or len(rows)>4:raise StrategyError('strategy_context_unified_bounds')
+            if type(rows) is not list or len(rows)>5:raise StrategyError('strategy_context_unified_bounds')
             for row in rows:
                 action=row.get('action') if type(row) is dict else None
                 if action not in actions:raise StrategyError('strategy_context_unified_action')
@@ -272,6 +272,9 @@ class MacroStrategyMemory:
                 if status not in ('native_task_active','native_manager_state_observed','native_waiting_or_no_effect','preference_released'):
                     raise StrategyError('strategy_context_unified_status')
                 facts['native.'+action]=status
+            if len(rows)==5 and not any(row['action']=='expand' and row.get('preference_active') is False
+                    and row['status']=='native_task_active' for row in rows):
+                raise StrategyError('strategy_context_unified_bounds')
         # Use only the existing visibility-validated, own-view public memory.
         # No arbitrary enemy arrays, coordinates, native IDs or string notes.
         battlefield = working.get('battlefield', {})
@@ -394,7 +397,12 @@ class MacroStrategyMemory:
             offered = self.context(request_context)['fact_catalog']
         if type(offered) is not dict or any(k not in request_facts or request_facts[k] != v for k, v in offered.items()):
             raise StrategyError('strategy_fact_catalog_changed')
-        candidate = self._declaration(declaration, offered, latest)
+        try:
+            candidate = self._declaration(declaration, offered, latest)
+        except StrategyError as error:
+            self._last_review_reason = str(error)
+            self._reviews.clear()
+            raise
         fingerprint = _hash(dict(actions=sorted(actions), target=target, quantity=quantity))
         work_keys=_work_retry_keys(actions,target,quantity)
         work_basis=_work_retry_basis(latest)

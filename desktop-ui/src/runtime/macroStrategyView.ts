@@ -11,6 +11,7 @@ const guards:Record<string,string>={strategy_allowed:'当前计划通过战略�
   strategy_unknown_outcome:'等待未知结果核对，暂不新增指挥。',strategy_intent_in_flight:'同类意图仍在进行，等待结果。',
   strategy_no_effect_cooldown:'相同条件下先等待，避免重复无效指挥。',strategy_production_renewal_wait:'等待生产变化，再决定是否补充。',
   strategy_minimum_hold:'暂时保持当前目标，等待新的事实。',strategy_plan_already_dispatched:'同一计划已处理，避免重复执行。',
+  strategy_objective_requires_new_id:'新目标沿用了旧战略编号，本次意图未派发，等待模型重新声明。',
   strategy_game_paused:'游戏已暂停，等待恢复。'};
 const conditions=new Set(['capability_available','resources_sufficient','prerequisite_met','no_new_threat','target_valid','effect_pending','effect_observed','facts_changed','goal_unobserved']);
 const outcomes=new Set(['pending','effect_observed','no_effect','failed','cancelled','expired','replaced','unknown']);

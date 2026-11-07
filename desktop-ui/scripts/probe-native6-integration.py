@@ -58,6 +58,98 @@ from macro_policy import public_descriptions
 from tacticore_agent_runtime import PolicyRequest,RuntimeAdapterError,pydantic_backend
 from tacticore_agent_runtime.factory import NetworkBackend
 import httpx2
+async def normal_model_entries():
+    from battle_agent import BattleAgent
+    from dataclasses import replace
+    import uuid
+    from engine import Binding, StrategyEngine
+    from macro_strategy import MacroStrategyMemory, StrategyError
+    from host_runtime.native6_scenarios import TEMPLE_PRIME, INFINITY_ISLE
+    from host_runtime.strategic_unified_feedback_v5 import UnifiedRequestAuditV5
+    from host_runtime.macro_prepared_request_v1 import prepare_macro_request_v1, decide_prepared_macro_request_v1
+    total=0
+    for scenario in (TEMPLE_PRIME, INFINITY_ISLE):
+        scenario_session=json.loads(json.dumps(session))
+        scenario_session['scenario'].update(map_id=scenario.map_id,origin_region=scenario.own_region,faction='Soviet')
+        _,selected_scope=load_bundle(trial,scenario_session)
+        for provider in ('OpenAI','DeepSeek'):
+            calls=[]
+            identity=Binding('00000000-0000-4000-8000-000000000003',3,q.COMMANDER,
+                'Offline normal entry','00000000-0000-4000-8000-000000000002')
+            selected=Profile(q.COMMANDER,identity.commander_name,identity.connection_id,provider,
+                'fixture-model',0,'',Endpoint.parse('https://fixture.invalid/v1'),'FAKE-LOCAL-TEST')
+            async def handler(request):
+                calls.append(request.content)
+                body=json.loads(request.content)
+                assert len(request.content)<=16384 and 'tools' not in body
+                prompt=body['messages'][0]['content']
+                answer=json.loads(prompt.split('\nExample: ',1)[1].split('\nStyle: ',1)[0])
+                if len(calls)==2:
+                    answer['macro_strategy'].update(strategy_id=None,objective='scout',phase='prepare',
+                        expected_observation='new_lawful_contact')
+                    answer['macro_actions']=['scout']
+                return httpx2.Response(200,json={'id':'synthetic','object':'chat.completion','created':1,'model':'fixture',
+                    'choices':[{'index':0,'finish_reason':'stop','message':{'role':'assistant','content':json.dumps(answer)}}]})
+            network=NetworkBackend(selected,timeout=4,max_tokens=1536,max_input_bytes=16384,max_inflight=1,
+                module=pydantic_backend,transport=httpx2.MockTransport(handler))
+            class Backend:
+                max_input_bytes=16384
+                def input_size(self,value):return network.input_size(value)
+                async def __call__(self,value):
+                    self.sent=value
+                    return await network.run(PolicyRequest(value))
+            backend=Backend()
+            agent=BattleAgent(StrategyEngine(identity),context_budget_bytes=16384)
+            raw=dict(schema_version=1,session_id=identity.session_id,player_id=3,snapshot_id=1,
+                game_time_seconds=100.,source='simulated',paused=False,resources=dict(credits=4000,power_balance=50),
+                capabilities=dict(production_focus=['native_baseline'],regions=sorted(set(selected_scope.regional_action_regions.values()))),
+                production=dict(queued_count=0,idle_producers=0,own_roles={}),enemy_observations=[],events=[],
+                macro_control=dict(mode='macro_native',available_actions=list(selected_scope.available_actions),production_counts={},
+                    region_targets=selected_scope.regional_action_regions))
+            agent.observe(raw)
+            memory=MacroStrategyMemory(session_id=identity.session_id,commander_id=q.COMMANDER,player_id=3,
+                profile_revision=1,effective_hash='a'*64)
+            feedback=dict(status='native_delegation_observed',selected_policy=None,actions=[],observed_frame=1500,native_effect_verified=False)
+            unified=dict(source='bound_native_strategy_v5',observed_frame=1500,details_owner='native_ai',observations=[])
+            audit=UnifiedRequestAuditV5(backend,lambda *a,**k:None,feedback_supplier=lambda:feedback,
+                unified_supplier=lambda:unified,catalog_supplier=selected_scope.model_catalog_overrides,
+                strategy_supplier=memory.context,strategic_only=True)
+            prepared=prepare_macro_request_v1(agent,audit,agent.latest)
+            decision=await decide_prepared_macro_request_v1(agent,agent.latest,prepared)
+            assert decision.status=='accepted',decision
+            from macro_policy import restore_public_defaults
+            public=restore_public_defaults(backend.sent)
+            assert set(public['macro_policy_catalog'])==set(selected_scope.available_actions)
+            for action in ('deploydefense','regroup','withdraw','reinforce'):
+                assert public['macro_policy_catalog'][action]['target_region']==scenario.own_region
+            assert public['macro_policy_catalog']['deployattack']['target_region']==scenario.opposing_start_region
+            assert audit.request_context_for(decision.plan)==backend.sent
+            assert len(calls)==1 and network.metrics['attempts']==1 and agent.engine.metrics['requests']==1
+            request=audit.request_context_for(decision.plan)
+            committed=memory.review(decision.plan,decision.plan.macro_strategy,request)
+            assert committed.allowed and decision.plan.macro_actions==()
+            memory.record_dispatch(committed,command_id=None,game_seconds=100.)
+            invalid=replace(decision.plan,plan_id=str(uuid.uuid4()),macro_strategy=dict(
+                decision.plan.macro_strategy,strategy_id=committed.strategy_id,objective='scout'))
+            try:memory.review(invalid,invalid.macro_strategy,request)
+            except StrategyError as error:assert str(error)=='strategy_objective_requires_new_id'
+            else:raise AssertionError('changed_objective_reused_strategy_id')
+            raw.update(snapshot_id=2,game_time_seconds=125.)
+            raw['resources']['credits']=3900
+            feedback['observed_frame']=1875
+            unified['observed_frame']=1875
+            agent.observe(raw)
+            prepared=prepare_macro_request_v1(agent,audit,agent.latest)
+            corrected=await decide_prepared_macro_request_v1(agent,agent.latest,prepared)
+            assert corrected.status=='accepted',corrected
+            public=restore_public_defaults(backend.sent)
+            assert public['macro_strategy']['last_guard_reason']=='strategy_objective_requires_new_id'
+            assert public['macro_strategy']['current_strategy']['strategy_id']==committed.strategy_id
+            reviewed=memory.review(corrected.plan,corrected.plan.macro_strategy,audit.request_context_for(corrected.plan))
+            assert reviewed.allowed and reviewed.strategy_id!=committed.strategy_id
+            assert len(calls)==2 and network.metrics['attempts']==2 and agent.engine.metrics['requests']==2
+            total+=1
+    return total
 async def providers():
     total=0
     for provider in ('OpenAI','DeepSeek'):
@@ -92,12 +184,15 @@ async def providers():
         else:raise AssertionError('oversized_input_accepted')
         assert len(calls)==1;total+=1
     return total
+normal_count=asyncio.run(normal_model_entries())
 count=asyncio.run(providers())
 for module in tuple(sys.modules.values()):
     origin=getattr(module,'__file__',None)
     if origin and not str(origin).startswith('<'):assert pathlib.Path(origin).resolve().is_relative_to(root),origin
 print(json.dumps(dict(qualification=True,scope_actions=14,host_config=True,constructor_denied_before_native_io=True,
-    sdk_layout=True,imports_confined=True,mock_provider_requests=count,budget_limit=16384,capacity_order_invariant=True)))
+    sdk_layout=True,imports_confined=True,mock_provider_requests=count,normal_model_entry_requests=normal_count*2,
+    rejected_declaration_feedback_roundtrips=normal_count,
+    normal_entry_maps=['TemplePrime','InfinityIsle'],budget_limit=16384,capacity_order_invariant=True)))
 '''
 
 

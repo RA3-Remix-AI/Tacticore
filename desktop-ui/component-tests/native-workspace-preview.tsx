@@ -23,7 +23,20 @@ let draft={schema_version:1,profile_id:profileId,name:'铁锤',revision:1,connec
 const profile=()=>({profile_id:profileId,name:draft.name,revision:draft.revision,connection_id:connectionId,model:draft.model||connection.model,draft,state:'library',validation:{ok:Boolean(draft.model||connection.model),reason_code:(draft.model||connection.model)?'':'credentials_unavailable'},effective:{effective_hash:'b'.repeat(64),traits:draft.custom_traits,traits_bytes:new TextEncoder().encode(draft.custom_traits).length,axis_support:{}}});
 const session={id:sessionId,map:'TemplePrime',player_name:'P3',faction:'Soviet'};
 const capabilities={control_mode:'macro',native_macro:true,available_macro_actions:['scout','regroup','withdraw','deployattack','deploydefense','expand']};
-function makeRun(id:string){return {run_id:id,session_id:sessionId,profile_id:profileId,profile_revision:draft.revision,effective_hash:'b'.repeat(64),state:'running',native_release_verified:false,session,capabilities,latest_snapshot:{game_time_seconds:185,resources:{credits:3400}},metrics:{requests:7,accepted:6},events:[{seq:1,event_type:'host_started',created_at:new Date().toISOString()},{seq:2,event_type:'commander_model_response_returned',created_at:new Date().toISOString()}]};}
+function makeRun(id:string){return {run_id:id,session_id:sessionId,profile_id:profileId,profile_revision:draft.revision,effective_hash:'b'.repeat(64),state:'running',native_release_verified:false,session,capabilities,latest_snapshot:{game_time_seconds:185,resources:{credits:3400}},metrics:{requests:7,accepted:6},
+  strategic_client:{schema_version:1,kind:'commander_strategic_client_record_v1',boundary:'strategic_only',
+    available_actions:capabilities.available_macro_actions,current_actions:['scout'],current_intent_state:'reported',budget_adoption:'unavailable',budget_policy:null,
+    unconnected_intents:['native_construction_pause','native_production_pause'],details_owner:'native_ai',record_only:true,dispatch_authorized:false,
+    native_acceptance_proves_success:false,extra_preferences_clear_is_global_stop:false},
+  macro_strategy:{schema_version:1,kind:'macro_strategy_public_state',current_strategy:null,recent_outcomes:[],
+    last_guard_reason:'strategy_intent_in_flight',stopped:false,unknown_command_count:0,unreleased_command_count:1},
+  macro_unified_feedback:{source:'bound_native_strategy_v5',details_owner:'native_ai',observed_frame:5550,observations:[{
+    action:'scout',status:'native_task_active',preference_active:true,active_native_task_observed:true,movement_observed:true,
+    component_state_adopted:false,state_already_satisfied:false,mission_success_verified:false,exclusive_attribution_verified:false,observed_frame:5550}]},
+  events:[{seq:1,event_type:'host_started',created_at:new Date().toISOString()},
+    {seq:2,event_type:'commander_model_call_started',created_at:new Date().toISOString(),profile_binding_matches:true,facts:{call_sequence:7}},
+    ...(params.get('call_result')==='waiting'?[]:[{seq:3,event_type:params.get('call_result')==='failed'?'commander_model_call_failed':'commander_model_response_returned',
+      created_at:new Date().toISOString(),profile_binding_matches:true,facts:{call_sequence:7}}])]};}
 let run:ReturnType<typeof makeRun>|null=params.has('active_run')?makeRun(runId):null;
 const calls:Record<string,number>={};
 const counter=document.createElement('output');counter.setAttribute('aria-label','预览调用计数');
@@ -34,7 +47,7 @@ previewStyle.textContent='body{padding-top:var(--preview-toolbar-height,40px)} #
 document.head.append(previewStyle);
 new ResizeObserver(()=>document.documentElement.style.setProperty('--preview-toolbar-height',bar.offsetHeight+'px')).observe(bar);
 bar.append('交互预览 · 全部为模拟数据，不连接游戏或模型');
-for(const [label,query] of [['已配置',''],['首次使用','?first_use=1'],['运行中','?active_run=1'],['配置待恢复','?mode=pending&active_run=1']]){const a=document.createElement('a');a.textContent=label;a.href=location.pathname+query;a.style.color='inherit';bar.append(a);}
+for(const [label,query] of [['已配置',''],['首次使用','?first_use=1'],['运行中','?active_run=1'],['等待模型','?active_run=1&call_result=waiting'],['调用失败','?active_run=1&call_result=failed'],['配置待恢复','?mode=pending&active_run=1']]){const a=document.createElement('a');a.textContent=label;a.href=location.pathname+query;a.style.color='inherit';bar.append(a);}
 for(const [label,value] of [['模拟配置待恢复','pending'],['模拟配置正常','ready']]){const b=document.createElement('button');b.textContent=label;b.onclick=()=>{mode=value;};bar.append(b);}
 for(const [label,action] of [
  ['延迟下一次检查',()=>{holdCheck=true;}],

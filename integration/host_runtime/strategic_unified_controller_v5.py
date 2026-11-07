@@ -159,18 +159,23 @@ class UnifiedStrategicControllerV5:
     def tick(self,game_seconds):return None
     def observe(self,observation,native,controls):
         if observation.get('observation_complete') is not True:return False
-        self.last_native=native;frame=observation['frame'];self.last_frame=max(frame,controls['frame']);effects={}
+        self.last_native=native;frame=observation['frame'];self.last_frame=max(frame,controls['frame']);effects={};tracks={}
         for runtime in observation.get('runtimes',[]):
             if not runtime.get('authoritative_runtime_membership_verified') or not runtime.get('native_execution_active') or runtime.get('cleanup_requested'):continue
             flag=runtime['flag'];action=next((a for a,f in self.scope.action_flags.items() if f==flag),None)
-            if (action is None or action not in self.current_actions or not self._domain_active(action,frame,native)
+            # Stock expansion can commit work which outlives the extra flag.
+            # Its current own task activity remains observable after expiry or
+            # replacement. It does not extend any command/effect window.
+            if action is None:continue
+            if action!='expand' and (action not in self.current_actions or not self._domain_active(action,frame,native)
                     or not self._domain_active(action,controls['frame'],native)):continue
             moved=False;members=0
             for group in runtime.get('owned_groups',[]):
                 if not group.get('found') or not group.get('all_members_resolved'):continue
                 for member in group.get('members',[]):
-                    key=(self.current_plan,action,runtime['address'],group['native_id'],member['thing_id']);position=member['xyz'];members+=1
-                    first=self.tracks.setdefault(key,tuple(position))
+                    plan_key=None if action=='expand' else self.current_plan
+                    key=(plan_key,action,runtime['address'],group['native_id'],member['thing_id']);position=member['xyz'];members+=1
+                    first=self.tracks.get(key,tuple(position));tracks[key]=first
                     moved|=math.dist(first,position)>=10
             effects[action]=dict(action=action,status='native_task_active',observed_frame=frame,
                 active_native_task_observed=True,owned_members_resolved=members>0,movement_observed=moved,
@@ -184,7 +189,7 @@ class UnifiedStrategicControllerV5:
                 effects[action]=dict(action=action,status='native_manager_state_observed',observed_frame=controls['frame'],
                     component_state_adopted=True,physical_api_attempts=state['attempted'],state_already_satisfied=bool(state['already_satisfied']),
                     construction_or_production_completion_verified=False,policy_released=False)
-        self.effects=effects;return True
+        self.tracks=tracks;self.effects=effects;return True
     def feedback(self,observation):
         budget=observation.get('budget_feedback') or {};selected=next((a for a in PRESETS if self.scope.action_flags.get(a)==budget.get('selected_macro_flag')),None)
         desired=next((a for a in self.current_actions if a in PRESETS),None)
@@ -198,9 +203,11 @@ class UnifiedStrategicControllerV5:
     def unified_feedback(self):
         if self.last_frame is None:return None
         native=self.last_native;rows=[]
-        for action in self.current_actions:
+        actions=list(self.current_actions)
+        if 'expand' in self.effects and 'expand' not in actions:actions.append('expand')
+        for action in actions:
             active=self._domain_active(action,self.last_frame,native)
-            facts=self.effects.get(action,{}) if active else {}
+            facts=self.effects.get(action,{}) if active or action=='expand' else {}
             rows.append(dict(action=action,preference_active=active,
                 observed_frame=facts.get('observed_frame',self.last_frame),
                 status=facts.get('status','preference_released' if not active and self._domain_released(action,native) else 'native_waiting_or_no_effect'),
