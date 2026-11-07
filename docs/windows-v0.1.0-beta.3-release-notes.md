@@ -1,10 +1,19 @@
-# 弈核 Tacticore v0.1.0-beta.3 本地内测版
+# 弈核 Tacticore v0.1.0-beta.3 · Windows 公开测试版
 
-2026-11-07 整理交付，基于已通过验收的 `windows-beta3-v11` 原安装包。此次整理不重建客户端或运行时，不新增实机对局。版本标签 `v0.1.0-beta.3` 标识整理后的源码与说明；原制品是在 `36bac49b` 基础上的未提交工作区构建，不能将本次提交冒充构建前提交。999 份冻结源码的逐文件摘要见 [源码清单](../reports/windows-v0.1.0-beta.3/source-pins.json)。
+本次以预发布（Prerelease）形式公开，基于已通过限定范围验收的 `windows-beta3-v11` 原安装包。此次整理不重建客户端或运行时，不新增实机对局。版本标签 `v0.1.0-beta.3` 标识整理后的源码与说明；原制品是在 `36bac49b` 基础上的未提交工作区构建，不能将本次提交冒充构建前提交。999 份冻结源码的逐文件摘要见 [源码清单](https://github.com/RA3-Remix-AI/Tacticore/blob/v0.1.0-beta.3/reports/windows-v0.1.0-beta.3/source-pins.json)。
+
+## 下载
+
+- [下载安装包](https://github.com/RA3-Remix-AI/Tacticore/releases/download/v0.1.0-beta.3/Tacticore_0.1.0-beta.3_x64-setup.exe)
+- [完整交付 ZIP（含诊断与回放）](https://github.com/RA3-Remix-AI/Tacticore/releases/download/v0.1.0-beta.3/v0.1.0-beta.3.zip)
+- [SHA-256 校验文件](https://github.com/RA3-Remix-AI/Tacticore/releases/download/v0.1.0-beta.3/SHA256SUMS.txt)
+- [玩家说明](https://github.com/RA3-Remix-AI/Tacticore/releases/download/v0.1.0-beta.3/windows-v0.1.0-beta.3-player-guide.md)
+
+**跨机器／全新 Windows 未验收；原生录像提前结束缺陷仍未修复。**
 
 ## 文件与安装
 
-本地交付目录：`C:\tacticore-deliveries\v0.1.0-beta.3`。其中包含原安装器、玩家说明、发布说明、验收摘要、三局脱敏诊断与离线过程页、原生录像、第三方许可和 `SHA256SUMS.txt`；另有同内容 ZIP 及其 SHA-256。交付根目录的 `delivery-provenance.json` 记录源码提交、版本标签及原制品身份，`payload-index.json` 记录每份交付文件的大小与摘要。
+附件提供原安装器、完整交付 ZIP、玩家说明、发布说明与校验文件。完整 ZIP 包含三局脱敏诊断、离线过程页、原生录像、第三方许可及打包时点的验收材料；其内部“本地／未公开”标记记录封存时点，本页为当前公开状态。`delivery-provenance.json` 保留源码提交与原制品身份。
 
 安装文件：`Tacticore_0.1.0-beta.3_x64-setup.exe`（37,874,168 字节）。SHA-256：
 
@@ -14,7 +23,7 @@
 
 运行时清单 SHA-256：`e328808cdb23001170e6daa426ad1bd162869f454f0f7a4c4f4778d4261c2373`。
 
-可在 PowerShell 中使用 `Get-FileHash -Algorithm SHA256 -LiteralPath '安装包路径'` 核对安装文件。运行安装器后按 [玩家说明](windows-v0.1.0-beta.3-player-guide.md)配置；交付包中的说明与此文相同。先停止旧指挥、确认独立控制归还，再退出游戏和客户端进行升级。
+可在 PowerShell 中使用 `Get-FileHash -Algorithm SHA256 -LiteralPath '安装包路径'` 核对安装文件。运行安装器后按 [玩家说明](https://github.com/RA3-Remix-AI/Tacticore/releases/download/v0.1.0-beta.3/windows-v0.1.0-beta.3-player-guide.md)配置；ZIP 内的说明为发布前封存版本，操作流程相同；当前公开状态与下载入口以本发布页及单独附件为准。先停止旧指挥、确认独立控制归还，再退出游戏和客户端进行升级。
 
 安装器未数字签名。包内提供 Python 与锁定运行依赖；WebView2 是系统前置依赖，首次安装可能需要联网。游戏、兼容 Mod BIG、模型密钥和服务额度需自行提供，未随交付包分发。交付包内不含本机账户密码、密钥、DPAPI 文件或用户配置库。
 
@@ -34,7 +43,7 @@ F01–F07 和六项既定 P0/P1 要求已按各自限定标准完成。同一冻
 
 本机新普通账户另行完成每用户安装、空白首用、实际界面配置、保存及正常关闭重开；没有继承管理员的产品配置或运行记录。本项使用本机已有 WebView2、游戏和已核验兼容 Mod，不增加正式局或模型调用。用户目前没有其他可验收机器，**跨机器及全新 Windows 机器验收未开展**。
 
-兼容范围为已核验的 RA3 1.12 繁中配置、TemplePrime / InfinityIsle、P3 苏军中等 AI、出生位置 2、P4 中等原生电脑、人类观察者、初始资金 10000、无组队与宝箱。正式三局使用 DeepSeek / deepseek-flash；其他地图、受控阵营、席位、依赖组合或模型不继承这些通过结论。文件身份及门槛摘要见 [验收报告](../reports/windows-v0.1.0-beta.3/README.md)。
+兼容范围为已核验的 RA3 1.12 繁中配置、TemplePrime / InfinityIsle、P3 苏军中等 AI、出生位置 2、P4 中等原生电脑、人类观察者、初始资金 10000、无组队与宝箱。正式三局使用 DeepSeek / deepseek-flash；其他地图、受控阵营、席位、依赖组合或模型不继承这些通过结论。文件身份及门槛摘要见 [验收报告](https://github.com/RA3-Remix-AI/Tacticore/blob/v0.1.0-beta.3/reports/windows-v0.1.0-beta.3/README.md)。
 
 ## 已知限制
 
@@ -44,4 +53,4 @@ F01–F07 和六项既定 P0/P1 要求已按各自限定标准完成。同一冻
 - N02 保留两次真实连接失败。故障显示、隔离和后续新采样恢复已核验，网络根因未修复，不承诺模型服务持续可用。
 - 停止后须等待独立归还。开始下一局需要新的游戏进程，同一已停止进程不支持再次接管。安装器签名、自动更新、跨机器兼容与胜率提升均未验收。
 
-本版仅完成本地交付整理，未推送远端、创建公开 Release 或上传制品。
+本版作为 Windows Beta 3 预发布公开。沿用已经验收的原安装包及完整交付 ZIP，不重新构建或补算实机通过记录。

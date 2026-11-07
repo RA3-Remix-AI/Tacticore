@@ -1,6 +1,6 @@
 # 弈核 Tacticore Beta 3 使用说明
 
-当前为验收候选：同一 V11 候选的三局新自然验收已通过 3/3；P1 扩张已通过“有效期内活动 → 历史效果与到期结果 → 后轮真实接受判断”的有界闭环，新普通账户的安装、首次配置和正常重开也已通过，既定 P0/P1 及 F01–F07 按有界标准完成。扩张活动不代表任务完成，同一有效期内直接接受新意图的更强检查未通过。当前身份与进度见 [交付计划](windows-beta3-delivery-plan-20261104.md)。安装包位于 `C:\tacticore-beta3-release-v3k\Tacticore_0.1.0-beta.3_x64-setup.exe`，尚未发布新的公开下载版本。
+当前为 Windows Beta 3 公开预发布：同一 V11 候选的三局新自然验收已通过 3/3；P1 扩张已通过“有效期内活动 → 历史效果与到期结果 → 后轮真实接受判断”的有界闭环，新普通账户的安装、首次配置和正常重开也已通过，既定 P0/P1 及 F01–F07 按有界标准完成。扩张活动不代表任务完成，同一有效期内直接接受新意图的更强检查未通过。当前身份与进度见 [交付计划](https://github.com/RA3-Remix-AI/Tacticore/blob/v0.1.0-beta.3/docs/windows-beta3-delivery-plan-20261104.md)。安装包与完整交付文件见 [Beta 3 发布页](https://github.com/RA3-Remix-AI/Tacticore/releases/tag/v0.1.0-beta.3)。
 
 ## 开始前
 

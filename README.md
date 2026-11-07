@@ -1,6 +1,6 @@
 # 弈核 Tacticore
 
-当前交付版本为 Windows **`v0.1.0-beta.3` 本地内测版**（冻结候选 V11）。既定 P0/P1 与 F01–F07 已按限定范围完成，同一冻结候选的三局新自然验收通过 **3/3**；本机新普通账户已完成安装、首次配置和正常重开。安装包、玩家说明、摘要及回放材料整理为本地交付包，尚未公开发布。见 [Beta 3 发布说明](docs/windows-v0.1.0-beta.3-release-notes.md)、[验收摘要](reports/windows-v0.1.0-beta.3/README.md)与[玩家说明](docs/windows-v0.1.0-beta.3-player-guide.md)。跨机器验收未开展；原生录像提前结束缺陷仍未修复。
+当前公开版本为 Windows **`v0.1.0-beta.3` 预发布**（冻结候选 V11）。[下载 Beta 3 安装包与完整交付文件](https://github.com/RA3-Remix-AI/Tacticore/releases/tag/v0.1.0-beta.3)。既定 P0/P1 与 F01–F07 已按限定范围完成，同一冻结候选的三局新自然验收通过 **3/3**；本机新普通账户已完成安装、首次配置和正常重开。见 [Beta 3 发布说明](docs/windows-v0.1.0-beta.3-release-notes.md)、[验收摘要](reports/windows-v0.1.0-beta.3/README.md)与[玩家说明](docs/windows-v0.1.0-beta.3-player-guide.md)。跨机器验收未开展；原生录像提前结束缺陷仍未修复。
 
 弈核是独立的 AI 指挥官程序，目前适配《红色警戒 3》。按用户最新明确的职责边界，模型根据己方可见战况与持续记忆，只判断进攻还是撤退、是否侦察、是否扩张，以及是否推进或暂缓建造和生产；具体建造操作、选址与顺序、兵种选择和数量、搭配协同及所有单位操作由原生电脑 AI 自主安排。用户可从 Windows 客户端配置指挥官、模型与风格，观察运行并停止指挥。
 
@@ -34,7 +34,7 @@ Native6 发布工程包含锁定 Python 运行环境、可迁移原生组件、�
 
 ## 现在怎么用
 
-本地内测使用 `C:\tacticore-deliveries\v0.1.0-beta.3\Tacticore_0.1.0-beta.3_x64-setup.exe`，按 [Beta 3 玩家说明](docs/windows-v0.1.0-beta.3-player-guide.md)操作，文件校验方法见 [Beta 3 发布说明](docs/windows-v0.1.0-beta.3-release-notes.md)。安装包不含游戏或兼容 Mod，模型连接需自行配置。已公开的历史版本仍可在 [GitHub Releases](https://github.com/RA3-Remix-AI/Tacticore/releases)找到；本地 Beta 3 没有公开下载链接。
+从 [Beta 3 发布页](https://github.com/RA3-Remix-AI/Tacticore/releases/tag/v0.1.0-beta.3)下载安装包或完整交付 ZIP，按 [Beta 3 玩家说明](docs/windows-v0.1.0-beta.3-player-guide.md)操作，文件校验方法见 [Beta 3 发布说明](docs/windows-v0.1.0-beta.3-release-notes.md)。安装包不含游戏或兼容 Mod，模型连接需自行配置。发布附件提供 SHA-256 校验文件；公开版本沿用已验收的原安装包，没有重新构建。
 
 下列开发预览及 v9 运行说明保留其历史范围，不替代上述已冻结的 Beta 3 安装包。
 
