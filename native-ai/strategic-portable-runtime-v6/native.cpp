@@ -15,6 +15,7 @@ static DWORD started;static uint32_t audit_sequence,callback_serial,last_audit_c
 static uint32_t current_not_after,manager_not_after[2],flag_not_after;
 static bool stopping;static g::Audit last_audit[2];static bool has_audit[2];
 static bool admission_cleanup_pending;
+static const DWORD WAKE_INTERVAL_MS=50;
 // One outstanding self wake, including its callback. A ticket prevents the
 // temporary bootstrap hook from clearing a newer wake when it sees the same
 // message a second time. This is scheduling state, never action authority.
@@ -48,8 +49,11 @@ static bool plain_path(const wchar_t* path){
 }
 static bool lock_hash(const wchar_t* path,const uint8_t expected[32]){
  if(input_count>=4096||!plain_path(path))return false;
- HANDLE file=CreateFileW(path,GENERIC_READ,FILE_SHARE_READ,NULL,OPEN_EXISTING,FILE_ATTRIBUTE_NORMAL,NULL);
+ HANDLE file=CreateFileW(path,GENERIC_READ,FILE_SHARE_READ,NULL,OPEN_EXISTING,FILE_ATTRIBUTE_NORMAL|FILE_FLAG_OPEN_REPARSE_POINT,NULL);
  if(file==INVALID_HANDLE_VALUE)return false;
+ BY_HANDLE_FILE_INFORMATION information={};
+ if(!GetFileInformationByHandle(file,&information)||
+    (information.dwFileAttributes&(FILE_ATTRIBUTE_REPARSE_POINT|FILE_ATTRIBUTE_DIRECTORY))){CloseHandle(file);return false;}
  HCRYPTPROV provider=0;HCRYPTHASH hash=0;bool okay=false;
  if(CryptAcquireContextW(&provider,NULL,NULL,PROV_RSA_AES,CRYPT_VERIFYCONTEXT)&&CryptCreateHash(provider,CALG_SHA_256,0,0,&hash)){
   BYTE buffer[16384],digest[32];DWORD got=0,n=32;bool valid=true;
@@ -84,9 +88,10 @@ static bool guard(void*,const g::Binding& b){
     memcmp(&b,&binding,sizeof(b))||memcmp(&p->binding,&sealed,sizeof(sealed))||
     p->magic!=MAGIC||p->version!=6||p->size!=sizeof(Shared)||!p->lease_held||
     input_count!=SOURCE_PIN_COUNT+3||!live_identity())return false;
- for(unsigned i=0;i<input_count;i++){
-  BY_HANDLE_FILE_INFORMATION info={};if(!GetFileInformationByHandle(inputs[i],&info)||(info.dwFileAttributes&FILE_ATTRIBUTE_REPARSE_POINT))return false;
- }
+ // Every input was checked and hashed through its read-sharing handle before
+ // admission. Those handles stay held until Game exit, including after STOP.
+ // Re-querying thousands of unchanged handles on every callback blocked the
+ // game thread. Live identity, lease, binding and deadlines remain fresh here.
  return !current_not_after||word(binding.game+0x50)<current_not_after;
 }
 static bool audit(void*,const g::Audit& value){
@@ -210,7 +215,7 @@ static void tick(){
  p->active=0;
 }
 static DWORD WINAPI watchdog(void*){
- while(p&&p->phase!=2&&p->phase!=4){if(!InterlockedCompareExchange(&wake_bootstrap,0,0))queue_wake();Sleep(100);}return 0;
+ while(p&&p->phase!=2&&p->phase!=4){if(!InterlockedCompareExchange(&wake_bootstrap,0,0))queue_wake();Sleep(WAKE_INTERVAL_MS);}return 0;
 }
 static bool prepare(){
  if(!FIELD_CANDIDATE)return false;

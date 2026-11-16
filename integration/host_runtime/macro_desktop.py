@@ -5,24 +5,27 @@ from pathlib import Path
 
 from .contracts import ContractError,SessionBinding,content_hash
 from .macro_live import MacroSampler,ROOT
-from .macro_bundle import load_bundle,digest
+from .macro_bundle import digest
 
 
 def observe(registration,profile_id,state_dir):
+    return _observed_session(registration,profile_id)[:4]
+
+
+def _observed_session(registration,profile_id):
     from .macro_policy_runtime import COMMANDER
     if profile_id!=COMMANDER:raise ContractError('session_mismatch')
     sampler=MacroSampler(registration.session_path,registration.macro_bundle)
     try:
         raw=sampler.collect();session=sampler.session
         summary=dict(id=session['session_id'],map=session['scenario']['map_id'],player_name=profile_id,faction='Soviet')
-        return session,raw,sampler.footprint(),summary
+        return session,raw,sampler.footprint(),summary,sampler.bundle,sampler.scope
     finally:sampler.close()
 
 
 def check(checks,registration,profile,host_id,state_dir,library_path,limits):
     from .desktop_backend import Admission,_module
-    session,raw,footprint,summary=observe(registration,profile['profile_id'],state_dir)
-    bundle,scope=load_bundle(registration.macro_bundle,session)
+    session,raw,footprint,summary,bundle,scope=_observed_session(registration,profile['profile_id'])
     if raw['paused']:raise ContractError('session_not_ready')
     output=Path(session['run_directory'])/'battle-host'
     if output.exists() and any(output.iterdir()):raise ContractError('run_state_conflict')
@@ -30,7 +33,7 @@ def check(checks,registration,profile,host_id,state_dir,library_path,limits):
     # the bound host is ready to make provider requests.
     if hashlib.sha256(Path(library_path).read_bytes()).hexdigest()!=profile['library_hash']:
         raise ContractError('effective_profile_changed')
-    if getattr(scope,'native_transport_protocol',None) in (5,6):
+    if getattr(scope,'native_transport_protocol',None) in (5,6,7):
         from .profiles import normalize_profile
         from .native5_capacity_preflight_v1 import check_native5_capacity
         from macro_policy import public_descriptions
@@ -42,7 +45,8 @@ def check(checks,registration,profile,host_id,state_dir,library_path,limits):
             raise ContractError('effective_profile_changed')
         catalog=public_descriptions(scope.available_actions,region_targets=scope.regional_action_regions.items())
         catalog.update(scope.model_catalog_overrides())
-        capacity=check_native5_capacity(effective,provider,raw,catalog)
+        try:capacity=check_native5_capacity(effective,provider,raw,catalog)
+        except ValueError:raise ContractError('model_context_capacity_contract_invalid') from None
         if not capacity['fits']:raise ContractError(capacity['reason_code'])
     _module('model_backend',ROOT/'strategy').check_backend_available('pydantic')
     from .macro_native_presence import require_unused_macro_process
@@ -51,9 +55,9 @@ def check(checks,registration,profile,host_id,state_dir,library_path,limits):
     if getattr(scope,'native_transport_protocol',1)==5:
         from .strategic_native_presence_v5 import require_unused_macro_process
         presence_manifest=dict(manifest,mapping_prefix='Local\\RA3StrategicCommanderV5_')
-    elif getattr(scope,'native_transport_protocol',1)==6:
+    elif getattr(scope,'native_transport_protocol',1) in (6,7):
         from .native6_presence import require_unused_macro_process
-        presence_manifest=dict(manifest,mapping_prefix='Local\\RA3StrategicCommanderV6_')
+        presence_manifest=dict(manifest,mapping_prefix=f'Local\\RA3StrategicCommanderV{scope.native_transport_protocol}_')
     require_unused_macro_process(session['pid'],presence_manifest)
     binding=SessionBinding(1,session['session_id'],3,profile['profile_id'],session['pid'],session['start_time'],host_id,
         digest(session['game']),session['mod_sha256'])
@@ -64,7 +68,7 @@ def check(checks,registration,profile,host_id,state_dir,library_path,limits):
         runtime_recovery_supported=False,runtime_purposes=[],model_response_received=False)
     if hasattr(scope,'available_counts'):
         capabilities['macro_production_counts']={}
-    if getattr(scope,'native_transport_protocol',1) in (5,6):
+    if getattr(scope,'native_transport_protocol',1) in (5,6,7):
         capabilities['native_transport_protocol']=scope.native_transport_protocol
     if hasattr(scope,'model_catalog_overrides'):
         capabilities.update(base_defense_granted=True,base_defense_goal='original_native_defense_of_own_infrastructure')
@@ -77,6 +81,9 @@ def check(checks,registration,profile,host_id,state_dir,library_path,limits):
 
 def released(backend,run_id,binding,host_receipt):
     try:
+        if (Path(backend._launch(run_id)['output_path'])/'native7-context.json').exists():
+            from .native7_history import verified_return
+            return verified_return(backend,backend._launch(run_id),binding,host_receipt)
         if (Path(backend._launch(run_id)['output_path'])/'native6-context.json').exists():
             from .native6_history import verified_return
             return verified_return(backend,backend._launch(run_id),binding,host_receipt)

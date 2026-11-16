@@ -16,6 +16,39 @@ def evidence(purposes=None,player=3):
 
 
 class Observations(unittest.TestCase):
+    def test_visible_unit_type_reaches_model_context_and_updates_on_transformation(self):
+        agent=BattleAgent(StrategyEngine(binding()))
+        first=tactical_snapshot()
+        first['battlefield']['contacts'][0].update(role='armor',unit_type='JapanAntiInfantryVehicle')
+        agent.observe(first)
+        second=tactical_snapshot(2,102)
+        second['battlefield']['contacts'][0].update(role='air',unit_type='JapanAntiInfantryVehicle_Airborne')
+        agent.observe(second)
+        context=agent.context(agent.latest.model_context(binding()),commit=False)
+        contact=next(row for row in context['working_memory']['battlefield']['contacts'] if row['contact_id']=='contact_ore')
+        self.assertEqual(contact['role'],'air')
+        self.assertEqual(contact['unit_type'],'JapanAntiInfantryVehicle_Airborne')
+
+    def test_hidden_unit_cannot_change_type_or_combat_role(self):
+        for change in ({'role':'air'},{'unit_type':'JapanAntiInfantryVehicle_Airborne'}):
+            with self.subTest(change=change):
+                agent=BattleAgent(StrategyEngine(binding()))
+                first=tactical_snapshot()
+                first['battlefield']['contacts'][0].update(role='armor',unit_type='JapanAntiInfantryVehicle')
+                agent.observe(first)
+                hidden=tactical_snapshot(2,102)
+                hidden['battlefield']['contacts'][0]=dict(first['battlefield']['contacts'][0],currently_visible=False,**change)
+                with self.assertRaisesRegex(ContractError,'hidden_contact_updated'):agent.observe(hidden)
+
+    def test_unit_type_is_optional_and_bounded(self):
+        raw=tactical_snapshot()
+        raw['battlefield']['contacts'][0]['unit_type']='JapanAntiInfantryVehicle'
+        self.assertEqual(Snapshot.from_dict(raw).to_dict(),raw)
+        for value in ('', '0x1234', 'x'*97, 'unit; execute', 3, True):
+            with self.subTest(value=value):
+                raw['battlefield']['contacts'][0]['unit_type']=value
+                with self.assertRaisesRegex(ContractError,'contact_unit_type'):Snapshot.from_dict(raw)
+
     def test_optional_extension_round_trips_without_native_addresses(self):
         raw=tactical_snapshot();parsed=Snapshot.from_dict(raw)
         self.assertEqual(parsed.to_dict(),raw)
@@ -180,6 +213,23 @@ class TacticalSessions(unittest.IsolatedAsyncioTestCase):
         self.assertLessEqual(len(json.dumps(context,ensure_ascii=False,separators=(",",":")).encode()),4096)
         self.assertLessEqual(len(agent.contact_facts),64);self.assertTrue(context["context_limits"]["details_truncated"])
         self.assertNotIn("object_id",json.dumps(context));self.assertNotIn("address",json.dumps(context))
+
+    async def test_contact_retention_matches_projection_when_equal_age_contacts_overflow(self):
+        first=tactical_snapshot()
+        template=first['battlefield']['contacts'][0]
+        first['battlefield']['contacts']=[dict(template,contact_id='contact_'+str(i).zfill(3)) for i in range(64)]
+        agent=BattleAgent(StrategyEngine(binding()))
+        agent.observe(first)
+        second=tactical_snapshot(2,101)
+        second['battlefield']['contacts']=[dict(template,contact_id='contact_new',observed_at_game_seconds=101)]
+        second['battlefield']['contacts'].extend(dict(c,currently_visible=False) for c in first['battlefield']['contacts'][:63])
+        agent.observe(second)
+        self.assertEqual(set(agent.contact_facts),{c['contact_id'] for c in second['battlefield']['contacts']})
+        third=copy.deepcopy(second)
+        third['snapshot_id']=3;third['game_time_seconds']=102
+        agent.observe(third)
+        self.assertIn('contact_000',agent.contact_facts)
+        self.assertEqual(len(agent.contact_facts),64)
 
     async def test_pause_blocks_dispatch_candidates_without_spending_another_model_turn(self):
         agent,task=await self.create();before=agent.engine.metrics["requests"]

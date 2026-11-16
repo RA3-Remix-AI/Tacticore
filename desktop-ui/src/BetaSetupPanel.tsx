@@ -61,7 +61,7 @@ export function BetaSetupPanel({locked,onPrepared,onStatusChange,invoke = native
     <div className="setup-panel-heading"><div><p className="eyebrow">LOCAL SETUP / 01</p><h2>准备游戏环境</h2><p className="setup-description">连接你的红色警戒 3，完成首次部署。</p></div><span className={`setup-badge ${state.prepared?'is-ready':''}`}>{busy?'正在处理':state.prepared?'环境已就绪':'等待准备'}</span></div>
     {state.prepared?<><div className="setup-ready"><span className="setup-ready-mark"><Check size={24} weight="bold" aria-hidden="true" /></span><div><h3>游戏环境已就绪</h3><p>进入受支持的对局后，前往作战中心发现游戏。</p></div><Button kind="primary" disabled={blocked} loading={busy==='launch'} onClick={()=>void call('launch')}>启动游戏</Button></div><details className="setup-details"><summary>查看或修改游戏与 Mod</summary><p>修改环境时，请重新选择游戏文件与 Mod 两项，再进行核验。</p>{steps}</details></>:steps}
     <div className={`setup-notice ${failed?'is-error':''}`} role="status">{notice}</div>
-    <div className="setup-footer"><details className="setup-details setup-scope"><summary>查看 Beta 支持范围</summary><p>RA3 1.12 繁体中文配置 · TemplePrime · P3 苏军 · P4 原生电脑对手及已验证出生位置。游戏和 Mod 需自行提供。</p></details><Button disabled={blocked} onClick={()=>void call('status')}>重新核验</Button></div>
+    <div className="setup-footer"><details className="setup-details setup-scope"><summary>查看 Beta 支持范围</summary><p>RA3 1.12 繁体中文配置 · P3 苏军。Beta 4 候选正在验证 Infinity Isle 地图 1v1，己方中等、对手凶残。游戏和 Mod 需自行提供。</p></details><Button disabled={blocked} onClick={()=>void call('status')}>重新核验</Button></div>
     {locked&&<p className="setup-notice is-warning">请先停止当前指挥并确认归还，再修改游戏环境。</p>}
   </section>;
 }

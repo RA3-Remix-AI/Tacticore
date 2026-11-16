@@ -40,7 +40,9 @@ class MacroPolicyProbe:
         if build_feedback:raise ContractError('strategic_precise_builder_feedback_refused')
         self._lifecycle_lock=threading.RLock()
         self._probe=None;self.final_raw=None;self.observer=None;self.samples=0
-        builder,client=native_module();builder.verify(build);self._projection=client.projection
+        # Probe independently verifies the full build and qualification before
+        # attachment. Repeating the same scan here delays that guarded entry.
+        _,client=native_module();self._projection=client.projection
         self._probe=client.Probe.__new__(client.Probe)
         try:
             self._probe.__init__(session_path,build,output)
@@ -84,7 +86,13 @@ class MacroPolicyProbe:
             return flat_status(self._projection(value))
     def apply(self,actions,duration_frames,command_id=None,*,not_after_frame=None):
         with self._lifecycle_lock:
-            native=self._probe.apply(actions,duration_frames,command_id,not_after_frame=not_after_frame)
+            try:native=self._probe.apply(actions,duration_frames,command_id,not_after_frame=not_after_frame)
+            except ValueError as error:
+                receipt=self._probe.receipts.get(command_id,{})
+                if (str(error)=='unified_expired_before_dispatch' and receipt.get('rejected')=='expired_before_dispatch'
+                        and receipt.get('unknown') is False and receipt.get('native') is None):
+                    raise ContractError('macro_plan_expired_before_native_dispatch') from None
+                raise
             return self._receipt(native,command_id)
     def manager(self,gate,enabled,duration_frames,command_id,*,not_after_frame,release=False):
         with self._lifecycle_lock:

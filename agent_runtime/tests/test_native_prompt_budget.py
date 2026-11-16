@@ -45,6 +45,13 @@ def example(prompt):
 
 
 class NativePromptBudgetTests(unittest.IsolatedAsyncioTestCase):
+    def test_strategic_example_explains_observation_based_finite_lifetime(self):
+        text=system_prompt(profile(),context())
+        self.assertEqual(example(text)['valid_for_game_seconds'],60)
+        self.assertIn('including inference and dispatch time',text)
+        self.assertIn('Expiry is never extended automatically',text)
+        self.assertIn('natural match victory',text)
+
     def test_existing_fact_reference_is_stable_under_json_key_sorting(self):
         cases = [
             ({"own.credits": 0, "capabilities.actions": []}, "own.credits"),
@@ -72,6 +79,12 @@ class NativePromptBudgetTests(unittest.IsolatedAsyncioTestCase):
                     calls.append(request.content)
                     self.assertLessEqual(len(request.content), 16384)
                     body = json.loads(request.content)
+                    if provider=='DeepSeek':
+                        self.assertEqual(body['thinking'],{'type':'enabled'})
+                        self.assertEqual(body['reasoning_effort'],'low')
+                    else:
+                        self.assertNotIn('thinking',body)
+                        self.assertNotIn('reasoning_effort',body)
                     prompt = body["messages"][0]["content"]
                     sent_context = json.loads(body["messages"][1]["content"])
                     self.assertEqual(sent_context, value)
@@ -88,6 +101,12 @@ class NativePromptBudgetTests(unittest.IsolatedAsyncioTestCase):
                     max_input_bytes=16384, max_inflight=1, module=pydantic_backend,
                     transport=httpx2.MockTransport(transport))
                 value = context()
+                value['working_memory'] = dict(match_state=dict(
+                    schema_version=1, source='native_public_match', observed_frame=1890,
+                    opponent_player_ids=[4, 5], defeated_opponent_ids=[4], opponents_allied=True))
+                value['macro_strategy']['fact_catalog'].update({
+                    'match.opponents.total': 2, 'match.opponents.remaining': 1,
+                    'match.opponents.allied': True})
                 value["synthetic_padding"] = ""
                 value["synthetic_padding"] = "x" * (16379 - backend.input_size(value))
                 before = copy.deepcopy(value)

@@ -311,6 +311,9 @@ def load_bundle(path,session=None):
         # descriptor. Recheck it on every invocation, including pin changes.
         if Path(path).stat().st_size<=16384:
             descriptor=json.loads(Path(path).read_text(encoding='utf-8-sig'))
+            if type(descriptor) is dict and type(descriptor.get('schema_version')) is int and descriptor['schema_version']==15:
+                from .native7_qualification import load
+                return load(path,session)
             if type(descriptor) is dict and type(descriptor.get('schema_version')) is int and descriptor['schema_version']==14:
                 from .native6_qualification import load
                 return load(path,session)

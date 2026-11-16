@@ -37,7 +37,7 @@ def require_base_origin(census,required_origin):
 
 
 class MacroSampler:
-    def __init__(self,session_path,bundle_path,*,strategic_only=False):
+    def __init__(self,session_path,bundle_path,*,strategic_only=False,_locked_qualification=None):
         for folder in ('integration','strategy','production','native-ai','visibility'):
             path=str(ROOT/folder)
             if path not in sys.path:sys.path.insert(0,path)
@@ -46,22 +46,43 @@ class MacroSampler:
         from collector import VisibilityCollector
         self.path=Path(session_path);self.raw=self.path.read_bytes();self.session=json.loads(self.raw.decode('utf-8-sig'))
         self.bundle_path=Path(bundle_path);self.bundle_raw=self.bundle_path.read_bytes()
-        self.bundle,self.scope=load_bundle(bundle_path,self.session)
+        if _locked_qualification is None:
+            self.bundle,self.scope=load_bundle(bundle_path,self.session)
+        else:
+            # The Host just verified this qualification and acquired read-only
+            # sharing locks over every input, descriptor and session. Live
+            # identity, visibility and observations below are always fresh.
+            self.bundle,self.scope=_locked_qualification
+            from .native6_qualification import Native6Scope,trusted_pin,runtime_root
+            from .native7_qualification import Native7Scope
+            descriptor=json.loads(self.bundle_raw)
+            if (type(self.scope) not in (Native6Scope,Native7Scope) or self.scope.runtime_root!=runtime_root()
+                    or self.scope.runtime_manifest_sha256!=trusted_pin()
+                    or any(descriptor.get(key)!=self.bundle.get(key) for key in descriptor)
+                    or descriptor.get('runtime_manifest_sha256')!=self.scope.runtime_manifest_sha256):
+                raise ContractError('native6_trial_not_qualified')
         scenario=self.session.get('scenario',{})
+        self.opponent_player_ids = (4,)
+        if getattr(self.scope, 'native_transport_protocol', None) in (6,7):
+            from .native6_scenarios import scenario_for_session
+            self.opponent_player_ids = scenario_for_session(scenario).opponent_player_ids
         if (scenario.get('commander_id')!=COMMANDER or scenario.get('computer_player_index')!=3
-                or scenario.get('participant_count')!=2 or scenario.get('opponent_player_index')!=4
+                or scenario.get('participant_count') != 1 + len(self.opponent_player_ids)
+                or scenario.get('opponent_player_index')!=4
                 or scenario.get('observer_player_index',2)!=2):raise ContractError('session_mismatch')
         self.registry_path=Path(self.session['registry']);self.registry_raw=self.registry_path.read_bytes()
         self.registry=json.loads(self.registry_raw.decode('utf-8-sig'))
-        if getattr(self.scope,'native_transport_protocol',None)==6:
-            from .native6_transport import native_module
+        if getattr(self.scope,'native_transport_protocol',None) in (6,7):
+            if self.scope.native_transport_protocol==7:from .native7_transport import native_module
+            else:from .native6_transport import native_module
             _,sdk=native_module();Memory=sdk.Memory
         self.memory=Memory(self.session['pid'],self.session)
         try:
             folder=Path(self.bundle['visibility'])
-            if getattr(self.scope,'native_transport_protocol',None)==6:
+            if getattr(self.scope,'native_transport_protocol',None) in (6,7):
                 from .native6_visibility import bind_session as bind_native6
-                self.proof,self.safety=bind_native6(self.memory,self.session,3)
+                qualified={'_locked_qualification':_locked_qualification} if _locked_qualification is not None else {}
+                self.proof,self.safety=bind_native6(self.memory,self.session,3,**qualified)
             else:
                 from capability import bind_session
                 self.proof,self.safety=bind_session(self.memory,self.session,3,folder/'build-capability.json',folder/'template-safety.json')
@@ -134,7 +155,7 @@ class MacroSampler:
     def collect(self):
         from read_match_state import snapshot
         from macro_observation import own_census
-        from match_participants import verify_two_ai
+        from match_participants import verify_two_ai, verify_ai_combatants, controlled_match_result
         from read_selected_personality import inspect_player,resolve_registry
         from engine import Snapshot
         if (self.path.read_bytes()!=self.raw or self.bundle_path.read_bytes()!=self.bundle_raw
@@ -152,8 +173,16 @@ class MacroSampler:
         expected=self.session['scenario']['map_id']
         if path.suffix.lower()!='.map' or path.stem.lower()!=expected.lower() or path.parent.name.lower()!=expected.lower():
             raise ContractError('macro_scenario_map_mismatch')
-        self.participants=verify_two_ai(self.memory,state,self.registry,3,4,2)
-        if any(row.get('victory_frame') or row.get('defeat_frame') for row in state['result_records']):
+        if len(self.opponent_player_ids) == 2:
+            self.participants = verify_ai_combatants(self.memory, state, self.registry, 3,
+                                                     self.opponent_player_ids, 2, opponents_allied=True)
+            self.match_result = controlled_match_result(state, 3, self.opponent_player_ids)
+            terminal = self.match_result['terminal']
+        else:
+            self.participants = verify_two_ai(self.memory, state, self.registry, 3, 4, 2)
+            self.match_result = controlled_match_result(state, 3, self.opponent_player_ids)
+            terminal = self.match_result['terminal']
+        if terminal:
             raise ContractError('macro_native_result_candidate')
         census=own_census(self.memory,self.owner);frame=census['frame']
         required_origin=getattr(self.scope,'required_origin_region',None)
@@ -175,11 +204,18 @@ class MacroSampler:
             # Production requires paired private builder/own-census samples.
             # The live controller may add it after refresh; sampler alone cannot.
             macro_control=dict(mode='macro_native',available_actions=[action for action in self.scope.available_actions
-                if action.startswith('budget')] if at>=MIN_MACRO_MODEL_GAME_SECONDS else []))
+                if action.startswith('budget')] if at>=getattr(self.scope,'minimum_model_game_seconds',MIN_MACRO_MODEL_GAME_SECONDS) else []))
+        intent_contract=getattr(self.scope,'intent_contract',None)
+        if intent_contract is not None:raw['macro_control']['intent_contract']=intent_contract
         if hasattr(self.scope,'regional_action_regions'):
             # Public map navigation locations carry no enemy presence claim.
             raw['capabilities']['regions']=sorted(set(raw['capabilities']['regions'])|set(self.scope.regional_action_regions.values()))
         self.latest_census=census
+        raw['match_state'] = dict(schema_version=1, source='native_public_match',
+            observed_frame=state['simulation_frame'], opponent_player_ids=list(self.opponent_player_ids),
+            defeated_opponent_ids=[index for index in self.opponent_player_ids
+                                   if self.match_result['players'][str(index)]['outcome'] == 'defeat'],
+            opponents_allied=len(self.opponent_player_ids)==2)
         return Snapshot.from_dict(raw).to_dict()
 
     def close(self):self.memory.close()

@@ -14,6 +14,61 @@ from test_strategic_unified_wire_v5 import Wire,SOURCE,ROOT,WIRE_ARCHIVE_AVAILAB
 
 # Guard only archive-backed cases: the isolated pure import stays portable.
 class Capacity(unittest.TestCase):
+    def test_core_reserves_own_presence_and_continuing_expansion_without_duplicate_strategy(self):
+        from fixtures import binding,snapshot
+        from engine import Snapshot
+        from macro_policy import ACTIONS
+        from host_runtime.strategic_contract_v5 import FLAG_ACTIONS,GATE_ACTIONS
+        from host_runtime.native5_capacity_preflight_v1 import _capacity_envelope
+        from host_runtime.macro_forces import NAMED_BUILDINGS
+        identity=binding();raw=snapshot()
+        actions=FLAG_ACTIONS+tuple(GATE_ACTIONS)
+        raw['capabilities']['regions']=['region_1_3','region_8_3']
+        targets={action:'region_1_3' if action=='deployattack' else 'region_8_3'
+            for action in actions if ACTIONS[action]=='deployment'}
+        raw['macro_control']=dict(mode='macro_native',available_actions=list(actions),region_targets=targets)
+        observed=Snapshot.from_dict(raw)
+        catalog=observed.model_context(identity)['macro_policy_catalog']
+        catalog.update(group_role_catalog_overrides())
+        effective=normalize_profile(dict(schema_version=1,profile_id=identity.commander_id,
+            name='Offline',revision=1,connection_id=identity.connection_id,model='fixture-model',
+            doctrine='defense',custom_traits=''))
+        envelope=_capacity_envelope(effective,observed,catalog)
+        self.assertEqual(set(envelope['own_forces']['building_presence_counts']),set(NAMED_BUILDINGS))
+        self.assertEqual(envelope['own_forces']['observed_frame'],'CAPACITY_ONLY_FRAME')
+        self.assertEqual(len(envelope['macro_unified_feedback']['observations']),5)
+        from macro_policy import restore_public_defaults
+        self.assertEqual(len(restore_public_defaults(envelope)['macro_execution_feedback']['native_account_shares']),6)
+        from macro_policy import BUDGET_PRESETS
+        projected=restore_public_defaults(envelope)['macro_policy_catalog']
+        for action,shares in BUDGET_PRESETS.items():
+            self.assertEqual(projected[action]['native_account_shares'],shares)
+        self.assertNotIn('macro_strategy',envelope['working_memory']['current_strategy'])
+        result=check_native5_capacity(effective,'DeepSeek',raw,catalog)
+        self.assertTrue(result['fits'])
+        self.assertFalse(result['native_authority_granted'])
+
+    def test_both_qualified_fourteen_action_grammars_fit_but_their_union_is_refused(self):
+        from fixtures import binding,snapshot
+        from macro_policy import ACTIONS,public_descriptions
+        from host_runtime.native5_capacity_preflight_v1 import LEGACY_ACTIONS,NATIVE_TARGET_ACTIONS
+        identity=binding()
+        effective=normalize_profile(dict(schema_version=1,profile_id=identity.commander_id,name='Offline',
+            revision=1,connection_id=identity.connection_id,model='fixture-model',doctrine='assault',
+            custom_traits='己方中等原生电脑在1v2中自然战胜两名同队凶残电脑。'))
+        for actions in (LEGACY_ACTIONS,NATIVE_TARGET_ACTIONS):
+            targets={a:'region_1_3' if a=='deployattack' else 'region_8_3'
+                     for a in actions if ACTIONS[a]=='deployment'}
+            raw=snapshot(capabilities=dict(production_focus=['native_baseline'],regions=['region_1_3','region_8_3']),
+                macro_control=dict(mode='macro_native',available_actions=['budgetarmy'],production_counts={},region_targets={}))
+            catalog=public_descriptions(sorted(actions),region_targets=targets)
+            catalog.update(group_role_catalog_overrides())
+            result=check_native5_capacity(effective,'DeepSeek',raw,catalog)
+            self.assertTrue(result['fits']);self.assertEqual(result['catalog_action_count'],14)
+        mixed=dict(catalog,deployattack=public_descriptions(['deployattack'],region_targets={'deployattack':'region_1_3'})['deployattack'])
+        with self.assertRaisesRegex(ValueError,'fixed_grammar'):
+            check_native5_capacity(effective,'DeepSeek',raw,mixed)
+
     def fixture(self):
         agent,*_=Wire().fixture(False)
         record=json.loads((SOURCE/'profile.json').read_bytes())

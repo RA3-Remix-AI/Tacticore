@@ -24,7 +24,7 @@ SAFE_RUNTIME_CODES = frozenset({
     'transport_cancelled', 'network_not_enabled', 'credential_unavailable',
     'endpoint_not_chat_completions', 'endpoint_requires_tls',
     'provider_response_too_large', 'provider_response_bounds',
-    'provider_http_status', 'invalid_completion', 'incomplete_or_refused_completion',
+    'provider_http_status', 'invalid_completion', 'incomplete_or_refused_completion', 'completion_token_limit',
     'instrumented_model_forbidden', 'token_configuration', 'input_budget_configuration',
     'transport_connect_timeout', 'transport_read_timeout', 'transport_write_timeout',
     'transport_pool_timeout', 'transport_connect_failed', 'transport_read_failed',
@@ -85,7 +85,7 @@ class PydanticBackend(CallableBackend):
                  diagnostics: Callable[[dict, dict], dict] | None = None):
         if isinstance(model, InstrumentedModel):
             raise RuntimeAdapterError("instrumented_model_forbidden")
-        if type(max_tokens) is not int or not 256 <= max_tokens <= 4096:
+        if type(max_tokens) is not int or not 256 <= max_tokens <= 8192:
             raise RuntimeAdapterError("token_configuration")
         if type(max_input_bytes) is not int or not 4096 <= max_input_bytes <= 32768:
             raise RuntimeAdapterError("input_budget_configuration")
@@ -125,6 +125,12 @@ class PydanticBackend(CallableBackend):
             prompt = self._prompt(context)
             if self.input_size(context) > self.max_input_bytes:
                 raise RuntimeAdapterError("input_budget_exceeded")
+            extra_body=dict(self._extra_body)
+            if (context.get('control_mode')=='macro_native'
+                    and type(context.get('native_delegation')) is dict
+                    and context['native_delegation'].get('kind')=='native_ai_details_v1'
+                    and extra_body.get('thinking')=={'type':'disabled'}):
+                extra_body.update(thinking={'type':'enabled'},reasoning_effort='low')
             # Text output is deliberate: legacy parsing rejects duplicate keys,
             # NaN and unknown shapes without Pydantic coercion or schema drift.
             agent = Agent(self._model, output_type=str, system_prompt=prompt,
@@ -136,7 +142,7 @@ class PydanticBackend(CallableBackend):
                 result = await agent.run(encoded, infer_name=False,
                     model_settings={"max_tokens": self._max_tokens,
                                     "max_retries": 0, "timeout": self._timeout,
-                                    "extra_body": self._extra_body},
+                                    "extra_body": extra_body},
                     usage_limits=UsageLimits(request_limit=1, tool_calls_limit=0))
             except RuntimeAdapterError as error:
                 raise RuntimeAdapterError(_runtime_code(error) or 'framework_request_failed') from None
@@ -250,6 +256,8 @@ async def openai_compatible_backend(profile, *, parse_json: Callable[[str], dict
                 message = choice.get("message")
                 # SDK normalization can turn absent/null finish_reason into stop;
                 # preserve the previous raw-envelope gate before normalization.
+                if choice.get('finish_reason')=='length':
+                    raise RuntimeAdapterError('completion_token_limit')
                 if choice.get("finish_reason") != "stop" or not isinstance(message, dict) or message.get("refusal") or message.get("tool_calls"):
                     raise RuntimeAdapterError("incomplete_or_refused_completion")
                 if not isinstance(message.get("content"), str) or not message["content"].strip():

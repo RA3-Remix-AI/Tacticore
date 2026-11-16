@@ -1,10 +1,11 @@
 """Visibility-filtered observations and high-level tactical intent contracts.
 
-Native addresses, coordinates, template IDs and object IDs deliberately have no
-place in this protocol. The trusted collector maintains their private mapping.
+Native addresses, coordinates, numeric template IDs and object IDs remain in
+the trusted collector. Audited visible unit type names support matchup decisions.
 """
 from dataclasses import asdict,dataclass
 import math
+import re
 
 ROLES=frozenset({"anti_air","anti_armor","infantry","naval","air","armor","economy","structure"})
 PURPOSES={"raid":frozenset({"harass_economy","recon"}),"attack":frozenset({"main_attack"}),"combined_arms":frozenset({"coordinate_force","defend_base"})}
@@ -76,8 +77,12 @@ class Contact:
     observed_at_game_seconds:float
     currently_visible:bool
     stealth_state:str
+    unit_type:str|None=None
 
-    def public(self):return asdict(self)
+    def public(self):
+        value=asdict(self)
+        if self.unit_type is None:value.pop('unit_type')
+        return value
 
 
 @dataclass(frozen=True)
@@ -122,7 +127,8 @@ class Battlefield:
                     if not verified and (visible or relation=="enemy" or roles):fail("unverified_enemy_information")
                     item=Region(region,relation,at,visible,roles);key=region
                 elif field=="contacts":
-                    row=keys(row,{"contact_id","owner_player_id","relation","role","region_id","observed_at_game_seconds","currently_visible","stealth_state"},"contact_fields")
+                    fields={"contact_id","owner_player_id","relation","role","region_id","observed_at_game_seconds","currently_visible","stealth_state"}
+                    if type(row) is not dict or set(row) not in (fields,fields|{'unit_type'}):fail('contact_fields')
                     if not verified:fail("unverified_enemy_information")
                     key=ident(row["contact_id"],"contact_id")
                     owner=integer(row["owner_player_id"],0,15,"contact_owner")
@@ -133,7 +139,11 @@ class Battlefield:
                     visible=boolean(row["currently_visible"],"battlefield_visible")
                     stealth=enum(row["stealth_state"],STEALTH,"contact_stealth")
                     if visible and (stealth=="unknown" or game_time-at>3):fail("contact_not_currently_verified")
-                    item=Contact(key,owner,relation,role,region,at,visible,stealth)
+                    unit_type=row.get('unit_type')
+                    if unit_type is not None:
+                        if type(unit_type) is not str or re.fullmatch(r'[A-Za-z][A-Za-z0-9_]{0,95}',unit_type) is None:
+                            fail('contact_unit_type')
+                    item=Contact(key,owner,relation,role,region,at,visible,stealth,unit_type)
                 else:
                     row=keys(row,{"formation_id","version","roles","region_id","available"},"formation_fields")
                     key=ident(row["formation_id"],"formation_id");version=integer(row["version"],1,2**31-1,"formation_version")

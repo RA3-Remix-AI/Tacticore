@@ -82,6 +82,61 @@ class RuntimeSemanticsTests(unittest.TestCase):
     def effects(self):
         return [e for e in self.events if e['kind']=='macro_strategy_outcome' and e['outcome']=='effect_observed']
 
+    def renewal_controller(self,plan,receipt,at=110):
+        from host_runtime.native6_qualification import Native6Scope
+        from host_runtime.strategic_unified_controller_v5 import UnifiedStrategicControllerV5
+        controller=UnifiedStrategicControllerV5.__new__(UnifiedStrategicControllerV5)
+        controller.scope=Native6Scope.__new__(Native6Scope)
+        controller.stopped=False;controller.delivery_unknown=False
+        controller.current_plan=plan.plan_id;controller.current_actions=tuple(plan.macro_actions)
+        controller.current_seq=receipt['seq'];controller.flag_actions=('budgetarmy',)
+        controller.last_frame=int(at*15)
+        controller.last_native=dict(native(receipt['seq'],empty=True),
+            native_schema='unified_flags_and_managers_v6',applied_mask=1,flag_phase=1,
+            flag_deadline=1950,gates=[dict(phase=0),dict(phase=4)])
+        controller.action_domain_windows={'budgetarmy':dict(start_frame=1500,end_frame=1950,native_deadline_frame=1950)}
+        return controller
+
+    def test_fresh_model_can_renew_verified_native6_flags_only_after_new_ack(self):
+        original,receipt,_,_,_=self.dispatch()
+        controller=self.renewal_controller(original,receipt)
+        plan,context,_,_=self.build(110)
+        audit=SimpleNamespace(request_context_for=lambda p:self.requests[p.plan_id])
+        self.assertEqual(self.runtime.review(plan,audit,context).reason_code,'strategy_intent_in_flight')
+        review=self.runtime.review(plan,audit,context,controller=controller)
+        self.assertTrue(review.allowed)
+        self.assertFalse(self.runtime.commands[receipt['command_id']].released)
+        next_receipt=dict(receipt,command_id=str(uuid.uuid4()),seq=2,plan_id=plan.plan_id,
+            native_start_frame=1650,native_deadline_frame=2100)
+        self.runtime.dispatched(review,plan,next_receipt,110)
+        previous=self.memory._commands[receipt['command_id']]
+        self.assertEqual(previous['outcome'],'replaced')
+        self.assertFalse(previous['had_effect'])
+        self.assertEqual(previous['released_at'],110)
+        self.assertEqual(self.runtime.commands[next_receipt['command_id']].expires,140)
+        replay=self.runtime.review(plan,audit,context,controller=controller)
+        self.assertEqual(replay.reason_code,'strategy_plan_already_dispatched')
+
+    def test_renewal_keeps_stale_unknown_gate_mask_and_stop_guards(self):
+        original,receipt,_,_,_=self.dispatch()
+        plan,context,_,_=self.build(110)
+        audit=SimpleNamespace(request_context_for=lambda p:self.requests[p.plan_id])
+        for change in ('stale','mask','gate','deadline','unknown','stopped','legacy'):
+            controller=self.renewal_controller(original,receipt)
+            if change=='stale':controller.last_frame=1600
+            if change=='mask':controller.last_native['applied_mask']=3
+            if change=='gate':controller.last_native['gates'][0]['phase']=1
+            if change=='deadline':controller.last_native['flag_deadline']=1900
+            if change=='unknown':controller.delivery_unknown=True
+            if change=='stopped':controller.stopped=True
+            if change=='legacy':controller.scope=SimpleNamespace()
+            with self.subTest(change=change):
+                result=self.runtime.review(plan,audit,context,controller=controller)
+                self.assertEqual(result.reason_code,'strategy_intent_in_flight')
+        controller=self.renewal_controller(original,receipt)
+        self.memory._commands[receipt['command_id']]['outcome']='unknown'
+        self.assertEqual(self.runtime.review(plan,audit,context,controller=controller).reason_code,'strategy_unknown_outcome')
+
     def test_rejected_objective_reason_reaches_next_model_context_without_changing_committed_goal(self):
         _,receipt,original,_,_=self.dispatch()
         previous=self.memory.public_state()['current_strategy']

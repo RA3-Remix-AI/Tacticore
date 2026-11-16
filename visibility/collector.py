@@ -29,20 +29,25 @@ class VisibilityCollector:
   grid=ShroudReader(m)
   if handshake and (grid.manager!=handshake['shroud_manager'] or grid.impl!=handshake['shroud_impl']):raise ValueError('Visibility proof shroud context changed')
   metrics,clear_cells,frontiers=vision_grid_snapshot(m,grid,self.player_id,frame,self.region_size)
-  observations=[];seen_ids=set();targets={};points={};own_regions={}
+  observations=[];seen_ids=set();targets={};points={};own_regions={};owners={}
   def region_of(xyz):
    def slug(n):return 'm'+str(-n) if n<0 else str(n)
    return 'region_'+slug(math.floor(xyz[0]/self.region_size))+'_'+slug(math.floor(xyz[1]/self.region_size))
   for thing in walk_live_things(m,logic):
    owner=m.u32(thing+0x418)
-   if not owner or m.u32(owner)!=0xc5bce0:continue
-   owner_index=m.u32(owner+0x20)
+   if not owner:continue
+   if owner not in owners:
+    if m.u32(owner)!=0xc5bce0:continue
+    owner_index=m.u32(owner+0x20)
+    relation=read_player_relation(m,player,owner_index)
+    owners[owner]=(owner_index,relation)
+   owner_index,relation=owners[owner]
    if owner_index==self.player_id:
     own_xyz=struct.unpack('<fff',m.read(thing+0x38,12));body=m.u32(thing+0x33c)
     if body and all(math.isfinite(x) for x in own_xyz) and m.f32(body+4)>0 and grid.query(self.player_id,own_xyz)==1:
      rid=region_of(own_xyz);points.setdefault(rid,list(own_xyz));own_regions[rid]={'region_id':rid,'relation':'self','observed_at_game_seconds':game_seconds,'currently_visible':verified,'role_counts':{}}
     continue
-   if not verified or read_player_relation(m,player,owner_index)!='enemy':continue
+   if not verified or relation!='enemy':continue
    template=m.u32(thing+4);type_hash=hex(m.u32(template+8))
    safe=self.projection.safety.get('templates',{}).get(type_hash)
    if not safe or not safe.get('source_audited_no_intrinsic_stealth') or not runtime_invisibility_safe(m,thing):continue
@@ -65,6 +70,11 @@ class VisibilityCollector:
    targets[cid]={'address':thing,'object_id':oid,'type_hash':type_hash,'owner':owner,'owner_player_id':owner_index,'xyz':list(xyz),'hp':hp,'observed_frame':frame,'region_id':region}
    points.setdefault(region,list(xyz))
    observations.append({'object_id':oid,'owner_player_id':owner_index,'relation':'enemy','type_hash':type_hash,'terrain_shroud':1,'object_shroud_cached':cached_object_shroud(m,thing,self.player_id),'object_shroud_reconstructed':1,'object_visibility_method':'native_footprint_reconstruction','runtime_stealth_safe':True,'identity_stable':True,'alive':True,'observer_fallback':False,'region_id':region})
+  # Share player metadata only inside this bounded sample. Re-read every
+  # identity/relation before publication, in addition to each admitted enemy's
+  # existing immediate relationship and visibility revalidation.
+  for owner,(owner_index,relation) in owners.items():
+   if m.u32(owner)!=0xc5bce0 or m.u32(owner+0x20)!=owner_index or read_player_relation(m,player,owner_index)!=relation:raise ValueError('Player relationship changed; discard whole sample')
   end=m.u32(logic+0x50)
   if m.u32(0xcd8ce4)!=logic or end<frame or end-frame>2 or m.u32(player+0x90)!=ai or m.u32(playerlist+0x30+self.player_id*4)!=player or not grid.stable():raise ValueError('Non-atomic visibility snapshot changed; discard whole sample')
   result=self.projection.project(observations,game_seconds)

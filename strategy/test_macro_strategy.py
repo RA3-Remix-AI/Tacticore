@@ -42,6 +42,122 @@ class StrategyTests(unittest.TestCase):
         self.memory = MacroStrategyMemory(session_id=SESSION, commander_id=COMMANDER, player_id=3,
             profile_revision=21, effective_hash='a'*64)
 
+    def test_own_miner_presence_is_current_bounded_and_distinct_from_income(self):
+        payload=context()
+        payload['own_forces']=dict(own_perspective=True,enemy_details_read=False,observed_frame=150,
+            economic_unit_presence_counts={'ore_collector':0})
+        facts=self.memory.context(payload)['fact_catalog']
+        self.assertEqual(facts['own.present.ore_collector'],0)
+        self.assertNotIn('own.income',facts)
+        del payload['own_forces']['economic_unit_presence_counts']
+        self.assertNotIn('own.present.ore_collector',self.memory.context(payload)['fact_catalog'])
+        for count in (True,-1,8193):
+            payload['own_forces']['economic_unit_presence_counts']={'ore_collector':count}
+            with self.subTest(count=count),self.assertRaises(StrategyError):self.memory.context(payload)
+        payload['own_forces'].update(observed_frame=100,economic_unit_presence_counts={'ore_collector':2})
+        with self.assertRaisesRegex(StrategyError,'stale'):self.memory.context(payload)
+
+    def test_current_own_building_presence_can_inform_strategy_without_builder_samples(self):
+        payload=context()
+        payload['own_forces']=dict(own_perspective=True,enemy_details_read=False,observed_frame=150,
+            building_presence_counts={'refinery':2,'war_factory':1,'super_reactor':0,'battle_lab':0})
+        facts=self.memory.context(payload)['fact_catalog']
+        self.assertEqual(facts['own.present.refinery'],2)
+        self.assertEqual(facts['own.present.war_factory'],1)
+        self.assertEqual(facts['own.present.battle_lab'],0)
+        self.assertNotIn('own.present.barracks',facts)
+        payload['own_forces']['observed_frame']=100
+        with self.assertRaisesRegex(StrategyError,'stale'):self.memory.context(payload)
+
+    def test_building_presence_rejects_invented_or_noninteger_counts(self):
+        for counts in ({'refinery':True},{'refinery':1.5},{'refinery':-1},{'unknown':1}):
+            payload=context()
+            payload['own_forces']=dict(own_perspective=True,enemy_details_read=False,
+                observed_frame=150,building_presence_counts=counts)
+            with self.subTest(counts=counts),self.assertRaises(StrategyError):self.memory.context(payload)
+
+    def test_lawful_regional_observations_expose_home_pressure_without_hidden_counts(self):
+        payload=context()
+        payload['macro_policy_catalog']={'deploydefense':{'target_region':'home'}}
+        payload['working_memory']['battlefield']['regions']=[
+            dict(region_id='home',relation='enemy',currently_visible=True,observed_at_game_seconds=10,role_counts={'armor':2,'infantry':3}),
+            dict(region_id='far',relation='enemy',currently_visible=False,observed_at_game_seconds=8,role_counts={'armor':99}),
+            dict(region_id='old',relation='enemy',currently_visible=True,observed_at_game_seconds=5,role_counts={'armor':99})]
+        facts=self.memory.context(payload)['fact_catalog']
+        self.assertEqual(facts['enemy.home.visible_observations'],5)
+        self.assertEqual(facts['enemy.visible.observations'],5)
+        self.assertEqual(facts['enemy.home.combat_observations'],5)
+        self.assertEqual(facts['enemy.visible.combat_observations'],5)
+        self.assertEqual(facts['own.observed_combat_roles'],3)
+
+    def test_visible_combat_counts_keep_structures_and_economy_in_total_observations(self):
+        payload=context()
+        payload['macro_policy_catalog']={'deploydefense':{'target_region':'home'}}
+        payload['working_memory']['battlefield']['regions']=[
+            dict(region_id='home',relation='self',currently_visible=True,
+                 observed_at_game_seconds=10,role_counts={}),
+            dict(region_id='far',relation='enemy',currently_visible=True,
+                 observed_at_game_seconds=10,role_counts={'structure':99,'economy':1,'armor':2})]
+        facts=self.memory.context(payload)['fact_catalog']
+        self.assertEqual(facts['enemy.visible.observations'],102)
+        self.assertEqual(facts['enemy.visible.combat_observations'],2)
+        self.assertEqual(facts['enemy.home.combat_observations'],0)
+        payload['working_memory']['battlefield']['regions'][1]['role_counts']={'structure':99}
+        self.assertEqual(self.memory.context(payload)['fact_catalog']['enemy.visible.combat_observations'],0)
+        payload['working_memory']['battlefield']['regions'][1]['currently_visible']=False
+        self.assertNotIn('enemy.visible.combat_observations',self.memory.context(payload)['fact_catalog'])
+
+    def test_current_audited_force_loss_is_explicit_zero_without_reusing_old_count(self):
+        payload=context()
+        payload['working_memory']['economy']['own_roles']={'economy':2,'structure':4}
+        self.assertEqual(self.memory.context(payload)['fact_catalog']['own.observed_combat_roles'],0)
+        payload['working_memory']['battlefield']['visibility_verified']=False
+        self.assertNotIn('enemy.visible.observations',self.memory.context(payload)['fact_catalog'])
+
+    def test_multi_enemy_facts_use_fresh_owned_groups_and_keep_unseen_players_unknown(self):
+        payload=context()
+        payload['working_memory']['match_state']=dict(schema_version=1,source='native_public_match',
+            observed_frame=150,opponent_player_ids=[4,5],defeated_opponent_ids=[],opponents_allied=True)
+        groups=[dict(owner_player_id=owner,relation='enemy',currently_visible=visible,
+                     oldest_game_seconds=oldest,newest_game_seconds=newest,observations=count,role=role)
+                for owner,visible,oldest,newest,count,role in ((4,True,9,10,2,'armor'),
+                    (4,True,10,10,3,'structure'),(5,False,8,8,9,'armor'),(5,True,6,10,8,'infantry'))]
+        payload['working_memory']['battlefield']['contact_groups']=groups
+        facts=self.memory.context(payload)['fact_catalog']
+        self.assertEqual(facts['enemy.player4.visible.observations'],5)
+        self.assertEqual(facts['enemy.player4.visible.combat_observations'],2)
+        self.assertNotIn('enemy.player5.visible.combat_observations',facts)
+        groups[2].update(currently_visible=True,oldest_game_seconds=10,newest_game_seconds=10)
+        self.assertEqual(self.memory.context(payload)['fact_catalog']['enemy.player5.visible.combat_observations'],9)
+        groups[2]['owner_player_id']=None
+        self.assertNotIn('enemy.player5.visible.combat_observations',self.memory.context(payload)['fact_catalog'])
+        groups[2]['owner_player_id']=True
+        with self.assertRaisesRegex(StrategyError,'enemy_owner'):self.memory.context(payload)
+
+    def test_distant_sightings_preserve_zero_home_observations_only_with_fresh_home_view(self):
+        payload=context()
+        payload['macro_policy_catalog']={'deploydefense':{'target_region':'home'}}
+        home=dict(region_id='home',relation='self',currently_visible=True,
+                  observed_at_game_seconds=10,role_counts={})
+        payload['working_memory']['battlefield']['regions']=[home,
+            dict(region_id='far',relation='enemy',currently_visible=True,
+                 observed_at_game_seconds=10,role_counts={'armor':20})]
+        facts=self.memory.context(payload)['fact_catalog']
+        self.assertEqual(facts['enemy.visible.observations'],20)
+        self.assertEqual(facts['enemy.home.visible_observations'],0)
+        for change in ({'currently_visible':False},{'observed_at_game_seconds':5}):
+            with self.subTest(change=change):
+                payload['working_memory']['battlefield']['regions'][0]=dict(home,**change)
+                self.assertNotIn('enemy.home.visible_observations',self.memory.context(payload)['fact_catalog'])
+        payload['working_memory']['battlefield']['regions'].pop(0)
+        self.assertNotIn('enemy.home.visible_observations',self.memory.context(payload)['fact_catalog'])
+
+    def test_regional_observation_rejects_unknown_roles_and_nonfinite_counts(self):
+        for counts in [{'hidden_exact_force':10},{'armor':float('nan')},{'armor':True}]:
+            payload=context()
+            payload['working_memory']['battlefield']['regions']=[dict(region_id='home',relation='enemy',currently_visible=True,observed_at_game_seconds=10,role_counts=counts)]
+            with self.subTest(counts=counts),self.assertRaises(StrategyError):self.memory.context(payload)
+
     def start(self, *, at=10, actions=None, **changes):
         payload = context(at)
         current_plan = plan(at, actions, **changes)

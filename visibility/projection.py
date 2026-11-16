@@ -1,7 +1,7 @@
 """Model-safe visibility projection and last-seen memory.
 Raw observations must remain internal; only explicit output fields cross boundary.
 """
-import hashlib,math
+import hashlib,math,re
 class VisibilityProjection:
  def __init__(self,session_id,player_id,package_sha256,proof,safety,ttl_seconds=60):
   if not 1<=ttl_seconds<=300:raise ValueError('Bounded memory TTL required')
@@ -26,8 +26,12 @@ class VisibilityProjection:
    oid=ob.get('object_id');owner=ob.get('owner_player_id');region=ob.get('region_id')
    if type(oid)!=int or oid<=0 or type(owner)!=int or owner==self.player or not isinstance(region,str) or not region:continue
    cid=self.contact_id(owner,oid)
-   # No raw position, HP, template hash, pointer or native object ID leaves here.
+   # The audited asset name identifies a visible unit type. Native handles and
+   # raw template hashes remain private to the collector.
    contact={'contact_id':cid,'owner_player_id':owner,'relation':'enemy','role':safe['role'],'region_id':region,'observed_at_game_seconds':game_seconds,'currently_visible':True,'stealth_state':'visible'}
+   unit_type=safe.get('template')
+   if isinstance(unit_type,str) and re.fullmatch(r'[A-Za-z][A-Za-z0-9_]{0,95}',unit_type):
+    contact['unit_type']=unit_type
    visible[cid]=contact;self.seen[cid]=dict(contact)
   contacts=[]
   for cid,old in list(self.seen.items()):

@@ -42,8 +42,10 @@ def project(status, capabilities):
         try:
             validate_policy(plan)
             raw = plan['macro_actions']
-            from .strategic_contract_v5 import split_intents
-            try:split_intents(raw)
+            from .strategic_contract_v5 import split_intents,split_native7_intents
+            try:
+                if status.get('native_transport_protocol')==7:split_native7_intents(raw)
+                else:split_intents(raw)
             except ValueError:raise ContractError('strategic_client_plan_shape_invalid') from None
             if any(a not in actions for a in raw):
                 raise ContractError('strategic_client_unoffered_action')

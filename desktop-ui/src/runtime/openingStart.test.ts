@@ -23,7 +23,7 @@ test('unknown start delivery is never retried by the opening waiter',async()=>{
   assert.equal(checks,1);assert.equal(starts,1);
 });
 test('a conflict or changed profile stops waiting without a new start intent',async()=>{
-  for(const code of ['run_state_conflict','effective_profile_changed','session_registration_changed']){
+  for(const code of ['run_state_conflict','effective_profile_changed','session_registration_changed','model_context_capacity_contract_invalid']){
     let starts=0;
     await assert.rejects(startAtOpening({signal:new AbortController().signal,
       check:async()=>({ready:false,reason_code:code}),start:async()=>{starts++;}}),new RegExp(code));

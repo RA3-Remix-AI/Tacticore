@@ -1,10 +1,12 @@
 /** Read-only display of the explicit strategic boundary. Never issues commands. */
 export const strategicActionLabels = {
   budgeteconomy: '经济投入优先（预算偏好）', budgetarmy: '军备投入优先（预算偏好）', budgettech: '科技投入优先（预算偏好）',
-  scout: '额外侦察意图', deployattack: '进攻调度意图', deploydefense: '防守调度意图',
+  scout: '额外侦察意图', deployattack: '进攻调度意图', attackenemy: '进攻意图（原生选择敌方目标）', deploydefense: '防守调度意图',
   regroup: '集结意图', withdraw: '撤退意图', reinforce: '增援意图',
   expand: '原生扩张意图', pauseconstruction: '暂缓原生建造调度', advanceconstruction: '推进原生建造调度',
   pauseproduction: '暂缓原生生产调度', advanceproduction: '推进原生生产调度',
+  focusenemy4: '优先对付敌方 P4', focusenemy5: '优先对付敌方 P5',
+  raideconomy: '扰乱敌方采矿',
 } as const;
 export type StrategicAction = keyof typeof strategicActionLabels;
 export interface StrategicClientRecord {
@@ -27,7 +29,8 @@ const keys = ['schema_version', 'kind', 'boundary', 'available_actions', 'curren
   'native_acceptance_proves_success', 'extra_preferences_clear_is_global_stop'].sort().join(',');
 const missingFor = (offered: readonly string[]) => missing.filter((_,i)=>!offered.includes(['pauseconstruction','pauseproduction','expand'][i]));
 const gates = ['pauseconstruction','advanceconstruction','pauseproduction','advanceproduction'];
-const actions = (v: unknown): v is StrategicAction[] => Array.isArray(v) && v.length <= 14
+const focusActions = ['focusenemy4','focusenemy5'];
+const actions = (v: unknown): v is StrategicAction[] => Array.isArray(v) && v.length <= 16
   && v.every(a => typeof a === 'string' && Object.hasOwn(strategicActionLabels, a)) && new Set(v).size === v.length;
 function record(v: unknown): v is StrategicClientRecord {
   if (!object(v) || Object.keys(v).sort().join(',') !== keys || v.schema_version !== 1
@@ -43,10 +46,12 @@ function record(v: unknown): v is StrategicClientRecord {
     && v.current_intent_state === 'awaiting' && v.budget_adoption === 'unavailable' && v.budget_policy === null;
   if ((v.current_intent_state === 'reported') !== (v.current_actions !== null)) return false;
   const offered = v.available_actions;
-  if (v.current_actions !== null && (v.current_actions.length > 4
+  const maximumDomains = offered.some(a => focusActions.includes(a)) ? 5 : 4;
+  if (v.current_actions !== null && (v.current_actions.length > maximumDomains
     || v.current_actions.some(a => !offered.includes(a))
     || v.current_actions.filter(a => budgets.includes(a as typeof budgets[number])).length > 1
-    || v.current_actions.filter(a => !budgets.includes(a as typeof budgets[number])&&!gates.includes(a)).length > 1
+    || v.current_actions.filter(a => !budgets.includes(a as typeof budgets[number])&&!gates.includes(a)&&!focusActions.includes(a)).length > 1
+    || v.current_actions.filter(a => focusActions.includes(a)).length > 1
     || v.current_actions.filter(a => ['pauseconstruction','advanceconstruction'].includes(a)).length > 1
     || v.current_actions.filter(a => ['pauseproduction','advanceproduction'].includes(a)).length > 1)) return false;
   if (['adopted', 'pending'].includes(v.budget_adoption) && v.budget_policy === null) return false;

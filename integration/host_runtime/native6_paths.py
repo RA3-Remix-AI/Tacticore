@@ -8,6 +8,7 @@ import ctypes as c
 import os
 from pathlib import Path
 import re
+import stat
 import uuid
 
 LOCAL_APP_DATA = 'f1b32785-6fba-4fcf-9d55-7b8e7f157091'
@@ -46,7 +47,7 @@ def plain_local(value, *, existing=True):
             if existing or ancestor == Path(path.anchor):
                 raise
             continue
-        if ancestor.is_symlink() or getattr(information, 'st_file_attributes', 0) & 0x400:
+        if stat.S_ISLNK(information.st_mode) or getattr(information, 'st_file_attributes', 0) & 0x400:
             raise ValueError('native6_reparse_path_refused')
     return path
 

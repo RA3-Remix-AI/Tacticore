@@ -44,4 +44,4 @@ def record(game,mod_config,pin,policy_id):
         base_config=str(base),base_config_sha256=sha(base))
 
 def arguments(game,mod_config,base):
-    return [str(game),'-ui','-win','-modConfig',str(mod_config),'-config',str(base)]
+    return [str(game),'-win','-modConfig',str(mod_config),'-config',str(base)]

@@ -16,6 +16,52 @@ from tactical_fixtures import tactical_snapshot
 
 
 class SamplingBoundaryTests(unittest.TestCase):
+    def test_post_native_visibility_failure_defers_without_reusing_old_view(self):
+        host=MacroHost.__new__(MacroHost)
+        host.latest=dict(snapshot_id=1,paused=False,game_time_seconds=100)
+        previous=host.latest
+        host.sampler=SimpleNamespace(collect=Mock(side_effect=ValueError(
+            'Non-atomic visibility snapshot changed; discard whole sample')))
+        host.event=Mock();host.observe_current=Mock()
+        self.assertFalse(host.observe_post_native_view())
+        self.assertIs(host.latest,previous)
+        host.observe_current.assert_not_called()
+        host.event.assert_called_once_with('macro_decision_deferred',reason_code='macro_post_native_view_unstable')
+
+    def test_visibility_failure_does_not_prepare_a_model_request(self):
+        host=MacroHost.__new__(MacroHost);host.event=Mock()
+        host.sampler=SimpleNamespace(collect=Mock(side_effect=ValueError('discard sample')))
+        self.assertIsNone(host.prepare_model_request(None))
+
+    def test_dispatch_visibility_failure_does_not_sample_or_send_native_commands(self):
+        host=MacroHost.__new__(MacroHost);host.event=Mock();host.transport=Mock()
+        host.latest=dict(snapshot_id=1,paused=False,game_time_seconds=100)
+        previous=host.latest
+        host.sampler=SimpleNamespace(collect=Mock(side_effect=ValueError('discard sample')))
+        self.assertFalse(host.refresh_dispatch_observation(SimpleNamespace(plan_id='plan')))
+        self.assertIs(host.latest,previous)
+        self.assertEqual(host.transport.mock_calls,[])
+
+    def test_post_native_visibility_retry_is_bounded_and_contract_errors_propagate(self):
+        host=MacroHost.__new__(MacroHost);host.event=Mock()
+        host.sampler=SimpleNamespace(collect=Mock(side_effect=ValueError('discard sample')))
+        for _ in range(5):self.assertFalse(host.observe_post_native_view())
+        with self.assertRaisesRegex(ContractError,'macro_observation_unstable'):
+            host.observe_post_native_view()
+        host.sampler.collect.side_effect=ContractError('session_changed')
+        with self.assertRaisesRegex(ContractError,'session_changed'):
+            host.observe_post_native_view()
+
+    def test_valid_post_native_view_resets_retry_count(self):
+        host=MacroHost.__new__(MacroHost);host.post_native_view_failures=4
+        host.sampler=SimpleNamespace(collect=Mock(return_value=dict(snapshot_id=2,paused=False,game_time_seconds=101)),
+            latest_census=dict(frame=1515,own_objects=[],enemy_details_read=False),safety=dict(templates={}))
+        host.controller=object();host.observe_current=Mock()
+        self.assertTrue(host.observe_post_native_view())
+        self.assertEqual(host.latest['snapshot_id'],2)
+        self.assertEqual(host.post_native_view_failures,0)
+        host.observe_current.assert_called_once_with(coherent_native=False)
+
     def test_slow_pair_crossing_expiry_does_not_attribute_later_native_queues(self):
         from host_runtime.test_macro_production_runtime import ProductionRuntimeTests
         from host_runtime.test_macro_production_feedback import sample

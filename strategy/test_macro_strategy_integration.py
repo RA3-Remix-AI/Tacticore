@@ -139,6 +139,28 @@ class ProjectionTests(unittest.TestCase):
 
 
 class StrategyRequestTests(unittest.IsolatedAsyncioTestCase):
+    def test_strategic_request_keeps_canonical_memory_and_executable_intent_without_duplicate_declaration(self):
+        from integration.host_runtime.macro_policy_runtime import MacroRequestAudit
+        observed=macro_snapshot();base=observed.model_context(binding())
+        current=validate_policy(policy(base,macro_actions=['budgetarmy'],macro_strategy=declaration()),
+            observed,observed,binding(),20)
+        engine=StrategyEngine(binding());engine.current=current
+        agent=BattleAgent(engine);agent.observe(observed.to_dict())
+        context=agent.context(base,commit=False);before=copy.deepcopy(context)
+        memory=memory_for(context)
+        review=memory.review(current,current.macro_strategy,context)
+        memory.record_dispatch(review,command_id='offline-budget-intent',game_seconds=observed.game_time_seconds)
+        audit=MacroRequestAudit(None,lambda *a,**k:None,strategy_supplier=memory.context,strategic_only=True)
+        prepared=restore_public_defaults(audit.prepare(context))
+        intent=prepared['working_memory']['current_strategy']
+        self.assertNotIn('macro_strategy',intent)
+        self.assertEqual(intent['macro_actions'],['budgetarmy'])
+        self.assertFalse(intent['execution_projection']['effect_verified'])
+        self.assertEqual(prepared['macro_strategy']['current_strategy']['objective'],'build_force')
+        self.assertEqual(context,before)
+        legacy=MacroRequestAudit(None,lambda *a,**k:None,strategy_supplier=memory.context)
+        self.assertEqual(restore_public_defaults(legacy.prepare(context))['working_memory']['current_strategy']['macro_strategy'],declaration())
+
     async def test_real_request_shape_matches_plan_binding_and_supplied_facts(self):
         from integration.host_runtime.macro_policy_runtime import MacroRequestAudit
         observed=macro_snapshot();agent=BattleAgent(StrategyEngine(binding()))

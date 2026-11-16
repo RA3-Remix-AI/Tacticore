@@ -44,6 +44,7 @@ from host_runtime.macro_expansion_factory_v4 import create_expansion_controller_
 from host_runtime.macro_admission_feedback_v4 import MacroRequestAuditV4,compact_admission_feedback_v4
 from host_runtime.strategic_unified_bundle_v5 import UnifiedStrategicScopeV5
 from host_runtime.native6_qualification import Native6Scope
+from host_runtime.native7_qualification import Native7Scope
 from host_runtime.strategic_unified_controller_v5 import UnifiedStrategicControllerV5
 from host_runtime.strategic_unified_feedback_v5 import UnifiedRequestAuditV5,UnifiedStrategyRuntimeV5
 
@@ -52,21 +53,23 @@ LIMITS=dict(production_queue_observed=False,idle_producers_observed=False,
     power_observed=False,payment_verified=False)
 
 
-def is_unified_scope(scope):return type(scope) in (UnifiedStrategicScopeV5,Native6Scope)
+def is_unified_scope(scope):return type(scope) in (UnifiedStrategicScopeV5,Native6Scope,Native7Scope)
 
 
 def native_transport_config(scope,manifest,max_wall_seconds=None):
     """Pure admission before attach; an absolute native guard is only backup."""
     protocol=getattr(scope,'native_transport_protocol',1)
-    if type(protocol) is int and protocol==6:
-        from host_runtime.native6_runtime_contract import FIELD_KIND
-        if (type(scope) is not Native6Scope or manifest.get('kind')!=FIELD_KIND or manifest.get('protocol_version')!=6
+    if type(protocol) is int and protocol in (6,7):
+        if protocol==7:from host_runtime.native7_runtime_contract import FIELD_KIND
+        else:from host_runtime.native6_runtime_contract import FIELD_KIND
+        expected_scope=Native7Scope if protocol==7 else Native6Scope
+        if (type(scope) is not expected_scope or manifest.get('kind')!=FIELD_KIND or manifest.get('protocol_version')!=protocol
                 or manifest.get('package_sha256')!=scope.package_sha256 or manifest.get('admission_ready') is not True
                 or manifest.get('compile_only') is not False or tuple(manifest.get('flags',()))!=tuple(scope.action_flags.values())
                 or len(scope.runtime_manifest_sha256)!=64):raise ContractError('macro_native_transport_protocol_mismatch')
         wall=3540 if max_wall_seconds is None else max_wall_seconds
         if type(wall) is not int or not 10<=wall<=3540:raise ContractError('macro_host_wall_bound')
-        return dict(protocol_version=6,client_path=str(ROOT/'integration/host_runtime/native6_transport.py'),
+        return dict(protocol_version=protocol,client_path=str(ROOT/f'integration/host_runtime/native{protocol}_transport.py'),
             max_wall_seconds=wall,maximum_host_wall_seconds=3540,heartbeat_loss_ms=5000,
             absolute_native_wall_ms=3600000,native_wall_guard_is_backup_only=True)
     if type(protocol) is int and protocol==5:
@@ -163,6 +166,7 @@ class MacroHost:
         self.expected_hash=self.profile['effective']['effective_hash'];self.expected_revision=self.profile['revision']
         self.phase='starting';self.reason='macro_preparing';self.latest=None;self.backend=None;self.agent=None
         self.startup_lawful_snapshots=[]
+        self.coherent_snapshot_id=None
         self.sampler=None;self.transport=None;self.controller=None;self.pending=None;self.application=None
         self.strategy_runtime=None;self.strategy_audit=None;self.prepared_macro_commands={}
         self.publication_v4_selected=False
@@ -230,6 +234,9 @@ class MacroHost:
         _atomic(self.output/'host-status.json',status)
 
     def freeze(self):
+        if getattr(self,'transport_config',{}).get('protocol_version')==7:
+            from host_runtime.native7_lifecycle import freeze
+            return freeze(self)
         if getattr(self,'transport_config',{}).get('protocol_version')==6:
             from host_runtime.native6_lifecycle import freeze
             return freeze(self)
@@ -270,13 +277,15 @@ class MacroHost:
     def update_macro_control(self,game_seconds):
         available=(lambda at:MacroRegionalController.available_actions(self.controller,at)) if (
             getattr(self,'strategic_only',False) and isinstance(self.controller,MacroExpansionController)) else self.controller.available_actions
-        actions=available(game_seconds) if (game_seconds>=MIN_MACRO_MODEL_GAME_SECONDS
+        actions=available(game_seconds) if (game_seconds>=getattr(self.sampler.scope,'minimum_model_game_seconds',MIN_MACRO_MODEL_GAME_SECONDS)
             and not (getattr(self,'strategic_only',False) and self.latest['paused'])) else ()
         if getattr(self,'strategic_only',False):
             from host_runtime.macro_delegation_boundary_v1 import strategic_actions
             actions=strategic_actions(actions)
         self.latest['macro_control']=dict(mode='macro_native',available_actions=list(actions),
             production_counts={action:list(counts) for action,counts in self.sampler.scope.production_counts.items() if action in actions})
+        intent_contract=getattr(self.sampler.scope,'intent_contract',None)
+        if intent_contract is not None:self.latest['macro_control']['intent_contract']=intent_contract
         if isinstance(self.controller,(MacroRegionalController,UnifiedStrategicControllerV5)):
             self.latest['macro_control']['region_targets']={action:region for action,region in self.sampler.scope.regional_action_regions.items()
                 if action in actions}
@@ -342,7 +351,9 @@ class MacroHost:
         return True
 
     def unified_tick(self,native,*,update_capabilities=True):
-        if self.transport_config['protocol_version']==6:
+        if self.transport_config['protocol_version']==7:
+            from host_runtime.native7_observation import validate_sample
+        elif self.transport_config['protocol_version']==6:
             from host_runtime.native6_observation import validate_sample
         else:from host_runtime.strategic_unified_observation_v5 import validate_sample
         frames=validate_sample(native,self.latest,self.transport,self.strategic_transport_binding)
@@ -350,7 +361,7 @@ class MacroHost:
             self.event('macro_sample_deferred',reason_code='unified_native_sample_out_of_phase');return False
         state=native['unified_native'];observation=native['observation']
         if not self.controller.observe(observation,state,native['independent_controls']):return False
-        self.capability_sample_frames=frames;self.capability_sample_kind='rooted_strategy_v6' if self.transport_config['protocol_version']==6 else 'rooted_strategy_v5'
+        self.capability_sample_frames=frames;self.capability_sample_kind='rooted_strategy_v'+str(self.transport_config['protocol_version'])
         self.last_unified_feedback=self.controller.unified_feedback()
         if update_capabilities or self.latest['paused']:self.update_macro_control(self.latest['game_time_seconds'])
         self.event('macro_unified_feedback',**self.last_unified_feedback)
@@ -440,7 +451,7 @@ class MacroHost:
         with (self.output/'macro-expansion-samples.jsonl').open('a',encoding='utf8') as stream:stream.write(encoded)
         self.expansion_archive_bytes=used
 
-    def observe_current(self):
+    def observe_current(self,*,coherent_native=False):
         if getattr(self,'strategic_only',False):
             from host_runtime.macro_delegation_boundary_v1 import restrict_snapshot
             self.latest=restrict_snapshot(self.latest)
@@ -456,6 +467,7 @@ class MacroHost:
             if len(pending)>=8:raise ContractError('macro_startup_snapshot_bound')
             pending.append(snapshot);self.startup_lawful_snapshots=pending
         else:self.agent.observe(snapshot)
+        if coherent_native:self.coherent_snapshot_id=snapshot['snapshot_id']
 
     def prime_startup_snapshots(self):
         if getattr(self,'agent',None) is None:raise ContractError('macro_startup_agent_missing')
@@ -474,13 +486,15 @@ class MacroHost:
         # VisibilityProjection has already retained this lawful view. Feed it
         # to agent memory even when native builder telemetry is discarded;
         # otherwise a later last-seen contact appears to change while hidden.
-        self.observe_current()
+        self.observe_current(coherent_native=coherent)
         return coherent
 
     def refresh_dispatch_observation(self,plan):
         collect=getattr(getattr(self,'sampler',None),'collect',None)
         if not callable(collect):return True
-        self.latest=collect();self.last_forces=observe_forces(self.sampler.latest_census,self.sampler.safety)
+        latest=self.collect_dispatch_view(collect,plan=plan)
+        if latest is None:return False
+        self.latest=latest;self.last_forces=observe_forces(self.sampler.latest_census,self.sampler.safety)
         # Feed the real pre-view to history even if subsequent native sampling
         # fails. VisibilityProjection has already retained this observation.
         self.observe_current()
@@ -496,11 +510,32 @@ class MacroHost:
             return False
         return self.observe_post_native_view(plan=plan)
 
+    def collect_dispatch_view(self,collect,*,plan=None):
+        """Discard unstable reads before preparing or dispatching a decision."""
+        try:
+            latest=collect()
+        except ContractError:
+            raise
+        except (ValueError,RuntimeError):
+            self.post_native_view_failures=getattr(self,'post_native_view_failures',0)+1
+            if self.post_native_view_failures>5:
+                raise ContractError('macro_observation_unstable') from None
+            if plan is None:
+                self.event('macro_decision_deferred',reason_code='macro_post_native_view_unstable')
+            else:
+                self.event('macro_plan_not_dispatched',plan_id=plan.plan_id,reason_code='macro_post_native_view_unstable')
+            return None
+        self.post_native_view_failures=0
+        return latest
+
     def observe_post_native_view(self,*,plan=None):
         """Get a true post-view after native memory mutations, without retiming."""
         collect=getattr(getattr(self,'sampler',None),'collect',None)
         if not callable(collect):raise ContractError('macro_post_native_view_unavailable')
-        self.latest=collect();self.last_forces=observe_forces(self.sampler.latest_census,self.sampler.safety)
+        latest=self.collect_dispatch_view(collect,plan=plan)
+        if latest is None:return False
+        self.latest=latest;self.last_forces=observe_forces(self.sampler.latest_census,self.sampler.safety)
+        coherent_native=False
         try:
             if self.latest['paused'] or plan is not None and plan.expires_at_game_seconds<=self.latest['game_time_seconds']:return True
             if isinstance(self.controller,(MacroProductionController,UnifiedStrategicControllerV5)):
@@ -513,8 +548,13 @@ class MacroHost:
             # This is a new qualification at the post-view time, never a copy
             # of the request's actions or the sampler's budget-only defaults.
             self.update_macro_control(self.latest['game_time_seconds'])
-        finally:self.observe_current()
+            coherent_native=True
+        finally:self.observe_current(coherent_native=coherent_native)
         return True
+
+    def response_observation_ready(self):
+        latest=self.agent.latest
+        return latest is not None and (latest.paused or latest.snapshot_id==getattr(self,'coherent_snapshot_id',None))
 
     def prepare_model_request(self,audited):
         """Capture one request synchronously before any async scheduling gap."""
@@ -522,7 +562,9 @@ class MacroHost:
         if self.latest['paused']:return None
         if not request_telemetry_ready(audited,self.latest,self.event):return None
         from host_runtime.macro_prepared_request_v1 import prepare_macro_request_v1
-        try:return prepare_macro_request_v1(self.agent,audited,self.agent.latest)
+        response_ready=self.response_observation_ready if (getattr(self,'strategic_only',False)
+            and is_unified_scope(getattr(self.sampler,'scope',None))) else None
+        try:return prepare_macro_request_v1(self.agent,audited,self.agent.latest,response_ready=response_ready)
         except (ContractError,StrategyContractError) as error:
             code=getattr(error,'code',None) or str(error)
             if code!='strategy_context_before_memory':raise
@@ -532,6 +574,9 @@ class MacroHost:
             return None
 
     def dispatch_plan(self,plan):
+        # Retain only decisions deferred before any controller invocation.
+        # Unknown native outcomes never enter this retry path.
+        self.pending_dispatch=None
         if getattr(self,'strategic_only',False):
             from host_runtime.macro_delegation_boundary_v1 import validate_policy
             try:validate_policy(plan)
@@ -539,7 +584,9 @@ class MacroHost:
                 self.event('macro_plan_not_dispatched',plan_id=plan.plan_id,reason_code=error.code)
                 return False
         if getattr(self,'strategy_runtime',None) is not None:
-            if not self.refresh_dispatch_observation(plan):return False
+            if not self.refresh_dispatch_observation(plan):
+                self.pending_dispatch=plan
+                return False
         if self.latest['paused'] or plan.expires_at_game_seconds<=self.latest['game_time_seconds']:
             self.event('macro_plan_not_dispatched',plan_id=plan.plan_id,reason_code='expired_or_paused')
             return False
@@ -547,7 +594,7 @@ class MacroHost:
         if getattr(self,'strategy_runtime',None) is not None:
             try:
                 current=self.agent.context(self.agent.latest.model_context(self.agent.engine.binding),commit=False)
-                review=self.strategy_runtime.review(plan,self.strategy_audit,self.strategy_audit.prepare(current))
+                review=self.strategy_runtime.review(plan,self.strategy_audit,self.strategy_audit.prepare(current),controller=self.controller)
             except ContractError as error:
                 self.event('macro_plan_not_dispatched',plan_id=plan.plan_id,reason_code=error.code)
                 return False
@@ -567,7 +614,7 @@ class MacroHost:
                     'macro_resource_reservation_unresolved','macro_admission_v4_active_buffer_unresolved',
                     'macro_admission_v4_insufficient_current_funds','macro_admission_v4_refused_before_native',
                     'macro_admission_v4_plan_expired_before_native','macro_admission_v4_financial_state_unverified',
-                    'macro_admission_v4_cost_unverified'}:raise
+                    'macro_admission_v4_cost_unverified','macro_plan_expired_before_native_dispatch'}:raise
             # A newly occupied/lost producer revokes the old response. No
             # native delivery was attempted; the next decision uses new facts.
             self.event('macro_plan_not_dispatched',plan_id=plan.plan_id,reason_code=error.code)
@@ -685,6 +732,9 @@ class MacroHost:
         self.publication_v4_selected=True
 
     def finish_transport(self):
+        if getattr(self,'transport_config',{}).get('protocol_version')==7:
+            from host_runtime.native7_lifecycle import finish
+            return finish(self)
         if getattr(self,'transport_config',{}).get('protocol_version')==6:
             from host_runtime.native6_lifecycle import finish
             return finish(self)
@@ -805,27 +855,34 @@ class MacroHost:
         strategic_only=getattr(self,'strategic_only',False)
         self.native_transport_attached=False
         try:
+            self.event('macro_startup_stage',stage='qualification_begin')
             bundle,scope=load_bundle(self.args.macro_bundle,self.session)
+            self.event('macro_startup_stage',stage='qualification_verified')
             self.product_source_locks=None
             if type(scope) is Native6Scope:self.native6_scope=scope
+            if type(scope) is Native7Scope:self.native7_scope=scope
             if is_unified_scope(scope):
                 from host_runtime.strategic_source_locks_v5 import ProductSourceLocksV5
                 pins={**bundle['pins'],str(self.args.macro_bundle.resolve()):digest(self.args.macro_bundle),
                     str(self.args.session.resolve()):digest(self.args.session),str(Path(self.session['registry']).resolve()):digest(self.session['registry']),
                     str(Path(self.session['mod_big']).resolve()):self.session['mod_sha256']}
                 self.product_source_locks=ProductSourceLocksV5(pins)
+            self.event('macro_startup_stage',stage='source_locks_acquired')
             manifest=json.loads((Path(bundle['build'])/'build-manifest.json').read_text(encoding='utf-8-sig'))
             self.transport_config=native_transport_config(scope,manifest,getattr(self.args,'max_wall_seconds',None))
             self.args.max_wall_seconds=self.transport_config['max_wall_seconds']
             bundle_sha=digest(self.args.macro_bundle)
             _atomic(self.output/'native-transport-preflight.json',dict(kind='native_macro_host_preflight',
                 schema_version=1,bundle_sha256=bundle_sha,scope=scope.public(),transport=self.transport_config,attach_started=False))
-            self.freeze();self.sampler=MacroSampler(self.args.session,self.args.macro_bundle,strategic_only=strategic_only)
+            self.freeze()
+            qualified={'_locked_qualification':(bundle,scope)} if type(scope) in (Native6Scope,Native7Scope) else {}
+            self.sampler=MacroSampler(self.args.session,self.args.macro_bundle,strategic_only=strategic_only,**qualified)
             if digest(self.args.macro_bundle)!=bundle_sha:raise ContractError('session_changed')
             selected=native_transport_config(self.sampler.scope,manifest,self.args.max_wall_seconds)
             if selected!=self.transport_config:raise ContractError('macro_native_transport_protocol_mismatch')
             self.latest=self.sampler.collect();self.observe_current();self.check_profile()
             self.last_forces=observe_forces(self.sampler.latest_census,self.sampler.safety)
+            self.event('macro_startup_stage',stage='lawful_sampler_ready')
             _atomic(self.output/'visibility-proof.json',self.sampler.proof)
             _atomic(self.output/'participants.json',self.sampler.participants)
             self.cost_boot=None
@@ -844,14 +901,15 @@ class MacroHost:
             if is_unified_scope(self.sampler.scope):
                 from host_runtime.strategic_stop_gate_v1 import StrategicStopGateV1
                 self.stop_gate=StrategicStopGateV1(self.run_id,self.binding,self.output)
+            model_input_limit=getattr(self.sampler.scope,'maximum_model_input_bytes',16384)
             self.backend=create_applied_backend(self.application,event_sink=lambda kind,payload:self.event(kind,**payload),
                 request_admission=self.stop_gate.admit if self.stop_gate is not None else None,
-                backend='pydantic',timeout=28,max_tokens=1536,max_input_bytes=16384,max_inflight=1)
+                backend='pydantic',timeout=28,max_tokens=8192 if strategic_only else 1536,max_input_bytes=model_input_limit,max_inflight=1)
             engine=StrategyEngine(Binding(self.binding.session_id,3,self.binding.commander_id,self.profile['name'],self.profile['connection_id']),
                 timeout_seconds=30,max_response_age_seconds=30,min_hold_game_seconds=15,
                 audit_path=self.output/'plans.jsonl',status_path=self.output/'strategy-status.json')
             self.agent=BattleAgent(engine,memory_path=self.output/'agent-state.json',jobs_path=self.output/'jobs.json',
-                context_budget_bytes=16384 if isinstance(self.sampler.scope,(ExpansionScope,UnifiedStrategicScopeV5)) else 8192)
+                context_budget_bytes=model_input_limit if isinstance(self.sampler.scope,(ExpansionScope,UnifiedStrategicScopeV5)) else 8192)
             if getattr(self.args,'strategy_mode','legacy')=='declared':
                 memory=MacroStrategyMemory(session_id=self.binding.session_id,commander_id=self.binding.commander_id,
                     player_id=3,profile_revision=self.expected_revision,effective_hash=self.expected_hash)
@@ -880,15 +938,17 @@ class MacroHost:
                 self.event('macro_native_transport_constructor_begin',constructor_boundary_entered=True,attach_started=None,**admitted)
                 self.transport=module.MacroPolicyProbe.__new__(module.MacroPolicyProbe)
                 self.transport.__init__(self.args.session,self.sampler.owner,Path(self.sampler.bundle['build']),
-                    (__import__('host_runtime.native6_lifecycle',fromlist=['report_directory']).report_directory(self.session)
-                        if self.transport_config['protocol_version']==6 else ROOT/'reports'/('macro-desktop-'+self.run_id)),build_feedback=(
+                    (__import__('host_runtime.native'+str(self.transport_config['protocol_version'])+'_lifecycle',fromlist=['report_directory']).report_directory(self.session)
+                        if self.transport_config['protocol_version'] in (6,7) else ROOT/'reports'/('macro-desktop-'+self.run_id)),build_feedback=(
                         isinstance(self.sampler.scope,ProductionPreferenceScope) and not strategic_only))
                 self.native_transport_attached=True
                 if self.stop_gate is not None:self.transport.configure_stop_gate(self.stop_gate)
                 self.event('macro_native_transport_constructor_returned',constructor_returned=True,attach_started=None)
             if strategic_only:
                 if is_unified_scope(self.sampler.scope):
-                    if self.transport_config['protocol_version']==6:
+                    if self.transport_config['protocol_version']==7:
+                        from host_runtime.native7_observation import bind_transport
+                    elif self.transport_config['protocol_version']==6:
                         from host_runtime.native6_observation import bind_transport
                     else:from host_runtime.strategic_unified_observation_v5 import bind_transport
                     self.strategic_transport_binding=bind_transport(self.transport,self.session)
@@ -952,8 +1012,14 @@ class MacroHost:
                         self.check_profile()
                         if self.backend.observation()['real_network_verified']:
                             self.dispatch_plan(result.plan)
+                deferred=getattr(self,'pending_dispatch',None)
+                if deferred is not None:
+                    if self.stopping():self.reason='user_stop';break
+                    self.check_profile()
+                    self.dispatch_plan(deferred)
                 self.phase='paused' if self.latest['paused'] else 'running';self.reason='observing'
-                if (self.pending is None and not self.latest['paused'] and self.latest['game_time_seconds']>=MIN_MACRO_MODEL_GAME_SECONDS
+                if (self.pending is None and not self.latest['paused'] and self.latest['game_time_seconds']>=getattr(self.sampler.scope,'minimum_model_game_seconds',MIN_MACRO_MODEL_GAME_SECONDS)
+                        and getattr(self,'pending_dispatch',None) is None
                         and not (isinstance(self.controller,MacroProductionController) and self.controller.busy)
                         and time.monotonic()-last_request>=12):
                     # Live snapshot and native feedback are read sequentially.

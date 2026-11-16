@@ -39,9 +39,17 @@ class MacroStrategyRuntime:
             outcome=outcome,reason_code=reason,observed_game_seconds=seen,
             native_release_verified=released,effect_observed=row.had_effect)
 
-    def review(self,plan,audit,latest_context):
+    def review(self,plan,audit,latest_context,*,controller=None):
         from macro_strategy import StrategyError
-        try:result=self.memory.review(plan,plan.macro_strategy,audit.request_context_for(plan),latest_context)
+        reaffirm=None
+        check=getattr(controller,'reaffirmable_plan',None)
+        prior=check(plan,latest_context['game_time_seconds']) if callable(check) else None
+        if prior is not None:
+            for row in self.commands.values():
+                if row.plan_id==prior and not row.released and not row.unknown:
+                    reaffirm=row.command_id
+        try:result=self.memory.review(plan,plan.macro_strategy,audit.request_context_for(plan),latest_context,
+            reaffirm_command_id=reaffirm)
         except StrategyError as error:raise ContractError(str(error)) from None
         self.event('macro_strategy_review',plan_id=plan.plan_id,strategy_id=result.strategy_id,
             allowed=result.allowed,reason_code=result.reason_code)

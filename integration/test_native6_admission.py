@@ -16,6 +16,33 @@ from host_runtime.native6_no_attachment import verified_capture,KIND
 
 
 class Admission(unittest.TestCase):
+    def test_setup_reuses_only_this_operations_matching_manifest_authority(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory);path=root/'trial.json'
+            descriptor=dict(schema_version=14,kind=q.KIND,runtime_root=str(root),runtime_manifest_sha256='a'*64)
+            path.write_text(json.dumps(descriptor))
+            verified=(root,'a'*64,dict(files={}),{}, {})
+            with patch.object(q,'runtime_root',return_value=root), \
+                    patch.object(q,'trusted_pin',return_value='a'*64),patch.object(q,'current') as current:
+                _,scope=q.load(path,_verified=verified)
+                self.assertEqual(scope.runtime_manifest_sha256,'a'*64)
+                current.assert_not_called()
+                with patch.object(q,'trusted_pin',return_value='b'*64):
+                    with self.assertRaises(ContractError):q.load(path,_verified=verified)
+
+    def test_qualification_uses_one_fully_verified_inventory_for_build_and_capsule(self):
+        root=Path('C:/runtime');inventory={'files':{'checked':'a'*64}}
+        build={'kind':q.FIELD_KIND,'compile_only':False,'admission_ready':True}
+        capsule={'checked':True}
+        with patch.object(q,'plain_local',return_value=root), \
+                patch.object(q,'verify_inventory',return_value=inventory) as verify, \
+                patch.object(q,'_verified_build',return_value=build) as metadata, \
+                patch.object(q,'verify_capsule',return_value=capsule) as cap:
+            self.assertEqual(q.verify_qualification(root,'b'*64),(inventory,build,capsule))
+        verify.assert_called_once_with(root,expected='b'*64)
+        metadata.assert_called_once_with(root/'native/strategic6',inventory)
+        cap.assert_called_once_with(root,inventory)
+
     def test_map_scope_uses_its_own_regions_and_preserves_original_descriptors(self):
         with tempfile.TemporaryDirectory() as folder:
             root=Path(folder);path=root/'trial.json'
@@ -32,9 +59,13 @@ class Admission(unittest.TestCase):
                 scenario.update(map_id='map_mp_2_rao1',origin_region='region_7_4',faction='Soviet')
                 _,new=q.load(path,session)
                 self.assertEqual(new.required_origin_region,'region_7_4')
-                self.assertEqual(new.regional_action_regions['deployattack'],'region_2_3')
+                self.assertNotIn('deployattack',new.available_actions)
+                self.assertIn('attackenemy',new.available_actions)
+                self.assertNotIn('attackenemy',new.regional_action_regions)
                 self.assertEqual(new.regional_action_regions['withdraw'],'region_7_4')
                 catalog=new.model_catalog_overrides()
+                from host_runtime.strategic_unified_feedback_v5 import compact_model_catalog
+                self.assertEqual(compact_model_catalog(catalog)['expand']['native_expansion_interval_seconds'],240)
                 self.assertEqual(catalog['withdraw']['target_region'],'region_7_4')
                 self.assertEqual(catalog['deploydefense']['target_region'],'region_7_4')
                 self.assertNotIn('eastern',catalog['reinforce']['region_semantics'])
@@ -58,6 +89,26 @@ class Admission(unittest.TestCase):
             self.assertEqual(q.admit_sdk(root/'native/strategic6',session),manifest)
             session['scenario']['origin_region']='region_8_3'
             with self.assertRaises(ContractError):q.admit_sdk(root/'native/strategic6',session)
+
+    def test_sdk_uses_independent_admission_manifest_before_any_game_access(self):
+        from host_runtime.native6_transport import native_module
+        _,sdk=native_module()
+        with tempfile.TemporaryDirectory() as folder:
+            root=Path(folder);session=root/'session.json';session.write_text('{}')
+            for accepted in (False,True):
+                manifest=dict(compile_only=False,admission_ready=True)
+                with self.subTest(accepted=accepted),patch.object(q,'admit_sdk',
+                        return_value=manifest,side_effect=None if accepted else ContractError('admission_denied')) as admission, \
+                        patch.object(sdk,'verify') as redundant,patch.object(sdk,'verify_layout') as layout, \
+                        patch.object(sdk,'Memory') as memory:
+                    # This source checkout cannot pass the packaged SDK path
+                    # check. Neither accepted metadata nor a denied admission
+                    # may reach native Game access in this offline test.
+                    with self.assertRaises((ContractError,ValueError)):
+                        sdk.Probe(session,root,root/'unused-report')
+                    admission.assert_called_once_with(root,{})
+                    redundant.assert_not_called();memory.assert_not_called()
+                    self.assertEqual(layout.call_count,int(accepted))
 
     def test_developer_tree_and_inherited_pin_cannot_create_authority(self):
         with patch.dict(os.environ,TACTICORE_RUNTIME_MANIFEST_SHA256='a'*64):
@@ -121,6 +172,25 @@ class Admission(unittest.TestCase):
 
 
 class ModelEntry(unittest.IsolatedAsyncioTestCase):
+    def test_native_attack_requires_a_grant_and_keeps_target_selection_native(self):
+        from engine import Snapshot,validate_policy,ContractError as PolicyError
+        from fixtures import binding,policy,snapshot
+        identity=binding(commander=q.COMMANDER)
+        raw=snapshot(macro_control=dict(mode='macro_native',available_actions=['attackenemy'],
+            production_counts={},region_targets={}))
+        observed=Snapshot.from_dict(raw)
+        context=dict(raw,commander_id=identity.commander_id)
+        choice=policy(context,production_focus='native_baseline',objective_region=None,
+            macro_actions=['attackenemy'],macro_production=None,tactical_tasks=[],runtime_task=None)
+        accepted=validate_policy(choice,observed,observed,identity,30)
+        self.assertEqual(accepted.macro_actions,('attackenemy',))
+        with self.assertRaisesRegex(PolicyError,'native_attack_target_owned_by_ai'):
+            validate_policy(dict(choice,objective_region='home_base'),observed,observed,identity,30)
+        raw['macro_control']['available_actions']=[]
+        missing=Snapshot.from_dict(raw)
+        with self.assertRaisesRegex(PolicyError,'unsupported_macro_action'):
+            validate_policy(choice,observed,missing,identity,30)
+
     def scopes(self):
         from host_runtime.native6_scenarios import TEMPLE_PRIME, INFINITY_ISLE
         with tempfile.TemporaryDirectory() as folder:
@@ -187,8 +257,9 @@ class ModelEntry(unittest.IsolatedAsyncioTestCase):
                 self.assertEqual(set(context['macro_policy_catalog']), set(scope.available_actions))
                 for action in ('deploydefense', 'regroup', 'withdraw', 'reinforce'):
                     self.assertEqual(context['macro_policy_catalog'][action]['target_region'], scope.required_origin_region)
-                self.assertEqual(context['macro_policy_catalog']['deployattack']['target_region'],
-                    scope.regional_action_regions['deployattack'])
+                attack=context['macro_policy_catalog']['attackenemy']
+                self.assertEqual(attack['target_policy'],'original_native_closest_ground_structure_all_enemies')
+                self.assertNotIn('target_region',attack)
                 self.assertEqual(context['allowed_production_focus'], ['native_baseline'])
                 self.assertLessEqual(wire.input_size(backend.sent), 16384)
                 self.assertEqual(audit.request_context_for(result.plan), backend.sent)

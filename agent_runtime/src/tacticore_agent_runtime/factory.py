@@ -94,7 +94,7 @@ def create_backend(profile, *, backend: str = DEFAULT_BACKEND, timeout: float = 
                    max_inflight: int = 2, http_retries: int = 0, transport=None):
     """Called only by explicit model-service startup, never by a UI render/import."""
     if (type(timeout) not in (int, float) or not math.isfinite(timeout) or not .01 <= timeout <= 120
-            or type(max_tokens) is not int or not 256 <= max_tokens <= 4096
+            or type(max_tokens) is not int or not 256 <= max_tokens <= (8192 if backend=='pydantic' else 4096)
             or type(max_input_bytes) is not int or not 4096 <= max_input_bytes <= 32768
             or type(max_inflight) is not int or not 1 <= max_inflight <= 4
             or type(http_retries) is not int or http_retries not in (0, 1)):

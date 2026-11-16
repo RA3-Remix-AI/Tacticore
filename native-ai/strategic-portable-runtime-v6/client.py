@@ -85,11 +85,13 @@ class Probe:
         self.mapping=None;self.view=None;self.state=None;self.host=None;self.memory=None;self.seq=0;self.unknown=False;self.log=None
         self.stopped=threading.Event();self.heartbeat=None;self.command_lock=threading.RLock();self.receipts={}
         self.session_path=plain_local(session);self.session_raw=self.session_path.read_bytes();self.session=json.loads(self.session_raw)
-        self.build=plain_local(build);self.manifest=verify(self.build);verify_layout(self.manifest)
+        self.build=plain_local(build)
+        from host_runtime.native6_qualification import admit_sdk
+        # Admission independently verifies the pinned complete inventory and
+        # build before attachment, and returns that same verified manifest.
+        self.manifest=admit_sdk(self.build,self.session);verify_layout(self.manifest)
         if Path(__file__).resolve()!=self.build.parent.parent/'app/native-ai/strategic-portable-runtime-v6/client.py':raise ValueError('native6_packaged_sdk_required')
         if self.manifest['compile_only'] or not self.manifest['admission_ready']:raise ValueError('native6_offline_candidate_cannot_attach')
-        from host_runtime.native6_qualification import admit_sdk
-        admit_sdk(self.build,self.session)
         self.paths=Native6Paths.current();self.output=plain_local(output,existing=False)
         if self.output.exists() or not self.output.is_relative_to(self.paths.reports):raise ValueError('fresh_owned_manager_report_required')
         if self.output!=self.paths.report(self.session['session_id']):raise ValueError('native6_exact_session_output_required')

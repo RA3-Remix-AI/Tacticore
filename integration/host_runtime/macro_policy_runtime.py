@@ -28,6 +28,14 @@ def ratios_match(actual,expected):
         and math.isfinite(actual[k]) and abs(actual[k]-v)<1e-5 for k,v in expected.items()))
 
 
+def compact_account_shares(value):
+    if (type(value) is not dict or set(value)!=set(ACCOUNTS)
+            or any(type(number) not in (int,float) or not math.isfinite(number) or not 0<=number<=1 for number in value.values())
+            or abs(sum(value.values())-1)>1e-4):
+        raise ContractError('macro_native_account_shares_invalid')
+    return {name:round(float(value[name]),4) for name in ACCOUNTS}
+
+
 def trial(directory,*,fault=False):
     directory=Path(directory).resolve();pre=load(directory/'preflight.json');final=load(directory/'final-state.json')
     evidence={str(directory/name):sha(directory/name) for name in ['preflight.json','final-state.json','policy-probe.jsonl']}
@@ -226,6 +234,8 @@ class MacroRequestAudit:
         compact=dict(source='native_macro_budget_observation',status=status,actions=list(actions),selected_policy=selected,
             observed_frame=frame,native_effect_verified=feedback['native_effect_verified'],payment_verified=False,
             production_queue_observed=False,idle_producers_observed=False,own_roles_coverage='audited_templates_only')
+        if feedback.get('native_account_shares') is not None:
+            compact['native_account_shares']=compact_account_shares(feedback['native_account_shares'])
         result=self._expansion_context(dict(context,macro_execution_feedback=compact))
         if self.production_supplier is not None:
             production=self.production_supplier()
@@ -259,21 +269,33 @@ class MacroRequestAudit:
                 result['macro_regional_feedback']=compact_regional_feedback(regional,context['game_time_seconds'])
         if self.catalog_supplier is not None:
             from .macro_base_defense_scope import defense_catalog_override
-            from .macro_group_role_contract import group_role_catalog_overrides,native6_group_role_catalog_overrides
+            from .macro_group_role_contract import (
+                group_role_catalog_overrides, native6_group_role_catalog_overrides,
+                native6_strategic_catalog_overrides,
+            )
             from .macro_expansion_scope import expansion_catalog_overrides,EXTRA_ACTIONS
             overrides=self.catalog_supplier()
             if type(overrides) is not dict:raise ContractError('macro_base_defense_catalog_invalid')
             expanded=expansion_catalog_overrides(tuple(action for action in EXTRA_ACTIONS if action in overrides))
             catalogs=(defense_catalog_override(),group_role_catalog_overrides(),expanded)
             if self.strategic_only:
-                from .native6_scenarios import TEMPLE_PRIME,INFINITY_ISLE
+                from .native6_scenarios import NATIVE6_SCENARIOS
                 catalogs+=tuple(native6_group_role_catalog_overrides(scenario.own_region)
-                    for scenario in (TEMPLE_PRIME,INFINITY_ISLE))
+                    for scenario in NATIVE6_SCENARIOS)
+                catalogs+=tuple(native6_strategic_catalog_overrides(scenario.own_region)
+                    for scenario in NATIVE6_SCENARIOS)
+                from .native7_qualification import Native7Scope
+                from .strategic_contract_v5 import INDEPENDENT_DEVELOPMENT_CONTRACT
+                if context.get('macro_intent_contract')==INDEPENDENT_DEVELOPMENT_CONTRACT:
+                    catalogs+=tuple(Native7Scope('',(),(),(),required_origin_region=scenario.own_region,
+                        opponent_player_ids=scenario.opponent_player_ids).model_catalog_overrides()
+                        for scenario in NATIVE6_SCENARIOS)
             if overrides not in catalogs:raise ContractError('macro_base_defense_catalog_invalid')
             for action,description in overrides.items():
                 if action not in result.get('allowed_macro_actions',[]):continue
                 old=result.get('macro_policy_catalog',{}).get(action,{})
-                if action not in EXTRA_ACTIONS and old.get('target_region')!=description['target_region']:raise ContractError('macro_base_defense_catalog_region_binding')
+                if 'target_region' in description and old.get('target_region')!=description['target_region']:
+                    raise ContractError('macro_base_defense_catalog_region_binding')
                 result['macro_policy_catalog']={**result['macro_policy_catalog'],action:description}
         if 'macro_policy_catalog' in result:
             from macro_policy import model_catalog
@@ -316,6 +338,12 @@ class MacroRequestAudit:
                 or type(value.get('fact_catalog')) is not dict
                 or len(json.dumps(value,ensure_ascii=False,allow_nan=False,separators=(',',':')).encode('utf8'))>1536):
             raise ContractError('macro_strategy_context_invalid_or_oversized')
+        if self.strategic_only:
+            # The canonical memory below carries the declared strategy and
+            # outcomes. Keep the accepted executable intent without embedding
+            # a second full model declaration in the same bounded request.
+            current=context.get('working_memory',{}).get('current_strategy')
+            if type(current) is dict:current.pop('macro_strategy',None)
         from macro_policy import project_strategy_defaults
         try:return project_strategy_defaults(dict(context,macro_strategy=json.loads(json.dumps(value,ensure_ascii=False,allow_nan=False))))
         except ValueError:raise ContractError('macro_default_contract_invalid') from None
@@ -345,11 +373,13 @@ class MacroRequestAudit:
             raise ContractError('macro_request_audit_mode')
         context=self.prepare(context)
         encoded=json.dumps(context,ensure_ascii=False,allow_nan=False,separators=(',',':')).encode('utf-8')
-        if len(encoded)>16384:raise ContractError('macro_request_audit_bounds')
+        limit=getattr(self.backend,'max_input_bytes',16384)
+        if type(limit) is not int or not 4096<=limit<=32768:raise ContractError('macro_request_audit_limit')
+        if len(encoded)>limit:raise ContractError('macro_request_audit_bounds')
         measure=getattr(self.backend,'input_size',None)
         if self.strategy_supplier is not None or self.expansion_supplier is not None or self.resource_supplier is not None:
             if not callable(measure):raise ContractError('macro_request_wire_measurement_required')
-            if measure(context)>16384:raise ContractError('macro_request_audit_wire_bounds')
+            if measure(context)>limit:raise ContractError('macro_request_audit_wire_bounds')
         self._last_request_context=json.loads(encoded)
         self.sequence+=1
         self.event('model_macro_request_context',sequence=self.sequence,context=json.loads(encoded),

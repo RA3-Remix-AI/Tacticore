@@ -257,7 +257,7 @@ def project_plan(value):
     actions=value.get('macro_actions')
     if (isinstance(actions,list) and len(actions)<=5 and all(type(action) is str and action in {
             'budgeteconomy','budgetarmy','budgettech','build_airfield','buildreactor','buildtech','economyrefinery',
-            'produceconscript','produceflak','producetank','scout','deployattack','deploydefense','regroup','reinforce','withdraw',
+            'produceconscript','produceflak','producetank','scout','deployattack','attackenemy','deploydefense','regroup','reinforce','withdraw',
             'buildpower','buildbarracks','buildfactory','buildrefinery','buildbattlelab','producesickle','producebullfrog',
             'expand','pauseconstruction','advanceconstruction','pauseproduction','advanceproduction'} for action in actions)):
         result['macro_actions']=list(actions)

@@ -119,6 +119,24 @@ class MacroBudgetTests(unittest.TestCase):
 
 
 class MacroRequestAuditTests(unittest.IsolatedAsyncioTestCase):
+    def test_own_budget_weights_reach_context_with_bounded_values_and_no_payment_claim(self):
+        from .macro_policy_runtime import ACCOUNTS
+        shares=dict(zip(ACCOUNTS,[0,0,.849999964,.049999997,0,.100000024]))
+        feedback=dict(status='native_budget_pending',selected_policy='budgetarmy',actions=['budgetarmy'],
+            observed_frame=1500,native_effect_verified=False,native_account_shares=shares,address='PRIVATE')
+        audit=MacroRequestAudit(None,lambda *a,**k:None,feedback_supplier=lambda:feedback)
+        result=audit.prepare(dict(game_time_seconds=100.,working_memory={}))['macro_execution_feedback']
+        self.assertEqual(result['native_account_shares'],dict(zip(ACCOUNTS,[0,0,.85,.05,0,.1])))
+        self.assertFalse(result['payment_verified']);self.assertFalse(result['native_effect_verified'])
+        self.assertNotIn('PRIVATE',json.dumps(result))
+        for field,value in [('investment',float('nan')),('production',1.1),('technology',True)]:
+            bad=dict(shares);bad[field]=value;feedback['native_account_shares']=bad
+            with self.assertRaisesRegex(ContractError,'account_shares_invalid'):
+                audit.prepare(dict(game_time_seconds=100.,working_memory={}))
+        feedback['native_account_shares']=dict(shares,extra=0)
+        with self.assertRaisesRegex(ContractError,'account_shares_invalid'):
+            audit.prepare(dict(game_time_seconds=100.,working_memory={}))
+
     async def test_latest_feedback_survives_compacted_memory_and_exact_audit(self):
         events=[];seen=[]
         class Backend:

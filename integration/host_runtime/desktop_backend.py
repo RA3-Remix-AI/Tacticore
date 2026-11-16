@@ -101,7 +101,7 @@ class SessionRegistration:
 
     @classmethod
     def trusted(cls, session_path, production_report=None, persistent_status=None, *, root=None, runtime_report=None, runtime_sha256=None,
-                runtime_recovery_report=None,runtime_recovery_sha256=None,macro_bundle=None):
+                runtime_recovery_report=None,runtime_recovery_sha256=None,macro_bundle=None,_metadata_only=False):
         allowed = Path(root or ROOT / "acceptance/runs").resolve()
         if macro_bundle is not None:
             if any(value is not None for value in (production_report,persistent_status,runtime_report,runtime_sha256,runtime_recovery_report,runtime_recovery_sha256)):
@@ -112,7 +112,19 @@ class SessionRegistration:
             record,_=_object(session)
             if Path(record.get('run_directory','')).resolve()!=session.parent:raise ContractError('session_unavailable')
             from .macro_bundle import load_bundle
-            load_bundle(bundle,record)
+            descriptor,_=_object(bundle)
+            if _metadata_only and descriptor.get('schema_version') in (14,15):
+                # Registration identity is re-read several times during one
+                # launch. NativeChecks and the new Host independently perform
+                # full qualification before any native authority is acquired.
+                if descriptor['schema_version']==15:
+                    from .native7_qualification import header,runtime_root,trusted_pin
+                else:from .native6_qualification import header,runtime_root,trusted_pin
+                header(descriptor);runtime=runtime_root();pin=trusted_pin()
+                if (Path(descriptor['runtime_root'])!=runtime or descriptor['runtime_manifest_sha256']!=pin
+                        or hashlib.sha256((runtime/'manifest.json').read_bytes()).hexdigest()!=pin):
+                    raise ContractError('native6_trial_not_qualified')
+            else:load_bundle(bundle,record)
             return cls(session,None,None,macro_bundle=bundle)
         paths = [Path(p).resolve(strict=True) for p in (session_path, production_report, persistent_status)]
         if any(not p.is_file() or not p.is_relative_to(allowed) for p in paths):
@@ -393,7 +405,8 @@ class DesktopBackend:
                     if set(value)!=fields or type(value['schema_version']) is not int:raise ValueError()
                     fingerprint=value.pop('registration_hash')
                     if content_hash(value)!=fingerprint:raise ValueError()
-                    registration=SessionRegistration.trusted(value['session_file'],root=self.registration_root,macro_bundle=value['macro_bundle'])
+                    registration=SessionRegistration.trusted(value['session_file'],root=self.registration_root,
+                        macro_bundle=value['macro_bundle'],_metadata_only=True)
                     if value['content_hashes']!={name:hashlib.sha256(path.read_bytes()).hexdigest() for name,path in registration.evidence_paths().items()}:raise ValueError()
                     return registration
                 fields = {"schema_version", "session_file", "production_report", "persistent_status", "content_hashes", "registration_hash"}
@@ -415,7 +428,8 @@ class DesktopBackend:
                 return SessionRegistration.trusted(self.registration.session_path, self.registration.production_report,
                     self.registration.persistent_status, root=self.registration_root,
                     runtime_report=self.registration.runtime_report, runtime_sha256=self.registration.runtime_sha256,
-                    runtime_recovery_report=self.registration.runtime_recovery_report,runtime_recovery_sha256=self.registration.runtime_recovery_sha256,macro_bundle=self.registration.macro_bundle)
+                    runtime_recovery_report=self.registration.runtime_recovery_report,runtime_recovery_sha256=self.registration.runtime_recovery_sha256,
+                    macro_bundle=self.registration.macro_bundle,_metadata_only=True)
         except ContractError:
             raise
         except (OSError, ValueError, TypeError):
@@ -510,7 +524,8 @@ class DesktopBackend:
             reason = error.code if error.code in {"session_unavailable", "session_mismatch", "session_not_ready", "run_already_active", "session_registration_changed", "session_root_invalid",
                 "run_state_conflict", "capability_unavailable", "credentials_unavailable", "effective_profile_changed",
                 "legacy_executor_player_unsupported", "macro_mode_rejects_unit_control_evidence",
-                "model_context_capacity_exceeded_shorten_style", "model_context_capacity_provider_unavailable"} else "session_not_ready"
+                "model_context_capacity_exceeded_shorten_style", "model_context_capacity_provider_unavailable",
+                "model_context_capacity_contract_invalid"} else "session_not_ready"
             return dict(ready=False, session_id=None, ready_token=None, expires_at=None, reason_code=reason)
         except Exception:
             return dict(ready=False, session_id=None, ready_token=None, expires_at=None, reason_code="session_not_ready")
@@ -552,7 +567,7 @@ class DesktopBackend:
             if error.code in {"session_unavailable", "session_mismatch", "session_not_ready", "run_already_active",
                               "capability_unavailable", "credentials_unavailable", "effective_profile_changed", "run_state_conflict",
                               "legacy_executor_player_unsupported", "model_context_capacity_exceeded_shorten_style",
-                              "model_context_capacity_provider_unavailable"}:
+                              "model_context_capacity_provider_unavailable", "model_context_capacity_contract_invalid"}:
                 raise
             raise ContractError("session_not_ready") from None
         except Exception:
@@ -914,7 +929,7 @@ class DesktopBackend:
             try:
                 starts=self.journal.commands_for_run(row['run_id'],operation='host_start')
                 unified=any(type(r['payload'].get('capabilities',{}).get('native_transport_protocol')) is int
-                    and r['payload']['capabilities']['native_transport_protocol'] in (5,6) for r in starts)
+                    and r['payload']['capabilities']['native_transport_protocol'] in (5,6,7) for r in starts)
                 if unified:
                     from .strategic_stop_gate_v1 import StrategicStopGateV1
                     StrategicStopGateV1(row['run_id'],binding,Path(row['output_path'])).publish_stop(_atomic)

@@ -25,7 +25,7 @@ from .contracts import ContractError, SessionBinding, canonical_json, identifier
 from .desktop_session_registry import load_root, register_root, register_session_source
 from .macro_bundle import load_bundle
 from .macro_policy_runtime import COMMANDER
-from .native6_scenarios import scenario_for_map
+from .native6_scenarios import scenario_for_map, scenario_for_session
 from .session_discovery import (DiscoveryPolicy, MatchObservation, ProcessIdentity, RunRecord,
                                 SessionDiscovery, TrustedFiles, TERMINAL, _digest, _local_path)
 
@@ -71,6 +71,9 @@ def read_macro_bundle(path):
     """Bounded metadata only; capability admission still uses load_bundle."""
     value,digest=read_object(path,2*1024*1024)
     version=value.get('schema_version')
+    if type(version) is int and version==15:
+        from .native7_qualification import load
+        return load(path)[0],digest
     if type(version) is int and version==14:
         from .native6_qualification import load
         return load(path)[0],digest
@@ -157,9 +160,12 @@ def source_fields(session_path, bundle_path, root, *, qualify):
             or scenario.get('computer_player_index')!=3 or type(scenario.get('computer_player_index')) is not int
             or scenario.get('opponent_player_index')!=4 or type(scenario.get('opponent_player_index')) is not int
             or scenario.get('observer_player_index',2)!=2 or type(scenario.get('observer_player_index',2)) is not int
-            or scenario.get('participant_count')!=2 or type(scenario.get('participant_count')) is not int
-            or selected is None or Path(session.get('run_directory',''))!=session_path.parent):
+            or selected is None or scenario.get('participant_count') != selected.participant_count
+            or type(scenario.get('participant_count')) is not int
+            or Path(session.get('run_directory',''))!=session_path.parent):
         fail('discovery_policy_invalid')
+    if selected.participant_count == 3:
+        scenario_for_session(scenario)
     identifier(session.get('session_id'))
     require_creation(session.get('start_time'),session.get('process_creation_filetime'))
     if type(session.get('pid')) is not int or session['pid']<=0:
@@ -203,10 +209,10 @@ def source_fields(session_path, bundle_path, root, *, qualify):
     epoch=native_epoch(manifest)
     if type(epoch) is not int or epoch<=0 or manifest.get('package_sha256')!=session['mod_sha256']:
         fail('discovery_policy_invalid')
-    if epoch!=6 and selected.map_id!=SCOPE['map_id']:fail('session_scope_unsupported')
+    if epoch not in (6,7) and selected.map_id!=SCOPE['map_id']:fail('session_scope_unsupported')
     if qualify:
         _, scope=load_bundle(bundle_path,session)
-        if (getattr(scope,'required_origin_region',None)!=(selected.own_region if epoch==6 else SCOPE['origin_region'])
+        if (getattr(scope,'required_origin_region',None)!=(selected.own_region if epoch in (6,7) else SCOPE['origin_region'])
                 or scope.package_sha256!=session['mod_sha256']):
             fail('session_scope_unsupported')
     values={}
@@ -365,6 +371,7 @@ def dependencies():
     return SimpleNamespace(Memory=memory,snapshot=_module('read_match_state',ROOT/'native-ai').snapshot,
         inspect_player=native.inspect_player,resolve_registry=native.resolve_registry,
         verify_two_ai=_module('match_participants',ROOT/'integration').verify_two_ai,
+        verify_ai_combatants=_module('match_participants',ROOT/'integration').verify_ai_combatants,
         own_census=_module('macro_observation',ROOT/'native-ai').own_census)
 
 
@@ -415,16 +422,26 @@ class NativeAdapter:
                     or resolved.get('side')!='Soviet' or native.get('player_index')!=3
                     or native.get('store_membership_verified') is not True or native.get('side_matches_player') is not True):
                 fail('session_scope_unsupported')
-            participants=readers.verify_two_ai(memory,state,registry,3,4,2)
-            if any(participants.get(key) is not True for key in ('two_ai_combatants_verified','mutual_enemy_relationship_verified',
-                                                               'observer_separate_from_combatants','opponent_native_ai_verified')):
-                fail('session_scope_unsupported')
             pointer=memory.u32(logic+0x98);raw=memory.read(pointer,260)
             if b'\x00' not in raw:fail('session_probe_invalid')
             path=PureWindowsPath(raw.split(b'\x00',1)[0].decode('ascii'))
             selected=scenario_for_map(path.stem.lower())
             if (path.suffix.lower()!='.map' or path.parent.name.lower()!=selected.map_id
-                    or (policy.native_epoch!=6 and selected.map_id!=policy.map_id)):
+                    or (policy.native_epoch not in (6,7) and selected.map_id!=policy.map_id)):
+                fail('session_scope_unsupported')
+            if selected.participant_count == 3:
+                if policy.native_epoch not in (6,7):
+                    fail('session_scope_unsupported')
+                participants = readers.verify_ai_combatants(memory, state, registry, 3, (4, 5), 2,
+                                                             opponents_allied=True)
+                required = ('ai_combatants_verified', 'opponents_allied_verified',
+                            'mutual_enemy_relationship_verified', 'observer_separate_from_combatants',
+                            'opponent_native_ai_verified')
+            else:
+                participants = readers.verify_two_ai(memory, state, registry, 3, 4, 2)
+                required = ('two_ai_combatants_verified', 'mutual_enemy_relationship_verified',
+                            'observer_separate_from_combatants', 'opponent_native_ai_verified')
+            if any(participants.get(key) is not True for key in required):
                 fail('session_scope_unsupported')
             stable=('instance_id','personality_wrapper','personality_data','player_template','ai_player','player_index')
             if any(not isinstance(native.get(key),str) for key in stable if key!='player_index'):
@@ -438,7 +455,7 @@ class NativeAdapter:
             if len(point)!=3 or any(type(value) not in (int,float) or not math.isfinite(value) for value in point):
                 fail('session_probe_invalid')
             origin='region_'+str(int(point[0]//512))+'_'+str(int(point[1]//512))
-            expected_origin=selected.own_region if policy.native_epoch==6 else policy.origin_region
+            expected_origin=selected.own_region if policy.native_epoch in (6,7) else policy.origin_region
             if origin!=expected_origin:fail('session_scope_unsupported')
             after=readers.snapshot(memory.read);identity_after=readers.inspect_player(memory.read,owner)
             if (type(census.get('frame')) is not int or not state['simulation_frame']<=census['frame']<=after['simulation_frame']
@@ -451,11 +468,16 @@ class NativeAdapter:
             facts=dict(pid=process.pid,creation_filetime=process.creation_filetime,logic=logic,owner=owner,
                        personality={key:native.get(key) for key in stable})
             instance=hashlib.sha256(canonical_json(facts).encode('utf8')).hexdigest()
-            ended=any(row.get(key) for value in (state,after) for row in value.get('result_records',[])
-                      for key in ('victory_frame','defeat_frame','quit_frame'))
+            if selected.participant_count == 3:
+                from match_participants import controlled_match_result
+                ended = any(controlled_match_result(value, 3, (4, 5))['terminal'] for value in (state, after))
+            else:
+                ended=any(row.get(key) for value in (state,after) for row in value.get('result_records',[])
+                          for key in ('victory_frame','defeat_frame','quit_frame'))
             return MatchObservation(process.pid,process.creation_filetime,instance,selected.map_id,resolved['side'],3,4,2,
                 resolved['commander_id'],origin,policy.native_epoch,True,
-                paused=bool(state.get('pause_flag_candidate')) or bool(after.get('pause_flag_candidate')),ended=bool(ended))
+                paused=bool(state.get('pause_flag_candidate')) or bool(after.get('pause_flag_candidate')),ended=bool(ended),
+                opponent_player_count=len(selected.opponent_player_ids))
         except ContractError:
             raise
         except (OSError,ValueError,TypeError,KeyError,RuntimeError,UnicodeError):
@@ -465,6 +487,9 @@ class NativeAdapter:
 
 
 def native_epoch(manifest):
+    from .native7_runtime_contract import FIELD_KIND as NATIVE7_FIELD_KIND
+    if (manifest.get('kind')==NATIVE7_FIELD_KIND and type(manifest.get('protocol_version')) is int
+            and manifest['protocol_version']==7 and manifest.get('admission_ready') is True and manifest.get('compile_only') is False):return 7
     from .native6_runtime_contract import FIELD_KIND
     if (manifest.get('kind')==FIELD_KIND and type(manifest.get('protocol_version')) is int
             and manifest['protocol_version']==6 and manifest.get('admission_ready') is True and manifest.get('compile_only') is False):return 6
@@ -475,6 +500,9 @@ def native_epoch(manifest):
     return manifest.get('epoch')
 
 def frozen_manifest(row,session,binding):
+    if (Path(row['output_path'])/'native7-context.json').exists():
+        from .native7_history import context
+        return context(row,session,binding)[1]
     if (Path(row['output_path'])/'native6-context.json').exists():
         from .native6_history import context
         return context(row,session,binding)[1]
@@ -560,7 +588,7 @@ def run_records(backend):
             # Native5's complete return can settle control ownership while its
             # original delivery records remain uncertain. It grants no effect
             # or retry and never qualifies another use of the same process.
-            if epoch in (5,6) and status.get('native_release_verified') is True and unresolved:
+            if epoch in (5,6,7) and status.get('native_release_verified') is True and unresolved:
                 from .strategic_unified_unknown_return_v5 import covered_unknown_ownership
                 stop=backend.journal.get_command(row['run_id'],'macro-stop')
                 if covered_unknown_ownership(unresolved,backend.journal.commands_for_run(row['run_id']),stop):

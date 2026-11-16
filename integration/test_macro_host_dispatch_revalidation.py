@@ -113,6 +113,22 @@ class RevalidationTests(unittest.TestCase):
         self.assertEqual(len(self.host.strategy_runtime.commands),1)
         self.assertEqual(self.host.journal.commands_for_run(self.host.run_id)[0]['status'],'completed')
 
+    def test_unstable_preflight_retains_only_an_unsent_decision(self):
+        collect=self.host.sampler.collect
+        attempts=0
+        def unstable_once():
+            nonlocal attempts
+            attempts+=1
+            if attempts==1:raise ValueError('Non-atomic visibility sample')
+            return collect()
+        self.host.sampler.collect=unstable_once
+        self.assertFalse(self.host.dispatch_plan(self.plan))
+        self.assertIs(self.host.pending_dispatch,self.plan)
+        self.assertEqual(self.native.calls,[])
+        self.assertTrue(self.host.dispatch_plan(self.host.pending_dispatch))
+        self.assertIsNone(self.host.pending_dispatch)
+        self.assertEqual(len(self.native.calls),1)
+
     def test_original_budget_only_pre_view_reproduces_the_actual_strategy_rejection(self):
         self.host.latest=self.collect();self.host.observe_current()
         context=self.host.agent.context(self.host.agent.latest.model_context(self.host.agent.engine.binding),commit=False)

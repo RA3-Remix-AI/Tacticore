@@ -15,6 +15,24 @@ test('high-level labels do not claim an exact template, quota or successful effe
   assert.match(view.budget, /等待原生采用/); assert.match(view.evidence, /不等于战略成功/);
   assert.doesNotMatch(JSON.stringify(view), /牛蛙|铁锤|征召兵|电厂|西侧起点|新增.*队列|schema|commander_strategic_client/);
 });
+test('native enemy attack displays the qualified native target-selection intent', () => {
+  const value = sample();
+  value.available_actions.push('attackenemy'); value.current_actions = ['attackenemy'];
+  const view = strategicCommandView(value);
+  assert.equal(view.available, true);
+  assert.match(view.current, /原生选择敌方目标/);
+});
+test('enemy focus is a separate high-level preference beside native attack', () => {
+  const value = sample();
+  value.available_actions.push('attackenemy', 'focusenemy4', 'focusenemy5');
+  value.current_actions = ['attackenemy', 'budgetarmy', 'focusenemy5'];
+  const view = strategicCommandView(value);
+  assert.equal(view.available, true);
+  assert.match(view.current, /优先对付敌方 P5/);
+  assert.match(view.evidence, /不等于战略成功/);
+  value.current_actions = ['focusenemy4', 'focusenemy5'];
+  assert.equal(strategicCommandView(value).available, false);
+});
 test('budget priority never masquerades as expansion or a global pause', () => {
   const value = sample(); value.current_actions = ['budgeteconomy'];
   const view = strategicCommandView(value);

@@ -63,7 +63,7 @@ const reasons:Record<string,string>={
   session_discovery_unavailable:'尚未安装当前版本的受信游戏发现配置，请先完成本机运行组件准备。',
   discovery_policy_invalid:'受信游戏发现配置无效，尚未准备新对局。',discovery_source_unavailable:'受信游戏或运行组件暂不可读取。',
   discovery_source_changed:'游戏或运行组件已变化，请重新核验当前版本。',session_discovery_too_many_processes:'发现的候选过多，请保留需要使用的游戏实例后重试。',
-  session_scope_unsupported:'当前仅支持 TemplePrime 或 InfinityIsle（无限岛）的 P3 苏军、出生位置 2，请检查对局设置。',
+  session_scope_unsupported:'请检查 P3 苏军、出生位置 2 和 Infinity Isle 地图。当前验收为己方中等对一名凶残电脑。',
   session_probe_invalid:'游戏身份观测不一致，请等待稳定后重新发现。',session_probe_unavailable:'暂时无法核验游戏身份，请进入受支持的对局后重试。',
   session_paused:'游戏已暂停，恢复后再检查。',session_candidate_expired:'发现结果已过期，请重新发现游戏。',
   session_selection_required:'请先从候选列表选择需要使用的对局。',run_history_unverifiable:'旧运行的归还证据不完整，请先核对运行与诊断，当前不会准备新对局。',
@@ -76,7 +76,7 @@ const reasons:Record<string,string>={
   runtime_configuration_invalid:'本机配置登记无效，请前往“模型连接”查询并核对配置。',runtime_configuration_changed:'本机配置来源已变化，请前往“模型连接”重新查询连接，再载入指挥官配置并检查对局。',
   profile_revision_conflict:'该配置已在另一窗口更新，请重新载入。',traits_budget_exceeded:'风格说明与补充要求合计超过 1200 UTF-8 字节，请缩短补充要求。',
   model_context_capacity_exceeded_shorten_style:'风格说明与战略核心上下文的容量预留合计超限。请缩短补充要求，尤其是大量引号或反斜杠，再重新检查；尚未启用原生指挥通道。',
-  model_context_capacity_provider_unavailable:'暂不能确认当前连接提供方的容量配置。请重新载入已保存配置并检查；尚未启用原生指挥通道。',
+  model_context_capacity_provider_unavailable:'暂不能确认当前连接提供方的容量配置。请重新载入已保存配置并检查；尚未启用原生指挥通道。',  model_context_capacity_contract_invalid:'模型请求合同与当前能力目录不匹配。请重新核验客户端版本。',
   delivery_unknown:'送达结果未知，已保留运行编号并查询状态；请勿重新启动。',run_state_conflict:'已有运行或未确认的操作，需要先查询和核对。',
   runtime_layout_unavailable:'本机运行组件不完整。',runtime_packaging_unavailable:'此发布版本尚未包含经过验证的运行组件。',runtime_packaging_invalid:'运行组件完整性核验失败，请重新安装经过验证的发布包。',
   session_unavailable:'尚未登记可核验的真实对局。',session_not_ready:'真实对局尚未满足指挥条件，请检查游戏和电脑身份。',
@@ -189,7 +189,7 @@ export default function NativeApp(){
     setCandidates(result.candidates);setCandidateId(current=>result.candidates.some(value=>value.candidate_id===current)?current:
       result.candidates.length===1?result.candidates[0].candidate_id:'');
     setNotice(result.candidates.length?'已发现受支持的对局，选择后准备并检查。':
-      reasons[result.issues[0]??'']??'尚未发现受支持的对局，请进入 TemplePrime 或 InfinityIsle 的 P3 苏军对局后重新发现。');
+      reasons[result.issues[0]??'']??'尚未发现受支持的对局，请按当前候选的地图与席位设置进入对局后重新发现。');
   }
   async function prepareCandidate(id:string=candidateId){
     if(!id)throw new HostError('session_selection_required','session-prepare');
@@ -276,8 +276,8 @@ export default function NativeApp(){
         <p role="status" className="native-notice nw-notice">{configurationAdmissionNotice(configurationState)??notice}</p>
         <div hidden={workspace!=='prepare'} className="nw-preparation">
           <div className="nw-preparation-main"><BetaSetupPanel locked={locked} onStatusChange={setSetupState} onPrepared={()=>{setReady(null);setSession(null);setCandidates([]);}} />
-            <section className="native-panel nw-scope"><p className="eyebrow">SUPPORTED MATCH / 当前支持范围</p><h2>为这一局做好准备</h2><div className="nw-scope-values"><div><small>地图</small><strong>TemplePrime / InfinityIsle（无限岛）</strong></div><div><small>指挥席位</small><strong>P3 · 苏军</strong></div><div><small>对手</small><strong>P4 · 原生电脑</strong></div></div>
-              <h3>在游戏大厅完成这些设置</h3><ol className="nw-match-guide"><li>进入“对战 → 遭遇战”，选择 TemplePrime 或 InfinityIsle（无限岛），人类设为观察者。</li><li>受控电脑选择 MACRO PROBE P3、苏军、中等难度，地图出生位置选 2。P3 是玩家身份，与出生位置编号不同。</li><li>对手选择 P4 原生电脑、中等难度，可随机阵营与指挥官；其他位置关闭，无组队。</li><li>初始资金 10000，关闭宝箱。开始对局后，到作战中心发现、准备并检查。</li></ol>
+            <section className="native-panel nw-scope"><p className="eyebrow">SUPPORTED MATCH / 当前支持范围</p><h2>为这一局做好准备</h2><div className="nw-scope-values"><div><small>地图</small><strong>1v1 测试 · Infinity Isle</strong></div><div><small>指挥席位</small><strong>P3 · 苏军</strong></div><div><small>对手</small><strong>P4 · 凶残电脑</strong></div></div>
+              <h3>在游戏大厅完成这些设置</h3><ol className="nw-match-guide"><li>1v1 测试选择 Infinity Isle 地图，人类设为观察者。实战效果正在验证。</li><li>受控电脑选择 MACRO PROBE P3、苏军、中等难度，地图出生位置选 2。P3 是玩家身份，与出生位置编号不同。</li><li>仅开启一名原生电脑对手，选择最高档凶残难度。己方和对手分属不同队伍，其他位置关闭。</li><li>初始资金 10000，关闭宝箱。开始对局后，到作战中心发现、准备并检查。</li></ol>
               <p className="native-muted">这些设置需要在游戏内完成，客户端不会替你修改大厅。当前仅覆盖已核验的 RA3 1.12 繁中配置与兼容 Mod；其他地图、受控阵营和出生位置尚未验证。</p>
               <p className="native-muted">停止后先等待独立归还确认，再正常退出并重新打开游戏进程，准备下一局。</p></section>
           </div>

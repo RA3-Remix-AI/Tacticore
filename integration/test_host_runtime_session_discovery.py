@@ -66,6 +66,43 @@ class SessionDiscoveryTests(unittest.TestCase):
     def prepare(self, candidate=None, request=None):
         return self.broker.prepare({'candidate_id':candidate or self.candidate()}, request or new_id())
 
+    def test_native6_one_vs_two_preparation_retains_both_opponents(self):
+        self.broker.close()
+        self.policy = replace(self.policy, native_epoch=6)
+        self.observation = replace(self.observation, native_epoch=6, map_id='map_mp_4_stewart_1',
+                                   origin_region='region_7_1', opponent_player_count=2)
+        self.broker = self.make()
+        receipt = self.prepare()
+        self.assertTrue(receipt['registered'])
+        session_path = self.registered[-1][0]
+        session = json.loads(Path(session_path).read_text('utf-8'))
+        self.assertEqual(session['scenario']['opponent_player_indices'], [4, 5])
+        self.assertEqual(session['scenario']['participant_count'], 3)
+        self.assertTrue(session['scenario']['opponents_allied'])
+
+    def test_native7_one_vs_two_session_writer_retains_both_opponents(self):
+        self.broker.close()
+        self.policy=replace(self.policy,native_epoch=7)
+        self.observation=replace(self.observation,native_epoch=7,map_id='map_mp_4_stewart_1',
+            origin_region='region_7_1',opponent_player_count=2)
+        self.broker=self.make()
+        self.assertTrue(self.prepare()['registered'])
+        session=json.loads(Path(self.registered[-1][0]).read_text('utf-8'))
+        from host_runtime.native6_scenarios import scenario_for_session
+        selected=scenario_for_session(session['scenario'])
+        self.assertEqual(selected.opponent_player_ids,(4,5))
+        self.assertEqual(session['discovery']['native_epoch'],7)
+
+    def test_native6_four_player_map_cannot_claim_one_opponent(self):
+        self.broker.close()
+        self.policy = replace(self.policy, native_epoch=6)
+        self.observation = replace(self.observation, native_epoch=6, map_id='map_mp_4_stewart_1',
+                                   origin_region='region_7_1', opponent_player_count=1)
+        self.broker = self.make()
+        result = self.broker.discover({})
+        self.assertEqual(result['candidates'], [])
+        self.assertEqual(result['issues'], ['session_scope_unsupported'])
+
     def assertCode(self, code, operation):
         with self.assertRaises(ContractError) as caught:
             operation()

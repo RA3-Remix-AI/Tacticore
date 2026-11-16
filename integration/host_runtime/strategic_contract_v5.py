@@ -9,3 +9,7 @@ FLAG_ACTIONS=_grammar.FLAG_ACTIONS
 GATE_ACTIONS=_grammar.GATE_ACTIONS
 STRATEGIC_ACTIONS=_grammar.STRATEGIC_ACTIONS
 split_intents=_grammar.split_intents
+FOCUS_ACTIONS=_grammar.FOCUS_ACTIONS
+split_native7_intents=_grammar.split_native7_intents
+INDEPENDENT_DEVELOPMENT_CONTRACT=_grammar.INDEPENDENT_DEVELOPMENT_CONTRACT
+RAID_ACTION=_grammar.RAID_ACTION

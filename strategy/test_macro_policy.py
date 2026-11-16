@@ -21,6 +21,25 @@ def macro_snapshot(actions=None):
 
 
 class MacroContractTests(unittest.TestCase):
+    def test_independent_development_survives_normal_agent_and_revocation(self):
+        from native_unified_contract_v5 import INDEPENDENT_DEVELOPMENT_CONTRACT
+        raw=macro_snapshot(['deploydefense','expand']).to_dict()
+        raw['macro_control']['intent_contract']=INDEPENDENT_DEVELOPMENT_CONTRACT
+        request=Snapshot.from_dict(raw)
+        self.assertEqual(Snapshot.from_dict(request.to_dict()),request)
+        agent=BattleAgent(StrategyEngine(binding()))
+        agent.observe(raw)
+        context=agent.context(request.model_context(binding()))
+        self.assertEqual(context['macro_intent_contract'],INDEPENDENT_DEVELOPMENT_CONTRACT)
+        response=policy(context,macro_actions=['deploydefense','expand'],objective_region='home_base')
+        plan=validate_policy(response,request,request,binding(),20)
+        self.assertTrue(agent.engine._usable(plan,request))
+        del raw['macro_control']['intent_contract']
+        latest=Snapshot.from_dict(raw)
+        with self.assertRaisesRegex(ContractError,'conflicting_macro_work_actions'):
+            validate_policy(response,request,latest,binding(),20)
+        self.assertFalse(agent.engine._usable(plan,latest))
+
     def test_deployment_is_bound_to_exact_requested_and_current_public_region(self):
         request=macro_snapshot(['deployattack']);context=request.model_context(binding())
         self.assertEqual(context['macro_policy_catalog']['deployattack']['target_region'],'north_expansion')

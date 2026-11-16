@@ -54,10 +54,10 @@ def returned(state):
 
 def preserve(state,policy_path,old,expected_sha,*,history=None):
     if sha(policy_path)!=expected_sha:raise ContractError('discovery_source_changed')
-    if old.get('schema_version')!=2 or old.get('kind')!='native6_installed_discovery_v1':
+    if old.get('schema_version')!=2 or old.get('kind') not in ('native6_installed_discovery_v1','native7_installed_discovery_v1'):
         raise ContractError('beta_setup_changed_requires_migration')
     bundle=plain_local(old['files']['macro_bundle'])
-    if (bundle.parent!=state/'sessions' or not re.fullmatch(r'native6-trial(?:-[0-9a-f]{64})?\.json',bundle.name)
+    if (bundle.parent!=state/'sessions' or not re.fullmatch(r'native[67]-trial(?:-[0-9a-f]{64})?\.json',bundle.name)
             or sha(bundle)!=old['files']['macro_bundle_sha256']):
         raise ContractError('beta_setup_changed_requires_migration')
     from .contracts import identifier

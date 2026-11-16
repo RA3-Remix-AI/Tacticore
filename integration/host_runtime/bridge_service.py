@@ -25,7 +25,8 @@ BACKEND_ERROR_CODES = frozenset({"adapter_unavailable", "session_unavailable", "
     "run_history_unverifiable", "session_preparation_changed", "session_registration_uncertain",
     "macro_runtime_same_epoch_reattach_unsupported", "session_root_invalid", "session_root_conflict",
     "session_registration_conflict", "session_registration_changed", "macro_bundle_not_qualified",
-    "model_context_capacity_exceeded_shorten_style", "model_context_capacity_provider_unavailable"})
+    "model_context_capacity_exceeded_shorten_style", "model_context_capacity_provider_unavailable",
+    "model_context_capacity_contract_invalid"})
 
 
 class HostBackend(Protocol):

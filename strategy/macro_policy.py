@@ -11,9 +11,9 @@ ACTIONS={
     'buildrefinery':'construction','buildbattlelab':'construction',
     'producesickle':'production','producebullfrog':'production'}
 try:
-    from .native_unified_contract_v5 import NEW_DOMAINS,additional_catalog
+    from .native_unified_contract_v5 import NEW_DOMAINS,additional_catalog,INDEPENDENT_DEVELOPMENT_CONTRACT
 except ImportError:
-    from native_unified_contract_v5 import NEW_DOMAINS,additional_catalog
+    from native_unified_contract_v5 import NEW_DOMAINS,additional_catalog,INDEPENDENT_DEVELOPMENT_CONTRACT
 ACTIONS.update(NEW_DOMAINS)
 INITIAL_PRODUCTION_COUNTS={'producesickle':(1,), 'producebullfrog':(1,)}
 CONSTRUCTION_BUILDINGS={'buildpower':'power_plant','buildbarracks':'barracks','buildfactory':'war_factory',
@@ -63,12 +63,14 @@ BUDGET_PRESETS={
 
 
 def parse_control(raw):
-    if (not isinstance(raw,dict) or not {'mode','available_actions'}<=set(raw)<={'mode','available_actions','production_counts','region_targets'}
+    if (not isinstance(raw,dict) or not {'mode','available_actions'}<=set(raw)<={'mode','available_actions','production_counts','region_targets','intent_contract'}
             or raw['mode']!='macro_native'):
         raise ValueError('macro_control_fields')
     actions=raw['available_actions']
     if not isinstance(actions,list) or len(actions)>len(ACTIONS) or any(type(a) is not str or a not in ACTIONS for a in actions) or len(set(actions))!=len(actions):
         raise ValueError('macro_capability_actions')
+    if 'intent_contract' in raw and raw['intent_contract']!=INDEPENDENT_DEVELOPMENT_CONTRACT:
+        raise ValueError('macro_intent_contract')
     return tuple(actions)
 
 def parse_region_targets(raw,actions,regions):
@@ -83,6 +85,8 @@ def parse_region_targets(raw,actions,regions):
     return tuple(sorted(targets.items()))
 
 def validate_region_target(actions,target,request_targets,latest_targets):
+    if any(ACTIONS[action]=='native_attack' for action in actions) and target is not None:
+        raise ValueError('native_attack_target_owned_by_ai')
     for action in actions:
         if ACTIONS[action]=='deployment' and any(dict(targets or ()).get(action)!=target or target is None
                 for targets in (request_targets,latest_targets)):
@@ -102,16 +106,19 @@ def parse_counts(raw,actions):
     return tuple(sorted((action,tuple(sorted(values))) for action,values in counts.items()))
 
 
-def validate_actions(raw,request_capabilities,latest_capabilities):
-    if not isinstance(raw,list) or len(raw)>5 or any(type(a) is not str or a not in ACTIONS for a in raw) or len(set(raw))!=len(raw):
+def validate_actions(raw,request_capabilities,latest_capabilities,*,request_intent_contract=None,latest_intent_contract=None):
+    independent=(request_intent_contract==latest_intent_contract==INDEPENDENT_DEVELOPMENT_CONTRACT)
+    if not isinstance(raw,list) or len(raw)>(6 if independent else 5) or any(type(a) is not str or a not in ACTIONS for a in raw) or len(set(raw))!=len(raw):
         raise ValueError('macro_policy_actions')
     if any(action not in (request_capabilities or ()) or action not in (latest_capabilities or ()) for action in raw):
         raise ValueError('unsupported_macro_action')
     domains=[ACTIONS[action] for action in raw]
     if len(set(domains))!=len(domains):raise ValueError('conflicting_macro_actions')
-    # Current native host tracks one bounded build/production preference at a
-    # time. Express the same limit before model plans can be accepted.
-    if sum(domain in ('construction','production','scouting','deployment','expansion') for domain in domains)>1:
+    # Older transports retain their qualified single-work contract. Native7
+    # can carry one military intent and expansion in one replacement lease.
+    work_domains={'construction','production','scouting','deployment','native_attack'}
+    if not independent:work_domains.add('expansion')
+    if sum(domain in work_domains for domain in domains)>1:
         raise ValueError('conflicting_macro_work_actions')
     return tuple(raw)
 

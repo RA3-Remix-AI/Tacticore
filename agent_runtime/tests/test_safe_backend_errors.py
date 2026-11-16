@@ -63,6 +63,28 @@ class SafeErrors(unittest.IsolatedAsyncioTestCase):
             async def handler(request): return httpx2.Response(200,content=content)
             with self.subTest(code=code,content=content): await self.exercise(handler,code)
 
+    async def test_truncated_completion_has_fixed_code_and_no_exported_provider_text(self):
+        async def handler(request):
+            return httpx2.Response(200,json={'choices':[{'finish_reason':'length',
+                'message':{'content':SECRET,'reasoning_content':SECRET}}]})
+        await self.exercise(handler,'completion_token_limit')
+
+    async def test_larger_pydantic_output_budget_is_bounded_on_real_sdk_wire(self):
+        import json
+        calls=[]
+        async def handler(request):
+            calls.append(json.loads(request.content))
+            return httpx2.Response(200,json={'choices':[{'finish_reason':'length',
+                'message':{'content':SECRET}}]})
+        backend=create_backend(profile(),transport=httpx2.MockTransport(handler),max_tokens=8192)
+        with self.assertRaisesRegex(RuntimeAdapterError,'completion_token_limit'):await backend(context())
+        self.assertEqual(calls[0]['max_tokens'],8192)
+        self.assertEqual(len(calls),1)
+        with self.assertRaisesRegex(RuntimeAdapterError,'invalid_model_options'):
+            create_backend(profile(),max_tokens=8193)
+        with self.assertRaisesRegex(RuntimeAdapterError,'invalid_model_options'):
+            create_backend(profile(),backend='legacy',max_tokens=4097)
+
     async def test_unknown_transport_exception_stays_generic(self):
         async def handler(request): raise ValueError(SECRET)
         await self.exercise(handler,'framework_request_failed')

@@ -4,12 +4,63 @@ from pathlib import Path
 import unittest
 
 from .contracts import ContractError
-from .macro_forces import observe_forces,compact_forces
+from .macro_forces import observe_forces,compact_forces,NAMED_BUILDINGS
 
 ROOT=Path(__file__).resolve().parents[2]
 
 
 class ForceObservationTests(unittest.TestCase):
+    def test_all_audited_mobile_types_survive_provider_projection(self):
+        census,safety=self.fixture()
+        safety['templates']['0x60f0b4e9']=dict(template='SovietAntiInfantryVehicle',role='armor',
+            source_audited_no_intrinsic_stealth=True)
+        census['own_objects'].append(dict(thing_id=3,type_hash='0x60f0b4e9',hp=100.,xyz=[100.,100.,0.]))
+        facts=observe_forces(census,safety)
+        value=compact_forces(facts,100.)
+        self.assertEqual(value['unit_type_counts'],{
+            'SovietAntiInfantryInfantry':1,'SovietAntiInfantryVehicle':1})
+        self.assertEqual(value['named_unit_counts']['hammer_tank'],0)
+        from .macro_policy_runtime import MacroRequestAudit
+        budget=dict(status='native_delegation_observed',selected_policy=None,actions=[],observed_frame=1500,
+            native_effect_verified=False)
+        audit=MacroRequestAudit(None,lambda *a,**k:None,feedback_supplier=lambda:budget,forces_supplier=lambda:facts)
+        context=audit.prepare(dict(game_time_seconds=100.,working_memory={}))
+        self.assertEqual(context['own_forces']['unit_type_counts'],value['unit_type_counts'])
+        del facts['unit_type_counts']
+        self.assertNotIn('unit_type_counts',compact_forces(facts,100.))
+
+    def test_unit_type_projection_rejects_unbounded_or_inconsistent_counts(self):
+        for counts in ({'0x12345678':1},{'SovietAntiInfantryVehicle':True},
+                       {'SovietAntiInfantryVehicle':2},{'Unit'+str(i):0 for i in range(65)}):
+            value=observe_forces(*self.fixture())
+            value['unit_type_counts']=counts
+            with self.subTest(counts=counts),self.assertRaises(ContractError):compact_forces(value,100.)
+
+    def test_own_miner_forms_are_economic_presence_with_no_enemy_or_income_grant(self):
+        census, safety = self.fixture()
+        before = copy.deepcopy(safety)
+        for ident, template in [(3,'0xf6dac2a4'), (4,'0x951764b9')]:
+            census['own_objects'].append(dict(thing_id=ident,type_hash=template,hp=1.,xyz=[100.,100.,0.]))
+        value = compact_forces(observe_forces(census,safety),100.)
+        self.assertEqual(value['economic_unit_presence_counts'], {'ore_collector':2})
+        self.assertEqual(value['economic_unit_regions'],[dict(region_id='region_0_0',ore_collectors=2,health_total=2.)])
+        self.assertEqual(value['mobile_role_counts'], {'infantry':1})
+        self.assertFalse(value['income_verified'])
+        self.assertEqual(safety,before)
+        value['income_verified'] = True
+        self.assertFalse(compact_forces(value,100.)['income_verified'])
+        del value['economic_unit_presence_counts']
+        self.assertNotIn('economic_unit_presence_counts',compact_forces(value,100.))
+
+    def test_own_miner_count_bounds_and_foreign_census_are_rejected(self):
+        for count in (True,-1,8193):
+            value = observe_forces(*self.fixture())
+            value['economic_unit_presence_counts'] = {'ore_collector':count}
+            with self.subTest(count=count),self.assertRaises(ContractError):compact_forces(value,100.)
+        census,safety = self.fixture()
+        census['enemy_details_read'] = True
+        with self.assertRaises(ContractError):observe_forces(census,safety)
+
     def fixture(self):
         safe={'templates':{
             '0x19ab11af':dict(template='SovietAntiInfantryInfantry',role='infantry',source_audited_no_intrinsic_stealth=True),
@@ -25,6 +76,37 @@ class ForceObservationTests(unittest.TestCase):
             dict(region_id='region_2_3',mobile=1,construction_yards=0)])
         self.assertFalse(v['recruitability_verified']);self.assertFalse(v['ready_for_combat_verified'])
         for private in ('PRIVATE','xyz','thing_id','0x','hp'):self.assertNotIn(private,json.dumps(v))
+
+    def test_building_presence_uses_audited_own_census_without_builder_or_operation_claims(self):
+        census,safety=self.fixture()
+        for name,(template,asset) in NAMED_BUILDINGS.items():
+            safety['templates'][template]=dict(template=asset,
+                role='economy' if name=='refinery' else 'structure',source_audited_no_intrinsic_stealth=True)
+        census['own_objects'].append(dict(thing_id=3,type_hash=NAMED_BUILDINGS['refinery'][0],
+            hp=1.,xyz=[4400.,2016.,210.]))
+        value=compact_forces(observe_forces(census,safety),100.)
+        self.assertEqual(value['building_presence_counts']['construction_yard'],1)
+        self.assertEqual(value['building_presence_counts']['refinery'],1)
+        self.assertEqual(value['building_presence_counts']['battle_lab'],0)
+        self.assertTrue(value['presence_includes_unfinished_foundations'])
+        self.assertFalse(value['building_operation_verified'])
+        self.assertNotIn('builder_frame',value)
+        self.assertNotIn('construction_queues',value)
+
+    def test_unsupported_building_templates_and_older_observations_remain_unknown(self):
+        census,safety=self.fixture()
+        value=observe_forces(census,safety)
+        self.assertEqual(value['building_presence_counts'],{'construction_yard':1})
+        del value['building_presence_counts']
+        self.assertNotIn('building_presence_counts',compact_forces(value,100.))
+
+    def test_building_binding_and_public_count_bounds_are_enforced(self):
+        census,safety=self.fixture()
+        safety['templates']['0xc16ff13f']['template']='SovietRefinery'
+        with self.assertRaisesRegex(ContractError,'template_binding'):observe_forces(census,safety)
+        for counts in ({'refinery':True},{'refinery':-1},{'refinery':8193},{'invented':1}):
+            value=observe_forces(*self.fixture());value['building_presence_counts']=counts
+            with self.subTest(counts=counts),self.assertRaises(ContractError):compact_forces(value,100.)
 
     def test_unknown_templates_are_counted_as_unclassified_without_guessing_role(self):
         census,safety=self.fixture();census['own_objects'][0]['type_hash']='unknown'

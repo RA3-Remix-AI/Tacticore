@@ -40,6 +40,50 @@ def model_policy(context, **changes):
 
 
 class BoundaryTests(unittest.TestCase):
+    def test_visible_unit_types_survive_the_normal_strategic_request_projection(self):
+        from tactical_fixtures import tactical_snapshot
+        raw=tactical_snapshot()
+        raw['macro_control']=raw_view()['macro_control']
+        first=raw['battlefield']['contacts'][0]
+        first.update(role='armor',unit_type='JapanAntiInfantryVehicle')
+        second=dict(first,contact_id='contact_other',unit_type='JapanAntiVehicleVehicle')
+        raw['battlefield']['contacts'].append(second)
+        binding=Binding(SESSION,3,COMMANDER,'Test',CONNECTION)
+        agent=BattleAgent(StrategyEngine(binding))
+        agent.observe(restrict_snapshot(raw))
+        context=agent.context(agent.latest.model_context(binding),commit=False)
+        result=restrict_context(context)
+        groups=result['working_memory']['battlefield']['contact_groups']
+        typed=[row for row in groups if row.get('unit_type')]
+        self.assertEqual({row['unit_type'] for row in typed},
+                         {'JapanAntiInfantryVehicle','JapanAntiVehicleVehicle'})
+        self.assertTrue(all(row['observations']==1 for row in typed))
+        self.assertEqual(restrict_context(result),result)
+
+    def test_all_native6_scenarios_pass_the_host_catalog_audit(self):
+        from host_runtime.native6_scenarios import NATIVE6_SCENARIOS
+        from host_runtime.macro_group_role_contract import native6_group_role_catalog_overrides
+        from macro_policy import public_descriptions
+
+        for scenario in NATIVE6_SCENARIOS:
+            with self.subTest(map_id=scenario.map_id):
+                actions = ['deploydefense', 'regroup', 'withdraw', 'reinforce']
+                raw = raw_view()
+                raw['macro_control'] = dict(mode='macro_native', available_actions=actions,
+                    region_targets={action: scenario.own_region for action in actions})
+                raw['capabilities']['regions'] = [scenario.own_region]
+                context = Snapshot.from_dict(restrict_snapshot(raw)).model_context(
+                    Binding(SESSION, 3, COMMANDER, 'Test', CONNECTION))
+                context['macro_policy_catalog'] = public_descriptions(actions,
+                    region_targets={action: scenario.own_region for action in actions})
+                audit = MacroRequestAudit(None, lambda *args, **kwargs: None,
+                    feedback_supplier=lambda: dict(status='native_delegation_observed',
+                        selected_policy=None, actions=[], observed_frame=1500, native_effect_verified=False),
+                    catalog_supplier=lambda: native6_group_role_catalog_overrides(scenario.own_region),
+                    strategic_only=True)
+                result = audit.prepare(context)
+                self.assertEqual(result['macro_policy_catalog']['deploydefense']['target_region'], scenario.own_region)
+
     def test_snapshot_removes_specific_authority_and_keeps_original_observation(self):
         before=raw_view(); after=restrict_snapshot(before)
         self.assertEqual(after['macro_control']['available_actions'], ['budgetarmy','budgeteconomy'])
@@ -91,13 +135,60 @@ class BoundaryTests(unittest.TestCase):
             value=dict(macro_actions=['budgetarmy'],production_focus='native_baseline');value.update(extra)
             with self.subTest(extra=extra),self.assertRaises(ContractError):validate_policy(value)
 
+    def test_multi_enemy_groups_preserve_owner_visibility_and_age(self):
+        contacts=[dict(contact_id=str(index),owner_player_id=owner,region_id='east_ore',role='armor',
+                       relation='enemy',currently_visible=visible,observed_at_game_seconds=at)
+                  for index,owner,visible,at in ((1,4,True,99),(2,5,True,98),(3,4,False,70))]
+        context=dict(working_memory=dict(battlefield=dict(contacts=contacts)),allowed_macro_actions=['scout'])
+        result=restrict_context(context)
+        rows=result['working_memory']['battlefield']['contact_groups']
+        self.assertEqual(len(rows),3)
+        self.assertEqual([(row['owner_player_id'],row['currently_visible'],row['oldest_game_seconds'],
+                           row['newest_game_seconds'],row['observations']) for row in rows],
+                         [(4,True,99,99,1),(5,True,98,98,1),(4,False,70,70,1)])
+        self.assertTrue(all('contact_id' not in row for row in rows))
+        self.assertEqual(restrict_context(result),result)
+        self.assertEqual(context['working_memory']['battlefield']['contacts'],contacts)
+        for owner in (True,'4',-1,20):
+            contacts[0]['owner_player_id']=owner
+            with self.subTest(owner=owner),self.assertRaisesRegex(ContractError,'contact_owner_invalid'):
+                restrict_context(context)
+
+    def test_summary_separates_distant_army_from_actual_mining_proximity(self):
+        context = dict(game_time_seconds=100, allowed_macro_actions=['deploydefense'],
+            macro_policy_catalog={'deploydefense': {'target_region': 'region_7_4'}},
+            own_forces=dict(source='bound_own_force_presence', mobile_role_counts={'infantry': 7, 'armor': 4},
+                unit_type_counts={'SovietScoutInfantry': 3, 'SovietAntiVehicleInfantry': 4,
+                                  'SovietAntiInfantryVehicle': 4},
+                economic_unit_regions=[dict(region_id='region_8_3', ore_collectors=1, health_total=473.6)]),
+            working_memory=dict(battlefield=dict(visibility_verified=True, contacts=[], regions=[
+                dict(region_id='region_3_4', relation='enemy', currently_visible=True,
+                     observed_at_game_seconds=100, role_counts={'infantry': 10}),
+                dict(region_id='region_8_2', relation='enemy', currently_visible=True,
+                     observed_at_game_seconds=100, role_counts={'armor': 1}),
+                dict(region_id='region_7_4', relation='enemy', currently_visible=False,
+                     observed_at_game_seconds=99, role_counts={'armor': 99}),
+                dict(region_id='region_7_4', relation='enemy', currently_visible=True,
+                     observed_at_game_seconds=96, role_counts={'armor': 99})]),
+                recent_execution_feedback=[dict(status='native_budget_pending', observed_frame=1490),
+                    dict(status='native_budget_pending', observed_frame=1500)]))
+        result = restrict_context(context)
+        summary = result['battlefield_summary']
+        self.assertEqual(summary['nearby_home_enemy_mobile_observations'], 0)
+        self.assertEqual(summary['mining_regions'][0]['nearby_enemy_mobile_observations'], 1)
+        self.assertEqual(summary['mining_regions'][0]['health_total'], 473.6)
+        self.assertEqual(summary['own_identified_scouts'], 3)
+        self.assertEqual(result['working_memory']['recent_execution_feedback'],
+                         [dict(status='native_budget_pending', observed_frame=1500)])
+        self.assertEqual(restrict_context(result), result)
+
     def test_prompt_preserves_native_ownership_without_quantity_contract(self):
         context=Snapshot.from_dict(restrict_snapshot(raw_view())).model_context(Binding(SESSION,3,COMMANDER,'Test',CONNECTION))
         context=restrict_context(context)
         profile=SimpleNamespace(traits='normal',personality=0)
         text=macro_system_prompt(profile,context)
         self.assertIn('native AI owns ALL building',text)
-        self.assertIn('does NOT stop all native',text)
+        self.assertIn('[] restores native baseline execution',text)
         self.assertNotIn('additional_count',text)
         self.assertNotIn('producebullfrog',text)
 

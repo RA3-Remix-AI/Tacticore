@@ -6,6 +6,8 @@ static unsigned posted;static LPARAM last_ticket;
 static BOOL WINAPI accept(DWORD,UINT,WPARAM,LPARAM ticket){++posted;last_ticket=ticket;return TRUE;}
 static BOOL WINAPI reject(DWORD,UINT,WPARAM,LPARAM){++posted;return FALSE;}
 int main(){
+ // Two completions fit inside the unchanged two-frame observation bound.
+ assert(WAKE_INTERVAL_MS==50);assert(WAKE_INTERVAL_MS*2<2000/15);
  assert(wake_bootstrap==1);assert(queue_wake(accept));LPARAM first=last_ticket;
  for(unsigned i=0;i<1000;i++)assert(queue_wake(accept));assert(posted==1);
  assert(!claim_wake(0));assert(!claim_wake(first+1));finish_wake(first);assert(wake_pending==first);

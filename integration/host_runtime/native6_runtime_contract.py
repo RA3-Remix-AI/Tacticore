@@ -13,10 +13,10 @@ import re
 from .native6_paths import plain_local
 
 GAME_SHA = 'ec230c6ae1eaee30b0b4fa6ba29d417c974ecae46d6715dfbe786a815935c165'
-PACKAGE_SHA = '66025609e788ed18f8eb55b1722e6c197a373f387137b69e6b04118d0a5278f0'
+PACKAGE_SHA = 'ef94fe04a8c51d65d24498e37bc40f1cc5f2b28daa5a1acb74f2d54ae89fb1ea'
 KIND = 'portable_strategic_native6_offline_candidate'
 FIELD_KIND = 'portable_strategic_native6_field_trial_candidate'
-ACTIONS = ('regroup', 'scout', 'withdraw', 'reinforce', 'budgeteconomy', 'budgetarmy', 'budgettech', 'deployattack', 'deploydefense', 'expand')
+ACTIONS = ('regroup', 'scout', 'withdraw', 'reinforce', 'budgeteconomy', 'budgetarmy', 'budgettech', 'attackenemy', 'deploydefense', 'expand')
 FLAGS = tuple('/5TFMacro_57e668b44d8943bdbc920dd436f046ef_P3_' + name for name in
               ('build_airfield', 'scout', 'buildtech', 'economyrefinery', 'budgeteconomy', 'budgetarmy', 'budgettech', 'deployattack', 'deploydefense', 'expand'))
 ARTIFACTS = ('StrategicCommanderV6.dll', 'manager_host.exe')
@@ -44,11 +44,13 @@ def unique(pairs):
     return result
 
 
-def read(path):
+def read(path, *, expected=None):
     with plain_local(path).open('rb') as stream:
         raw = stream.read(4 * 1024 * 1024 + 1)
     if len(raw) > 4 * 1024 * 1024:
         raise ValueError('native6_manifest_unbounded')
+    if expected is not None and hashlib.sha256(raw).hexdigest() != expected:
+        raise ValueError('native6_pinned_file_changed')
     return json.loads(raw, object_pairs_hook=unique)
 
 
@@ -88,12 +90,13 @@ def verify_inventory(root, *, expected=None):
     for index, path in enumerate(root.rglob('*')):
         if index >= 150000:
             raise ValueError('native6_companion_inventory_unbounded')
-        plain_local(path)
         if not path.is_file():
+            plain_local(path)
             continue
         name = path.relative_to(root).as_posix()
         if name == 'manifest.json':
             continue
+        # sha validates this file and every ancestor before opening it.
         if path.stat().st_size > 256 * 1024 * 1024 or name not in pins or sha(path) != pins[name]:
             raise ValueError('native6_companion_inventory_changed')
         found.add(name)
@@ -144,7 +147,18 @@ def verify_build(build):
     root = build.parent.parent
     if build != root / 'native/strategic6':
         raise ValueError('native6_fixed_companion_layout_required')
-    manifest = read(build / 'build-manifest.json')
+    return _verified_build(build, verify_inventory(root))
+
+
+def _verified_build(build, inventory):
+    """Review build metadata against this operation's fully checked inventory."""
+    build = plain_local(build)
+    if build != build.parent.parent / 'native/strategic6':
+        raise ValueError('native6_fixed_companion_layout_required')
+    manifest_pin = inventory['files'].get('native/strategic6/build-manifest.json')
+    if manifest_pin is None:
+        raise ValueError('native6_companion_entrypoint_missing')
+    manifest = read(build / 'build-manifest.json', expected=manifest_pin)
     fields = {'schema_version', 'kind', 'protocol_version', 'compile_only', 'admission_ready',
               'product_capability_granted', 'formal_games', 'game_sha256', 'package_sha256',
               'actions', 'flags', 'input_pins', 'build_source_pins', 'source_closure_sha256', 'artifacts', 'layout'}
@@ -160,7 +174,6 @@ def verify_build(build):
     pins, provenance = manifest['input_pins'], manifest['build_source_pins']
     pin_map(pins)
     pin_map(provenance)
-    inventory = verify_inventory(root)
     field=manifest['kind']==FIELD_KIND
     if pins != locked_inputs(inventory) or manifest['source_closure_sha256'] != closure(pins, provenance,field_candidate=field):
         raise ValueError('native6_code_closure_changed')

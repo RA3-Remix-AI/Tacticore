@@ -30,7 +30,7 @@ SAFE_BACKEND_ERROR_CODES = frozenset({
     'transport_cancelled', 'network_not_enabled', 'credential_unavailable',
     'endpoint_not_chat_completions', 'endpoint_requires_tls',
     'provider_response_too_large', 'provider_response_bounds',
-    'provider_http_status', 'invalid_completion', 'incomplete_or_refused_completion',
+    'provider_http_status', 'invalid_completion', 'incomplete_or_refused_completion', 'completion_token_limit',
     'instrumented_model_forbidden', 'token_configuration', 'input_budget_configuration',
     'transport_connect_timeout', 'transport_read_timeout', 'transport_write_timeout',
     'transport_pool_timeout', 'transport_connect_failed', 'transport_read_failed',

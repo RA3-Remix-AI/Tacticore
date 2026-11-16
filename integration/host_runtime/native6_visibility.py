@@ -13,9 +13,27 @@ from read_selected_personality import inspect_player,resolve_registry
 from native_read import ShroudReader,walk_live_things,object_footprint_status
 load=read
 
-def bind_session(memory,session,player_id):
+def bind_session(memory,session,player_id,*,_locked_qualification=None):
  if type(player_id) is not int or player_id!=3:raise ValueError('Native6 lawful viewer must be P3')
- root,pin,inventory,manifest,cap=current()
+ if _locked_qualification is None:
+  from .native_portable_runtime import protocol
+  if protocol()==7:
+   from .native7_qualification import current as current_native7
+   root,pin,inventory,manifest,cap=current_native7()
+  else:root,pin,inventory,manifest,cap=current()
+ else:
+  from .native6_qualification import Native6Scope,runtime_root,trusted_pin,fail
+  from .native7_qualification import Native7Scope
+  bundle,scope=_locked_qualification
+  root=runtime_root();pin=trusted_pin();capsule=root/'qualification/native6-trial.json'
+  if (type(scope) not in (Native6Scope,Native7Scope) or scope.runtime_root!=root or scope.runtime_manifest_sha256!=pin
+      or bundle.get('runtime_root')!=str(root) or bundle.get('runtime_manifest_sha256')!=pin):fail()
+  expected=dict(scope.evidence).get(str(capsule))
+  if type(expected) is not str:fail()
+  # The Host holds every inventory input through ProductSourceLocksV5 before
+  # passing this private proof. Recheck the capsule bytes and all live view /
+  # owner metadata below, without a second full dependency inventory scan.
+  cap=read(capsule,expected=expected)
  if session.get('mod_sha256')!=cap['package_sha256'] or Path(session['registry'])!=root/'qualification/registry.json':raise ValueError('Native6 visibility session changed')
  safety=cap['safety']
  if memory.pid!=session['pid']:raise ValueError('Visibility PID mismatch')

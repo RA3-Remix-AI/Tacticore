@@ -2,17 +2,19 @@
 import copy
 import json
 import os
+import stat
 from pathlib import Path
 import struct
 import tempfile
 import unittest
 import uuid
 from unittest.mock import patch
+from types import SimpleNamespace
 
 from host_runtime.native6_journal import (BINDING_SIZE, JOURNAL_BINDING, JOURNAL_END, JOURNAL_SIZE, MAGIC,
                                         SHARED_SIZE, decode, verified, wire_binding)
 from host_runtime.native6_paths import Native6Paths, plain_local, session_hex
-from host_runtime.native6_runtime_contract import closure, locked_inputs, pin_map, profile, sha, verify_inventory
+from host_runtime.native6_runtime_contract import closure, locked_inputs, pin_map, profile, read, sha, verify_inventory
 
 
 class PortableNative6Tests(unittest.TestCase):
@@ -82,6 +84,20 @@ class PortableNative6Tests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 session_hex(session)
 
+    def test_plain_path_checks_each_ancestor_once_and_retains_reparse_rejection(self):
+        path = self.root / 'future' / 'file'
+        ancestors = (path, *path.parents)
+        ordinary = SimpleNamespace(st_mode=stat.S_IFDIR, st_file_attributes=0)
+        with patch.object(Path, 'lstat', return_value=ordinary) as checked:
+            self.assertEqual(plain_local(path), path)
+        self.assertEqual(checked.call_count, len(ancestors))
+        for information in (
+                SimpleNamespace(st_mode=stat.S_IFLNK, st_file_attributes=0),
+                SimpleNamespace(st_mode=stat.S_IFDIR, st_file_attributes=0x400)):
+            with self.subTest(information=information), patch.object(Path, 'lstat', return_value=information):
+                with self.assertRaisesRegex(ValueError, 'native6_reparse_path_refused'):
+                    plain_local(path)
+
     def test_mod_must_be_plain_file_inside_known_documents_mods(self):
         paths = Native6Paths.from_roots(self.root, self.root)
         mod = paths.mods / 'candidate/test.big'
@@ -124,6 +140,14 @@ class PortableNative6Tests(unittest.TestCase):
                      {'app/x': '0' * 64, 'APP/X': '1' * 64}, {'app/x.': '0' * 64}):
             with self.assertRaises(ValueError):
                 pin_map(pins)
+
+    def test_pinned_json_checks_the_same_bytes_it_parses(self):
+        path=self.root/'metadata.json';path.write_text('{"checked":true}',encoding='utf-8')
+        pin=sha(path)
+        self.assertEqual(read(path,expected=pin),{'checked':True})
+        path.write_text('{"checked":false}',encoding='utf-8')
+        with self.assertRaisesRegex(ValueError,'native6_pinned_file_changed'):
+            read(path,expected=pin)
 
     def test_closure_does_not_depend_on_object_key_order_but_detects_changes(self):
         left = {'app/b.py': '1' * 64, 'app/a.py': '2' * 64}

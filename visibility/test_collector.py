@@ -1,4 +1,5 @@
 import copy,struct,unittest
+from unittest.mock import patch
 from native_read import read_player_relation
 from collector import VisibilityCollector
 from projection import VisibilityProjection
@@ -48,4 +49,31 @@ class CollectorTests(unittest.TestCase):
  def test_relation_cycle_rejects(self):
   self.m.u(0x1f0000,8);self.m.u(0x1f0008,0x1f0000)
   with self.assertRaises(ValueError):read_player_relation(self.m,0x130000,4)
+ def test_relationship_change_during_sample_discards_all_contacts(self):
+  original=read_player_relation;calls=0
+  def changing(memory,player,index):
+   nonlocal calls
+   if index==4:
+    calls+=1
+    if calls==3:return 'ally'
+   return original(memory,player,index)
+  with patch('collector.read_player_relation',side_effect=changing):
+   with self.assertRaisesRegex(ValueError,'relationship changed'):self.sample(1)
+  self.assertEqual(self.c.private_targets,{})
+  self.assertEqual(self.projection.seen,{})
+ def test_player_identity_change_during_sample_discards_all_contacts(self):
+  original=self.m.u32;reads=0
+  def changing(address):
+   nonlocal reads
+   if address==0x140020:
+    reads+=1
+    if reads==2:return 5
+   return original(address)
+  with patch.object(self.m,'u32',side_effect=changing):
+   with self.assertRaisesRegex(ValueError,'relationship changed'):self.sample(1)
+  self.assertEqual(self.c.private_targets,{})
+ def test_player_metadata_is_read_once_per_sample_and_revalidated(self):
+  with patch('collector.read_player_relation',wraps=read_player_relation) as read:
+   self.sample(1)
+  self.assertEqual(sum(call.args[2]==4 for call in read.call_args_list),3)
 if __name__=='__main__':unittest.main()

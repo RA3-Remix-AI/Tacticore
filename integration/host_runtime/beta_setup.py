@@ -14,16 +14,22 @@ import uuid
 
 from .contracts import ContractError,identifier,object_fields
 from .native6_paths import known_folder,LOCAL_APP_DATA,DOCUMENTS,plain_local
-from .native6_qualification import current,create,COMMANDER,MAP_ID
-from .native6_runtime_contract import GAME_SHA,PACKAGE_SHA,read,sha
+from .native_portable_runtime import protocol
+NATIVE_PROTOCOL=protocol()
+if NATIVE_PROTOCOL==7:
+    from .native7_qualification import current,create,load,COMMANDER,MAP_ID
+    from .native7_runtime_contract import GAME_SHA,PACKAGE_SHA,read,sha
+else:
+    from .native6_qualification import current,create,load,COMMANDER,MAP_ID
+    from .native6_runtime_contract import GAME_SHA,PACKAGE_SHA,read,sha
 from .session_discovery import DiscoveryPolicy,TrustedFiles,TERMINAL
 from . import beta_launch
 from .beta_setup_upgrade import no_game,require_indexes,returned,preserve,replace_policy
 
 VERSION='0.1.0-beta.1'
-KIND='native6_installed_discovery_v1'
+KIND=f'native{NATIVE_PROTOCOL}_installed_discovery_v1'
 
-def descriptor_path(state,pin):return state/'sessions'/('native6-trial-'+pin+'.json')
+def descriptor_path(state,pin):return state/'sessions'/(f'native{NATIVE_PROTOCOL}-trial-'+pin+'.json')
 def launcher_path(state,policy):return state/('game-launch-'+policy['policy_id']+'.json')
 
 
@@ -33,7 +39,7 @@ def locations():
     # OS-resolved directory identity consistently for metadata/SQLite paths.
     legacy=plain_local(known_folder(LOCAL_APP_DATA)/'Tacticore',existing=False).resolve()
     home=legacy/'beta1';state=home/'desktop-runtime'
-    mods=known_folder(DOCUMENTS)/'Red Alert 3/Mods/Tacticore-beta1'
+    mods=known_folder(DOCUMENTS)/('Red Alert 3/Mods/Tacticore-beta4-'+PACKAGE_SHA[:12])
     return home,state,mods,legacy
 
 
@@ -122,7 +128,6 @@ def prepare(game,mod):
     exact_file(config,b'mod-game 1.12\nadd-big TFCommander.big\n')
     descriptor=descriptor_path(state,pin)
     if descriptor.exists():
-        from .native6_qualification import load
         load(descriptor)
     else:create(descriptor)
     values=dict(game=game,mod_config=config,mod_big=destination,registry=root/'qualification/registry.json',
@@ -131,7 +136,7 @@ def prepare(game,mod):
     for key,path in values.items():
         pins[key]=str(path);pins['mod_sha256' if key=='mod_big' else key+'_sha256']=sha(path)
     record=dict(schema_version=2,kind=KIND,policy_id=str(uuid.uuid4()),session_root=str(state/'sessions'),
-        runtime_manifest_sha256=pin,files=pins,scope=dict(SCOPE,native_epoch=6))
+        runtime_manifest_sha256=pin,files=pins,scope=dict(SCOPE,native_epoch=NATIVE_PROTOCOL))
     if old is not None and {k:v for k,v in old.items() if k!='policy_id'}=={k:v for k,v in record.items() if k!='policy_id'}:
         record=old
         exact_file(launcher_path(state,record),(json.dumps(beta_launch.record(game,config,pin,record['policy_id']),sort_keys=True)+'\n').encode())
@@ -159,7 +164,7 @@ def load_policy(state,record):
     object_fields(record,{'schema_version','kind','policy_id','session_root','runtime_manifest_sha256','files','scope'})
     from .session_discovery_native import SCOPE,validate_mod_file
     if (type(record['schema_version']) is not int or record['schema_version']!=2 or record['kind']!=KIND
-            or record['runtime_manifest_sha256']!=pin or record['scope']!=dict(SCOPE,native_epoch=6)
+            or record['runtime_manifest_sha256']!=pin or record['scope']!=dict(SCOPE,native_epoch=NATIVE_PROTOCOL)
             or Path(record['session_root'])!=expected/'sessions'):raise ContractError('discovery_policy_invalid')
     identifier(record['policy_id'])
     object_fields(record['files'],{field.name for field in fields(TrustedFiles)})
@@ -175,8 +180,8 @@ def load_policy(state,record):
             or files.mod_big!=mods/'TFCommander.big' or files.mod_config!=mods/'TFCommander_1.0.SkuDef'
             or files.registry!=root/'qualification/registry.json' or files.package_report!=root/'qualification/package.json'
             or files.macro_bundle!=descriptor_path(expected,pin)):raise ContractError('discovery_policy_invalid')
-    from .native6_qualification import load
-    load(files.macro_bundle);validate_mod_file(files.mod_config,files.mod_big)
+    load(files.macro_bundle,_verified=(root,pin,inventory,build,cap))
+    validate_mod_file(files.mod_config,files.mod_big)
     if read(launcher_path(state,record))!=beta_launch.record(files.game,files.mod_config,pin,record['policy_id']):
         raise ContractError('beta_game_launcher_changed')
     return record,DiscoveryPolicy(files,plain_local(expected/'sessions'),plain_local(expected),**record['scope'])
@@ -190,9 +195,11 @@ def status():
     old=read(target);_,pin,_,_,_=current()
     setup_changed=old.get('runtime_manifest_sha256')!=pin
     if setup_changed:
+        if old.get('files',{}).get('mod_sha256')!=PACKAGE_SHA:
+            return dict(schema_version=1,prepared=False,version=VERSION,reason_code='beta_mod_update_required')
         from .session_discovery_native import SCOPE
         if (type(old.get('schema_version')) is not int or old['schema_version']!=2 or old.get('kind')!=KIND
-                or old.get('scope')!=dict(SCOPE,native_epoch=6) or Path(old['session_root'])!=state/'sessions'):
+                or old.get('scope')!=dict(SCOPE,native_epoch=NATIVE_PROTOCOL) or Path(old['session_root'])!=state/'sessions'):
             raise ContractError('beta_setup_changed_requires_migration')
         # The previous native picker's selections retain their authorization.
         # The fresh factory still checks exact Game/Mod/base hashes and can

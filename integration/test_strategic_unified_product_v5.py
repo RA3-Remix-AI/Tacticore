@@ -22,6 +22,7 @@ class Dispatch(unittest.TestCase):
         self.journal=CommandJournal(Path(self.tmp.name)/'ledger.sqlite');self.addCleanup(self.journal.close)
         self.session=str(uuid.uuid4());self.run=str(uuid.uuid4());self.journal.register_run(self.run,dict(session_id=self.session))
         self.calls=[];self.components=[1,1,1]
+        self.flag_actions=FLAG_ACTIONS
         def empty_gate():
             return dict(phase=0,baseline_captured=0,baseline=[0,0,0],observed=[0,0,0],frame=0,deadline_frame=0,
                 attempted=0,requested_enabled=0,operation_enabled=0,already_satisfied=0)
@@ -43,7 +44,7 @@ class Dispatch(unittest.TestCase):
                 if not release:state['deadline_frame']=min(frame+frames,not_after_frame)
                 self.native['result']=3 if release else 7 if satisfied and desired else 6 if desired else 2
             else:
-                mask=sum(1<<FLAG_ACTIONS.index(a) for a in actions)
+                mask=sum(1<<self.flag_actions.index(a) for a in actions)
                 self.native.update(applied_mask=mask,flag_phase=1 if mask else 4,
                     flag_deadline=min(frame+frames,not_after_frame) if mask else 0,result=8)
             return dict(seq=self.native['ack'],native_gate_acknowledged=True,native_effect_verified=False,native=copy.deepcopy(self.native))
@@ -70,6 +71,32 @@ class Dispatch(unittest.TestCase):
         self.assertEqual(self.journal.unresolved(self.run),[])
         self.assertTrue(all(set(r['payload'])<=set(('actions','plan_id','native_command_id','duration_frames','not_after_frame','unit_operation_policy','parent_command_id','gate','enabled','release'))
             for r in self.journal.commands_for_run(self.run)))
+
+    def test_native_enemy_attack_uses_the_qualified_flag_order_and_releases(self):
+        self.flag_actions=tuple('attackenemy' if a=='deployattack' else a for a in FLAG_ACTIONS)
+        scope=SimpleNamespace(available_actions=self.flag_actions+tuple(GATE_ACTIONS),
+            action_flags=dict(zip(self.flag_actions,FLAG_ACTIONS)))
+        previous=self.controller
+        self.controller=UnifiedStrategicControllerV5(previous.transport,self.journal,self.run,scope,
+            self.session,'a'*64,lambda *a,**k:None)
+        receipt=self.controller.dispatch(self.plan(['attackenemy']),101,effective_hash='a'*64)
+        self.assertEqual(self.native['applied_mask'],1<<7)
+        self.assertIn('attackenemy',receipt['action_domain_windows'])
+        self.assertTrue(self.controller._domain_active('attackenemy',self.native['last_frame'],self.native))
+        self.controller.dispatch(self.plan([]),102,effective_hash='a'*64)
+        self.assertFalse(self.native['applied_mask'])
+        with self.assertRaisesRegex(ContractError,'not_qualified'):
+            self.controller.dispatch(self.plan(['deployattack']),103,effective_hash='a'*64)
+
+    def test_current_own_budget_weights_require_native_observation(self):
+        from host_runtime.macro_policy_runtime import ACCOUNTS
+        budget=dict(selected_macro_flag=None,account_shares=dict(zip(ACCOUNTS,[0,0,.85,.05,0,.1])))
+        observation=dict(frame=1500,budget_feedback=budget)
+        self.assertNotIn('native_account_shares',self.controller.feedback(observation))
+        budget['native_percentages_observed']=True
+        self.assertEqual(self.controller.feedback(observation)['native_account_shares']['investment'],0)
+        budget['account_shares']['production']=.2
+        with self.assertRaisesRegex(ContractError,'account_shares_invalid'):self.controller.feedback(observation)
     def test_native_900_frame_cap_is_not_expanded_to_model_3000(self):
         plan=self.plan(['scout']);plan.expires_at_game_seconds=200
         receipt=self.controller.dispatch(plan,101,effective_hash='a'*64)
@@ -93,6 +120,30 @@ class Dispatch(unittest.TestCase):
         self.assertEqual(len(self.journal.unresolved(self.run)),2)
         with self.assertRaisesRegex(ContractError,'already_claimed'):self.controller.dispatch(plan,102,effective_hash='a'*64)
         self.assertEqual(len(self.calls),2)
+
+    def test_proven_unpublished_expiry_rejects_batch_without_unknown_ownership(self):
+        def expired(*args,**kwargs):
+            raise ContractError('macro_plan_expired_before_native_dispatch')
+        self.controller.transport.apply=expired
+        plan=self.plan(['scout'])
+        with self.assertRaisesRegex(ContractError,'expired_before_native_dispatch'):
+            self.controller.dispatch(plan,101,effective_hash='a'*64)
+        self.assertFalse(self.controller.delivery_unknown)
+        self.assertEqual(self.journal.unresolved(self.run),[])
+        rows=self.journal.commands_for_run(self.run)
+        self.assertEqual(len(rows),2)
+        self.assertTrue(all(row['status']=='rejected' and row['receipt']['native_delivery_attempted'] is False for row in rows))
+        with self.assertRaisesRegex(ContractError,'already_claimed'):
+            self.controller.dispatch(plan,102,effective_hash='a'*64)
+
+    def test_unpublished_flags_after_published_manager_remains_unknown_batch(self):
+        def expired(*args,**kwargs):
+            raise ContractError('macro_plan_expired_before_native_dispatch')
+        self.controller.transport.apply=expired
+        with self.assertRaisesRegex(ContractError,'outcome_unknown'):
+            self.controller.dispatch(self.plan(['pauseconstruction','scout']),101,effective_hash='a'*64)
+        self.assertTrue(self.controller.delivery_unknown)
+        self.assertEqual(len(self.calls),1)
     def test_expired_and_detailed_or_opposing_intents_have_no_native_effect(self):
         for actions in (['produceconscript'],['pauseconstruction','advanceconstruction'],['expand','scout']):
             with self.assertRaises(ContractError):self.controller.dispatch(self.plan(actions),101,effective_hash='a'*64)

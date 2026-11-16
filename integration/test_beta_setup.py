@@ -40,6 +40,8 @@ class BetaSetup(unittest.TestCase):
             self.addCleanup(patch.stopall)
             patch.object(module,'current',return_value=authority).start()
             patch.object(module,'GAME_SHA',self.game_sha).start();patch.object(module,'PACKAGE_SHA',self.mod_sha).start()
+        patch.object(q,'runtime_root',side_effect=lambda:q.current.return_value[0]).start()
+        patch.object(q,'trusted_pin',side_effect=lambda:q.current.return_value[1]).start()
         patch.object(s,'locations',return_value=(self.home,self.state,self.mods,self.legacy)).start()
         self.guard=patch.object(s,'guard_states');self.guard_mock=self.guard.start()
 
@@ -57,7 +59,7 @@ class BetaSetup(unittest.TestCase):
         s.prepare(self.game,self.mod)
         with patch.object(s.subprocess,'Popen') as spawn:
             self.assertTrue(s.launch()['game_launch_requested'])
-        self.assertEqual(spawn.call_args.args[0],[str(self.game),'-ui','-win','-modConfig',
+        self.assertEqual(spawn.call_args.args[0],[str(self.game),'-win','-modConfig',
             str(self.mods/'TFCommander_1.0.SkuDef'),'-config',str(self.game.parent.parent/beta_launch.ENTRY)])
         self.assertEqual(spawn.call_args.kwargs['cwd'],self.game.parent.parent)
 

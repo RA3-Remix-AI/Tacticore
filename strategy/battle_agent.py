@@ -235,7 +235,7 @@ class TaskCoordinator:
 
 class BattleAgent:
     def __init__(self,engine:StrategyEngine,*,event_capacity=32,dialogue_turns=2,context_budget_bytes=8192,enemy_ttl_game_seconds=60,build_evidence=None,tactical_evidence=None,mission_evidence=None,memory_path:Path|None=None,jobs_path:Path|None=None):
-        if type(event_capacity) is not int or not 4<=event_capacity<=64 or type(dialogue_turns) is not int or not 0<=dialogue_turns<=4 or type(context_budget_bytes) is not int or not 4096<=context_budget_bytes<=16384:
+        if type(event_capacity) is not int or not 4<=event_capacity<=64 or type(dialogue_turns) is not int or not 0<=dialogue_turns<=4 or type(context_budget_bytes) is not int or not 4096<=context_budget_bytes<=32768:
             raise ContractError("agent_limits")
         if not isinstance(enemy_ttl_game_seconds,(float,int)) or not 5<=enemy_ttl_game_seconds<=300:raise ContractError("enemy_ttl")
         self.engine=engine;self.events=deque();self.event_capacity=event_capacity;self.dialogue=deque(maxlen=dialogue_turns)
@@ -244,6 +244,7 @@ class BattleAgent:
         self.missions=MissionBoard(engine.binding,mission_evidence)
         self.summary={"events_compacted":0,"counts_by_kind":{},"completed_tasks":{m:0 for m in MODULES},"failed_tasks":{m:0 for m in MODULES},"last_compacted_game_time":None}
         self.event_id=0;self.last_prompt_event=0;self.last_prompt_snapshot=None;self.last_intent=None
+        self.last_prompt_own_combat = None
         self.last_failures={}
         self.context_audit_path=Path(memory_path).with_name(Path(memory_path).stem+'.context-audit.jsonl') if memory_path is not None else None
         self.metrics={"context_builds":0,"compactions":0,"max_payload_bytes":0,"expired_enemy_facts":0,"context_rejections":0,"post_response_guard_rejections":0}
@@ -295,10 +296,10 @@ class BattleAgent:
             for contact in snapshot.battlefield.contacts:
                 old=self.contact_facts.get(contact.contact_id)
                 if at-contact.observed_at_game_seconds>self.enemy_ttl:continue
-                if old is not None and (old["owner_player_id"]!=contact.owner_player_id or old["relation"]!=contact.relation or old["role"]!=contact.role):raise ContractError("contact_identity_changed")
+                if old is not None and (old["owner_player_id"]!=contact.owner_player_id or old["relation"]!=contact.relation):raise ContractError("contact_identity_changed")
                 if old is None and not contact.currently_visible:raise ContractError("unseen_contact_history")
                 if old is None or contact.observed_at_game_seconds>=old["observed_at_game_seconds"]:
-                    if old is not None and not contact.currently_visible and (contact.region_id!=old["region_id"] or contact.observed_at_game_seconds!=old["observed_at_game_seconds"]):raise ContractError("hidden_contact_updated")
+                    if old is not None and not contact.currently_visible and (contact.region_id!=old["region_id"] or contact.observed_at_game_seconds!=old["observed_at_game_seconds"] or contact.role!=old['role'] or contact.unit_type!=old.get('unit_type')):raise ContractError("hidden_contact_updated")
                     value=contact.public();value["currently_visible"]=bool(contact.currently_visible and at-contact.observed_at_game_seconds<=3)
                     self.contact_facts[contact.contact_id]=value
                     if old is None:self._event("contact_observed",at,role=contact.role,relation=contact.relation,region_id=contact.region_id)
@@ -306,8 +307,10 @@ class BattleAgent:
             if at-fact["observed_at_game_seconds"]>self.enemy_ttl:
                 del self.contact_facts[contact_id];self._event("contact_expired",at,role=fact["role"])
         if len(self.contact_facts)>64:
-            oldest=sorted(self.contact_facts,key=lambda key:(self.contact_facts[key]["observed_at_game_seconds"],key))
-            for contact_id in oldest[:-64]:del self.contact_facts[contact_id]
+            retained=sorted(self.contact_facts,key=lambda key:(
+                not self.contact_facts[key]["currently_visible"],
+                -self.contact_facts[key]["observed_at_game_seconds"],key))[:64]
+            self.contact_facts={key:self.contact_facts[key] for key in retained}
         for event in snapshot.events:self._event("game_event",at,event=event)
         if previous is None:self._event("session_observed",at)
         elif abs(snapshot.credits-previous.credits)>=500:self._event("economy_change",at,credits_delta=snapshot.credits-previous.credits)
@@ -588,7 +591,18 @@ class BattleAgent:
         priority_contacts={task.target_contact_id for task in self.engine.current.tactical_tasks} if self.engine.current else set()
         facts=sorted(self.contact_facts.values(),key=lambda fact:(fact["contact_id"] not in priority_contacts,-fact["observed_at_game_seconds"],fact["contact_id"]))
         selected=[fact for fact in facts if fact["currently_visible"]][:12]+[fact for fact in facts if not fact["currently_visible"]][:4]
-        battlefield_context={"viewer_player_id":snapshot.player_id,"visibility_verified":bool(battlefield and battlefield.visibility_verified),"regions":[region.public() for region in battlefield.regions if region.region_id in regions] if battlefield else [],"contacts":[{**fact,"age_game_seconds":snapshot.game_time_seconds-fact["observed_at_game_seconds"],"certainty":"visible" if fact["currently_visible"] else "last_seen"} for fact in selected],"formations":[formation.public() for formation in battlefield.formations][:8] if battlefield else []}
+        battlefield_context={
+            "viewer_player_id":snapshot.player_id,
+            "visibility_verified":bool(battlefield and battlefield.visibility_verified),
+            "regions":[region.public() for region in sorted(battlefield.regions,
+                key=lambda region:region.region_id not in pinned_regions)
+                if region.region_id in regions] if battlefield else [],
+            "contacts":[{**fact,
+                "age_game_seconds":snapshot.game_time_seconds-fact["observed_at_game_seconds"],
+                "certainty":"visible" if fact["currently_visible"] else "last_seen"}
+                for fact in selected],
+            "formations":[formation.public() for formation in battlefield.formations][:8] if battlefield else [],
+        }
         manifest=self.capability_manifest()
         payload={
             "schema_version":1,"agent_protocol":"battle_agent_v1",
@@ -601,12 +615,23 @@ class BattleAgent:
             "conversation_tail":list(self.dialogue),
             "context_limits":{"maximum_bytes":self.context_budget,"regions_omitted":len(snapshot.regions)-len(regions),"contacts_omitted":len(self.contact_facts)-len(selected),"formations_omitted":len(battlefield.formations)-len(battlefield_context["formations"]) if battlefield else 0,"details_truncated":bool(len(self.contact_facts)>len(selected) or (battlefield and len(battlefield.formations)>len(battlefield_context["formations"])))},
         }
+        if snapshot.match_state is not None:
+            payload['working_memory']['match_state'] = snapshot.match_state.public()
         if snapshot.macro_control is not None:
             payload.update(control_mode='macro_native',allowed_macro_actions=list(snapshot.macro_control),
                 macro_policy_catalog=request['macro_policy_catalog'])
+            if snapshot.macro_intent_contract is not None:
+                payload['macro_intent_contract']=snapshot.macro_intent_contract
             payload['working_memory']['battlefield']['formations']=[]
             payload['capability_manifest']={key:value for key,value in manifest.items() if key=='build'}
             payload['pending_decisions']=[dict(module='macro',question='choose_available_macro_policy')]
+            if self.last_prompt_own_combat is not None:
+                since, previous_count = self.last_prompt_own_combat
+                current_count = sum(count for role, count in snapshot.own_roles
+                                    if role not in ('economy', 'structure'))
+                payload['working_memory']['own_combat_change'] = dict(
+                    since_game_seconds=since, previous_count=previous_count,
+                    current_count=current_count, net_change=current_count-previous_count)
         if self.missions.evidence is not None:payload['working_memory']['persistent_missions']=self.missions.context()
         if snapshot.runtime_opportunity is not None:
             payload['runtime_opportunity']=snapshot.runtime_opportunity.public()
@@ -637,8 +662,12 @@ class BattleAgent:
         length=len(json.dumps(payload,ensure_ascii=False,allow_nan=False,separators=(",",":")).encode("utf-8"))
         self.metrics["context_builds"]+=1;self.metrics["max_payload_bytes"]=max(self.metrics["max_payload_bytes"],length)
         self.last_prompt_event=max(self.last_prompt_event,payload["delta"]["through_event_id"]);self.last_prompt_snapshot=payload["snapshot_id"]
+        if payload.get('control_mode') == 'macro_native':
+            count = sum(count for role, count in payload['working_memory']['economy']['own_roles'].items()
+                        if role not in ('economy', 'structure'))
+            self.last_prompt_own_combat = (payload['game_time_seconds'], count)
 
-    async def decide(self,raw,adapter):
+    async def decide(self,raw,adapter,*,response_ready=None):
         snapshot=self.observe(raw)
         requests_before=self.engine.metrics["requests"]
         context_error=None
@@ -682,7 +711,8 @@ class BattleAgent:
                 self._event("policy_guard_rejected",snapshot.game_time_seconds,reason_code=code,snapshot_id=snapshot.snapshot_id)
                 self.engine.audit.emit(self.engine.binding,event="policy_guard_rejected",reason_code=code,snapshot_id=snapshot.snapshot_id,game_time_seconds=snapshot.game_time_seconds)
                 raise
-        result=await self.engine.decide(snapshot,session_adapter)
+        response_options={'response_ready':response_ready} if response_ready is not None else {}
+        result=await self.engine.decide(snapshot,session_adapter,**response_options)
         self._synchronize_goals()
         if self.engine.metrics["requests"]>requests_before:
             self._event("decision",self.latest.game_time_seconds,status=result.status,reason_code=result.reason_code)

@@ -108,7 +108,7 @@ def _work_retry_basis(facts):
     # Native preference/status, budget choice and observation age are not new
     # resources, prerequisites or force conditions for retrying failed work.
     return {key:value for key,value in facts.items() if key.startswith(('own.','production.'))
-            or key.startswith('enemy.') and key.endswith('.count')}
+            or key.startswith('enemy.') and key.endswith('.count') or key == 'match.opponents.remaining'}
 
 
 def _work_retry_basis_changed(previous, current):
@@ -218,6 +218,16 @@ class MacroStrategyMemory:
         working = context.get('working_memory', {})
         if type(working) is not dict:
             raise StrategyError('strategy_context_memory')
+        match = None
+        if working.get('match_state') is not None:
+            from match_state import MatchState
+            try:
+                match = MatchState.from_dict(working['match_state'], self.player_id, at)
+            except ValueError as error:
+                raise StrategyError(str(error)) from None
+            facts['match.opponents.total'] = len(match.opponent_player_ids)
+            facts['match.opponents.remaining'] = len(match.opponent_player_ids) - len(match.defeated_opponent_ids)
+            facts['match.opponents.allied'] = match.opponents_allied
         economy = working.get('economy', context.get('resources', {}))
         if type(economy) is not dict:
             raise StrategyError('strategy_context_economy')
@@ -231,6 +241,9 @@ class MacroStrategyMemory:
         for role in _ROLES:
             if role in roles:
                 facts['own.role.'+role] = _number(roles[role], 0, 8192, 'strategy_context_count')
+        if roles:
+            facts['own.observed_combat_roles'] = sum(facts.get('own.role.'+role,0)
+                for role in _ROLES if role not in ('economy','structure'))
         forces = context.get('own_forces')
         if forces is not None:
             self._own_source(forces, at, ('observed_frame',))
@@ -240,6 +253,21 @@ class MacroStrategyMemory:
             for name in _UNITS:
                 if name in named:
                     facts['own.unit.'+name] = _number(named[name], 0, 8192, 'strategy_context_count')
+            buildings=forces.get('building_presence_counts',{})
+            if type(buildings) is not dict or set(buildings)-set(_BUILDINGS):
+                raise StrategyError('strategy_context_infrastructure')
+            for name,count in buildings.items():
+                if type(count) is not int or not 0<=count<=8192:
+                    raise StrategyError('strategy_context_count')
+                facts['own.present.'+name]=count
+            economic = forces.get('economic_unit_presence_counts')
+            if economic is not None:
+                if type(economic) is not dict or set(economic) != {'ore_collector'}:
+                    raise StrategyError('strategy_context_forces')
+                count = economic['ore_collector']
+                if type(count) is not int or not 0 <= count <= 8192:
+                    raise StrategyError('strategy_context_count')
+                facts['own.present.ore_collector'] = count
         infrastructure = context.get('own_infrastructure')
         if infrastructure is not None:
             self._own_source(infrastructure, at, ('builder_frame', 'own_census_frame'))
@@ -260,19 +288,23 @@ class MacroStrategyMemory:
                     facts['production.'+action+'.'+name] = _number(production[name], 0, 100000, 'strategy_context_count')
         unified=context.get('macro_unified_feedback')
         if unified is not None:
-            if type(unified) is not dict or unified.get('source')!='bound_native_strategy_v5':
+            if type(unified) is not dict or unified.get('source') not in ('bound_native_strategy_v5','bound_native_strategy_v7'):
                 raise StrategyError('strategy_context_unified_source')
+            native7=unified['source']=='bound_native_strategy_v7'
             self._frames(unified,at,('observed_frame',))
             rows=unified.get('observations')
-            if type(rows) is not list or len(rows)>5:raise StrategyError('strategy_context_unified_bounds')
+            maximum=6 if native7 else 5
+            if type(rows) is not list or len(rows)>maximum:raise StrategyError('strategy_context_unified_bounds')
             for row in rows:
                 action=row.get('action') if type(row) is dict else None
                 if action not in actions:raise StrategyError('strategy_context_unified_action')
                 status=row.get('status')
-                if status not in ('native_task_active','native_manager_state_observed','native_waiting_or_no_effect','preference_released'):
+                if status not in ('native_task_active','native_manager_state_observed','native_waiting_or_no_effect','preference_released','native_enemy_priority_observed'):
+                    raise StrategyError('strategy_context_unified_status')
+                if status=='native_enemy_priority_observed' and (not native7 or ACTIONS[action]!='enemy_focus'):
                     raise StrategyError('strategy_context_unified_status')
                 facts['native.'+action]=status
-            if len(rows)==5 and not any(row['action']=='expand' and row.get('preference_active') is False
+            if not native7 and len(rows)==maximum and not any(row['action']=='expand' and row.get('preference_active') is False
                     and row['status']=='native_task_active' for row in rows):
                 raise StrategyError('strategy_context_unified_bounds')
         # Use only the existing visibility-validated, own-view public memory.
@@ -280,6 +312,72 @@ class MacroStrategyMemory:
         battlefield = working.get('battlefield', {})
         enemies = working.get('verified_enemy_facts', [])
         if type(battlefield) is dict and battlefield.get('visibility_verified') is True:
+            regions=battlefield.get('regions',[])
+            if type(regions) is not list or len(regions)>64:
+                raise StrategyError('strategy_context_enemy')
+            catalog=context.get('macro_policy_catalog',{})
+            if type(catalog) is not dict or type(catalog.get('deploydefense',{})) is not dict:
+                raise StrategyError('strategy_context_capabilities')
+            home=catalog.get('deploydefense',{}).get('target_region')
+            visible_total=home_total=0
+            visible_combat=home_combat=0
+            enemy_region_observed=False
+            home_observed=False
+            for region in regions:
+                if type(region) is not dict:raise StrategyError('strategy_context_enemy')
+                if home is not None and region.get('region_id')==home and region.get('currently_visible') is True:
+                    seen=_number(region.get('observed_at_game_seconds'),0,at,'strategy_context_enemy')
+                    home_observed=home_observed or at-seen<=3
+                if region.get('relation')!='enemy' or region.get('currently_visible') is not True:continue
+                seen=_number(region.get('observed_at_game_seconds'),0,at,'strategy_context_enemy')
+                if at-seen>3:continue
+                enemy_region_observed=True
+                counts=region.get('role_counts')
+                if type(counts) is not dict or len(counts)>len(_ROLES):raise StrategyError('strategy_context_enemy')
+                observed=0
+                combat=0
+                for role,count in counts.items():
+                    _enum(role,_ROLES,'strategy_context_enemy')
+                    count=_number(count,0,8192,'strategy_context_enemy')
+                    observed+=count
+                    if role not in ('economy','structure'):combat+=count
+                visible_total+=observed
+                visible_combat+=combat
+                if home is not None and region.get('region_id')==home:
+                    home_total+=observed
+                    home_combat+=combat
+            # These count current lawful observations, never the enemy's
+            # complete force or proof that an unobserved region is empty.
+            if visible_total:facts['enemy.visible.observations']=visible_total
+            if enemy_region_observed:facts['enemy.visible.combat_observations']=visible_combat
+            if home_observed:
+                facts['enemy.home.visible_observations']=home_total
+                facts['enemy.home.combat_observations']=home_combat
+            if match is not None and len(match.opponent_player_ids)==2:
+                groups=battlefield.get('contact_groups',[])
+                if type(groups) is not list or len(groups)>64:raise StrategyError('strategy_context_enemy_groups')
+                observed_players={}
+                for group in groups:
+                    if type(group) is not dict:raise StrategyError('strategy_context_enemy_groups')
+                    owner=group.get('owner_player_id')
+                    if owner is None:continue
+                    if type(owner) is not int or not 0<=owner<20:raise StrategyError('strategy_context_enemy_owner')
+                    if owner not in match.opponent_player_ids or group.get('relation')!='enemy':continue
+                    if type(group.get('currently_visible')) is not bool:raise StrategyError('strategy_context_enemy_groups')
+                    if not group['currently_visible']:continue
+                    oldest=_number(group.get('oldest_game_seconds'),0,at,'strategy_context_enemy_groups')
+                    _number(group.get('newest_game_seconds'),oldest,at,'strategy_context_enemy_groups')
+                    if at-oldest>3:continue
+                    count=group.get('observations')
+                    if type(count) is not int or not 1<=count<=8192:raise StrategyError('strategy_context_enemy_groups')
+                    role=_enum(group.get('role'),_ROLES,'strategy_context_enemy_groups')
+                    totals=observed_players.setdefault(owner,[0,0])
+                    totals[0]+=count
+                    if role not in ('economy','structure'):totals[1]+=count
+                for owner,(total,combat) in observed_players.items():
+                    prefix='enemy.player'+str(owner)+'.visible.'
+                    facts[prefix+'observations']=total
+                    facts[prefix+'combat_observations']=combat
             if type(enemies) is not list or len(enemies) > 32:
                 raise StrategyError('strategy_context_enemy')
             for row in enemies:
@@ -318,7 +416,13 @@ class MacroStrategyMemory:
         if at < self._last_mutation_time:
             raise StrategyError('strategy_context_before_memory')
         pinned = list(self._current['public_fact_refs']) if self._current else []
-        priority = pinned + ['own.credits', 'own.power_balance', 'capabilities.actions'] + [key for key in facts if key.startswith('native.')] + [
+        priority = pinned + ['own.credits','own.observed_combat_roles','own.role.structure',
+                             'enemy.home.combat_observations','enemy.visible.combat_observations',
+                             'enemy.player4.visible.combat_observations','enemy.player5.visible.combat_observations',
+                             'enemy.home.visible_observations','enemy.visible.observations',
+                             'match.opponents.remaining','own.present.ore_collector','own.present.refinery','own.present.war_factory',
+                             'own.present.super_reactor','own.present.battle_lab','own.present.construction_yard',
+                             'own.present.barracks','own.present.power_plant','own.power_balance'] + [key for key in facts if key.startswith('match.')] + [key for key in facts if key.startswith('native.')] + [
                              'own.queued_count', 'own.idle_producers'] + list(facts)
         catalog = {key: facts[key] for key in dict.fromkeys(priority) if key in facts}
         result = dict(schema_version=1, fact_catalog=catalog,
@@ -356,7 +460,8 @@ class MacroStrategyMemory:
             raise StrategyError('strategy_objective_requires_new_id')
         return dict(raw, strategy_id=ident or str(uuid.uuid4()))
 
-    def review(self, plan, declaration, request_context, latest_context=None, *, urgent=False):
+    def review(self, plan, declaration, request_context, latest_context=None, *, urgent=False,
+               reaffirm_command_id=None):
         requested_at, request_facts = self._facts(request_context)
         at, latest = self._facts(latest_context if latest_context is not None else request_context)
         if at < self._last_mutation_time:
@@ -377,7 +482,7 @@ class MacroStrategyMemory:
         if type(urgent) is not bool:
             raise StrategyError('strategy_urgent_assertion')
         actions = raw.get('macro_actions')
-        if (type(actions) not in (list, tuple) or len(actions) > 5
+        if (type(actions) not in (list, tuple) or len(actions) > 6
                 or any(type(a) is not str or a not in request_facts['capabilities.actions']
                        or a not in latest['capabilities.actions'] for a in actions)
                 or len(set(actions)) != len(actions)):
@@ -415,12 +520,13 @@ class MacroStrategyMemory:
             reason = 'strategy_plan_already_dispatched'
         elif any(row['outcome'] == 'unknown' for row in self._commands.values()):
             reason = 'strategy_unknown_outcome'
-        for row in self._commands.values():
+        for command_id, row in self._commands.items():
             if reason or row['fingerprint'] != fingerprint:
                 continue
             if row['outcome'] == 'unknown':
                 reason = 'strategy_unknown_outcome'
-            elif row['outcome'] in ('pending', 'effect_observed') and row['released_at'] is None:
+            elif (row['outcome'] in ('pending', 'effect_observed') and row['released_at'] is None
+                    and reaffirm_command_id != command_id):
                 reason = 'strategy_intent_in_flight'
             elif row['outcome'] in ('no_effect', 'failed', 'expired') and not row['had_effect']:
                 changed = any(latest.get(ref) != value for ref, value in row['basis'].items())

@@ -306,6 +306,19 @@ class DesktopBackendTests(unittest.TestCase):
         self.assertNotIn(str(self.root), json.dumps(diagnostics))
         self.assertNotIn("ready_token", json.dumps(diagnostics))
 
+    def test_native7_stop_uses_the_cross_process_admission_barrier(self):
+        result,run_id,_=self.start();self.status_file(result)
+        original=self.backend.journal.commands_for_run
+        def commands(*args,**kwargs):
+            rows=original(*args,**kwargs)
+            if kwargs.get('operation')=='host_start':
+                return [dict(row,payload=dict(row['payload'],capabilities=dict(native_transport_protocol=7))) for row in rows]
+            return rows
+        with patch.object(self.backend.journal,'commands_for_run',side_effect=commands),\
+                patch('host_runtime.strategic_stop_gate_v1.StrategicStopGateV1.publish_stop') as publish:
+            self.backend.run_stop(dict(run_id=run_id,session_id=SESSION),str(uuid.uuid4()))
+        publish.assert_called_once()
+
     def test_bridge_exact_shapes_and_no_claimed_model_on_check_start(self):
         service = BridgeService(self.store, self.backend)
         def rpc(operation, args=None, request_id=None):

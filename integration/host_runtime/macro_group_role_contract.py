@@ -27,13 +27,22 @@ def group_role_catalog_overrides():
 
 def native6_group_role_catalog_overrides(home_region):
     from .contracts import ContractError
-    from .native6_scenarios import TEMPLE_PRIME, INFINITY_ISLE
+    from .native6_scenarios import NATIVE6_SCENARIOS
 
-    if type(home_region) is not str or home_region not in (TEMPLE_PRIME.own_region, INFINITY_ISLE.own_region):
+    if type(home_region) is not str or home_region not in {scenario.own_region for scenario in NATIVE6_SCENARIOS}:
         raise ContractError('macro_base_defense_catalog_region_binding')
     result = group_role_catalog_overrides()
     for description in result.values():
         description['target_region'] = home_region
     result['deploydefense']['region_semantics'] = 'own_home_base_anchor_not_a_specific_structure_or_move_destination'
     result['reinforce']['region_semantics'] = 'own_home_base_anchor_native_base_selection'
+    return result
+
+
+def native6_strategic_catalog_overrides(home_region):
+    from native_unified_contract_v5 import additional_catalog
+
+    result = native6_group_role_catalog_overrides(home_region)
+    result['expand'] = dict(additional_catalog(('expand',))['expand'],
+                            native_expansion_interval_seconds=240)
     return result

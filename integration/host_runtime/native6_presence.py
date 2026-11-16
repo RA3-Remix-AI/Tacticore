@@ -12,7 +12,7 @@ class SemaphoreBasicInformation(c.Structure):
 
 def query_macro_objects(pid,mapping_prefix,*,kernel=None,ntdll=None,last_error=None):
     if (type(pid) is not int or not 0<pid<=0xffffffff or type(mapping_prefix) is not str
-            or mapping_prefix!='Local\\RA3StrategicCommanderV6_'):
+            or mapping_prefix not in ('Local\\RA3StrategicCommanderV6_','Local\\RA3StrategicCommanderV7_')):
         raise ContractError('session_not_ready')
     kernel=kernel or c.WinDLL('kernel32',use_last_error=True);ntdll=ntdll or c.WinDLL('ntdll')
     last_error=last_error or c.get_last_error

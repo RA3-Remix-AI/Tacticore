@@ -19,6 +19,65 @@ def feedback(agent,task,status="completed",reason="ok"):
 
 
 class Sessions(unittest.IsolatedAsyncioTestCase):
+    async def test_macro_home_observation_survives_region_compaction_before_remote_sightings(self):
+        agent=BattleAgent(StrategyEngine(binding()))
+        regions=['far_'+str(index) for index in range(8)]+['home']
+        raw=snapshot(capabilities=dict(production_focus=['native_baseline'],regions=regions),
+            macro_control=dict(mode='macro_native',available_actions=['deploydefense'],
+                               region_targets={'deploydefense':'home'}))
+        raw['battlefield']=dict(schema_version=1,viewer_player_id=3,visibility_verified=True,
+            regions=[dict(region_id=name,relation='self' if name=='home' else 'enemy',
+                observed_at_game_seconds=100,currently_visible=True,
+                role_counts={} if name=='home' else {'armor':1}) for name in regions],
+            contacts=[],formations=[])
+        agent.observe(raw)
+        context=agent.context(agent.latest.model_context(binding()),commit=False,
+            wire_size=lambda value:100*len(value['working_memory']['battlefield']['regions']),wire_limit=200)
+        retained=context['working_memory']['battlefield']['regions']
+        self.assertEqual(len(retained),2)
+        self.assertEqual(retained[0]['region_id'],'home')
+        self.assertEqual(retained[0]['role_counts'],{})
+        from macro_strategy import MacroStrategyMemory
+        memory=MacroStrategyMemory(session_id=SESSION,commander_id=COMMANDER,player_id=3,
+                                   profile_revision=1,effective_hash='a'*64)
+        facts=memory.context(context)['fact_catalog']
+        self.assertEqual(facts['enemy.home.visible_observations'],0)
+        self.assertEqual(facts['enemy.visible.observations'],1)
+
+    async def test_macro_own_combat_changes_reach_cross_round_context(self):
+        agent = BattleAgent(StrategyEngine(binding()))
+        control = dict(mode='macro_native', available_actions=['budgetarmy'])
+        first = snapshot(macro_control=control)
+        first['production']['own_roles'] = dict(infantry=8, armor=2, economy=2, structure=5)
+        agent.observe(first)
+        initial = agent.context(agent.latest.model_context(binding()))
+        self.assertNotIn('own_combat_change', initial['working_memory'])
+        second = snapshot(2, 101, macro_control=control)
+        second['production']['own_roles'] = dict(infantry=4, armor=3, economy=3, structure=6)
+        agent.observe(second)
+        context = agent.context(agent.latest.model_context(binding()), commit=False)
+        change = context['working_memory']['own_combat_change']
+        self.assertEqual(change, dict(since_game_seconds=100, previous_count=10,
+                                     current_count=7, net_change=-3))
+        again = agent.context(agent.latest.model_context(binding()), commit=False)
+        self.assertEqual(again['working_memory']['own_combat_change'], change)
+        agent.context(agent.latest.model_context(binding()))
+        after = agent.context(agent.latest.model_context(binding()), commit=False)
+        self.assertEqual(after['working_memory']['own_combat_change']['net_change'], 0)
+
+    async def test_macro_own_combat_changes_ignore_economic_and_structure_presence(self):
+        agent = BattleAgent(StrategyEngine(binding()))
+        control = dict(mode='macro_native', available_actions=['budgetarmy'])
+        for ident, economy, structures in [(1, 2, 5), (2, 1, 0)]:
+            raw = snapshot(ident, 99+ident, macro_control=control)
+            raw['production']['own_roles'] = dict(infantry=4, economy=economy, structure=structures)
+            agent.observe(raw)
+            context = agent.context(agent.latest.model_context(binding()))
+        self.assertEqual(context['working_memory']['own_combat_change']['net_change'], 0)
+        other = BattleAgent(StrategyEngine(binding()))
+        other.observe(raw)
+        self.assertNotIn('own_combat_change', other.context(other.latest.model_context(binding()))['working_memory'])
+
     async def test_strategy_is_held_and_only_summary_delta_is_sent(self):
         seen=[]
         async def model(context):seen.append(copy.deepcopy(context));return policy(context)

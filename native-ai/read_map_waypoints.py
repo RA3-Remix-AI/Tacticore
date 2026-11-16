@@ -9,12 +9,14 @@ import math
 from pathlib import Path
 import struct
 
-def starting_waypoints(raw):
-    try:return _starting_waypoints(raw)
+def starting_waypoints(raw, *, player_count=2):
+    if type(player_count) is not int or player_count not in (2, 4, 6):
+        raise ValueError('supported_public_start_count_required')
+    try:return _starting_waypoints(raw, player_count)
     except (IndexError,struct.error,UnicodeDecodeError) as error:
         raise ValueError('truncated_or_invalid_waypoint_map') from error
 
-def _starting_waypoints(raw):
+def _starting_waypoints(raw, player_count):
     if raw[:4]!=b'CkMp' or len(raw)>16*1024*1024:raise ValueError('supported_decoded_map_required')
     count=struct.unpack_from('<I',raw,4)[0];at=8;names={}
     if not 1<=count<=512:raise ValueError('map_dictionary_bounds')
@@ -54,8 +56,10 @@ def _starting_waypoints(raw):
         at=end
     if at!=len(raw):raise ValueError('map_trailing_bytes')
     # Expose only the map's public start markers, never other scripted objects.
-    selected=[r for r in objects if r['name'] in ('Player_1_Start','Player_2_Start')]
-    if len(selected)!=2 or len({r['name'] for r in selected})!=2:raise ValueError('two_public_start_markers_required')
+    expected = {f'Player_{index}_Start' for index in range(1, player_count + 1)}
+    selected = [row for row in objects if row['name'] in expected]
+    if len(selected) != player_count or {row['name'] for row in selected} != expected:
+        raise ValueError('public_start_markers_required')
     return sorted(selected,key=lambda r:r['name'])
 
 def main():

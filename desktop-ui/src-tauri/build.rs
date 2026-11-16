@@ -14,7 +14,7 @@ fn main() {
                 let opt_in=std::env::var("TACTICORE_BETA_CANDIDATE_PIN").unwrap_or_default();
                 assert_eq!(opt_in,pin,"A staging runtime requires explicit exact-pin beta candidate building.");
                 let stage:serde_json::Value=serde_json::from_slice(&std::fs::read(path.parent().unwrap().join("release-stage.json")).unwrap()).unwrap();
-                assert_eq!(stage["kind"],"portable_native6_field_trial_candidate");
+                assert!(matches!(stage["kind"].as_str(),Some("portable_native6_field_trial_candidate" | "portable_native7_field_trial_candidate")));
                 assert_eq!(stage["public_release_ready"],false);
                 // This builds the exact installer that will be tested. Public
                 // upload is separately gated on the frozen external evidence;

@@ -84,6 +84,7 @@ class MatchObservation:
     ready: bool
     paused: bool = False
     ended: bool = False
+    opponent_player_count: int = 1
 
 
 @dataclass(frozen=True)
@@ -193,8 +194,8 @@ class SessionDiscovery:
         try:selected=scenario_for_map(p.map_id)
         except ContractError:_fail('discovery_policy_invalid')
         if (p.display_map != selected.display_map or p.faction != 'Soviet'
-                or (p.native_epoch!=6 and p.map_id!='map_mp_2_black1b')
-                or (p.native_epoch==6 and p.origin_region!=selected.own_region)
+                or (p.native_epoch not in (6,7) and p.map_id!='map_mp_2_black1b')
+                or (p.native_epoch in (6,7) and p.origin_region!=selected.own_region)
                 or (p.player_id, p.opponent_player_id, p.observer_player_id) != (3, 4, 2)
                 or not _int(p.native_epoch) or type(p.candidate_ttl_seconds) is not int
                 or not 1 <= p.candidate_ttl_seconds <= 300
@@ -264,9 +265,10 @@ class SessionDiscovery:
         expected = dict(map_id=self.policy.map_id, faction=self.policy.faction, player_id=3,
                         opponent_player_id=4, observer_player_id=2, commander_id=self.policy.commander_id,
                         origin_region=self.policy.origin_region, native_epoch=self.policy.native_epoch)
-        if self.policy.native_epoch==6:
+        if self.policy.native_epoch in (6,7):
             selected=scenario_for_map(value.map_id)
-            expected.update(map_id=selected.map_id,origin_region=selected.own_region)
+            expected.update(map_id=selected.map_id, origin_region=selected.own_region,
+                            opponent_player_count=len(selected.opponent_player_ids))
         if any(getattr(value, key) != item or type(getattr(value, key)) is not type(item)
                for key, item in expected.items()):
             _fail('session_scope_unsupported')
@@ -384,6 +386,11 @@ class SessionDiscovery:
                       scenario=dict(map_id=observation['map_id'], commander_id=p.commander_id, computer_player_index=3,
                                     opponent_player_index=4, observer_player_index=2, participant_count=2,
                                     faction=p.faction, origin_region=observation['origin_region']))
+        if p.native_epoch in (6,7):
+            selected = scenario_for_map(observation['map_id'])
+            if selected.participant_count == 3:
+                record['scenario'].update(participant_count=3, opponent_player_indices=[4, 5],
+                                          opponents_allied=True)
         return folder/'session.json', record
 
     def prepare(self, args, request_id):
