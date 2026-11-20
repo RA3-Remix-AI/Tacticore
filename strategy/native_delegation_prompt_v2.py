@@ -29,8 +29,8 @@ def _compact(value):
 
 def action_group(action, *, independent):
     """Classify one offered action into its at-most-one-per-plan group."""
-    from native_unified_contract_v5 import GATE_ACTIONS
-    if action.startswith('focusenemy'):
+    from native_unified_contract_v5 import FOCUS_PREFIX, GATE_ACTIONS
+    if action.startswith(FOCUS_PREFIX):
         return 'enemy_focus'
     if action.startswith('budget'):
         return 'budget'
@@ -55,12 +55,19 @@ def _present(offered, *names):
     return '/'.join(found) if found else None
 
 
+def _focus_player(action, catalog):
+    """Enemy player of a focus intent: catalog target, else the focusenemy<id> grammar."""
+    from native_unified_contract_v5 import FOCUS_ACTIONS
+    player = catalog.get(action, {}).get('target_player_id')
+    return player if player is not None else FOCUS_ACTIONS.get(action)
+
+
 def _actions_section(groups, catalog):
     lines = ['# Your intents', 'macro_actions holds exact strings, at most one per group:']
     for name, actions in groups.items():
         listed = []
         for action in actions:
-            player = catalog.get(action, {}).get('target_player_id') if name == 'enemy_focus' else None
+            player = _focus_player(action, catalog) if name == 'enemy_focus' else None
             listed.append(action if player is None else action + '=player ' + str(player))
         lines.append('- ' + name + ' (' + _GROUP_HELP[name] + '): ' + '|'.join(listed))
     lines.append('A plan replaces all earlier intents, so repeat any intent you keep. '
@@ -75,8 +82,12 @@ def _situation_section(context):
              '- battlefield contacts: lawful observations with owner, visibility and age; unseen is not absent.']
     if context.get('battlefield_summary') is not None:
         lines.append('- battlefield_summary: enemy units near home and mining (grid cells; counts include scouts).')
-    if context.get('working_memory', {}).get('match_state') is not None:
+    match = context.get('working_memory', {}).get('match_state')
+    if isinstance(match, dict):
         lines.append('- match_state: opponents, alliances and announced defeats.')
+        if match.get('ally_player_ids'):
+            lines.append('- Allies ' + ', '.join(str(pid) for pid in match['ally_player_ids'])
+                         + ' fight on your side; pressure the enemies they are fighting.')
     lines.append('- *_feedback: what the native AI did with your last intents, not mission success; '
                  'native_account_shares are current spending weights.')
     return lines

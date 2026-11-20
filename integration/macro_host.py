@@ -16,7 +16,7 @@ ROOT=Path(__file__).resolve().parents[1]
 sys.path[:0]=[str(ROOT),str(ROOT/'integration'),str(ROOT/'strategy')]
 from host_runtime.application import apply_commander_draft,load_commander_draft,create_applied_backend
 from host_runtime.contracts import ContractError,SessionBinding
-from host_runtime.decision_log import DecisionLogWriter
+from host_runtime.decision_log import DecisionLogWriter,run_config_from_scenario
 from host_runtime.desktop_backend import NativeHostSpawner,_atomic
 from host_runtime.journal import CommandJournal
 from host_runtime.profile_store import ProfileStore
@@ -184,10 +184,13 @@ class MacroHost:
 
     def open_decision_log(self):
         """One human-readable decisions.jsonl per run; see host_runtime.decision_log."""
-        scenario=self.session.get('scenario') if isinstance(self.session.get('scenario'),dict) else {}
+        config=run_config_from_scenario(self.session.get('scenario'))
+        teams={key:config[key] for key in ('mode','enemy_player_ids','ally_player_ids','human_player_ids')}
         log=DecisionLogWriter(self.output,self.run_id,prompt_version=active_prompt_version(),
             provider=self.profile.get('provider'),model=self.profile.get('effective',{}).get('model'),
-            map_id=scenario.get('map_id'),opponent_difficulty=scenario.get('opponent_difficulty'),
+            map_id=config['map_id'],opponent_difficulty=config['opponent_difficulty'],
+            player_id=config['model_player_id'] if config['model_player_id'] is not None else 3,
+            opponent_player_ids=config['enemy_player_ids'],run_facts=teams,
             response_supplier=lambda:getattr(self.backend,'last_response',None))
         log.start()
         return log

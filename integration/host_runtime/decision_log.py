@@ -149,6 +149,7 @@ def _enemy_summary(working):
     match = working.get('match_state') if isinstance(working.get('match_state'), dict) else {}
     opponents = [pid for pid in match.get('opponent_player_ids') or [] if type(pid) is int]
     defeated = {pid for pid in match.get('defeated_opponent_ids') or [] if type(pid) is int}
+    humans = {pid for pid in match.get('human_player_ids') or [] if type(pid) is int}
     battlefield = working.get('battlefield') if isinstance(working.get('battlefield'), dict) else {}
     seen = {}
     for owner, newest, visible in _enemy_groups(battlefield):
@@ -163,8 +164,10 @@ def _enemy_summary(working):
     enemies = []
     for pid in order[:MAX_ENEMIES]:
         last, count = seen.get(pid, (None, 0))
+        known = pid in opponents
         enemies.append(dict(player_id=pid, last_seen_s=_seconds(last), visible_count=count,
-                            defeated=(pid in defeated) if pid in opponents else None))
+                            defeated=(pid in defeated) if known else None,
+                            human=(pid in humans) if known and 'human_player_ids' in match else None))
     return enemies
 
 
@@ -285,7 +288,16 @@ def feedback_effects(observations, actions):
 # Match result
 # ---------------------------------------------------------------------------
 
-def match_end_record(run_id, match_result, *, game_time_s=None, model_player_id=3, reason_code=None):
+def _role(player, model_player_id, opponent_player_ids):
+    if player == str(model_player_id):
+        return 'self'
+    if opponent_player_ids is None:
+        return None
+    return 'opponent' if player in {str(pid) for pid in opponent_player_ids} else 'ally'
+
+
+def match_end_record(run_id, match_result, *, game_time_s=None, model_player_id=3, reason_code=None,
+                     opponent_player_ids=None):
     """Build the final record from controlled_match_result() output (or None).
 
     Only a terminal native result slot yields victory/defeat. A quit, an
@@ -301,7 +313,7 @@ def match_end_record(run_id, match_result, *, game_time_s=None, model_player_id=
                 continue
             player = str(key)
             players[player] = dict(outcome=_short(row.get('outcome'), 16),
-                                   role='self' if player == str(model_player_id) else 'opponent')
+                                   role=_role(player, model_player_id, opponent_player_ids))
         native_outcome = _short(match_result.get('controlled_outcome'), 16)
         if match_result.get('terminal') is True and native_outcome in ('victory', 'defeat'):
             result = native_outcome
@@ -313,6 +325,31 @@ def match_end_record(run_id, match_result, *, game_time_s=None, model_player_id=
                 native_outcome=native_outcome, remaining_opponents=remaining,
                 all_opponents_defeated=all_defeated, result_source=source,
                 visually_confirmed=False, reason_code=_short(reason_code, 80))
+
+
+def run_config_from_scenario(scenario):
+    """Map, opponent difficulty and teams from a session.json scenario block.
+
+    Uses host_runtime.scenario.MatchScenario (current or legacy shape); fields
+    it cannot establish stay None. Lobby difficulty is as configured, not
+    verified in memory.
+    """
+    raw = scenario if isinstance(scenario, dict) else {}
+    config = dict(map_id=raw.get('map_id'), opponent_difficulty=raw.get('opponent_difficulty'), mode=None,
+                  model_player_id=None, enemy_player_ids=None, ally_player_ids=None, human_player_ids=None)
+    try:
+        from .scenario import MatchScenario
+        match = MatchScenario.from_session(raw)
+    except Exception:
+        return config
+    enemies = match.enemy_player_ids
+    levels = sorted({row.difficulty for row in match.players if row.player_id in enemies and row.difficulty})
+    config.update(map_id=match.map_id, mode=match.mode, model_player_id=match.model_player_id,
+                  enemy_player_ids=list(enemies), ally_player_ids=list(match.ally_player_ids),
+                  human_player_ids=list(match.human_player_ids))
+    if config['opponent_difficulty'] is None and levels:
+        config['opponent_difficulty'] = '/'.join(levels)
+    return config
 
 
 # ---------------------------------------------------------------------------
@@ -329,8 +366,8 @@ class DecisionLogWriter:
     """
 
     def __init__(self, directory, run_id, *, prompt_version=None, provider=None, model=None,
-                 map_id=None, opponent_difficulty=None, player_id=3, response_supplier=None,
-                 monotonic=time.monotonic):
+                 map_id=None, opponent_difficulty=None, player_id=3, opponent_player_ids=None,
+                 run_facts=None, response_supplier=None, monotonic=time.monotonic):
         self.path = Path(directory) / FILE_NAME
         self.run_id = run_id
         self.prompt_version = prompt_version
@@ -339,6 +376,9 @@ class DecisionLogWriter:
         self.map_id = map_id
         self.opponent_difficulty = opponent_difficulty
         self.player_id = player_id
+        self.opponent_player_ids = list(opponent_player_ids) if opponent_player_ids is not None else None
+        # Extra run_start fields (mode, team lists); never overrides the core ones.
+        self.run_facts = dict(run_facts or {})
         self._response_supplier = response_supplier
         self._monotonic = monotonic
         self._seq = 0
@@ -350,10 +390,12 @@ class DecisionLogWriter:
     # -- host-facing API ----------------------------------------------------
 
     def start(self):
-        self._guard(self._write, dict(
-            schema_version=SCHEMA_VERSION, kind='run_start', run_id=self.run_id, wall_time=_now_iso(),
-            prompt_version=self.prompt_version, provider=self.provider, model=self.model,
-            map_id=self.map_id, opponent_difficulty=self.opponent_difficulty, player_id=self.player_id))
+        record = dict(self.run_facts)
+        record.update(schema_version=SCHEMA_VERSION, kind='run_start', run_id=self.run_id, wall_time=_now_iso(),
+                      prompt_version=self.prompt_version, provider=self.provider, model=self.model,
+                      map_id=self.map_id, opponent_difficulty=self.opponent_difficulty, player_id=self.player_id,
+                      opponent_player_ids=self.opponent_player_ids)
+        self._guard(self._write, record)
 
     def observe_event(self, kind, facts):
         self._guard(self._observe_event, kind, facts if isinstance(facts, dict) else {})
@@ -569,7 +611,8 @@ class DecisionLogWriter:
                               status_for_accepted='unknown')
         self._active = None
         self._write(match_end_record(self.run_id, match_result, game_time_s=game_time_s,
-                                     model_player_id=self.player_id, reason_code=reason))
+                                     model_player_id=self.player_id, reason_code=reason,
+                                     opponent_player_ids=self.opponent_player_ids))
         self.finished = True
 
 

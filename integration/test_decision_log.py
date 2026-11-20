@@ -225,6 +225,49 @@ class MatchEndTests(unittest.TestCase):
         self.assertEqual(match_end_record(RUN, lost, game_time_s=300)['result'], 'defeat')
 
 
+class ScenarioAndTeamTests(unittest.TestCase):
+    def scenario(self):
+        from dataclasses import replace
+        from test_scenario import COMMANDER, derive, participant
+        match = derive([participant(2, 'human', 'ally'), participant(3, 'model_ai', 'self'),
+                        participant(4, 'native_ai', 'enemy'), participant(5, 'native_ai', 'enemy')],
+                       alliances=[[4, 5]], allied_starts=('Player_1_Start',))
+        players = tuple(replace(row, difficulty='brutal') if row.kind == 'native_ai' else row
+                        for row in match.players)
+        return replace(match, players=players).to_session_dict(COMMANDER)
+
+    def test_run_config_reads_teams_and_enemy_difficulty_from_the_scenario(self):
+        from host_runtime.decision_log import run_config_from_scenario
+        config = run_config_from_scenario(self.scenario())
+        self.assertEqual((config['map_id'], config['mode']), ('some_custom_map', 'human_with_ai'))
+        self.assertEqual((config['enemy_player_ids'], config['ally_player_ids']), ([4, 5], [2]))
+        self.assertEqual(config['opponent_difficulty'], 'brutal')
+        self.assertEqual(run_config_from_scenario({'map_id': 'm'})['map_id'], 'm')
+        self.assertIsNone(run_config_from_scenario(None)['mode'])
+
+    def test_allies_are_labelled_in_match_end_and_run_start(self):
+        result = dict(terminal=True, controlled_outcome='victory', players={
+            '2': dict(outcome='victory'), '3': dict(outcome='victory'), '4': dict(outcome='defeat')})
+        record = match_end_record(RUN, result, opponent_player_ids=[4, 5])
+        self.assertEqual({key: row['role'] for key, row in record['players'].items()},
+                         {'2': 'ally', '3': 'self', '4': 'opponent'})
+        self.assertIsNone(match_end_record(RUN, result)['players']['2']['role'])
+        with tempfile.TemporaryDirectory() as folder:
+            writer = DecisionLogWriter(Path(folder), RUN, opponent_player_ids=[4, 5],
+                                       run_facts=dict(mode='human_with_ai', ally_player_ids=[2]))
+            writer.start()
+            start = read_run_log(Path(folder))['run']
+            self.assertEqual((start['mode'], start['ally_player_ids'], start['opponent_player_ids']),
+                             ('human_with_ai', [2], [4, 5]))
+
+    def test_human_enemies_are_flagged_from_the_match_state(self):
+        value = context()
+        value['working_memory']['match_state']['human_player_ids'] = [5]
+        enemies = {row['player_id']: row for row in situation_from_context(value)['enemies']}
+        self.assertEqual((enemies[4]['human'], enemies[5]['human']), (False, True))
+        self.assertIsNone(situation_from_context(context())['enemies'][0]['human'])
+
+
 class SituationTests(unittest.TestCase):
     def test_real_packed_request_context_is_summarized(self):
         from tactical_fixtures import tactical_snapshot

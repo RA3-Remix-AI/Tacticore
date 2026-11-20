@@ -94,6 +94,16 @@ class PromptV2Tests(unittest.TestCase):
         self.assertNotIn('focusenemy4', text)
         self.assertNotIn('focusenemy5', text)
 
+    def test_focus_player_falls_back_to_the_focusenemy_grammar(self):
+        text = system_prompt(profile(), delegation_context(['attackenemy', 'focusenemy2', 'budgetarmy']))
+        self.assertIn('focusenemy2=player 2', text)
+
+    def test_allies_from_match_state_are_explained(self):
+        context = delegation_context()
+        context['working_memory'] = dict(match_state=dict(opponent_player_ids=[4, 5], ally_player_ids=[2]))
+        self.assertIn('Allies 2 fight on your side', system_prompt(profile(), context))
+        self.assertNotIn('Allies', system_prompt(profile(), delegation_context()))
+
     def test_groups_follow_the_independent_development_contract(self):
         from native_unified_contract_v5 import INDEPENDENT_DEVELOPMENT_CONTRACT
         plain = v2.action_groups(ACTIONS, independent=False)
