@@ -27,9 +27,10 @@ def group_role_catalog_overrides():
 
 def native6_group_role_catalog_overrides(home_region):
     from .contracts import ContractError
-    from .native6_scenarios import NATIVE6_SCENARIOS
+    from .scenario import is_region
 
-    if type(home_region) is not str or home_region not in {scenario.own_region for scenario in NATIVE6_SCENARIOS}:
+    # Any runtime-derived own region; the live own-base origin check binds it.
+    if not is_region(home_region):
         raise ContractError('macro_base_defense_catalog_region_binding')
     result = group_role_catalog_overrides()
     for description in result.values():

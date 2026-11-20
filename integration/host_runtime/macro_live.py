@@ -10,6 +10,7 @@ from .contracts import ContractError
 from .macro_policy_runtime import COMMANDER,MIN_MACRO_MODEL_GAME_SECONDS
 from .macro_bundle import load_bundle
 from .macro_expansion_scope import ExpansionScope,EXTRA_ACTIONS
+from .scenario import MODEL_CONSTRUCTION_YARD,MODEL_PLAYER_ID,MatchScenario,region_for_point
 
 ROOT=Path(__file__).resolve().parents[2]
 EXPANSION_OBSERVER_PINS={
@@ -30,9 +31,9 @@ def expansion_component_frames(native):
 
 
 def require_base_origin(census,required_origin):
-    yards=[r for r in census['own_objects'] if r['type_hash']=='0xc16ff13f']
+    yards=[r for r in census['own_objects'] if r['type_hash']==MODEL_CONSTRUCTION_YARD]
     if not yards:raise ContractError('session_not_ready')
-    if (len(yards)!=1 or 'region_'+str(int(yards[0]['xyz'][0]//512))+'_'+str(int(yards[0]['xyz'][1]//512))!=required_origin):
+    if len(yards)!=1 or region_for_point(yards[0]['xyz'][0],yards[0]['xyz'][1])!=required_origin:
         raise ContractError('macro_base_defense_origin_outside_qualified_scope')
 
 
@@ -62,14 +63,15 @@ class MacroSampler:
                     or descriptor.get('runtime_manifest_sha256')!=self.scope.runtime_manifest_sha256):
                 raise ContractError('native6_trial_not_qualified')
         scenario=self.session.get('scenario',{})
-        self.opponent_player_ids = (4,)
-        if getattr(self.scope, 'native_transport_protocol', None) in (6,7):
-            from .native6_scenarios import scenario_for_session
-            self.opponent_player_ids = scenario_for_session(scenario).opponent_player_ids
-        if (scenario.get('commander_id')!=COMMANDER or scenario.get('computer_player_index')!=3
-                or scenario.get('participant_count') != 1 + len(self.opponent_player_ids)
-                or scenario.get('opponent_player_index')!=4
-                or scenario.get('observer_player_index',2)!=2):raise ContractError('session_mismatch')
+        try:self.scenario=MatchScenario.from_session(scenario)
+        except ContractError:raise ContractError('session_mismatch') from None
+        if scenario.get('commander_id')!=COMMANDER or self.scenario.model_player_id!=MODEL_PLAYER_ID:
+            raise ContractError('session_mismatch')
+        # Older runtimes were qualified only for the commander against one native AI.
+        legacy=getattr(self.scope,'native_transport_protocol',None) not in (6,7)
+        if legacy and (self.scenario.player_ids!=(3,4) or self.scenario.mode!='ai_vs_native'):
+            raise ContractError('session_mismatch')
+        self.opponent_player_ids=self.scenario.enemy_player_ids
         self.registry_path=Path(self.session['registry']);self.registry_raw=self.registry_path.read_bytes()
         self.registry=json.loads(self.registry_raw.decode('utf-8-sig'))
         if getattr(self.scope,'native_transport_protocol',None) in (6,7):
@@ -155,7 +157,7 @@ class MacroSampler:
     def collect(self):
         from read_match_state import snapshot
         from macro_observation import own_census
-        from match_participants import verify_two_ai, verify_ai_combatants, controlled_match_result
+        from match_participants import verify_participants, controlled_match_result
         from read_selected_personality import inspect_player,resolve_registry
         from engine import Snapshot
         if (self.path.read_bytes()!=self.raw or self.bundle_path.read_bytes()!=self.bundle_raw
@@ -173,16 +175,13 @@ class MacroSampler:
         expected=self.session['scenario']['map_id']
         if path.suffix.lower()!='.map' or path.stem.lower()!=expected.lower() or path.parent.name.lower()!=expected.lower():
             raise ContractError('macro_scenario_map_mismatch')
-        if len(self.opponent_player_ids) == 2:
-            self.participants = verify_ai_combatants(self.memory, state, self.registry, 3,
-                                                     self.opponent_player_ids, 2, opponents_allied=True)
-            self.match_result = controlled_match_result(state, 3, self.opponent_player_ids)
-            terminal = self.match_result['terminal']
-        else:
-            self.participants = verify_two_ai(self.memory, state, self.registry, 3, 4, 2)
-            self.match_result = controlled_match_result(state, 3, self.opponent_player_ids)
-            terminal = self.match_result['terminal']
-        if terminal:
+        model=self.scenario.model_player_id
+        self.participants = verify_participants(self.memory, state, self.registry, model)
+        if not self.scenario.matches_participants(self.participants):
+            raise ContractError('session_mismatch')
+        self.match_result = controlled_match_result(state, model, self.opponent_player_ids,
+                                                    participant_ids=self.scenario.player_ids)
+        if self.match_result['terminal']:
             raise ContractError('macro_native_result_candidate')
         census=own_census(self.memory,self.owner);frame=census['frame']
         required_origin=getattr(self.scope,'required_origin_region',None)
@@ -211,11 +210,9 @@ class MacroSampler:
             # Public map navigation locations carry no enemy presence claim.
             raw['capabilities']['regions']=sorted(set(raw['capabilities']['regions'])|set(self.scope.regional_action_regions.values()))
         self.latest_census=census
-        raw['match_state'] = dict(schema_version=1, source='native_public_match',
-            observed_frame=state['simulation_frame'], opponent_player_ids=list(self.opponent_player_ids),
-            defeated_opponent_ids=[index for index in self.opponent_player_ids
-                                   if self.match_result['players'][str(index)]['outcome'] == 'defeat'],
-            opponents_allied=len(self.opponent_player_ids)==2)
+        defeated={index for index in self.opponent_player_ids
+                  if self.match_result['players'][str(index)]['outcome'] == 'defeat'}
+        raw['match_state'] = self.scenario.match_state(state['simulation_frame'], defeated)
         return Snapshot.from_dict(raw).to_dict()
 
     def close(self):self.memory.close()

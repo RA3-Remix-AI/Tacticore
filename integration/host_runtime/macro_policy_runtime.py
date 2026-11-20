@@ -269,27 +269,14 @@ class MacroRequestAudit:
                 result['macro_regional_feedback']=compact_regional_feedback(regional,context['game_time_seconds'])
         if self.catalog_supplier is not None:
             from .macro_base_defense_scope import defense_catalog_override
-            from .macro_group_role_contract import (
-                group_role_catalog_overrides, native6_group_role_catalog_overrides,
-                native6_strategic_catalog_overrides,
-            )
+            from .macro_group_role_contract import group_role_catalog_overrides
             from .macro_expansion_scope import expansion_catalog_overrides,EXTRA_ACTIONS
             overrides=self.catalog_supplier()
             if type(overrides) is not dict:raise ContractError('macro_base_defense_catalog_invalid')
             expanded=expansion_catalog_overrides(tuple(action for action in EXTRA_ACTIONS if action in overrides))
             catalogs=(defense_catalog_override(),group_role_catalog_overrides(),expanded)
             if self.strategic_only:
-                from .native6_scenarios import NATIVE6_SCENARIOS
-                catalogs+=tuple(native6_group_role_catalog_overrides(scenario.own_region)
-                    for scenario in NATIVE6_SCENARIOS)
-                catalogs+=tuple(native6_strategic_catalog_overrides(scenario.own_region)
-                    for scenario in NATIVE6_SCENARIOS)
-                from .native7_qualification import Native7Scope
-                from .strategic_contract_v5 import INDEPENDENT_DEVELOPMENT_CONTRACT
-                if context.get('macro_intent_contract')==INDEPENDENT_DEVELOPMENT_CONTRACT:
-                    catalogs+=tuple(Native7Scope('',(),(),(),required_origin_region=scenario.own_region,
-                        opponent_player_ids=scenario.opponent_player_ids).model_catalog_overrides()
-                        for scenario in NATIVE6_SCENARIOS)
+                catalogs+=strategic_catalogs(overrides,context)
             if overrides not in catalogs:raise ContractError('macro_base_defense_catalog_invalid')
             for action,description in overrides.items():
                 if action not in result.get('allowed_macro_actions',[]):continue
@@ -399,3 +386,25 @@ class MacroRequestAudit:
         return result
 
     def __getattr__(self,name):return getattr(self.backend,name)
+
+
+def strategic_catalogs(overrides,context):
+    """Canonical Native6/Native7 catalogs for the home region the overrides name.
+
+    The home region and focus targets come from the runtime scenario, so the
+    supplied catalog is only accepted when it equals one rebuilt from them.
+    """
+    from .macro_group_role_contract import native6_group_role_catalog_overrides,native6_strategic_catalog_overrides
+    from .scenario import is_region
+    defense=overrides.get('deploydefense')
+    home=defense.get('target_region') if type(defense) is dict else None
+    if not is_region(home):return ()
+    catalogs=(native6_group_role_catalog_overrides(home),native6_strategic_catalog_overrides(home))
+    from .native7_qualification import Native7Scope
+    from .strategic_contract_v5 import INDEPENDENT_DEVELOPMENT_CONTRACT
+    if context.get('macro_intent_contract')==INDEPENDENT_DEVELOPMENT_CONTRACT:
+        focus_targets=tuple(sorted(row['target_player_id'] for row in overrides.values()
+            if type(row) is dict and row.get('domain')=='enemy_focus' and type(row.get('target_player_id')) is int))
+        native7=Native7Scope('',(),(),(),required_origin_region=home,opponent_player_ids=focus_targets)
+        catalogs+=(native7.model_catalog_overrides(),)
+    return catalogs

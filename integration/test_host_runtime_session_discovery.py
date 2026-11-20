@@ -12,8 +12,21 @@ from host_runtime.contracts import ContractError
 from host_runtime.bridge_service import _result_safe
 from host_runtime.session_discovery import (DiscoveryPolicy, MatchObservation, ProcessIdentity,
                                           RunRecord, SessionDiscovery, TrustedFiles)
+from host_runtime.scenario import MatchScenario, derive_scenario
 
 PROFILE = '5cfc416a-8b8f-405a-9832-c163f8c1792b'
+TWO_STARTS = [dict(name='Player_1_Start', xyz=[857.5, 2015.4, 0.]),
+              dict(name='Player_2_Start', xyz=[4404.1, 2016.0, 0.])]
+FOUR_STARTS = [dict(name='Player_1_Start', xyz=[700., 700., 0.]), dict(name='Player_2_Start', xyz=[3800., 700., 0.]),
+               dict(name='Player_3_Start', xyz=[700., 3800., 0.]), dict(name='Player_4_Start', xyz=[3800., 3800., 0.])]
+
+
+def scenario(map_id='map_mp_2_black1b', others=((4, 'native_ai', 'enemy'),), alliances=(), starts=TWO_STARTS,
+             own=(4404.1, 2016.0), allied_starts=()):
+    rows = [dict(player_id=3, kind='model_ai', relation='self')]
+    rows += [dict(player_id=index, kind=kind, relation=relation) for index, kind, relation in others]
+    return derive_scenario(map_id=map_id, model_player_id=3, participants=rows, alliances=alliances,
+                           own_point=own, starts=starts, allied_starts=allied_starts).to_public_dict()
 
 
 def new_id():
@@ -33,12 +46,11 @@ class SessionDiscoveryTests(unittest.TestCase):
             path = self.root/name; path.write_bytes(('offline-'+key).encode())
             digest_key = 'mod_sha256' if key == 'mod_big' else key+'_sha256'
             values.update({key:path, digest_key:hashlib.sha256(path.read_bytes()).hexdigest()})
-        self.policy = DiscoveryPolicy(TrustedFiles(**values), self.sessions, self.state,
-                                      PROFILE, 'region_8_3', 37)
+        self.policy = DiscoveryPolicy(TrustedFiles(**values), self.sessions, self.state, PROFILE, 6)
         self.process = ProcessIdentity(101, 134376028671883531, '2026-10-28T10:00:00+08:00',
                                         self.policy.files.game, self.policy.files.mod_config)
         self.observation = MatchObservation(101, self.process.creation_filetime, 'logic-1',
-            'map_mp_2_black1b', 'Soviet', 3, 4, 2, PROFILE, 'region_8_3', 37, True)
+            PROFILE, 6, scenario(), True)
         self.processes = [self.process]; self.runs = []; self.registered = []; self.time = 100.0
         self.probe_calls = 0
         self.broker = self.make()
@@ -66,12 +78,12 @@ class SessionDiscoveryTests(unittest.TestCase):
     def prepare(self, candidate=None, request=None):
         return self.broker.prepare({'candidate_id':candidate or self.candidate()}, request or new_id())
 
-    def test_native6_one_vs_two_preparation_retains_both_opponents(self):
-        self.broker.close()
-        self.policy = replace(self.policy, native_epoch=6)
-        self.observation = replace(self.observation, native_epoch=6, map_id='map_mp_4_stewart_1',
-                                   origin_region='region_7_1', opponent_player_count=2)
-        self.broker = self.make()
+    def one_vs_two(self):
+        return scenario('map_mp_4_stewart_1', ((4, 'native_ai', 'enemy'), (5, 'native_ai', 'enemy')),
+                        alliances=[[4, 5]], starts=FOUR_STARTS, own=(3700., 800.))
+
+    def test_one_vs_two_preparation_retains_both_opponents(self):
+        self.observation = replace(self.observation, scenario=self.one_vs_two())
         receipt = self.prepare()
         self.assertTrue(receipt['registered'])
         session_path = self.registered[-1][0]
@@ -79,29 +91,41 @@ class SessionDiscoveryTests(unittest.TestCase):
         self.assertEqual(session['scenario']['opponent_player_indices'], [4, 5])
         self.assertEqual(session['scenario']['participant_count'], 3)
         self.assertTrue(session['scenario']['opponents_allied'])
+        self.assertEqual(MatchScenario.from_session(session['scenario']).enemy_player_ids, (4, 5))
 
-    def test_native7_one_vs_two_session_writer_retains_both_opponents(self):
+    def test_native7_session_writer_records_its_epoch(self):
         self.broker.close()
         self.policy=replace(self.policy,native_epoch=7)
-        self.observation=replace(self.observation,native_epoch=7,map_id='map_mp_4_stewart_1',
-            origin_region='region_7_1',opponent_player_count=2)
+        self.observation=replace(self.observation,native_epoch=7,scenario=self.one_vs_two())
         self.broker=self.make()
         self.assertTrue(self.prepare()['registered'])
         session=json.loads(Path(self.registered[-1][0]).read_text('utf-8'))
-        from host_runtime.native6_scenarios import scenario_for_session
-        selected=scenario_for_session(session['scenario'])
-        self.assertEqual(selected.opponent_player_ids,(4,5))
         self.assertEqual(session['discovery']['native_epoch'],7)
 
-    def test_native6_four_player_map_cannot_claim_one_opponent(self):
-        self.broker.close()
-        self.policy = replace(self.policy, native_epoch=6)
-        self.observation = replace(self.observation, native_epoch=6, map_id='map_mp_4_stewart_1',
-                                   origin_region='region_7_1', opponent_player_count=1)
-        self.broker = self.make()
+    def test_inconsistent_scenario_is_an_invalid_probe(self):
+        broken = dict(self.observation.scenario, mode='human_with_ai')
+        self.observation = replace(self.observation, scenario=broken)
         result = self.broker.discover({})
         self.assertEqual(result['candidates'], [])
-        self.assertEqual(result['issues'], ['session_scope_unsupported'])
+        self.assertEqual(result['issues'], ['session_probe_invalid'])
+
+    def test_human_with_ai_candidate_lists_every_player(self):
+        value = scenario('some custom map', ((2, 'human', 'ally'), (4, 'native_ai', 'enemy'),
+                                             (5, 'native_ai', 'enemy')),
+                         alliances=[[4, 5]], starts=FOUR_STARTS, own=(3700., 800.), allied_starts=('Player_1_Start',))
+        self.observation = replace(self.observation, scenario=value)
+        candidate = self.broker.discover({})['candidates'][0]
+        self.assertEqual(candidate['map'], 'some custom map')
+        public = candidate['scenario']
+        self.assertEqual(public['mode'], 'human_with_ai')
+        self.assertEqual(public['model_player_id'], 3)
+        self.assertEqual([(row['player_id'], row['kind'], row['team']) for row in public['players']],
+                         [(2, 'human', 1), (3, 'model_ai', 1), (4, 'native_ai', 2), (5, 'native_ai', 2)])
+        self.assertTrue(all(row['difficulty'] is None for row in public['players']))
+        self.prepare(candidate['candidate_id'])
+        session = json.loads(self.registered[0][0].read_text())
+        self.assertEqual(session['scenario']['match']['mode'], 'human_with_ai')
+        self.assertEqual(session['scenario']['opponent_player_indices'], [4, 5])
 
     def assertCode(self, code, operation):
         with self.assertRaises(ContractError) as caught:
@@ -146,9 +170,14 @@ class SessionDiscoveryTests(unittest.TestCase):
 
     def test_unsupported_scenario_and_origin_never_receive_candidate(self):
         baseline = self.observation
-        for change in ({'map_id':'other'}, {'faction':'Allied'}, {'player_id':4}, {'opponent_player_id':3},
-                       {'observer_player_id':1}, {'commander_id':new_id()}, {'origin_region':'region_0_0'},
-                       {'native_epoch':38}, {'player_id':True}):
+        model_four = derive_scenario(map_id='map_mp_2_black1b', model_player_id=4,
+            participants=[dict(player_id=4, kind='model_ai', relation='self'),
+                          dict(player_id=3, kind='native_ai', relation='enemy')],
+            alliances=(), own_point=(4404.1, 2016.0), starts=TWO_STARTS).to_public_dict()
+        allied = scenario()
+        allied['players'][0]['faction'] = 'Allied'
+        for change in ({'commander_id':new_id()}, {'native_epoch':7}, {'native_epoch':True},
+                       {'scenario':allied}, {'scenario':model_four}):
             with self.subTest(change=change):
                 self.observation = replace(baseline,**change)
                 result = self.broker.discover({})
@@ -319,39 +348,29 @@ class SessionDiscoveryTests(unittest.TestCase):
         self.processes = [self.process,self.process]
         self.assertCode('session_probe_invalid',lambda:self.broker.discover({}))
 
-    def test_unsupported_policy_cannot_broaden_player_or_map(self):
-        self.policy = replace(self.policy,map_id='other-map')
-        self.assertCode('discovery_policy_invalid',self.make)
+    def test_unsupported_policy_cannot_broaden_player_or_epoch(self):
+        for change in ({'player_id':4}, {'faction':'Allied'}, {'native_epoch':37}, {'native_epoch':5}):
+            with self.subTest(change=change):
+                self.policy = replace(self.policy,**change)
+                self.assertCode('discovery_policy_invalid',self.make)
 
-    def test_native6_prepares_observed_infinity_map_and_origin_without_rpc_map_input(self):
-        self.broker.close()
-        self.policy=replace(self.policy,native_epoch=6)
-        self.observation=replace(self.observation,native_epoch=6,map_id='map_mp_2_rao1',origin_region='region_7_4')
-        self.broker=self.make()
+    def test_any_observed_map_is_prepared_without_rpc_map_input(self):
+        self.observation=replace(self.observation,scenario=scenario('map_mp_2_rao1',own=(3700.,2100.)))
         candidate=self.broker.discover({})['candidates'][0]
         self.assertEqual(candidate['map'],'InfinityIsle')
         self.assertEqual(candidate['display_name'],'InfinityIsle / P3 苏军')
+        self.assertEqual(candidate['scenario']['mode'],'ai_vs_native')
         prepared=self.prepare(candidate['candidate_id'])
         self.assertEqual(prepared['session']['map'],'InfinityIsle')
         session=json.loads(self.registered[0][0].read_text())
         self.assertEqual(session['scenario']['map_id'],'map_mp_2_rao1')
         self.assertEqual(session['scenario']['origin_region'],'region_7_4')
 
-    def test_native6_cross_map_origin_and_changed_map_before_preparation_are_rejected(self):
-        self.broker.close()
-        self.policy=replace(self.policy,native_epoch=6)
-        self.observation=replace(self.observation,native_epoch=6,map_id='map_mp_2_rao1')
-        self.broker=self.make()
-        self.assertEqual(self.broker.discover({})['issues'],['session_scope_unsupported'])
-        self.observation=replace(self.observation,origin_region='region_7_4')
+    def test_changed_map_before_preparation_is_rejected(self):
         candidate=self.candidate()
-        self.observation=replace(self.observation,map_id='map_mp_2_black1b',origin_region='region_8_3')
+        self.observation=replace(self.observation,scenario=scenario('map_mp_2_rao1',own=(3700.,2100.)))
         self.assertCode('session_changed',lambda:self.prepare(candidate))
         self.assertFalse(self.registered)
-
-    def test_old_protocol_does_not_inherit_native6_additional_map(self):
-        self.observation=replace(self.observation,map_id='map_mp_2_rao1',origin_region='region_7_4')
-        self.assertEqual(self.broker.discover({})['issues'],['session_scope_unsupported'])
 
     def test_registration_failure_preserves_typed_reason(self):
         def refuse(*args):

@@ -12,7 +12,7 @@ from .contracts import ContractError
 from .native6_paths import plain_local
 from .native6_runtime_contract import ACTIONS, FLAGS, GAME_SHA, PACKAGE_SHA, FIELD_KIND, read, sha, _verified_build, verify_inventory
 from .strategic_unified_bundle_v5 import UnifiedStrategicScopeV5
-from .native6_scenarios import scenario_for_map,scenario_for_session
+from .scenario import MODEL_PLAYER_ID,MatchScenario
 from .strategic_contract_v5 import GATE_ACTIONS
 
 KIND='native6_manifest_bound_trial'
@@ -23,7 +23,6 @@ REGISTRY_SHA='0d28c52dd3ede3d274ca19844fa18e2cedcf4931afe8f5e11b66cd85ff62018e'
 TARGET_AUDIT_SHA='d8873964345ec6a902082677404583085514428060e6467a465e4f62902bf99e'
 REGIONS=(('deploydefense','region_8_3'),('regroup','region_8_3'),('reinforce','region_8_3'),('withdraw','region_8_3'))
 COMMANDER='57e668b4-4d89-43bd-bc92-0dd436f046ef'
-MAP_ID='map_mp_2_black1b'  # TemplePrime is the UI display name, not the engine map ID.
 VISIBILITY_CHECKS={'own_view_differs_from_observer','native_cached_clear_agrees_with_full_footprint',
     'lazy_cache_zero_requires_reconstruction','center_clear_does_not_imply_footprint_clear','observed_first_sighting','observed_loss'}
 VISIBILITY_SIGNATURES={hex(value) for value in (0x992130,0x9912f0,0x98fef0,0x9903b0,0x990493,0x993264,0x844680,0x504e10,0x6fda40)}
@@ -110,8 +109,10 @@ class Native6Scope(UnifiedStrategicScopeV5):
     native_transport_client:str='native6_transport.py'
     runtime_root:Path=Path()
     runtime_manifest_sha256:str=''
+    withheld_actions:tuple=()
     @property
-    def available_actions(self):return ACTIONS+tuple(GATE_ACTIONS)
+    def available_actions(self):
+        return tuple(action for action in ACTIONS+tuple(GATE_ACTIONS) if action not in self.withheld_actions)
     def model_catalog_overrides(self):
         from .macro_group_role_contract import native6_strategic_catalog_overrides
         return native6_strategic_catalog_overrides(self.required_origin_region)
@@ -131,22 +132,28 @@ def load(path,session=None,*,_verified=None):
     root,pin,inventory,build,cap=current() if _verified is None else _verified
     if _verified is not None and (root!=runtime_root() or pin!=trusted_pin()):fail()
     if Path(value['runtime_root'])!=root or value['runtime_manifest_sha256']!=pin:fail()
-    selected=scenario_for_map(MAP_ID)
-    if session is not None:
-        scenario=session.get('scenario',{})
-        selected=scenario_for_session(scenario)
-        if (session.get('mod_sha256')!=PACKAGE_SHA or Path(session.get('registry',''))!=root/'qualification/registry.json'
-                or scenario.get('commander_id')!=COMMANDER
-                or type(scenario.get('computer_player_index')) is not int or scenario['computer_player_index']!=3
-                or type(scenario.get('opponent_player_index')) is not int or scenario['opponent_player_index']!=4
-                or scenario.get('participant_count') != selected.participant_count
-                or scenario.get('observer_player_index',2)!=2):fail()
     evidence=tuple(sorted([(str(root/name),digest) for name,digest in inventory['files'].items()]+[(str(root/'manifest.json'),pin)]))
+    bundle=dict(value,build=str(root/'native/strategic6'),visibility=str(root/'qualification'),pins=dict(evidence))
+    if session is None:
+        # File qualification only; a session-bound scope comes from its scenario.
+        return bundle,Native6Scope(PACKAGE_SHA,tuple(zip(ACTIONS,FLAGS)),(),evidence,
+            runtime_root=root,runtime_manifest_sha256=pin)
+    selected=session_scenario(session,root)
     regions=tuple((action,region) for action,region in selected.regional_action_regions if action in ACTIONS)
     scope=Native6Scope(PACKAGE_SHA,tuple(zip(ACTIONS,FLAGS)),regions,evidence,
-        required_origin_region=selected.own_region,runtime_root=root,runtime_manifest_sha256=pin)
-    bundle=dict(value,build=str(root/'native/strategic6'),visibility=str(root/'qualification'),pins=dict(evidence))
+        required_origin_region=selected.own_region,runtime_root=root,runtime_manifest_sha256=pin,
+        withheld_actions=selected.withheld_actions)
     return bundle,scope
+
+
+def session_scenario(session,root,*,package_sha=PACKAGE_SHA):
+    """The session's match scenario, bound to this runtime's package and seat."""
+    scenario=session.get('scenario',{})
+    try:selected=MatchScenario.from_session(scenario)
+    except ContractError:fail()
+    if (session.get('mod_sha256')!=package_sha or Path(session.get('registry',''))!=root/'qualification/registry.json'
+            or scenario.get('commander_id')!=COMMANDER or selected.model_player_id!=MODEL_PLAYER_ID):fail()
+    return selected
 
 
 def create(path):
@@ -162,9 +169,5 @@ def admit_sdk(build,session):
     if Path(build)!=root/'native/strategic6':fail()
     # Descriptor qualification plus live map/own/origin verification remains
     # the Host's job; the SDK independently refuses a different package/owner.
-    scenario=session.get('scenario',{})
-    scenario_for_session(scenario)
-    if (session.get('mod_sha256')!=PACKAGE_SHA or scenario.get('computer_player_index')!=3
-            or type(scenario.get('computer_player_index')) is not int
-            or scenario.get('commander_id')!=COMMANDER):fail()
+    session_scenario(session,root)
     return manifest

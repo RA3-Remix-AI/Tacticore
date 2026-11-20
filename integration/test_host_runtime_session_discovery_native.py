@@ -43,7 +43,7 @@ class Fixture(unittest.TestCase):
         write(self.package,dict(compiled=True,big_sha256=sha(self.big),commander_id=native.COMMANDER,
             personality=self.personality,assets=[dict(name='AIPersonalityDefinition:'+self.personality,instance_id='0x799613e0')]))
         self.build=self.root/'build';self.build.mkdir();self.manifest=self.build/'build-manifest.json'
-        write(self.manifest,dict(epoch=37,package_sha256=sha(self.big)))
+        write(self.manifest,dict(epoch=6,package_sha256=sha(self.big)))
         self.bundle=self.run/'macro-budget-bundle.json'
         write(self.bundle,dict(schema_version=9,kind='verified_macro_group_roles_bootstrap',build=str(self.build),
                                pins={str(self.manifest):sha(self.manifest)}))
@@ -54,7 +54,7 @@ class Fixture(unittest.TestCase):
             mod_config=str(self.config),mod_big=str(self.big),mod_sha256=sha(self.big),registry=str(self.registry),
             macro_package_report=str(self.package),scenario=dict(commander_id=native.COMMANDER,
                 computer_player_index=3,opponent_player_index=4,observer_player_index=2,participant_count=2,
-                map_id='map_mp_2_black1b'))
+                map_id='map_mp_2_black1b',origin_region='region_8_3'))
         write(self.session,self.record)
         self.sha_patch=patch.object(native,'GAME_SHA',sha(self.game));self.sha_patch.start()
         self.loader_patch=patch.object(native,'load_bundle',return_value=({},SimpleNamespace(
@@ -84,7 +84,7 @@ class PolicyTests(Fixture):
         write(self.bundle,value);self.assertGreater(self.bundle.stat().st_size,65536)
         with patch.object(native,'Win32ReadOnly',side_effect=AssertionError('no process access')):
             self.assertTrue(self.register()['registered'])
-            self.assertEqual(native.load_policy(self.state)[1].native_epoch,37)
+            self.assertEqual(native.load_policy(self.state)[1].native_epoch,6)
 
     def test_legacy_bundle_limits_not_broadened_by_schema10(self):
         value=json.loads(self.bundle.read_text());value['pins'].update({str(self.root/('proof'+str(i))):'a'*64 for i in range(700)})
@@ -112,8 +112,8 @@ class PolicyTests(Fixture):
         self.assertFalse(result['credentials_accessed']);self.assertEqual(result['model_calls'],0)
         record,policy=native.load_policy(self.state)
         self.assertEqual(record['source_session_sha256'],sha(self.session))
-        self.assertEqual(policy.files.game,self.game);self.assertEqual(policy.native_epoch,37)
-        self.assertEqual(policy.origin_region,'region_8_3')
+        self.assertEqual(policy.files.game,self.game);self.assertEqual(policy.native_epoch,6)
+        self.assertEqual(record['scope'],dict(native.SCOPE,native_epoch=6))
         self.assertEqual(self.loader.call_count,1)
         self.assertFalse(list(self.state.glob('*.dpapi')))
 
@@ -148,6 +148,16 @@ class PolicyTests(Fixture):
         with patch.object(native,'NativeAdapter',side_effect=AssertionError('no native construction')):
             refused=native.create_discovery(self.backend)
         self.assertCode('discovery_source_changed',lambda:refused.discover({},uid()))
+
+    def test_older_runtime_epoch_cannot_be_registered_for_discovery(self):
+        write(self.manifest,dict(epoch=37,package_sha256=sha(self.big)))
+        write(self.bundle,dict(json.loads(self.bundle.read_text()),pins={str(self.manifest):sha(self.manifest)}))
+        self.assertCode('session_scope_unsupported',self.register)
+
+    def test_session_scenario_must_name_the_commander_seat(self):
+        self.record['scenario'].update(computer_player_index=4,opponent_player_index=3)
+        write(self.session,self.record)
+        self.assertCode('discovery_policy_invalid',self.register)
 
     def test_unqualified_bundle_does_not_create_policy_or_root(self):
         self.loader.side_effect=ContractError('macro_bundle_not_qualified')
@@ -309,8 +319,10 @@ class ProbeTests(Fixture):
         self.identity=dict(player_index=3,store_membership_verified=True,side_matches_player=True,instance_id='0x799613e0',
                            personality_wrapper='0x5000000',personality_data='0x6000000',player_template='0x7000000',ai_player='0x8000000')
         self.resolved=dict(commander_id=native.COMMANDER,personality_binding_verified=True,side='Soviet')
-        self.participants=dict(two_ai_combatants_verified=True,mutual_enemy_relationship_verified=True,
-                               observer_separate_from_combatants=True,opponent_native_ai_verified=True)
+        self.participants=dict(participants_verified=True,model_player_id=3,alliances=[],participants=[
+            dict(player_id=3,kind='model_ai',relation='self'),dict(player_id=4,kind='native_ai',relation='enemy')])
+        self.starts=[dict(name='Player_1_Start',xyz=[857.5,2015.4,0.]),dict(name='Player_2_Start',xyz=[4404.1,2016.0,0.])]
+        self.ally_points={}
         self.census=dict(frame=100,enemy_details_read=False,own_objects=[dict(type_hash='0xc16ff13f',hp=1000,xyz=[4404.1,2016.0,0])])
         self.frames=[100,101];self.snap_calls=0;self.inspect_calls=0;self.seed=None
         def memory(pid,seed):self.seed=seed;self.assertEqual(pid,101);return self.memory
@@ -319,35 +331,56 @@ class ProbeTests(Fixture):
             return dict(game_logic=hex(self.memory.logic),simulation_frame=frame,pause_flag_candidate=0,result_records=[])
         def inspect(read,owner):self.inspect_calls+=1;self.assertEqual(owner,self.memory.owner);return copy.deepcopy(self.identity)
         self.readers=SimpleNamespace(Memory=memory,snapshot=snapshot,inspect_player=inspect,
-            resolve_registry=lambda *args:copy.deepcopy(self.resolved),verify_two_ai=lambda *args:copy.deepcopy(self.participants),
+            resolve_registry=lambda *args:copy.deepcopy(self.resolved),
+            verify_participants=lambda *args:copy.deepcopy(self.participants),
+            controlled_match_result=lambda state,*args,**kwargs:dict(terminal=bool(state.get('result_records'))),
+            public_start_waypoints=lambda read:copy.deepcopy(self.starts),
+            owned_object_points=lambda memory,logic,owner:list(self.ally_points.get(owner,[])),
             own_census=lambda *args:copy.deepcopy(self.census))
         self.api=SimpleNamespace(creation_filetime=lambda handle:self.ticks)
         self.adapter=native.NativeAdapter(self.p,win32=self.api,readers=self.readers)
     def probe(self):return self.adapter.probe_match(self.process,self.p)
-    def test_native6_reads_infinity_identity_and_binds_its_own_start(self):
-        self.p=replace(self.p,native_epoch=6)
-        self.memory.bytes[self.memory.map_pointer]=b'map_mp_2_rao1\\map_mp_2_rao1.map\x00'.ljust(260,b'\x00')
+    def test_any_map_is_read_and_its_own_start_derived(self):
+        self.memory.bytes[self.memory.map_pointer]=b'Maps\\My Custom Map\\My Custom Map.map\x00'.ljust(260,b'\x00')
         self.census['own_objects'][0]['xyz']=[3981.3955,2188.4282,0]
         value=self.probe()
-        self.assertEqual(value.map_id,'map_mp_2_rao1')
-        self.assertEqual(value.origin_region,'region_7_4')
-        self.assertEqual(value.player_id,3)
+        self.assertEqual(value.scenario['map_id'],'my custom map')
+        self.assertEqual(value.scenario['own_region'],'region_7_4')
+        self.assertEqual(value.scenario['own_start_waypoint'],'Player_2_Start')
+        self.assertEqual(value.scenario['enemy_regions'],['region_1_3'])
+        self.assertEqual(value.scenario['mode'],'ai_vs_native')
+        self.assertEqual(value.scenario['model_player_id'],3)
         self.assertEqual(self.memory.closed,1)
 
-    def test_native6_infinity_rejects_temple_origin_and_mismatched_map_directory(self):
-        self.p=replace(self.p,native_epoch=6)
-        self.memory.bytes[self.memory.map_pointer]=b'map_mp_2_rao1\\map_mp_2_rao1.map\x00'.ljust(260,b'\x00')
-        self.assertCode('session_scope_unsupported',self.probe)
-        self.snap_calls=0
-        self.census['own_objects'][0]['xyz']=[3981.3955,2188.4282,0]
-        self.memory.bytes[self.memory.map_pointer]=b'map_mp_2_black1b\\map_mp_2_rao1.map\x00'.ljust(260,b'\x00')
-        self.assertCode('session_scope_unsupported',self.probe)
+    def test_map_outside_its_own_folder_is_unsupported(self):
+        for raw in (b'map_mp_2_black1b\\map_mp_2_rao1.map',b'map_mp_2_rao1\\map_mp_2_rao1.txt'):
+            with self.subTest(raw=raw):
+                self.snap_calls=0
+                self.memory.bytes[self.memory.map_pointer]=(raw+b'\x00').ljust(260,b'\x00')
+                self.assertCode('session_scope_unsupported',self.probe)
+
+    def test_human_teammate_is_a_combatant_and_its_start_is_not_an_enemy_region(self):
+        self.participants['participants'][:0]=[dict(player_id=2,kind='human',relation='ally')]
+        self.participants['participants'].append(dict(player_id=5,kind='native_ai',relation='enemy'))
+        self.participants['alliances']=[[4,5]]
+        self.starts=[dict(name='Player_1_Start',xyz=[700.,700.,0.]),dict(name='Player_2_Start',xyz=[3800.,700.,0.]),
+                     dict(name='Player_3_Start',xyz=[700.,3800.,0.]),dict(name='Player_4_Start',xyz=[3800.,3800.,0.])]
+        self.census['own_objects'][0]['xyz']=[3700.,800.,0]
+        self.memory.words[self.memory.players+0x30+8]=0x9000000
+        self.ally_points[0x9000000]=[(650.,720.),(800.,900.),(3000.,3000.)]
+        value=self.probe().scenario
+        self.assertEqual(value['mode'],'human_with_ai')
+        self.assertEqual(value['enemy_regions'],['region_1_7','region_7_7'])
+        self.assertTrue(value['enemy_regions_exact'])
+        self.assertEqual([(row['player_id'],row['kind'],row['team']) for row in value['players']],
+                         [(2,'human',1),(3,'model_ai',1),(4,'native_ai',2),(5,'native_ai',2)])
 
     def test_probe_binds_native_side_origin_and_stable_identity_without_exposing_pointers(self):
         first=self.probe();self.frames=[105,106];self.snap_calls=0;self.census['frame']=105
         second=self.probe()
         self.assertEqual(first.game_instance_id,second.game_instance_id)
-        self.assertEqual(first.faction,'Soviet');self.assertEqual(first.origin_region,'region_8_3')
+        self.assertEqual(first.scenario['players'][0]['faction'],'Soviet')
+        self.assertEqual(first.scenario['own_region'],'region_8_3')
         self.assertEqual(len(first.game_instance_id),64)
         self.assertNotIn('0x',first.game_instance_id)
         self.assertEqual(self.memory.closed,2)
@@ -366,15 +399,15 @@ class ProbeTests(Fixture):
         for changes in ({'personality_binding_verified':False},{'commander_id':uid()}):
             self.resolved.update(changes)
             self.assertCode('session_scope_unsupported',self.probe)
-    def test_observer_or_enemy_relationship_must_be_independently_verified(self):
-        self.participants['mutual_enemy_relationship_verified']=False
+    def test_participants_must_be_independently_verified(self):
+        self.participants['participants_verified']=False
         self.assertCode('session_scope_unsupported',self.probe)
-    def test_wrong_map_and_other_origin_are_unsupported(self):
-        self.memory.bytes[self.memory.map_pointer]=b'other\\other.map\x00'.ljust(260,b'\x00')
+        self.snap_calls=0;self.participants['participants_verified']=True
+        self.participants['participants'][1]['relation']='neutral'
         self.assertCode('session_scope_unsupported',self.probe)
-        self.memory.bytes[self.memory.map_pointer]=b'map_mp_2_black1b\\map_mp_2_black1b.map\x00'.ljust(260,b'\x00')
-        self.snap_calls=0;self.census['own_objects'][0]['xyz']=[400,500,0]
-        self.assertCode('session_scope_unsupported',self.probe)
+        def refused(*args):raise ValueError('Combatant is not a mutual ally or mutual enemy of the model')
+        self.snap_calls=0;self.readers.verify_participants=refused
+        self.assertCode('session_probe_unavailable',self.probe)
     def test_missing_or_ambiguous_yard_is_not_a_guessed_birth_position(self):
         self.census['own_objects']*=2
         self.assertCode('session_scope_unsupported',self.probe)
@@ -421,14 +454,14 @@ class HistoryTests(Fixture):
     def tearDown(self):self.db.close();super().tearDown()
     def test_prior_epoch_is_pinned_frozen_manifest_not_current_policy_guess(self):
         rows=native.run_records(self.backend)
-        self.assertEqual(len(rows),1);self.assertEqual(rows[0].native_epoch,37)
+        self.assertEqual(len(rows),1);self.assertEqual(rows[0].native_epoch,6)
         self.assertTrue(rows[0].native_release_verified);self.assertTrue(rows[0].native_delivery_attempted)
         self.assertEqual(rows[0].creation_filetime,self.ticks)
     def test_frozen_schema10_larger_metadata_retains_exact_epoch_binding(self):
         value=json.loads(self.bundle.read_text());value.update(schema_version=10,kind='verified_macro_expansion_bootstrap')
         value['pins'].update({str(self.root/('proof'+str(i))):'a'*64 for i in range(700)})
         write(self.bundle,value);self.freeze()
-        self.assertEqual(native.run_records(self.backend)[0].native_epoch,37)
+        self.assertEqual(native.run_records(self.backend)[0].native_epoch,6)
     def test_frozen_schema11_larger_metadata_retains_original_binding_and_unknown_lock(self):
         value=json.loads(self.bundle.read_text());value.update(schema_version=11,kind='verified_macro_fixed_consumer_bootstrap',
             fixed_consumer_contracts=[dict(schema_version=1,kind='fixed_consumer_primed_v1',action='producesickle',directory=str(self.run))])
@@ -437,7 +470,7 @@ class HistoryTests(Fixture):
         self.status['native_release_verified']=False
         self.backend.journal.unresolved=lambda run_id:[dict(status='uncertain')]
         row=native.run_records(self.backend)[0]
-        self.assertEqual(row.native_epoch,37);self.assertEqual(row.creation_filetime,self.ticks)
+        self.assertEqual(row.native_epoch,6);self.assertEqual(row.creation_filetime,self.ticks)
         self.assertFalse(row.native_release_verified);self.assertEqual(row.unresolved_count,1)
     def test_missing_filetime_or_legacy_source_contract_refuses_entire_history(self):
         value=copy.deepcopy(self.record);value.pop('process_creation_filetime');write(self.session,value)

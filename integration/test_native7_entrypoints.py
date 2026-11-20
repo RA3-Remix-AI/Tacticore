@@ -159,4 +159,58 @@ class Native7Entrypoints(unittest.TestCase):
         with self.assertRaises(ContractError):query_macro_objects(1234,'Local\\RA3StrategicCommanderV8_')
 
 
+class ScenarioScopes(unittest.TestCase):
+    """Runtime scopes follow the derived scenario instead of a per-map table."""
+    def scenario(self,others,alliances=(),own=(3700.,800.)):
+        from host_runtime.scenario import derive_scenario
+        starts=[dict(name='Player_%d_Start'%index,xyz=[x,y,0.]) for index,(x,y) in
+                enumerate(((700.,700.),(3800.,700.),(700.,3800.),(3800.,3800.)),1)]
+        rows=[dict(player_id=3,kind='model_ai',relation='self')]+[dict(player_id=index,kind=kind,relation=relation)
+            for index,kind,relation in others]
+        return derive_scenario(map_id='any map',model_player_id=3,participants=rows,alliances=alliances,
+            own_point=own,starts=starts)
+
+    def test_focus_actions_follow_actual_enemies_the_lease_can_prefer(self):
+        scope=Native7Scope(PACKAGE_SHA,tuple(zip(FLAG_ACTIONS,FLAGS)),(),(),required_origin_region='region_7_1',
+            opponent_player_ids=(4,5))
+        self.assertEqual(scope.focus_actions,('focusenemy4','focusenemy5'))
+        self.assertEqual(scope.model_catalog_overrides()['focusenemy5']['target_player_id'],5)
+        for enemies in ((4,),(2,4),(4,6)):
+            with self.subTest(enemies=enemies):
+                scope=Native7Scope(PACKAGE_SHA,tuple(zip(FLAG_ACTIONS,FLAGS)),(),(),
+                    required_origin_region='region_7_1',opponent_player_ids=enemies)
+                self.assertEqual(scope.focus_actions,())
+                self.assertFalse({a for a in scope.available_actions if a.startswith('focusenemy')})
+
+    def test_withheld_home_waypoint_actions_are_not_offered(self):
+        from host_runtime.native6_qualification import Native6Scope
+        from host_runtime.native6_runtime_contract import ACTIONS as N6_ACTIONS,FLAGS as N6_FLAGS
+        scope=Native6Scope(PACKAGE_SHA,tuple(zip(N6_ACTIONS,N6_FLAGS)),(),(),required_origin_region='region_1_7',
+            withheld_actions=('regroup','withdraw'))
+        self.assertNotIn('regroup',scope.available_actions)
+        self.assertIn('deploydefense',scope.available_actions)
+
+    def test_native7_participant_support_mirrors_the_compiled_focus_snapshot(self):
+        from host_runtime.native7_qualification import native7_participants_supported
+        supported=[self.scenario(((4,'native_ai','enemy'),)),
+                   self.scenario(((4,'native_ai','enemy'),(5,'native_ai','enemy')),alliances=[[4,5]])]
+        unsupported=[self.scenario(((2,'human','ally'),(4,'native_ai','enemy'))),
+                     self.scenario(((2,'human','enemy'),)),
+                     self.scenario(((4,'native_ai','enemy'),(5,'native_ai','enemy'))),
+                     self.scenario(((5,'native_ai','enemy'),))]
+        self.assertTrue(all(native7_participants_supported(value) for value in supported))
+        self.assertFalse(any(native7_participants_supported(value) for value in unsupported))
+
+    def test_strategic_catalog_audit_rebuilds_from_the_named_home_region(self):
+        from host_runtime.macro_policy_runtime import strategic_catalogs
+        from host_runtime.strategic_contract_v5 import INDEPENDENT_DEVELOPMENT_CONTRACT
+        scope=Native7Scope(PACKAGE_SHA,tuple(zip(FLAG_ACTIONS,FLAGS)),(),(),required_origin_region='region_0_12')
+        overrides=scope.model_catalog_overrides()
+        context=dict(macro_intent_contract=INDEPENDENT_DEVELOPMENT_CONTRACT)
+        self.assertIn(overrides,strategic_catalogs(overrides,context))
+        changed=dict(overrides,regroup=dict(overrides['regroup'],target_region='region_1_1'))
+        self.assertNotIn(changed,strategic_catalogs(changed,context))
+        self.assertEqual(strategic_catalogs({},context),())
+
+
 if __name__=='__main__':unittest.main()

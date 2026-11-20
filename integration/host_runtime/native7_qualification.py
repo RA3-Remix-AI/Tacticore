@@ -12,12 +12,12 @@ from .contracts import ContractError
 from .native7_paths import plain_local
 from .native7_runtime_contract import ACTIONS, FLAGS, GAME_SHA, PACKAGE_SHA, FIELD_KIND, FLAG_ACTIONS, FOCUS_ACTIONS, read, sha, _verified_build, verify_inventory
 from .strategic_unified_bundle_v5 import UnifiedStrategicScopeV5
-from .native6_scenarios import scenario_for_map,scenario_for_session
+from .native6_qualification import session_scenario
+from .strategic_contract_v5 import FOCUS_ACTIONS as FOCUS_GRAMMAR, focus_actions_for
 from .strategic_contract_v5 import GATE_ACTIONS
 
 KIND='native7_manifest_bound_trial'
 COMMANDER='57e668b4-4d89-43bd-bc92-0dd436f046ef'
-MAP_ID='map_mp_2_rao1'
 REGISTRY_SHA='e6179743c946e323637161daafda39dcb295a64d05d9eedaee24cb3bb1f3821d'
 PACKAGE_REPORT_SHA='44604c659ac1d9f1c15e5926857f0d9499ee9502d9047e793997711e7fba2647'
 RAID_AUDIT_SHA='a8655e9131973381a946fd84479f6cda3984a9e5f81e79240cc5ff097efd2bb0'
@@ -133,9 +133,30 @@ def current():
     return root,pin,inventory,build,cap
 
 
+# The compiled enemy-focus lease and its selector snapshot (enemy_focus_api.h)
+# accept exactly the combatants {3,4} or {3,4,5}, with 4 and 5 allied, and
+# can raise the priority of player 4 or 5 only.
+NATIVE7_FOCUS_PLAYER_IDS=tuple(FOCUS_GRAMMAR[action] for action in FOCUS_ACTIONS)
+
+
+def native7_participants_supported(scenario):
+    """Whether the Native7 focus lease can run beside this match's seats."""
+    enemies=scenario.enemy_player_ids
+    return (scenario.player_ids==tuple(sorted((scenario.model_player_id,)+enemies))
+        and enemies in ((4,),(4,5)) and (len(enemies)==1 or scenario.enemies_allied)
+        and all(scenario.player(index).kind=='native_ai' for index in enemies))
+
+
 @dataclass(frozen=True)
 class Native7Scope(UnifiedStrategicScopeV5):
     opponent_player_ids:tuple=(4,5)
+    withheld_actions:tuple=()
+    @property
+    def focus_actions(self):
+        """Focus intents for actual enemies the native lease can prefer."""
+        players=[player for player in self.opponent_player_ids if player in NATIVE7_FOCUS_PLAYER_IDS]
+        if len(players)<2:return ()
+        return tuple(focus_actions_for(players))
     @property
     def maximum_model_input_bytes(self):return 32768
     @property
@@ -150,8 +171,8 @@ class Native7Scope(UnifiedStrategicScopeV5):
     runtime_manifest_sha256:str=''
     @property
     def available_actions(self):
-        focus=FOCUS_ACTIONS if len(self.opponent_player_ids)==2 else ()
-        return FLAG_ACTIONS+focus+tuple(GATE_ACTIONS)
+        actions=FLAG_ACTIONS+self.focus_actions+tuple(GATE_ACTIONS)
+        return tuple(action for action in actions if action not in self.withheld_actions)
     def model_catalog_overrides(self):
         from .macro_group_role_contract import native6_strategic_catalog_overrides
         catalog=native6_strategic_catalog_overrides(self.required_origin_region)
@@ -170,10 +191,10 @@ class Native7Scope(UnifiedStrategicScopeV5):
             scope='all_native_construction_including_economic_recovery')
         catalog['attackenemy']=dict(additional_catalog(('attackenemy',))['attackenemy'],
             target_policy='native_closest_ground_structure_preferred_enemy')
-        for action,player in zip(FOCUS_ACTIONS,(4,5)):
-            if len(self.opponent_player_ids)==2:
-                catalog[action]=dict(domain='enemy_focus',goal='prefer_public_enemy_player',target_player_id=player,
-                    maximum_duration_seconds=60,details_owner='native_ai',mission_success_verified=False)
+        for action in self.focus_actions:
+            catalog[action]=dict(domain='enemy_focus',goal='prefer_public_enemy_player',
+                target_player_id=FOCUS_GRAMMAR[action],maximum_duration_seconds=60,details_owner='native_ai',
+                mission_success_verified=False)
         return catalog
     def public(self):
         return dict(super().public(),native_transport_protocol=7,bounded_field_trial=True,
@@ -192,24 +213,25 @@ def load(path,session=None,*,_verified=None):
     root,pin,inventory,build,cap=current() if _verified is None else _verified
     if _verified is not None and (root!=runtime_root() or pin!=trusted_pin()):fail()
     if Path(value['runtime_root'])!=root or value['runtime_manifest_sha256']!=pin:fail()
-    selected=scenario_for_map(MAP_ID)
-    if session is not None:
-        scenario=session.get('scenario',{})
-        selected=scenario_for_session(scenario)
-        if (session.get('mod_sha256')!=PACKAGE_SHA or Path(session.get('registry',''))!=root/'qualification/registry.json'
-                or scenario.get('commander_id')!=COMMANDER
-                or type(scenario.get('computer_player_index')) is not int or scenario['computer_player_index']!=3
-                or type(scenario.get('opponent_player_index')) is not int or scenario['opponent_player_index']!=4
-                or scenario.get('participant_count') != selected.participant_count
-                or scenario.get('observer_player_index',2)!=2):fail()
-    if selected.opponent_player_ids not in ((4,),(4,5)):fail()
     evidence=tuple(sorted([(str(root/name),digest) for name,digest in inventory['files'].items()]+[(str(root/'manifest.json'),pin)]))
+    bundle=dict(value,build=str(root/'native/strategic7'),visibility=str(root/'qualification'),pins=dict(evidence))
+    if session is None:
+        # File qualification only; a session-bound scope comes from its scenario.
+        return bundle,Native7Scope(PACKAGE_SHA,tuple(zip(FLAG_ACTIONS,FLAGS)),(),evidence,
+            runtime_root=root,runtime_manifest_sha256=pin)
+    selected=native7_scenario(session,root)
     regions=tuple((action,region) for action,region in selected.regional_action_regions if action in ACTIONS)
     scope=Native7Scope(PACKAGE_SHA,tuple(zip(FLAG_ACTIONS,FLAGS)),regions,evidence,
         required_origin_region=selected.own_region,runtime_root=root,runtime_manifest_sha256=pin,
-        opponent_player_ids=selected.opponent_player_ids)
-    bundle=dict(value,build=str(root/'native/strategic7'),visibility=str(root/'qualification'),pins=dict(evidence))
+        opponent_player_ids=selected.enemy_player_ids,withheld_actions=selected.withheld_actions)
     return bundle,scope
+
+
+def native7_scenario(session,root):
+    try:selected=session_scenario(session,root,package_sha=PACKAGE_SHA)
+    except ContractError:fail()
+    if not native7_participants_supported(selected):fail()
+    return selected
 
 
 def create(path):
@@ -225,9 +247,5 @@ def admit_sdk(build,session):
     if Path(build)!=root/'native/strategic7':fail()
     # Descriptor qualification plus live map/own/origin verification remains
     # the Host's job; the SDK independently refuses a different package/owner.
-    scenario=session.get('scenario',{})
-    if scenario_for_session(scenario).opponent_player_ids not in ((4,),(4,5)):fail()
-    if (session.get('mod_sha256')!=PACKAGE_SHA or scenario.get('computer_player_index')!=3
-            or type(scenario.get('computer_player_index')) is not int
-            or scenario.get('commander_id')!=COMMANDER):fail()
+    native7_scenario(session,root)
     return manifest

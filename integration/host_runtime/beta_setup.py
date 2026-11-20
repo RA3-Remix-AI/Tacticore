@@ -17,10 +17,10 @@ from .native6_paths import known_folder,LOCAL_APP_DATA,DOCUMENTS,plain_local
 from .native_portable_runtime import protocol
 NATIVE_PROTOCOL=protocol()
 if NATIVE_PROTOCOL==7:
-    from .native7_qualification import current,create,load,COMMANDER,MAP_ID
+    from .native7_qualification import current,create,load,COMMANDER
     from .native7_runtime_contract import GAME_SHA,PACKAGE_SHA,read,sha
 else:
-    from .native6_qualification import current,create,load,COMMANDER,MAP_ID
+    from .native6_qualification import current,create,load,COMMANDER
     from .native6_runtime_contract import GAME_SHA,PACKAGE_SHA,read,sha
 from .session_discovery import DiscoveryPolicy,TrustedFiles,TERMINAL
 from . import beta_launch
@@ -193,13 +193,16 @@ def status():
     target=state/NAME
     if not target.exists():return dict(schema_version=1,prepared=False,version=VERSION)
     old=read(target);_,pin,_,_,_=current()
-    setup_changed=old.get('runtime_manifest_sha256')!=pin
+    from .session_discovery_native import SCOPE,PREVIOUS_SCOPE
+    # A policy from before live scenario derivation is refreshed like a new runtime.
+    previous_scope=dict(PREVIOUS_SCOPE,native_epoch=NATIVE_PROTOCOL)
+    setup_changed=old.get('runtime_manifest_sha256')!=pin or old.get('scope')==previous_scope
     if setup_changed:
         if old.get('files',{}).get('mod_sha256')!=PACKAGE_SHA:
             return dict(schema_version=1,prepared=False,version=VERSION,reason_code='beta_mod_update_required')
-        from .session_discovery_native import SCOPE
+        known_scopes=(dict(SCOPE,native_epoch=NATIVE_PROTOCOL),previous_scope)
         if (type(old.get('schema_version')) is not int or old['schema_version']!=2 or old.get('kind')!=KIND
-                or old.get('scope')!=dict(SCOPE,native_epoch=NATIVE_PROTOCOL) or Path(old['session_root'])!=state/'sessions'):
+                or old.get('scope') not in known_scopes or Path(old['session_root'])!=state/'sessions'):
             raise ContractError('beta_setup_changed_requires_migration')
         # The previous native picker's selections retain their authorization.
         # The fresh factory still checks exact Game/Mod/base hashes and can

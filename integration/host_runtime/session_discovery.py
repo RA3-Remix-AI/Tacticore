@@ -20,10 +20,13 @@ from typing import Callable, Iterable, Mapping
 import uuid
 
 from .contracts import ContractError, canonical_json, identifier, object_fields, sha256
-from .native6_scenarios import scenario_for_map
+from .scenario import MODEL_FACTION, MODEL_PLAYER_ID, MatchScenario
 
 TERMINAL = frozenset({'stopped', 'completed', 'fault', 'result_candidate'})
 MAX_CANDIDATES = 8
+# Only runtimes that derive the scenario live can be discovered. Older epochs
+# were bound to one map's compiled evidence and remain history-only.
+DISCOVERY_EPOCHS = (6, 7)
 
 
 @dataclass(frozen=True)
@@ -44,18 +47,14 @@ class TrustedFiles:
 
 @dataclass(frozen=True)
 class DiscoveryPolicy:
+    """Trusted files and the commander seat. Map, teams and regions come live."""
     files: TrustedFiles
     session_root: Path
     state_dir: Path
     commander_id: str
-    origin_region: str
     native_epoch: int
-    map_id: str = 'map_mp_2_black1b'
-    display_map: str = 'TemplePrime'
-    faction: str = 'Soviet'
-    player_id: int = 3
-    opponent_player_id: int = 4
-    observer_player_id: int = 2
+    faction: str = MODEL_FACTION
+    player_id: int = MODEL_PLAYER_ID
     candidate_ttl_seconds: int = 90
 
 
@@ -70,21 +69,16 @@ class ProcessIdentity:
 
 @dataclass(frozen=True)
 class MatchObservation:
+    """One probed match; ``scenario`` is MatchScenario.to_public_dict()."""
     pid: int
     creation_filetime: int
     game_instance_id: str
-    map_id: str
-    faction: str
-    player_id: int
-    opponent_player_id: int
-    observer_player_id: int
     commander_id: str
-    origin_region: str
     native_epoch: int
+    scenario: dict
     ready: bool
     paused: bool = False
     ended: bool = False
-    opponent_player_count: int = 1
 
 
 @dataclass(frozen=True)
@@ -191,16 +185,9 @@ class SessionDiscovery:
         if not isinstance(p, DiscoveryPolicy) or not isinstance(p.files, TrustedFiles):
             _fail('discovery_policy_invalid')
         identifier(p.commander_id)
-        try:selected=scenario_for_map(p.map_id)
-        except ContractError:_fail('discovery_policy_invalid')
-        if (p.display_map != selected.display_map or p.faction != 'Soviet'
-                or (p.native_epoch not in (6,7) and p.map_id!='map_mp_2_black1b')
-                or (p.native_epoch in (6,7) and p.origin_region!=selected.own_region)
-                or (p.player_id, p.opponent_player_id, p.observer_player_id) != (3, 4, 2)
-                or not _int(p.native_epoch) or type(p.candidate_ttl_seconds) is not int
-                or not 1 <= p.candidate_ttl_seconds <= 300
-                or not isinstance(p.origin_region, str) or len(p.origin_region) > 64
-                or not p.origin_region.startswith('region_')):
+        if (p.faction != MODEL_FACTION or p.player_id != MODEL_PLAYER_ID or type(p.player_id) is not int
+                or not _int(p.native_epoch) or p.native_epoch not in DISCOVERY_EPOCHS
+                or type(p.candidate_ttl_seconds) is not int or not 1 <= p.candidate_ttl_seconds <= 300):
             _fail('discovery_policy_invalid')
         _local_path(p.session_root, directory=True)
         _local_path(p.state_dir, directory=True)
@@ -224,8 +211,7 @@ class SessionDiscovery:
                 _fail('discovery_source_changed')
             pins[name] = dict(source=str(path), sha256=actual)
         # Pin the non-file qualification fields as well: no silent broadening.
-        pins['scope'] = dict(commander_id=self.policy.commander_id, origin_region=self.policy.origin_region,
-                             native_epoch=self.policy.native_epoch, map_id=self.policy.map_id,
+        pins['scope'] = dict(commander_id=self.policy.commander_id, native_epoch=self.policy.native_epoch,
                              player_id=self.policy.player_id, faction=self.policy.faction)
         return _hash(pins)
 
@@ -262,21 +248,27 @@ class SessionDiscovery:
                 or not isinstance(value.game_instance_id, str) or not 1 <= len(value.game_instance_id) <= 128
                 or any(type(getattr(value, name)) is not bool for name in ('ready', 'paused', 'ended'))):
             _fail('session_probe_invalid')
-        expected = dict(map_id=self.policy.map_id, faction=self.policy.faction, player_id=3,
-                        opponent_player_id=4, observer_player_id=2, commander_id=self.policy.commander_id,
-                        origin_region=self.policy.origin_region, native_epoch=self.policy.native_epoch)
-        if self.policy.native_epoch in (6,7):
-            selected=scenario_for_map(value.map_id)
-            expected.update(map_id=selected.map_id, origin_region=selected.own_region,
-                            opponent_player_count=len(selected.opponent_player_ids))
+        expected = dict(commander_id=self.policy.commander_id, native_epoch=self.policy.native_epoch)
         if any(getattr(value, key) != item or type(getattr(value, key)) is not type(item)
                for key, item in expected.items()):
+            _fail('session_scope_unsupported')
+        scenario = self._scenario(value)
+        if (scenario.model_player_id != self.policy.player_id
+                or scenario.player(scenario.model_player_id).faction != self.policy.faction):
             _fail('session_scope_unsupported')
         if not value.ready or value.ended:
             _fail('session_not_ready')
         if value.paused:
             _fail('session_paused')
         return value
+
+    @staticmethod
+    def _scenario(observation):
+        try:
+            return MatchScenario.from_dict(observation.scenario if isinstance(observation, MatchObservation)
+                                           else observation['scenario'])
+        except ContractError:
+            _fail('session_probe_invalid')
 
     def _now(self):
         value = self.clock()
@@ -285,12 +277,13 @@ class SessionDiscovery:
         return value
 
     def _public(self, candidate_id, expires_at):
-        observed=self._candidates[candidate_id]['snapshot']['observation']
-        display_map=scenario_for_map(observed['map_id']).display_map
-        return dict(candidate_id=candidate_id, display_name=display_map+' / P3 苏军',
+        scenario = self._scenario(self._candidates[candidate_id]['snapshot']['observation'])
+        display_map = scenario.display_map
+        return dict(candidate_id=candidate_id,
+                    display_name=f'{display_map} / P{scenario.model_player_id} 苏军',
                     map=display_map, faction=self.policy.faction,
-                    player_id=self.policy.player_id, expires_in_seconds=max(0, int(expires_at-self._now())),
-                    requires_preflight=True)
+                    player_id=scenario.model_player_id, expires_in_seconds=max(0, int(expires_at-self._now())),
+                    requires_preflight=True, scenario=scenario.to_public_dict())
 
     def discover(self, args=None, request_id=None):
         object_fields({} if args is None else args, set())
@@ -383,14 +376,7 @@ class SessionDiscovery:
                       seed_controlled=False, real_model_calls=0, full_goal_complete=False,
                       discovery=dict(game_instance_id=observation['game_instance_id'], native_epoch=p.native_epoch,
                                      source_fingerprint=snapshot['source_pin']),
-                      scenario=dict(map_id=observation['map_id'], commander_id=p.commander_id, computer_player_index=3,
-                                    opponent_player_index=4, observer_player_index=2, participant_count=2,
-                                    faction=p.faction, origin_region=observation['origin_region']))
-        if p.native_epoch in (6,7):
-            selected = scenario_for_map(observation['map_id'])
-            if selected.participant_count == 3:
-                record['scenario'].update(participant_count=3, opponent_player_indices=[4, 5],
-                                          opponents_allied=True)
+                      scenario=self._scenario(observation).to_session_dict(p.commander_id))
         return folder/'session.json', record
 
     def prepare(self, args, request_id):
@@ -471,7 +457,8 @@ class SessionDiscovery:
             receipt = dict(schema_version=1, registered=True, session_id=record['session_id'],
                            candidate_id=value['candidate_id'], requires_preflight=True,
                            registration_reload_required=result.get('restart_required') is True,
-                           session=dict(id=record['session_id'], map=scenario_for_map(record['scenario']['map_id']).display_map,
+                           session=dict(id=record['session_id'],
+                                        map=record['scenario']['match']['display_map'],
                                         faction=self.policy.faction, player_name=self.policy.commander_id),
                            native_execution_started=False)
             with self._db:

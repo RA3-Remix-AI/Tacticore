@@ -14,7 +14,6 @@ from dataclasses import asdict, fields
 from datetime import datetime, timedelta, timezone
 import hashlib
 import json
-import math
 import os
 from pathlib import Path, PureWindowsPath
 import re
@@ -25,8 +24,9 @@ from .contracts import ContractError, SessionBinding, canonical_json, identifier
 from .desktop_session_registry import load_root, register_root, register_session_source
 from .macro_bundle import load_bundle
 from .macro_policy_runtime import COMMANDER
-from .native6_scenarios import scenario_for_map, scenario_for_session
-from .session_discovery import (DiscoveryPolicy, MatchObservation, ProcessIdentity, RunRecord,
+from .scenario import (MODEL_FACTION, MODEL_PLAYER_ID, MatchScenario, derive_scenario, own_base_point,
+                       start_by_vote)
+from .session_discovery import (DISCOVERY_EPOCHS, DiscoveryPolicy, MatchObservation, ProcessIdentity, RunRecord,
                                 SessionDiscovery, TrustedFiles, TERMINAL, _digest, _local_path)
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -34,9 +34,14 @@ NAME = 'session-discovery-policy.json'
 KIND = 'trusted_macro_session_discovery_policy'
 GAME_SHA = 'ec230c6ae1eaee30b0b4fa6ba29d417c974ecae46d6715dfbe786a815935c165'
 PINS = {0x8d5727: bytes.fromhex('89beb0080000'), 0x844a3f: bytes.fromhex('898690000000')}
-SCOPE = dict(commander_id=COMMANDER, origin_region='region_8_3', map_id='map_mp_2_black1b',
-             display_map='TemplePrime', faction='Soviet', player_id=3, opponent_player_id=4,
-             observer_player_id=2, candidate_ttl_seconds=90)
+# The commander seat only. Map, participants, teams and regions are derived
+# live for each candidate (host_runtime.scenario).
+SCOPE = dict(commander_id=COMMANDER, faction=MODEL_FACTION, player_id=MODEL_PLAYER_ID, candidate_ttl_seconds=90)
+# Scope of policies written before the scenario was derived live. Recognised
+# only so an installed setup can be refreshed to SCOPE.
+PREVIOUS_SCOPE = dict(commander_id=COMMANDER, origin_region='region_8_3', map_id='map_mp_2_black1b',
+                      display_map='TemplePrime', faction='Soviet', player_id=3, opponent_player_id=4,
+                      observer_player_id=2, candidate_ttl_seconds=90)
 
 
 def fail(code):
@@ -155,17 +160,13 @@ def source_fields(session_path, bundle_path, root, *, qualify):
         fail('discovery_policy_invalid')
     session, session_digest = read_object(session_path)
     scenario = session.get('scenario')
-    selected=scenario_for_map(scenario.get('map_id')) if isinstance(scenario,dict) else None
-    if (not isinstance(scenario,dict) or scenario.get('commander_id')!=COMMANDER
-            or scenario.get('computer_player_index')!=3 or type(scenario.get('computer_player_index')) is not int
-            or scenario.get('opponent_player_index')!=4 or type(scenario.get('opponent_player_index')) is not int
-            or scenario.get('observer_player_index',2)!=2 or type(scenario.get('observer_player_index',2)) is not int
-            or selected is None or scenario.get('participant_count') != selected.participant_count
-            or type(scenario.get('participant_count')) is not int
+    try:
+        selected = MatchScenario.from_session(scenario)
+    except ContractError:
+        fail('discovery_policy_invalid')
+    if (scenario.get('commander_id')!=COMMANDER or selected.model_player_id!=MODEL_PLAYER_ID
             or Path(session.get('run_directory',''))!=session_path.parent):
         fail('discovery_policy_invalid')
-    if selected.participant_count == 3:
-        scenario_for_session(scenario)
     identifier(session.get('session_id'))
     require_creation(session.get('start_time'),session.get('process_creation_filetime'))
     if type(session.get('pid')) is not int or session['pid']<=0:
@@ -209,10 +210,10 @@ def source_fields(session_path, bundle_path, root, *, qualify):
     epoch=native_epoch(manifest)
     if type(epoch) is not int or epoch<=0 or manifest.get('package_sha256')!=session['mod_sha256']:
         fail('discovery_policy_invalid')
-    if epoch not in (6,7) and selected.map_id!=SCOPE['map_id']:fail('session_scope_unsupported')
+    if epoch not in DISCOVERY_EPOCHS:fail('session_scope_unsupported')
     if qualify:
         _, scope=load_bundle(bundle_path,session)
-        if (getattr(scope,'required_origin_region',None)!=(selected.own_region if epoch in (6,7) else SCOPE['origin_region'])
+        if (getattr(scope,'required_origin_region',None)!=selected.own_region
                 or scope.package_sha256!=session['mod_sha256']):
             fail('session_scope_unsupported')
     values={}
@@ -368,11 +369,25 @@ def dependencies():
     from .desktop_backend import _module
     memory=_module('observe_production',ROOT/'production').Memory
     native=_module('read_selected_personality',ROOT/'native-ai')
+    participants=_module('match_participants',ROOT/'integration')
+    starts=_module('public_start_waypoints',ROOT/'native-ai')
     return SimpleNamespace(Memory=memory,snapshot=_module('read_match_state',ROOT/'native-ai').snapshot,
         inspect_player=native.inspect_player,resolve_registry=native.resolve_registry,
-        verify_two_ai=_module('match_participants',ROOT/'integration').verify_two_ai,
-        verify_ai_combatants=_module('match_participants',ROOT/'integration').verify_ai_combatants,
+        verify_participants=participants.verify_participants,
+        controlled_match_result=participants.controlled_match_result,
+        public_start_waypoints=starts.public_start_waypoints,owned_object_points=starts.owned_object_points,
         own_census=_module('macro_observation',ROOT/'native-ai').own_census)
+
+
+def allied_starts(readers,memory,logic,players,participants,starts):
+    """Start waypoints of allied combatants (shared vision), by majority of their objects."""
+    result=[]
+    for row in participants['participants']:
+        if row['relation']!='ally':continue
+        address=memory.u32(players+0x30+4*row['player_id'])
+        name=start_by_vote(readers.owned_object_points(memory,logic,address),starts)
+        if name is not None:result.append(name)
+    return tuple(result)
 
 
 class NativeAdapter:
@@ -412,54 +427,41 @@ class NativeAdapter:
             if (not logic or memory.u32(logic)!=0xbeb630 or state.get('game_logic')!=hex(logic)
                     or type(state.get('simulation_frame')) is not int or state['simulation_frame']<=0):
                 fail('session_not_ready')
-            players=memory.u32(0xce8c9c);owner=memory.u32(players+0x30+4*3)
+            seat=policy.player_id
+            players=memory.u32(0xce8c9c);owner=memory.u32(players+0x30+4*seat)
             native=readers.inspect_player(memory.read,owner)
             registry,digest=read_object(policy.files.registry)
             if digest!=policy.files.registry_sha256:
                 fail('discovery_source_changed')
             resolved=readers.resolve_registry(native,registry,seed)
             if (resolved.get('commander_id')!=policy.commander_id or resolved.get('personality_binding_verified') is not True
-                    or resolved.get('side')!='Soviet' or native.get('player_index')!=3
+                    or resolved.get('side')!=policy.faction or native.get('player_index')!=seat
                     or native.get('store_membership_verified') is not True or native.get('side_matches_player') is not True):
                 fail('session_scope_unsupported')
             pointer=memory.u32(logic+0x98);raw=memory.read(pointer,260)
             if b'\x00' not in raw:fail('session_probe_invalid')
             path=PureWindowsPath(raw.split(b'\x00',1)[0].decode('ascii'))
-            selected=scenario_for_map(path.stem.lower())
-            if (path.suffix.lower()!='.map' or path.parent.name.lower()!=selected.map_id
-                    or (policy.native_epoch not in (6,7) and selected.map_id!=policy.map_id)):
+            # Every RA3 map lives in a folder of its own name: <name>\<name>.map.
+            map_id=path.stem.lower()
+            if path.suffix.lower()!='.map' or path.parent.name.lower()!=map_id:
                 fail('session_scope_unsupported')
-            if selected.participant_count == 3:
-                if policy.native_epoch not in (6,7):
-                    fail('session_scope_unsupported')
-                participants = readers.verify_ai_combatants(memory, state, registry, 3, (4, 5), 2,
-                                                             opponents_allied=True)
-                required = ('ai_combatants_verified', 'opponents_allied_verified',
-                            'mutual_enemy_relationship_verified', 'observer_separate_from_combatants',
-                            'opponent_native_ai_verified')
-            else:
-                participants = readers.verify_two_ai(memory, state, registry, 3, 4, 2)
-                required = ('two_ai_combatants_verified', 'mutual_enemy_relationship_verified',
-                            'observer_separate_from_combatants', 'opponent_native_ai_verified')
-            if any(participants.get(key) is not True for key in required):
+            participants=readers.verify_participants(memory,state,registry,seat)
+            if participants.get('participants_verified') is not True or participants.get('model_player_id')!=seat:
                 fail('session_scope_unsupported')
             stable=('instance_id','personality_wrapper','personality_data','player_template','ai_player','player_index')
             if any(not isinstance(native.get(key),str) for key in stable if key!='player_index'):
                 fail('session_probe_invalid')
             census=readers.own_census(memory,owner)
             if census.get('enemy_details_read') is not False:fail('session_probe_invalid')
-            yards=[row for row in census.get('own_objects',[]) if row.get('type_hash')=='0xc16ff13f'
-                   and type(row.get('hp')) in (int,float) and math.isfinite(row['hp']) and row['hp']>0]
-            if len(yards)!=1:fail('session_scope_unsupported')
-            point=yards[0].get('xyz',[])
-            if len(point)!=3 or any(type(value) not in (int,float) or not math.isfinite(value) for value in point):
-                fail('session_probe_invalid')
-            origin='region_'+str(int(point[0]//512))+'_'+str(int(point[1]//512))
-            expected_origin=selected.own_region if policy.native_epoch in (6,7) else policy.origin_region
-            if origin!=expected_origin:fail('session_scope_unsupported')
+            own_point=own_base_point(census)
+            starts=readers.public_start_waypoints(memory.read)
+            scenario=derive_scenario(map_id=map_id,model_player_id=seat,participants=participants['participants'],
+                alliances=participants['alliances'],own_point=own_point,starts=starts,
+                allied_starts=allied_starts(readers,memory,logic,players,participants,starts),
+                model_faction=resolved['side'])
             after=readers.snapshot(memory.read);identity_after=readers.inspect_player(memory.read,owner)
             if (type(census.get('frame')) is not int or not state['simulation_frame']<=census['frame']<=after['simulation_frame']
-                    or memory.u32(0xcd8ce4)!=logic or memory.u32(0xce8c9c)!=players or memory.u32(players+0x30+12)!=owner
+                    or memory.u32(0xcd8ce4)!=logic or memory.u32(0xce8c9c)!=players or memory.u32(players+0x30+4*seat)!=owner
                     or after.get('game_logic')!=hex(logic) or not 0<=after['simulation_frame']-state['simulation_frame']<=15
                     or any(identity_after.get(key)!=native.get(key) for key in stable)
                     or identity_after.get('store_membership_verified') is not True or identity_after.get('side_matches_player') is not True
@@ -468,16 +470,12 @@ class NativeAdapter:
             facts=dict(pid=process.pid,creation_filetime=process.creation_filetime,logic=logic,owner=owner,
                        personality={key:native.get(key) for key in stable})
             instance=hashlib.sha256(canonical_json(facts).encode('utf8')).hexdigest()
-            if selected.participant_count == 3:
-                from match_participants import controlled_match_result
-                ended = any(controlled_match_result(value, 3, (4, 5))['terminal'] for value in (state, after))
-            else:
-                ended=any(row.get(key) for value in (state,after) for row in value.get('result_records',[])
-                          for key in ('victory_frame','defeat_frame','quit_frame'))
-            return MatchObservation(process.pid,process.creation_filetime,instance,selected.map_id,resolved['side'],3,4,2,
-                resolved['commander_id'],origin,policy.native_epoch,True,
-                paused=bool(state.get('pause_flag_candidate')) or bool(after.get('pause_flag_candidate')),ended=bool(ended),
-                opponent_player_count=len(selected.opponent_player_ids))
+            ended=any(readers.controlled_match_result(value,seat,scenario.enemy_player_ids,
+                                                      participant_ids=scenario.player_ids)['terminal']
+                      for value in (state,after))
+            return MatchObservation(process.pid,process.creation_filetime,instance,resolved['commander_id'],
+                policy.native_epoch,scenario.to_public_dict(),True,
+                paused=bool(state.get('pause_flag_candidate')) or bool(after.get('pause_flag_candidate')),ended=bool(ended))
         except ContractError:
             raise
         except (OSError,ValueError,TypeError,KeyError,RuntimeError,UnicodeError):

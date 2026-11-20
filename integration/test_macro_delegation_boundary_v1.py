@@ -60,29 +60,30 @@ class BoundaryTests(unittest.TestCase):
         self.assertTrue(all(row['observations']==1 for row in typed))
         self.assertEqual(restrict_context(result),result)
 
-    def test_all_native6_scenarios_pass_the_host_catalog_audit(self):
-        from host_runtime.native6_scenarios import NATIVE6_SCENARIOS
+    def test_any_runtime_derived_home_region_passes_the_host_catalog_audit(self):
         from host_runtime.macro_group_role_contract import native6_group_role_catalog_overrides
         from macro_policy import public_descriptions
 
-        for scenario in NATIVE6_SCENARIOS:
-            with self.subTest(map_id=scenario.map_id):
+        for home in ('region_8_3', 'region_7_4', 'region_0_12'):
+            with self.subTest(home=home):
                 actions = ['deploydefense', 'regroup', 'withdraw', 'reinforce']
                 raw = raw_view()
                 raw['macro_control'] = dict(mode='macro_native', available_actions=actions,
-                    region_targets={action: scenario.own_region for action in actions})
-                raw['capabilities']['regions'] = [scenario.own_region]
+                    region_targets={action: home for action in actions})
+                raw['capabilities']['regions'] = [home]
                 context = Snapshot.from_dict(restrict_snapshot(raw)).model_context(
                     Binding(SESSION, 3, COMMANDER, 'Test', CONNECTION))
                 context['macro_policy_catalog'] = public_descriptions(actions,
-                    region_targets={action: scenario.own_region for action in actions})
+                    region_targets={action: home for action in actions})
                 audit = MacroRequestAudit(None, lambda *args, **kwargs: None,
                     feedback_supplier=lambda: dict(status='native_delegation_observed',
                         selected_policy=None, actions=[], observed_frame=1500, native_effect_verified=False),
-                    catalog_supplier=lambda: native6_group_role_catalog_overrides(scenario.own_region),
+                    catalog_supplier=lambda: native6_group_role_catalog_overrides(home),
                     strategic_only=True)
                 result = audit.prepare(context)
-                self.assertEqual(result['macro_policy_catalog']['deploydefense']['target_region'], scenario.own_region)
+                self.assertEqual(result['macro_policy_catalog']['deploydefense']['target_region'], home)
+        with self.assertRaises(ContractError):
+            native6_group_role_catalog_overrides('home_base')
 
     def test_snapshot_removes_specific_authority_and_keeps_original_observation(self):
         before=raw_view(); after=restrict_snapshot(before)
