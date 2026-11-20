@@ -5,6 +5,7 @@ module. A database transaction cannot make an external game action exactly-once:
 persist intent, claim dispatch once, and reconcile uncertain delivery separately.
 JSON exports are projections of this ledger, not competing sources of truth.
 """
+
 from __future__ import annotations
 
 from contextlib import contextmanager
@@ -35,9 +36,21 @@ class TransitionError(JournalError):
 
 
 _SECRET_KEYS = {
-    "key", "apikey", "apitoken", "authorization", "password", "secret",
-    "clientsecret", "secretkey", "token", "accesstoken", "refreshtoken",
-    "privatekey", "credentialvalue", "credentials", "connectionstring",
+    "key",
+    "apikey",
+    "apitoken",
+    "authorization",
+    "password",
+    "secret",
+    "clientsecret",
+    "secretkey",
+    "token",
+    "accesstoken",
+    "refreshtoken",
+    "privatekey",
+    "credentialvalue",
+    "credentials",
+    "connectionstring",
 }
 _TRANSITIONS = {
     "reserved": {"rejected", "cancelled"},
@@ -45,7 +58,10 @@ _TRANSITIONS = {
     "accepted": {"started", "completed", "released", "failed", "uncertain", "cancelled"},
     "started": {"completed", "released", "failed", "uncertain"},
     "completed": {"released"},
-    "released": set(), "rejected": set(), "failed": set(), "cancelled": set(),
+    "released": set(),
+    "rejected": set(),
+    "failed": set(),
+    "cancelled": set(),
     "uncertain": set(),
 }
 _UNRESOLVED = ("reserved", "dispatching", "accepted", "started", "uncertain")
@@ -121,7 +137,9 @@ class CommandJournal:
             if version not in (0, 1):
                 raise JournalError("unsupported_journal_version")
             with self._transaction():
-                self._db.execute("CREATE TABLE IF NOT EXISTS runs (run_id TEXT PRIMARY KEY, binding TEXT NOT NULL, created_at TEXT NOT NULL)")
+                self._db.execute(
+                    "CREATE TABLE IF NOT EXISTS runs (run_id TEXT PRIMARY KEY, binding TEXT NOT NULL, created_at TEXT NOT NULL)"
+                )
                 self._db.execute("""CREATE TABLE IF NOT EXISTS commands (
                     command_id TEXT PRIMARY KEY, run_id TEXT NOT NULL REFERENCES runs(run_id),
                     request_id TEXT NOT NULL, operation TEXT NOT NULL, fingerprint TEXT NOT NULL,
@@ -168,7 +186,9 @@ class CommandJournal:
     def _command(self, run_id, request_id):
         self._run(run_id)
         _identifier(request_id, "request_id")
-        row = self._db.execute("SELECT * FROM commands WHERE run_id=? AND request_id=?", (run_id, request_id)).fetchone()
+        row = self._db.execute(
+            "SELECT * FROM commands WHERE run_id=? AND request_id=?", (run_id, request_id)
+        ).fetchone()
         if row is None:
             raise JournalError("unknown_command")
         return row
@@ -205,17 +225,29 @@ class CommandJournal:
         _identifier(request_id, "request_id")
         _identifier(operation, "operation")
         encoded = _object(payload)
-        fingerprint = hashlib.sha256(_json({"operation": operation, "payload": json.loads(encoded)}).encode("utf-8")).hexdigest()
+        fingerprint = hashlib.sha256(
+            _json({"operation": operation, "payload": json.loads(encoded)}).encode("utf-8")
+        ).hexdigest()
         with self._transaction():
             self._run(run_id)
-            prior = self._db.execute("SELECT * FROM commands WHERE run_id=? AND request_id=?", (run_id, request_id)).fetchone()
+            prior = self._db.execute(
+                "SELECT * FROM commands WHERE run_id=? AND request_id=?", (run_id, request_id)
+            ).fetchone()
             if prior:
                 if prior["fingerprint"] != fingerprint:
                     raise RequestConflict("request_id_content_conflict")
                 return {**self._public(prior), "created": False}
             ident, now = str(uuid.uuid4()), _utc()
-            self._db.execute("INSERT INTO commands VALUES (?,?,?,?,?,?,?,?,?,?)", (ident, run_id, request_id, operation, fingerprint, encoded, "reserved", None, now, now))
-            self._event(run_id, "command_reserved", _json({"request_id": request_id, "operation": operation, "fingerprint": fingerprint}), ident)
+            self._db.execute(
+                "INSERT INTO commands VALUES (?,?,?,?,?,?,?,?,?,?)",
+                (ident, run_id, request_id, operation, fingerprint, encoded, "reserved", None, now, now),
+            )
+            self._event(
+                run_id,
+                "command_reserved",
+                _json({"request_id": request_id, "operation": operation, "fingerprint": fingerprint}),
+                ident,
+            )
             return {**self._public(self._command(run_id, request_id)), "created": True}
 
     def mark_dispatching(self, run_id, request_id) -> dict:
@@ -224,7 +256,9 @@ class CommandJournal:
             row = self._command(run_id, request_id)
             if row["status"] != "reserved":
                 raise TransitionError("command_already_claimed_or_terminal")
-            self._db.execute("UPDATE commands SET status='dispatching',updated_at=? WHERE command_id=?", (_utc(), row["command_id"]))
+            self._db.execute(
+                "UPDATE commands SET status='dispatching',updated_at=? WHERE command_id=?", (_utc(), row["command_id"])
+            )
             self._event(run_id, "dispatch_intent_committed", "{}", row["command_id"])
             return self._public(self._command(run_id, request_id))
 
@@ -236,60 +270,85 @@ class CommandJournal:
         host/run cannot reset numbering for the same game/player/commander.
         """
         _identifier(command_id, "command_id")
-        if type(observed_last_seq) is not int or not 0 <= observed_last_seq <= 0xffffffff:
+        if type(observed_last_seq) is not int or not 0 <= observed_last_seq <= 0xFFFFFFFF:
             raise JournalError("invalid_native_sequence")
         with self._transaction():
             run = self._run(run_id)
-            command = self._db.execute("SELECT * FROM commands WHERE command_id=? AND run_id=?",
-                                       (command_id, run_id)).fetchone()
+            command = self._db.execute(
+                "SELECT * FROM commands WHERE command_id=? AND run_id=?", (command_id, run_id)
+            ).fetchone()
             if command is None:
                 raise IdentityConflict("native_sequence_command_run_mismatch")
-            binding = json.loads(run['binding'])
-            fields = ('session_id', 'player_id', 'commander_id', 'game_process_id',
-                      'game_process_start', 'game_sha256', 'mod_sha256')
+            binding = json.loads(run["binding"])
+            fields = (
+                "session_id",
+                "player_id",
+                "commander_id",
+                "game_process_id",
+                "game_process_start",
+                "game_sha256",
+                "mod_sha256",
+            )
             if any(field not in binding for field in fields):
                 raise JournalError("native_sequence_binding_incomplete")
-            channel = hashlib.sha256(_json({field: binding[field] for field in fields}).encode('utf-8')).hexdigest()
-            prior = self._db.execute("SELECT sequence,channel_hash FROM native_sequences WHERE command_id=?",
-                                     (command_id,)).fetchone()
+            channel = hashlib.sha256(_json({field: binding[field] for field in fields}).encode("utf-8")).hexdigest()
+            prior = self._db.execute(
+                "SELECT sequence,channel_hash FROM native_sequences WHERE command_id=?", (command_id,)
+            ).fetchone()
             if prior:
-                if prior['channel_hash'] != channel:
+                if prior["channel_hash"] != channel:
                     raise IdentityConflict("native_sequence_channel_changed")
-                return prior['sequence']
-            if command['status'] not in ('reserved', 'dispatching'):
+                return prior["sequence"]
+            if command["status"] not in ("reserved", "dispatching"):
                 raise TransitionError("native_sequence_requires_unsent_or_dispatching_command")
-            high = self._db.execute("SELECT COALESCE(MAX(sequence),0) FROM native_sequences WHERE channel_hash=?",
-                                    (channel,)).fetchone()[0]
+            high = self._db.execute(
+                "SELECT COALESCE(MAX(sequence),0) FROM native_sequences WHERE channel_hash=?", (channel,)
+            ).fetchone()[0]
             sequence = max(high, observed_last_seq) + 1
-            if sequence > 0xffffffff:
+            if sequence > 0xFFFFFFFF:
                 raise JournalError("native_sequence_exhausted")
             self._db.execute("INSERT INTO native_sequences VALUES (?,?,?,?)", (command_id, run_id, channel, sequence))
-            self._event(run_id, 'native_sequence_reserved', _json({'sequence': sequence, 'channel_hash': channel}), command_id)
+            self._event(
+                run_id, "native_sequence_reserved", _json({"sequence": sequence, "channel_hash": channel}), command_id
+            )
             return sequence
 
     def native_sequence_high_water(self, binding: Mapping) -> int:
         """Read the durable game/player/commander counter across host epochs."""
-        fields=('session_id','player_id','commander_id','game_process_id',
-                'game_process_start','game_sha256','mod_sha256')
-        if not isinstance(binding,Mapping) or any(k not in binding for k in fields):
-            raise JournalError('native_sequence_binding_incomplete')
-        channel=hashlib.sha256(_json({k:binding[k] for k in fields}).encode('utf-8')).hexdigest()
+        fields = (
+            "session_id",
+            "player_id",
+            "commander_id",
+            "game_process_id",
+            "game_process_start",
+            "game_sha256",
+            "mod_sha256",
+        )
+        if not isinstance(binding, Mapping) or any(k not in binding for k in fields):
+            raise JournalError("native_sequence_binding_incomplete")
+        channel = hashlib.sha256(_json({k: binding[k] for k in fields}).encode("utf-8")).hexdigest()
         with self._transaction():
-            return self._db.execute('SELECT COALESCE(MAX(sequence),0) FROM native_sequences WHERE channel_hash=?',(channel,)).fetchone()[0]
+            return self._db.execute(
+                "SELECT COALESCE(MAX(sequence),0) FROM native_sequences WHERE channel_hash=?", (channel,)
+            ).fetchone()[0]
 
     def get_native_sequence(self, run_id, command_id) -> int:
         """Read an existing allocation; observing a receipt never allocates one."""
-        _identifier(command_id, 'command_id')
+        _identifier(command_id, "command_id")
         with self._transaction():
             self._run(run_id)
-            row = self._db.execute('SELECT sequence FROM native_sequences WHERE run_id=? AND command_id=?',
-                                   (run_id, command_id)).fetchone()
+            row = self._db.execute(
+                "SELECT sequence FROM native_sequences WHERE run_id=? AND command_id=?", (run_id, command_id)
+            ).fetchone()
             if row is None:
-                raise JournalError('native_sequence_not_allocated')
-            return row['sequence']
+                raise JournalError("native_sequence_not_allocated")
+            return row["sequence"]
 
     def _outcome(self, row, status, receipt, evidence_id=None):
-        self._db.execute("UPDATE commands SET status=?,receipt=?,updated_at=? WHERE command_id=?", (status, receipt, _utc(), row["command_id"]))
+        self._db.execute(
+            "UPDATE commands SET status=?,receipt=?,updated_at=? WHERE command_id=?",
+            (status, receipt, _utc(), row["command_id"]),
+        )
         payload = {"status": status, "receipt": json.loads(receipt)}
         if evidence_id is not None:
             payload["evidence_id"] = evidence_id
@@ -330,14 +389,25 @@ class CommandJournal:
         """
         with self._transaction():
             self._run(run_id)
-            rows = self._db.execute("SELECT * FROM commands WHERE run_id=? AND status IN ('dispatching','accepted','started') ORDER BY rowid", (run_id,)).fetchall()
+            rows = self._db.execute(
+                "SELECT * FROM commands WHERE run_id=? AND status IN ('dispatching','accepted','started') ORDER BY rowid",
+                (run_id,),
+            ).fetchall()
             result = []
             for row in rows:
-                recovery = _json({"reason_code": "owner_interrupted", "previous_status": row["status"], "previous_receipt": json.loads(row["receipt"]) if row["receipt"] else None})
+                recovery = _json(
+                    {
+                        "reason_code": "owner_interrupted",
+                        "previous_status": row["status"],
+                        "previous_receipt": json.loads(row["receipt"]) if row["receipt"] else None,
+                    }
+                )
                 result.append(self._outcome(row, "uncertain", recovery))
             return result
 
-    def append_event(self, run_id, event_type, payload: Mapping, *, command_id=None, game_frame=None, monotonic_ns=None) -> dict:
+    def append_event(
+        self, run_id, event_type, payload: Mapping, *, command_id=None, game_frame=None, monotonic_ns=None
+    ) -> dict:
         _identifier(event_type, "event_type")
         encoded = _object(payload)
         for value in (game_frame, monotonic_ns):
@@ -347,7 +417,9 @@ class CommandJournal:
             self._run(run_id)
             if command_id is not None:
                 _identifier(command_id, "command_id")
-                if not self._db.execute("SELECT 1 FROM commands WHERE command_id=? AND run_id=?", (command_id, run_id)).fetchone():
+                if not self._db.execute(
+                    "SELECT 1 FROM commands WHERE command_id=? AND run_id=?", (command_id, run_id)
+                ).fetchone():
                     raise IdentityConflict("event_command_run_mismatch")
             seq = self._event(run_id, event_type, encoded, command_id, game_frame, monotonic_ns)
             return self._read_event(self._db.execute("SELECT * FROM events WHERE seq=?", (seq,)).fetchone())
@@ -361,19 +433,23 @@ class CommandJournal:
             return self._public(self._command(run_id, request_id))
 
     def get_command_by_id(self, run_id, command_id) -> dict:
-        _identifier(command_id,'command_id')
+        _identifier(command_id, "command_id")
         with self._transaction():
             self._run(run_id)
-            row=self._db.execute('SELECT * FROM commands WHERE run_id=? AND command_id=?',(run_id,command_id)).fetchone()
-            if row is None:raise IdentityConflict('command_id_run_mismatch')
+            row = self._db.execute(
+                "SELECT * FROM commands WHERE run_id=? AND command_id=?", (run_id, command_id)
+            ).fetchone()
+            if row is None:
+                raise IdentityConflict("command_id_run_mismatch")
             return self._public(row)
 
     def commands_for_run(self, run_id, *, operation=None) -> list[dict]:
-        if operation is not None:_identifier(operation,'operation')
+        if operation is not None:
+            _identifier(operation, "operation")
         with self._transaction():
             self._run(run_id)
-            rows=self._db.execute('SELECT * FROM commands WHERE run_id=? ORDER BY rowid',(run_id,)).fetchall()
-            return [self._public(row) for row in rows if operation is None or row['operation']==operation]
+            rows = self._db.execute("SELECT * FROM commands WHERE run_id=? ORDER BY rowid", (run_id,)).fetchall()
+            return [self._public(row) for row in rows if operation is None or row["operation"] == operation]
 
     def _completed_reserves_still_held(self, run_id):
         """Ready completes Reserve, not control ownership. Only release closes it.
@@ -381,14 +457,32 @@ class CommandJournal:
         This durable projection is no physical proof: the trusted adapter checks
         the actual native release before the outcome is written to the journal.
         """
-        records = [(row, json.loads(row['payload'])) for row in self._db.execute(
-            "SELECT * FROM commands WHERE run_id=? AND (operation='reserve' OR status='released') ORDER BY rowid", (run_id,))]
+        records = [
+            (row, json.loads(row["payload"]))
+            for row in self._db.execute(
+                "SELECT * FROM commands WHERE run_id=? AND (operation='reserve' OR status='released') ORDER BY rowid",
+                (run_id,),
+            )
+        ]
+
         def key(payload):
-            return payload.get('lease_id'), payload.get('task_id'), payload.get('generation')
-        released = {key(payload) for row, payload in records if row['status'] == 'released'
-                    and row['operation'] in ('reserve', 'commit', 'return', 'stop', 'query_status', 'reconcile_release','reconcile_return_home')}
-        return [row for row, payload in records if row['operation'] == 'reserve' and row['status'] == 'completed'
-                and isinstance(payload.get('lease_id'), str) and key(payload) not in released]
+            return payload.get("lease_id"), payload.get("task_id"), payload.get("generation")
+
+        released = {
+            key(payload)
+            for row, payload in records
+            if row["status"] == "released"
+            and row["operation"]
+            in ("reserve", "commit", "return", "stop", "query_status", "reconcile_release", "reconcile_return_home")
+        }
+        return [
+            row
+            for row, payload in records
+            if row["operation"] == "reserve"
+            and row["status"] == "completed"
+            and isinstance(payload.get("lease_id"), str)
+            and key(payload) not in released
+        ]
 
     def unresolved(self, run_id) -> list[dict]:
         with self._transaction():
@@ -402,57 +496,105 @@ class CommandJournal:
         must name the exact prior unknown command and the same task/lease and
         generation. The original uncertain receipt and audit events survive.
         """
-        releases = list(self._db.execute("SELECT * FROM commands WHERE run_id=? AND operation IN ('reconcile_release','reconcile_return_home') AND status='released'",(run_id,)))
-        by_id={row['command_id']:row for row in self._db.execute('SELECT * FROM commands WHERE run_id=?',(run_id,))}
+        releases = list(
+            self._db.execute(
+                "SELECT * FROM commands WHERE run_id=? AND operation IN ('reconcile_release','reconcile_return_home') AND status='released'",
+                (run_id,),
+            )
+        )
+        by_id = {row["command_id"]: row for row in self._db.execute("SELECT * FROM commands WHERE run_id=?", (run_id,))}
         recovered = {}
         for release in releases:
-            payload=json.loads(release['payload']);receipt=json.loads(release['receipt'] or '{}')
-            facts=receipt.get('facts',{})
-            prior=payload.get('recovery_of_command_id')
-            if (isinstance(prior,str) and facts.get('recovery_of_command_id')==prior
-                    and facts.get('command_id')==release['command_id']
-                    and facts.get('control_released') is True and facts.get('stance_restored') is True
-                    and facts.get('held') is False and facts.get('mission_effect_verified') is False
-                    and (release['operation']!='reconcile_return_home' or facts.get('physical_home')is True)):
+            payload = json.loads(release["payload"])
+            receipt = json.loads(release["receipt"] or "{}")
+            facts = receipt.get("facts", {})
+            prior = payload.get("recovery_of_command_id")
+            if (
+                isinstance(prior, str)
+                and facts.get("recovery_of_command_id") == prior
+                and facts.get("command_id") == release["command_id"]
+                and facts.get("control_released") is True
+                and facts.get("stance_restored") is True
+                and facts.get("held") is False
+                and facts.get("mission_effect_verified") is False
+                and (release["operation"] != "reconcile_return_home" or facts.get("physical_home") is True)
+            ):
                 # A failed first-home command may itself need one new release.
                 # Resolve its control ancestry only; keep every old outcome.
-                chain=[];cursor=prior
-                while isinstance(cursor,str) and cursor not in chain and cursor in by_id:
-                    old=by_id[cursor];old_payload=json.loads(old['payload'])
-                    if (old['status']!='uncertain' or old['operation']not in ('reserve','commit','return','stop','reconcile_return_home')
-                            or not all(old_payload.get(k)==payload.get(k) and payload.get(k)is not None for k in ('task_id','lease_id','generation'))):break
+                chain = []
+                cursor = prior
+                while isinstance(cursor, str) and cursor not in chain and cursor in by_id:
+                    old = by_id[cursor]
+                    old_payload = json.loads(old["payload"])
+                    if (
+                        old["status"] != "uncertain"
+                        or old["operation"] not in ("reserve", "commit", "return", "stop", "reconcile_return_home")
+                        or not all(
+                            old_payload.get(k) == payload.get(k) and payload.get(k) is not None
+                            for k in ("task_id", "lease_id", "generation")
+                        )
+                    ):
+                        break
                     chain.append(cursor)
-                    if old['operation']!='reconcile_return_home':
-                        recovered.update({item:payload for item in chain});break
-                    cursor=old_payload.get('recovery_of_command_id')
-        marks=','.join('?' for _ in _UNRESOLVED)
-        rows=list(self._db.execute(f'SELECT * FROM commands WHERE run_id=? AND status IN ({marks}) ORDER BY rowid',(run_id,*_UNRESOLVED)))
+                    if old["operation"] != "reconcile_return_home":
+                        recovered.update({item: payload for item in chain})
+                        break
+                    cursor = old_payload.get("recovery_of_command_id")
+        marks = ",".join("?" for _ in _UNRESOLVED)
+        rows = list(
+            self._db.execute(
+                f"SELECT * FROM commands WHERE run_id=? AND status IN ({marks}) ORDER BY rowid", (run_id, *_UNRESOLVED)
+            )
+        )
         # A failed successor attach is not a tactical lease. Only a separately
         # verified closed, never-borrowed channel may close that ownership
         # projection; the original uncertain command/receipt stays unchanged.
-        attach_reviews={}
-        run_binding=json.loads(self._run(run_id)['binding'])
-        binding_hash=hashlib.sha256(_json(run_binding).encode('utf-8')).hexdigest()
-        for review in self._db.execute("SELECT * FROM commands WHERE run_id=? AND operation='review_runtime_channel_release' AND status='released'",(run_id,)):
-            payload=json.loads(review['payload']);receipt=json.loads(review['receipt']or'{}')
-            prior=payload.get('recovery_of_command_id');old=by_id.get(prior)
-            digest=receipt.get('review_sha256')
-            if (old is not None and old['operation']=='runtime_channel_attach' and old['status']=='uncertain'
-                    and receipt.get('reason_code')=='runtime_attach_no_control_independently_closed'
-                    and receipt.get('source')=='independent_runtime_epoch_release_review'
-                    and receipt.get('reviewed_command_id')==prior
-                    and payload.get('binding_hash')==receipt.get('binding_hash')==binding_hash
-                    and receipt.get('native_release_verified')is True and receipt.get('channel_closed')is True
-                    and receipt.get('no_control_acquired')is True and receipt.get('mission_effect_granted')is False
-                    and isinstance(digest,str)and len(digest)==64 and all(x in '0123456789abcdef'for x in digest)):
-                attach_reviews[prior]=review['command_id']
+        attach_reviews = {}
+        run_binding = json.loads(self._run(run_id)["binding"])
+        binding_hash = hashlib.sha256(_json(run_binding).encode("utf-8")).hexdigest()
+        for review in self._db.execute(
+            "SELECT * FROM commands WHERE run_id=? AND operation='review_runtime_channel_release' AND status='released'",
+            (run_id,),
+        ):
+            payload = json.loads(review["payload"])
+            receipt = json.loads(review["receipt"] or "{}")
+            prior = payload.get("recovery_of_command_id")
+            old = by_id.get(prior)
+            digest = receipt.get("review_sha256")
+            if (
+                old is not None
+                and old["operation"] == "runtime_channel_attach"
+                and old["status"] == "uncertain"
+                and receipt.get("reason_code") == "runtime_attach_no_control_independently_closed"
+                and receipt.get("source") == "independent_runtime_epoch_release_review"
+                and receipt.get("reviewed_command_id") == prior
+                and payload.get("binding_hash") == receipt.get("binding_hash") == binding_hash
+                and receipt.get("native_release_verified") is True
+                and receipt.get("channel_closed") is True
+                and receipt.get("no_control_acquired") is True
+                and receipt.get("mission_effect_granted") is False
+                and isinstance(digest, str)
+                and len(digest) == 64
+                and all(x in "0123456789abcdef" for x in digest)
+            ):
+                attach_reviews[prior] = review["command_id"]
+
         def closed(row):
-            if row['command_id']in attach_reviews:return True
-            payload=json.loads(row['payload']);release=recovered.get(row['command_id'])
-            return (row['status']=='uncertain' and row['operation'] in ('reserve','commit','return','stop','reconcile_return_home')
-                and release is not None and all(payload.get(k)==release.get(k) and payload.get(k) is not None
-                    for k in ('task_id','lease_id','generation')))
-        return [row for row in rows if not closed(row)]+self._completed_reserves_still_held(run_id)
+            if row["command_id"] in attach_reviews:
+                return True
+            payload = json.loads(row["payload"])
+            release = recovered.get(row["command_id"])
+            return (
+                row["status"] == "uncertain"
+                and row["operation"] in ("reserve", "commit", "return", "stop", "reconcile_return_home")
+                and release is not None
+                and all(
+                    payload.get(k) == release.get(k) and payload.get(k) is not None
+                    for k in ("task_id", "lease_id", "generation")
+                )
+            )
+
+        return [row for row in rows if not closed(row)] + self._completed_reserves_still_held(run_id)
 
     def unresolved_for_session(self, binding: Mapping, *, exclude_run_id=None) -> list[dict]:
         """Find unresolved ownership in earlier runs of the same game channel.
@@ -460,24 +602,31 @@ class CommandJournal:
         A new host UUID/run ID is not permission to forget uncertain work. The
         caller must reconcile it against native state before starting another run.
         """
-        fields = ('session_id', 'player_id', 'commander_id', 'game_process_id',
-                  'game_process_start', 'game_sha256', 'mod_sha256')
+        fields = (
+            "session_id",
+            "player_id",
+            "commander_id",
+            "game_process_id",
+            "game_process_start",
+            "game_sha256",
+            "mod_sha256",
+        )
         if not isinstance(binding, Mapping) or any(field not in binding for field in fields):
-            raise JournalError('session_recovery_binding_incomplete')
+            raise JournalError("session_recovery_binding_incomplete")
         if exclude_run_id is not None:
-            _identifier(exclude_run_id, 'run_id')
+            _identifier(exclude_run_id, "run_id")
         with self._transaction():
             matching = []
-            for run in self._db.execute('SELECT run_id,binding FROM runs'):
-                if run['run_id'] == exclude_run_id:
+            for run in self._db.execute("SELECT run_id,binding FROM runs"):
+                if run["run_id"] == exclude_run_id:
                     continue
-                prior = json.loads(run['binding'])
-                if prior.get('session_id') != binding['session_id'] or prior.get('player_id') != binding['player_id']:
+                prior = json.loads(run["binding"])
+                if prior.get("session_id") != binding["session_id"] or prior.get("player_id") != binding["player_id"]:
                     continue
                 if any(field not in prior for field in fields):
-                    raise JournalError('prior_session_binding_incomplete')
+                    raise JournalError("prior_session_binding_incomplete")
                 if all(prior[field] == binding[field] for field in fields):
-                    matching.append(run['run_id'])
+                    matching.append(run["run_id"])
             result = []
             for run_id in matching:
                 result.extend(self._public(row) for row in self._unresolved_commands(run_id))
@@ -488,7 +637,12 @@ class CommandJournal:
             raise JournalError("invalid_event_page")
         with self._transaction():
             self._run(run_id)
-            return [self._read_event(row) for row in self._db.execute("SELECT * FROM events WHERE run_id=? AND seq>? ORDER BY seq LIMIT ?", (run_id, after, limit))]
+            return [
+                self._read_event(row)
+                for row in self._db.execute(
+                    "SELECT * FROM events WHERE run_id=? AND seq>? ORDER BY seq LIMIT ?", (run_id, after, limit)
+                )
+            ]
 
     def latest_events(self, run_id, *, limit=30) -> dict:
         """A single consistent recent-page projection, including its truncation."""
@@ -497,10 +651,17 @@ class CommandJournal:
         with self._transaction():
             self._run(run_id)
             total = self._db.execute("SELECT COUNT(*) FROM events WHERE run_id=?", (run_id,)).fetchone()[0]
-            records = list(self._db.execute("SELECT * FROM events WHERE run_id=? ORDER BY seq DESC LIMIT ?", (run_id, limit)))
+            records = list(
+                self._db.execute("SELECT * FROM events WHERE run_id=? ORDER BY seq DESC LIMIT ?", (run_id, limit))
+            )
             events = [self._read_event(row) for row in reversed(records)]
-            return dict(events=events, total_count=total, first_seq=events[0]['seq'] if events else None,
-                        last_seq=events[-1]['seq'] if events else None, truncated=total > len(events))
+            return dict(
+                events=events,
+                total_count=total,
+                first_seq=events[0]["seq"] if events else None,
+                last_seq=events[-1]["seq"] if events else None,
+                truncated=total > len(events),
+            )
 
     def close(self):
         with self._lock:

@@ -1,4 +1,5 @@
 """Synthetic planner/real-contract integration. No native, HTTP or credentials."""
+
 import copy
 import asyncio
 from dataclasses import asdict, replace
@@ -16,8 +17,15 @@ from engine import Binding, ContractError, Snapshot, StrategyEngine
 from fixtures import binding
 from missions import Mission, MissionObservations, MissionProgress
 from tactical_fixtures import tactical_snapshot, tactical_policy
-from tactical_planning import (Limits, context_hints, memory_for_mission, plan_batch_for_agent,
-                               plan_for_agent, plan_for_snapshot, replay)
+from tactical_planning import (
+    Limits,
+    context_hints,
+    memory_for_mission,
+    plan_batch_for_agent,
+    plan_for_agent,
+    plan_for_snapshot,
+    replay,
+)
 
 
 ALL = ("main_attack", "harass_economy", "coordinate_force")
@@ -26,24 +34,52 @@ ROLES = ("infantry", "anti_air")
 
 def snap(at=100, ident=1):
     raw = tactical_snapshot(ident, at)
-    raw["battlefield"]["contacts"].append(dict(contact_id="contact_base", owner_player_id=4,
-        relation="enemy", role="structure", region_id="east_ore", observed_at_game_seconds=at,
-        currently_visible=True, stealth_state="visible"))
+    raw["battlefield"]["contacts"].append(
+        dict(
+            contact_id="contact_base",
+            owner_player_id=4,
+            relation="enemy",
+            role="structure",
+            region_id="east_ore",
+            observed_at_game_seconds=at,
+            currently_visible=True,
+            stealth_state="visible",
+        )
+    )
     return Snapshot.from_dict(raw)
 
 
 def plan(purpose="main_attack", snapshot=None, memory=None, **kwargs):
-    return plan_for_snapshot(binding(), snapshot or snap(), purpose, game_frame=kwargs.pop("game_frame", 1500),
-        monotonic_ms=kwargs.pop("monotonic_ms", 1000), capability_purposes=kwargs.pop("capability_purposes", ALL),
+    return plan_for_snapshot(
+        binding(),
+        snapshot or snap(),
+        purpose,
+        game_frame=kwargs.pop("game_frame", 1500),
+        monotonic_ms=kwargs.pop("monotonic_ms", 1000),
+        capability_purposes=kwargs.pop("capability_purposes", ALL),
         allowed_roles=kwargs.pop("allowed_roles", ROLES if purpose == "coordinate_force" else ("infantry",)),
-        memory=memory, **kwargs)
+        memory=memory,
+        **kwargs,
+    )
 
 
 def telemetry(memory, phase, seq=1, at=101, **facts):
     obs = MissionObservations(target_currently_visible=True, **facts)
-    return MissionProgress(memory.session_id, memory.player_id, memory.commander_id, memory.source,
-        memory.task_id, memory.task_id, seq, at, phase, memory.target_contact_id,
-        memory.formation_versions, "a" * 64, obs)
+    return MissionProgress(
+        memory.session_id,
+        memory.player_id,
+        memory.commander_id,
+        memory.source,
+        memory.task_id,
+        memory.task_id,
+        seq,
+        at,
+        phase,
+        memory.target_contact_id,
+        memory.formation_versions,
+        "a" * 64,
+        obs,
+    )
 
 
 class PlannerTests(unittest.TestCase):
@@ -79,9 +115,12 @@ class PlannerTests(unittest.TestCase):
 
     def test_contact_age_policy_can_be_stricter_than_wire_maximum(self):
         value = snap().to_dict()
-        for contact in value["battlefield"]["contacts"]:contact["observed_at_game_seconds"] = 98
-        self.assertEqual(plan(snapshot=Snapshot.from_dict(value), limits=Limits(max_contact_age_seconds=1)).reason_code,
-                         "no_current_target")
+        for contact in value["battlefield"]["contacts"]:
+            contact["observed_at_game_seconds"] = 98
+        self.assertEqual(
+            plan(snapshot=Snapshot.from_dict(value), limits=Limits(max_contact_age_seconds=1)).reason_code,
+            "no_current_target",
+        )
 
     def test_stable_task_target_and_deadline_across_refresh_and_reorder(self):
         initial = plan()
@@ -109,7 +148,9 @@ class PlannerTests(unittest.TestCase):
 
     def test_stop_and_deadlines_never_create_fresh_task_or_renew_limit(self):
         first = plan(limits=Limits(duration_game_seconds=15))
-        stopped = plan(snapshot=snap(101, 2), memory=first.memory, game_frame=1515, monotonic_ms=2000, stop_requested=True)
+        stopped = plan(
+            snapshot=snap(101, 2), memory=first.memory, game_frame=1515, monotonic_ms=2000, stop_requested=True
+        )
         self.assertEqual(stopped.reason_code, "host_stop")
         expired = plan(snapshot=snap(115, 3), memory=first.memory, game_frame=1725, monotonic_ms=3000)
         self.assertEqual(expired.reason_code, "deadline")
@@ -128,23 +169,31 @@ class PlannerTests(unittest.TestCase):
         first = plan()
         for change, expected in [("version", "formation_changed"), ("roles", "roles_lost")]:
             raw = snap(101, 2).to_dict()
-            if change == "version":raw["battlefield"]["formations"][0]["version"] = 2
-            else:raw["battlefield"]["formations"][0]["roles"] = {"armor": 1}
+            if change == "version":
+                raw["battlefield"]["formations"][0]["version"] = 2
+            else:
+                raw["battlefield"]["formations"][0]["roles"] = {"armor": 1}
             result = plan(snapshot=Snapshot.from_dict(raw), memory=first.memory, game_frame=1515, monotonic_ms=2000)
             self.assertEqual(result.reason_code, expected)
 
     def test_reserved_elsewhere_is_never_claimed(self):
         self.assertEqual(plan(unavailable_formations=("formation_main",)).reason_code, "roles_unavailable")
         first = plan()
-        self.assertEqual(plan(memory=first.memory, unavailable_formations=("formation_main",)).reason_code, "formation_changed")
+        self.assertEqual(
+            plan(memory=first.memory, unavailable_formations=("formation_main",)).reason_code, "formation_changed"
+        )
 
     def test_combined_arms_waits_for_both_roles_and_coordination_telemetry(self):
         first = plan("coordinate_force")
         fact = telemetry(first.memory, "prepare", approach_verified=True)
-        pending = plan("coordinate_force", snap(101, 2), first.memory, feedback=fact, game_frame=1515, monotonic_ms=2000)
+        pending = plan(
+            "coordinate_force", snap(101, 2), first.memory, feedback=fact, game_frame=1515, monotonic_ms=2000
+        )
         self.assertEqual(pending.memory.stage, "prepare")
         fact = telemetry(first.memory, "prepare", seq=2, at=102, approach_verified=True, coordination_verified=True)
-        ready = plan("coordinate_force", snap(102, 3), pending.memory, feedback=fact, game_frame=1530, monotonic_ms=3000)
+        ready = plan(
+            "coordinate_force", snap(102, 3), pending.memory, feedback=fact, game_frame=1530, monotonic_ms=3000
+        )
         self.assertEqual(ready.memory.stage, "engage")
         self.assertFalse(ready.public()["execution_authorized"])
 
@@ -158,20 +207,34 @@ class PlannerTests(unittest.TestCase):
 
     def test_engage_limit_is_fixed_on_first_engage(self):
         first = plan()
-        engaged = plan(snapshot=snap(101, 2), memory=first.memory, game_frame=1515, monotonic_ms=2000,
-                       feedback=telemetry(first.memory, "engage"))
+        engaged = plan(
+            snapshot=snap(101, 2),
+            memory=first.memory,
+            game_frame=1515,
+            monotonic_ms=2000,
+            feedback=telemetry(first.memory, "engage"),
+        )
         self.assertEqual(engaged.memory.engage_started_game_seconds, 101)
         late = plan(snapshot=snap(131, 3), memory=engaged.memory, game_frame=1965, monotonic_ms=32000)
         self.assertEqual(late.reason_code, "engage_limit")
-        changed_config = plan(snapshot=snap(131, 3), memory=engaged.memory, game_frame=1965,
-                              monotonic_ms=32000, limits=Limits(max_engage_game_seconds=120))
+        changed_config = plan(
+            snapshot=snap(131, 3),
+            memory=engaged.memory,
+            game_frame=1965,
+            monotonic_ms=32000,
+            limits=Limits(max_engage_game_seconds=120),
+        )
         self.assertEqual(changed_config.reason_code, "engage_limit")
 
     def test_corrupted_memory_has_no_unbounded_deadline_or_invalid_identity(self):
         first = plan()
-        for updates in [dict(deadline_game_seconds=10000), dict(wall_deadline_ms=1e14),
-                        dict(task_id="bad-id"), dict(formation_versions=(("formation_main", True),)),
-                        dict(required_roles=("air",))]:
+        for updates in [
+            dict(deadline_game_seconds=10000),
+            dict(wall_deadline_ms=1e14),
+            dict(task_id="bad-id"),
+            dict(formation_versions=(("formation_main", True),)),
+            dict(required_roles=("air",)),
+        ]:
             with self.subTest(updates=updates), self.assertRaises(ContractError):
                 replace(first.memory, **updates)
 
@@ -179,20 +242,25 @@ class PlannerTests(unittest.TestCase):
         first = plan()
         lost = plan(memory=first.memory, capability_purposes=())
         self.assertEqual(lost.reason_code, "capability_lost")
-        interrupted = plan(snapshot=snap(101, 2), memory=first.memory, game_frame=1515, monotonic_ms=2000,
-                           feedback=telemetry(first.memory, "approach", interference="native_ai_override"))
+        interrupted = plan(
+            snapshot=snap(101, 2),
+            memory=first.memory,
+            game_frame=1515,
+            monotonic_ms=2000,
+            feedback=telemetry(first.memory, "approach", interference="native_ai_override"),
+        )
         self.assertEqual(interrupted.reason_code, "native_interference")
 
     def test_combined_arms_ignores_rosters_with_unpermitted_extra_roles(self):
         value = snap().to_dict()
         value["battlefield"]["formations"][0]["roles"]["naval"] = 1
-        self.assertEqual(plan("coordinate_force", snapshot=Snapshot.from_dict(value)).reason_code,
-                         "roles_unavailable")
+        self.assertEqual(plan("coordinate_force", snapshot=Snapshot.from_dict(value)).reason_code, "roles_unavailable")
 
     def test_input_and_advice_never_accept_raw_native_fields(self):
         value = snap().to_dict()
         value["battlefield"]["contacts"][0]["native_address"] = "0x12345678"
-        with self.assertRaises(ContractError):Snapshot.from_dict(value)
+        with self.assertRaises(ContractError):
+            Snapshot.from_dict(value)
         result = json.dumps(plan().public())
         for forbidden in ["native_address", "object_id", "xyz", "0x12345678"]:
             self.assertNotIn(forbidden, result)
@@ -200,27 +268,40 @@ class PlannerTests(unittest.TestCase):
     def test_return_report_and_release_report_remain_distinct(self):
         first = plan()
         stopped = plan(memory=first.memory, stop_requested=True)
-        returned = plan(snapshot=snap(101, 2), memory=stopped.memory, game_frame=1515, monotonic_ms=2000,
-                        feedback=telemetry(first.memory, "retreat", retreat_verified=True))
+        returned = plan(
+            snapshot=snap(101, 2),
+            memory=stopped.memory,
+            game_frame=1515,
+            monotonic_ms=2000,
+            feedback=telemetry(first.memory, "retreat", retreat_verified=True),
+        )
         self.assertEqual(returned.action, "await_release")
-        released = plan(snapshot=snap(102, 3), memory=returned.memory, game_frame=1530, monotonic_ms=3000,
-                        feedback=telemetry(first.memory, "restored", seq=2, at=102,
-                                           retreat_verified=True, restoration_verified=True))
+        released = plan(
+            snapshot=snap(102, 3),
+            memory=returned.memory,
+            game_frame=1530,
+            monotonic_ms=3000,
+            feedback=telemetry(
+                first.memory, "restored", seq=2, at=102, retreat_verified=True, restoration_verified=True
+            ),
+        )
         self.assertEqual(released.action, "closed")
         self.assertFalse(released.public()["control_release_verified"])
-        self.assertEqual(plan(snapshot=snap(103, 4), memory=released.memory,
-                              game_frame=1545, monotonic_ms=4000).action, "closed")
+        self.assertEqual(
+            plan(snapshot=snap(103, 4), memory=released.memory, game_frame=1545, monotonic_ms=4000).action, "closed"
+        )
 
     def test_mismatched_feedback_or_changed_duplicate_rejected(self):
         first = plan()
         facts = telemetry(first.memory, "approach")
-        for forged in [replace(facts, task_id=str(uuid.uuid4())), replace(facts, source="game_bridge"),
-                       replace(facts, formation_versions=(("formation_main", 2),))]:
+        for forged in [
+            replace(facts, task_id=str(uuid.uuid4())),
+            replace(facts, source="game_bridge"),
+            replace(facts, formation_versions=(("formation_main", 2),)),
+        ]:
             with self.assertRaisesRegex(ContractError, "planning_feedback_binding"):
-                plan(snapshot=snap(101, 2), memory=first.memory, feedback=forged,
-                     game_frame=1515, monotonic_ms=2000)
-        observed = plan(snapshot=snap(101, 2), memory=first.memory, feedback=facts,
-                        game_frame=1515, monotonic_ms=2000)
+                plan(snapshot=snap(101, 2), memory=first.memory, feedback=forged, game_frame=1515, monotonic_ms=2000)
+        observed = plan(snapshot=snap(101, 2), memory=first.memory, feedback=facts, game_frame=1515, monotonic_ms=2000)
         changed = replace(facts, observations=MissionObservations(True, approach_verified=True))
         with self.assertRaisesRegex(ContractError, "planning_feedback_duplicate_changed"):
             plan(snapshot=snap(102, 3), memory=observed.memory, feedback=changed, game_frame=1530, monotonic_ms=3000)
@@ -231,14 +312,23 @@ class PlannerTests(unittest.TestCase):
             with self.subTest(kwargs=kwargs), self.assertRaisesRegex(ContractError, "clock_regressed"):
                 plan(memory=first.memory, **kwargs)
         for value in [float("nan"), float("inf"), True]:
-            with self.assertRaises(ContractError):plan(monotonic_ms=value)
+            with self.assertRaises(ContractError):
+                plan(monotonic_ms=value)
 
     def test_session_switch_discards_old_advice_without_cross_session_stop(self):
         first = plan()
         other = replace(binding(), session_id=str(uuid.uuid4()))
         new_snapshot = replace(snap(), session_id=other.session_id)
-        result = plan_for_snapshot(other, new_snapshot, "main_attack", memory=first.memory,
-                                  game_frame=1, monotonic_ms=1, capability_purposes=ALL, allowed_roles=("infantry",))
+        result = plan_for_snapshot(
+            other,
+            new_snapshot,
+            "main_attack",
+            memory=first.memory,
+            game_frame=1,
+            monotonic_ms=1,
+            capability_purposes=ALL,
+            allowed_roles=("infantry",),
+        )
         self.assertEqual(result.action, "discard")
         self.assertIsNone(result.memory)
         self.assertIsNone(result.intent)
@@ -250,8 +340,10 @@ class PlannerTests(unittest.TestCase):
         self.assertNotEqual(plan(generation=2).memory.task_id, first.memory.task_id)
 
     def test_replay_same_inputs_same_bytes_and_digest_and_does_not_mutate_inputs(self):
-        rows = [dict(snapshot=snap(100 + i, i + 1).to_dict(), game_frame=1500 + 15*i,
-                     monotonic_ms=1000 + 1000*i) for i in range(3)]
+        rows = [
+            dict(snapshot=snap(100 + i, i + 1).to_dict(), game_frame=1500 + 15 * i, monotonic_ms=1000 + 1000 * i)
+            for i in range(3)
+        ]
         before = copy.deepcopy(rows)
         a = replay(binding(), "main_attack", rows, capability_purposes=ALL, allowed_roles=("infantry",))
         b = replay(binding(), "main_attack", copy.deepcopy(rows), capability_purposes=ALL, allowed_roles=("infantry",))
@@ -261,18 +353,31 @@ class PlannerTests(unittest.TestCase):
         self.assertEqual(a["game_commands"], 0)
 
     def test_cli_replay_and_duplicate_key_rejection(self):
-        doc = dict(binding=asdict(binding()), purpose="main_attack", capability_purposes=list(ALL),
-                   allowed_roles=["infantry"], rows=[dict(snapshot=snap().to_dict(), game_frame=1500, monotonic_ms=1000)])
+        doc = dict(
+            binding=asdict(binding()),
+            purpose="main_attack",
+            capability_purposes=list(ALL),
+            allowed_roles=["infantry"],
+            rows=[dict(snapshot=snap().to_dict(), game_frame=1500, monotonic_ms=1000)],
+        )
         with tempfile.TemporaryDirectory() as directory:
-            path = Path(directory)/"input.json"
+            path = Path(directory) / "input.json"
             path.write_text(json.dumps(doc), encoding="utf-8")
-            process = subprocess.run([sys.executable, "-B", "-m", "tactical_planning", str(path)],
-                                     cwd=Path(__file__).resolve().parent.parent, capture_output=True, text=True)
+            process = subprocess.run(
+                [sys.executable, "-B", "-m", "tactical_planning", str(path)],
+                cwd=Path(__file__).resolve().parent.parent,
+                capture_output=True,
+                text=True,
+            )
             self.assertEqual(process.returncode, 0, process.stderr)
             self.assertFalse(json.loads(process.stdout)["execution_authorized"])
             path.write_text('{"purpose":"main_attack","purpose":"harass_economy"}', encoding="utf-8")
-            process = subprocess.run([sys.executable, "-B", "-m", "tactical_planning", str(path)],
-                                     cwd=Path(__file__).resolve().parent.parent, capture_output=True, text=True)
+            process = subprocess.run(
+                [sys.executable, "-B", "-m", "tactical_planning", str(path)],
+                cwd=Path(__file__).resolve().parent.parent,
+                capture_output=True,
+                text=True,
+            )
             self.assertNotEqual(process.returncode, 0)
             self.assertIn("planning_replay_duplicate_key", process.stderr)
 
@@ -284,10 +389,16 @@ class PlannerTests(unittest.TestCase):
 
 class ExistingAgentAdapterTests(unittest.TestCase):
     def agent(self):
-        purposes = (("attack", ("main_attack",)), ("raid", ("harass_economy",)),
-                    ("combined_arms", ("coordinate_force",)))
-        roles = (("attack", "main_attack", ("infantry",)), ("raid", "harass_economy", ("infantry",)),
-                 ("combined_arms", "coordinate_force", ROLES))
+        purposes = (
+            ("attack", ("main_attack",)),
+            ("raid", ("harass_economy",)),
+            ("combined_arms", ("coordinate_force",)),
+        )
+        roles = (
+            ("attack", "main_attack", ("infantry",)),
+            ("raid", "harass_economy", ("infantry",)),
+            ("combined_arms", "coordinate_force", ROLES),
+        )
         proof = TacticalEvidence(str(uuid.uuid4()), binding().session_id, 3, "simulated", purposes, roles)
         agent = BattleAgent(StrategyEngine(binding()), tactical_evidence=proof)
         agent.observe(snap())
@@ -301,8 +412,10 @@ class ExistingAgentAdapterTests(unittest.TestCase):
         self.assertEqual(before, agent.public_memory())
         unverified = BattleAgent(StrategyEngine(binding()))
         unverified.observe(snap())
-        self.assertEqual(plan_for_agent(unverified, "main_attack", game_frame=1500,
-                                       monotonic_ms=1000).reason_code, "capability_unavailable")
+        self.assertEqual(
+            plan_for_agent(unverified, "main_attack", game_frame=1500, monotonic_ms=1000).reason_code,
+            "capability_unavailable",
+        )
 
     def test_batch_reserves_proposed_forms_and_does_not_reuse_them(self):
         agent = self.agent()
@@ -318,8 +431,10 @@ class ExistingAgentAdapterTests(unittest.TestCase):
                 agent = self.agent()
                 suggestion = plan_for_agent(agent, purpose, game_frame=1500, monotonic_ms=1000)
                 self.assertEqual(suggestion.action, "propose")
+
                 async def model(context):
                     return tactical_policy(context, [suggestion.intent.public()])
+
                 result = asyncio.run(agent.decide(snap(), model))
                 self.assertEqual(result.status, "accepted")
                 task = next(task for task in agent.goals.tasks if task.request.purpose == purpose)
@@ -345,11 +460,25 @@ class ExistingAgentAdapterTests(unittest.TestCase):
     def test_adopt_real_mission_preserves_identity_deadline_and_original_wall_time(self):
         first = plan()
         m = first.memory
-        mission = Mission(m.task_id, m.task_id, "attack", "main_attack", m.target_contact_id,
-            "structure", m.target_region, m.retreat_region, m.formation_versions, m.required_roles,
-            .5, 100, 280, updated_at_game_seconds=101)
-        adopted = memory_for_mission(binding(), snap(101, 2), mission, game_frame=1515,
-            monotonic_ms=2000, issued_monotonic_ms=1000)
+        mission = Mission(
+            m.task_id,
+            m.task_id,
+            "attack",
+            "main_attack",
+            m.target_contact_id,
+            "structure",
+            m.target_region,
+            m.retreat_region,
+            m.formation_versions,
+            m.required_roles,
+            0.5,
+            100,
+            280,
+            updated_at_game_seconds=101,
+        )
+        adopted = memory_for_mission(
+            binding(), snap(101, 2), mission, game_frame=1515, monotonic_ms=2000, issued_monotonic_ms=1000
+        )
         self.assertEqual(adopted.task_id, mission.task_id)
         self.assertEqual(adopted.deadline_game_seconds, 280)
         self.assertEqual(adopted.wall_deadline_ms, 241000)

@@ -1,4 +1,5 @@
 """Versioned, non-secret host contracts. No game access or execution authority."""
+
 from __future__ import annotations
 
 from dataclasses import dataclass, asdict
@@ -14,6 +15,7 @@ SCHEMA_VERSION = 1
 
 class ContractError(ValueError):
     """Stable error codes only; rejected input is never included in the error."""
+
     def __init__(self, code: str):
         self.code = code
         super().__init__(code)
@@ -89,7 +91,9 @@ class SessionBinding:
     def __post_init__(self):
         if type(self.schema_version) is not int or self.schema_version != SCHEMA_VERSION:
             raise ContractError("unsupported_schema_version")
-        identifier(self.session_id); identifier(self.commander_id); identifier(self.host_id)
+        identifier(self.session_id)
+        identifier(self.commander_id)
+        identifier(self.host_id)
         integer(self.player_id, 0, 15, "invalid_player_id")
         integer(self.game_process_id, 1, 2**32 - 1, "invalid_process_id")
         text(self.game_process_start, 128, code="invalid_process_start")
@@ -99,7 +103,8 @@ class SessionBinding:
                 raise ValueError()
         except ValueError:
             raise ContractError("invalid_process_start") from None
-        sha256(self.game_sha256); sha256(self.mod_sha256)
+        sha256(self.game_sha256)
+        sha256(self.mod_sha256)
 
     @classmethod
     def from_dict(cls, value: Mapping) -> "SessionBinding":
@@ -116,6 +121,7 @@ class SessionBinding:
 @dataclass(frozen=True)
 class ProfileApplication:
     """Receipt factory after host application; not proof of model/game effects."""
+
     schema_version: int
     request_id: str
     profile_id: str
@@ -128,9 +134,11 @@ class ProfileApplication:
     def __post_init__(self):
         if type(self.schema_version) is not int or self.schema_version != SCHEMA_VERSION:
             raise ContractError("unsupported_schema_version")
-        identifier(self.request_id); identifier(self.profile_id)
+        identifier(self.request_id)
+        identifier(self.profile_id)
         integer(self.profile_revision, 1, 2**53 - 1, "invalid_profile_revision")
-        sha256(self.effective_hash); sha256(self.session_binding_hash)
+        sha256(self.effective_hash)
+        sha256(self.session_binding_hash)
         if self.status not in ("host_accepted", "rejected"):
             raise ContractError("invalid_application_status")
         if not isinstance(self.reason_code, str) or re.fullmatch(r"[a-z][a-z0-9_]{0,79}", self.reason_code) is None:
@@ -146,13 +154,29 @@ class ProfileApplication:
             raise ContractError("profile_commander_mismatch")
         if profile.capability_binding_hash is not None and profile.capability_binding_hash != binding.binding_hash:
             raise ContractError("profile_capability_binding_mismatch")
-        return cls(SCHEMA_VERSION, request_id, profile.profile_id, profile.revision,
-                   profile.effective_hash, binding.binding_hash, "host_accepted", "ok")
+        return cls(
+            SCHEMA_VERSION,
+            request_id,
+            profile.profile_id,
+            profile.revision,
+            profile.effective_hash,
+            binding.binding_hash,
+            "host_accepted",
+            "ok",
+        )
 
     @classmethod
     def reject(cls, profile, binding: SessionBinding, request_id: str, reason_code: str) -> "ProfileApplication":
-        return cls(SCHEMA_VERSION, request_id, profile.profile_id, profile.revision,
-                   profile.effective_hash, binding.binding_hash, "rejected", reason_code)
+        return cls(
+            SCHEMA_VERSION,
+            request_id,
+            profile.profile_id,
+            profile.revision,
+            profile.effective_hash,
+            binding.binding_hash,
+            "rejected",
+            reason_code,
+        )
 
     @classmethod
     def from_dict(cls, value: Mapping) -> "ProfileApplication":

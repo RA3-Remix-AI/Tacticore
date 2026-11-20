@@ -49,7 +49,11 @@ class DesktopRegistrationTests(unittest.TestCase):
     def test_duplicate_unknown_and_relative_configuration_are_rejected(self):
         register_library(self.library, self.home)
         record = load_registration(self.home)
-        for raw in [json.dumps({**record, "unknown": 1}), json.dumps({**record, "library_path": "relative.json"}), '{"schema_version":1,"schema_version":1}']:
+        for raw in [
+            json.dumps({**record, "unknown": 1}),
+            json.dumps({**record, "library_path": "relative.json"}),
+            '{"schema_version":1,"schema_version":1}',
+        ]:
             (self.home / CONFIG_NAME).write_text(raw, encoding="utf-8")
             with self.assertRaises(ContractError):
                 load_registration(self.home)

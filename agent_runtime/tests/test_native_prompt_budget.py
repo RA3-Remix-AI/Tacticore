@@ -2,6 +2,7 @@
 
 All inputs are synthetic. No saved connection, game, or external HTTP is used.
 """
+
 import copy
 import json
 import unittest
@@ -19,24 +20,38 @@ COMMANDER = "00000000-0000-4000-8000-000000000001"
 
 
 def profile(provider="DeepSeek"):
-    return Profile(COMMANDER, "Offline budget regression",
-                   "00000000-0000-4000-8000-000000000002", provider,
-                   "fixture-model", 0, "", Endpoint.parse("https://fixture.invalid/v1"),
-                   "FAKE-LOCAL-TEST")
+    return Profile(
+        COMMANDER,
+        "Offline budget regression",
+        "00000000-0000-4000-8000-000000000002",
+        provider,
+        "fixture-model",
+        0,
+        "",
+        Endpoint.parse("https://fixture.invalid/v1"),
+        "FAKE-LOCAL-TEST",
+    )
 
 
 def context():
     return dict(
-        commander_id=COMMANDER, session_id="00000000-0000-4000-8000-000000000003",
-        player_id=3, snapshot_id=2, game_time_seconds=126.0,
-        control_mode="macro_native", allowed_production_focus=["native_baseline"],
+        commander_id=COMMANDER,
+        session_id="00000000-0000-4000-8000-000000000003",
+        player_id=3,
+        snapshot_id=2,
+        game_time_seconds=126.0,
+        control_mode="macro_native",
+        allowed_production_focus=["native_baseline"],
         allowed_macro_actions=["scout", "budgeteconomy"],
         macro_policy_catalog=public_descriptions(["scout", "budgeteconomy"]),
         native_delegation={"kind": "native_ai_details_v1"},
-        macro_strategy={"fact_catalog": {
-            "own.credits": 3000, "capabilities.actions": ["scout", "budgeteconomy"],
-            "own.role.infantry": 4,
-        }},
+        macro_strategy={
+            "fact_catalog": {
+                "own.credits": 3000,
+                "capabilities.actions": ["scout", "budgeteconomy"],
+                "own.role.infantry": 4,
+            }
+        },
     )
 
 
@@ -46,11 +61,11 @@ def example(prompt):
 
 class NativePromptBudgetTests(unittest.IsolatedAsyncioTestCase):
     def test_strategic_example_explains_observation_based_finite_lifetime(self):
-        text=system_prompt(profile(),context())
-        self.assertEqual(example(text)['valid_for_game_seconds'],60)
-        self.assertIn('including inference and dispatch time',text)
-        self.assertIn('Expiry is never extended automatically',text)
-        self.assertIn('natural match victory',text)
+        text = system_prompt(profile(), context())
+        self.assertEqual(example(text)["valid_for_game_seconds"], 60)
+        self.assertIn("including inference and dispatch time", text)
+        self.assertIn("Expiry is never extended automatically", text)
+        self.assertIn("natural match victory", text)
 
     def test_existing_fact_reference_is_stable_under_json_key_sorting(self):
         cases = [
@@ -79,34 +94,57 @@ class NativePromptBudgetTests(unittest.IsolatedAsyncioTestCase):
                     calls.append(request.content)
                     self.assertLessEqual(len(request.content), 16384)
                     body = json.loads(request.content)
-                    if provider=='DeepSeek':
-                        self.assertEqual(body['thinking'],{'type':'enabled'})
-                        self.assertEqual(body['reasoning_effort'],'low')
+                    if provider == "DeepSeek":
+                        self.assertEqual(body["thinking"], {"type": "enabled"})
+                        self.assertEqual(body["reasoning_effort"], "low")
                     else:
-                        self.assertNotIn('thinking',body)
-                        self.assertNotIn('reasoning_effort',body)
+                        self.assertNotIn("thinking", body)
+                        self.assertNotIn("reasoning_effort", body)
                     prompt = body["messages"][0]["content"]
                     sent_context = json.loads(body["messages"][1]["content"])
                     self.assertEqual(sent_context, value)
                     self.assertEqual(prompt, system_prompt(selected, value))
-                    return httpx2.Response(200, json={
-                        "id": "offline-budget", "object": "chat.completion", "created": 1,
-                        "model": "fixture-model", "choices": [{"index": 0,
-                            "finish_reason": "stop", "message": {"role": "assistant",
-                            "content": json.dumps(example(prompt))}}],
-                    })
+                    return httpx2.Response(
+                        200,
+                        json={
+                            "id": "offline-budget",
+                            "object": "chat.completion",
+                            "created": 1,
+                            "model": "fixture-model",
+                            "choices": [
+                                {
+                                    "index": 0,
+                                    "finish_reason": "stop",
+                                    "message": {"role": "assistant", "content": json.dumps(example(prompt))},
+                                }
+                            ],
+                        },
+                    )
 
                 selected = profile(provider)
-                backend = NetworkBackend(selected, timeout=4, max_tokens=2048,
-                    max_input_bytes=16384, max_inflight=1, module=pydantic_backend,
-                    transport=httpx2.MockTransport(transport))
+                backend = NetworkBackend(
+                    selected,
+                    timeout=4,
+                    max_tokens=2048,
+                    max_input_bytes=16384,
+                    max_inflight=1,
+                    module=pydantic_backend,
+                    transport=httpx2.MockTransport(transport),
+                )
                 value = context()
-                value['working_memory'] = dict(match_state=dict(
-                    schema_version=1, source='native_public_match', observed_frame=1890,
-                    opponent_player_ids=[4, 5], defeated_opponent_ids=[4], opponents_allied=True))
-                value['macro_strategy']['fact_catalog'].update({
-                    'match.opponents.total': 2, 'match.opponents.remaining': 1,
-                    'match.opponents.allied': True})
+                value["working_memory"] = dict(
+                    match_state=dict(
+                        schema_version=1,
+                        source="native_public_match",
+                        observed_frame=1890,
+                        opponent_player_ids=[4, 5],
+                        defeated_opponent_ids=[4],
+                        opponents_allied=True,
+                    )
+                )
+                value["macro_strategy"]["fact_catalog"].update(
+                    {"match.opponents.total": 2, "match.opponents.remaining": 1, "match.opponents.allied": True}
+                )
                 value["synthetic_padding"] = ""
                 value["synthetic_padding"] = "x" * (16379 - backend.input_size(value))
                 before = copy.deepcopy(value)

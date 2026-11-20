@@ -1,4 +1,5 @@
 """Explicit in-memory replay, bound to the complete sanitized model context."""
+
 from collections import deque
 from dataclasses import dataclass, field
 import hashlib
@@ -30,4 +31,5 @@ class ReplayBackend(CallableBackend):
                 raise RuntimeAdapterError("replay_context_mismatch")
             # Parse using the existing strict parser, preserving ContractError.
             return self._parse(self._entries.popleft().response_json)
+
         return await within_deadline(request, self._timeout, replay)

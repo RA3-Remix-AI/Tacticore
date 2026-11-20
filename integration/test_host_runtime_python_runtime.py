@@ -1,4 +1,5 @@
 """Real isolated subprocess identity, without opening the game or network."""
+
 from contextlib import contextmanager
 import json
 import os
@@ -15,7 +16,9 @@ from host_runtime.python_runtime import ROOT, interpreter, script_command
 @contextmanager
 def trusted_probe(source):
     # This exact temporary script is the sole file removed by this helper.
-    with tempfile.NamedTemporaryFile(mode="w", encoding="utf-8", suffix=".py", prefix="identity_probe_", dir=ROOT / "integration", delete=False) as stream:
+    with tempfile.NamedTemporaryFile(
+        mode="w", encoding="utf-8", suffix=".py", prefix="identity_probe_", dir=ROOT / "integration", delete=False
+    ) as stream:
         stream.write(source)
         path = Path(stream.name)
     try:
@@ -34,7 +37,16 @@ sys.stdin.readline()
 """
         with trusted_probe(source) as script:
             environment = dict(os.environ, PYTHONHOME="Z:/not-a-runtime", PYTHONPATH="Z:/not-a-runtime")
-            child = subprocess.Popen(script_command(script, ["literal argument"]), stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, encoding="utf-8", env=environment, creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
+            child = subprocess.Popen(
+                script_command(script, ["literal argument"]),
+                stdin=subprocess.PIPE,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                encoding="utf-8",
+                env=environment,
+                creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0),
+            )
             try:
                 line = child.stdout.readline()
                 self.assertTrue(line, child.stderr.read() if child.poll() is not None else "probe did not respond")
@@ -45,6 +57,7 @@ sys.stdin.readline()
                 self.assertEqual(result["argv"], [str(script), "literal argument"])
                 if os.name == "nt":
                     from host_runtime.desktop_backend import NativeHostSpawner
+
                     self.assertEqual(result["identity"], NativeHostSpawner.identity(child.pid))
                 child.communicate("done\n", timeout=10)
                 self.assertEqual(child.returncode, 0)
@@ -58,13 +71,22 @@ sys.stdin.readline()
 print(json.dumps(dict(executable=sys.executable,isolated=sys.flags.isolated,no_site=sys.flags.no_site,no_bytecode=sys.dont_write_bytecode,package=pydantic_ai.__file__)))
 """
         with trusted_probe(source) as script:
-            result = subprocess.run(script_command(script, python=interpreter()), capture_output=True, text=True, encoding="utf-8", timeout=30, creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
+            result = subprocess.run(
+                script_command(script, python=interpreter()),
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                timeout=30,
+                creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0),
+            )
             self.assertEqual(result.returncode, 0, result.stderr)
             observed = json.loads(result.stdout)
             self.assertTrue(observed["isolated"])
             self.assertTrue(observed["no_site"])
             self.assertTrue(observed["no_bytecode"])
-            self.assertTrue(Path(observed["package"]).resolve().is_relative_to(Path(sys.prefix).resolve() / "Lib/site-packages"))
+            self.assertTrue(
+                Path(observed["package"]).resolve().is_relative_to(Path(sys.prefix).resolve() / "Lib/site-packages")
+            )
 
     def test_outside_script_is_rejected_before_execution(self):
         with tempfile.NamedTemporaryFile(suffix=".py", delete=False) as stream:

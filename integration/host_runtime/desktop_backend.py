@@ -5,6 +5,7 @@ The default checks perform real Win32/registry/package/evidence verification.
 Tests may replace checks and the spawner together; test admission cannot reach
 the default spawner. A launch receipt never claims model/game completion.
 """
+
 from __future__ import annotations
 
 from contextlib import contextmanager
@@ -64,26 +65,37 @@ def _object(path, maximum=65536):
                 raise ValueError()
             result[key] = value
         return result
-    def constant(_):raise ValueError()
+
+    def constant(_):
+        raise ValueError()
+
     with Path(path).open("rb") as stream:
         raw = stream.read(maximum + 1)
-    if len(raw) > maximum:raise ValueError()
+    if len(raw) > maximum:
+        raise ValueError()
     value = json.loads(raw.decode("utf-8-sig"), object_pairs_hook=pairs, parse_constant=constant)
-    if not isinstance(value, dict):raise ValueError()
+    if not isinstance(value, dict):
+        raise ValueError()
     return value, hashlib.sha256(raw).hexdigest()
 
 
 def _atomic(path, value):
-    path = Path(path); path.parent.mkdir(parents=True, exist_ok=True)
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
     temporary = path.with_name(path.name + "." + str(uuid.uuid4()) + ".tmp")
     try:
         with temporary.open("x", encoding="utf-8") as stream:
-            stream.write(canonical_json(value)); stream.flush(); os.fsync(stream.fileno())
+            stream.write(canonical_json(value))
+            stream.flush()
+            os.fsync(stream.fileno())
         for attempt in range(25):
-            try:temporary.replace(path);break
+            try:
+                temporary.replace(path)
+                break
             except PermissionError:
-                if attempt==24:raise
-                time.sleep(.02)
+                if attempt == 24:
+                    raise
+                time.sleep(0.02)
     finally:
         temporary.unlink(missing_ok=True)
 
@@ -91,6 +103,7 @@ def _atomic(path, value):
 @dataclass(frozen=True)
 class SessionRegistration:
     """A registered match: its session record and the native macro bundle."""
+
     session_path: Path
     macro_bundle: Path
 
@@ -156,11 +169,13 @@ class NativeChecks:
 
 class NativeHostSpawner:
     """Detached OS process; command vector is constructed solely from trusted data."""
+
     test_only = False
 
     @staticmethod
     def identity(pid):
-        if os.name != "nt":raise ContractError("session_unavailable")
+        if os.name != "nt":
+            raise ContractError("session_unavailable")
         kernel = ctypes.WinDLL("kernel32", use_last_error=True)
         kernel.OpenProcess.argtypes = [wintypes.DWORD, wintypes.BOOL, wintypes.DWORD]
         kernel.OpenProcess.restype = wintypes.HANDLE
@@ -170,12 +185,15 @@ class NativeHostSpawner:
         kernel.GetExitCodeProcess.argtypes = [wintypes.HANDLE, ctypes.POINTER(wintypes.DWORD)]
         kernel.GetExitCodeProcess.restype = wintypes.BOOL
         handle = kernel.OpenProcess(0x1000, False, pid)
-        if not handle:return None
+        if not handle:
+            return None
         try:
             exit_code = wintypes.DWORD()
-            if not kernel.GetExitCodeProcess(handle, ctypes.byref(exit_code)) or exit_code.value != 259:return None
+            if not kernel.GetExitCodeProcess(handle, ctypes.byref(exit_code)) or exit_code.value != 259:
+                return None
             times = [wintypes.FILETIME() for _ in range(4)]
-            if not kernel.GetProcessTimes(handle, *[ctypes.byref(t) for t in times]):return None
+            if not kernel.GetProcessTimes(handle, *[ctypes.byref(t) for t in times]):
+                return None
             ticks = (times[0].dwHighDateTime << 32) | times[0].dwLowDateTime
             return datetime.fromtimestamp((ticks - 116444736000000000) / 10000000, timezone.utc).isoformat()
         finally:
@@ -185,14 +203,33 @@ class NativeHostSpawner:
         if admission.test_only:
             raise ContractError("capability_unavailable")
         with Path(log_path).open("ab", buffering=0) as log:
-            return subprocess.Popen(command, cwd=INTEGRATION, stdin=subprocess.DEVNULL,
-                stdout=log, stderr=log, close_fds=True,
-                creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0) | getattr(subprocess, "CREATE_NEW_PROCESS_GROUP", 0))
+            return subprocess.Popen(
+                command,
+                cwd=INTEGRATION,
+                stdin=subprocess.DEVNULL,
+                stdout=log,
+                stderr=log,
+                close_fds=True,
+                creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0)
+                | getattr(subprocess, "CREATE_NEW_PROCESS_GROUP", 0),
+            )
 
 
 class DesktopBackend:
-    def __init__(self, store, *, registration=None, checks=None, spawner=None, now_ms=None,
-                 python_path=None, limits=None, registration_root=None, caller_alive=None, discovery=None):
+    def __init__(
+        self,
+        store,
+        *,
+        registration=None,
+        checks=None,
+        spawner=None,
+        now_ms=None,
+        python_path=None,
+        limits=None,
+        registration_root=None,
+        caller_alive=None,
+        discovery=None,
+    ):
         self.store = store
         self.discovery = discovery
         self.state_dir = store.state_dir
@@ -204,7 +241,9 @@ class DesktopBackend:
             # a later bootstrap edit is invalid. Admission still fails closed.
             self._root_record = {"invalid": True}
         self._root_bootstrap = registration_root is None
-        self.registration_root = Path(registration_root or (self._root_record or {}).get("session_root") or ROOT / "acceptance/runs").resolve()
+        self.registration_root = Path(
+            registration_root or (self._root_record or {}).get("session_root") or ROOT / "acceptance/runs"
+        ).resolve()
         self.registration_path = self.state_dir / "session-registration.json"
         self.checks = checks if checks is not None else NativeChecks()
         self.spawner = spawner if spawner is not None else NativeHostSpawner()
@@ -213,15 +252,23 @@ class DesktopBackend:
         self.limits = limits or ExecutionLimits()
         parent_pid = os.getppid()
         parent_start = NativeHostSpawner.identity(parent_pid) if os.name == "nt" else None
-        self.caller_alive = caller_alive if caller_alive is not None else (
-            lambda: parent_start is not None and NativeHostSpawner.identity(parent_pid) == parent_start)
+        self.caller_alive = (
+            caller_alive
+            if caller_alive is not None
+            else (lambda: parent_start is not None and NativeHostSpawner.identity(parent_pid) == parent_start)
+        )
         self.ledger_path = self.state_dir / "host-runtime.sqlite3"
         self.journal = CommandJournal(self.ledger_path)
         self._lock = threading.RLock()
-        self._db = sqlite3.connect(str(self.state_dir / "desktop-launch-index.sqlite3"), isolation_level=None,
-                                  check_same_thread=False, timeout=10)
+        self._db = sqlite3.connect(
+            str(self.state_dir / "desktop-launch-index.sqlite3"),
+            isolation_level=None,
+            check_same_thread=False,
+            timeout=10,
+        )
         self._db.row_factory = sqlite3.Row
-        self._db.execute("PRAGMA journal_mode=WAL"); self._db.execute("PRAGMA synchronous=FULL")
+        self._db.execute("PRAGMA journal_mode=WAL")
+        self._db.execute("PRAGMA synchronous=FULL")
         self._db.executescript("""
             CREATE TABLE IF NOT EXISTS readiness (token_hash TEXT PRIMARY KEY, run_id TEXT UNIQUE NOT NULL,
               host_id TEXT NOT NULL, profile_id TEXT NOT NULL, revision INTEGER NOT NULL,
@@ -237,7 +284,8 @@ class DesktopBackend:
         if self.discovery is not None:
             self.discovery.close()
             self.discovery = None
-        self.journal.close(); self._db.close()
+        self.journal.close()
+        self._db.close()
 
     @contextmanager
     def _transaction(self):
@@ -247,12 +295,15 @@ class DesktopBackend:
                 yield
                 self._db.execute("COMMIT")
             except BaseException:
-                self._db.execute("ROLLBACK"); raise
+                self._db.execute("ROLLBACK")
+                raise
 
     def register_session(self, session_path, *, macro_bundle):
         """Native-only registration; this method is deliberately absent from RPC."""
         with self._lock:
-            registration = SessionRegistration.trusted(session_path, root=self.registration_root, macro_bundle=macro_bundle)
+            registration = SessionRegistration.trusted(
+                session_path, root=self.registration_root, macro_bundle=macro_bundle
+            )
             paths = registration.evidence_paths()
             payload = dict(
                 schema_version=2,
@@ -278,9 +329,15 @@ class DesktopBackend:
                 if content_hash(value) != fingerprint:
                     raise ValueError()
                 registration = SessionRegistration.trusted(
-                    value["session_file"], root=self.registration_root, macro_bundle=value["macro_bundle"], _metadata_only=True
+                    value["session_file"],
+                    root=self.registration_root,
+                    macro_bundle=value["macro_bundle"],
+                    _metadata_only=True,
                 )
-                hashes = {name: hashlib.sha256(path.read_bytes()).hexdigest() for name, path in registration.evidence_paths().items()}
+                hashes = {
+                    name: hashlib.sha256(path.read_bytes()).hexdigest()
+                    for name, path in registration.evidence_paths().items()
+                }
                 if value["content_hashes"] != hashes:
                     raise ValueError()
                 return registration
@@ -299,45 +356,56 @@ class DesktopBackend:
 
     def session_discover(self, args, request_id):
         if self.discovery is None:
-            raise ContractError('session_discovery_unavailable')
-        return self.discovery.discover(args,request_id)
+            raise ContractError("session_discovery_unavailable")
+        return self.discovery.discover(args, request_id)
 
     def session_prepare(self, args, request_id):
         if self.discovery is None:
-            raise ContractError('session_discovery_unavailable')
+            raise ContractError("session_discovery_unavailable")
         with self._lock:
-            result=self.discovery.prepare(args,request_id)
+            result = self.discovery.prepare(args, request_id)
             # Only a successful trusted discovery registration can refresh this
             # service's root. Arbitrary external root edits still fail closed.
-            root=load_root(self.state_dir)
-            if root is None or Path(root['session_root'])!=self.discovery.policy.session_root:
-                raise ContractError('session_root_invalid')
-            self._root_record=root;self._root_bootstrap=True
-            self.registration_root=Path(root['session_root'])
-            self._db.execute('DELETE FROM readiness')
-            self.registration=self._registration()
-            registered,_=_object(self.registration.session_path)
-            if result.get('registered') is not True or result.get('session_id')!=registered.get('session_id'):
+            root = load_root(self.state_dir)
+            if root is None or Path(root["session_root"]) != self.discovery.policy.session_root:
+                raise ContractError("session_root_invalid")
+            self._root_record = root
+            self._root_bootstrap = True
+            self.registration_root = Path(root["session_root"])
+            self._db.execute("DELETE FROM readiness")
+            self.registration = self._registration()
+            registered, _ = _object(self.registration.session_path)
+            if result.get("registered") is not True or result.get("session_id") != registered.get("session_id"):
                 # An old idempotent receipt describes its original operation,
                 # not a different registration installed by a later prepare.
-                raise ContractError('session_preparation_changed')
-            return dict(result,registration_reload_required=False)
+                raise ContractError("session_preparation_changed")
+            return dict(result, registration_reload_required=False)
 
     def run_resume(self, args, request_id):
         # The launch index is authoritative. No directory scan, registration
         # mutation, model call or new host is performed when reopening the UI.
         if args:
-            raise ContractError('unexpected_fields')
+            raise ContractError("unexpected_fields")
         with self._lock:
             try:
-                statuses=[self._status(row) for row in self._db.execute('SELECT * FROM launches ORDER BY rowid DESC').fetchall()]
-            except (ContractError,ValueError,TypeError,KeyError,JournalError):
-                raise ContractError('run_history_unverifiable') from None
-            terminal={'stopped','completed','fault','result_candidate'}
-            pending=[row for row in statuses if row.get('state') not in terminal or row.get('native_release_verified') is not True]
-            selected=(pending or statuses)
-            return dict(run=selected[0] if selected else None,observation_only=True,
-                        other_unreleased_runs=max(0,len(pending)-1))
+                statuses = [
+                    self._status(row)
+                    for row in self._db.execute("SELECT * FROM launches ORDER BY rowid DESC").fetchall()
+                ]
+            except (ContractError, ValueError, TypeError, KeyError, JournalError):
+                raise ContractError("run_history_unverifiable") from None
+            terminal = {"stopped", "completed", "fault", "result_candidate"}
+            pending = [
+                row
+                for row in statuses
+                if row.get("state") not in terminal or row.get("native_release_verified") is not True
+            ]
+            selected = pending or statuses
+            return dict(
+                run=selected[0] if selected else None,
+                observation_only=True,
+                other_unreleased_runs=max(0, len(pending) - 1),
+            )
 
     def session_inspect(self, args, request_id):
         try:
@@ -358,73 +426,147 @@ class DesktopBackend:
         try:
             registration = self._registration()
             host_id = str(uuid.uuid4())
-            admission = self.checks.check(registration, profile, host_id, self.state_dir, self.store.library_path, self.limits)
-            if isinstance(admission, Admission) and admission.capabilities.get('native_macro') is True:
+            admission = self.checks.check(
+                registration, profile, host_id, self.state_dir, self.store.library_path, self.limits
+            )
+            if isinstance(admission, Admission) and admission.capabilities.get("native_macro") is True:
                 from dataclasses import replace
                 from .strategic_client import preflight_capabilities
-                admission=replace(admission,capabilities=preflight_capabilities(admission.capabilities))
-            if not isinstance(admission, Admission):raise ContractError("session_not_ready")
-            channel = admission.binding.public(); channel.pop("host_id")
+
+                admission = replace(admission, capabilities=preflight_capabilities(admission.capabilities))
+            if not isinstance(admission, Admission):
+                raise ContractError("session_not_ready")
+            channel = admission.binding.public()
+            channel.pop("host_id")
             with self._lock:
-                prior_launch = self._db.execute("SELECT 1 FROM launches WHERE channel_hash=?", (content_hash(channel),)).fetchone()
-            if prior_launch is not None:raise ContractError("run_state_conflict")
+                prior_launch = self._db.execute(
+                    "SELECT 1 FROM launches WHERE channel_hash=?", (content_hash(channel),)
+                ).fetchone()
+            if prior_launch is not None:
+                raise ContractError("run_state_conflict")
             if self.journal.unresolved_for_session(admission.binding.public()):
                 raise ContractError("run_state_conflict")
-            token = secrets.token_urlsafe(32); run_id = str(uuid.uuid4()); expires = self.now_ms() + READINESS_MS
+            token = secrets.token_urlsafe(32)
+            run_id = str(uuid.uuid4())
+            expires = self.now_ms() + READINESS_MS
             with self._transaction():
                 self._db.execute("DELETE FROM readiness WHERE expires_at<?", (self.now_ms(),))
-                self._db.execute("INSERT INTO readiness VALUES (?,?,?,?,?,?,?,?,?)", (
-                    hashlib.sha256(token.encode()).hexdigest(), run_id, host_id, profile["profile_id"], profile["revision"],
-                    profile["effective"]["effective_hash"], admission.admission_hash, expires, canonical_json(admission.binding.public())))
-            return dict(ready=True, session_id=admission.binding.session_id, ready_token=token, expires_at=expires,
-                        capabilities=dict(admission.capabilities), session=dict(admission.session), execution_limits=self.limits.public())
+                self._db.execute(
+                    "INSERT INTO readiness VALUES (?,?,?,?,?,?,?,?,?)",
+                    (
+                        hashlib.sha256(token.encode()).hexdigest(),
+                        run_id,
+                        host_id,
+                        profile["profile_id"],
+                        profile["revision"],
+                        profile["effective"]["effective_hash"],
+                        admission.admission_hash,
+                        expires,
+                        canonical_json(admission.binding.public()),
+                    ),
+                )
+            return dict(
+                ready=True,
+                session_id=admission.binding.session_id,
+                ready_token=token,
+                expires_at=expires,
+                capabilities=dict(admission.capabilities),
+                session=dict(admission.session),
+                execution_limits=self.limits.public(),
+            )
         except ContractError as error:
-            reason = error.code if error.code in {"session_unavailable", "session_mismatch", "session_not_ready", "run_already_active", "session_registration_changed", "session_root_invalid",
-                "run_state_conflict", "capability_unavailable", "credentials_unavailable", "effective_profile_changed",
-                "legacy_executor_player_unsupported", "macro_mode_rejects_unit_control_evidence",
-                "model_context_capacity_exceeded_shorten_style", "model_context_capacity_provider_unavailable",
-                "model_context_capacity_contract_invalid"} else "session_not_ready"
+            reason = (
+                error.code
+                if error.code
+                in {
+                    "session_unavailable",
+                    "session_mismatch",
+                    "session_not_ready",
+                    "run_already_active",
+                    "session_registration_changed",
+                    "session_root_invalid",
+                    "run_state_conflict",
+                    "capability_unavailable",
+                    "credentials_unavailable",
+                    "effective_profile_changed",
+                    "legacy_executor_player_unsupported",
+                    "macro_mode_rejects_unit_control_evidence",
+                    "model_context_capacity_exceeded_shorten_style",
+                    "model_context_capacity_provider_unavailable",
+                    "model_context_capacity_contract_invalid",
+                }
+                else "session_not_ready"
+            )
             return dict(ready=False, session_id=None, ready_token=None, expires_at=None, reason_code=reason)
         except Exception:
-            return dict(ready=False, session_id=None, ready_token=None, expires_at=None, reason_code="session_not_ready")
+            return dict(
+                ready=False, session_id=None, ready_token=None, expires_at=None, reason_code="session_not_ready"
+            )
 
     def _launch(self, run_id):
         identifier(run_id)
         with self._lock:
             row = self._db.execute("SELECT * FROM launches WHERE run_id=?", (run_id,)).fetchone()
-        if row is None:raise ContractError("run_not_found")
+        if row is None:
+            raise ContractError("run_not_found")
         return row
 
     def run_start(self, profile, args, request_id):
         identifier(request_id)
-        fingerprint = content_hash(dict(profile_id=profile["profile_id"], revision=profile["revision"],
-            effective_hash=profile["effective"]["effective_hash"], args=dict(args)))
+        fingerprint = content_hash(
+            dict(
+                profile_id=profile["profile_id"],
+                revision=profile["revision"],
+                effective_hash=profile["effective"]["effective_hash"],
+                args=dict(args),
+            )
+        )
         with self._lock:
             existing = self._db.execute("SELECT * FROM launches WHERE request_id=?", (request_id,)).fetchone()
         if existing is not None:
-            if existing["fingerprint"] != fingerprint:raise ContractError("request_id_conflict")
+            if existing["fingerprint"] != fingerprint:
+                raise ContractError("request_id_conflict")
             return self.run_status(dict(run_id=existing["run_id"]), request_id)
         token_hash = hashlib.sha256(args["ready_token"].encode()).hexdigest()
         with self._lock:
             ready = self._db.execute("SELECT * FROM readiness WHERE token_hash=?", (token_hash,)).fetchone()
-        if ready is None:raise ContractError("readiness_invalid")
-        if self.now_ms() >= ready["expires_at"]:raise ContractError("readiness_expired")
+        if ready is None:
+            raise ContractError("readiness_invalid")
+        if self.now_ms() >= ready["expires_at"]:
+            raise ContractError("readiness_expired")
         binding = SessionBinding.from_dict(json.loads(ready["binding_json"]))
-        if (args["session_id"] != binding.session_id or ready["profile_id"] != profile["profile_id"]
-            or ready["revision"] != profile["revision"] or ready["effective_hash"] != profile["effective"]["effective_hash"]):
+        if (
+            args["session_id"] != binding.session_id
+            or ready["profile_id"] != profile["profile_id"]
+            or ready["revision"] != profile["revision"]
+            or ready["effective_hash"] != profile["effective"]["effective_hash"]
+        ):
             raise ContractError("session_changed")
         registration = self._registration()
         try:
-            admission = self.checks.check(registration, profile, ready["host_id"], self.state_dir, self.store.library_path, self.limits)
-            if isinstance(admission, Admission) and admission.capabilities.get('native_macro') is True:
+            admission = self.checks.check(
+                registration, profile, ready["host_id"], self.state_dir, self.store.library_path, self.limits
+            )
+            if isinstance(admission, Admission) and admission.capabilities.get("native_macro") is True:
                 from dataclasses import replace
                 from .strategic_client import preflight_capabilities
-                admission=replace(admission,capabilities=preflight_capabilities(admission.capabilities))
+
+                admission = replace(admission, capabilities=preflight_capabilities(admission.capabilities))
         except ContractError as error:
-            if error.code in {"session_unavailable", "session_mismatch", "session_not_ready", "run_already_active",
-                              "capability_unavailable", "credentials_unavailable", "effective_profile_changed", "run_state_conflict",
-                              "legacy_executor_player_unsupported", "model_context_capacity_exceeded_shorten_style",
-                              "model_context_capacity_provider_unavailable", "model_context_capacity_contract_invalid"}:
+            if error.code in {
+                "session_unavailable",
+                "session_mismatch",
+                "session_not_ready",
+                "run_already_active",
+                "capability_unavailable",
+                "credentials_unavailable",
+                "effective_profile_changed",
+                "run_state_conflict",
+                "legacy_executor_player_unsupported",
+                "model_context_capacity_exceeded_shorten_style",
+                "model_context_capacity_provider_unavailable",
+                "model_context_capacity_contract_invalid",
+            }:
                 raise
             raise ContractError("session_not_ready") from None
         except Exception:
@@ -445,16 +587,27 @@ class DesktopBackend:
             # Source preparation takes this same index write lock. Re-read the
             # token and source after acquiring it; a completed earlier native
             # check cannot bridge a concurrent registration replacement.
-            current_ready=self._db.execute('SELECT * FROM readiness WHERE token_hash=?',(token_hash,)).fetchone()
-            if current_ready is None or dict(current_ready)!=dict(ready):
-                raise ContractError('readiness_invalid')
-            if self._registration()!=registration:
-                raise ContractError('session_changed')
+            current_ready = self._db.execute("SELECT * FROM readiness WHERE token_hash=?", (token_hash,)).fetchone()
+            if current_ready is None or dict(current_ready) != dict(ready):
+                raise ContractError("readiness_invalid")
+            if self._registration() != registration:
+                raise ContractError("session_changed")
             collided = None
             try:
-                channel = binding.public(); channel.pop("host_id")
-                self._db.execute("INSERT INTO launches VALUES (?,?,?,?,?,?,?)", (run_id, request_id, fingerprint,
-                    str(registration.session_path), str(output), ready["binding_json"], content_hash(channel)))
+                channel = binding.public()
+                channel.pop("host_id")
+                self._db.execute(
+                    "INSERT INTO launches VALUES (?,?,?,?,?,?,?)",
+                    (
+                        run_id,
+                        request_id,
+                        fingerprint,
+                        str(registration.session_path),
+                        str(output),
+                        ready["binding_json"],
+                        content_hash(channel),
+                    ),
+                )
             except sqlite3.IntegrityError:
                 collided = self._db.execute("SELECT * FROM launches WHERE request_id=?", (request_id,)).fetchone()
                 if collided is None or collided["fingerprint"] != fingerprint:
@@ -462,47 +615,95 @@ class DesktopBackend:
         if collided is not None:
             return self._status(collided)
         try:
-            return self._dispatch_launch(profile, request_id, run_id, binding, admission, registration, ready["expires_at"])
+            return self._dispatch_launch(
+                profile, request_id, run_id, binding, admission, registration, ready["expires_at"]
+            )
         except BaseException as error:
             # The run ID is already durable and must remain queryable even if
             # draft IO or journal claiming fails before Popen. The UI retains
             # this ID and queries; no subsequent call resumes this launch.
             try:
-                cancelled=self._cancel_reserved_launch(self._launch(run_id),
-                    error.code if isinstance(error,ContractError) else 'launch_preparation_failed')
-                if cancelled:return self._status(self._launch(run_id))
-            except JournalError:pass
+                cancelled = self._cancel_reserved_launch(
+                    self._launch(run_id),
+                    error.code if isinstance(error, ContractError) else "launch_preparation_failed",
+                )
+                if cancelled:
+                    return self._status(self._launch(run_id))
+            except JournalError:
+                pass
             raise ContractError("run_state_conflict") from None
 
-    def _cancel_reserved_launch(self,row,reason):
-        command=self.journal.get_command(row['run_id'],row['request_id'])
-        if command['operation']!='host_start' or command['status']!='reserved':return False
+    def _cancel_reserved_launch(self, row, reason):
+        command = self.journal.get_command(row["run_id"], row["request_id"])
+        if command["operation"] != "host_start" or command["status"] != "reserved":
+            return False
         # The journal's atomic transition refuses cancellation after dispatch
         # has been claimed. A racing launcher then cannot reach Popen.
-        self.journal.record_outcome(row['run_id'],row['request_id'],'cancelled',dict(
-            reason_code='host_launch_cancelled_before_dispatch',preparation_reason_code=reason,
-            host_spawn_attempted=False,native_delivery_attempted=False))
+        self.journal.record_outcome(
+            row["run_id"],
+            row["request_id"],
+            "cancelled",
+            dict(
+                reason_code="host_launch_cancelled_before_dispatch",
+                preparation_reason_code=reason,
+                host_spawn_attempted=False,
+                native_delivery_attempted=False,
+            ),
+        )
         return True
 
     def _predispatch(self, profile, expires_at, registration=None):
-        if self.now_ms() >= expires_at:raise ContractError("readiness_expired")
-        if not self.caller_alive():raise ContractError("adapter_unavailable")
+        if self.now_ms() >= expires_at:
+            raise ContractError("readiness_expired")
+        if not self.caller_alive():
+            raise ContractError("adapter_unavailable")
         current = self.store.get_profile(profile["profile_id"])["profile"]
-        if (not current["validation"]["ok"] or current["revision"] != profile["revision"]
+        if (
+            not current["validation"]["ok"]
+            or current["revision"] != profile["revision"]
             or current["library_hash"] != profile["library_hash"]
-            or current["effective"]["effective_hash"] != profile["effective"]["effective_hash"]):
+            or current["effective"]["effective_hash"] != profile["effective"]["effective_hash"]
+        ):
             raise ContractError("effective_profile_changed")
-        current=self._registration()
-        if registration is not None and current!=registration:
-            raise ContractError('session_changed')
+        current = self._registration()
+        if registration is not None and current != registration:
+            raise ContractError("session_changed")
 
     def _dispatch_launch(self, profile, request_id, run_id, binding, admission, registration, expires_at):
         self.journal.register_run(run_id, binding.public())
-        self.journal.reserve_command(run_id, request_id, "host_start", dict(profile_id=profile["profile_id"],
-            profile_revision=profile["revision"], effective_hash=profile["effective"]["effective_hash"], admission_hash=admission.admission_hash,
-            execution_limits=self.limits.public(), session_summary=dict(admission.session),
-            capabilities={key: admission.capabilities[key] for key in ("control_mode", "native_macro", "native_transport_protocol", "available_macro_actions", "macro_production_counts", "base_defense_granted", "base_defense_goal", "group_roles_granted", "supported_units", "supported_foci", "tactics_supported", "runtime_tactical_supported", "runtime_recovery_supported", "runtime_purposes")
-                          if key in admission.capabilities}))
+        self.journal.reserve_command(
+            run_id,
+            request_id,
+            "host_start",
+            dict(
+                profile_id=profile["profile_id"],
+                profile_revision=profile["revision"],
+                effective_hash=profile["effective"]["effective_hash"],
+                admission_hash=admission.admission_hash,
+                execution_limits=self.limits.public(),
+                session_summary=dict(admission.session),
+                capabilities={
+                    key: admission.capabilities[key]
+                    for key in (
+                        "control_mode",
+                        "native_macro",
+                        "native_transport_protocol",
+                        "available_macro_actions",
+                        "macro_production_counts",
+                        "base_defense_granted",
+                        "base_defense_goal",
+                        "group_roles_granted",
+                        "supported_units",
+                        "supported_foci",
+                        "tactics_supported",
+                        "runtime_tactical_supported",
+                        "runtime_recovery_supported",
+                        "runtime_purposes",
+                    )
+                    if key in admission.capabilities
+                },
+            ),
+        )
         draft_path = self.state_dir / "runs" / run_id / "commander-draft.json"
         # Resolve the same model before storing the host input; no credentials.
         _atomic(draft_path, dict(profile["draft"], model=profile["effective"]["model"]))
@@ -522,14 +723,25 @@ class DesktopBackend:
         self._predispatch(profile, expires_at, registration)
         self.journal.mark_dispatching(run_id, request_id)
         try:
-            if not self.caller_alive():raise ContractError("adapter_unavailable")
+            if not self.caller_alive():
+                raise ContractError("adapter_unavailable")
             child = self.spawner.spawn(command, draft_path.with_name("host.log"), admission)
             self._children[run_id] = child
             host_start = self.spawner.identity(child.pid)
-            if not host_start:raise ContractError("run_state_conflict")
-            self.journal.record_outcome(run_id, request_id, "started", dict(host_pid=int(child.pid),
-                host_start_time=host_start, reason_code="host_process_spawned", profile_revision=profile["revision"],
-                effective_hash=profile["effective"]["effective_hash"]))
+            if not host_start:
+                raise ContractError("run_state_conflict")
+            self.journal.record_outcome(
+                run_id,
+                request_id,
+                "started",
+                dict(
+                    host_pid=int(child.pid),
+                    host_start_time=host_start,
+                    reason_code="host_process_spawned",
+                    profile_revision=profile["revision"],
+                    effective_hash=profile["effective"]["effective_hash"],
+                ),
+            )
         except BaseException:
             # Popen/pipe failure may follow successful process creation; delivery
             # is unknown, never mark safely failed or automatically retry.
@@ -544,143 +756,227 @@ class DesktopBackend:
 
     def _archived(self, row):
         """Launches recorded before the last runtime change (beta_setup.archive_history)."""
-        path = self.state_dir / 'history-archive.json'
+        path = self.state_dir / "history-archive.json"
         if not path.is_file():
             return False
         value, _ = _object(path, 4096)
-        limit = value.get('archived_through_rowid')
+        limit = value.get("archived_through_rowid")
         if type(limit) is not int:
-            raise ContractError('run_history_unverifiable')
-        rowid = self._db.execute('SELECT rowid FROM launches WHERE run_id=?', (row['run_id'],)).fetchone()
+            raise ContractError("run_history_unverifiable")
+        rowid = self._db.execute("SELECT rowid FROM launches WHERE run_id=?", (row["run_id"],)).fetchone()
         return rowid is not None and rowid[0] <= limit
 
     def _status(self, row):
         binding = SessionBinding.from_dict(json.loads(row["binding_json"]))
         if self._archived(row):
             # Archived only while no game process ran: no native state remains.
-            return dict(run_id=row["run_id"], session_id=binding.session_id, state="stopped",
-                        reason_code="run_history_archived", history_archived=True, native_release_verified=True)
+            return dict(
+                run_id=row["run_id"],
+                session_id=binding.session_id,
+                state="stopped",
+                reason_code="run_history_archived",
+                history_archived=True,
+                native_release_verified=True,
+            )
         try:
             command = self.journal.get_command(row["run_id"], row["request_id"])
         except JournalError:
-            return dict(run_id=row["run_id"], session_id=binding.session_id, state="uncertain", native_release_verified=False)
-        result = dict(run_id=row["run_id"], session_id=binding.session_id,
-                      state="uncertain" if command["status"] in ("reserved", "dispatching", "uncertain") else "starting",
-                      native_release_verified=False)
+            return dict(
+                run_id=row["run_id"], session_id=binding.session_id, state="uncertain", native_release_verified=False
+            )
+        result = dict(
+            run_id=row["run_id"],
+            session_id=binding.session_id,
+            state="uncertain" if command["status"] in ("reserved", "dispatching", "uncertain") else "starting",
+            native_release_verified=False,
+        )
         for key in ("profile_id", "profile_revision", "effective_hash", "execution_limits"):
-            if key in command["payload"]:result[key] = command["payload"][key]
-        if "session_summary" in command["payload"]:result["session"] = command["payload"]["session_summary"]
-        if "capabilities" in command["payload"]:result["capabilities"] = command["payload"]["capabilities"]
-        result["events"], result["events_cursor"] = recent_events(self.journal, row["run_id"],
-            expected=command["payload"], binding=binding)
-        receipt=command.get('receipt') or {}
-        if (command['operation']=='host_start' and command['status']=='cancelled'
-                and receipt.get('reason_code')=='host_launch_cancelled_before_dispatch'
-                and receipt.get('host_spawn_attempted') is False and receipt.get('native_delivery_attempted') is False
-                and len(self.journal.commands_for_run(row['run_id']))==1):
-            result.update(state='stopped',reason_code='host_launch_cancelled_before_dispatch',
-                native_release_verified=True,no_native_execution_started=True)
+            if key in command["payload"]:
+                result[key] = command["payload"][key]
+        if "session_summary" in command["payload"]:
+            result["session"] = command["payload"]["session_summary"]
+        if "capabilities" in command["payload"]:
+            result["capabilities"] = command["payload"]["capabilities"]
+        result["events"], result["events_cursor"] = recent_events(
+            self.journal, row["run_id"], expected=command["payload"], binding=binding
+        )
+        receipt = command.get("receipt") or {}
+        if (
+            command["operation"] == "host_start"
+            and command["status"] == "cancelled"
+            and receipt.get("reason_code") == "host_launch_cancelled_before_dispatch"
+            and receipt.get("host_spawn_attempted") is False
+            and receipt.get("native_delivery_attempted") is False
+            and len(self.journal.commands_for_run(row["run_id"])) == 1
+        ):
+            result.update(
+                state="stopped",
+                reason_code="host_launch_cancelled_before_dispatch",
+                native_release_verified=True,
+                no_native_execution_started=True,
+            )
             return result
         try:
             status, _ = _object(Path(row["output_path"]) / "host-status.json", 1024 * 1024)
-            macro=command['payload'].get('capabilities',{}).get('native_macro') is True
+            macro = command["payload"].get("capabilities", {}).get("native_macro") is True
             runtime = status.get("runtime_macro", {})
-            if (runtime.get("run_id") != row["run_id"] or runtime.get("binding_hash") != binding.binding_hash
-                or status.get("session_id") != binding.session_id or status.get("pid") != binding.game_process_id
-                or status.get("process_start") != binding.game_process_start):
+            if (
+                runtime.get("run_id") != row["run_id"]
+                or runtime.get("binding_hash") != binding.binding_hash
+                or status.get("session_id") != binding.session_id
+                or status.get("pid") != binding.game_process_id
+                or status.get("process_start") != binding.game_process_start
+            ):
                 raise ValueError()
             receipt = command.get("receipt") or {}
-            if status.get("host_pid") != receipt.get("host_pid") or status.get("host_start_time") != receipt.get("host_start_time"):
+            if status.get("host_pid") != receipt.get("host_pid") or status.get("host_start_time") != receipt.get(
+                "host_start_time"
+            ):
                 raise ValueError()
             host_alive = self.spawner.identity(receipt["host_pid"]) == receipt["host_start_time"]
             if not host_alive and status.get("state") not in ("stopped", "fault", "result_candidate"):
                 raise ValueError()
             result["state"] = status["state"]
-            reason=status.get('reason_code')
-            if isinstance(reason,str) and re.fullmatch(r'[a-z][a-z0-9_]{0,79}',reason):
-                result['reason_code']=reason
-            result['host_process_alive']=host_alive
-            result['status_age_ms']=max(0,self.now_ms()-(Path(row['output_path'])/'host-status.json').stat().st_mtime_ns//1_000_000)
-            result['status_stale']=not host_alive or result['status_age_ms']>=10_000
+            reason = status.get("reason_code")
+            if isinstance(reason, str) and re.fullmatch(r"[a-z][a-z0-9_]{0,79}", reason):
+                result["reason_code"] = reason
+            result["host_process_alive"] = host_alive
+            result["status_age_ms"] = max(
+                0, self.now_ms() - (Path(row["output_path"]) / "host-status.json").stat().st_mtime_ns // 1_000_000
+            )
+            result["status_stale"] = not host_alive or result["status_age_ms"] >= 10_000
             if macro:
-                result['current_plan']=project_plan(status.get('current_plan'))
+                result["current_plan"] = project_plan(status.get("current_plan"))
                 # Identity was checked above. This read-only record exposes
                 # strategic authority and missing intents without inheriting
                 # historical precision grants or changing dispatch/release.
                 from .strategic_client import project as project_strategic_client
+
                 try:
-                    result['strategic_client']=project_strategic_client(status, result.get('capabilities', {}))
+                    result["strategic_client"] = project_strategic_client(status, result.get("capabilities", {}))
                 except ContractError:
-                    result['strategic_client_unavailable']=True
-                if status.get('macro_strategy') is not None:
+                    result["strategic_client_unavailable"] = True
+                if status.get("macro_strategy") is not None:
                     try:
-                        _module('macro_strategy',directory=ROOT/'strategy')
+                        _module("macro_strategy", directory=ROOT / "strategy")
                         from .macro_strategy_public import project_macro_strategy_state
-                        result['macro_strategy']=project_macro_strategy_state(status['macro_strategy'])
-                    except (ContractError,ImportError):
+
+                        result["macro_strategy"] = project_macro_strategy_state(status["macro_strategy"])
+                    except (ContractError, ImportError):
                         # Reject only this optional record; never return raw
                         # strategy state or erase the independent run status.
-                        result['macro_strategy_unavailable']=True
-                if status.get('macro_unified_feedback') is not None:
+                        result["macro_strategy_unavailable"] = True
+                if status.get("macro_unified_feedback") is not None:
                     from .strategic_feedback import project_unified_feedback
-                    try:result['macro_unified_feedback']=project_unified_feedback(status['macro_unified_feedback'])
-                    except ContractError:result['macro_unified_feedback_unavailable']=True
-                feedback=status.get('macro_feedback') or {}
-                if feedback.get('status') in {'native_budget_adopted','native_budget_pending','native_delegation_observed','native_budget_clearing'}:
-                    result['macro_feedback']=dict(status=feedback['status'],selected_policy=feedback.get('selected_policy')
-                        if feedback.get('selected_policy') in ('budgeteconomy','budgetarmy','budgettech') else None)
+
+                    try:
+                        result["macro_unified_feedback"] = project_unified_feedback(status["macro_unified_feedback"])
+                    except ContractError:
+                        result["macro_unified_feedback_unavailable"] = True
+                feedback = status.get("macro_feedback") or {}
+                if feedback.get("status") in {
+                    "native_budget_adopted",
+                    "native_budget_pending",
+                    "native_delegation_observed",
+                    "native_budget_clearing",
+                }:
+                    result["macro_feedback"] = dict(
+                        status=feedback["status"],
+                        selected_policy=feedback.get("selected_policy")
+                        if feedback.get("selected_policy") in ("budgeteconomy", "budgetarmy", "budgettech")
+                        else None,
+                    )
             latest = status.get("latest_snapshot")
             if isinstance(latest, dict):
                 public = {}
                 for key in ("snapshot_id", "game_time_seconds"):
                     value = latest.get(key)
-                    if type(value) in (int, float) and 0 <= value <= 2**53 - 1:public[key] = value
-                if type(latest.get("paused")) is bool:public["paused"] = latest["paused"]
-                credits = latest.get("resources", {}).get("credits") if isinstance(latest.get("resources"), dict) else None
-                if type(credits) in (int, float) and 0 <= credits <= 2**53 - 1:public["resources"] = dict(credits=credits)
+                    if type(value) in (int, float) and 0 <= value <= 2**53 - 1:
+                        public[key] = value
+                if type(latest.get("paused")) is bool:
+                    public["paused"] = latest["paused"]
+                credits = (
+                    latest.get("resources", {}).get("credits") if isinstance(latest.get("resources"), dict) else None
+                )
+                if type(credits) in (int, float) and 0 <= credits <= 2**53 - 1:
+                    public["resources"] = dict(credits=credits)
                 result["latest_snapshot"] = public
             execution = status.get("execution")
             if isinstance(execution, dict):
-                public = {key: execution[key] for key in ("enabled", "dry_run", "executor_connected") if type(execution.get(key)) is bool}
+                public = {
+                    key: execution[key]
+                    for key in ("enabled", "dry_run", "executor_connected")
+                    if type(execution.get(key)) is bool
+                }
                 if type(execution.get("remaining_budget")) is int and execution["remaining_budget"] >= 0:
                     public["remaining_budget"] = execution["remaining_budget"]
                 result["execution"] = public
-            if not host_alive and status["state"] in ("stopped", "fault", "result_candidate") and command["status"] == "started":
-                self.journal.record_outcome(row["run_id"], row["request_id"], "completed",
-                    dict(receipt, reason_code="host_process_ended", final_host_state=status["state"], native_release_verified=False))
-            if not host_alive and status['state'] in ('stopped','fault','result_candidate'):
-                result['native_release_verified'] = self._release_receipt(row['run_id'],binding,receipt)
+            if (
+                not host_alive
+                and status["state"] in ("stopped", "fault", "result_candidate")
+                and command["status"] == "started"
+            ):
+                self.journal.record_outcome(
+                    row["run_id"],
+                    row["request_id"],
+                    "completed",
+                    dict(
+                        receipt,
+                        reason_code="host_process_ended",
+                        final_host_state=status["state"],
+                        native_release_verified=False,
+                    ),
+                )
+            if not host_alive and status["state"] in ("stopped", "fault", "result_candidate"):
+                result["native_release_verified"] = self._release_receipt(row["run_id"], binding, receipt)
             expected = command["payload"]
             for key in ("profile_application", "profile_consumption"):
                 receipt = status.get(key)
                 if receipt is not None:
-                    if (not isinstance(receipt, dict) or receipt.get("profile_id") != expected["profile_id"]
+                    if (
+                        not isinstance(receipt, dict)
+                        or receipt.get("profile_id") != expected["profile_id"]
                         or receipt.get("profile_revision") != expected["profile_revision"]
-                        or receipt.get("effective_hash") != expected["effective_hash"]):
+                        or receipt.get("effective_hash") != expected["effective_hash"]
+                    ):
                         result["state"] = "fault"
                         result["reason_code"] = "effective_profile_changed"
-                    else:result[key] = project_fields(receipt)
+                    else:
+                        result[key] = project_fields(receipt)
             if "metrics" in status:
                 projected = project_fields(status["metrics"])
-                result["metrics"] = {key: value for key, value in projected.items()
-                    if key in {"requests", "accepted", "rejected", "timeouts", "adapter_errors", "plan_changes"}}
+                result["metrics"] = {
+                    key: value
+                    for key, value in projected.items()
+                    if key in {"requests", "accepted", "rejected", "timeouts", "adapter_errors", "plan_changes"}
+                }
             result["tasks"], result["tasks_cursor"] = project_tasks(status.get("jobs", []))
-            preparation=(status.get('runtime_model_tasks')or{}).get('preparation')
-            if isinstance(preparation,dict):result['local_preparation']=project_fields(preparation)
+            preparation = (status.get("runtime_model_tasks") or {}).get("preparation")
+            if isinstance(preparation, dict):
+                result["local_preparation"] = project_fields(preparation)
             counters = project_fields(status.get("task_counters", {}))
-            result["task_counters"] = {key: value for key, value in counters.items()
-                                      if key in {"dispatches", "started", "completed", "failed", "blocked"}}
+            result["task_counters"] = {
+                key: value
+                for key, value in counters.items()
+                if key in {"dispatches", "started", "completed", "failed", "blocked"}
+            }
             consumption = result.get("profile_consumption")
             if consumption is not None:
-                result["consumption"] = dict(calls_started=consumption.get("calls_started", 0),
+                result["consumption"] = dict(
+                    calls_started=consumption.get("calls_started", 0),
                     responses_returned=consumption.get("responses_returned", 0),
-                    model_response_received=consumption.get("model_response_received") is True and consumption.get("responses_returned", 0) > 0,
-                    real_network_verified=consumption.get("real_network_verified", False))
+                    model_response_received=consumption.get("model_response_received") is True
+                    and consumption.get("responses_returned", 0) > 0,
+                    real_network_verified=consumption.get("real_network_verified", False),
+                )
         except (OSError, ValueError, TypeError, KeyError):
             child = self._children.get(row["run_id"])
             receipt = command.get("receipt") or {}
-            if ((child is not None and child.poll() is not None) or
-                command["status"] == "started" and self.spawner.identity(receipt.get("host_pid", 0)) != receipt.get("host_start_time")):
+            if (
+                (child is not None and child.poll() is not None)
+                or command["status"] == "started"
+                and self.spawner.identity(receipt.get("host_pid", 0)) != receipt.get("host_start_time")
+            ):
                 result["state"] = "uncertain"
         return result
 
@@ -695,10 +991,14 @@ class DesktopBackend:
         """
         row = self._launch(args["run_id"])
         from .decision_log import decisions_page
+
         try:
-            page = decisions_page(Path(row["output_path"]), since_seq=args.get("since_seq", 0),
-                                  max_records=args.get("limit", DECISIONS_PAGE_LIMIT),
-                                  max_bytes=DECISIONS_PAGE_BYTES)
+            page = decisions_page(
+                Path(row["output_path"]),
+                since_seq=args.get("since_seq", 0),
+                max_records=args.get("limit", DECISIONS_PAGE_LIMIT),
+                max_bytes=DECISIONS_PAGE_BYTES,
+            )
         except (OSError, ValueError):
             raise ContractError("decisions_unavailable") from None
         return dict(page, run_id=row["run_id"])
@@ -706,28 +1006,48 @@ class DesktopBackend:
     def run_stop(self, args, request_id):
         row = self._launch(args["run_id"])
         binding = SessionBinding.from_dict(json.loads(row["binding_json"]))
-        if args["session_id"] != binding.session_id:raise ContractError("session_mismatch")
+        if args["session_id"] != binding.session_id:
+            raise ContractError("session_mismatch")
         session, _ = _object(row["session_path"])
-        if (session.get("session_id") != binding.session_id or session.get("pid") != binding.game_process_id
-            or session.get("start_time") != binding.game_process_start):raise ContractError("session_changed")
+        if (
+            session.get("session_id") != binding.session_id
+            or session.get("pid") != binding.game_process_id
+            or session.get("start_time") != binding.game_process_start
+        ):
+            raise ContractError("session_changed")
         try:
-            if self._cancel_reserved_launch(row,'stop_requested_before_dispatch'):return self._status(row)
-        except JournalError:pass
-        record = self.journal.reserve_command(row["run_id"], request_id, "host_stop", dict(session_id=binding.session_id))
+            if self._cancel_reserved_launch(row, "stop_requested_before_dispatch"):
+                return self._status(row)
+        except JournalError:
+            pass
+        record = self.journal.reserve_command(
+            row["run_id"], request_id, "host_stop", dict(session_id=binding.session_id)
+        )
         if record["created"]:
             self.journal.mark_dispatching(row["run_id"], request_id)
             try:
-                starts=self.journal.commands_for_run(row['run_id'],operation='host_start')
-                unified=any(type(r['payload'].get('capabilities',{}).get('native_transport_protocol')) is int
-                    and r['payload']['capabilities']['native_transport_protocol'] in (5,6,7) for r in starts)
+                starts = self.journal.commands_for_run(row["run_id"], operation="host_start")
+                unified = any(
+                    type(r["payload"].get("capabilities", {}).get("native_transport_protocol")) is int
+                    and r["payload"]["capabilities"]["native_transport_protocol"] in (5, 6, 7)
+                    for r in starts
+                )
                 if unified:
                     from .stop_gate import StopGate
-                    StopGate(row['run_id'],binding,Path(row['output_path'])).publish_stop(_atomic)
-                else:_atomic(Path(row['output_path'])/'stop.json',dict(session_id=binding.session_id))
-                self.journal.record_outcome(row["run_id"], request_id, "completed", dict(reason_code="host_stop_requested",
-                    native_release_verified=False))
+
+                    StopGate(row["run_id"], binding, Path(row["output_path"])).publish_stop(_atomic)
+                else:
+                    _atomic(Path(row["output_path"]) / "stop.json", dict(session_id=binding.session_id))
+                self.journal.record_outcome(
+                    row["run_id"],
+                    request_id,
+                    "completed",
+                    dict(reason_code="host_stop_requested", native_release_verified=False),
+                )
             except BaseException:
-                self.journal.record_outcome(row["run_id"], request_id, "uncertain", dict(reason_code="host_stop_uncertain"))
+                self.journal.record_outcome(
+                    row["run_id"], request_id, "uncertain", dict(reason_code="host_stop_uncertain")
+                )
                 raise ContractError("run_state_conflict") from None
         return self._status(row)
 
@@ -740,24 +1060,52 @@ class DesktopBackend:
             profile = None
             try:
                 candidate = normalize_profile(load_commander_draft(run_dir / "commander-draft.json")).public()
-                if (candidate["profile_id"] == binding.commander_id and candidate["revision"] == command["payload"]["profile_revision"]
-                    and candidate["effective_hash"] == command["payload"]["effective_hash"]):profile = candidate
-            except ContractError:pass
+                if (
+                    candidate["profile_id"] == binding.commander_id
+                    and candidate["revision"] == command["payload"]["profile_revision"]
+                    and candidate["effective_hash"] == command["payload"]["effective_hash"]
+                ):
+                    profile = candidate
+            except ContractError:
+                pass
             output = Path(row["output_path"])
-            files = [("commander_draft", run_dir / "commander-draft.json", self.state_dir),
-                     ("host_log", run_dir / "host.log", self.state_dir)]
-            files.extend((name, output / filename, output) for name, filename in (
-                ("host_status", "host-status.json"), ("host_events", "host-events.jsonl"), ("plans", "plans.jsonl"),
-                ("jobs", "jobs.json"),('macro_feedback','macro-feedback.jsonl'),('decisions','decisions.jsonl'),
-                ('macro_release','macro-release.json'),
-                ('strategic_admission','strategic-admission.jsonl'),('strategic_stop','stop.json'),
-                ('native_no_attachment','native-no-attachment.json')))
-            files.extend((name, output / filename, output) for name, filename in (
-                ('native_orphan_return','native-orphan-return.json'),
-                ('native_orphan_journal','native-orphan-journal.bin')))
+            files = [
+                ("commander_draft", run_dir / "commander-draft.json", self.state_dir),
+                ("host_log", run_dir / "host.log", self.state_dir),
+            ]
+            files.extend(
+                (name, output / filename, output)
+                for name, filename in (
+                    ("host_status", "host-status.json"),
+                    ("host_events", "host-events.jsonl"),
+                    ("plans", "plans.jsonl"),
+                    ("jobs", "jobs.json"),
+                    ("macro_feedback", "macro-feedback.jsonl"),
+                    ("decisions", "decisions.jsonl"),
+                    ("macro_release", "macro-release.json"),
+                    ("strategic_admission", "strategic-admission.jsonl"),
+                    ("strategic_stop", "stop.json"),
+                    ("native_no_attachment", "native-no-attachment.json"),
+                )
+            )
+            files.extend(
+                (name, output / filename, output)
+                for name, filename in (
+                    ("native_orphan_return", "native-orphan-return.json"),
+                    ("native_orphan_journal", "native-orphan-journal.bin"),
+                )
+            )
             session_path = Path(row["session_path"])
             files.append(("session", session_path, session_path.parent))
-            return create_export(self.state_dir, run_id=row["run_id"], request_id=request_id, binding=binding,
-                                 profile=profile, status=self._status(row), journal=self.journal, raw_files=files)
+            return create_export(
+                self.state_dir,
+                run_id=row["run_id"],
+                request_id=request_id,
+                binding=binding,
+                profile=profile,
+                status=self._status(row),
+                journal=self.journal,
+                raw_files=files,
+            )
         except (OSError, ValueError, KeyError):
             raise ContractError("diagnostics_unavailable") from None
