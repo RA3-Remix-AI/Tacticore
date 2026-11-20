@@ -20,6 +20,7 @@ import uuid
 from .connection_config_credentials_v1 import WindowsConnectionCredentialsV1
 from .connection_config_atomic_v1 import exclusive_bytes
 from .connection_config_schema_v1 import MAX_REQUEST_BYTES, OPERATIONS, configure_args
+from .connection_config_test_v1 import run_connection_test
 from .contracts import ContractError, canonical_json, identifier, object_fields
 from .profile_store import _decode
 
@@ -49,7 +50,7 @@ class ConnectionConfigServiceV1:
     fingerprint after crashes. It is not a game or preference lease.
     """
 
-    def __init__(self, profile_store, *, stopped_guard, registration_path=None, credentials=None):
+    def __init__(self, profile_store, *, stopped_guard, registration_path=None, credentials=None, connection_test=None):
         if not callable(stopped_guard):
             raise ContractError("connection_config_guard_required")
         self.store = profile_store
@@ -58,6 +59,7 @@ class ConnectionConfigServiceV1:
         self.registration = Path(registration_path).resolve() if registration_path is not None else None
         self.stopped_guard = stopped_guard
         self.credentials = credentials if credentials is not None else WindowsConnectionCredentialsV1()
+        self.connection_test = connection_test if connection_test is not None else run_connection_test
         self._lock = threading.RLock()
         self._db = sqlite3.connect(
             str(self.state / "connection-config-v1.sqlite3"), timeout=10, check_same_thread=False, isolation_level=None
@@ -495,6 +497,26 @@ class ConnectionConfigServiceV1:
             (self.library.parent / "secrets" / (old + ".dpapi")).unlink(missing_ok=True)
             return dict(schema_version=1, retired_credential_removed=True, config_fingerprint=current)
 
+    def test(self, args):
+        """One real model request with the saved key; the key stays in this process."""
+        args = object_fields(args, {"connection_id"})
+        identifier(args["connection_id"])
+        with self._transaction():
+            document, _ = self._library()
+            rows = [row for row in document["connections"] if row["id"] == args["connection_id"]]
+            if len(rows) != 1:
+                raise ContractError("connection_config_connection_missing")
+            connection = dict(rows[0])
+            secret = self.library.parent / "secrets" / (connection["id"] + ".dpapi")
+            key = ""
+            if connection["remember_key"] and secret.is_file():
+                try:
+                    key = self.credentials.unprotect(secret.read_bytes())
+                except Exception:
+                    key = ""
+        # The network request runs outside the configuration lock.
+        return self.connection_test(connection, key)
+
     def dispatch(self, operation, args, request_id):
         if operation not in OPERATIONS:
             raise ContractError("operation_unsupported")
@@ -504,6 +526,8 @@ class ConnectionConfigServiceV1:
             return self.recover(args)
         if operation == "connections.cleanup_retired":
             return self.cleanup_retired(args)
+        if operation == "connections.test":
+            return self.test(args)
         return self.configure(args, request_id)
 
     def handle(self, request):
@@ -543,6 +567,7 @@ class ConnectionConfigServiceV1:
                 "invalid_connection",
                 "invalid_text",
                 "request_too_large",
+                "connection_test_runtime_unavailable",
             }
             return dict(
                 schema_version=1,

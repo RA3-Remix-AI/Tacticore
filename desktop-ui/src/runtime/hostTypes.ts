@@ -1,14 +1,16 @@
 /** Shapes returned by the host RPC, shared by the Windows client screens. */
-import type {CommanderPreferences, Doctrine} from '../state/preferences';
+import type {CommanderChoice, Personality} from './commanders';
 import type {MacroAdmissionRecord, MacroExpansionRecord, MacroStrategyPublicState} from './nativeRpc';
 import type {StrategicClientRecord} from './strategicCommandView';
 import type {ModelConsumptionReceipt} from './modelCallView';
 import type {AppliedReceipt} from './applicationView';
 import type {NativeEvent} from './nativeProcess';
 
+/** A saved AI profile. Older backends send doctrine/custom_traits/preferences; newer ones the commander fields. */
 export type Draft = {
   schema_version: 1; profile_id: string; name: string; revision: number; connection_id: string; model: string;
-  doctrine: Doctrine; custom_traits: string; preferences?: CommanderPreferences;
+  doctrine?: string; custom_traits?: string; preferences?: unknown;
+  commander_id?: CommanderChoice; personality?: Personality; voice_note?: string;
 };
 
 export type Profile = {

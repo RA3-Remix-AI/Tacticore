@@ -32,6 +32,10 @@ import { StylePanel } from './ui/StylePanel';
 import { MatchCard, boundView } from './ui/MatchCard';
 import { MatchControlPanel } from './ui/MatchControlPanel';
 import { DecisionFeed, type FeedState } from './ui/DecisionFeed';
+import { CommanderAvatar } from './ui/CommanderAvatar';
+import {
+  commanderBadge, commanderProfile, commanderSupported, mergeCommanders, profileSaveDraft,
+} from './runtime/commanders';
 import { ReviewPage } from './ui/ReviewPage';
 import { DetailsPanel } from './ui/DetailsPanel';
 import './native.css';
@@ -95,6 +99,8 @@ export default function NativeApp() {
 
   // ----- host state (unchanged semantics from the previous client) -----
   const [profiles, setProfiles] = useState<Profile[]>([]);
+  // `commanders` from profiles.list; undefined on an older backend (built-in metadata is used then).
+  const [commanderList, setCommanderList] = useState<unknown>(undefined);
   const [connections, setConnections] = useState<Connection[]>([]);
   const [selected, setSelected] = useState('');
   const [draft, setDraft] = useState<Draft | null>(null);
@@ -126,6 +132,11 @@ export default function NativeApp() {
 
   const configurationReady = configurationState === 'ready';
   const profile = profiles.find(p => p.profile_id === selected);
+  const commanders = mergeCommanders(commanderList);
+  const commanderSupport = commanderSupported(profile?.draft, commanderList);
+  // The saved profile's commander (what the next or current run uses), not the unsaved draft.
+  const activeCommander = commanderSupport && profile
+    ? commanderBadge(commanderProfile(profile.draft).commander_id, commanders) : null;
   const locked = runLocksControls(run?.state, run?.native_release_verified);
   const display = sessionDisplay<Session, Run, Ready>(run, session, ready?.ready && ready.expires_at > clock ? ready : null);
   const currentRun = display.current;
@@ -162,11 +173,11 @@ export default function NativeApp() {
   // ----- host operations -----
   async function load() {
     const [p, c, resumed] = await Promise.all([
-      hostRpc<{profiles: Profile[]}>('profiles.list', {}),
+      hostRpc<{profiles: Profile[]; commanders?: unknown}>('profiles.list', {}),
       hostRpc<{connections: Connection[]}>('connections.list', {}),
       hostRpc<{run: Run | null; observation_only: true; other_unreleased_runs: number}>('run.resume', {}),
     ]);
-    setProfiles(p.profiles); setConnections(c.connections);
+    setProfiles(p.profiles); setCommanderList(p.commanders); setConnections(c.connections);
     if (resumed.run) updateRun(resumed.run);
     const next = p.profiles.find(value => value.profile_id === (resumed.run?.profile_id ?? run?.profile_id ?? selected)) ?? p.profiles[0];
     if (next) { setSelected(next.profile_id); setDraft(structuredClone(next.draft)); }
@@ -254,11 +265,12 @@ export default function NativeApp() {
   }
   async function save() {
     if (!draft || !profile) return;
+    const saved = {...profileSaveDraft(draft, commanderSupport), revision: profile.revision};
     const result = await hostRpc<{profile: Profile; state: string; host_applied: false}>('profiles.save',
-      {draft: {...draft, revision: profile.revision}, expected_revision: profile.revision});
+      {draft: saved, expected_revision: profile.revision});
     setProfiles(values => values.map(p => (p.profile_id === result.profile.profile_id ? result.profile : p)));
     setDraft(structuredClone(result.profile.draft)); setDirty(false); setReady(null);
-    setNotice('AI 风格已保存，下一局开始时生效。');
+    setNotice('指挥官设置已保存，下一局开始时生效。');
   }
 
   // ----- finding, checking and starting a match -----
@@ -460,6 +472,7 @@ export default function NativeApp() {
       onSaved={async () => { setReady(null); await load(); }} />}
     mode={<ModeStep mode={setupPrefs.mode} onChange={mode => updateSetupPrefs({...setupPrefs, mode})} />}
     style={<StylePanel profiles={profiles} selected={selected} profile={profile} draft={draft} dirty={dirty}
+      commanders={commanders} supported={commanderSupport}
       disabled={busy || locked} onChoose={choose} onEdit={edit} onSave={() => void perform(save)} onReload={() => void perform(load)} />}
   />;
 
@@ -498,7 +511,11 @@ export default function NativeApp() {
         <div>
           <span className={`tc-pill ${control.live ? 'is-live' : ''}`}>{control.status}</span>
           <strong>{modeInfo ? `模式：${modeInfo.title}` : '弈核'}</strong>
-          <span className="nw-topbar-note">{profile?.name ?? ''}</span>
+          {activeCommander
+            ? <span className="nw-current-commander tc-topbar-commander">
+              <CommanderAvatar commander={activeCommander} size={26} /> 指挥官：{activeCommander.name}
+            </span>
+            : <span className="nw-topbar-note">{profile?.name ?? ''}</span>}
         </div>
         <div className="nw-global-controls">
           {openingWaiting && <Button onClick={() => openingAbort.current?.abort()}>取消等待</Button>}
@@ -532,7 +549,8 @@ export default function NativeApp() {
                 <Button onClick={() => openSettings('mode')}>更换模式</Button>
               </details>}
             </div>
-            <DecisionFeed records={feedForRun.records} state={feedForRun.state} live={locked} mock={source === 'mock'} />
+            <DecisionFeed records={feedForRun.records} state={feedForRun.state} live={locked} mock={source === 'mock'}
+              commander={activeCommander} />
           </div>
           {details}
         </div>

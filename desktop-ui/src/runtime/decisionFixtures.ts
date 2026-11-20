@@ -1,101 +1,142 @@
 /**
- * Realistic mock decision records (contract schema_version 1). Used only when
- * the `decisions` feature flag is 'mock' and by tests. Includes nulls, a
- * rejected and an unknown outcome, a model error and a final match_end record.
+ * Realistic mock decision records for a layered Hammer match (contract schema_version 1 plus the layered fields).
+ * Used only when the `decisions` feature flag is 'mock' and by tests. Covers: run_start, the opening, commander
+ * directives, staff decisions, a commander veto, an intent dropped for a directive override, record-only fields,
+ * an expired and an unknown outcome, a model timeout and a final match_end record.
  */
 import {parseDecisionRecords, type DecisionStreamRecord} from './decisions';
 
 type Raw = Record<string, unknown>;
 
-function decision(runId: string, seq: number, time: number, fields: Raw): Raw {
+const hammer = {id: 'hammer', name: '铁锤'};
+
+function decision(runId: string, seq: number, time: number, layer: string, fields: Raw): Raw {
   return {
-    schema_version: 1, run_id: runId, seq, game_time_s: time,
+    kind: 'decision', schema_version: 1, run_id: runId, seq, game_time_s: time, layer, commander: hammer,
     wall_time: new Date(Date.UTC(2026, 10, 20, 12, 0, time)).toISOString(),
-    prompt_version: 'strategic-v5.2',
+    prompt_version: 'layered-v1',
     ...fields,
   };
 }
 
 const model = (latency: number, error: string | null = null) => ({
-  provider: 'DeepSeek', model: 'deepseek-chat', latency_ms: latency, input_bytes: 6120 + latency, output_bytes: 410, error,
+  provider: 'DeepSeek', model: 'deepseek-chat', latency_ms: latency,
+  input_bytes: 4120 + latency, output_bytes: 380, error,
 });
+const own = (credits: number, army: number, buildings: number, income: string) =>
+  ({credits, income_hint: income, army_count: army, building_count: buildings});
+const applied = (...effects: string[]) =>
+  ({status: 'applied', reason_code: null, native_accepted: true, observed_effects: effects});
+const seen = (lastSeen: number, visible: number) => [{player_id: 4, last_seen_s: lastSeen, visible_count: visible}];
+const composer = (appliedIntents: string[], dropped: {intent: string; reason: string}[] = []) =>
+  ({applied_intents: appliedIntents, dropped});
 
 export function rawDecisionFixtures(runId: string): Raw[] {
   return [
-    decision(runId, 1, 22, {
-      situation: {own: {credits: 9800, income_hint: '开局', army_count: 0, building_count: 2}, enemies: [], threats: []},
-      decision: {intents: ['budgeteconomy', 'scout'], objective: '先发展经济并摸清对手位置',
-        reasoning: '开局没有任何敌方情报，资金充足。先把资源倾向经济，同时派出侦察确认对手出生点。', valid_for_s: 90},
-      outcome: {status: 'applied', reason_code: null, native_accepted: true, observed_effects: ['新增 1 个矿车生产队列', '侦察单位已出发']},
-      model: model(1840),
+    {kind: 'run_start', schema_version: 1, run_id: runId, commander: hammer, decision_mode: 'layered',
+      opening_variant: 'bear_scout_terror_raid', model: 'deepseek-chat', prompt_version: 'layered-v1'},
+    decision(runId, 1, 5, 'opening', {
+      situation: {own: own(10000, 1, 1, '开局'), enemies: [], threats: []},
+      decision: {intents: ['scout'], objective: '战熊探路：确认对手阵营、建造方向和矿车路线',
+        reasoning: '开局什么都看不见。先派战熊去敌方基地和矿区，看清楚再定打法。', valid_for_s: 60,
+        recorded_only: ['protocol_pick_preference']},
+      composer: composer(['scout']),
+      outcome: applied('战熊已出发'),
+      model: model(1620),
     }),
-    decision(runId, 2, 118, {
-      situation: {own: {credits: 4200, income_hint: '稳定', army_count: 6, building_count: 5},
-        enemies: [{player_id: 4, last_seen_s: 104, visible_count: 3}], threats: []},
-      decision: {intents: ['expand'], objective: '趁对手还在发展，抢占第二块矿区',
-        reasoning: '侦察发现对手只有少量步兵，近期没有进攻迹象。现在扩张风险较低。', valid_for_s: 120},
-      outcome: {status: 'applied', reason_code: null, native_accepted: true, observed_effects: ['开始建造矿场']},
-      model: model(2310),
+    decision(runId, 2, 40, 'commander', {
+      situation: {own: own(7600, 2, 3, '开局'), enemies: seen(36, 2), threats: []},
+      directive: {route: 'tech_pressure', resource_split: {economy: 0.45, army: 0.25, tech: 0.25, reserve: 0.05},
+        primary_enemy: 4, overrides: ['no_expansion'], valid_for_s: 120},
+      decision: {intents: [], objective: '科技压制：先拉经济，攀天启',
+        reasoning: '对手是盟军，只有两台矿车。先不开分矿，把矿车数拉到领先，盯住玩家 4，准备攀天启。', valid_for_s: 120,
+        recorded_only: []},
+      composer: composer(['budgeteconomy', 'focusenemy4']),
+      outcome: applied('资源倾向经济'),
+      model: model(2410),
     }),
-    decision(runId, 3, 201, {
-      situation: {own: {credits: 1500, income_hint: '上升', army_count: 9, building_count: 7},
-        enemies: [{player_id: 4, last_seen_s: 196, visible_count: 8}], threats: ['敌方部队正在接近我方矿区']},
-      decision: {intents: ['deploydefense', 'budgetarmy'], objective: '守住新矿区',
-        reasoning: '对手 8 个单位朝新矿区移动，资金偏低。先转向防守并把资源倾向军队，避免矿区被拔。', valid_for_s: 60},
-      outcome: {status: 'applied', reason_code: null, native_accepted: true, observed_effects: ['3 支小队转向矿区防守']},
-      model: model(1975),
+    decision(runId, 3, 65, 'tactical', {
+      situation: {own: own(5200, 4, 4, '上升'), enemies: seen(60, 3), threats: []},
+      decision: {intents: ['raideconomy'], objective: '恐怖机器人去摸玩家 4 的矿车',
+        reasoning: '矿车路线已经确认，没有护卫。骚扰设 45 秒期限，矿车有护卫就撤。', valid_for_s: 45,
+        recorded_only: ['power_usage']},
+      composer: composer(['raideconomy']),
+      outcome: applied('恐怖机器人接近敌方矿区'),
+      model: model(1380),
     }),
-    decision(runId, 4, 262, {
-      situation: {own: {credits: 2100, income_hint: '稳定', army_count: 12, building_count: 7},
-        enemies: [{player_id: 4, last_seen_s: 255, visible_count: 2}], threats: []},
-      decision: {intents: ['regroup'], objective: '击退进攻后重新集结',
-        reasoning: '敌方进攻已被击退，只剩 2 个可见单位。把分散的部队收回集结点，准备下一步。', valid_for_s: 60},
+    decision(runId, 4, 90, 'economy', {
+      situation: {own: own(4800, 5, 5, '上升'), enemies: [], threats: []},
+      decision: {intents: ['expand', 'advanceproduction'], objective: '多造矿车，准备第二块矿',
+        reasoning: '资金积压，建议扩张并加快矿车生产。', valid_for_s: 60,
+        recorded_only: ['capacity_target', 'tech_timing']},
+      composer: composer(['advanceproduction'], [{intent: 'expand', reason: 'directive_override:no_expansion'}]),
+      outcome: applied('新增 1 台矿车生产'),
+      model: model(1750),
+    }),
+    decision(runId, 5, 130, 'tactical', {
+      situation: {own: own(3900, 9, 6, '稳定'), enemies: seen(128, 4),
+        threats: ['敌方部队正在后撤']},
+      decision: {intents: ['deployattack'], objective: '追击后撤的敌军',
+        reasoning: '敌军正在后撤，窗口马上关闭，建议立刻追击。', valid_for_s: 30, recorded_only: []},
+      composer: composer([], [{intent: 'deployattack', reason: 'commander_veto'}]),
+      outcome: {status: 'rejected', reason_code: 'commander_veto', native_accepted: null, observed_effects: []},
+      model: model(1290),
+    }),
+    decision(runId, 6, 132, 'commander', {
+      situation: {own: own(3900, 9, 6, '稳定'), enemies: seen(128, 4), threats: []},
+      directive: {route: 'tech_pressure', resource_split: {economy: 0.35, army: 0.3, tech: 0.3, reserve: 0.05},
+        primary_enemy: 4, overrides: ['no_expansion'], valid_for_s: 120},
+      decision: {intents: [], objective: '不追，先看清退路',
+        reasoning: '窗口太整齐了。先派战熊看一眼他们的退路，你们看见的是十秒前，不是现在。', valid_for_s: 120,
+        recorded_only: []},
+      composer: composer(['budgettech', 'focusenemy4']),
+      outcome: applied('资源倾向科技'),
+      model: model(2630),
+    }),
+    decision(runId, 7, 180, 'tactical', {
+      situation: {own: own(4400, 11, 7, '稳定'), enemies: seen(176, 6), threats: []},
+      decision: {intents: ['scout'], objective: '战熊确认敌方退路',
+        reasoning: '按总指挥的要求先侦察北侧，确认是不是诱饵。', valid_for_s: 30, recorded_only: []},
+      composer: composer(['scout']),
+      outcome: applied('发现 6 辆敌方坦克埋伏在矿区北侧'),
+      model: model(1210),
+    }),
+    decision(runId, 8, 220, 'tactical', {
+      situation: {own: own(5100, 12, 7, '稳定'), enemies: seen(215, 2), threats: []},
+      decision: {intents: ['withdraw'], objective: '恐怖机器人撤回',
+        reasoning: '矿车有护卫了，骚扰到此为止，机器人转去盯分矿。', valid_for_s: 20, recorded_only: []},
+      composer: composer(['withdraw']),
       outcome: {status: 'expired', reason_code: 'intent_expired', native_accepted: null, observed_effects: []},
-      model: model(3420),
+      model: model(3480),
     }),
-    decision(runId, 5, 330, {
-      situation: {own: {credits: 3600, income_hint: '上升', army_count: 15, building_count: 8},
-        enemies: [{player_id: 4, last_seen_s: 301, visible_count: 0}], threats: []},
-      decision: {intents: ['budgettech', 'advanceproduction'], objective: '升级科技，准备中期部队',
-        reasoning: '经济已经稳定，兵力足以守家。现在把资源倾向科技，为中期更强的部队做准备。', valid_for_s: 150},
-      outcome: {status: 'rejected', reason_code: 'native_rejected', native_accepted: false, observed_effects: []},
-      model: model(2050),
-    }),
-    decision(runId, 6, 395, {
-      situation: {own: {credits: 2800, income_hint: '上升', army_count: 16, building_count: 9}, enemies: [], threats: []},
+    decision(runId, 9, 270, 'economy', {
+      situation: {own: own(6200, 14, 8, '高'), enemies: [], threats: []},
       decision: null,
       outcome: {status: 'unknown', reason_code: 'model_timeout', native_accepted: null, observed_effects: []},
       model: model(15000, 'timeout'),
     }),
-    decision(runId, 7, 452, {
-      situation: {own: {credits: 5200, income_hint: '高', army_count: 22, building_count: 10},
-        enemies: [{player_id: 4, last_seen_s: 440, visible_count: 5}], threats: []},
-      decision: {intents: ['deployattack', 'focusenemy4'], objective: '集中兵力进攻玩家 4',
-        reasoning: '我方兵力 22 对可见的 5 个敌方单位，经济也占优。现在是主动出击的窗口。', valid_for_s: 120},
-      outcome: {status: 'applied', reason_code: null, native_accepted: true, observed_effects: ['4 支小队开始向敌方基地推进']},
-      model: model(2480),
+    decision(runId, 10, 360, 'commander', {
+      situation: {own: own(7400, 21, 9, '高'), enemies: seen(352, 5), threats: []},
+      directive: {route: 'all_in', resource_split: {economy: 0.1, army: 0.8, tech: 0, reserve: 0.1},
+        primary_enemy: 4, overrides: ['no_expansion', 'no_tech'], valid_for_s: 90},
+      decision: {intents: [], objective: '全力出击：集中突破北侧',
+        reasoning: '天启到位，防空伴随也齐了。北侧薄弱，集中突破，拿下建造厂就收。', valid_for_s: 90, recorded_only: []},
+      composer: composer(['budgetarmy', 'focusenemy4']),
+      outcome: applied('资源倾向军队'),
+      model: model(2550),
     }),
-    decision(runId, 8, 538, {
-      situation: {own: {credits: 3900, income_hint: '高', army_count: 18, building_count: 10},
-        enemies: [{player_id: 4, last_seen_s: 536, visible_count: 11}], threats: ['敌方防御塔火力较强']},
-      decision: {intents: ['raideconomy', 'reinforce'], objective: '绕开防线，袭扰对方矿车',
-        reasoning: '正面进攻遇到防御塔，损失偏大。改为袭扰对方经济，同时补充前线兵力。', valid_for_s: 90},
-      outcome: {status: 'applied', reason_code: null, native_accepted: true, observed_effects: ['摧毁 2 台敌方矿车']},
-      model: model(2205),
+    decision(runId, 11, 370, 'tactical', {
+      situation: {own: own(6900, 22, 9, '高'), enemies: seen(368, 5), threats: []},
+      decision: {intents: ['attackenemy'], objective: '集中突破北侧，目标敌方建造厂',
+        reasoning: '主力和防空伴随一起推进，只打建造厂，不追残兵。', valid_for_s: 90, recorded_only: []},
+      composer: composer(['attackenemy']),
+      outcome: applied('4 支小队向敌方基地推进', '摧毁敌方建造厂'),
+      model: model(1840),
     }),
-    decision(runId, 9, 640, {
-      situation: {own: {credits: 6100, income_hint: '高', army_count: 27, building_count: 11},
-        enemies: [{player_id: 4, last_seen_s: 632, visible_count: 4}], threats: []},
-      decision: {intents: ['attackenemy'], objective: '总攻',
-        reasoning: '对方经济被削弱，可见兵力很少。集中全部部队发起总攻。', valid_for_s: 180},
-      outcome: {status: 'applied', reason_code: null, native_accepted: true, observed_effects: ['摧毁敌方建造厂']},
-      model: model(1990),
-    }),
-    {kind: 'match_end', seq: 10, result: 'victory', duration_s: 702,
+    {kind: 'match_end', seq: 12, result: 'victory', duration_s: 452,
       players: [{player_id: 3, kind: 'model_ai', result: 'victory'}, {player_id: 4, kind: 'native_ai', result: 'defeat'}]},
   ];
 }
-
 
 export function decisionFixtureRecords(runId: string): DecisionStreamRecord[] {
   return parseDecisionRecords({records: rawDecisionFixtures(runId)});

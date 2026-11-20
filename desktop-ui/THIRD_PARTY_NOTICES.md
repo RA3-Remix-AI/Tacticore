@@ -4,6 +4,10 @@
 
 The preparation room reuses the faction reference illustrations already used in the Remix-Ai promotional website (`public/materials/factions/`). Local copies are in `public/games/ra3/factions/`. They are game-themed materials based on the user's faction references; they are not covered by the Phosphor MIT license below. Rights in Red Alert 3 and its faction identities belong to Electronic Arts and the respective rights holders.
 
+## Commander concept art
+
+The commander portraits and wide illustrations in `public/commanders/` (`hammer`, `bastion`, `ghost`, `*-portrait.webp` and `*.webp`) are the project owner's own commander concept art from the RA3-Remix-AI promotional website (`public/materials/commanders/`). They are used here with the owner's approval and are not covered by the Phosphor MIT license below. Rights in Red Alert 3 and its faction identities belong to Electronic Arts and the respective rights holders.
+
 ## Phosphor Icons
 
 The interface uses `@phosphor-icons/react`, and the Tauri application icon is derived from the Phosphor **Circuitry** icon. The interface symbol and native application icon use the same source symbol with Tacticore colors. These icons are provided under the MIT License.
