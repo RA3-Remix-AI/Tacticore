@@ -18,7 +18,8 @@ export type Profile = {
   validation: {ok: boolean; reason_code: string};
   effective: null | {
     effective_hash: string; traits: string; traits_bytes: number;
-    axis_support: Record<string, {execution_status: string}>;
+    // Removed with the five-axis style model; older hosts may still send it.
+    axis_support?: Record<string, {execution_status: string}>;
   };
 };
 
