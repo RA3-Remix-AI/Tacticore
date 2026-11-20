@@ -17,7 +17,7 @@ import threading
 from urllib.parse import urlsplit
 
 from .contracts import ContractError, canonical_json, content_hash, identifier, integer, object_fields, text
-from .profiles import DOCTRINES, normalize_profile
+from .profiles import DEFAULT_COMMANDER, commanders_metadata, normalize_profile, preset_personality
 
 MAX_LIBRARY_BYTES = 1024 * 1024
 
@@ -157,8 +157,9 @@ class ProfileStore:
             revision=1,
             connection_id=commander["connection_id"],
             model=commander["model"],
-            doctrine=next(d for d, p in DOCTRINES.items() if p == commander["personality"]),
-            custom_traits=commander["traits"],
+            commander_id=DEFAULT_COMMANDER,
+            personality=preset_personality(),
+            voice_note="",
         )
 
     def _record(self, profile_id, commanders, connections, library_hash, row=None):
@@ -189,10 +190,9 @@ class ProfileStore:
             provider=connections[commander["connection_id"]]["provider"],
             connection_id=commander["connection_id"],
             model=effective["model"] if effective else "",
-            personality=effective["personality"] if effective else commander["personality"],
-            doctrine=draft["doctrine"],
-            preferences=effective["preferences"] if effective else draft.get("preferences"),
-            custom_traits=draft["custom_traits"],
+            commander_id=effective["commander_id"] if effective else draft.get("commander_id", DEFAULT_COMMANDER),
+            personality=effective["personality"] if effective else draft.get("personality", preset_personality()),
+            voice_note=effective["voice_note"] if effective else draft.get("voice_note", ""),
             draft=draft,
             effective=effective,
             validation=dict(ok=effective is not None, reason_code=reason),
@@ -209,7 +209,8 @@ class ProfileStore:
         return {
             "profiles": [
                 self._record(ident, commanders, connections, library_hash, saved.get(ident)) for ident in commanders
-            ]
+            ],
+            "commanders": commanders_metadata(),
         }
 
     def list_connections(self) -> dict:
@@ -235,7 +236,10 @@ class ProfileStore:
         commanders, connections, library_hash = self._library()
         with self._lock:
             row = self._db.execute("SELECT * FROM style_drafts WHERE profile_id=?", (profile_id,)).fetchone()
-        return {"profile": self._record(profile_id, commanders, connections, library_hash, row)}
+        return {
+            "profile": self._record(profile_id, commanders, connections, library_hash, row),
+            "commanders": commanders_metadata(),
+        }
 
     def save_profile(self, request_id: str, draft: dict, expected_revision: int) -> dict:
         identifier(request_id)

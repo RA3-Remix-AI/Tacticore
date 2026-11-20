@@ -12,6 +12,7 @@ from typing import Mapping, Protocol
 
 from .contracts import ContractError, canonical_json, identifier, integer, object_fields, sha256, text
 from .profile_store import ProfileStore
+from .profiles import commander_available
 
 MAX_LINE_BYTES = 65536
 OPERATIONS = frozenset(
@@ -159,6 +160,8 @@ class BridgeService:
             raise ContractError("profile_revision_conflict")
         if not record["validation"]["ok"]:
             raise ContractError(record["validation"]["reason_code"])
+        if not commander_available(record["commander_id"]):
+            raise ContractError("commander_unavailable")
         if "effective_hash" in args:
             sha256(args["effective_hash"])
             if args["effective_hash"] != record["effective"]["effective_hash"]:

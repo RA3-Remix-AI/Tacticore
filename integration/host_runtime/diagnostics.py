@@ -632,16 +632,18 @@ def project_profile(profile):
     if not isinstance(profile, dict):
         raise ContractError("diagnostics_unavailable")
     result = project_fields(profile)
-    preferences = profile.get("preferences", {})
-    if isinstance(preferences, dict):
-        result["preferences"] = {
+    from .profiles import COMMANDER_IDS, PERSONALITY_KEYS
+
+    if profile.get("commander_id") in COMMANDER_IDS:
+        result["commander_id"] = profile["commander_id"]
+    personality = profile.get("personality")
+    if isinstance(personality, dict):
+        result["personality"] = {
             key: value
-            for key, value in preferences.items()
-            if key in {"attack", "risk", "economy", "scouting", "pursuit"} and type(value) is int and 1 <= value <= 5
+            for key, value in personality.items()
+            if key in PERSONALITY_KEYS and type(value) is int and 1 <= value <= 5
         }
-        if preferences.get("preset") in {"steady", "balanced", "pressure", "flank", "custom"}:
-            result["preferences"]["preset"] = preferences["preset"]
-    for name in ("traits", "custom_traits", "generated_traits"):
+    for name in ("traits", "voice_note"):
         if isinstance(profile.get(name), str):
             result[name + "_sha256"] = hashlib.sha256(profile[name].encode()).hexdigest()
     result["free_text_included"] = False

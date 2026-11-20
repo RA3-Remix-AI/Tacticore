@@ -81,7 +81,7 @@ class StoreTests(unittest.TestCase):
 
     def test_revision_cas_request_idempotency_persists_across_reopen(self):
         draft = self.draft()
-        draft["custom_traits"] = "回撤后重整。"
+        draft["voice_note"] = "回撤后重整。"
         request = str(uuid.uuid4())
         receipt = self.store.save_profile(request, draft, 1)
         self.assertEqual(2, receipt["profile"]["revision"])
@@ -89,7 +89,7 @@ class StoreTests(unittest.TestCase):
         self.assertFalse(receipt["host_applied"])
         self.assertEqual(receipt, self.store.save_profile(request, draft, 1))
         self.assertCode(
-            "request_id_conflict", lambda: self.store.save_profile(request, {**draft, "custom_traits": "变化"}, 1)
+            "request_id_conflict", lambda: self.store.save_profile(request, {**draft, "voice_note": "变化"}, 1)
         )
         self.assertCode("profile_revision_conflict", lambda: self.store.save_profile(str(uuid.uuid4()), draft, 1))
         self.store.close()
@@ -136,8 +136,8 @@ class StoreTests(unittest.TestCase):
         self.document["connections"][0]["default_model"] = "model-default"
         self.write()
         self.assertCode(
-            "traits_budget_exceeded",
-            lambda: self.store.save_profile(str(uuid.uuid4()), {**self.draft(), "custom_traits": "中" * 400}, 1),
+            "voice_note_too_long",
+            lambda: self.store.save_profile(str(uuid.uuid4()), {**self.draft(), "voice_note": "中" * 101}, 1),
         )
         self.assertEqual(1, self.store.get_profile(PROFILE)["profile"]["revision"])
 

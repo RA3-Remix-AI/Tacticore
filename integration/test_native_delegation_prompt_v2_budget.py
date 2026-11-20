@@ -13,7 +13,7 @@ from host_runtime import model_capacity as capacity
 from host_runtime.macro_group_role_contract import group_role_catalog_overrides
 from host_runtime.native_runtime import NativeScope
 from host_runtime.native_runtime_contract import PACKAGE_SHA, FLAGS
-from host_runtime.profiles import normalize_profile
+from host_runtime.profiles import normalize_profile, preset_personality
 from host_runtime.strategic_contract import FLAG_ACTIONS
 from engine import Snapshot
 from macro_policy import ACTIONS, public_descriptions
@@ -31,8 +31,9 @@ def effective(identity, traits=STYLE):
             revision=1,
             connection_id=identity.connection_id,
             model="fixture-model",
-            doctrine="assault",
-            custom_traits=traits,
+            commander_id="hammer",
+            personality=preset_personality("hammer"),
+            voice_note=traits,
         )
     )
 
@@ -102,7 +103,7 @@ class PromptV2BudgetTests(unittest.TestCase):
             with self.subTest(grammar=name):
                 profile = effective(binding())
                 value = capacity._capacity_envelope(profile, Snapshot.from_dict(raw), dict(catalog))
-                public = SimpleNamespace(personality=profile.personality, traits=profile.traits)
+                public = SimpleNamespace(personality=profile.style_index, traits=profile.traits)
                 with patch.dict(os.environ, {prompt_versions.ENVIRONMENT_VARIABLE: "v2"}):
                     text = system_prompt(public, value)
                 instructions = text.split("\nRegionMap: ")[0]

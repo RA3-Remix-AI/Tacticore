@@ -546,6 +546,10 @@ def macro_system_prompt(profile: Profile, context: dict) -> str:
 
 
 def system_prompt(profile: Profile, context: dict) -> str:
+    if context.get("decision_layer") is not None:
+        from layered_prompts import system_prompt as layered_prompt
+
+        return layered_prompt(profile, context)
     if context.get("control_mode") == "macro_native":
         return macro_system_prompt(profile, context)
     trait_bytes = profile.traits.encode("utf-8")
