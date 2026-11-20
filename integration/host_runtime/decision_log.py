@@ -2,10 +2,14 @@
 
 Every line is one JSON object with schema_version=1, run_id and a kind:
 
-- run_start: run configuration (prompt version, model, map, difficulty).
-- decision: one record per model decision cycle: the situation the model saw,
-  what it decided (with its own short reasoning), what happened to that
-  decision, and the model call itself.
+- run_start: run configuration (prompt version, model, map, difficulty,
+  commander, decision_mode, opening_variant and its display name).
+- decision: one record per decision: the situation the model saw, what it
+  decided (with its own short reasoning), what happened to that decision, and
+  the model call itself. Each record names its layer (commander, economy,
+  tactical or opening), the commander, and what the plan composer applied or
+  dropped. In layered mode every layer decision is its own record and shares
+  the outcome of the composed native plan it went into.
 - effects: later observations for one decision (native AI reaction, own army
   change by the next decision). Readers fold these into that decision's
   outcome.observed_effects, so the file itself stays append-only.
@@ -31,6 +35,8 @@ MAX_THREATS = 6
 MAX_EFFECTS = 12
 MAX_ENEMIES = 8
 MAX_INTENTS = 8
+MAX_PENDING_LAYERS = 12
+LAYERS = ("commander", "economy", "tactical", "opening")
 
 OUTCOME_STATUSES = ("applied", "rejected", "expired", "unknown")
 RESULTS = ("victory", "defeat", "unknown")
@@ -441,6 +447,8 @@ class DecisionLogWriter:
         run_facts=None,
         response_supplier=None,
         monotonic=time.monotonic,
+        commander=None,
+        decision_mode="single",
     ):
         self.path = Path(directory) / FILE_NAME
         self.run_id = run_id
@@ -453,6 +461,11 @@ class DecisionLogWriter:
         self.opponent_player_ids = list(opponent_player_ids) if opponent_player_ids is not None else None
         # Extra run_start fields (mode, team lists); never overrides the core ones.
         self.run_facts = dict(run_facts or {})
+        self.commander = dict(commander) if commander else dict(id=None, name=None)
+        self.decision_mode = decision_mode
+        self.run_facts.update(commander=self.commander, decision_mode=decision_mode)
+        self.run_facts.setdefault("opening_variant", None)
+        self.run_facts.setdefault("opening_variant_name", None)
         self._response_supplier = response_supplier
         self._monotonic = monotonic
         self._seq = 0
@@ -460,10 +473,43 @@ class DecisionLogWriter:
         self._active = None
         self.errors = 0
         self.finished = False
+        self.started = False
+        self._pending_layers = []
+        self._composition = None
+
+    @property
+    def layered(self):
+        return self.decision_mode == "layered"
 
     # -- host-facing API ----------------------------------------------------
 
+    def set_run_fact(self, key, value):
+        """Set a run_start field before run_start is written (later calls change nothing)."""
+        if not self.started:
+            self.run_facts[key] = value
+
     def start(self):
+        self._guard(self._start)
+
+    def layer_decided(self, entry):
+        """An accepted layer (or opening) decision; written with its composed plan's outcome."""
+        self._guard(self._layer_decided, entry)
+
+    def layer_rejected(self, entry, reason_code):
+        """A layer reply that was invalid or failed; written at once as rejected."""
+        self._guard(self._layer_rejected, entry, reason_code)
+
+    def composed(self, composition, layers=()):
+        """The composer result of the request that is now in flight."""
+        self._guard(self._composed, composition, layers)
+
+    def flush_layers(self, reason_code):
+        self._guard(self._flush_layers, reason_code)
+
+    def _start(self):
+        if self.started:
+            return
+        self.started = True
         record = dict(self.run_facts)
         record.update(
             schema_version=SCHEMA_VERSION,
@@ -478,7 +524,7 @@ class DecisionLogWriter:
             player_id=self.player_id,
             opponent_player_ids=self.opponent_player_ids,
         )
-        self._guard(self._write, record)
+        self._write(record)
 
     def observe_event(self, kind, facts):
         self._guard(self._observe_event, kind, facts if isinstance(facts, dict) else {})
@@ -500,6 +546,8 @@ class DecisionLogWriter:
             self.errors += 1
 
     def _write(self, record):
+        if not self.started and record.get("kind") != "run_start":
+            self._start()
         line = json.dumps(record, ensure_ascii=False, allow_nan=False, separators=(",", ":"))
         with self.path.open("a", encoding="utf-8") as stream:
             stream.write(line + "\n")
@@ -517,6 +565,9 @@ class DecisionLogWriter:
             "macro_unified_feedback": self._on_unified_feedback,
             "macro_native_feedback": self._on_budget_feedback,
         }.get(kind)
+        if self.layered and kind.startswith("commander_model_"):
+            # Layer calls carry their own model facts; the composer request has no model call.
+            return
         if handler is not None:
             handler(facts)
 
@@ -628,9 +679,12 @@ class DecisionLogWriter:
         self._emit_decision(status_for_accepted, accepted_reason, native_accepted=delivered)
 
     def _emit_decision(self, status, reason_code, *, native_accepted):
+        if self.layered:
+            return self._emit_layered(status, reason_code, native_accepted=native_accepted)
         cycle, self._cycle = self._cycle, None
         plan = cycle.get("plan")
         decision = _plan_decision(plan) if plan is not None else (cycle.get("response") or response_decision(None))
+        decision["recorded_only"] = []
         self._seq += 1
         record = dict(
             schema_version=SCHEMA_VERSION,
@@ -651,8 +705,96 @@ class DecisionLogWriter:
                 output_bytes=cycle["output_bytes"],
                 error=cycle["error"],
             ),
+            layer="commander",
+            commander=dict(self.commander),
+            composer=dict(applied_intents=list(decision["intents"]) if plan is not None else [], dropped=[]),
         )
         self._write(record)
+        return record
+
+    # -- layered decisions ---------------------------------------------------------
+
+    def _layer_record(self, entry, status, reason_code, *, native_accepted, composer, plan=None):
+        decision = dict(entry["decision"])
+        if plan is not None:
+            decision["plan_id"] = plan.plan_id
+            decision["objective_region"] = _short(plan.objective_region, 48)
+        decision["reasoning"] = _short(decision.get("reasoning"), REASONING_MAX_CHARS)
+        decision["intents"] = [_short(a, 40) for a in decision.get("intents", [])][:MAX_INTENTS]
+        model = entry.get("model") or {}
+        dropped = list(composer.get("dropped", [])) + list(entry.get("vetoes", []))
+        self._seq += 1
+        record = dict(
+            schema_version=SCHEMA_VERSION,
+            kind="decision",
+            run_id=self.run_id,
+            seq=self._seq,
+            prompt_version=self.prompt_version,
+            game_time_s=entry.get("game_time_s"),
+            wall_time=entry.get("wall_time") or _now_iso(),
+            situation=entry.get("situation") or situation_from_context(None),
+            decision=decision,
+            outcome=dict(status=status, reason_code=reason_code, native_accepted=native_accepted, observed_effects=[]),
+            model=dict(
+                provider=self.provider,
+                model=self.model if entry["layer"] != "opening" else None,
+                latency_ms=model.get("latency_ms"),
+                input_bytes=model.get("input_bytes"),
+                output_bytes=None,
+                error=model.get("error"),
+            ),
+            layer=entry["layer"] if entry["layer"] in LAYERS else "commander",
+            commander=dict(self.commander),
+            composer=dict(applied_intents=list(composer.get("applied_intents", [])), dropped=dropped[:MAX_INTENTS]),
+        )
+        if entry.get("directive") is not None:
+            record["directive"] = entry["directive"]
+        self._write(record)
+        return record
+
+    def _layer_decided(self, entry):
+        entry = dict(entry, wall_time=_now_iso())
+        self._pending_layers = (self._pending_layers + [entry])[-MAX_PENDING_LAYERS:]
+
+    def _layer_rejected(self, entry, reason_code):
+        entry = dict(entry, wall_time=_now_iso())
+        empty = dict(applied_intents=[], dropped=[])
+        self._layer_record(entry, "rejected", _short(reason_code, 80), native_accepted=False, composer=empty)
+
+    def _composed(self, composition, layers):
+        self._composition = dict(composition, layers=list(layers))
+
+    def _flush_layers(self, reason_code):
+        pending, self._pending_layers = self._pending_layers, []
+        empty = dict(applied_intents=[], dropped=[])
+        for entry in pending:
+            self._layer_record(entry, "rejected", reason_code, native_accepted=False, composer=empty)
+
+    def _emit_layered(self, status, reason_code, *, native_accepted):
+        cycle, self._cycle = self._cycle, None
+        plan = cycle.get("plan")
+        composer = self._composition or dict(applied_intents=list(plan.macro_actions) if plan else [], dropped=[])
+        self._composition = None
+        pending, self._pending_layers = self._pending_layers, []
+        if not pending:
+            # A renewal of still-valid intents: attribute it to the first contributing layer.
+            layers = [name for name in composer.get("layers", []) if name in LAYERS] or ["commander"]
+            decision = _plan_decision(plan) if plan is not None else response_decision(None)
+            decision.update(source="composer_renewal", recorded_only=[])
+            pending = [
+                dict(
+                    layer=layers[0],
+                    game_time_s=cycle["game_time_s"],
+                    wall_time=cycle["wall_time"],
+                    situation=cycle["situation"],
+                    decision=decision,
+                )
+            ]
+        record = None
+        for entry in pending:
+            record = self._layer_record(
+                entry, status, reason_code, native_accepted=native_accepted, composer=composer, plan=plan
+            )
         return record
 
     # -- observed effects -----------------------------------------------------
@@ -720,6 +862,8 @@ class DecisionLogWriter:
 
     def _finish(self, match_result, game_time_s, reason_code):
         reason = _short(reason_code, 80)
+        if not self.started:
+            self._start()
         if reason in ORDERLY_STOP_REASONS:
             # The loop stops between iterations, so a pending plan was never sent.
             self._close_cycle("host_stopped_before_dispatch", "host_stopped_during_model_call")
@@ -727,6 +871,7 @@ class DecisionLogWriter:
             # A fault may interrupt a dispatch: delivery is not known either way.
             self._close_cycle(reason or "host_stopped", "host_stopped_during_model_call", status_for_accepted="unknown")
         self._active = None
+        self._flush_layers("host_stopped_before_composition")
         self._write(
             match_end_record(
                 self.run_id,

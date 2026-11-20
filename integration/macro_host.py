@@ -22,6 +22,8 @@ from host_runtime.contracts import ContractError, SessionBinding
 from host_runtime.decision_log import DecisionLogWriter, run_config_from_scenario
 from host_runtime.desktop_backend import NativeHostSpawner, _atomic
 from host_runtime.journal import CommandJournal
+from host_runtime.layered_decision import MODES as DECISION_MODES, ComposerBackend, LayeredDecider, decision_mode
+from host_runtime.profiles import commander_available, commander_info
 from host_runtime.profile_store import ProfileStore
 from host_runtime.macro_live import MacroSampler
 from host_runtime.macro_bundle import digest
@@ -120,6 +122,10 @@ class MacroHost:
         self.journal = CommandJournal(args.ledger)
         self.journal.register_run(self.run_id, self.binding.public())
         self.profile = self.store.get_profile(self.binding.commander_id)["profile"]
+        if not commander_available(self.profile.get("commander_id", "hammer")):
+            raise ContractError("commander_unavailable")
+        self.decision_mode = decision_mode(getattr(args, "decision_mode", None))
+        self.layered = None
         self.draft = load_commander_draft(args.commander_draft)
         self.expected_hash = self.profile["effective"]["effective_hash"]
         self.expected_revision = self.profile["revision"]
@@ -154,6 +160,8 @@ class MacroHost:
         """One human-readable decisions.jsonl per run; see host_runtime.decision_log."""
         config = run_config_from_scenario(self.session.get("scenario"))
         teams = {key: config[key] for key in ("mode", "enemy_player_ids", "ally_player_ids", "human_player_ids")}
+        commander = self.profile.get("commander_id", "hammer")
+        mode = getattr(self, "decision_mode", "single")
         log = DecisionLogWriter(
             self.output,
             self.run_id,
@@ -166,8 +174,12 @@ class MacroHost:
             opponent_player_ids=config["enemy_player_ids"],
             run_facts=teams,
             response_supplier=lambda: getattr(self.backend, "last_response", None),
+            commander=dict(id=commander, name=commander_info(commander)["name"]),
+            decision_mode=mode,
         )
-        log.start()
+        if mode == "single":
+            # Layered runs write run_start once the opening variant is settled.
+            log.start()
         return log
 
     def check_profile(self):
@@ -213,6 +225,9 @@ class MacroHost:
         decision_log = getattr(self, "decision_log", None)
         if decision_log is not None:
             decision_log.observe_event(kind, value)
+        layered = getattr(self, "layered", None)
+        if layered is not None and kind == "macro_plan_not_dispatched":
+            layered.not_dispatched(facts.get("reason_code"))
 
     def publish(self):
         if getattr(self, "strategy_runtime", None) is not None:
@@ -488,11 +503,25 @@ class MacroHost:
             if not review.allowed:
                 self.event("macro_plan_not_dispatched", plan_id=plan.plan_id, reason_code=review.reason_code)
                 return False
+        layered = getattr(self, "layered", None)
+        if layered is not None:
+            # The directive may have changed while the composed request was in flight.
+            conflicts = layered.revalidate(plan.macro_actions, self.latest["game_time_seconds"])
+            if conflicts:
+                self.event(
+                    "macro_plan_not_dispatched",
+                    plan_id=plan.plan_id,
+                    reason_code="composer_directive_changed",
+                    conflicts=conflicts,
+                )
+                return False
         try:
             receipt = self.controller.dispatch(
                 plan, self.latest["game_time_seconds"], effective_hash=self.expected_hash, paused=False
             )
         except ContractError as error:
+            if layered is not None:
+                layered.not_dispatched(error.code)
             if error.code == "macro_dispatch_outcome_unknown" and getattr(self, "strategy_runtime", None) is not None:
                 command_id = self.prepared_macro_commands.get(plan.plan_id)
                 if command_id is not None:
@@ -520,8 +549,38 @@ class MacroHost:
                 )
             self.strategy_runtime.dispatched(review, plan, receipt, self.latest["game_time_seconds"])
         self.last_plan = plan.public()
+        if layered is not None:
+            layered.dispatched(plan, self.latest["game_time_seconds"])
         self.event("plan_applied", plan_id=plan.plan_id, snapshot_id=plan.snapshot_id, plan=plan.public())
         return True
+
+    def layered_context(self):
+        """The lawful prepared context the layers read; None when no coherent view exists yet."""
+        from host_runtime.delegation_boundary import restrict_context
+
+        try:
+            current = self.agent.context(self.agent.latest.model_context(self.agent.engine.binding), commit=False)
+        except Exception:
+            return None
+        try:
+            return self.strategy_audit.prepare(current)
+        except Exception:
+            return restrict_context(current)
+
+    def create_layered(self, model_input_limit):
+        """Layered mode: the composer stands where the model backend stood in the request audit."""
+        commander = self.application.effective.commander_id
+        self.layered = LayeredDecider(
+            backend=self.backend,
+            binding=dict(commander_id=self.binding.commander_id, session_id=self.binding.session_id, player_id=3),
+            commander=dict(id=commander, name=commander_info(commander)["name"]),
+            personality=self.application.effective.personality_dict(),
+            scenario=run_config_from_scenario(self.session.get("scenario")),
+            event=lambda kind, **facts: self.event(kind, **facts),
+            log=getattr(self, "decision_log", None),
+            max_input_bytes=model_input_limit,
+        )
+        return ComposerBackend(self.layered, max_input_bytes=model_input_limit)
 
     def create_controller(self):
         return StrategicController(
@@ -695,7 +754,8 @@ class MacroHost:
                 timeout=28,
                 max_tokens=8192,
                 max_input_bytes=model_input_limit,
-                max_inflight=1,
+                # Economy and tactical layers may ask concurrently; the commander stays serial.
+                max_inflight=2 if self.decision_mode == "layered" else 1,
             )
             engine = StrategyEngine(
                 Binding(
@@ -731,8 +791,11 @@ class MacroHost:
             with self.stop_gate.admit("native_constructor") as admission:
                 self.attach_transport(admission)
             self.controller = self.create_controller()
+            request_backend = self.backend
+            if self.decision_mode == "layered":
+                request_backend = self.create_layered(model_input_limit)
             audited = StrategicRequestAudit(
-                self.backend,
+                request_backend,
                 self.event,
                 feedback_supplier=lambda: getattr(self, "last_feedback", None),
                 forces_supplier=lambda: getattr(self, "last_forces", None),
@@ -747,6 +810,7 @@ class MacroHost:
                 execution_requested=True,
                 control_mode="macro_native",
                 commander_boundary="native_ai_details_v1",
+                decision_mode=self.decision_mode,
             )
             self.event("commander_profile_applied", **self.application.public())
             while time.monotonic() - self.started < self.args.max_wall_seconds:
@@ -811,12 +875,20 @@ class MacroHost:
                     self.dispatch_plan(deferred)
                 self.phase = "paused" if self.latest["paused"] else "running"
                 self.reason = "observing"
+                now = self.latest["game_time_seconds"]
+                if self.layered is not None:
+                    # Layer calls are not gated by the native minimum time: the pre-match
+                    # commander call happens at once. Only composed dispatch waits.
+                    self.layered.tick(self.layered_context(), now, model_allowed=not self.latest["paused"])
+                    due = self.layered.wants_composition(now)
+                else:
+                    due = time.monotonic() - last_request >= 12
                 ready = (
                     self.pending is None
                     and not self.latest["paused"]
-                    and self.latest["game_time_seconds"] >= scope.minimum_model_game_seconds
+                    and now >= scope.minimum_model_game_seconds
                     and getattr(self, "pending_dispatch", None) is None
-                    and time.monotonic() - last_request >= 12
+                    and due
                 )
                 if ready:
                     # Live snapshot and native feedback are read sequentially.
@@ -850,6 +922,8 @@ class MacroHost:
             if not self.pending.done():
                 self.pending.cancel()
             await asyncio.gather(self.pending, return_exceptions=True)
+        if getattr(self, "layered", None) is not None:
+            await self.layered.drain()
         if self.agent:
             self.agent.stop()
             await self.agent.engine.drain_obsolete_request()
@@ -901,6 +975,12 @@ def main():
         choices=PROMPT_VERSIONS,
         default=None,
         help="Strategic prompt version; default from TACTICORE_PROMPT_VERSION, else v2",
+    )
+    parser.add_argument(
+        "--decision-mode",
+        choices=DECISION_MODES,
+        default=None,
+        help="layered (default) or single (v2 single call); default from TACTICORE_DECISION_MODE",
     )
     parser.add_argument("--run-id", required=True)
     parser.add_argument("--max-wall-seconds", type=int, default=None)
