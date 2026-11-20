@@ -52,7 +52,7 @@ def _public_ref(value):
     if value in _OWN:return value
     parts=value.split('.')
     if len(parts)==2 and parts[0]=='native':
-        from .strategic_contract_v5 import STRATEGIC_ACTIONS
+        from .strategic_contract import STRATEGIC_ACTIONS
         if parts[1] in STRATEGIC_ACTIONS:return value
     if len(parts)==3 and parts[0]=='own':
         names={'role':_ROLES,'unit':_UNITS,'present':_BUILDINGS}

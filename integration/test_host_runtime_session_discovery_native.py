@@ -56,71 +56,32 @@ class Fixture(unittest.TestCase):
                 computer_player_index=3,opponent_player_index=4,observer_player_index=2,participant_count=2,
                 map_id='map_mp_2_black1b',origin_region='region_8_3'))
         write(self.session,self.record)
-        self.sha_patch=patch.object(native,'GAME_SHA',sha(self.game));self.sha_patch.start()
         self.loader_patch=patch.object(native,'load_bundle',return_value=({},SimpleNamespace(
             required_origin_region='region_8_3',package_sha256=sha(self.big))))
         self.loader=self.loader_patch.start()
         self.backend=SimpleNamespace(state_dir=self.state,store=SimpleNamespace(state_dir=self.state))
 
     def tearDown(self):
-        self.loader_patch.stop();self.sha_patch.stop();self.temp.cleanup()
+        self.loader_patch.stop();self.temp.cleanup()
 
     def assertCode(self,code,call):
         with self.assertRaises(ContractError) as caught:call()
         self.assertEqual(code,caught.exception.code)
 
-    def register(self,**options):
-        return native.register_policy(self.session,self.bundle,self.state,self.sessions,**options)
-
     def policy(self):
-        self.register()
-        return native.load_policy(self.state)[1]
+        """The trusted policy beta_setup would install for these offline files."""
+        values={}
+        for key,path in dict(game=self.game,mod_config=self.config,mod_big=self.big,registry=self.registry,
+                             macro_bundle=self.bundle,package_report=self.package).items():
+            values[key]=path;values['mod_sha256' if key=='mod_big' else key+'_sha256']=sha(path)
+        return DiscoveryPolicy(TrustedFiles(**values),self.sessions,self.state,native.COMMANDER,7)
 
 
 class PolicyTests(Fixture):
-    def test_schema10_explicit_large_bundle_metadata_is_accepted_without_live_access(self):
-        value=json.loads(self.bundle.read_text());value.update(schema_version=10,kind='verified_macro_expansion_bootstrap')
-        value['pins'].update({str(self.root/('proof'+str(i))):'a'*64 for i in range(700)})
-        write(self.bundle,value);self.assertGreater(self.bundle.stat().st_size,65536)
-        with patch.object(native,'Win32ReadOnly',side_effect=AssertionError('no process access')):
-            self.assertTrue(self.register()['registered'])
-            self.assertEqual(native.load_policy(self.state)[1].native_epoch,6)
 
-    def test_legacy_bundle_limits_not_broadened_by_schema10(self):
-        value=json.loads(self.bundle.read_text());value['pins'].update({str(self.root/('proof'+str(i))):'a'*64 for i in range(700)})
-        write(self.bundle,value)
-        self.assertCode('discovery_policy_invalid',self.register)
 
-    def test_only_explicit_schema10_and_schema11_have_large_metadata_bound(self):
-        original=json.loads(self.bundle.read_text())
-        for version in (10,11):
-            value=dict(original,schema_version=version,kind='verified_macro_fixed_consumer_bootstrap' if version==11 else 'verified_macro_expansion_bootstrap')
-            value['pins']=dict(original['pins'],**{str(self.root/('proof'+str(i))):'a'*64 for i in range(700)})
-            write(self.bundle,value)
-            with patch.object(native,'Win32ReadOnly',side_effect=AssertionError('no process access')):
-                self.assertEqual(native.read_macro_bundle(self.bundle)[0]['schema_version'],version)
-        for version in (9,12,99,True,'11'):
-            value['schema_version']=version;write(self.bundle,value)
-            self.assertCode('discovery_policy_invalid',lambda:native.read_macro_bundle(self.bundle))
-        value.update(schema_version=11,kind='verified_macro_expansion_bootstrap');write(self.bundle,value)
-        self.assertCode('discovery_policy_invalid',lambda:native.read_macro_bundle(self.bundle))
 
-    def test_explicit_policy_registration_pins_sources_without_any_native_access(self):
-        with patch.object(native,'Win32ReadOnly',side_effect=AssertionError('no process access')):
-            result=self.register()
-        self.assertTrue(result['registered']);self.assertFalse(result['game_access'])
-        self.assertFalse(result['credentials_accessed']);self.assertEqual(result['model_calls'],0)
-        record,policy=native.load_policy(self.state)
-        self.assertEqual(record['source_session_sha256'],sha(self.session))
-        self.assertEqual(policy.files.game,self.game);self.assertEqual(policy.native_epoch,6)
-        self.assertEqual(record['scope'],dict(native.SCOPE,native_epoch=6))
-        self.assertEqual(self.loader.call_count,1)
-        self.assertFalse(list(self.state.glob('*.dpapi')))
 
-    def test_same_explicit_registration_is_byte_identical_and_idempotent(self):
-        first=self.register();raw=(self.state/native.NAME).read_bytes()
-        self.assertEqual(self.register(),first)
-        self.assertEqual((self.state/native.NAME).read_bytes(),raw)
 
     def test_missing_policy_does_not_construct_adapter_or_scan(self):
         with patch.object(native,'NativeAdapter',side_effect=AssertionError('must not scan')):
@@ -134,72 +95,21 @@ class PolicyTests(Fixture):
         self.assertCode('discovery_policy_invalid',lambda:refused.prepare({},uid()))
         refused.close()
 
-    def test_policy_cannot_broaden_scope_or_introduce_extra_fields(self):
-        self.register();path=self.state/native.NAME;original=json.loads(path.read_text())
-        for mutate in (lambda r:r.update(arbitrary_path='PRIVATE'),lambda r:r['scope'].update(player_id=4),
-                       lambda r:r['scope'].update(faction='Allied'),lambda r:r['scope'].update(origin_region='region_0_0')):
-            value=copy.deepcopy(original);mutate(value);write(path,value)
-            refused=native.create_discovery(self.backend)
-            self.assertCode('discovery_policy_invalid',lambda:refused.discover({},uid()))
-        self.assertEqual(self.loader.call_count,1)
 
-    def test_changed_fixed_sources_are_refused_without_starting_native_reader(self):
-        self.register();self.registry.write_bytes(self.registry.read_bytes()+b' ')
-        with patch.object(native,'NativeAdapter',side_effect=AssertionError('no native construction')):
-            refused=native.create_discovery(self.backend)
-        self.assertCode('discovery_source_changed',lambda:refused.discover({},uid()))
 
-    def test_older_runtime_epoch_cannot_be_registered_for_discovery(self):
-        write(self.manifest,dict(epoch=37,package_sha256=sha(self.big)))
-        write(self.bundle,dict(json.loads(self.bundle.read_text()),pins={str(self.manifest):sha(self.manifest)}))
-        self.assertCode('session_scope_unsupported',self.register)
 
-    def test_session_scenario_must_name_the_commander_seat(self):
-        self.record['scenario'].update(computer_player_index=4,opponent_player_index=3)
-        write(self.session,self.record)
-        self.assertCode('discovery_policy_invalid',self.register)
 
-    def test_unqualified_bundle_does_not_create_policy_or_root(self):
-        self.loader.side_effect=ContractError('macro_bundle_not_qualified')
-        self.assertCode('macro_bundle_not_qualified',self.register)
-        self.assertFalse((self.state/native.NAME).exists())
-        self.assertFalse((self.state/'session-root-registration.json').exists())
 
-    def test_registry_side_and_compiled_asset_identity_must_match_real_package(self):
-        original=json.loads(self.registry.read_text())
-        for mutate in (lambda r:r['commanders'][0]['assets'][0].update(side='Allied'),
-                       lambda r:r['commanders'][0]['assets'][0].update(instance_id='0x1234'),
-                       lambda r:r.update(compiled_ids_verified=False)):
-            value=copy.deepcopy(original);mutate(value);write(self.registry,value)
-            self.assertCode('discovery_policy_invalid',self.register)
-        self.assertFalse((self.state/native.NAME).exists())
 
-    def test_extra_mod_directive_or_other_package_cannot_be_registered(self):
-        for text in ('mod-game 1.12\nadd-big other.big\n','mod-game 1.12\nadd-big TFMacroProbe.big\nadd-big other.big\n'):
-            self.config.write_text(text)
-            self.assertCode('discovery_policy_invalid',self.register)
 
-    def test_replacement_requires_explicit_stopped_gate_and_preserves_old_policy_on_failure(self):
-        self.register();before=(self.state/native.NAME).read_bytes()
-        self.record['session_id']=uid();write(self.session,self.record)
-        self.assertCode('session_registration_conflict',self.register)
-        history=SimpleNamespace(close=lambda:None)
-        with patch('host_runtime.desktop_backend.DesktopBackend',return_value=history),patch.object(native,'run_records',
-            return_value=[SimpleNamespace(state='running',native_release_verified=False,unresolved_count=1)]):
-            self.assertCode('run_state_conflict',lambda:self.register(replace_stopped=True))
-        self.assertEqual((self.state/native.NAME).read_bytes(),before)
 
-    def test_explicit_replacement_after_verified_release_creates_new_policy(self):
-        first=self.register();self.record['session_id']=uid();write(self.session,self.record)
-        with patch('host_runtime.desktop_backend.DesktopBackend',return_value=SimpleNamespace(close=lambda:None)),\
-             patch.object(native,'run_records',return_value=[]):
-            second=self.register(replace_stopped=True)
-        self.assertNotEqual(first['policy_id'],second['policy_id'])
 
     def test_factory_is_lazy_and_supplies_only_fixed_callbacks(self):
-        self.register()
+        (self.state/native.NAME).write_text('{}')
         adapter=SimpleNamespace(enumerate_processes=lambda:[],probe_match=lambda *args:None)
-        with patch.object(native,'NativeAdapter',return_value=adapter):
+        policy=self.policy()
+        with patch.object(native,'NativeAdapter',return_value=adapter),\
+                patch.object(native,'load_policy',return_value=({},policy)):
             broker=native.create_discovery(self.backend)
         try:
             self.assertEqual(broker.discover({})['candidates'],[])
@@ -432,64 +342,58 @@ class ProbeTests(Fixture):
         self.api.inspect_process=lambda pid,game:(self.game,self.ticks,[str(self.game),'-modConfig','C:/wrong.skudef'])
         self.assertCode('session_scope_unsupported',self.adapter.enumerate_processes)
 
-
-class HistoryTests(Fixture):
+class RunRecordTests(Fixture):
+    """Run history comes from the backend's own status; archived runs never block."""
     def setUp(self):
-        super().setUp();self.output=self.run/'battle-host';self.output.mkdir();self.source=self.output/'source';self.source.mkdir()
-        self.host_source=self.root/'macro_host.py';self.host_source.write_text('offline frozen host')
-        self.freeze()
+        super().setUp()
         self.run_id=uid();self.binding=SessionBinding(1,self.record['session_id'],3,native.COMMANDER,101,
             self.record['start_time'],uid(),sha(self.game),sha(self.big))
         self.db=sqlite3.connect(':memory:');self.db.row_factory=sqlite3.Row
         self.db.execute('CREATE TABLE launches (run_id TEXT,binding_json TEXT,session_path TEXT,output_path TEXT)')
-        self.db.execute('INSERT INTO launches VALUES (?,?,?,?)',(self.run_id,canonical_json(self.binding.public()),str(self.session),str(self.output)))
+        self.db.execute('INSERT INTO launches VALUES (?,?,?,?)',(self.run_id,canonical_json(self.binding.public()),
+            str(self.session),str(self.run/'battle-host')))
         self.status=dict(run_id=self.run_id,session_id=self.binding.session_id,state='stopped',native_release_verified=True)
-        self.backend=SimpleNamespace(_db=self.db,_status=lambda row:copy.deepcopy(self.status),journal=SimpleNamespace(unresolved=lambda run_id:[]))
-    def freeze(self):
-        rows=[]
-        for index,path in enumerate((self.host_source,self.session,self.bundle)):
-            target=self.source/(str(index)+'-'+path.name);target.write_bytes(path.read_bytes())
-            rows.append(dict(path=str(path),copy=target.name,sha256=sha(target)))
-        write(self.output/'sources.json',dict(kind='pre_execution_macro_host_sources',sources=rows))
+        self.unresolved=[]
+        self.stop=dict(created_at='2026-10-29T00:00:10')
+        journal=SimpleNamespace(unresolved=lambda run_id:list(self.unresolved),
+                                get_command=lambda run_id,request:self.stop)
+        self.backend=SimpleNamespace(_db=self.db,_status=lambda row:copy.deepcopy(self.status),journal=journal)
+
     def tearDown(self):self.db.close();super().tearDown()
-    def test_prior_epoch_is_pinned_frozen_manifest_not_current_policy_guess(self):
-        rows=native.run_records(self.backend)
-        self.assertEqual(len(rows),1);self.assertEqual(rows[0].native_epoch,6)
-        self.assertTrue(rows[0].native_release_verified);self.assertTrue(rows[0].native_delivery_attempted)
-        self.assertEqual(rows[0].creation_filetime,self.ticks)
-    def test_frozen_schema10_larger_metadata_retains_exact_epoch_binding(self):
-        value=json.loads(self.bundle.read_text());value.update(schema_version=10,kind='verified_macro_expansion_bootstrap')
-        value['pins'].update({str(self.root/('proof'+str(i))):'a'*64 for i in range(700)})
-        write(self.bundle,value);self.freeze()
-        self.assertEqual(native.run_records(self.backend)[0].native_epoch,6)
-    def test_frozen_schema11_larger_metadata_retains_original_binding_and_unknown_lock(self):
-        value=json.loads(self.bundle.read_text());value.update(schema_version=11,kind='verified_macro_fixed_consumer_bootstrap',
-            fixed_consumer_contracts=[dict(schema_version=1,kind='fixed_consumer_primed_v1',action='producesickle',directory=str(self.run))])
-        value['pins'].update({str(self.root/('proof'+str(i))):'a'*64 for i in range(700)})
-        write(self.bundle,value);self.freeze()
-        self.status['native_release_verified']=False
-        self.backend.journal.unresolved=lambda run_id:[dict(status='uncertain')]
+
+    def test_current_run_is_one_native_epoch_with_its_process_identity(self):
         row=native.run_records(self.backend)[0]
-        self.assertEqual(row.native_epoch,6);self.assertEqual(row.creation_filetime,self.ticks)
-        self.assertFalse(row.native_release_verified);self.assertEqual(row.unresolved_count,1)
-    def test_missing_filetime_or_legacy_source_contract_refuses_entire_history(self):
+        self.assertEqual(row.native_epoch,7);self.assertEqual(row.creation_filetime,self.ticks)
+        self.assertTrue(row.native_release_verified);self.assertTrue(row.native_delivery_attempted)
+
+    def test_unknown_delivery_before_stop_is_settled_only_by_a_verified_return(self):
+        self.unresolved=[dict(request_id=uid(),operation='macro_policy',status='uncertain',
+                              created_at='2026-10-29T00:00:05')]
+        self.assertEqual(native.run_records(self.backend)[0].unresolved_count,0)
+        self.status['native_release_verified']=False
+        self.assertEqual(native.run_records(self.backend)[0].unresolved_count,1)
+        self.status['native_release_verified']=True
+        self.unresolved[0]['created_at']='2026-10-29T00:00:20'
+        self.assertEqual(native.run_records(self.backend)[0].unresolved_count,1)
+
+    def test_archived_run_is_finished_history_without_reading_its_files(self):
+        self.status.update(history_archived=True,reason_code='run_history_archived')
+        self.session.unlink()
+        row=native.run_records(self.backend)[0]
+        self.assertEqual(row.history_protocol,'archived_before_runtime_change')
+        self.assertFalse(row.native_delivery_attempted);self.assertIsNone(row.native_epoch)
+
+    def test_changed_process_identity_refuses_entire_history(self):
         value=copy.deepcopy(self.record);value.pop('process_creation_filetime');write(self.session,value)
         self.assertCode('run_history_unverifiable',lambda:native.run_records(self.backend))
-        write(self.session,self.record);write(self.output/'sources.json',dict(kind='old_micro_sources',sources=[]))
+        value=dict(self.record,pid=202);write(self.session,value)
         self.assertCode('run_history_unverifiable',lambda:native.run_records(self.backend))
-    def test_changed_manifest_and_mismatched_binding_are_not_silently_skipped(self):
-        self.manifest.write_bytes(self.manifest.read_bytes()+b' ')
-        self.assertCode('run_history_unverifiable',lambda:native.run_records(self.backend))
+
     def test_only_independent_no_execution_status_can_mark_delivery_unattempted(self):
         self.status['no_native_execution_started']=True
         self.assertFalse(native.run_records(self.backend)[0].native_delivery_attempted)
         self.status['no_native_execution_started']='true'
         self.assertTrue(native.run_records(self.backend)[0].native_delivery_attempted)
-    def test_unresolved_commands_and_unverified_release_remain_explicit(self):
-        self.status['native_release_verified']=False
-        self.backend.journal.unresolved=lambda run_id:[dict(status='uncertain')]
-        row=native.run_records(self.backend)[0]
-        self.assertFalse(row.native_release_verified);self.assertEqual(row.unresolved_count,1)
 
 
 if __name__=='__main__':unittest.main()

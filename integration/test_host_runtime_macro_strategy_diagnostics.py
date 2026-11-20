@@ -12,9 +12,6 @@ from types import SimpleNamespace
 import unittest
 from unittest.mock import patch
 import uuid
-import sys
-import contextlib
-import io
 
 import macro_host
 from host_runtime.contracts import ContractError,content_hash,SessionBinding
@@ -212,22 +209,6 @@ class StrategyExportChainTests(unittest.TestCase):
         self.assertFalse(new_document['macro_strategy_extension']['state_available'])
         self.assertEqual(new_document['macro_strategy_extension']['state_reason_code'],'strategy_state_snapshot_changed')
 
-    def test_actual_downloaded_export_becomes_offline_html_with_source_byte_hash(self):
-        sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'acceptance'))
-        import export_macro_timeline as timeline
-        run_id,_,_=self.prepare();_,document,raw=self.export(run_id)
-        source=self.root/'download.json';source.write_bytes(raw);out=self.root/'reports'/'offline-playable'
-        with patch.object(timeline,'ROOT',self.root),contextlib.redirect_stdout(io.StringIO()):
-            timeline.export_diagnostics(source,out,hashlib.sha256(raw).hexdigest())
-        package=json.loads((out/'macro-timeline.json').read_text(encoding='utf8'))
-        self.assertEqual(package['sources'][0]['sha256'],hashlib.sha256(raw).hexdigest())
-        self.assertEqual(package['sources'][0]['bytes'],len(raw))
-        self.assertTrue((out/'macro-timeline.html').is_file());self.assertFalse(package['native_release_verified'])
-        self.assertFalse(package['formal_goal_complete']);self.assertNotIn('PRIVATE',json.dumps(package))
-        effects=[r for r in package['events'] if r.get('stage')=='outcome']
-        self.assertTrue(effects[0]['facts']['effect_window_verified'])
-        checkpoints=[r for r in package['events'] if r['type']=='strategy_state']
-        self.assertEqual(checkpoints[0]['t'],135);self.assertTrue(checkpoints[0]['checkpoint_only'])
 
 
 if __name__=='__main__':unittest.main()

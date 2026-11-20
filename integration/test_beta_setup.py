@@ -1,237 +1,133 @@
-"""First-use file preparation and real discovery broker, no Game/model IO."""
-from dataclasses import asdict
-from contextlib import closing
+"""First-use file preparation, runtime change and maintenance guard; no Game/model IO."""
 from contextlib import redirect_stdout
 import io
 import hashlib
 import json
 from pathlib import Path
-import tempfile
-import unittest
-import uuid
-from unittest.mock import patch
-from types import SimpleNamespace
 import sqlite3
+import tempfile
+from types import SimpleNamespace
+import unittest
+from unittest.mock import patch
 
-from host_runtime import beta_setup as s,native6_qualification as q,beta_launch,beta_setup_upgrade as upgrade
+from host_runtime import beta_setup as s, native_runtime as q, native_runtime_contract as contract, beta_launch
 from host_runtime.contracts import ContractError
-from host_runtime.session_discovery import SessionDiscovery,ProcessIdentity,MatchObservation
-from host_runtime.session_discovery_native import SCOPE,creation_start,load_policy
+from host_runtime.session_discovery_native import NAME, SCOPE
+
+
+def local(value, *, existing=True):
+    """Tests run on any OS; the Windows path policy is exercised elsewhere."""
+    return Path(value)
 
 
 class BetaSetup(unittest.TestCase):
     def setUp(self):
         temporary=tempfile.TemporaryDirectory();self.addCleanup(temporary.cleanup);self.base=Path(temporary.name)
+        self.addCleanup(patch.stopall)
         self.root=self.base/'runtime';self.home=self.base/'user/Tacticore/beta1';self.state=self.home/'desktop-runtime'
-        self.mods=self.base/'Documents/Red Alert 3/Mods/Tacticore-beta1';self.legacy=self.base/'user/Tacticore'
+        self.mods=self.base/'Documents/Red Alert 3/Mods/Tacticore-beta4';self.legacy=self.base/'user/Tacticore'
         self.game=self.base/'Game/Data/RA3_1.12.game';self.mod=self.base/'owned.big'
-        self.game.parent.mkdir(parents=True);self.game.write_bytes(b'synthetic-game-not-executable');self.mod.write_bytes(b'synthetic-owned-mod')
-        (self.game.parent.parent/'RA3.exe').write_bytes(b'synthetic-launcher-not-executable')
+        self.game.parent.mkdir(parents=True);self.game.write_bytes(b'synthetic-game-not-executable')
+        self.mod.write_bytes(b'synthetic-owned-mod')
         base_config=self.game.parent.parent/beta_launch.ENTRY
         base_config.write_bytes(b'set-exe Data/RA3_1.12.game\nadd-big Data/Core.big\n')
         (self.game.parent/'Core.big').write_bytes(b'synthetic-base-data')
         patch.object(beta_launch,'BASE_PINS',{beta_launch.ENTRY:hashlib.sha256(base_config.read_bytes()).hexdigest()}).start()
-        patch.object(s,'no_game').start();patch.object(upgrade,'no_game').start()
-        self.game_sha=hashlib.sha256(self.game.read_bytes()).hexdigest();self.mod_sha=hashlib.sha256(self.mod.read_bytes()).hexdigest()
+        for module in (s,beta_launch,q,contract):patch.object(module,'plain_local',local).start()
+        self.no_game=patch.object(s,'no_game').start()
+        self.game_sha=hashlib.sha256(self.game.read_bytes()).hexdigest()
+        self.mod_sha=hashlib.sha256(self.mod.read_bytes()).hexdigest()
         for name in ('registry.json','package.json'):
-            target=self.root/'qualification'/name;target.parent.mkdir(parents=True,exist_ok=True);target.write_text('{}',encoding='utf-8')
-        authority=(self.root,'a'*64,dict(files={}),dict(protocol_version=6),{})
+            target=self.root/'qualification'/name;target.parent.mkdir(parents=True,exist_ok=True)
+            target.write_text('{}',encoding='utf-8')
+        self.pin='a'*64
+        self.full_checks=0
+        def current():
+            self.full_checks+=1
+            return self.root,self.pin,dict(files={}),dict(protocol_version=7)
+        patch.object(s,'current',side_effect=current).start()
         for module in (s,q):
-            self.addCleanup(patch.stopall)
-            patch.object(module,'current',return_value=authority).start()
-            patch.object(module,'GAME_SHA',self.game_sha).start();patch.object(module,'PACKAGE_SHA',self.mod_sha).start()
-        patch.object(q,'runtime_root',side_effect=lambda:q.current.return_value[0]).start()
-        patch.object(q,'trusted_pin',side_effect=lambda:q.current.return_value[1]).start()
+            patch.object(module,'runtime_root',side_effect=lambda:self.root).start()
+            patch.object(module,'trusted_pin',side_effect=lambda:self.pin).start()
+        patch.object(s,'GAME_SHA',self.game_sha).start();patch.object(s,'PACKAGE_SHA',self.mod_sha).start()
         patch.object(s,'locations',return_value=(self.home,self.state,self.mods,self.legacy)).start()
-        self.guard=patch.object(s,'guard_states');self.guard_mock=self.guard.start()
 
-    def empty_ledgers(self):
-        from host_runtime.desktop_backend import DesktopBackend
-        backend=DesktopBackend(SimpleNamespace(state_dir=self.state));backend.close()
+    def policy(self):
+        return s.load_policy(self.state,json.loads((self.state/NAME).read_text(encoding='utf-8')))
 
-    def next_manifest(self):
-        for module in (s,q):
-            old=module.current.return_value
-            module.current.return_value=(old[0],'b'*64,*old[2:])
-
-    def test_launch_uses_the_verified_game_and_base_config_without_the_version_launcher(self):
-        (self.game.parent.parent/'RA3.exe').unlink()
-        s.prepare(self.game,self.mod)
-        with patch.object(s.subprocess,'Popen') as spawn:
-            self.assertTrue(s.launch()['game_launch_requested'])
-        self.assertEqual(spawn.call_args.args[0],[str(self.game),'-win','-modConfig',
-            str(self.mods/'TFCommander_1.0.SkuDef'),'-config',str(self.game.parent.parent/beta_launch.ENTRY)])
-        self.assertEqual(spawn.call_args.kwargs['cwd'],self.game.parent.parent)
-
-    def test_changed_base_chain_or_private_launch_record_never_starts_any_process(self):
-        s.prepare(self.game,self.mod);record,_=load_policy(self.state)
-        with patch.object(s.subprocess,'Popen') as spawn:
-            base=self.game.parent.parent/beta_launch.ENTRY;original=base.read_bytes();base.write_bytes(b'changed')
-            with self.assertRaises(ContractError):s.launch()
-            base.write_bytes(original)
-            path=s.launcher_path(self.state,record);raw=json.loads(path.read_text(encoding='utf-8'));raw['base_config']='C:/unowned/other.exe'
-            path.write_text(json.dumps(raw),encoding='utf-8')
-            with self.assertRaises(ContractError):s.launch()
-            spawn.assert_not_called()
-
-    def test_post_validation_launch_json_change_cannot_select_the_executed_base(self):
-        s.prepare(self.game,self.mod);real_load=s.load_policy
-        def validated_then_changed(*args):
-            result=real_load(*args);path=s.launcher_path(self.state,result[0])
-            record=json.loads(path.read_text(encoding='utf-8'));record['base_config']='C:/unowned/attacker.SkuDef'
-            path.write_text(json.dumps(record),encoding='utf-8');return result
-        with patch.object(s,'load_policy',side_effect=validated_then_changed),patch.object(s.subprocess,'Popen') as spawn:
-            s.launch()
-        self.assertEqual(spawn.call_args.args[0][-1],str(self.game.parent.parent/beta_launch.ENTRY))
-
-    def test_legacy_never_started_setup_refresh_preserves_old_bytes_and_profile(self):
-        s.prepare(self.game,self.mod);self.empty_ledgers()
-        from host_runtime.session_discovery_native import NAME
-        target=self.state/NAME;old=json.loads(target.read_text(encoding='utf-8'))
-        old_bundle=Path(old['files']['macro_bundle']);legacy=self.state/'sessions/native6-trial.json'
-        old_bundle.rename(legacy);old['files']['macro_bundle']=str(legacy)
-        target.write_text(json.dumps(old),encoding='utf-8');old_bytes=target.read_bytes();bundle_bytes=legacy.read_bytes()
-        sentinel=self.home/'profile.keep';sentinel.write_bytes(b'untouched-profile-and-credentials')
-        (self.state/'game-launch.json').write_text('{"schema_version":1,"launcher":"old-launcher-data-only"}',encoding='utf-8')
-        self.next_manifest();result=s.status();self.assertTrue(result['prepared'])
-        new,_=load_policy(self.state)
-        self.assertEqual(new['runtime_manifest_sha256'],'b'*64);self.assertNotEqual(new['policy_id'],old['policy_id'])
-        self.assertEqual(legacy.read_bytes(),bundle_bytes);self.assertEqual(sentinel.read_bytes(),b'untouched-profile-and-credentials')
-        backup=self.state/'setup-history'/hashlib.sha256(old_bytes).hexdigest()
-        self.assertEqual((backup/target.name).read_bytes(),old_bytes)
-        self.assertEqual((backup/legacy.name).read_bytes(),bundle_bytes)
-        for name,tables in [('desktop-launch-index.sqlite3',['launches']),('host-runtime.sqlite3',['runs','commands','events','native_sequences'])]:
-            with closing(sqlite3.connect(self.state/name)) as db:
-                self.assertTrue(all(db.execute('SELECT count(*) FROM '+table).fetchone()[0]==0 for table in tables))
-
-    def test_any_past_host_journal_prevents_manifest_refresh_and_preserves_policy(self):
-        s.prepare(self.game,self.mod);self.empty_ledgers()
-        from host_runtime.session_discovery_native import NAME
-        target=self.state/NAME;original=target.read_bytes()
-        with closing(sqlite3.connect(self.state/'host-runtime.sqlite3')) as db:
-            db.execute("INSERT INTO runs VALUES ('unclassified-old-run','{}','now')")
-            db.commit()
-        self.next_manifest()
-        with self.assertRaisesRegex(ContractError,'beta_setup_changed_requires_migration'):s.status()
-        self.assertEqual(target.read_bytes(),original)
-        with closing(sqlite3.connect(self.state/'host-runtime.sqlite3')) as db:self.assertEqual(db.execute('SELECT count(*) FROM runs').fetchone()[0],1)
-
-    def test_status_signals_only_a_completed_policy_migration_for_discovery_refresh(self):
-        s.prepare(self.game,self.mod);self.empty_ledgers()
-        self.assertFalse(s.status()['setup_changed'])
-        self.next_manifest()
-        result=s.status()
-        self.assertTrue(result['prepared'])
-        self.assertTrue(result['setup_changed'])
-        self.assertEqual(load_policy(self.state)[0]['runtime_manifest_sha256'],'b'*64)
-        self.assertFalse(s.status()['setup_changed'])
-
-    def test_returned_upgrade_rechecks_full_history_under_both_locks_without_rewriting_rows(self):
-        s.prepare(self.game,self.mod);self.empty_ledgers()
-        # The history decision is isolated here; full valid/invalid return
-        # replay is covered separately by Native6History and the field proof.
-        run=str(uuid.uuid4());binding=json.dumps(dict(original='unchanged'))
-        with closing(sqlite3.connect(self.state/'desktop-launch-index.sqlite3')) as db:
-            db.execute('INSERT INTO launches VALUES (?,?,?,?,?,?,?)',(run,str(uuid.uuid4()),'fingerprint',
-                'original-session','original-output',binding,'channel'));db.commit()
-        with closing(sqlite3.connect(self.state/'host-runtime.sqlite3')) as db:
-            db.execute('INSERT INTO runs VALUES (?,?,?)',(run,binding,'original-time'));db.commit()
-        before={name:(self.state/name).read_bytes() for name in upgrade.DATABASES}
-        from host_runtime.session_discovery_native import NAME
-        old=(self.state/NAME).read_bytes();self.next_manifest()
-        def replay(state,**options):
-            self.assertEqual(state,self.state);self.assertTrue(options['require_process_exit'])
-            for name in upgrade.DATABASES:
-                with closing(sqlite3.connect(self.state/name,timeout=0,isolation_level=None)) as contender:
-                    with self.assertRaises(sqlite3.OperationalError):contender.execute('BEGIN IMMEDIATE')
-        with patch.object(s,'quiet',side_effect=replay) as check:self.assertTrue(s.status()['prepared'])
-        check.assert_called_once()
-        self.assertEqual(before,{name:(self.state/name).read_bytes() for name in upgrade.DATABASES})
-        archive=self.state/'setup-history'/hashlib.sha256(old).hexdigest()
-        report=json.loads((archive/'preservation.json').read_text())
-        self.assertEqual(report['original_rows'],dict(launches=1,commands=0,events=0,native_sequences=0))
-        self.assertFalse(report['records_deleted']);self.assertFalse(report['records_rewritten'])
-        self.assertEqual((archive/NAME).read_bytes(),old)
-
-    def test_unverified_history_cannot_switch_metadata_after_acquiring_upgrade_locks(self):
-        s.prepare(self.game,self.mod);self.empty_ledgers()
-        from host_runtime.session_discovery_native import NAME
-        old=(self.state/NAME).read_bytes();self.next_manifest()
-        with patch.object(s,'quiet',side_effect=ContractError('beta_existing_run_unreleased')):
-            with self.assertRaisesRegex(ContractError,'beta_existing_run_unreleased'):s.status()
-        self.assertEqual((self.state/NAME).read_bytes(),old)
-        self.assertFalse((self.state/'setup-history').exists())
-
-    def test_missing_original_ledger_is_not_recreated_to_admit_an_upgrade(self):
-        s.prepare(self.game,self.mod);self.empty_ledgers()
-        from host_runtime.session_discovery_native import NAME
-        original=(self.state/NAME).read_bytes();missing=self.state/'host-runtime.sqlite3';missing.unlink()
-        self.next_manifest();self.guard_mock.reset_mock()
-        with self.assertRaisesRegex(ContractError,'beta_setup_changed_requires_migration'):s.status()
-        self.assertFalse(missing.exists());self.assertEqual((self.state/NAME).read_bytes(),original)
-        self.guard_mock.assert_not_called()
-
-    def test_interrupted_switch_is_retryable_and_both_host_ledgers_stay_locked(self):
-        s.prepare(self.game,self.mod);self.empty_ledgers()
-        from host_runtime.session_discovery_native import NAME
-        original=(self.state/NAME).read_bytes();self.next_manifest()
-        def interrupted(*_):
-            for name in upgrade.DATABASES:
-                with closing(sqlite3.connect(self.state/name,timeout=0,isolation_level=None)) as contender:
-                    with self.assertRaises(sqlite3.OperationalError):contender.execute('BEGIN IMMEDIATE')
-            raise OSError('simulated_interruption_before_atomic_policy_replace')
-        with patch.object(s,'replace_policy',side_effect=interrupted):
-            with self.assertRaises(OSError):s.status()
-        self.assertEqual((self.state/NAME).read_bytes(),original)
-        self.assertTrue(s.status()['prepared'])
-        backup=self.state/'setup-history'/hashlib.sha256(original).hexdigest()/NAME
-        self.assertEqual(backup.read_bytes(),original)
-
-    def test_existing_game_or_launcher_prevents_refresh_before_metadata_replacement(self):
-        s.prepare(self.game,self.mod);self.empty_ledgers()
-        from host_runtime.session_discovery_native import NAME
-        original=(self.state/NAME).read_bytes();self.next_manifest()
-        with patch.object(s,'no_game',side_effect=ContractError('beta_game_already_running')):
-            with self.assertRaisesRegex(ContractError,'beta_game_already_running'):s.status()
-        self.assertEqual((self.state/NAME).read_bytes(),original)
+    def launches(self,count):
+        """Recorded launches in the desktop launch index, as the backend writes them."""
+        self.state.mkdir(parents=True,exist_ok=True)
+        with sqlite3.connect(self.state/s.LAUNCH_INDEX) as db:
+            db.execute('CREATE TABLE IF NOT EXISTS launches (run_id TEXT)')
+            db.executemany('INSERT INTO launches VALUES (?)',[(str(index),) for index in range(count)])
+        db.close()
 
     def test_preparation_creates_no_fictitious_session_and_is_idempotent(self):
         result=s.prepare(self.game,self.mod)
         self.assertTrue(result['prepared']);self.assertFalse(result['host_started'])
         self.assertEqual(list(self.state.rglob('session.json')),[])
-        record,policy=load_policy(self.state)
-        self.assertEqual(record['schema_version'],2);self.assertNotIn('source_session',record)
-        self.assertEqual(policy.map_id,q.MAP_ID);self.assertEqual(policy.native_epoch,6)
+        record,policy=self.policy()
+        self.assertEqual(record['kind'],s.KIND);self.assertEqual(record['scope'],dict(SCOPE,native_epoch=7))
+        self.assertEqual(policy.native_epoch,7)
         self.assertEqual(s.prepare(self.game,self.mod),result)
-        self.assertEqual(load_policy(self.state)[0]['policy_id'],record['policy_id'])
+        self.assertEqual(self.policy()[0]['policy_id'],record['policy_id'])
         self.assertEqual((self.mods/'TFCommander.big').read_bytes(),self.mod.read_bytes())
+        self.assertFalse((self.state/s.ARCHIVE).exists())
 
-    def test_actual_broker_prepares_only_a_newly_observed_bound_session(self):
-        s.prepare(self.game,self.mod);record,policy=load_policy(self.state)
-        ticks=133000000000000000
-        process=ProcessIdentity(123,ticks,creation_start(ticks),self.game,policy.files.mod_config)
-        observation=MatchObservation(123,ticks,'b'*64,q.MAP_ID,'Soviet',3,4,2,q.COMMANDER,'region_8_3',6,True)
-        registered=[]
-        def register(path,bundle):
-            from host_runtime.desktop_backend import SessionRegistration
-            SessionRegistration.trusted(path,root=policy.session_root,macro_bundle=bundle)
-            registered.append(path);return dict(registered=True)
-        broker=SessionDiscovery(policy,lambda:[process],lambda *_:observation,register,lambda:[])
-        self.addCleanup(broker.close)
-        candidate=broker.discover({},str(uuid.uuid4()))['candidates'][0]
-        receipt=broker.prepare(dict(candidate_id=candidate['candidate_id']),str(uuid.uuid4()))
-        self.assertTrue(receipt['requires_preflight']);self.assertEqual(len(registered),1)
-        session=json.loads(registered[0].read_text(encoding='utf-8'))
-        self.assertEqual(session['pid'],123);self.assertEqual(session['process_creation_filetime'],ticks)
-        self.assertEqual(session['scenario']['map_id'],q.MAP_ID)
-        self.assertEqual(q.load(policy.files.macro_bundle,session)[1].native_transport_protocol,6)
-        session['scenario']['map_id']='TemplePrime'
-        with self.assertRaises(ContractError):q.load(policy.files.macro_bundle,session)
+    def test_launch_verifies_the_whole_runtime_then_uses_the_verified_game_and_base_config(self):
+        s.prepare(self.game,self.mod);before=self.full_checks
+        with patch.object(s.subprocess,'Popen',create=True) as spawn,\
+                patch.object(s.subprocess,'CREATE_NO_WINDOW',0,create=True):
+            self.assertTrue(s.launch()['game_launch_requested'])
+        self.assertEqual(self.full_checks,before+1)
+        self.assertEqual(spawn.call_args.args[0],[str(self.game),'-win','-modConfig',
+            str(self.mods/'TFCommander_1.0.SkuDef'),'-config',str(self.game.parent.parent/beta_launch.ENTRY)])
+        self.assertEqual(spawn.call_args.kwargs['cwd'],self.game.parent.parent)
 
-    def test_unreleased_history_prevents_any_owned_file_creation(self):
-        self.guard_mock.side_effect=ContractError('beta_existing_run_unreleased')
-        with self.assertRaises(ContractError):s.prepare(self.game,self.mod)
-        self.assertFalse(self.home.exists());self.assertFalse(self.mods.exists())
+    def test_changed_base_chain_or_private_launch_record_never_starts_any_process(self):
+        s.prepare(self.game,self.mod);record,_=self.policy()
+        with patch.object(s.subprocess,'Popen') as spawn,patch.object(s.subprocess,'CREATE_NO_WINDOW',0,create=True):
+            base=self.game.parent.parent/beta_launch.ENTRY;original=base.read_bytes();base.write_bytes(b'changed')
+            with self.assertRaises(ContractError):s.launch()
+            base.write_bytes(original)
+            path=s.launcher_path(self.state,record);raw=json.loads(path.read_text(encoding='utf-8'))
+            raw['base_config']='C:/unowned/other.exe';path.write_text(json.dumps(raw),encoding='utf-8')
+            with self.assertRaises(ContractError):s.launch()
+            spawn.assert_not_called()
+
+    def test_running_game_prevents_launch_and_any_owned_file_creation(self):
+        self.no_game.side_effect=ContractError('beta_game_already_running')
+        with self.assertRaisesRegex(ContractError,'beta_game_already_running'):s.prepare(self.game,self.mod)
+        self.assertFalse(self.mods.exists())
+        with self.assertRaisesRegex(ContractError,'beta_game_already_running'):s.launch()
+
+    def test_runtime_change_archives_earlier_runs_and_refreshes_the_policy(self):
+        s.prepare(self.game,self.mod);old,_=self.policy()
+        self.launches(3)
+        self.pin='b'*64
+        result=s.status()
+        self.assertTrue(result['prepared']);self.assertTrue(result['setup_changed'])
+        record,_=self.policy()
+        self.assertNotEqual(record['policy_id'],old['policy_id'])
+        self.assertEqual(record['runtime_manifest_sha256'],'b'*64)
+        self.assertEqual(s.archived_through(self.state),3)
+        self.launches(2)
+        self.assertFalse(s.status()['setup_changed'])
+        self.assertEqual(s.archived_through(self.state),3)
+
+    def test_runtime_change_while_a_game_runs_changes_nothing(self):
+        s.prepare(self.game,self.mod);raw=(self.state/NAME).read_bytes();self.launches(1)
+        self.pin='b'*64;self.no_game.side_effect=ContractError('beta_game_already_running')
+        with self.assertRaisesRegex(ContractError,'beta_game_already_running'):s.status()
+        self.assertEqual((self.state/NAME).read_bytes(),raw);self.assertFalse((self.state/s.ARCHIVE).exists())
+
+    def test_old_setup_with_another_mod_requires_the_update_without_archiving(self):
+        s.prepare(self.game,self.mod);self.launches(1)
+        record=json.loads((self.state/NAME).read_text());record['kind']='native7_installed_discovery_v1'
+        record['files']['mod_sha256']='c'*64;(self.state/NAME).write_text(json.dumps(record))
+        self.assertEqual(s.status()['reason_code'],'beta_mod_update_required')
+        self.assertFalse((self.state/s.ARCHIVE).exists())
 
     def test_wrong_input_or_existing_unrelated_mod_never_gets_overwritten(self):
         self.mod.write_bytes(b'wrong-mod')
@@ -242,35 +138,29 @@ class BetaSetup(unittest.TestCase):
         self.assertEqual(destination.read_bytes(),b'unrelated-existing')
 
     def test_changed_policy_cannot_silently_select_another_package_or_scope(self):
-        s.prepare(self.game,self.mod);record,policy=load_policy(self.state)
+        s.prepare(self.game,self.mod);record,policy=self.policy()
         for mutation in (lambda r:r['scope'].update(player_id=4),lambda r:r['files'].update(mod_big=str(self.mod)),
-                         lambda r:r.update(runtime_manifest_sha256='b'*64)):
+                         lambda r:r.update(runtime_manifest_sha256='b'*64),lambda r:r.update(kind='other')):
             bad=json.loads(json.dumps(record));mutation(bad)
             with self.assertRaises(ContractError):s.load_policy(self.state,bad)
 
 
 class MaintenanceGuard(unittest.TestCase):
     def invoke(self):
-        with patch('sys.stdin',SimpleNamespace(buffer=io.BytesIO(b'{"operation":"guard"}\n'))),redirect_stdout(io.StringIO()) as output:
+        stdin=SimpleNamespace(buffer=io.BytesIO(b'{"operation":"guard"}\n'))
+        with patch('sys.stdin',stdin),redirect_stdout(io.StringIO()) as output:
             code=s.main()
         return code,json.loads(output.getvalue())
 
-    def test_guard_requires_full_return_and_no_game_even_without_registered_match(self):
-        with patch.object(s,'guard_states') as quiet,patch.object(s,'no_game',side_effect=ContractError('beta_game_already_running')):
+    def test_running_game_blocks_an_update(self):
+        with patch.object(s,'no_game',side_effect=ContractError('beta_game_already_running')):
             code,result=self.invoke()
-            self.assertEqual(code,2);self.assertFalse(result['ok'])
-            self.assertEqual(result['error']['code'],'beta_game_already_running')
-            quiet.assert_called_once_with(require_process_exit=True)
+        self.assertEqual(code,2);self.assertEqual(result['error']['code'],'beta_game_already_running')
 
-    def test_unreturned_history_cannot_be_bypassed_by_absent_game(self):
-        with patch.object(s,'guard_states',side_effect=ContractError('beta_existing_run_unreleased')),patch.object(s,'no_game') as absent:
+    def test_no_game_means_no_native_state_and_allows_the_update(self):
+        with patch.object(s,'no_game') as absent:
             code,result=self.invoke()
-            self.assertEqual(code,2);self.assertFalse(result['ok']);absent.assert_not_called()
-
-    def test_returned_history_and_absent_game_allow_guard(self):
-        with patch.object(s,'guard_states'),patch.object(s,'no_game') as absent:
-            code,result=self.invoke()
-            self.assertEqual(code,0);self.assertTrue(result['result']['quiet']);absent.assert_called_once()
+        self.assertEqual(code,0);self.assertTrue(result['result']['quiet']);absent.assert_called_once()
 
 
 if __name__=='__main__':unittest.main()

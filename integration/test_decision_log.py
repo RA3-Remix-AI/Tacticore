@@ -276,7 +276,7 @@ class SituationTests(unittest.TestCase):
         from fixtures import SESSION, CONNECTION
         from macro_policy import project_strategy_defaults
         from host_runtime.macro_policy_runtime import COMMANDER
-        from host_runtime.macro_delegation_boundary_v1 import restrict_snapshot, restrict_context
+        from host_runtime.delegation_boundary import restrict_snapshot, restrict_context
         raw = tactical_snapshot()
         raw['macro_control'] = dict(mode='macro_native', available_actions=['budgetarmy'])
         binding = Binding(SESSION, 3, COMMANDER, 'Test', CONNECTION)

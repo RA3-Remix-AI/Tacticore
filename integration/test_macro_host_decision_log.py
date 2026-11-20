@@ -15,7 +15,7 @@ for folder in ('strategy', 'integration'):
     if str(ROOT / folder) not in sys.path:
         sys.path.insert(0, str(ROOT / folder))
 
-import test_macro_delegation_boundary_v1 as base  # noqa: E402
+import test_delegation_boundary as base  # noqa: E402
 from host_runtime.decision_log import read_decisions, read_run_log  # noqa: E402
 from host_runtime.macro_policy_runtime import MacroRequestAudit  # noqa: E402
 from macro_host import MacroHost  # noqa: E402

@@ -17,11 +17,11 @@ import re
 
 from .contracts import ContractError
 
-# Native6/Native7 runtimes bind the commander to player index 3: the native
-# client requires a unique player with index 3 (strategic-portable-runtime-v6/
-# client.py 'unique_own_player_required') and the Native7 focus lease checks
-# own_player_id==3 (strategic_enemy_focus_lease_v1.h). In the lobby this is
-# the second slot. Other seats are not fixed.
+# The native runtime binds the commander to player index 3: the SDK requires a
+# unique player with index 3 (strategic-portable-runtime-v7/client.py
+# 'unique_own_player_required') and the DLL's live identity check does too. The
+# enemy-focus lease itself takes the own seat from the binding. In the lobby
+# this is the second slot. Other seats (enemies, allies, humans) are not fixed.
 MODEL_PLAYER_ID = 3
 # TFCommander.big registers the commander personality for the Soviet side
 # only (registry side check in session_discovery_native.source_fields).

@@ -46,11 +46,11 @@ class SessionDiscoveryTests(unittest.TestCase):
             path = self.root/name; path.write_bytes(('offline-'+key).encode())
             digest_key = 'mod_sha256' if key == 'mod_big' else key+'_sha256'
             values.update({key:path, digest_key:hashlib.sha256(path.read_bytes()).hexdigest()})
-        self.policy = DiscoveryPolicy(TrustedFiles(**values), self.sessions, self.state, PROFILE, 6)
+        self.policy = DiscoveryPolicy(TrustedFiles(**values), self.sessions, self.state, PROFILE, 7)
         self.process = ProcessIdentity(101, 134376028671883531, '2026-10-28T10:00:00+08:00',
                                         self.policy.files.game, self.policy.files.mod_config)
         self.observation = MatchObservation(101, self.process.creation_filetime, 'logic-1',
-            PROFILE, 6, scenario(), True)
+            PROFILE, 7, scenario(), True)
         self.processes = [self.process]; self.runs = []; self.registered = []; self.time = 100.0
         self.probe_calls = 0
         self.broker = self.make()
@@ -176,7 +176,7 @@ class SessionDiscoveryTests(unittest.TestCase):
             alliances=(), own_point=(4404.1, 2016.0), starts=TWO_STARTS).to_public_dict()
         allied = scenario()
         allied['players'][0]['faction'] = 'Allied'
-        for change in ({'commander_id':new_id()}, {'native_epoch':7}, {'native_epoch':True},
+        for change in ({'commander_id':new_id()}, {'native_epoch':6}, {'native_epoch':True},
                        {'scenario':allied}, {'scenario':model_four}):
             with self.subTest(change=change):
                 self.observation = replace(baseline,**change)
@@ -295,14 +295,15 @@ class SessionDiscoveryTests(unittest.TestCase):
         self.runs = [self.old_run()]
         self.assertTrue(self.prepare()['registered'])
 
-    def test_versioned_legacy_review_never_fills_epoch_or_guesses_same_pid_identity(self):
-        self.runs=[self.old_run(creation_filetime=None,native_epoch=None,
-            history_protocol='independently_released_legacy_native_v1',history_review_sha256='a'*64,
-            original_process_start='2026-10-27T10:00:00+08:00')]
+    def test_archived_history_never_blocks_but_must_not_claim_native_delivery(self):
+        self.runs=[self.old_run(creation_filetime=None,native_epoch=None,native_delivery_attempted=False,
+            history_protocol='archived_before_runtime_change')]
         self.assertTrue(self.prepare()['registered'])
         self.runs=[replace(self.runs[0],pid=self.process.pid)]
-        self.assertCode('macro_runtime_same_epoch_reattach_unsupported',self.prepare)
-        self.runs=[replace(self.runs[0],pid=99,history_review_sha256=None)]
+        self.assertTrue(self.prepare()['registered'])
+        self.runs=[replace(self.runs[0],native_delivery_attempted=True)]
+        self.assertCode('run_history_unverifiable',self.prepare)
+        self.runs=[replace(self.runs[0],native_delivery_attempted=False,history_protocol='reviewed_legacy')]
         self.assertCode('run_history_unverifiable',self.prepare)
 
     def test_never_dispatched_cancelled_start_does_not_burn_native_epoch(self):

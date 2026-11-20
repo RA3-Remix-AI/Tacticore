@@ -95,28 +95,24 @@ def source_preflight(repo):
             block('release_source_missing', name, 'Required release input is unavailable.')
             return ''
 
-    host = source('native-ai/strategic-unified-runtime-v5/host.cpp')
+    native = 'native-ai/strategic-portable-runtime-v7/'
+    host = source(native + 'host.cpp')
     if re.search(r'[A-Za-z]:\\\\', host):
-        block('native_game_path_machine_bound', 'native-ai/strategic-unified-runtime-v5/host.cpp',
+        block('native_game_path_machine_bound', native + 'host.cpp',
               'The Native helper embeds an absolute developer game image path.')
-    builder = source('native-ai/strategic-unified-runtime-v5/build.py')
+    builder = source(native + 'build.py')
     if all(token in builder for token in ('SOURCE_PINS', 'str(ROOT', 'JOURNAL_ROOT', 'DEPLOYMENT_ROOT')) or (
             'JOURNAL_ROOT' in builder and "ROOT/'reports" in builder):
-        block('native_profile_machine_bound', 'native-ai/strategic-unified-runtime-v5/build.py',
+        block('native_profile_machine_bound', native + 'build.py',
               'Compiled input locks, journal and deployment roots require a new portable Native candidate.')
-    sdk = source('native-ai/strategic-unified-runtime-v5/client.py')
+    sdk = source(native + 'client.py')
     if "ROOT/'reports'" in sdk or "ROOT/'reports/" in sdk:
-        block('native_sdk_repository_writes', 'native-ai/strategic-unified-runtime-v5/client.py',
+        block('native_sdk_repository_writes', native + 'client.py',
               'The SDK and durable return journal require repository reports paths.')
-    qualification = source('integration/host_runtime/strategic_unified_bundle_v5.py')
-    if 'legacy_bundle' in qualification and 'source-pins.json' in qualification:
-        block('qualification_developer_archive_required', 'integration/host_runtime/strategic_unified_bundle_v5.py',
-              'Schema13 loads original research archives and developer source paths at runtime.')
-    # Native5 is the only currently wired strategic transport. Removing strings
-    # cannot qualify it: implementing and reviewing a new runtime contract is a
-    # separate milestone, not a magic --allow flag or a user-supplied pass bit.
-    block('portable_native_contract_pending', 'integration/host_runtime/strategic_unified_transport_v5.py',
-          'No portable strategic runtime/qualification integration has been accepted yet.')
+    # A public release still needs accepted natural games with the one native
+    # runtime; that is a separate milestone, never a user-supplied pass bit.
+    block('portable_native_contract_pending', 'integration/host_runtime/native_transport.py',
+          'No portable strategic runtime has been accepted for public release yet.')
     try:
         tauri = json.loads(source('desktop-ui/src-tauri/tauri.conf.json'))
         package = json.loads(source('desktop-ui/package.json'))
@@ -144,12 +140,13 @@ def preflight(repo=REPO, runtime=None):
             report['runtime'] = verify_inventory(runtime)
             files = read_json(Path(runtime) / 'manifest.json')['files']
             natives = {PurePosixPath(name).name for name in files}
-            native6 = {'native/strategic6/StrategicCommanderV6.dll', 'native/strategic6/manager_host.exe',
-                       'native/strategic6/build-manifest.json'} <= files.keys()
-            if native6:
-                report['blockers'].append(dict(code='native6_offline_candidate_not_qualified', path='runtime/native/strategic6',
-                                              detail='A Native6 development/trial payload does not establish product acceptance or accepted natural games.'))
-            elif not {'StrategicCommanderV5.dll', 'manager_host.exe'} <= natives:
+            payload = {'native/strategic7/StrategicCommanderV7.dll', 'native/strategic7/manager_host.exe',
+                       'native/strategic7/build-manifest.json'} <= files.keys()
+            if payload:
+                report['blockers'].append(dict(code='native_candidate_not_accepted', path='runtime/native/strategic7',
+                                              detail='A native trial payload does not establish product acceptance '
+                                                     'or accepted natural games.'))
+            elif not {'StrategicCommanderV7.dll', 'manager_host.exe'} <= natives:
                 report['blockers'].append(dict(code='strategic_native_payload_missing', path='runtime',
                                               detail='The current strategic helper/DLL payload is missing.'))
             if 'release-stage.json' in files:
@@ -182,10 +179,11 @@ def candidate_preflight(runtime,repo=REPO):
         report['runtime']=verify_inventory(runtime)
         # Import only reviewed repository tools, not arbitrary package modules.
         sys.path.insert(0,str(Path(repo)/'integration'))
-        from host_runtime.native6_qualification import verify_qualification
-        verify_qualification(Path(runtime),report['runtime']['manifest_sha256'])
+        from host_runtime.native_runtime import verify_runtime
+        verify_runtime(Path(runtime),report['runtime']['manifest_sha256'])
         stage=read_json(Path(runtime)/'release-stage.json')
-        if stage.get('kind')!='portable_native6_field_trial_candidate' or stage.get('public_release_ready') is not False:
+        trial=stage.get('kind')=='portable_native7_field_trial_candidate'
+        if not trial or stage.get('public_release_ready') is not False:
             raise ValueError('beta_trial_marker_required')
         tauri=read_json(Path(repo)/'desktop-ui/src-tauri/tauri.conf.json')
         package=read_json(Path(repo)/'desktop-ui/package.json')
@@ -196,7 +194,7 @@ def candidate_preflight(runtime,repo=REPO):
         sources=read_json(Path(runtime)/'application-sources.json')['files']
         if any(digest(Path(repo)/name)!=pin for name,pin in sources.items()):
             raise ValueError('candidate_sources_changed')
-        required={'integration/host_runtime/beta_setup.py','integration/host_runtime/native6_qualification.py'}
+        required={'integration/host_runtime/beta_setup.py','integration/host_runtime/native_runtime.py'}
         if not required<=sources.keys():raise ValueError('beta_first_use_source_missing')
         report['ready']=True
     except (OSError,ValueError,KeyError,TypeError) as error:

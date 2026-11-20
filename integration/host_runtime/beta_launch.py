@@ -1,8 +1,8 @@
 """Read-only qualification of the ordinary client's fixed game entry point."""
 from pathlib import Path
 from .contracts import ContractError
-from .native6_paths import plain_local
-from .native6_runtime_contract import sha
+from .native_paths import plain_local
+from .native_runtime_contract import sha
 
 ENTRY='RA3_chinese_t_1.12.SkuDef'
 # Exact base configuration chain used by the original qualified 1.12 games.

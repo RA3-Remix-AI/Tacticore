@@ -13,7 +13,7 @@ import uuid
 
 from macro_host import MacroHost
 from host_runtime.contracts import ContractError
-from host_runtime.macro_policy_runtime import MacroRequestAudit, BudgetController, BudgetScope, COMMANDER
+from host_runtime.macro_policy_runtime import MacroRequestAudit, COMMANDER
 from host_runtime.macro_strategy_runtime import MacroStrategyRuntime
 from battle_agent import BattleAgent
 from engine import Binding, Snapshot, StrategyEngine, validate_policy
@@ -83,21 +83,21 @@ class RuntimeSemanticsTests(unittest.TestCase):
         return [e for e in self.events if e['kind']=='macro_strategy_outcome' and e['outcome']=='effect_observed']
 
     def renewal_controller(self,plan,receipt,at=110):
-        from host_runtime.native6_qualification import Native6Scope
-        from host_runtime.strategic_unified_controller_v5 import UnifiedStrategicControllerV5
-        controller=UnifiedStrategicControllerV5.__new__(UnifiedStrategicControllerV5)
-        controller.scope=Native6Scope.__new__(Native6Scope)
+        from host_runtime.native_runtime import NativeScope
+        from host_runtime.strategic_controller import StrategicController
+        controller=StrategicController.__new__(StrategicController)
+        controller.scope=NativeScope.__new__(NativeScope)
         controller.stopped=False;controller.delivery_unknown=False
         controller.current_plan=plan.plan_id;controller.current_actions=tuple(plan.macro_actions)
         controller.current_seq=receipt['seq'];controller.flag_actions=('budgetarmy',)
         controller.last_frame=int(at*15)
         controller.last_native=dict(native(receipt['seq'],empty=True),
-            native_schema='unified_flags_and_managers_v6',applied_mask=1,flag_phase=1,
+            native_schema='unified_flags_and_managers_v7',applied_mask=1,flag_phase=1,
             flag_deadline=1950,gates=[dict(phase=0),dict(phase=4)])
         controller.action_domain_windows={'budgetarmy':dict(start_frame=1500,end_frame=1950,native_deadline_frame=1950)}
         return controller
 
-    def test_fresh_model_can_renew_verified_native6_flags_only_after_new_ack(self):
+    def test_fresh_model_can_renew_verified_native_flags_only_after_new_ack(self):
         original,receipt,_,_,_=self.dispatch()
         controller=self.renewal_controller(original,receipt)
         plan,context,_,_=self.build(110)
@@ -298,22 +298,6 @@ class RuntimeSemanticsTests(unittest.TestCase):
         p3,c3,_,_=self.build(200,('regroup',),strategy_id=review.strategy_id)
         self.assertEqual(self.review(p3,c3).reason_code,'strategy_unknown_outcome')
 
-    def test_known_empty_actions_keep_strategy_and_clear_gates_through_the_real_host(self):
-        _,_,review,_,_=self.dispatch()
-        p,request,agent,raw=self.build(102,(),strategy_id=review.strategy_id)
-        calls=[]
-        scope=BudgetScope('a'*64,{},('x','y'),{'budgeteconomy':'x','budgetarmy':'y'},{})
-        transport=SimpleNamespace(session={'session_id':SESSION,'mod_sha256':'a'*64},
-            apply=lambda actions,duration,ident:(calls.append((list(actions),duration,ident)) or {'seq':2}),close=lambda:None)
-        controller=BudgetController(transport,scope,SESSION,'b'*64,self.event)
-        host=MacroHost.__new__(MacroHost)
-        host.latest=raw;host.agent=agent;host.strategy_runtime=self.runtime;host.controller=controller
-        host.expected_hash='b'*64;host.event=self.event
-        host.strategy_audit=SimpleNamespace(prepare=lambda value:value,request_context_for=lambda plan:copy.deepcopy(request))
-        self.assertTrue(host.dispatch_plan(p))
-        self.assertEqual(calls[0][0],[])
-        self.assertEqual(self.memory.context(request)['current_strategy']['strategy_id'],review.strategy_id)
-        self.assertTrue(all(row.released for row in self.runtime.commands.values()))
 
     def test_malformed_native_boolean_cannot_prove_release(self):
         _,r,_,_,_=self.dispatch()

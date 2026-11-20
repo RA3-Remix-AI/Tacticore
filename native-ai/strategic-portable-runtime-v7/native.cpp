@@ -191,7 +191,8 @@ static void tick(){
  LONG request=p->request;
  if(request>p->ack){
   uint32_t kind=p->kind,gate=p->gate,frames=p->frames,wall=p->wall_ms;
-  const bool valid_gate=kind==7?(gate==4||gate==5):kind==8?gate==0:gate<=1;
+  // kind 7: gate is the target player id; the focus lease checks enmity and liveness.
+  const bool valid_gate=kind==7?gate<16:kind==8?gate==0:gate<=1;
   if(request!=p->ack+1||request<1||request>2048||p->request!=request||!valid_gate||kind<1||kind>8){p->error=35;stopping=true;p->phase=5;}
   else {
    g::Result result=g::Result::Rejected;
@@ -270,9 +271,11 @@ static bool prepare(){
  uint32_t initial_flags=0;if(!read_mask(initial_flags)||initial_flags)return false;
  focus_environment=new(std::nothrow) FocusEnvironment();if(!focus_environment)return false;
  focus::Snapshot focus_initial={};
- if(!focus_environment->sample(focus_initial)||focus_initial.manual||focus_initial.isolated||focus_initial.enumeration_lock||
-    focus_initial.priority[0]!=(uint32_t)focus_initial.opponent_alive[0]||
-    focus_initial.priority[1]!=(uint32_t)focus_initial.opponent_alive[1])return false;
+ if(!focus_environment->sample(focus_initial)||focus_initial.manual||focus_initial.isolated||
+    focus_initial.enumeration_lock)return false;
+ // Native automatic selection: every living enemy at priority 1, nothing else.
+ for(uint32_t i=0;i<focus::MAX_PLAYERS;i++)
+  if(focus_initial.priority[i]!=((focus::focusable(focus_initial)>>i)&1u))return false;
  focus_lease=new(std::nothrow) focus::Lease(*focus_environment);if(!focus_lease)return false;
  if(!GetModuleHandleExW(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS|GET_MODULE_HANDLE_EX_FLAG_PIN,(LPCWSTR)(uintptr_t)&tick,&pin))return false;
  owned_hook=SetWindowsHookExW(WH_GETMESSAGE,StrategicCommanderControl,pin,sealed.thread);if(!owned_hook)return false;

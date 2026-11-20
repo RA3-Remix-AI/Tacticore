@@ -21,7 +21,6 @@ import uuid
 from .contracts import ContractError, canonical_json, content_hash, identifier
 from .macro_strategy_diagnostics import (STRATEGY_EVENTS,StrategyEvidence,journal_receipts,
     project_strategy_event,event_seconds,project_declaration,prepare_strategy_extension)
-from .macro_expansion_diagnostics_v4 import EVENTS_V4,project_expansion_event_v4
 
 ROOT = Path(__file__).resolve().parents[2]
 # A normal macro match can exceed 2,000 repeated native observations. Keep the
@@ -80,17 +79,12 @@ def project_fields(value):
 
 
 def project_event(event, expected=None, binding=None, strategy_evidence=None):
-    known = event["event_type"] in EVENTS or event['event_type'] in EVENTS_V4
+    known = event["event_type"] in EVENTS
     result = dict(seq=event["seq"], event_type=event["event_type"] if known else "unprojected_event",
                   created_at=event["created_at"], payload_sha256=content_hash(event["payload"]),
                   payload_projected=known)
     for key in ("game_frame", "monotonic_ns") if event['event_type'] in STRATEGY_EVENTS else ("command_id", "game_frame", "monotonic_ns"):
         if event.get(key) is not None:result[key] = event[key]
-    if event['event_type'] in EVENTS_V4:
-        try:result['facts']=project_expansion_event_v4(event['event_type'],event['payload'])
-        except ContractError:
-            result.update(facts={},payload_projected=False,projection_reason_code='macro_expansion_diagnostics_invalid')
-        return result
     if event['event_type'] in STRATEGY_EVENTS:
         try:result['facts']=project_strategy_event(event['event_type'],event['payload'],binding=binding,
             evidence=strategy_evidence,at=event_seconds(event))
@@ -100,7 +94,7 @@ def project_event(event, expected=None, binding=None, strategy_evidence=None):
     if known:
         result["facts"] = project_fields(event["payload"])
         if event['event_type']=='macro_unified_feedback':
-            from .strategic_unified_feedback_v5 import project_unified_feedback
+            from .strategic_feedback import project_unified_feedback
             try:result['facts']=project_unified_feedback(event['payload'])
             except ContractError:result.update(facts={},payload_projected=False,projection_reason_code='unified_feedback_invalid')
             return result

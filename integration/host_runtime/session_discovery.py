@@ -24,9 +24,8 @@ from .scenario import MODEL_FACTION, MODEL_PLAYER_ID, MatchScenario
 
 TERMINAL = frozenset({'stopped', 'completed', 'fault', 'result_candidate'})
 MAX_CANDIDATES = 8
-# Only runtimes that derive the scenario live can be discovered. Older epochs
-# were bound to one map's compiled evidence and remain history-only.
-DISCOVERY_EPOCHS = (6, 7)
+# The one native runtime protocol (native_runtime_contract.PROTOCOL).
+DISCOVERY_EPOCHS = (7,)
 
 
 @dataclass(frozen=True)
@@ -92,9 +91,6 @@ class RunRecord:
     native_epoch: int|None
     native_delivery_attempted: bool = True
     history_protocol:str='macro_transport_epoch_v1'
-    history_review_sha256:str|None=None
-    original_process_start:str|None=None
-    historical_unknown_count:int=0
 
 
 def _fail(code):
@@ -342,14 +338,10 @@ class SessionDiscovery:
                 _fail('run_history_unverifiable')
             if row.history_protocol=='macro_transport_epoch_v1':
                 if not _int(row.creation_filetime) or not _int(row.native_epoch):_fail('run_history_unverifiable')
-            elif row.history_protocol in ('independently_released_legacy_native_v1','trusted_never_dispatched_host_v1'):
-                try:
-                    sha256(row.history_review_sha256)
-                    original=datetime.fromisoformat(row.original_process_start)
-                    if original.tzinfo is None or row.native_epoch is not None:raise ValueError()
-                    if row.creation_filetime is not None and not _int(row.creation_filetime):raise ValueError()
-                    if row.history_protocol=='trusted_never_dispatched_host_v1' and row.native_delivery_attempted:raise ValueError()
-                except (ValueError,TypeError):_fail('run_history_unverifiable')
+            elif row.history_protocol=='archived_before_runtime_change':
+                # Archived only while no game process was running; its native
+                # state ended with that process.
+                if row.native_delivery_attempted or row.native_epoch is not None:_fail('run_history_unverifiable')
             else:_fail('run_history_unverifiable')
             try:
                 identifier(row.run_id)

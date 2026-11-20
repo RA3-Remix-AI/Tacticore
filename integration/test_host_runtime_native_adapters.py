@@ -12,12 +12,10 @@ from unittest.mock import patch
 
 from host_runtime.capabilities import CapabilityCatalog, VerifiedGrant
 from host_runtime.contracts import SessionBinding, canonical_json
-from host_runtime.coordinator import HostCoordinator
 from host_runtime.gateway import AdmissionRefused, ExecutionGateway
 from host_runtime.journal import CommandJournal
 from host_runtime.limits import ExecutionLimits
 from host_runtime.native_adapters import AdmissionSnapshot, ExistingProductionChecks, PersistentProductionAdapter
-from host_runtime.orchestration import OrchestrationConfig
 
 
 def uid():return str(uuid.uuid4())
@@ -246,25 +244,6 @@ class NativeAdapterTests(unittest.TestCase):
                 self.adapter().preflight(command,self.binding)
         self.assertEqual(self.executor.calls,[])
 
-    def test_coordinator_gateway_existing_protocol_production_integration(self):
-        gate=self.gateway();coordinator=HostCoordinator(gate,config=OrchestrationConfig(production_gap_frames=0),execution_limits=self.limits)
-        coordinator.create_task(self.task)
-        observation=dict(session_id=self.binding.session_id,session_binding_hash=self.binding.binding_hash,
-            game_frame=100,monotonic_ms=0,source="simulated",own_view_verified=True,anchors=[[0,0,0]],actors=[],
-            contacts=[dict(contact_id="target",object_id=900,owner_player_id=4,relation="enemy",currently_visible=True,observed_frame=100,xyz=[600,0,0],hp=1000,role="structure",type_hash="0x123",template="Barracks")],
-            plan=dict(session_id=self.binding.session_id,plan_id=uid(),task_id=self.task,generation=1,expires_frame=10000,valid_until_monotonic_ms=100000))
-        result=coordinator.tick(observation)
-        self.assertEqual(result["command_results"][0]["status"],"accepted")
-        self.assertEqual(len(self.executor.calls),1)
-        self.assertEqual(set(self.executor.calls[0]),{"session_id","player_id","commander_id","command_id","task_id","seq","unit","budget","reserve","expires_frame"})
-        self.assertEqual(self.executor.calls[0]["budget"],85)
-        self.assertEqual(self.executor.calls[0]["reserve"],1000)
-        # The next production role is refused because the real catalog does not
-        # establish persistent Flak, rather than inventing tactical success.
-        observation.update(game_frame=101,monotonic_ms=10)
-        result=coordinator.tick(observation)
-        self.assertEqual(result["command_results"][0]["status"],"rejected")
-        self.assertEqual(len(self.executor.calls),1)
 
     def test_scope_metadata_are_validated_but_not_sent_to_legacy_wire(self):
         payload=self.payload(generation=1,lease_id=uid(),plan_id=uid(),observed_frame=100,monotonic_ms=0,max_cost=85)

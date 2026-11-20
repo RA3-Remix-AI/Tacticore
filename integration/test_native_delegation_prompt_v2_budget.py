@@ -8,12 +8,12 @@ import unittest
 from unittest.mock import patch
 
 # The capacity module puts strategy/ and agent_runtime/ on the import path.
-from host_runtime import native5_capacity_preflight_v1 as capacity
+from host_runtime import model_capacity as capacity
 from host_runtime.macro_group_role_contract import group_role_catalog_overrides
-from host_runtime.native7_qualification import Native7Scope
-from host_runtime.native7_runtime_contract import PACKAGE_SHA, FLAGS
+from host_runtime.native_runtime import NativeScope
+from host_runtime.native_runtime_contract import PACKAGE_SHA, FLAGS
 from host_runtime.profiles import normalize_profile
-from host_runtime.strategic_contract_v5 import FLAG_ACTIONS
+from host_runtime.strategic_contract import FLAG_ACTIONS
 from engine import Snapshot
 from macro_policy import ACTIONS, public_descriptions
 import prompt_versions
@@ -39,7 +39,8 @@ def grammar_cases():
         catalog = public_descriptions(sorted(actions), region_targets=targets)
         catalog.update(group_role_catalog_overrides())
         yield name, raw, catalog
-    scope = Native7Scope(PACKAGE_SHA, tuple(zip(FLAG_ACTIONS, FLAGS)), (), (), required_origin_region='region_7_1')
+    scope = NativeScope(PACKAGE_SHA, tuple(zip(FLAG_ACTIONS, FLAGS)), (), (), required_origin_region='region_7_1',
+                        opponent_player_ids=(4, 5))
     raw = snapshot()
     raw['capabilities']['regions'] = ['region_7_1']
     raw['macro_control'] = dict(mode='macro_native', available_actions=['budgetarmy'], region_targets={},
@@ -53,7 +54,7 @@ def grammar_cases():
 def measure(version, raw, catalog, traits=STYLE):
     from fixtures import binding
     with patch.dict(os.environ, {prompt_versions.ENVIRONMENT_VARIABLE: version}):
-        return capacity.check_native5_capacity(effective(binding(), traits), 'DeepSeek', raw, catalog)
+        return capacity.check_model_capacity(effective(binding(), traits), 'DeepSeek', raw, catalog)
 
 
 class PromptV2BudgetTests(unittest.TestCase):

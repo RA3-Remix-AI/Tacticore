@@ -58,7 +58,7 @@ def prompt(profile, context, example, allowed, preferences):
             '[] restores native baseline execution. '
             'Assess economy,force growth,home pressure and counterattack opportunities against allied enemies. '
             'Contact groups retain owner_player_id,visibility and time bounds. Enemy counts cover lawful observations. '
-            'Choose eligible focusenemy4/5 using public match state and lawful intelligence. '
+            'Choose an eligible focusenemyN (N = enemy player id) using public match state and lawful intelligence. '
             'Focus sets native enemy priority. Native AI selects targets and executes combat. '
             'Reassess after an announced elimination. Preserve uncertainty for unseen or old contacts. '
             'Budget actions express preferences with no upfront cost. Compare feedback current native_account_shares '

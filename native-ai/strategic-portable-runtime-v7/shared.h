@@ -15,11 +15,15 @@ struct GateStatus {
  uint64_t ms,deadline_ms;
  uint32_t attempted,requested_enabled,operation_enabled,already_satisfied;
 };
+// Player ids 0..15: priority per id, enemy_mask = mutual enemies of the own player,
+// alive_mask = present and not defeated participants. No implicit padding.
 struct FocusStatus {
  uint32_t phase,baseline_captured,selector,baseline_scheme,target_player,request;
- uint32_t manual,isolated,priority[2],alive_mask,frame,callback,deadline_frame,call_reservations;
+ uint32_t manual,isolated,own_player,enemy_mask,alive_mask,priority[16];
+ uint32_t frame,callback,deadline_frame,call_reservations,reserved;
  uint64_t ms,deadline_ms;
 };
+static_assert(sizeof(FocusStatus)==144,"explicit enemy focus status");
 struct Shared {
  uint32_t magic,version,size;BindingWire binding;
  volatile LONG request,ack,phase,active;
@@ -31,7 +35,7 @@ struct Shared {
 };
 // kind: 1 pause, 2 enable, 3 release, 4 read-only reconcile, 5 STOP,
 // 6 strategic flag replacement. No exact construction/production command.
-// 7 focus public opponent P4/P5, 8 restore original automatic enemy selection.
+// 7 focus one hostile player id (0..15), 8 restore original automatic enemy selection.
 // phase: 0 preparing, 1 active, 2 independently eligible for release,
 // 4 admission rejected (no manager call), 5 unresolved; lease retained.
 static_assert(sizeof(BindingWire)==4332,"explicit wire binding");

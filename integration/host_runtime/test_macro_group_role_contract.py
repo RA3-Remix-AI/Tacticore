@@ -1,6 +1,5 @@
 import unittest
-from integration.host_runtime.macro_group_role_contract import group_role_catalog_overrides,ROLE_GOALS,ROLE_FAMILIES
-from integration.host_runtime.macro_base_defense_scope import defense_catalog_override
+from .macro_group_role_contract import group_role_catalog_overrides,ROLE_GOALS,ROLE_FAMILIES,defense_catalog_override
 
 
 class GroupRoleContractTests(unittest.TestCase):
