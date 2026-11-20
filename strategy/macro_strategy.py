@@ -228,6 +228,9 @@ class MacroStrategyMemory:
             facts['match.opponents.total'] = len(match.opponent_player_ids)
             facts['match.opponents.remaining'] = len(match.opponent_player_ids) - len(match.defeated_opponent_ids)
             facts['match.opponents.allied'] = match.opponents_allied
+            if match.ally_player_ids:
+                facts['match.allies.total'] = len(match.ally_player_ids)
+                facts['match.allies.human'] = sum(index in match.human_player_ids for index in match.ally_player_ids)
         economy = working.get('economy', context.get('resources', {}))
         if type(economy) is not dict:
             raise StrategyError('strategy_context_economy')
@@ -353,7 +356,7 @@ class MacroStrategyMemory:
             if home_observed:
                 facts['enemy.home.visible_observations']=home_total
                 facts['enemy.home.combat_observations']=home_combat
-            if match is not None and len(match.opponent_player_ids)==2:
+            if match is not None and len(match.opponent_player_ids)>=2:
                 groups=battlefield.get('contact_groups',[])
                 if type(groups) is not list or len(groups)>64:raise StrategyError('strategy_context_enemy_groups')
                 observed_players={}
@@ -418,7 +421,8 @@ class MacroStrategyMemory:
         pinned = list(self._current['public_fact_refs']) if self._current else []
         priority = pinned + ['own.credits','own.observed_combat_roles','own.role.structure',
                              'enemy.home.combat_observations','enemy.visible.combat_observations',
-                             'enemy.player4.visible.combat_observations','enemy.player5.visible.combat_observations',
+                             *sorted(key for key in facts if key.startswith('enemy.player')
+                                     and key.endswith('.visible.combat_observations')),
                              'enemy.home.visible_observations','enemy.visible.observations',
                              'match.opponents.remaining','own.present.ore_collector','own.present.refinery','own.present.war_factory',
                              'own.present.super_reactor','own.present.battle_lab','own.present.construction_yard',

@@ -1,5 +1,6 @@
 import unittest
-from native_unified_contract_v5 import split_intents,split_native7_intents,additional_catalog,INDEPENDENT_DEVELOPMENT_CONTRACT
+from native_unified_contract_v5 import (split_intents,split_native7_intents,additional_catalog,
+    INDEPENDENT_DEVELOPMENT_CONTRACT,focus_action,focus_actions_for)
 from macro_policy import validate_actions,public_descriptions
 
 class HighLevelDomains(unittest.TestCase):
@@ -31,6 +32,14 @@ class HighLevelDomains(unittest.TestCase):
             with self.subTest(request=request,latest=latest),self.assertRaises(ValueError):
                 validate_actions(['scout','expand'],['scout','expand'],['scout','expand'],
                     request_intent_contract=request,latest_intent_contract=latest)
+
+    def test_focus_intents_follow_the_actual_enemy_ids(self):
+        self.assertEqual(focus_actions_for((2,6)),{'focusenemy2':2,'focusenemy6':6})
+        self.assertEqual(split_native7_intents(['attackenemy','focusenemy2'])[2],2)
+        self.assertEqual(additional_catalog(['focusenemy6'])['focusenemy6']['target_player_id'],6)
+        for invalid in (-1,16,True,'4'):
+            with self.subTest(invalid=invalid),self.assertRaises(ValueError):focus_action(invalid)
+        with self.assertRaises(ValueError):split_native7_intents(['focusenemy16'])
 
     def test_legal_combined_domains(self):
         actions=['scout','budgetarmy','pauseconstruction','advanceproduction']

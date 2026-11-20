@@ -3,7 +3,26 @@ FLAG_ACTIONS=('regroup','scout','withdraw','reinforce','budgeteconomy','budgetar
 GATE_ACTIONS={'pauseconstruction':(0,False),'advanceconstruction':(0,True),
               'pauseproduction':(1,False),'advanceproduction':(1,True)}
 NATIVE_ATTACK_ACTION='attackenemy'
-FOCUS_ACTIONS={'focusenemy4':4,'focusenemy5':5}
+FOCUS_PREFIX='focusenemy'
+MAX_PLAYER_ID=15
+
+
+def focus_action(player_id):
+    """The enemy-focus intent for one public enemy player, e.g. focusenemy4."""
+    if type(player_id) is not int or not 0<=player_id<=MAX_PLAYER_ID:
+        raise ValueError('enemy_focus_player_id')
+    return FOCUS_PREFIX+str(player_id)
+
+
+def focus_actions_for(enemy_player_ids):
+    """Focus intents offered for the actual enemies of a match."""
+    return {focus_action(player_id):player_id for player_id in sorted(enemy_player_ids)}
+
+
+# Grammar: one focus intent per possible player id. A match offers only the
+# subset for its actual enemies (focus_actions_for), further limited by what
+# the native runtime can execute.
+FOCUS_ACTIONS=focus_actions_for(range(MAX_PLAYER_ID+1))
 RAID_ACTION='raideconomy'
 STRATEGIC_ACTIONS=frozenset(FLAG_ACTIONS)|frozenset(GATE_ACTIONS)|{NATIVE_ATTACK_ACTION,RAID_ACTION}|frozenset(FOCUS_ACTIONS)
 NEW_DOMAINS={'expand':'expansion','pauseconstruction':'construction_gate','advanceconstruction':'construction_gate',

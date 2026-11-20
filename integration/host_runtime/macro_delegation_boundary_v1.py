@@ -7,14 +7,14 @@ import copy
 import re
 
 from .contracts import ContractError
+from .strategic_contract_v5 import FOCUS_ACTIONS
 
 KIND = 'native_ai_details_v1'
 STRATEGIC_ACTIONS = frozenset({
     'budgeteconomy', 'budgetarmy', 'budgettech', 'scout',
     'deployattack', 'attackenemy', 'raideconomy', 'deploydefense', 'regroup', 'withdraw', 'reinforce',
     'expand', 'pauseconstruction', 'advanceconstruction', 'pauseproduction', 'advanceproduction',
-    'focusenemy4', 'focusenemy5',
-})
+}) | frozenset(FOCUS_ACTIONS)
 
 
 def battlefield_summary(context):

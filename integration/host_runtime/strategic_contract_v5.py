@@ -13,3 +13,5 @@ FOCUS_ACTIONS=_grammar.FOCUS_ACTIONS
 split_native7_intents=_grammar.split_native7_intents
 INDEPENDENT_DEVELOPMENT_CONTRACT=_grammar.INDEPENDENT_DEVELOPMENT_CONTRACT
 RAID_ACTION=_grammar.RAID_ACTION
+focus_action=_grammar.focus_action
+focus_actions_for=_grammar.focus_actions_for

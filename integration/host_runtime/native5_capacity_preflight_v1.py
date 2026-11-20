@@ -30,9 +30,29 @@ MEMORY_RESERVE=1536
 KIND='native5_capacity_only_v1'
 LEGACY_ACTIONS=frozenset(FLAG_ACTIONS)|frozenset(GATE_ACTIONS)
 NATIVE_TARGET_ACTIONS=(LEGACY_ACTIONS-{'deployattack'})|{'attackenemy'}
-ENEMY_FOCUS_ACTIONS=NATIVE_TARGET_ACTIONS|frozenset(FOCUS_ACTIONS)
+# Native7 currently executes focus only for public players 4 and 5.
+NATIVE7_FOCUS_ACTIONS=frozenset(('focusenemy4','focusenemy5'))
+ENEMY_FOCUS_ACTIONS=NATIVE_TARGET_ACTIONS|NATIVE7_FOCUS_ACTIONS
 INDEPENDENT_ACTIONS=ENEMY_FOCUS_ACTIONS|{RAID_ACTION}
 DUEL_ACTIONS=NATIVE_TARGET_ACTIONS|{RAID_ACTION}
+# A scenario may withhold home-waypoint actions (see host_runtime.scenario).
+HOME_WAYPOINT_ACTIONS=frozenset(('regroup','withdraw'))
+
+
+def _grammar(actions):
+    """(core grammar, focus actions) of a qualified catalog, or None.
+
+    The core must be one fixed grammar, optionally without the home-waypoint
+    actions. Enemy focus actions follow the match's actual enemies; at least
+    two are needed for a choice to exist.
+    """
+    actions=frozenset(actions)
+    focus=frozenset(action for action in actions if action in FOCUS_ACTIONS)
+    core=actions-focus
+    for base in (LEGACY_ACTIONS,NATIVE_TARGET_ACTIONS,DUEL_ACTIONS):
+        if core in (base,base-HOME_WAYPOINT_ACTIONS) and (not focus or len(focus)>=2 and base!=LEGACY_ACTIONS):
+            return base,focus
+    return None
 
 def _bytes(value):
     return len(json.dumps(value,ensure_ascii=False,allow_nan=False,separators=(',',':')).encode('utf8'))
@@ -95,10 +115,12 @@ def _capacity_envelope(effective,snapshot,catalog):
     value['macro_strategy']=memory
     work=['reinforce','budgeteconomy','advanceconstruction','pauseproduction']
     if independent:work.append('expand')
-    if any(action in FOCUS_ACTIONS for action in actions):
-        work.append('focusenemy5')
+    focus=sorted((action for action in actions if action in FOCUS_ACTIONS),key=lambda action:FOCUS_ACTIONS[action])
+    if focus:
+        work.append(focus[-1])
         value['working_memory']['match_state']=dict(schema_version=1,source='CAPACITY_ONLY_NOT_PUBLIC_MATCH',
-            observed_frame='CAPACITY_ONLY_FRAME',opponent_player_ids=[4,5],defeated_opponent_ids=[],opponents_allied=True)
+            observed_frame='CAPACITY_ONLY_FRAME',opponent_player_ids=[FOCUS_ACTIONS[action] for action in focus],
+            defeated_opponent_ids=[],opponents_allied=True)
     value['working_memory']['current_strategy']=dict(stance='defend',production_focus='native_baseline',
         economy_policy='expand_if_defensible',tech_policy='advance_if_affordable',
         budget=dict(economy=.25,army=.25,tech=.25,reserve=.25),
@@ -161,8 +183,8 @@ def check_native5_capacity(effective,provider,public_snapshot,qualified_catalog)
     limit=32768 if snapshot.macro_intent_contract==INDEPENDENT_DEVELOPMENT_CONTRACT else LIMIT
     if (snapshot.player_id!=3 or snapshot.macro_control is None
             or type(qualified_catalog) is not dict
-            or set(qualified_catalog) not in (LEGACY_ACTIONS,NATIVE_TARGET_ACTIONS,ENEMY_FOCUS_ACTIONS,INDEPENDENT_ACTIONS,DUEL_ACTIONS)
-            or set(qualified_catalog) in (INDEPENDENT_ACTIONS,DUEL_ACTIONS) and snapshot.macro_intent_contract!=INDEPENDENT_DEVELOPMENT_CONTRACT):
+            or _grammar(qualified_catalog) is None
+            or RAID_ACTION in qualified_catalog and snapshot.macro_intent_contract!=INDEPENDENT_DEVELOPMENT_CONTRACT):
         raise ValueError('capacity_native5_fixed_grammar_required')
     targets={d.get('target_region') for d in qualified_catalog.values() if type(d) is dict and 'target_region' in d}
     if any(type(d) is not dict for d in qualified_catalog.values()) or not targets<=set(snapshot.regions):
@@ -182,7 +204,7 @@ def check_native5_capacity(effective,provider,public_snapshot,qualified_catalog)
         reason_code='model_context_capacity_ready' if fits else 'model_context_capacity_exceeded_shorten_style',
         maximum_bytes=limit,sdk_estimate_bytes=estimate,legacy_encoded_bytes=encoded_size,
         envelope_context_bytes=_bytes(value),reserved_memory_json_bytes=MEMORY_RESERVE,
-        reserved_feedback_domains=6 if set(qualified_catalog) in (ENEMY_FOCUS_ACTIONS,INDEPENDENT_ACTIONS) else 5,catalog_action_count=len(qualified_catalog),
+        reserved_feedback_domains=6 if _grammar(qualified_catalog)[1] else 5,catalog_action_count=len(qualified_catalog),
         encoding_provider_capacity_assumption=provider,
         measurement='finite_conservative_core_reserve_not_actual_observation_or_future_request_guarantee',
         native_authority_granted=False,model_request_created=False)
