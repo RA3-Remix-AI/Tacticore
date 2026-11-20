@@ -126,11 +126,11 @@ class AppliedProfile:
             "profile_revision": effective.revision,
             "effective_hash": effective.effective_hash,
             "model": effective.model,
-            "personality": effective.personality,
+            "commander_id": effective.commander_id,
+            "personality": effective.personality_dict(),
             "traits_bytes": effective.traits_bytes,
             "traits_sha256": hashlib.sha256(effective.traits.encode("utf-8")).hexdigest(),
             "traits_truncated": False,
-            "axis_support": effective.public()["axis_support"],
             "state": "host_profile_applied",
             "model_response_received": False,
             "application_scope": "current_host_instance",
@@ -169,7 +169,7 @@ def apply_commander_draft(
     if not isinstance(resolved["model"], str) or not resolved["model"].strip():
         raise ContractError("model_not_resolved")
     effective = normalize_profile(resolved, capability_catalog=capability_catalog)
-    profile = replace(base_profile, model=effective.model, personality=effective.personality, traits=effective.traits)
+    profile = replace(base_profile, model=effective.model, personality=effective.style_index, traits=effective.traits)
     # These are references from the trusted base Profile, never fields supplied
     # by the client draft or reconstructed from its JSON.
     if profile.endpoint is not base_profile.endpoint or profile.key is not base_profile.key:

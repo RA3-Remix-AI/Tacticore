@@ -115,7 +115,7 @@ class DiagnosticsTests(unittest.TestCase):
         self.status_file(result)
         previous = self.profile["effective"]["effective_hash"]
         self.store.save_profile(
-            str(uuid.uuid4()), {**self.profile["draft"], "model": "new-model", "custom_traits": "PRIVATE_CUSTOM"}, 1
+            str(uuid.uuid4()), {**self.profile["draft"], "model": "new-model", "voice_note": "PRIVATE_CUSTOM"}, 1
         )
         exported, document, raw = self.export(run_id)
         self.assertEqual(previous, document["effective_profile"]["effective_hash"])

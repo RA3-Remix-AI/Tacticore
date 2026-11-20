@@ -6,7 +6,7 @@ import unittest
 import uuid
 
 from host_runtime.contracts import ContractError, ProfileApplication, SessionBinding
-from host_runtime.profiles import normalize_profile, normalize_desktop_profile
+from host_runtime.profiles import commander_available, commanders_metadata, normalize_profile, normalize_desktop_profile
 
 PROFILE = "c37de935-529b-4129-85f2-7596ccdc6a12"
 CONNECTION = "f76d0537-8b7b-4540-b5ed-c1558b2b7e32"
@@ -36,17 +36,49 @@ def draft(**changes):
         revision=1,
         connection_id=CONNECTION,
         model="",
-        doctrine="assault",
-        custom_traits="保留撤退空间。",
+        commander_id="hammer",
+        personality=dict(PRESETS["hammer"]),
+        voice_note="保留撤退空间。",
     )
     value.update(changes)
     return value
 
 
-def preferences(preset="pressure", **changes):
-    value = dict(preset=preset, attack=4, risk=4, economy=2, scouting=3, pursuit=4)
-    value.update(changes)
-    return value
+PRESETS = {
+    "hammer": dict(
+        aggression=4,
+        risk=3,
+        persistence=3,
+        punish=5,
+        preserve=3,
+        deception=2,
+        grudge=3,
+        adaptability=4,
+        bait_awareness=5,
+    ),
+    "bastion": dict(
+        aggression=2,
+        risk=2,
+        persistence=2,
+        punish=4,
+        preserve=5,
+        deception=3,
+        grudge=2,
+        adaptability=5,
+        bait_awareness=4,
+    ),
+    "ghost": dict(
+        aggression=3,
+        risk=4,
+        persistence=5,
+        punish=4,
+        preserve=4,
+        deception=5,
+        grudge=3,
+        adaptability=5,
+        bait_awareness=3,
+    ),
+}
 
 
 class ProfileContracts(unittest.TestCase):
@@ -55,61 +87,67 @@ class ProfileContracts(unittest.TestCase):
             call()
         self.assertEqual(caught.exception.code, code)
 
-    def test_four_real_ui_presets_preserve_personality_and_distinct_levels(self):
-        cases = [
-            ("steady", "defense", 1, (2, 1, 4, 3, 1)),
-            ("balanced", "defense", 1, (3, 3, 3, 3, 3)),
-            ("pressure", "assault", 0, (4, 4, 2, 3, 4)),
-            ("flank", "maneuver", 2, (3, 2, 3, 5, 2)),
-        ]
+    def test_presets_carry_exactly_the_character_document_values(self):
         hashes = set()
-        for preset, doctrine, personality, levels in cases:
-            prefs = dict(zip(("attack", "risk", "economy", "scouting", "pursuit"), levels), preset=preset)
-            profile = normalize_profile(draft(doctrine=doctrine, preferences=prefs))
-            self.assertEqual(profile.personality, personality)
-            self.assertEqual(profile.levels, levels)
+        for commander, values in PRESETS.items():
+            profile = normalize_profile(draft(commander_id=commander, personality=dict(values)))
+            self.assertEqual(profile.personality_dict(), values)
+            self.assertEqual(profile.public()["personality"], values)
             self.assertIn("保留撤退空间。", profile.traits)
             hashes.add(profile.effective_hash)
-        self.assertEqual(len(hashes), 4)
-
-    def test_named_preset_does_not_accept_modified_values_or_wrong_doctrine(self):
+        self.assertEqual(len(hashes), 3)
         self.assertCode(
-            "preset_doctrine_or_values_mismatch", lambda: normalize_profile(draft(preferences=preferences(risk=2)))
-        )
-        self.assertCode(
-            "preset_doctrine_or_values_mismatch",
-            lambda: normalize_profile(draft(doctrine="defense", preferences=preferences())),
+            "preset_personality_mismatch",
+            lambda: normalize_profile(draft(personality=dict(PRESETS["hammer"], risk=4))),
         )
 
-    def test_custom_extremes_and_boolean_levels_are_distinct(self):
-        for invalid in [True, False, 0, 6, 1.0, "3"]:
-            self.assertCode(
-                "invalid_preference_level",
-                lambda: normalize_profile(draft(preferences=preferences("custom", risk=invalid))),
-            )
-        low = normalize_profile(draft(preferences=preferences("custom", risk=1)))
-        high = normalize_profile(draft(preferences=preferences("custom", risk=5)))
+    def test_only_hammer_and_custom_are_available_and_metadata_lists_all(self):
+        rows = {row["id"]: row for row in commanders_metadata()}
+        self.assertEqual(set(rows), {"hammer", "bastion", "ghost", "custom"})
+        self.assertEqual(rows["hammer"]["full_name"], "维克托·莫罗佐夫")
+        self.assertEqual(rows["hammer"]["faction"], "Soviet")
+        self.assertTrue(commander_available("hammer"))
+        self.assertTrue(commander_available("custom"))
+        self.assertFalse(commander_available("bastion"))
+        self.assertFalse(commander_available("ghost"))
+
+    def test_custom_accepts_any_level_and_rejects_out_of_range(self):
+        low = normalize_profile(draft(commander_id="custom", personality={k: 1 for k in PRESETS["hammer"]}))
+        high = normalize_profile(draft(commander_id="custom", personality={k: 5 for k in PRESETS["hammer"]}))
         self.assertNotEqual(low.traits, high.traits)
         self.assertNotEqual(low.effective_hash, high.effective_hash)
-
-    def test_utf8_exact_limit_is_accepted_and_one_byte_over_rejected(self):
-        base = normalize_profile(draft(custom_traits="", preferences=preferences()))
-        allowance = 1200 - len(base.generated_traits.encode("utf-8")) - 1
-        custom = "中" * (allowance // 3) + "a" * (allowance % 3)
-        profile = normalize_profile(draft(custom_traits=custom, preferences=preferences()))
-        self.assertEqual(profile.traits_bytes, 1200)
-        self.assertEqual(profile.custom_traits, custom)
-        self.assertFalse(profile.public()["traits_truncated"])
+        for invalid in [True, False, 0, 6, 1.0, "3"]:
+            self.assertCode(
+                "invalid_personality_level",
+                lambda: normalize_profile(
+                    draft(commander_id="custom", personality=dict(PRESETS["hammer"], risk=invalid))
+                ),
+            )
+        self.assertCode("invalid_commander", lambda: normalize_profile(draft(commander_id="tank")))
         self.assertCode(
-            "traits_budget_exceeded",
-            lambda: normalize_profile(draft(custom_traits=custom + "a", preferences=preferences())),
+            "unexpected_fields", lambda: normalize_profile(draft(personality=dict(PRESETS["hammer"], pursuit=3)))
         )
 
-    def test_revision_and_custom_trait_changes_are_bound_into_hash(self):
+    def test_old_doctrine_drafts_load_as_the_hammer_preset(self):
+        old = draft(doctrine="defense", custom_traits="旧描述")
+        for key in ("commander_id", "personality", "voice_note"):
+            del old[key]
+        profile = normalize_profile(dict(old, preferences=dict(preset="steady")))
+        self.assertEqual(profile.commander_id, "hammer")
+        self.assertEqual(profile.personality_dict(), PRESETS["hammer"])
+        self.assertEqual(profile.voice_note, "")
+        self.assertCode("unexpected_fields", lambda: normalize_profile(dict(draft(), doctrine="defense")))
+
+    def test_voice_note_utf8_limit_is_300_bytes(self):
+        note = "中" * 100
+        self.assertEqual(normalize_profile(draft(voice_note=note)).voice_note, note)
+        self.assertCode("voice_note_too_long", lambda: normalize_profile(draft(voice_note=note + "a")))
+
+    def test_revision_and_voice_note_changes_are_bound_into_hash(self):
         profile = normalize_profile(draft())
         self.assertEqual(profile.effective_hash, normalize_profile(draft()).effective_hash)
         self.assertNotEqual(profile.effective_hash, normalize_profile(draft(revision=2)).effective_hash)
-        self.assertNotEqual(profile.effective_hash, normalize_profile(draft(custom_traits="先侦察。")).effective_hash)
+        self.assertNotEqual(profile.effective_hash, normalize_profile(draft(voice_note="先侦察。")).effective_hash)
         self.assertCode("effective_profile_hash_mismatch", lambda: replace(profile, revision=2))
 
     def test_ids_are_explicitly_mapped_and_secrets_cannot_enter_public_schema(self):

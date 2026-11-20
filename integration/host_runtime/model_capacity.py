@@ -329,7 +329,7 @@ def check_model_capacity(effective, provider, public_snapshot, qualified_catalog
         raise ValueError("capacity_public_catalog_required")
     value = _capacity_envelope(effective, snapshot, deepcopy(qualified_catalog))
     profile = SimpleNamespace(
-        personality=effective.personality, traits=effective.traits, provider=provider, model=effective.model
+        personality=effective.style_index, traits=effective.traits, provider=provider, model=effective.model
     )
     # __new__ intentionally avoids NetworkBackend's factory/SDK/client/credential
     # construction. input_size is the exact production pure estimator, unchanged.

@@ -49,9 +49,19 @@ def draft(**changes):
         revision=2,
         connection_id=fixtures.CONNECTION,
         model="",
-        doctrine="defense",
-        custom_traits="不要盲目追击。",
-        preferences=dict(preset="steady", attack=2, risk=1, economy=4, scouting=3, pursuit=1),
+        commander_id="custom",
+        personality=dict(
+            aggression=2,
+            risk=1,
+            persistence=2,
+            punish=3,
+            preserve=5,
+            deception=1,
+            grudge=2,
+            adaptability=3,
+            bait_awareness=3,
+        ),
+        voice_note="不要盲目追击。",
     )
     value.update(changes)
     return value
@@ -133,7 +143,7 @@ class BackendApplication(unittest.IsolatedAsyncioTestCase):
             wire = json.loads(request.content)
             calls.append(wire)
             self.assertEqual(wire["model"], applied.effective.model)
-            self.assertIn(applied.effective.custom_traits, wire["messages"][0]["content"])
+            self.assertIn(applied.effective.voice_note, wire["messages"][0]["content"])
             self.assertIn("fortifier", wire["messages"][0]["content"])
             self.assertEqual(request.headers["Authorization"], "Bearer " + SECRET)
             ctx = json.loads(wire["messages"][1]["content"])
