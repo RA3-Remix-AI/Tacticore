@@ -1,4 +1,5 @@
 """Wrap an existing ChatAdapter instance; do not copy or patch legacy code."""
+
 from typing import Awaitable, Callable
 from .protocol import CallableBackend, PolicyRequest, within_deadline
 
@@ -17,13 +18,16 @@ class LegacyBackend(CallableBackend):
         return getattr(self._adapter, "max_input_bytes", None)
 
     @property
-    def metrics(self): return self._adapter.metrics
+    def metrics(self):
+        return self._adapter.metrics
 
     @property
-    def last_error_code(self): return self._adapter.last_error_code
+    def last_error_code(self):
+        return self._adapter.last_error_code
 
     @property
-    def last_diagnostics(self): return self._adapter.last_diagnostics
+    def last_diagnostics(self):
+        return self._adapter.last_diagnostics
 
     async def run(self, request: PolicyRequest) -> dict:
         # Preserve the exact legacy payload/result and ContractError identity.

@@ -1,4 +1,5 @@
 """Real SQLite crash-boundary and concurrency checks; no game/model access."""
+
 import concurrent.futures
 from contextlib import closing
 import json
@@ -38,20 +39,23 @@ class JournalTests(unittest.TestCase):
             self.journal.mark_dispatching("run-a", "request-a")
 
     def test_recent_projection_updates_after_first_page_and_reports_truncation(self):
-        self.journal.register_run('other-run', self.binding)
+        self.journal.register_run("other-run", self.binding)
         for index in range(35):
-            self.journal.append_event('run-a', 'observation', {'index': index})
-            self.journal.append_event('other-run', 'other', {'index': index})
-        page = self.journal.latest_events('run-a', limit=3)
-        self.assertEqual([32,33,34], [event['payload']['index'] for event in page['events']])
-        self.assertEqual(36, page['total_count'])  # Includes the durable run_registered event.
-        self.assertTrue(page['truncated'])
-        self.assertEqual(page['events'][0]['seq'], page['first_seq'])
-        self.assertEqual(page['events'][-1]['seq'], page['last_seq'])
-        self.journal.append_event('run-a', 'observation', {'index': 35})
-        self.assertEqual([33,34,35], [event['payload']['index'] for event in self.journal.latest_events('run-a', limit=3)['events']])
+            self.journal.append_event("run-a", "observation", {"index": index})
+            self.journal.append_event("other-run", "other", {"index": index})
+        page = self.journal.latest_events("run-a", limit=3)
+        self.assertEqual([32, 33, 34], [event["payload"]["index"] for event in page["events"]])
+        self.assertEqual(36, page["total_count"])  # Includes the durable run_registered event.
+        self.assertTrue(page["truncated"])
+        self.assertEqual(page["events"][0]["seq"], page["first_seq"])
+        self.assertEqual(page["events"][-1]["seq"], page["last_seq"])
+        self.journal.append_event("run-a", "observation", {"index": 35})
+        self.assertEqual(
+            [33, 34, 35],
+            [event["payload"]["index"] for event in self.journal.latest_events("run-a", limit=3)["events"]],
+        )
         with self.assertRaises(JournalError):
-            self.journal.latest_events('run-a', limit=True)
+            self.journal.latest_events("run-a", limit=True)
 
     def test_request_content_and_run_binding_are_immutable(self):
         self.reserve()
@@ -73,7 +77,13 @@ class JournalTests(unittest.TestCase):
             self.journal.mark_dispatching("run-a", "request-a")
         with self.assertRaises(TransitionError):
             self.journal.record_outcome("run-a", "request-a", "completed", {"ok": True})
-        row = self.journal.resolve_uncertain("run-a", "request-a", "released", {"control_released": True, "effect_verified": False}, evidence_id="evidence-1")
+        row = self.journal.resolve_uncertain(
+            "run-a",
+            "request-a",
+            "released",
+            {"control_released": True, "effect_verified": False},
+            evidence_id="evidence-1",
+        )
         self.assertEqual(row["status"], "released")
         self.assertFalse(row["receipt"]["effect_verified"])
 
@@ -100,6 +110,7 @@ class JournalTests(unittest.TestCase):
     def test_two_connections_race_for_one_request_and_one_dispatch(self):
         other = CommandJournal(self.path)
         try:
+
             def claim(journal):
                 row = journal.reserve_command("run-a", "race", "production.start", {"unit": "conscript"})
                 try:
@@ -107,6 +118,7 @@ class JournalTests(unittest.TestCase):
                     return row["command_id"], True
                 except TransitionError:
                     return row["command_id"], False
+
             with concurrent.futures.ThreadPoolExecutor(max_workers=2) as pool:
                 futures = [pool.submit(claim, journal) for journal in (self.journal, other)]
                 result = [future.result() for future in futures]
@@ -120,11 +132,19 @@ class JournalTests(unittest.TestCase):
         self.journal.register_run("run-b", {**self.binding, "session_id": "session-b"})
         with self.assertRaises(IdentityConflict):
             self.journal.append_event("run-b", "effect", {}, command_id=row["command_id"])
-        event = self.journal.append_event("run-a", "effect", {"effect_verified": False}, command_id=row["command_id"], game_frame=7, monotonic_ns=9)
+        event = self.journal.append_event(
+            "run-a", "effect", {"effect_verified": False}, command_id=row["command_id"], game_frame=7, monotonic_ns=9
+        )
         self.assertEqual(self.journal.events("run-a", after=event["seq"]), [])
 
     def test_named_credentials_and_invalid_numbers_never_reach_disk(self):
-        for payload in ({"connection": {"apiKey": "never-store-this"}}, {"profile": {"key": "never-store-this"}}, {"connection": {"api_token": "never-store-this"}}, {"hp": float("nan")}, {"x": "x" * 70000}):
+        for payload in (
+            {"connection": {"apiKey": "never-store-this"}},
+            {"profile": {"key": "never-store-this"}},
+            {"connection": {"api_token": "never-store-this"}},
+            {"hp": float("nan")},
+            {"x": "x" * 70000},
+        ):
             with self.assertRaises(JournalError):
                 self.journal.append_event("run-a", "invalid", payload)
         self.assertNotIn("never-store-this", json.dumps(self.journal.events("run-a")))
@@ -133,7 +153,9 @@ class JournalTests(unittest.TestCase):
 
     def test_intent_and_event_transaction_roll_back_together(self):
         with closing(sqlite3.connect(self.path)) as db:
-            db.execute("CREATE TRIGGER fail_intent BEFORE INSERT ON events WHEN NEW.event_type='command_reserved' BEGIN SELECT RAISE(ABORT,'injected'); END")
+            db.execute(
+                "CREATE TRIGGER fail_intent BEFORE INSERT ON events WHEN NEW.event_type='command_reserved' BEGIN SELECT RAISE(ABORT,'injected'); END"
+            )
             db.commit()
         with self.assertRaises(sqlite3.IntegrityError):
             self.reserve()
@@ -148,7 +170,12 @@ j.reserve_command('run-a','abrupt','mission.start',{'actor_id':9})
 j.mark_dispatching('run-a','abrupt')
 os._exit(17)
 """
-        result = subprocess.run([sys.executable, "-c", program, str(self.path)], cwd=Path(__file__).resolve().parent, capture_output=True, timeout=10)
+        result = subprocess.run(
+            [sys.executable, "-c", program, str(self.path)],
+            cwd=Path(__file__).resolve().parent,
+            capture_output=True,
+            timeout=10,
+        )
         self.assertEqual(result.returncode, 17, result.stderr.decode(errors="replace"))
         self.assertEqual(self.journal.get_command("run-a", "abrupt")["status"], "dispatching")
         recovered = self.journal.reconcile_interrupted("run-a")

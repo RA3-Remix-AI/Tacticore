@@ -1,4 +1,5 @@
 """Verification callbacks here are synthetic and confer no real game capability."""
+
 from dataclasses import replace
 import unittest
 
@@ -11,9 +12,16 @@ from host_runtime.profiles import normalize_profile
 
 def verified(capability, current):
     # Test-only verifier. Production callers must invoke real evidence validation.
-    constraints = dict(runtime_family="tactical", executor_directory="synthetic/test-only", execution_ready=True,
-                       executor_sha256="d" * 64, evidence_id="synthetic-test-only")
-    return VerifiedGrant(capability, "synthetic-test-only", "c" * 64, "d" * 64, "test-only narrow scope", canonical_json(constraints))
+    constraints = dict(
+        runtime_family="tactical",
+        executor_directory="synthetic/test-only",
+        execution_ready=True,
+        executor_sha256="d" * 64,
+        evidence_id="synthetic-test-only",
+    )
+    return VerifiedGrant(
+        capability, "synthetic-test-only", "c" * 64, "d" * 64, "test-only narrow scope", canonical_json(constraints)
+    )
 
 
 class CapabilityContracts(unittest.TestCase):
@@ -39,14 +47,24 @@ class CapabilityContracts(unittest.TestCase):
         self.assertEqual(catalog.describe_axes()["risk"]["mode"], "advisory")
         self.assertEqual(catalog.require("tactics.attack", current).scope, "test-only narrow scope")
         self.assertCode("capability_binding_mismatch", lambda: catalog.require("tactics.attack"))
-        self.assertCode("capability_binding_mismatch", lambda: catalog.require("tactics.attack", replace(current, game_process_start="2026-10-26T11:01:00+08:00")))
+        self.assertCode(
+            "capability_binding_mismatch",
+            lambda: catalog.require("tactics.attack", replace(current, game_process_start="2026-10-26T11:01:00+08:00")),
+        )
         self.assertCode("capability_unsupported", lambda: catalog.require("economy.expand", current))
 
     def test_ui_verified_boolean_cannot_create_an_execution_grant(self):
-        self.assertCode("invalid_verified_grant", lambda: CapabilityCatalog.verify(binding(), [{"verified": True}], lambda candidate, _: candidate))
+        self.assertCode(
+            "invalid_verified_grant",
+            lambda: CapabilityCatalog.verify(binding(), [{"verified": True}], lambda candidate, _: candidate),
+        )
         self.assertCode("capability_verifier_required", lambda: CapabilityCatalog.verify(binding(), [], None))
-        self.assertCode("duplicate_capability", lambda: CapabilityCatalog.verify(binding(), ["tactics.attack"] * 2, verified))
-        self.assertCode("unknown_capability", lambda: CapabilityCatalog.verify(binding(), ["arbitrary.command"], verified))
+        self.assertCode(
+            "duplicate_capability", lambda: CapabilityCatalog.verify(binding(), ["tactics.attack"] * 2, verified)
+        )
+        self.assertCode(
+            "unknown_capability", lambda: CapabilityCatalog.verify(binding(), ["arbitrary.command"], verified)
+        )
 
     def test_policy_expansion_and_tech_are_reported_unsupported_not_infantry_spend(self):
         policy = {"economy_policy": "expand_if_defensible", "tech_policy": "advance_if_affordable"}
@@ -62,19 +80,32 @@ class CapabilityContracts(unittest.TestCase):
 
     def test_capability_change_changes_effective_profile_content_hash(self):
         plain = normalize_profile(draft())
-        enabled = normalize_profile(draft(), capability_catalog=CapabilityCatalog.verify(binding(), ["tactics.attack"], verified))
+        enabled = normalize_profile(
+            draft(), capability_catalog=CapabilityCatalog.verify(binding(), ["tactics.attack"], verified)
+        )
         self.assertNotEqual(plain.effective_hash, enabled.effective_hash)
         self.assertNotEqual(plain.capability_catalog_hash, enabled.capability_catalog_hash)
 
     def test_profile_and_application_cannot_carry_capabilities_into_another_binding(self):
         current = binding()
         catalog = CapabilityCatalog.verify(current, ["tactics.attack"], verified)
-        self.assertCode("profile_capability_binding_mismatch", lambda: normalize_profile(draft(profile_id=str(uuid.uuid4())), capability_catalog=catalog))
+        self.assertCode(
+            "profile_capability_binding_mismatch",
+            lambda: normalize_profile(draft(profile_id=str(uuid.uuid4())), capability_catalog=catalog),
+        )
         profile = normalize_profile(draft(), capability_catalog=catalog)
-        self.assertCode("profile_capability_binding_mismatch", lambda: ProfileApplication.accept(profile, replace(current, game_process_id=102), str(uuid.uuid4())))
+        self.assertCode(
+            "profile_capability_binding_mismatch",
+            lambda: ProfileApplication.accept(profile, replace(current, game_process_id=102), str(uuid.uuid4())),
+        )
 
     def test_unknown_policy_payload_is_not_echoed_as_diagnostic_text(self):
-        self.assertCode("invalid_policy_field", lambda: policy_execution_support({"economy_policy": "DO_NOT_EXPORT", "tech_policy": "hold_current_tier"}, CapabilityCatalog()))
+        self.assertCode(
+            "invalid_policy_field",
+            lambda: policy_execution_support(
+                {"economy_policy": "DO_NOT_EXPORT", "tech_policy": "hold_current_tier"}, CapabilityCatalog()
+            ),
+        )
 
     def test_empty_or_not_ready_constraints_never_become_executable_axes(self):
         empty = VerifiedGrant("tactics.attack", "fixture", "a" * 64, "b" * 64, "primitive observation only")
@@ -86,11 +117,31 @@ class CapabilityContracts(unittest.TestCase):
         # machine constraints, rather than treating the record as authority.
 
     def test_execution_constraints_reject_unknown_keys_and_changed_identity(self):
-        base = dict(runtime_family="tactical", executor_directory="fixture/test", execution_ready=True,
-                    executor_sha256="b" * 64, evidence_id="fixture")
+        base = dict(
+            runtime_family="tactical",
+            executor_directory="fixture/test",
+            execution_ready=True,
+            executor_sha256="b" * 64,
+            evidence_id="fixture",
+        )
         for change in ({"arbitrary_command": "x"}, {"executor_directory": "../escape"}, {"execution_ready": 1}):
-            self.assertCode("invalid_execution_constraints", lambda: VerifiedGrant("tactics.attack", "fixture", "a" * 64, "b" * 64, "fixture", canonical_json({**base, **change})))
-        self.assertCode("execution_constraint_identity_mismatch", lambda: VerifiedGrant("tactics.attack", "fixture", "a" * 64, "b" * 64, "fixture", canonical_json({**base, "evidence_id": "other"})))
+            self.assertCode(
+                "invalid_execution_constraints",
+                lambda: VerifiedGrant(
+                    "tactics.attack", "fixture", "a" * 64, "b" * 64, "fixture", canonical_json({**base, **change})
+                ),
+            )
+        self.assertCode(
+            "execution_constraint_identity_mismatch",
+            lambda: VerifiedGrant(
+                "tactics.attack",
+                "fixture",
+                "a" * 64,
+                "b" * 64,
+                "fixture",
+                canonical_json({**base, "evidence_id": "other"}),
+            ),
+        )
 
 
 if __name__ == "__main__":

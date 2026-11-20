@@ -1,0 +1,28 @@
+# Python formatting for the whole repository: `ruff format <paths>`.
+line-length = 120
+target-version = "py312"
+# Honour the excludes below even when a file is named on the command line.
+force-exclude = true
+# Python sources only; Markdown and other documents keep their own formatting.
+include = ["*.py", "*.pyi"]
+extend-exclude = [
+    "tactical/",
+    "production/",
+    "acceptance/",
+    "reports/",
+    "native-ai/side-probes/",
+    "**/__pycache__",
+    # Tools still compare these files' exact bytes against committed SHA-256 values
+    # (visibility/build-capability-2d7873e1.json, native-ai/verify_*_observer.py).
+    "visibility/audit_templates.py",
+    "visibility/capability.py",
+    "visibility/collector.py",
+    "visibility/native_read.py",
+    "visibility/projection.py",
+    "native-ai/macro_observation.py",
+    "native-ai/macro_area_defense_observation.py",
+]
+
+[format]
+# Some files are stored with CRLF on purpose; keep each file's own line ending.
+line-ending = "auto"

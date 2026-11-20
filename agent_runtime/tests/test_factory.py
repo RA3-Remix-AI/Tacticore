@@ -1,4 +1,5 @@
 """Default model path migration and explicit rollback, entirely offline."""
+
 import asyncio
 import inspect
 import json
@@ -18,6 +19,7 @@ from tacticore_agent_runtime.factory import DEFAULT_BACKEND, NetworkBackend, che
 class SelectionTests(unittest.IsolatedAsyncioTestCase):
     def test_default_is_pydantic_and_legacy_is_explicit(self):
         from service import parser
+
         self.assertEqual(DEFAULT_BACKEND, "pydantic")
         self.assertEqual(inspect.signature(create_backend).parameters["backend"].default, "pydantic")
         self.assertEqual(parser().parse_args(["--commander", COMMANDER]).model_backend, "pydantic")
@@ -28,8 +30,16 @@ class SelectionTests(unittest.IsolatedAsyncioTestCase):
 
     async def test_missing_dependencies_cli_returns_clear_json_without_fallback(self):
         root = Path(__file__).resolve().parents[2]
-        process = await asyncio.create_subprocess_exec(sys.executable, "-S", str(root / "strategy/service.py"),
-            "--commander", COMMANDER, "--check-profile", stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE)
+        process = await asyncio.create_subprocess_exec(
+            sys.executable,
+            "-S",
+            str(root / "strategy/service.py"),
+            "--commander",
+            COMMANDER,
+            "--check-profile",
+            stdout=asyncio.subprocess.PIPE,
+            stderr=asyncio.subprocess.PIPE,
+        )
         stdout, stderr = await asyncio.wait_for(process.communicate(), 5)
         self.assertEqual(process.returncode, 2)
         self.assertEqual(stderr, b"")
@@ -40,20 +50,42 @@ class SelectionTests(unittest.IsolatedAsyncioTestCase):
 class DefaultBackendTests(unittest.IsolatedAsyncioTestCase):
     def response(self, request, *, content=None):
         import httpx2
+
         ctx = json.loads(json.loads(request.content)["messages"][1]["content"])
-        return httpx2.Response(200, json={"id": "offline", "object": "chat.completion", "created": 1,
-            "model": "fixture-model", "choices": [{"index": 0, "finish_reason": "stop", "message": {
-                "role": "assistant", "content": content if content is not None else json.dumps(policy(ctx))}}]})
+        return httpx2.Response(
+            200,
+            json={
+                "id": "offline",
+                "object": "chat.completion",
+                "created": 1,
+                "model": "fixture-model",
+                "choices": [
+                    {
+                        "index": 0,
+                        "finish_reason": "stop",
+                        "message": {
+                            "role": "assistant",
+                            "content": content if content is not None else json.dumps(policy(ctx)),
+                        },
+                    }
+                ],
+            },
+        )
 
     async def test_default_factory_two_turns_preserves_host_memory_telemetry_and_close(self):
         import httpx2
+
         calls, closed = [], []
+
         async def handler(request):
             calls.append(request)
             self.assertEqual(request.headers["Accept-Encoding"], "identity")
             return self.response(request)
+
         class Transport(httpx2.MockTransport):
-            async def aclose(self): closed.append(True)
+            async def aclose(self):
+                closed.append(True)
+
         backend = create_backend(profile(), transport=Transport(handler))
         self.assertIsInstance(backend, NetworkBackend)
         battle = BattleAgent(StrategyEngine(binding()))
@@ -74,27 +106,43 @@ class DefaultBackendTests(unittest.IsolatedAsyncioTestCase):
 
     async def test_raw_envelope_finish_refusal_and_tools_rejected_before_sdk(self):
         import httpx2
+
         for mutation in ("missing", "null", "refusal", "tool_calls"):
             calls = []
+
             async def handler(request):
                 calls.append(1)
                 body = self.response(request).json()
                 choice = body["choices"][0]
-                if mutation == "missing": choice.pop("finish_reason")
-                elif mutation == "null": choice["finish_reason"] = None
-                elif mutation == "refusal": choice["message"]["refusal"] = "refused"
-                else: choice["message"]["tool_calls"] = [{"id": "unexpected", "type": "function", "function": {"name": "move_unit", "arguments": "{}"}}]
+                if mutation == "missing":
+                    choice.pop("finish_reason")
+                elif mutation == "null":
+                    choice["finish_reason"] = None
+                elif mutation == "refusal":
+                    choice["message"]["refusal"] = "refused"
+                else:
+                    choice["message"]["tool_calls"] = [
+                        {"id": "unexpected", "type": "function", "function": {"name": "move_unit", "arguments": "{}"}}
+                    ]
                 return httpx2.Response(200, json=body)
+
             backend = create_backend(profile(), transport=httpx2.MockTransport(handler))
-            with self.subTest(mutation=mutation), self.assertRaisesRegex(RuntimeAdapterError, "incomplete_or_refused_completion"):
+            with (
+                self.subTest(mutation=mutation),
+                self.assertRaisesRegex(RuntimeAdapterError, "incomplete_or_refused_completion"),
+            ):
                 await backend(context())
             self.assertEqual(len(calls), 1)
 
     async def test_contract_error_identity_and_diagnostic_code_preserved(self):
         import httpx2
-        async def handler(request): return self.response(request, content='{"x":1,"x":2}')
+
+        async def handler(request):
+            return self.response(request, content='{"x":1,"x":2}')
+
         backend = create_backend(profile(), transport=httpx2.MockTransport(handler))
-        with self.assertRaisesRegex(ContractError, "duplicate_key"): await backend(context())
+        with self.assertRaisesRegex(ContractError, "duplicate_key"):
+            await backend(context())
         self.assertEqual(backend.last_error_code, "invalid_policy_json")
         self.assertEqual(backend.metrics["responses"], 0)
 
@@ -105,11 +153,14 @@ class DefaultBackendTests(unittest.IsolatedAsyncioTestCase):
 
     async def test_provider_token_fields_and_estimator_before_compaction(self):
         import httpx2
+
         for provider in ("OpenAI", "DeepSeek", "自定义"):
             calls = []
+
             async def handler(request):
                 calls.append(json.loads(request.content))
                 return self.response(request)
+
             backend = create_backend(profile(provider=provider), transport=httpx2.MockTransport(handler))
             self.assertGreater(backend.input_size(dict(context(), oversized="x" * 20000)), backend.max_input_bytes)
             await backend(context())
@@ -117,4 +168,5 @@ class DefaultBackendTests(unittest.IsolatedAsyncioTestCase):
             self.assertEqual(calls[0][field], 2048)
 
 
-if __name__ == "__main__": unittest.main()
+if __name__ == "__main__":
+    unittest.main()

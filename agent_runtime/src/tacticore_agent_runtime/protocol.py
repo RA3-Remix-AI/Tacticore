@@ -1,4 +1,5 @@
 """In-process v1 interface; the existing host remains the policy authority."""
+
 from __future__ import annotations
 
 import asyncio
@@ -38,11 +39,10 @@ def encode_context(context: dict, maximum: int | None = 16384) -> str:
     return value
 
 
-async def within_deadline(request: PolicyRequest, timeout: float,
-                          operation: Callable[[], Awaitable[dict]]) -> dict:
+async def within_deadline(request: PolicyRequest, timeout: float, operation: Callable[[], Awaitable[dict]]) -> dict:
     if type(request.protocol_version) is not int or request.protocol_version != 1:
         raise RuntimeAdapterError("protocol_version")
-    if type(timeout) not in (int, float) or not math.isfinite(timeout) or not .001 <= timeout <= 120:
+    if type(timeout) not in (int, float) or not math.isfinite(timeout) or not 0.001 <= timeout <= 120:
         raise RuntimeAdapterError("timeout_configuration")
     now = asyncio.get_running_loop().time()
     deadline = now + timeout

@@ -1,4 +1,5 @@
 """Repository bootstrap only; all provider/backend assembly lives in agent_runtime."""
+
 from pathlib import Path
 import sys
 

@@ -4,6 +4,7 @@ Listing never imports the credential loader or opens DPAPI files. Library
 identity/connection records stay owned by library.v2.json; only style drafts and
 their save receipts are owned by this database.
 """
+
 from __future__ import annotations
 
 from contextlib import contextmanager
@@ -29,8 +30,10 @@ def _decode(raw: bytes):
                 raise ContractError("duplicate_library_key")
             value[key] = item
         return value
+
     def constant(_):
         raise ContractError("invalid_library_number")
+
     try:
         return json.loads(raw.decode("utf-8-sig"), object_pairs_hook=pairs, parse_constant=constant)
     except ContractError:
@@ -51,9 +54,16 @@ def _endpoint(value):
             loopback = loopback or ipaddress.ip_address(host).is_loopback
         except (ValueError, TypeError):
             pass
-        if (not host or u.username or u.password or u.query or u.fragment
-                or not (u.scheme == "https" or u.scheme == "http" and loopback)
-                or u.path.lower().endswith("/chat/completions") or not 1 <= (u.port or 443) <= 65535):
+        if (
+            not host
+            or u.username
+            or u.password
+            or u.query
+            or u.fragment
+            or not (u.scheme == "https" or u.scheme == "http" and loopback)
+            or u.path.lower().endswith("/chat/completions")
+            or not 1 <= (u.port or 443) <= 65535
+        ):
             raise ValueError()
     except ValueError:
         raise ContractError("invalid_connection_endpoint") from None
@@ -107,7 +117,8 @@ class ProfileStore:
         value = object_fields(_decode(raw), {"schema_version", "connections", "commanders"})
         if type(value["schema_version"]) is not int or value["schema_version"] != 2:
             raise ContractError("unsupported_library_schema")
-        connections = {}; commanders = {}
+        connections = {}
+        commanders = {}
         for field in ("connections", "commanders"):
             if not isinstance(value[field], list) or not 1 <= len(value[field]) <= 100:
                 raise ContractError("invalid_library_count")
@@ -116,68 +127,108 @@ class ProfileStore:
             ident = identifier(row["id"])
             if ident in connections:
                 raise ContractError("duplicate_connection_id")
-            text(row["name"], 60); text(row["default_model"], 200, empty=True); _endpoint(row["base_url"])
+            text(row["name"], 60)
+            text(row["default_model"], 200, empty=True)
+            _endpoint(row["base_url"])
             if row["provider"] not in ("OpenAI", "DeepSeek", "自定义") or type(row["remember_key"]) is not bool:
                 raise ContractError("invalid_connection")
             connections[ident] = row
         for item in value["commanders"]:
             row = object_fields(item, {"id", "name", "connection_id", "model", "personality", "traits"})
-            ident = identifier(row["id"]); connection = identifier(row["connection_id"])
+            ident = identifier(row["id"])
+            connection = identifier(row["connection_id"])
             if ident in commanders:
                 raise ContractError("duplicate_commander_id")
             if connection not in connections:
                 raise ContractError("commander_connection_missing")
-            text(row["name"], 40); text(row["model"], 200, empty=True); text(row["traits"], 4000, empty=True)
+            text(row["name"], 40)
+            text(row["model"], 200, empty=True)
+            text(row["traits"], 4000, empty=True)
             integer(row["personality"], 0, 2, "invalid_personality")
             commanders[ident] = row
         return commanders, connections, hashlib.sha256(raw).hexdigest()
 
     @staticmethod
     def _base_draft(commander):
-        return dict(schema_version=1, profile_id=commander["id"], name=commander["name"], revision=1,
-                    connection_id=commander["connection_id"], model=commander["model"],
-                    doctrine=next(d for d, p in DOCTRINES.items() if p == commander["personality"]),
-                    custom_traits=commander["traits"])
+        return dict(
+            schema_version=1,
+            profile_id=commander["id"],
+            name=commander["name"],
+            revision=1,
+            connection_id=commander["connection_id"],
+            model=commander["model"],
+            doctrine=next(d for d, p in DOCTRINES.items() if p == commander["personality"]),
+            custom_traits=commander["traits"],
+        )
 
     def _record(self, profile_id, commanders, connections, library_hash, row=None):
         if profile_id not in commanders:
             raise ContractError("profile_not_found")
         commander = commanders[profile_id]
         draft = json.loads(row["draft_json"]) if row is not None else self._base_draft(commander)
-        effective = None; reason = "ok"
+        effective = None
+        reason = "ok"
         try:
             if draft["connection_id"] != commander["connection_id"] or draft["name"] != commander["name"]:
                 raise ContractError("protected_profile_changed")
             resolved = dict(draft)
-            resolved["model"] = (draft["model"].strip() or commander["model"].strip()
-                                  or connections[commander["connection_id"]]["default_model"].strip())
+            resolved["model"] = (
+                draft["model"].strip()
+                or commander["model"].strip()
+                or connections[commander["connection_id"]]["default_model"].strip()
+            )
             if not resolved["model"]:
                 raise ContractError("model_not_resolved")
             effective = normalize_profile(resolved).public()
         except ContractError as error:
             reason = error.code
-        return dict(profile_id=profile_id, name=commander["name"], revision=draft["revision"],
-                    provider=connections[commander['connection_id']]['provider'],
-                    connection_id=commander["connection_id"], model=effective["model"] if effective else "",
-                    personality=effective["personality"] if effective else commander["personality"],
-                    doctrine=draft["doctrine"], preferences=effective["preferences"] if effective else draft.get("preferences"),
-                    custom_traits=draft["custom_traits"], draft=draft, effective=effective,
-                    validation=dict(ok=effective is not None, reason_code=reason),
-                    state="saved" if row is not None else "library", host_applied=False,
-                    library_hash=library_hash, library_changed=bool(row is not None and row["library_hash"] != library_hash))
+        return dict(
+            profile_id=profile_id,
+            name=commander["name"],
+            revision=draft["revision"],
+            provider=connections[commander["connection_id"]]["provider"],
+            connection_id=commander["connection_id"],
+            model=effective["model"] if effective else "",
+            personality=effective["personality"] if effective else commander["personality"],
+            doctrine=draft["doctrine"],
+            preferences=effective["preferences"] if effective else draft.get("preferences"),
+            custom_traits=draft["custom_traits"],
+            draft=draft,
+            effective=effective,
+            validation=dict(ok=effective is not None, reason_code=reason),
+            state="saved" if row is not None else "library",
+            host_applied=False,
+            library_hash=library_hash,
+            library_changed=bool(row is not None and row["library_hash"] != library_hash),
+        )
 
     def list_profiles(self) -> dict:
         commanders, connections, library_hash = self._library()
         with self._lock:
             saved = {row["profile_id"]: row for row in self._db.execute("SELECT * FROM style_drafts")}
-        return {"profiles": [self._record(ident, commanders, connections, library_hash, saved.get(ident)) for ident in commanders]}
+        return {
+            "profiles": [
+                self._record(ident, commanders, connections, library_hash, saved.get(ident)) for ident in commanders
+            ]
+        }
 
     def list_connections(self) -> dict:
         _, connections, _ = self._library()
-        return {"connections": [dict(id=row["id"], name=row["name"], provider=row["provider"],
-            endpoint=row["base_url"], model=row["default_model"], credential_configured=None,
-            credential_check="not_checked", remember_key=row["remember_key"])
-            for row in connections.values()]}
+        return {
+            "connections": [
+                dict(
+                    id=row["id"],
+                    name=row["name"],
+                    provider=row["provider"],
+                    endpoint=row["base_url"],
+                    model=row["default_model"],
+                    credential_configured=None,
+                    credential_check="not_checked",
+                    remember_key=row["remember_key"],
+                )
+                for row in connections.values()
+            ]
+        }
 
     def get_profile(self, profile_id: str) -> dict:
         identifier(profile_id)
@@ -187,7 +238,8 @@ class ProfileStore:
         return {"profile": self._record(profile_id, commanders, connections, library_hash, row)}
 
     def save_profile(self, request_id: str, draft: dict, expected_revision: int) -> dict:
-        identifier(request_id); integer(expected_revision, 1, 2**53 - 2, "invalid_profile_revision")
+        identifier(request_id)
+        integer(expected_revision, 1, 2**53 - 2, "invalid_profile_revision")
         if not isinstance(draft, dict):
             raise ContractError("invalid_commander_draft")
         # Strict validation runs before any client payload is persisted, including
@@ -206,8 +258,11 @@ class ProfileStore:
         resolved = dict(draft)
         if not isinstance(resolved.get("model"), str):
             raise ContractError("invalid_model")
-        resolved["model"] = (resolved["model"].strip() or commander["model"].strip()
-                              or connections[commander["connection_id"]]["default_model"].strip())
+        resolved["model"] = (
+            resolved["model"].strip()
+            or commander["model"].strip()
+            or connections[commander["connection_id"]]["default_model"].strip()
+        )
         if not resolved["model"]:
             raise ContractError("model_not_resolved")
         normalize_profile(resolved)
@@ -224,10 +279,18 @@ class ProfileStore:
                 raise ContractError("profile_revision_conflict")
             updated = dict(draft, revision=expected_revision + 1)
             encoded = canonical_json(updated)
-            self._db.execute("INSERT INTO style_drafts(profile_id,revision,draft_json,library_hash) VALUES (?,?,?,?) "
+            self._db.execute(
+                "INSERT INTO style_drafts(profile_id,revision,draft_json,library_hash) VALUES (?,?,?,?) "
                 "ON CONFLICT(profile_id) DO UPDATE SET revision=excluded.revision,draft_json=excluded.draft_json,library_hash=excluded.library_hash",
-                (profile_id, expected_revision + 1, encoded, library_hash))
+                (profile_id, expected_revision + 1, encoded, library_hash),
+            )
             row = dict(draft_json=encoded, library_hash=library_hash)
-            result = dict(profile=self._record(profile_id, commanders, connections, library_hash, row), state="saved", host_applied=False)
-            self._db.execute("INSERT INTO style_save_receipts VALUES (?,?,?)", (request_id, fingerprint, canonical_json(result)))
+            result = dict(
+                profile=self._record(profile_id, commanders, connections, library_hash, row),
+                state="saved",
+                host_applied=False,
+            )
+            self._db.execute(
+                "INSERT INTO style_save_receipts VALUES (?,?,?)", (request_id, fingerprint, canonical_json(result))
+            )
             return result

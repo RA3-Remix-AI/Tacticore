@@ -4,6 +4,7 @@ This records a reference and byte identity only. It neither copies credentials
 nor silently searches historical directories. Changing a registered source is
 deliberately refused until a separate stopped-session migration is performed.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -39,6 +40,7 @@ def load_registration(home: Path) -> dict:
                 raise ContractError("duplicate_registration_key")
             result[key] = value
         return result
+
     try:
         with (Path(home) / CONFIG_NAME).open("rb") as stream:
             raw = stream.read(16385)
@@ -90,17 +92,26 @@ def register_library(library: Path, home: Path) -> dict:
             raise ContractError("runtime_registration_conflict")
         record = existing
     else:
-        record = dict(schema_version=1, registration_id=str(uuid.uuid4()),
-                      library_path=str(library), library_sha256=digest)
+        record = dict(
+            schema_version=1, registration_id=str(uuid.uuid4()), library_path=str(library), library_sha256=digest
+        )
         try:
             with config.open("x", encoding="utf-8") as stream:
                 json.dump(record, stream, ensure_ascii=False, indent=2)
-                stream.write("\n"); stream.flush(); os.fsync(stream.fileno())
+                stream.write("\n")
+                stream.flush()
+                os.fsync(stream.fileno())
         except FileExistsError:
             raise ContractError("runtime_registration_conflict") from None
-    return dict(schema_version=1, registered=True, registration_id=record["registration_id"],
-                library_sha256=digest, profile_count=count, credential_material_copied=False,
-                restart_required=True)
+    return dict(
+        schema_version=1,
+        registered=True,
+        registration_id=record["registration_id"],
+        library_sha256=digest,
+        profile_count=count,
+        credential_material_copied=False,
+        restart_required=True,
+    )
 
 
 def main(argv=None):
