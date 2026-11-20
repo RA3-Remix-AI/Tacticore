@@ -12,8 +12,8 @@ test('three commanders with exact preset values from the characters doc; only Ha
     ['ghost', '幽灵', '神崎凛', '升阳', false],
   ]);
   const order = personalityParams.map(param => param.key);
-  assert.deepEqual(order, ['aggression', 'risk', 'persistence', 'punish', 'preserve', 'deception', 'grudge', 'adaptability',
-    'bait_awareness']);
+  assert.deepEqual(order, ['aggression', 'risk', 'persistence', 'punish', 'preserve', 'deception', 'grudge',
+    'adaptability', 'bait_awareness']);
   const levels = (id: string) => order.map(key => builtInCommanders.find(row => row.id === id)!.personality[key]);
   assert.deepEqual(levels('hammer'), [4, 3, 3, 5, 3, 2, 3, 4, 5]);
   assert.deepEqual(levels('bastion'), [2, 2, 2, 4, 5, 3, 2, 5, 4]);
@@ -26,8 +26,10 @@ test('three commanders with exact preset values from the characters doc; only Ha
 });
 
 test('backend commander list overrides names and availability; junk falls back to built-in metadata', () => {
-  const merged = mergeCommanders([{id: 'bastion', name: '堡垒', full_name: '伊芙琳·卡特', faction: '盟军', available: true},
-    {id: 'ghost', available: 'yes', name: ''}, 'junk', {id: 'zzz', available: true}]);
+  const merged = mergeCommanders([
+    {id: 'bastion', name: '堡垒', full_name: '伊芙琳·卡特', faction: '盟军', available: true},
+    {id: 'ghost', available: 'yes', name: ''}, 'junk', {id: 'zzz', available: true},
+  ]);
   assert.equal(merged.length, 3);
   assert.equal(merged.find(row => row.id === 'bastion')?.available, true);
   assert.equal(merged.find(row => row.id === 'ghost')?.available, false);

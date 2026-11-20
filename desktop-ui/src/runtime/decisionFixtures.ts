@@ -20,11 +20,14 @@ function decision(runId: string, seq: number, time: number, layer: string, field
 }
 
 const model = (latency: number, error: string | null = null) => ({
-  provider: 'DeepSeek', model: 'deepseek-chat', latency_ms: latency, input_bytes: 4120 + latency, output_bytes: 380, error,
+  provider: 'DeepSeek', model: 'deepseek-chat', latency_ms: latency,
+  input_bytes: 4120 + latency, output_bytes: 380, error,
 });
 const own = (credits: number, army: number, buildings: number, income: string) =>
   ({credits, income_hint: income, army_count: army, building_count: buildings});
-const applied = (...effects: string[]) => ({status: 'applied', reason_code: null, native_accepted: true, observed_effects: effects});
+const applied = (...effects: string[]) =>
+  ({status: 'applied', reason_code: null, native_accepted: true, observed_effects: effects});
+const seen = (lastSeen: number, visible: number) => [{player_id: 4, last_seen_s: lastSeen, visible_count: visible}];
 const composer = (appliedIntents: string[], dropped: {intent: string; reason: string}[] = []) =>
   ({applied_intents: appliedIntents, dropped});
 
@@ -42,7 +45,7 @@ export function rawDecisionFixtures(runId: string): Raw[] {
       model: model(1620),
     }),
     decision(runId, 2, 40, 'commander', {
-      situation: {own: own(7600, 2, 3, '开局'), enemies: [{player_id: 4, last_seen_s: 36, visible_count: 2}], threats: []},
+      situation: {own: own(7600, 2, 3, '开局'), enemies: seen(36, 2), threats: []},
       directive: {route: 'tech_pressure', resource_split: {economy: 0.45, army: 0.25, tech: 0.25, reserve: 0.05},
         primary_enemy: 4, overrides: ['no_expansion'], valid_for_s: 120},
       decision: {intents: [], objective: '科技压制：先拉经济，攀天启',
@@ -53,7 +56,7 @@ export function rawDecisionFixtures(runId: string): Raw[] {
       model: model(2410),
     }),
     decision(runId, 3, 65, 'tactical', {
-      situation: {own: own(5200, 4, 4, '上升'), enemies: [{player_id: 4, last_seen_s: 60, visible_count: 3}], threats: []},
+      situation: {own: own(5200, 4, 4, '上升'), enemies: seen(60, 3), threats: []},
       decision: {intents: ['raideconomy'], objective: '恐怖机器人去摸玩家 4 的矿车',
         reasoning: '矿车路线已经确认，没有护卫。骚扰设 45 秒期限，矿车有护卫就撤。', valid_for_s: 45,
         recorded_only: ['power_usage']},
@@ -71,7 +74,7 @@ export function rawDecisionFixtures(runId: string): Raw[] {
       model: model(1750),
     }),
     decision(runId, 5, 130, 'tactical', {
-      situation: {own: own(3900, 9, 6, '稳定'), enemies: [{player_id: 4, last_seen_s: 128, visible_count: 4}],
+      situation: {own: own(3900, 9, 6, '稳定'), enemies: seen(128, 4),
         threats: ['敌方部队正在后撤']},
       decision: {intents: ['deployattack'], objective: '追击后撤的敌军',
         reasoning: '敌军正在后撤，窗口马上关闭，建议立刻追击。', valid_for_s: 30, recorded_only: []},
@@ -80,7 +83,7 @@ export function rawDecisionFixtures(runId: string): Raw[] {
       model: model(1290),
     }),
     decision(runId, 6, 132, 'commander', {
-      situation: {own: own(3900, 9, 6, '稳定'), enemies: [{player_id: 4, last_seen_s: 128, visible_count: 4}], threats: []},
+      situation: {own: own(3900, 9, 6, '稳定'), enemies: seen(128, 4), threats: []},
       directive: {route: 'tech_pressure', resource_split: {economy: 0.35, army: 0.3, tech: 0.3, reserve: 0.05},
         primary_enemy: 4, overrides: ['no_expansion'], valid_for_s: 120},
       decision: {intents: [], objective: '不追，先看清退路',
@@ -91,7 +94,7 @@ export function rawDecisionFixtures(runId: string): Raw[] {
       model: model(2630),
     }),
     decision(runId, 7, 180, 'tactical', {
-      situation: {own: own(4400, 11, 7, '稳定'), enemies: [{player_id: 4, last_seen_s: 176, visible_count: 6}], threats: []},
+      situation: {own: own(4400, 11, 7, '稳定'), enemies: seen(176, 6), threats: []},
       decision: {intents: ['scout'], objective: '战熊确认敌方退路',
         reasoning: '按总指挥的要求先侦察北侧，确认是不是诱饵。', valid_for_s: 30, recorded_only: []},
       composer: composer(['scout']),
@@ -99,7 +102,7 @@ export function rawDecisionFixtures(runId: string): Raw[] {
       model: model(1210),
     }),
     decision(runId, 8, 220, 'tactical', {
-      situation: {own: own(5100, 12, 7, '稳定'), enemies: [{player_id: 4, last_seen_s: 215, visible_count: 2}], threats: []},
+      situation: {own: own(5100, 12, 7, '稳定'), enemies: seen(215, 2), threats: []},
       decision: {intents: ['withdraw'], objective: '恐怖机器人撤回',
         reasoning: '矿车有护卫了，骚扰到此为止，机器人转去盯分矿。', valid_for_s: 20, recorded_only: []},
       composer: composer(['withdraw']),
@@ -113,7 +116,7 @@ export function rawDecisionFixtures(runId: string): Raw[] {
       model: model(15000, 'timeout'),
     }),
     decision(runId, 10, 360, 'commander', {
-      situation: {own: own(7400, 21, 9, '高'), enemies: [{player_id: 4, last_seen_s: 352, visible_count: 5}], threats: []},
+      situation: {own: own(7400, 21, 9, '高'), enemies: seen(352, 5), threats: []},
       directive: {route: 'all_in', resource_split: {economy: 0.1, army: 0.8, tech: 0, reserve: 0.1},
         primary_enemy: 4, overrides: ['no_expansion', 'no_tech'], valid_for_s: 90},
       decision: {intents: [], objective: '全力出击：集中突破北侧',
@@ -123,7 +126,7 @@ export function rawDecisionFixtures(runId: string): Raw[] {
       model: model(2550),
     }),
     decision(runId, 11, 370, 'tactical', {
-      situation: {own: own(6900, 22, 9, '高'), enemies: [{player_id: 4, last_seen_s: 368, visible_count: 5}], threats: []},
+      situation: {own: own(6900, 22, 9, '高'), enemies: seen(368, 5), threats: []},
       decision: {intents: ['attackenemy'], objective: '集中突破北侧，目标敌方建造厂',
         reasoning: '主力和防空伴随一起推进，只打建造厂，不追残兵。', valid_for_s: 90, recorded_only: []},
       composer: composer(['attackenemy']),

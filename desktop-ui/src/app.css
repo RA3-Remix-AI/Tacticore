@@ -152,7 +152,9 @@
   border: 1px solid color-mix(in srgb, var(--layer, var(--line)) 45%, var(--line));
 }
 .tc-chip small { color: var(--muted); margin-left: 4px; font-variant-numeric: tabular-nums; }
-.tc-chip[aria-pressed="true"] { color: var(--layer, var(--bright)); border-color: var(--layer, var(--gold)); background: #c9ab7014; }
+.tc-chip[aria-pressed="true"] {
+  color: var(--layer, var(--bright)); border-color: var(--layer, var(--gold)); background: #c9ab7014;
+}
 .tc-directive {
   display: flex; gap: 14px; align-items: flex-start; margin: 14px 0 6px; padding: 16px;
   background: var(--panel-raised); border: 1px solid #5e5233; border-left: 3px solid #d8b56f;
@@ -179,9 +181,15 @@
 .tc-run-info .tc-feed-commander { margin-top: 12px; }
 
 /* ---------- commander page ---------- */
-.tc-avatar { width: 32px; height: 32px; object-fit: cover; object-position: top; border: 1px solid #5e5233; flex: none; }
-.tc-avatar.is-empty { display: inline-grid; place-items: center; font-size: 12px; color: var(--gold); background: var(--panel-raised); }
-.tc-feed-commander, .tc-topbar-commander { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; color: var(--bright); }
+.tc-avatar {
+  width: 32px; height: 32px; object-fit: cover; object-position: top; border: 1px solid #5e5233; flex: none;
+}
+.tc-avatar.is-empty {
+  display: inline-grid; place-items: center; font-size: 12px; color: var(--gold); background: var(--panel-raised);
+}
+.tc-feed-commander, .tc-topbar-commander {
+  display: inline-flex; align-items: center; gap: 8px; font-size: 12px; color: var(--bright);
+}
 .tc-commanders { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 20px 0; }
 .tc-commander-card {
   display: flex; gap: 12px; align-items: flex-start; text-align: left; padding: 12px;
@@ -215,7 +223,9 @@
 .tc-personality-grid label strong { color: var(--gold); font-variant-numeric: tabular-nums; font-weight: 500; }
 .tc-personality-grid input[type="range"] { padding: 0; border: 0; background: none; accent-color: var(--gold); }
 .tc-personality-grid small { color: var(--muted); font-size: 11px; line-height: 1.6; }
-.tc-byte-counter { display: block; text-align: right; font-size: 11px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.tc-byte-counter {
+  display: block; text-align: right; font-size: 11px; color: var(--muted); font-variant-numeric: tabular-nums;
+}
 .tc-byte-counter.is-over { color: #e49a85; }
 @media (max-width: 1080px) {
   .tc-commanders, .tc-personality-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }

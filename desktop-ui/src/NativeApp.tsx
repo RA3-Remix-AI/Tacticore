@@ -33,7 +33,9 @@ import { MatchCard, boundView } from './ui/MatchCard';
 import { MatchControlPanel } from './ui/MatchControlPanel';
 import { DecisionFeed, type FeedState } from './ui/DecisionFeed';
 import { CommanderAvatar } from './ui/CommanderAvatar';
-import { commanderBadge, commanderProfile, commanderSupported, mergeCommanders, profileSaveDraft } from './runtime/commanders';
+import {
+  commanderBadge, commanderProfile, commanderSupported, mergeCommanders, profileSaveDraft,
+} from './runtime/commanders';
 import { ReviewPage } from './ui/ReviewPage';
 import { DetailsPanel } from './ui/DetailsPanel';
 import './native.css';
@@ -263,8 +265,9 @@ export default function NativeApp() {
   }
   async function save() {
     if (!draft || !profile) return;
+    const saved = {...profileSaveDraft(draft, commanderSupport), revision: profile.revision};
     const result = await hostRpc<{profile: Profile; state: string; host_applied: false}>('profiles.save',
-      {draft: {...profileSaveDraft(draft, commanderSupport), revision: profile.revision}, expected_revision: profile.revision});
+      {draft: saved, expected_revision: profile.revision});
     setProfiles(values => values.map(p => (p.profile_id === result.profile.profile_id ? result.profile : p)));
     setDraft(structuredClone(result.profile.draft)); setDirty(false); setReady(null);
     setNotice('指挥官设置已保存，下一局开始时生效。');

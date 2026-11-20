@@ -102,7 +102,8 @@ test('host page run (run_start) becomes the first record with commander, mode an
   assert.equal(start.decision_mode, 'layered');
   assert.equal(start.opening_variant, 'bear_scout_terror_raid');
   assert.equal(start.commander?.id, 'hammer');
-  const older = createDecisionClient({source: 'backend', rpc: async () => ({run: null, decisions: [], has_more: false})});
+  const older = createDecisionClient({source: 'backend',
+    rpc: async () => ({run: null, decisions: [], has_more: false})});
   const empty = await older(runId);
   assert.ok(empty.state === 'ok' && empty.records.length === 0);
 });

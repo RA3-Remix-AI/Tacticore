@@ -61,6 +61,11 @@ export function StylePanel({profiles, selected, profile, draft, dirty, disabled,
   const bytes = voiceNoteBytes(value.voice_note);
   const editing = disabled || !supported;
   const apply = (next: CommanderProfile) => onEdit({...next});
+  const choose = (id: CommanderMeta['id']) => {
+    const next = chooseCommander(id, commanders);
+    if (next) apply(next);
+  };
+  const validationIssue = !problem && !profile.validation.ok ? reasonText(profile.validation.reason_code) : null;
   return <section className="native-panel setup-panel tc-style">
     <div className="setup-panel-heading">
       <div>
@@ -77,7 +82,7 @@ export function StylePanel({profiles, selected, profile, draft, dirty, disabled,
     </label>}
     <div className="tc-commanders" role="group" aria-label="指挥官">
       {commanders.map(meta => <CommanderCard key={meta.id} meta={meta} pressed={value.commander_id === meta.id}
-        disabled={editing} onChoose={() => { const next = chooseCommander(meta.id, commanders); if (next) apply(next); }} />)}
+        disabled={editing} onChoose={() => choose(meta.id)} />)}
     </div>
     {current
       ? <article className="tc-commander-hero">
@@ -103,7 +108,7 @@ export function StylePanel({profiles, selected, profile, draft, dirty, disabled,
         onChange={e => onEdit({model: e.target.value})} />
     </label>
     {problem && <p className="native-warning">{reasonText(problem)}</p>}
-    {!problem && !profile.validation.ok && <p className="native-warning">{reasonText(profile.validation.reason_code)}</p>}
+    {validationIssue && <p className="native-warning">{validationIssue}</p>}
     <div className="native-actions">
       <Button kind="primary" disabled={disabled || !dirty || Boolean(problem)} onClick={onSave}>保存</Button>
       <Button disabled={disabled} onClick={onReload}>放弃修改</Button>

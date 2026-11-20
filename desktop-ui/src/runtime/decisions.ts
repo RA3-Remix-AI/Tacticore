@@ -129,7 +129,9 @@ function parseDirective(v: unknown): Directive | null {
   const split = object(v.resource_split) ? v.resource_split : null;
   return {
     route: str(v.route, 40),
-    resource_split: split && {economy: num(split.economy), army: num(split.army), tech: num(split.tech), reserve: num(split.reserve)},
+    resource_split: split && {
+      economy: num(split.economy), army: num(split.army), tech: num(split.tech), reserve: num(split.reserve),
+    },
     primary_enemy: num(v.primary_enemy),
     overrides: strings(v.overrides, 12),
     valid_for_s: num(v.valid_for_s),
@@ -246,7 +248,8 @@ export function parseDecisionRecords(value: unknown): DecisionStreamRecord[] {
 }
 
 export const isMatchEnd = (row: DecisionStreamRecord): row is MatchEndRecord => 'kind' in row && row.kind === 'match_end';
-export const isRunStart = (row: DecisionStreamRecord): row is RunStartRecord => 'kind' in row && row.kind === 'run_start';
+export const isRunStart = (row: DecisionStreamRecord): row is RunStartRecord =>
+  'kind' in row && row.kind === 'run_start';
 export const isDecision = (row: DecisionStreamRecord): row is DecisionRecord => !('kind' in row);
 export const decisionsOf = (records: readonly DecisionStreamRecord[]) => records.filter(isDecision);
 
@@ -341,7 +344,8 @@ export function decisionRow(record: DecisionRecord): DecisionRow {
     failed: Boolean(model?.error),
     layer: record.layer,
     layerLabel: record.layer ? layerLabels[record.layer] : null,
-    commander: record.layer === 'commander' ? commanderBadge(record.commander?.id, undefined, record.commander?.name) : null,
+    commander: record.layer === 'commander'
+      ? commanderBadge(record.commander?.id, undefined, record.commander?.name) : null,
     directiveLine: record.directive ? directiveLine(record.directive) : null,
     dropped: (record.composer?.dropped ?? []).map(row => droppedText(row.intent, row.reason)),
     recordedOnly: recordedOnlyText(record.decision?.recorded_only ?? []),
@@ -430,8 +434,8 @@ export function splitShares(split: Directive['resource_split']): SplitShare[] {
   const keys = Object.keys(splitLabels) as SplitShare['key'][];
   const total = keys.reduce((sum, key) => sum + Math.max(0, split[key] ?? 0), 0);
   if (total <= 0) return [];
-  return keys.map(key => ({key, label: splitLabels[key], percent: Math.round((Math.max(0, split[key] ?? 0) / total) * 100)}))
-    .filter(row => row.percent > 0);
+  const percent = (key: SplitShare['key']) => Math.round((Math.max(0, split[key] ?? 0) / total) * 100);
+  return keys.map(key => ({key, label: splitLabels[key], percent: percent(key)})).filter(row => row.percent > 0);
 }
 
 export interface DirectiveView {
@@ -469,7 +473,9 @@ export function filterByLayer(records: readonly DecisionStreamRecord[], layer: L
 }
 
 /** Layers present in the feed, in display order, with counts. Empty for an older (single-layer) backend. */
-export function layerCounts(records: readonly DecisionStreamRecord[]): {layer: DecisionLayer; label: string; count: number}[] {
+export type LayerCount = {layer: DecisionLayer; label: string; count: number};
+
+export function layerCounts(records: readonly DecisionStreamRecord[]): LayerCount[] {
   const decisions = decisionsOf(records);
   return layerOrder
     .map(layer => ({layer, label: layerLabels[layer], count: decisions.filter(row => row.layer === layer).length}))
@@ -539,7 +545,7 @@ export interface ReviewStats {
   averageLatencyMs: number | null;
   topIntents: {label: string; count: number}[];
   ended: boolean;
-  layers: {layer: DecisionLayer; label: string; count: number}[];
+  layers: LayerCount[];
   dropped: number;
   recordedOnly: number;
   run: RunInfo;

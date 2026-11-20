@@ -100,12 +100,14 @@ export function commanderMeta(id: unknown, commanders: readonly CommanderMeta[] 
   return commanders.find(row => row.id === id) ?? null;
 }
 
-const level = (v: unknown): number | null => (typeof v === 'number' && Number.isInteger(v) && v >= 1 && v <= 5 ? v : null);
+const level = (v: unknown): number | null =>
+  (typeof v === 'number' && Number.isInteger(v) && v >= 1 && v <= 5 ? v : null);
 
 /** A complete, valid personality; missing or invalid values come from the fallback. */
 export function parsePersonality(value: unknown, fallback: Personality): Personality {
   const source = object(value) ? value : {};
-  return Object.fromEntries(personalityParams.map(({key}) => [key, level(source[key]) ?? fallback[key]])) as Personality;
+  const entries = personalityParams.map(({key}) => [key, level(source[key]) ?? fallback[key]]);
+  return Object.fromEntries(entries) as Personality;
 }
 
 export function personalityValid(value: unknown): boolean {
@@ -114,7 +116,8 @@ export function personalityValid(value: unknown): boolean {
 
 /** The preset whose values match exactly, or 'custom'. */
 export function presetFor(personality: Personality): CommanderChoice {
-  const match = builtInCommanders.find(row => personalityParams.every(({key}) => row.personality[key] === personality[key]));
+  const same = (row: CommanderMeta) => personalityParams.every(({key}) => row.personality[key] === personality[key]);
+  const match = builtInCommanders.find(same);
   return match?.id ?? 'custom';
 }
 
@@ -170,7 +173,7 @@ export function commanderProblem(profile: CommanderProfile, commanders: readonly
   return null;
 }
 
-/** The draft for `profiles.save`. An older backend rejects unknown fields, so commander fields go only when supported. */
+/** The draft for `profiles.save`. An older backend rejects unknown fields: commander fields go only when supported. */
 export function profileSaveDraft<T extends DraftLike>(draft: T, supported: boolean): T {
   if (supported) return draft;
   const rest = {...draft};
@@ -181,7 +184,9 @@ export function profileSaveDraft<T extends DraftLike>(draft: T, supported: boole
 }
 
 /** What the top bar and match screen show for a commander choice or a decision record's `commander`. */
-export function commanderBadge(id: unknown, commanders: readonly CommanderMeta[] = builtInCommanders, name?: string | null) {
+export function commanderBadge(
+  id: unknown, commanders: readonly CommanderMeta[] = builtInCommanders, name?: string | null,
+) {
   const meta = commanderMeta(id, commanders);
   if (meta) return {name: meta.name, full_name: meta.full_name, portrait: meta.portrait as string | null};
   return {name: name || (id === 'custom' ? '自定义指挥官' : '指挥官'), full_name: null, portrait: null};

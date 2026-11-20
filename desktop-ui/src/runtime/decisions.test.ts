@@ -108,7 +108,8 @@ test('review stats count outcomes, latency and the final result', () => {
   assert.equal(stats.resultLabel, '胜利');
   assert.equal(stats.duration, '07:32');
   assert.equal(stats.ended, true);
-  const latencies = rawDecisionFixtures(runId).filter(row => row.kind === 'decision').flatMap(row => (row.model ? [(row.model as {latency_ms: number}).latency_ms] : []));
+  const latencies = rawDecisionFixtures(runId).filter(row => row.kind === 'decision')
+    .flatMap(row => (row.model ? [(row.model as {latency_ms: number}).latency_ms] : []));
   assert.equal(stats.averageLatencyMs, Math.round(latencies.reduce((a, b) => a + b, 0) / latencies.length));
   assert.equal(stats.topIntents[0].count >= 1, true);
   assert.deepEqual(stats.topIntents[0], {label: '集中对付玩家 4', count: 3});
@@ -180,7 +181,8 @@ test('current directive comes from the latest commander record; resource split b
   assert.deepEqual(directive.shares.map(row => [row.label, row.percent]), [['经济', 10], ['军队', 80], ['储备', 10]]);
   assert.equal(currentDirective(records.slice(0, 7))?.route, '科技压制');
   assert.equal(currentDirective(records.slice(0, 2)), null, 'no commander record yet');
-  assert.deepEqual(splitShares({economy: 30, army: 50, tech: 10, reserve: 10}).map(row => row.percent), [30, 50, 10, 10]);
+  const percents = splitShares({economy: 30, army: 50, tech: 10, reserve: 10}).map(row => row.percent);
+  assert.deepEqual(percents, [30, 50, 10, 10]);
   assert.deepEqual(splitShares({economy: null, army: null, tech: null, reserve: null}), []);
   assert.deepEqual(splitShares(null), []);
 });

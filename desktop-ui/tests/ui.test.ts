@@ -116,7 +116,7 @@ test('connection test parses results and degrades on older backends', async () =
   assert.match(connectionTestText(unknown).text, /无法确认/);
 });
 
-test('layered feed: directive banner, layer labels, filter chips, commander portrait, dropped and record-only lines', () => {
+test('layered feed: directive banner, layer labels, chips, commander portrait, dropped and record-only lines', () => {
   const html = renderToStaticMarkup(createElement(DecisionFeed, {records: decisionFixtureRecords(runId), state: 'ok',
     live: true, mock: true}));
   assert.match(html, /当前方针/);
@@ -152,14 +152,16 @@ test('older single-layer records show no layer chips or labels', () => {
 });
 
 const draftBase: Draft = {schema_version: 1, profile_id: 'p1', name: '默认', revision: 3, connection_id: 'c1', model: ''};
-const profileOf = (draft: Draft): Profile => ({profile_id: 'p1', name: '默认', revision: 3, model: '', connection_id: 'c1',
-  draft, state: 'saved', validation: {ok: true, reason_code: ''}, effective: null});
-const styleProps = (draft: Draft, supported = true) => ({profiles: [profileOf(draft)], selected: 'p1', profile: profileOf(draft),
-  draft, dirty: false, disabled: false, commanders: mergeCommanders(undefined), supported,
-  onChoose: noop, onEdit: noop, onSave: noop, onReload: noop});
+const profileOf = (draft: Draft): Profile => ({profile_id: 'p1', name: '默认', revision: 3, model: '',
+  connection_id: 'c1', draft, state: 'saved', validation: {ok: true, reason_code: ''}, effective: null});
+const styleProps = (draft: Draft, supported = true) => ({
+  profiles: [profileOf(draft)], selected: 'p1', profile: profileOf(draft), draft, dirty: false, disabled: false,
+  commanders: mergeCommanders(undefined), supported, onChoose: noop, onEdit: noop, onSave: noop, onReload: noop,
+});
+const hammerPersonality = () => ({...builtInCommanders[0].personality});
 
 test('commander page: three commanders, unavailable ones marked and disabled, Hammer preset values', () => {
-  const draft: Draft = {...draftBase, commander_id: 'hammer', personality: {...builtInCommanders[0].personality}, voice_note: ''};
+  const draft: Draft = {...draftBase, commander_id: 'hammer', personality: hammerPersonality(), voice_note: ''};
   const html = renderToStaticMarkup(createElement(StylePanel, styleProps(draft)));
   for (const name of ['铁锤', '堡垒', '幽灵', '维克托·莫罗佐夫', '伊芙琳·卡特', '神崎凛']) assert.match(html, new RegExp(name));
   assert.equal((html.match(/即将推出/g) ?? []).length, 2);
@@ -183,7 +185,8 @@ test('commander page: custom personality, over-long voice note and an older back
   assert.match(html, /tc-byte-counter is-over/);
   assert.match(html, /口吻说明太长了/);
   assert.match(html, /<button[^>]*disabled=""[^>]*>保存<\/button>/, 'save is blocked while the note is too long');
-  const legacy = renderToStaticMarkup(createElement(StylePanel, styleProps({...draftBase, doctrine: 'assault', custom_traits: ''}, false)));
+  const legacyDraft: Draft = {...draftBase, doctrine: 'assault', custom_traits: ''};
+  const legacy = renderToStaticMarkup(createElement(StylePanel, styleProps(legacyDraft, false)));
   assert.match(legacy, /当前后台版本还不支持指挥官设置/);
   assert.match(legacy, /铁锤预设/, 'an older backend shows Hammer as the default');
 });
