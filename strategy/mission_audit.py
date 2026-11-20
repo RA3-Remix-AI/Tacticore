@@ -1,19 +1,13 @@
-"""Bounded request metadata and read-only continuous-mission lifecycle audit.
+"""Bounded request metadata and continuous-mission lifecycle analysis.
 
 No request/response text, coordinates, credentials, game memory or network I/O.
-Effect and release proofs are requalified by the trusted integration verifiers.
 """
-import argparse
 import hashlib
-import importlib.util
 import json
 from pathlib import Path
-import sys
-from types import SimpleNamespace
 
 PROTOCOL='continuous_tactical_v1'
 PHASES=('reserved','approach','prepare','engage','retreat','restored')
-ROOT=Path(__file__).resolve().parent.parent
 
 
 def context_record(payload,metrics,source):
@@ -153,41 +147,3 @@ def scene_release_facts(bridge,receipt,entry,events,memory):
     mission=certified[0];obs=mission.get('observations') or {}
     if mission.get('terminal_status') not in ('failed','cancelled') or mission.get('last_evidence_sha256')!=digest or obs.get('scene_closed_verified') is not True or obs.get('restoration_verified') is not False:raise ValueError('scene_release_strategy_certificate_binding')
     return dict(task_id=entry['task_id'],verified=True,kind='verified_scene_closed_not_return',sidecar_sha256=digest,source_sha256=proof['source_sha256'],scene_closed_verified=True,restoration_verified=False,return_verified=False,physical_retreat_verified=False,completed=False)
-
-
-def audit_run(session):
-    out=Path(session['run_directory']).resolve()/'battle-host'
-    read=lambda name:json.loads((out/name).read_text(encoding='utf-8-sig'))
-    identity=read('identity.json');ledger=read('tactical-dispatch-ledger.json');status=read('tactical-status.json')
-    result=analyze(session,identity,ledger,status.get('ledger',[]),lines(out/'host-events.jsonl'),lines(out/'agent-state.context-audit.jsonl'),lines(out/'plans.jsonl'),read('agent-state.json'))
-    # Import only local pure raw verifiers; no game connection is created.
-    folder=ROOT/'integration';sys.path.insert(0,str(folder))
-    spec=importlib.util.spec_from_file_location('mission_effect_audit_readonly',folder/'audit_mission_effects.py');module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
-    result['raw_effects']=module.audit(session)
-    from continuous_evidence import terminal_facts,pre_dispatch_facts
-    from tactical_bridge import TacticalBridge
-    host=SimpleNamespace(session=session,binding=SimpleNamespace(session_id=session['session_id'],commander_id=session['scenario']['commander_id'],player_id=3))
-    bridge=object.__new__(TacticalBridge);bridge.host=host
-    receipts={r['task_id']:r for r in status.get('ledger',[])};releases=[]
-    for task,saved in ledger.items():
-        if saved.get('mission_protocol')!=PROTOCOL or not saved.get('terminal'):continue
-        entry=dict(saved,task_id=task);receipt=receipts.get(task,{})
-        try:
-            scene=scene_release_facts(bridge,receipt,entry,lines(out/'host-events.jsonl'),read('agent-state.json'))
-            if scene:
-                releases.append(scene)
-                continue
-            disposed=any(x.get('control_release',{}).get('disposed_verified') is True for x in receipt.get('unit_results',[]))
-            if disposed and entry['module'] in ('attack','raid'):bridge.verify_disposals(receipt,entry);kind='verified_disposal_not_return'
-            elif not saved.get('started'):pre_dispatch_facts(host,receipt,entry);kind='verified_no_dispatch'
-            else:terminal_facts(host,receipt,entry);kind='verified_native_release'
-            releases.append(dict(task_id=task,verified=True,kind=kind))
-        except (ValueError,KeyError,TypeError,OSError,ImportError):releases.append(dict(task_id=task,verified=False,kind='release_unproved'))
-    result['raw_releases']=releases
-    result['full_acceptance_verified']=result['metadata_lifecycle_verified'] and not result['observability_gaps'] and all(r['verified'] for r in releases) and result['raw_effects']['all_three_actual_effects_verified'] and any(m['accepted_post_ttl_compressed_contexts_with_mission']>0 for m in result['missions'])
-    return result
-
-
-if __name__=='__main__':
-    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--session',type=Path,required=True);args=parser.parse_args()
-    print(json.dumps(audit_run(json.loads(args.session.read_text(encoding='utf-8-sig'))),ensure_ascii=False,indent=2,allow_nan=False))

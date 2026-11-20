@@ -52,16 +52,13 @@ def register_root(root,state_dir):
     return load_root(state_dir)
 
 
-def register_session_source(store,root,session,production=None,persistent=None,*,replace_stopped=False,runtime_report=None,runtime_sha256=None,
-                            runtime_recovery_report=None,runtime_recovery_sha256=None,macro_bundle=None):
+def register_session_source(store,root,session,*,macro_bundle,replace_stopped=False):
     # Validate every path before creating any registration. No game/model access.
     from .desktop_backend import DesktopBackend,SessionRegistration
     root=Path(root)
     if not root.is_absolute() or str(root).startswith('\\\\') or root.is_symlink():raise ContractError('session_root_invalid')
     root=root.resolve(strict=True)
-    registration=SessionRegistration.trusted(session,production,persistent,root=root,
-        runtime_report=runtime_report,runtime_sha256=runtime_sha256,
-        runtime_recovery_report=runtime_recovery_report,runtime_recovery_sha256=runtime_recovery_sha256,macro_bundle=macro_bundle)
+    registration=SessionRegistration.trusted(session,root=root,macro_bundle=macro_bundle)
     existing_root=load_root(store.state_dir)
     if existing_root and existing_root['session_root']!=str(root):raise ContractError('session_root_conflict')
     backend=DesktopBackend(store,registration_root=root)
@@ -86,21 +83,14 @@ def register_session_source(store,root,session,production=None,persistent=None,*
                         or unresolved_ownership(backend,row,status)):
                         raise ContractError('run_state_conflict')
             record=register_root(root,store.state_dir)
-            backend.register_session(registration.session_path,registration.production_report,registration.persistent_status,
-                runtime_report=registration.runtime_report,runtime_sha256=registration.runtime_sha256,
-                runtime_recovery_report=registration.runtime_recovery_report,runtime_recovery_sha256=registration.runtime_recovery_sha256,macro_bundle=registration.macro_bundle)
+            backend.register_session(registration.session_path,macro_bundle=registration.macro_bundle)
             return dict(schema_version=1,registered=True,root_registration_id=record['registration_id'],root_fingerprint=record['fingerprint'],session_registration_sha256=hashlib.sha256(backend.registration_path.read_bytes()).hexdigest(),restart_required=True,game_access=False,credentials_copied=False)
     finally:backend.close()
 
 
 def main(argv=None):
     parser=argparse.ArgumentParser(description=__doc__)
-    for name in ('session-root','session'):parser.add_argument('--'+name,type=Path,required=True)
-    for name in ('production-report','persistent-status','macro-bundle'):parser.add_argument('--'+name,type=Path)
-    parser.add_argument('--runtime-report',type=Path)
-    parser.add_argument('--runtime-sha256')
-    parser.add_argument('--runtime-recovery-report',type=Path)
-    parser.add_argument('--runtime-recovery-sha256')
+    for name in ('session-root','session','macro-bundle'):parser.add_argument('--'+name,type=Path,required=True)
     parser.add_argument('--replace-stopped',action='store_true')
     args=parser.parse_args(argv)
     from .desktop_registry import load_registration
@@ -109,9 +99,8 @@ def main(argv=None):
     try:
         home=Path(os.environ['LOCALAPPDATA'])/'Tacticore';library=load_registration(home)
         store=ProfileStore(Path(library['library_path']),home/'desktop-runtime')
-        result=register_session_source(store,args.session_root,args.session,args.production_report,args.persistent_status,
-            replace_stopped=args.replace_stopped,runtime_report=args.runtime_report,runtime_sha256=args.runtime_sha256,
-            runtime_recovery_report=args.runtime_recovery_report,runtime_recovery_sha256=args.runtime_recovery_sha256,macro_bundle=args.macro_bundle)
+        result=register_session_source(store,args.session_root,args.session,macro_bundle=args.macro_bundle,
+            replace_stopped=args.replace_stopped)
         print(json.dumps(result));return 0
     except (ContractError,OSError,ValueError,KeyError,sqlite3.Error,JournalError) as error:
         print(json.dumps(dict(registered=False,reason_code=error.code if isinstance(error,ContractError) else 'session_registration_unavailable')));return 2

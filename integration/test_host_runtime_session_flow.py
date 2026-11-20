@@ -25,7 +25,7 @@ class Discovery:
     def prepare(self,args,request_id):
         self.calls.append(('prepare',args,request_id))
         register_root(self.policy.session_root,self.owner.store.state_dir)
-        self.owner.backend.register_session(self.owner.session,self.owner.report,self.owner.persistent)
+        self.owner.backend.register_session(self.owner.session,macro_bundle=self.owner.bundle)
         return dict(registered=True,session_id=fixture.SESSION,requires_preflight=True,registration_reload_required=True,
                     native_execution_started=False)
     def close(self):
@@ -164,7 +164,7 @@ class SessionFlowTests(unittest.TestCase):
         def concurrent_prepare():
             # A completed source preparation clears readiness while this
             # launcher was waiting for the shared index write lock.
-            self.backend.register_session(self.session,self.report,self.persistent)
+            self.backend.register_session(self.session,macro_bundle=self.bundle)
             with original():yield
         with patch.object(self.backend,'_transaction',concurrent_prepare):
             self.assertCode('readiness_invalid',lambda:self.backend.run_start(
@@ -178,7 +178,7 @@ class SessionFlowTests(unittest.TestCase):
         path=folder/'session.json';record=json.loads(self.session.read_text())
         record.update(session_id=str(uuid.uuid4()),run_directory=str(folder));path.write_text(json.dumps(record))
         def concurrent_prepare(profile,expires_at,registration=None):
-            self.backend.register_session(path,self.report,self.persistent)
+            self.backend.register_session(path,macro_bundle=self.bundle)
             return original(profile,expires_at,registration)
         with patch.object(self.backend,'_predispatch',side_effect=concurrent_prepare):
             self.assertCode('session_changed',lambda:self.backend.run_start(

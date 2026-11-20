@@ -324,11 +324,10 @@ def software_manifest():
         except metadata.PackageNotFoundError:version = "not_installed"
         packages.append(dict(name=name, version=version))
     components = []
-    for relative in ("desktop-ui/package.json", "agent_runtime/pyproject.toml", "integration/battle_host.py",
+    for relative in ("desktop-ui/package.json", "agent_runtime/pyproject.toml", "integration/macro_host.py",
                      "integration/host_runtime/desktop_backend.py", "integration/host_runtime/diagnostics.py",
-                     "integration/host_runtime/journal.py", "integration/host_runtime/profiles.py", "integration/host_runtime/host_production.py",
-                     "integration/host_runtime/macro_strategy_diagnostics.py","integration/host_runtime/macro_strategy_public.py",
-                     "production/persistent/bin-v2/ProductionPersistent.dll", "production/persistent/bin-v2/persistent_host.exe"):
+                     "integration/host_runtime/journal.py", "integration/host_runtime/profiles.py",
+                     "integration/host_runtime/macro_strategy_diagnostics.py", "integration/host_runtime/macro_strategy_public.py"):
         row = _file_index(relative, ROOT / relative, ROOT)
         if relative.endswith("package.json"):
             try:row["version"] = json.loads((ROOT / relative).read_text(encoding="utf-8"))["version"]

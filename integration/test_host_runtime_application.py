@@ -2,16 +2,12 @@
 from __future__ import annotations
 
 import asyncio
-from contextlib import redirect_stdout
 from dataclasses import replace
 import json
-import io
 from pathlib import Path
 import sys
 import tempfile
-from types import SimpleNamespace
 import unittest
-from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "strategy"))
@@ -93,53 +89,6 @@ class ApplicationContracts(unittest.TestCase):
             self.assertCode("commander_draft_too_large", lambda: load_commander_draft(path))
             path.write_bytes(b"\xff")
             self.assertCode("commander_draft_unavailable_or_invalid", lambda: load_commander_draft(path))
-
-    def test_host_optional_cli_wires_actual_profile_before_factory_and_keeps_legacy_path(self):
-        import battle_host
-        base = profile()
-        fake_backend = SimpleNamespace(metrics={}, backend_name="fake", max_input_bytes=16384)
-        with tempfile.TemporaryDirectory() as folder:
-            run = Path(folder); session_file = run / "session.json"
-            session_file.write_text(json.dumps(dict(session_id=fixtures.SESSION, run_directory=str(run), pid=101,
-                mod_sha256="a" * 64, registry_revision="fixture")), encoding="utf-8")
-            draft_file = run / "draft.json"; draft_file.write_text(json.dumps(draft()), encoding="utf-8")
-            common = ["--session", str(session_file), "--commander", fixtures.COMMANDER]
-            self.assertIsNone(battle_host.parser().parse_args(common).commander_draft)
-            with patch.object(battle_host, "load_profile", return_value=base), \
-                 patch.object(battle_host, "LiveBattleState", return_value=SimpleNamespace(owner=None)), \
-                 patch.object(battle_host, "own_process_identity", return_value=(1, "fixture")), \
-                 patch.object(battle_host, "create_backend", return_value=fake_backend) as factory:
-                old = battle_host.Host(battle_host.parser().parse_args(common))
-                self.assertIs(old.profile, base)
-                self.assertIs(old.adapter, fake_backend)
-                self.assertIsNone(old.profile_application)
-                new = battle_host.Host(battle_host.parser().parse_args(common + ["--commander-draft", str(draft_file)]))
-                self.assertEqual(factory.call_args.args[0].traits, new.profile_application.effective.traits)
-                self.assertEqual(factory.call_args.args[0].model, "connection-default")
-                self.assertIs(factory.call_args.args[0].endpoint, base.endpoint)
-                self.assertIs(factory.call_args.args[0].key, base.key)
-                rows = [json.loads(line) for line in (run / "battle-host/host-events.jsonl").read_text(encoding="utf-8").splitlines()]
-                self.assertEqual([r["kind"] for r in rows], ["commander_profile_applied", "commander_model_backend_constructed"])
-                self.assertTrue(all(r["effective_hash"] == new.profile_application.effective.effective_hash for r in rows))
-                self.assertNotIn(SECRET, json.dumps(rows))
-                self.assertFalse(any(r["model_response_received"] for r in rows))
-
-    def test_cli_reports_bad_draft_as_config_error_not_waiting_for_match(self):
-        import battle_host
-        with tempfile.TemporaryDirectory() as folder:
-            run = Path(folder); session = run / "session.json"; selected = run / "draft.json"
-            session.write_text(json.dumps(dict(session_id=fixtures.SESSION)), encoding="utf-8")
-            selected.write_text(json.dumps(draft(profile_id=fixtures.CONNECTION)), encoding="utf-8")
-            args = battle_host.parser().parse_args(["--session", str(session), "--commander", fixtures.COMMANDER,
-                "--commander-draft", str(selected), "--check"])
-            output = io.StringIO()
-            with patch.object(battle_host, "parser") as parser, \
-                 patch.object(battle_host, "load_profile", return_value=profile()), \
-                 patch.object(battle_host, "check_backend_available"), redirect_stdout(output):
-                parser.return_value.parse_args.return_value = args
-                self.assertEqual(battle_host.main(), 1)
-            self.assertEqual(json.loads(output.getvalue())["reason_code"], "profile_commander_mismatch")
-            self.assertNotIn(SECRET, output.getvalue())
 
 
 class BackendApplication(unittest.IsolatedAsyncioTestCase):

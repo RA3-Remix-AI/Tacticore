@@ -11,13 +11,29 @@ from unittest.mock import patch
 
 from host_runtime.bridge_service import BridgeService
 from host_runtime.contracts import ContractError, SessionBinding, content_hash
-from host_runtime.desktop_backend import Admission, DesktopBackend, NativeChecks, NativeHostSpawner, SessionRegistration, READINESS_MS
+from host_runtime import native_runtime
+from host_runtime.desktop_backend import Admission, DesktopBackend, NativeHostSpawner, READINESS_MS
 from host_runtime.profile_store import ProfileStore
 from test_host_runtime_profile_store import PROFILE, library
 
 SESSION = "7233de3c-d636-471d-9fd1-33af63bdc566"
 START = "2026-10-26T11:00:00+08:00"
 HOST_START = "2026-10-26T04:00:00+00:00"
+
+
+def macro_bundle(case, run):
+    """Write a native runtime descriptor under `run` and accept it offline for the test's lifetime."""
+    manifest = run / "manifest.json"
+    manifest.write_text('{"fixture":true}')
+    pin = hashlib.sha256(manifest.read_bytes()).hexdigest()
+    bundle = run / "bundle.json"
+    bundle.write_text(json.dumps(dict(schema_version=native_runtime.DESCRIPTOR_VERSION, kind=native_runtime.KIND,
+                                      runtime_root=str(run), runtime_manifest_sha256=pin)))
+    for patcher in (patch.object(native_runtime, "runtime_root", return_value=run),
+                    patch.object(native_runtime, "trusted_pin", return_value=pin),
+                    patch("host_runtime.macro_bundle.load_bundle")):
+        patcher.start(); case.addCleanup(patcher.stop)
+    return bundle
 
 
 class Checks:
@@ -59,12 +75,11 @@ class DesktopBackendTests(unittest.TestCase):
         self.session = self.run / "session.json"
         self.session.write_text(json.dumps(dict(session_id=SESSION, pid=101, start_time=START,
             run_directory=str(self.run), scenario=dict(commander_id=PROFILE, computer_player_index=3))))
-        self.report = self.run / "report.json"; self.report.write_text("{}")
-        self.persistent = self.run / "persistent-status.json"; self.persistent.write_text("{}")
+        self.bundle = macro_bundle(self, self.run)
         self.store = ProfileStore(self.lib, self.root / "state")
         self.checks = Checks(); self.spawner = Spawner(); self.now = 100_000
         self.backend = self.new_backend()
-        self.backend.register_session(self.session, self.report, self.persistent)
+        self.backend.register_session(self.session, macro_bundle=self.bundle)
         self.profile = self.store.get_profile(PROFILE)["profile"]
 
     def new_backend(self, **changes):
@@ -93,7 +108,7 @@ class DesktopBackendTests(unittest.TestCase):
         binding = SessionBinding.from_dict(json.loads(row["binding_json"]))
         output = self.run / "battle-host"; output.mkdir(exist_ok=True)
         status = dict(session_id=SESSION, pid=101, process_start=START, host_pid=220, host_start_time=HOST_START,
-            state="running", runtime_production=dict(run_id=result["run_id"], binding_hash=binding.binding_hash),
+            state="running", runtime_macro=dict(run_id=result["run_id"], binding_hash=binding.binding_hash),
             profile_application=dict(state="host_profile_applied", profile_id=PROFILE, profile_revision=self.profile["revision"],
                                      effective_hash=self.profile["effective"]["effective_hash"]),
             profile_consumption=dict(profile_id=PROFILE, profile_revision=self.profile["revision"], effective_hash=self.profile["effective"]["effective_hash"],
@@ -105,13 +120,13 @@ class DesktopBackendTests(unittest.TestCase):
         self.assertEqual(SESSION, self.backend.session_inspect({}, str(uuid.uuid4()))["session"]["id"])
         self.backend.close(); self.backend = self.new_backend()
         self.assertTrue(self.ready()["ready"])
-        self.report.write_text('{"changed":true}')
+        self.bundle.write_text(self.bundle.read_text() + " ")
         result = self.ready()
         self.assertFalse(result["ready"]); self.assertEqual("session_unavailable", result["reason_code"])
         (self.store.state_dir / "session-registration.json").unlink()
         self.assertIsNone(self.backend.session_inspect({}, str(uuid.uuid4()))["session"])
         outside = self.root / "outside.json"; outside.write_text("{}")
-        self.assertCode("session_unavailable", lambda: self.backend.register_session(self.session, outside, self.persistent))
+        self.assertCode("session_unavailable", lambda: self.backend.register_session(self.session, macro_bundle=outside))
 
     def test_check_ttl_profile_binding_and_second_live_admission(self):
         ready = self.ready(); self.assertTrue(ready["ready"])
@@ -168,21 +183,13 @@ class DesktopBackendTests(unittest.TestCase):
                 self.backend.caller_alive = lambda: True
         self.assertEqual(0, len(self.spawner.commands))
 
-    def test_unparameterized_native_scope_rejects_other_player_before_win32(self):
-        value = json.loads(self.session.read_text()); value["scenario"]["computer_player_index"] = 5
-        self.session.write_text(json.dumps(value))
-        registration = SessionRegistration.trusted(self.session, self.report, self.persistent, root=self.root / "acceptance")
-        with patch("host_runtime.desktop_backend._module", side_effect=AssertionError("scope rejection must precede native access")):
-            self.assertCode("legacy_executor_player_unsupported", lambda: NativeChecks().inspect(registration, PROFILE, self.store.state_dir))
-
     def test_start_run_id_equals_request_and_one_launch_survives_lost_response_reopen(self):
         result, request_id, args = self.start()
         self.assertEqual(request_id, result["run_id"]); self.assertEqual("starting", result["state"])
         self.assertEqual(1, len(self.spawner.commands)); command = self.spawner.commands[0]
-        self.assertIn("--runtime-ledger", command)
-        self.assertEqual(command[command.index("--control-mode")+1],"macro_native")
-        self.assertEqual(request_id, command[command.index("--runtime-run-id") + 1])
-        self.assertNotIn("--tactical-evidence", command)
+        self.assertTrue(command[command.index("--session") - 1].endswith("macro_host.py"))
+        self.assertIn("--ledger", command)
+        self.assertEqual(request_id, command[command.index("--run-id") + 1])
         self.assertNotIn("PRIVATE", json.dumps(command))
         self.backend.close(); self.backend = self.new_backend()
         self.assertEqual(request_id, self.backend.run_status(dict(run_id=request_id), str(uuid.uuid4()))["run_id"])
@@ -276,23 +283,6 @@ class DesktopBackendTests(unittest.TestCase):
         self.status_file(result,state='stopped',native_release_verified=True)
         status=self.backend.run_status(dict(run_id=run_id),str(uuid.uuid4()))
         self.assertFalse(status['native_release_verified'])
-        request=str(uuid.uuid4())
-        self.backend.journal.reserve_command(run_id,request,'stop',dict(scope='production'))
-        self.backend.journal.mark_dispatching(run_id,request)
-        self.backend.journal.record_outcome(run_id,request,'released',dict(reason_code='native_receipt_verified',facts=dict(
-            source='native_persistent_production',production_release_verified=True,native_phase=2,native_error=0,restore_mask=31,active_callbacks=0)))
-        self.assertTrue(self.backend.run_status(dict(run_id=run_id),str(uuid.uuid4()))['native_release_verified'])
-
-    def test_independent_unattached_review_is_bound_to_the_exact_host(self):
-        result,run_id,_ = self.start();self.spawner.alive=False;self.status_file(result,state='fault')
-        self.backend.run_status(dict(run_id=run_id),str(uuid.uuid4()))
-        row=self.backend._launch(run_id);binding=SessionBinding.from_dict(json.loads(row['binding_json']))
-        request=str(uuid.uuid4());self.backend.journal.reserve_command(run_id,request,'review_host_release',dict(binding_hash=binding.binding_hash))
-        self.backend.journal.mark_dispatching(run_id,request)
-        self.backend.journal.record_outcome(run_id,request,'released',dict(
-            reason_code='unattached_host_native_entries_independently_verified',native_release_verified=True,
-            binding_hash=binding.binding_hash,host_pid=220,host_start_time='wrong-host',review_sha256='a'*64))
-        self.assertFalse(self.backend.run_status(dict(run_id=run_id),str(uuid.uuid4()))['native_release_verified'])
 
     def test_stop_is_bound_request_only_and_diagnostics_contains_no_paths(self):
         result, run_id, _ = self.start(); self.status_file(result)
