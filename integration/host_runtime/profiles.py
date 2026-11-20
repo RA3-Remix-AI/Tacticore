@@ -229,7 +229,8 @@ def _commander_fields(data) -> tuple[str, tuple[int, ...], str]:
         if not {"doctrine", "custom_traits"} <= set(data):
             raise ContractError("unexpected_fields")
         return DEFAULT_COMMANDER, COMMANDERS[DEFAULT_COMMANDER]["personality"], ""
-    if set(data) & LEGACY_DRAFT_FIELDS or not {"personality", "voice_note"} <= set(data):
+    # A client may keep old doctrine fields beside the commander fields; they are ignored.
+    if not {"personality", "voice_note"} <= set(data):
         raise ContractError("unexpected_fields")
     commander = data["commander_id"]
     if not isinstance(commander, str) or commander not in COMMANDER_IDS:

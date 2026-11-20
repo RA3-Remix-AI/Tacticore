@@ -136,7 +136,11 @@ class ProfileContracts(unittest.TestCase):
         self.assertEqual(profile.commander_id, "hammer")
         self.assertEqual(profile.personality_dict(), PRESETS["hammer"])
         self.assertEqual(profile.voice_note, "")
-        self.assertCode("unexpected_fields", lambda: normalize_profile(dict(draft(), doctrine="defense")))
+        mixed = normalize_profile(dict(draft(), doctrine="defense", custom_traits="旧描述"))
+        self.assertEqual(mixed.effective_hash, normalize_profile(draft()).effective_hash)
+        partial = draft()
+        del partial["voice_note"]
+        self.assertCode("unexpected_fields", lambda: normalize_profile(partial))
 
     def test_voice_note_utf8_limit_is_300_bytes(self):
         note = "中" * 100
