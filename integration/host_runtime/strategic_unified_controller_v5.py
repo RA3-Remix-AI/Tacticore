@@ -6,7 +6,7 @@ from contextlib import nullcontext
 from .contracts import ContractError
 from .macro_policy_runtime import COMMANDER,PRESETS,ratios_match,compact_account_shares
 from .macro_delegation_boundary_v1 import validate_policy
-from .strategic_contract_v5 import split_intents,split_native7_intents,GATE_ACTIONS,FOCUS_ACTIONS
+from .strategic_contract_v5 import split_native7_intents,GATE_ACTIONS,FOCUS_ACTIONS
 
 class UnifiedStrategicControllerV5:
     def __init__(self,transport,journal,run_id,scope,session_id,effective_hash,event):
@@ -21,35 +21,34 @@ class UnifiedStrategicControllerV5:
         if self.stopped:return ()
         actions=tuple(self.scope.available_actions)
         actual=getattr(self,'last_enemy_focus',None)
-        if getattr(self.scope,'native_transport_protocol',None)==7 and actual is not None:
+        if actual is not None:
+            # Only hostile players that are still alive can be preferred.
+            focusable=actual['enemy_mask']&actual['alive_mask']
             actions=tuple(action for action in actions if action not in FOCUS_ACTIONS
-                or actual['alive_mask']&(1<<(FOCUS_ACTIONS[action]-4)))
+                or focusable&(1<<FOCUS_ACTIONS[action]))
         return actions
     def reaffirmable_plan(self,plan,game_seconds):
         """Authorize fresh model renewal of currently verified intent leases.
 
-        Native6 replaces the deadline without toggling unchanged flag bits.
-        Native7 also renews unchanged, currently observed manager states.
-        Native6 and quantity work retain their existing in-flight guard.
+        The native lease replaces the deadline without toggling unchanged flag
+        bits and renews unchanged, currently observed manager states.
         The subsequent dispatch still performs all admission and SDK checks.
         """
-        from .native6_qualification import Native6Scope
-        from .native7_qualification import Native7Scope
+        from .native_runtime import NativeScope
         native=self.last_native
         actions=tuple(plan.macro_actions)
-        native7=type(self.scope) is Native7Scope
-        if (type(self.scope) not in (Native6Scope,Native7Scope) or self.stopped or self.delivery_unknown
+        if (type(self.scope) is not NativeScope or self.stopped or self.delivery_unknown
                 or not actions or set(actions)!=set(self.current_actions)
-                or any(a not in self.flag_actions and not (native7 and (a in FOCUS_ACTIONS or a in GATE_ACTIONS)) for a in actions)
+                or any(a not in self.flag_actions and a not in FOCUS_ACTIONS and a not in GATE_ACTIONS for a in actions)
                 or getattr(plan,'macro_production',None) is not None
-                or type(native) is not dict or native.get('native_schema')!=('unified_flags_and_managers_v7' if native7 else 'unified_flags_and_managers_v6')
+                or type(native) is not dict or native.get('native_schema')!='unified_flags_and_managers_v7'
                 or type(self.last_frame) is not int or not 0<=game_seconds*15-self.last_frame<=15
                 or len(native.get('gates',[]))!=2):return None
         for index,gate in enumerate(native['gates']):
             if gate.get('phase') in (0,4):continue
             action=next((a for a in actions if a in GATE_ACTIONS and GATE_ACTIONS[a][0]==index),None)
             effect=getattr(self,'effects',{}).get(action,{})
-            if (not native7 or action is None or gate.get('phase')!=1
+            if (action is None or gate.get('phase')!=1
                     or type(gate.get('requested_enabled')) is not int
                     or gate['requested_enabled']!=int(GATE_ACTIONS[action][1])
                     or effect.get('component_state_adopted') is not True
@@ -75,10 +74,7 @@ class UnifiedStrategicControllerV5:
         actions=tuple(plan.macro_actions)
         if any(a not in self.scope.available_actions for a in actions):raise ContractError('macro_action_not_qualified')
         if any(a not in self.available_actions(game_seconds) for a in actions):raise ContractError('macro_action_not_currently_available')
-        native7=getattr(self.scope,'native_transport_protocol',None)==7
-        try:
-            if native7:flags,gates,focus=split_native7_intents(actions)
-            else:flags,gates=split_intents(actions);focus=None
+        try:flags,gates,focus=split_native7_intents(actions)
         except ValueError as error:raise ContractError(str(error)) from None
         fingerprint=(actions,plan.based_on_game_time_seconds,plan.expires_at_game_seconds,effective_hash)
         if plan.plan_id in self.sent:
@@ -111,8 +107,8 @@ class UnifiedStrategicControllerV5:
                         windows[action]=self._receipt_window(result,action,absolute,model_start)
                 self.journal.record_outcome(self.run_id,child,'completed',dict(seq=result['seq'],native_gate_acknowledged=True,native_effect_verified=False))
                 children.append(result)
-            if native7:state=self.transport.native_status()
-            if native7 and (focus is not None or state['focus']['phase'] not in (0,4)):
+            state=self.transport.native_status()
+            if focus is not None or state['focus']['phase'] not in (0,4):
                 child=str(uuid.uuid5(uuid.UUID(parent),'enemy_focus'))
                 self._reserve_child(child,dict(parent_command_id=parent,enemy_player_id=focus,
                     release=focus is None,duration_frames=duration,not_after_frame=absolute))
@@ -172,7 +168,7 @@ class UnifiedStrategicControllerV5:
                         or state.get('phase')!=1 or state.get('baseline_captured')!=1
                         or state.get('target_player')!=target or state.get('request')!=seq
                         or state.get('manual')!=1 or state.get('isolated')!=0
-                        or state.get('priority',[None,None])[target-4]!=10
+                        or len(state.get('priority',()))!=16 or state['priority'][target]!=10
                         or type(state.get('frame')) is not int or not 0<state['frame']<=start):
                     raise ValueError('unverified enemy focus domain')
                 deadline=state['deadline_frame'];domain='enemy_focus'
@@ -277,15 +273,14 @@ class UnifiedStrategicControllerV5:
                     component_state_adopted=True,physical_api_attempts=state['attempted'],state_already_satisfied=bool(state['already_satisfied']),
                     construction_or_production_completion_verified=False,policy_released=False)
         actual_focus=controls.get('enemy_focus')
-        if type(actual_focus) is dict and actual_focus.get('source')=='bound_native_enemy_selector_v1':
+        observed_focus=type(actual_focus) is dict and actual_focus.get('source')=='bound_native_enemy_selector_v2'
+        if observed_focus:
             self.last_enemy_focus=dict(actual_focus)
+        from .native_focus_observation import holds
         for action,target in FOCUS_ACTIONS.items():
-            if (action in self.current_actions and type(actual_focus) is dict
+            if (action in self.current_actions and observed_focus
                     and self._domain_active(action,self.last_frame,native)
-                    and actual_focus.get('source')=='bound_native_enemy_selector_v1'
-                    and actual_focus.get('enumeration_lock')==0 and actual_focus.get('manual')==1
-                    and actual_focus.get('isolated')==0
-                    and actual_focus.get('priority_p4' if target==4 else 'priority_p5')==10):
+                    and actual_focus.get('enumeration_lock')==0 and holds(actual_focus,target)):
                 effects[action]=dict(action=action,status='native_enemy_priority_observed',
                     observed_frame=controls['frame'],component_state_adopted=True,
                     mission_success_verified=False,policy_released=False)
@@ -319,7 +314,7 @@ class UnifiedStrategicControllerV5:
                 component_state_adopted=bool(facts.get('component_state_adopted')),
                 state_already_satisfied=bool(facts.get('state_already_satisfied')),
                 mission_success_verified=False,exclusive_attribution_verified=False))
-        source='bound_native_strategy_v7' if getattr(self.scope,'native_transport_protocol',None)==7 else 'bound_native_strategy_v5'
+        source='bound_native_strategy_v7'
         return dict(source=source,observed_frame=self.last_frame,details_owner='native_ai',
             observations=rows,no_active_task_is_waiting_not_success=True)
     def stop(self):

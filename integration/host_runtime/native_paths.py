@@ -1,4 +1,4 @@
-"""Native6 paths owned by the Windows user, independent of repo/env/cwd.
+"""Native runtime paths owned by the Windows user, independent of repo/env/cwd.
 
 No model/RPC path is accepted. Known Folder resolution is lazy and never
 falls back to an installation directory or inherited LOCALAPPDATA variable.
@@ -17,7 +17,7 @@ DOCUMENTS = 'fdd39ad0-238f-46af-adb4-6c85480369c7'
 
 def known_folder(identifier):
     if os.name != 'nt':
-        raise ValueError('native6_windows_known_folder_required')
+        raise ValueError('native_windows_known_folder_required')
     guid = (c.c_ubyte * 16).from_buffer_copy(uuid.UUID(identifier).bytes_le)
     shell = c.WinDLL('shell32', use_last_error=True)
     ole = c.WinDLL('ole32', use_last_error=True)
@@ -28,7 +28,7 @@ def known_folder(identifier):
     result = shell.SHGetKnownFolderPath(c.byref(guid), 0, None, c.byref(value))
     try:
         if result or not value.value:
-            raise ValueError('native6_windows_known_folder_unavailable')
+            raise ValueError('native_windows_known_folder_unavailable')
         return plain_local(value.value)
     finally:
         if value:
@@ -39,7 +39,7 @@ def plain_local(value, *, existing=True):
     path = Path(value)
     if (not path.is_absolute() or re.fullmatch(r'[A-Za-z]:', path.drive) is None
             or '..' in path.parts or '\x00' in str(path) or len(str(path).encode('utf-16-le')) > 1038):
-        raise ValueError('native6_plain_local_path_required')
+        raise ValueError('native_plain_local_path_required')
     for ancestor in (path, *path.parents):
         try:
             information = ancestor.lstat()
@@ -48,20 +48,20 @@ def plain_local(value, *, existing=True):
                 raise
             continue
         if stat.S_ISLNK(information.st_mode) or getattr(information, 'st_file_attributes', 0) & 0x400:
-            raise ValueError('native6_reparse_path_refused')
+            raise ValueError('native_reparse_path_refused')
     return path
 
 
 def session_hex(value):
     if type(value) is not str or str(uuid.UUID(value)) != value:
-        raise ValueError('native6_canonical_session_required')
+        raise ValueError('native_canonical_session_required')
     if uuid.UUID(value).int == 0:
-        raise ValueError('native6_nonzero_session_required')
+        raise ValueError('native_nonzero_session_required')
     return uuid.UUID(value).hex
 
 
 @dataclass(frozen=True)
-class Native6Paths:
+class NativePaths:
     root: Path
     mods: Path
 
@@ -71,7 +71,9 @@ class Native6Paths:
 
     @classmethod
     def from_roots(cls, local_app_data, documents):
-        return cls(plain_local(local_app_data) / 'Tacticore/desktop-runtime/native6',
+        # The compiled DLL accepts journals only under this folder
+        # (portable_paths.h); the name is part of the binary contract.
+        return cls(plain_local(local_app_data) / 'Tacticore/desktop-runtime/native7',
                    plain_local(documents) / 'Red Alert 3/Mods')
 
     @property
@@ -97,5 +99,5 @@ class Native6Paths:
     def require_mod(self, value):
         path = plain_local(value)
         if not path.is_relative_to(self.mods) or path.suffix.lower() != '.big' or not path.is_file():
-            raise ValueError('native6_owned_documents_mod_required')
+            raise ValueError('native_owned_documents_mod_required')
         return path

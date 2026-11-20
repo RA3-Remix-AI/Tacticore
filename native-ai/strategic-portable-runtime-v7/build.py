@@ -1,9 +1,8 @@
-"""Build a fresh, non-attaching Native7 companion candidate offline.
+"""Build the native companion (DLL + helper) into an unsealed runtime.
 
-The compiler and reviewed C++ are build-only inputs. The resulting verifier
-uses relative companion pins; it never opens the developer archive/toolchain.
-The default stays non-attaching. --field-candidate requires a freshly audited
-qualification capsule and creates a bounded trial, never a product approval.
+The compiler and reviewed C++ are build-only inputs. The build manifest records
+the runtime's locked Python inputs, which the DLL re-hashes at attach. The
+default stays non-attaching; --field-candidate builds the attachable runtime.
 """
 import argparse
 import hashlib
@@ -15,8 +14,8 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / 'integration'))
-from host_runtime.native7_paths import plain_local
-from host_runtime.native7_runtime_contract import (
+from host_runtime.native_paths import plain_local
+from host_runtime.native_runtime_contract import (
     ACTIONS, ARTIFACTS, FLAGS, GAME_SHA, KIND, FIELD_KIND, PACKAGE_SHA, closure, profile,
     sha, verify_build, verify_inventory, locked_inputs,
 )
@@ -35,7 +34,7 @@ def run(command, log):
                             creationflags=getattr(subprocess, 'CREATE_NO_WINDOW', 0))
     log.write_bytes(result.stdout + result.stderr)
     if result.returncode:
-        raise ValueError('native7_offline_tool_failed:' + log.name)
+        raise ValueError('native_offline_tool_failed:' + log.name)
     return result.stdout
 
 
@@ -48,38 +47,31 @@ def seal(root):
 def build(runtime, source_root, compiler, *, field_candidate=False):
     runtime, source_root, compiler = (plain_local(p) for p in (runtime, source_root, compiler))
     inventory = verify_inventory(runtime)
-    if field_candidate:
-        from host_runtime.native7_qualification import verify_capsule
-        verify_capsule(runtime,inventory)
     output = runtime / 'native/strategic7'
     if output.exists() or compiler.name != 'i686-w64-mingw32-g++.exe' or sha(compiler) != COMPILER_SHA:
-        raise ValueError('native7_fresh_output_and_reviewed_compiler_required')
+        raise ValueError('native_fresh_output_and_reviewed_compiler_required')
     pins = locked_inputs(inventory)
     required = {'app/native-ai/strategic-portable-runtime-v7/client.py',
                 'app/native-ai/strategic-portable-runtime-v7/build.py',
-                'app/integration/host_runtime/native7_paths.py',
-                'app/integration/host_runtime/native7_runtime_contract.py'}
+                'app/integration/host_runtime/native_paths.py',
+                'app/integration/host_runtime/native_runtime_contract.py'}
     if not required <= pins.keys():
-        raise ValueError('native7_sdk_must_be_staged_before_compilation')
+        raise ValueError('native_sdk_must_be_staged_before_compilation')
     here = source_root / 'native-ai/strategic-portable-runtime-v7'
     header = source_root / 'native-ai/strategic_manager_gate_enable_candidate_v2.h'
     if sha(header) != REVIEWED_HEADER_SHA:
-        raise ValueError('native7_reviewed_manager_api_changed')
+        raise ValueError('native_reviewed_manager_api_changed')
     sources = {name: plain_local(here / name) for name in SOURCES}
     sources['strategic_manager_gate_enable_candidate_v2.h'] = header
     sources['strategic_enemy_focus_lease_v1.h'] = plain_local(source_root / 'native-ai/strategic_enemy_focus_lease_v1.h')
     provenance = {name: sha(path) for name, path in sources.items()}
     provenance['toolchain/i686-w64-mingw32-g++.exe'] = COMPILER_SHA
-    if field_candidate:
-        capsule=json.loads((runtime/'qualification/native7-trial.json').read_text(encoding='utf-8'))
-        if any(provenance.get(name)!=pin for name,pin in capsule['source_sha256'].items()):
-            raise ValueError('native7_enemy_focus_source_changed')
     digest = closure(pins, provenance,field_candidate=field_candidate)
     output.mkdir(parents=True)
     for name, path in sources.items():
         shutil.copyfile(path, output / name)
         if sha(output / name) != provenance[name]:
-            raise ValueError('native7_build_source_changed')
+            raise ValueError('native_build_source_changed')
     (output / 'profile.h').write_text(profile(pins, provenance,field_candidate=field_candidate), encoding='ascii', newline='\n')
     for source, name, extra in (('native.cpp', ARTIFACTS[0], ['-shared', '-Wl,--kill-at']), ('host.cpp', ARTIFACTS[1], [])):
         run([compiler, '-std=c++17', '-D_WIN32_WINNT=0x0601', '-O2', '-Wall', '-Wextra', '-Werror',
@@ -91,14 +83,14 @@ def build(runtime, source_root, compiler, *, field_candidate=False):
     masks = json.loads(run([helper, '--all-masks'], output / 'masks.log'))
     expected = [mask for mask in range(2050) if not mask & ~2047 and (mask & 0x70).bit_count() <= 1 and (mask & 0x58f).bit_count() <= 1]
     if masks != expected:
-        raise ValueError('native7_compiled_masks_changed')
+        raise ValueError('native_compiled_masks_changed')
     compiled = json.loads(run([helper, '--profile'], output / 'profile.log'))
     if compiled != dict(protocol_version=7, field_candidate=field_candidate, source_closure_sha256=digest, package_sha256=PACKAGE_SHA, game_sha256=GAME_SHA):
-        raise ValueError('native7_compiled_profile_mismatch')
+        raise ValueError('native_compiled_profile_mismatch')
     if any(sha(path) != provenance[name] for name, path in sources.items()) or sha(compiler) != COMPILER_SHA:
-        raise ValueError('native7_build_inputs_changed')
+        raise ValueError('native_build_inputs_changed')
     if any(sha(runtime / name) != pin for name, pin in pins.items()):
-        raise ValueError('native7_runtime_code_changed_during_build')
+        raise ValueError('native_runtime_code_changed_during_build')
     value = dict(schema_version=1, kind=FIELD_KIND if field_candidate else KIND, protocol_version=7, compile_only=not field_candidate, admission_ready=field_candidate,
                  product_capability_granted=False, formal_games=0, game_sha256=GAME_SHA, package_sha256=PACKAGE_SHA,
                  actions=list(ACTIONS), flags=list(FLAGS), input_pins=pins, build_source_pins=provenance,
@@ -119,6 +111,6 @@ if __name__ == '__main__':
     parser.add_argument('--runtime', type=Path, required=True)
     parser.add_argument('--source-root', type=Path, required=True)
     parser.add_argument('--compiler', type=Path, required=True)
-    parser.add_argument('--field-candidate',action='store_true',help='Build a separately frozen trial binary; requires verified visibility data and native-launcher trust. Never grants product acceptance.')
+    parser.add_argument('--field-candidate',action='store_true',help='Build the attachable runtime binary.')
     args = parser.parse_args()
     print(json.dumps(build(args.runtime, args.source_root, args.compiler,field_candidate=args.field_candidate)))

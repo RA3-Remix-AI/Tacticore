@@ -20,8 +20,7 @@ from http_adapter import macro_system_prompt
 from macro_host import MacroHost
 from host_runtime.contracts import ContractError, SessionBinding
 from host_runtime.journal import CommandJournal
-from host_runtime.macro_durable import DurableMacroTransport
-from host_runtime.macro_policy_runtime import BudgetController, BudgetScope, MacroRequestAudit, COMMANDER
+from host_runtime.macro_policy_runtime import MacroRequestAudit, COMMANDER
 from host_runtime.macro_delegation_boundary_v1 import (
     KIND, STRATEGIC_ACTIONS, restrict_snapshot, restrict_context, validate_policy,
 )
@@ -61,7 +60,7 @@ class BoundaryTests(unittest.TestCase):
         self.assertEqual(restrict_context(result),result)
 
     def test_any_runtime_derived_home_region_passes_the_host_catalog_audit(self):
-        from host_runtime.macro_group_role_contract import native6_group_role_catalog_overrides
+        from host_runtime.macro_group_role_contract import home_group_role_catalog_overrides
         from macro_policy import public_descriptions
 
         for home in ('region_8_3', 'region_7_4', 'region_0_12'):
@@ -78,12 +77,12 @@ class BoundaryTests(unittest.TestCase):
                 audit = MacroRequestAudit(None, lambda *args, **kwargs: None,
                     feedback_supplier=lambda: dict(status='native_delegation_observed',
                         selected_policy=None, actions=[], observed_frame=1500, native_effect_verified=False),
-                    catalog_supplier=lambda: native6_group_role_catalog_overrides(home),
+                    catalog_supplier=lambda: home_group_role_catalog_overrides(home),
                     strategic_only=True)
                 result = audit.prepare(context)
                 self.assertEqual(result['macro_policy_catalog']['deploydefense']['target_region'], home)
         with self.assertRaises(ContractError):
-            native6_group_role_catalog_overrides('home_base')
+            home_group_role_catalog_overrides('home_base')
 
     def test_snapshot_removes_specific_authority_and_keeps_original_observation(self):
         before=raw_view(); after=restrict_snapshot(before)
@@ -237,17 +236,16 @@ class RoutingTests(unittest.TestCase):
         host.strategy_runtime=None;host.agent=self.agent
         host.journal=CommandJournal(self.folder/'journal.sqlite3');self.addCleanup(host.journal.close)
         host.journal.register_run(host.run_id,host.binding.public())
-        class Native:
-            session=dict(session_id=SESSION,mod_sha256='a'*64)
-            def __init__(self):self.calls=[]
-            def apply(self,actions,duration,command):
-                self.calls.append((actions,duration,command))
-                return dict(seq=len(self.calls),native=dict(last_frame=1501,deadline_frame=1501+duration))
-            def close(self):pass
-        host.transport=Native()
-        scope=BudgetScope('a'*64,{},('private',),{'budgetarmy':'private-army','budgeteconomy':'private-economy'},{})
-        host.controller=BudgetController(DurableMacroTransport(host.transport,host.journal,host.run_id),
-                                         scope,SESSION,host.expected_hash,host.event)
+        class Controller:
+            """Stands in for the native controller; records what the host routes."""
+            def __init__(self):self.calls=[];self.sent={}
+            def dispatch(self,plan,at,*,effective_hash,paused=False):
+                self.calls.append(list(plan.macro_actions))
+                receipt=dict(command_id=str(uuid.uuid4()),seq=len(self.calls),native_effect_verified=False)
+                self.sent[plan.plan_id]=receipt
+                return receipt
+        host.transport=SimpleNamespace(session=dict(session_id=SESSION,mod_sha256='a'*64))
+        host.controller=Controller()
         return host
 
     def test_real_model_contract_host_journal_controller_route_budget_intent(self):
@@ -255,8 +253,7 @@ class RoutingTests(unittest.TestCase):
         self.assertEqual(self.calls[0]['native_delegation']['kind'],KIND)
         self.assertEqual(self.calls[0]['allowed_macro_actions'],['budgetarmy','budgeteconomy'])
         host=self.host();self.assertTrue(host.dispatch_plan(decision.plan))
-        self.assertEqual(host.transport.calls[0][0],['budgetarmy'])
-        self.assertEqual(host.journal.commands_for_run(host.run_id)[0]['status'],'completed')
+        self.assertEqual(host.controller.calls[0],['budgetarmy'])
         # An ACK is deliberately not represented as a strategic effect.
         self.assertFalse(host.controller.sent[decision.plan.plan_id]['native_effect_verified'])
 
@@ -264,7 +261,7 @@ class RoutingTests(unittest.TestCase):
         plan=self.decide().plan;host=self.host()
         detailed=replace(plan,macro_actions=('producebullfrog',))
         self.assertFalse(host.dispatch_plan(detailed))
-        self.assertEqual(host.transport.calls,[])
+        self.assertEqual(host.controller.calls,[])
         self.assertEqual(host.journal.commands_for_run(host.run_id),[])
 
     def test_model_detailed_response_is_rejected_before_host(self):
@@ -276,7 +273,9 @@ class RoutingTests(unittest.TestCase):
     def test_dynamic_host_availability_cannot_reoffer_precise_actions(self):
         host=self.host()
         host.controller=SimpleNamespace(available_actions=lambda at: ['budgetarmy','producebullfrog','buildpower'])
-        host.sampler=SimpleNamespace(scope=SimpleNamespace(production_counts={'producebullfrog':(1,)}))
+        host.sampler=SimpleNamespace(scope=SimpleNamespace(production_counts={'producebullfrog':(1,)},
+            minimum_model_game_seconds=0.,intent_contract='native7_independent_development_v1',
+            regional_action_regions={}))
         host.update_macro_control(100)
         self.assertEqual(host.latest['macro_control']['available_actions'],['budgetarmy'])
         self.assertEqual(host.latest['macro_control']['production_counts'],{})

@@ -1,4 +1,4 @@
-"""Portable Native7 offline candidate. No model or product grant.
+"""Native companion SDK: attach, high-level commands, STOP and return check.
 
 The schema has no building/unit/queue/position fields. Each process permits
 one attach. Unknown apply is never retried. STOP requests native restoration;
@@ -22,7 +22,7 @@ from observe_production import Memory as _Memory
 from read_selected_personality import inspect_player
 from read_script_flags import inspect_flags
 from build import verify,sha
-from host_runtime.native7_paths import Native7Paths, plain_local
+from host_runtime.native_paths import NativePaths, plain_local
 
 class Memory(_Memory):
     def __init__(self,*args,**kwargs):
@@ -40,8 +40,9 @@ class GateStatus(c.Structure):
     _fields_=[('phase',u32),('baseline_captured',u32),('baseline',u32*3),('observed',u32*3),('frame',u32),('deadline_frame',u32),('ms',c.c_uint64),('deadline_ms',c.c_uint64)]+[(name,u32) for name in ('attempted','requested_enabled','operation_enabled','already_satisfied')]
 class FocusStatus(c.Structure):
     _fields_=[(name,u32) for name in ('phase','baseline_captured','selector','baseline_scheme','target_player','request',
-        'manual','isolated')]+[('priority',u32*2)]+[(name,u32) for name in ('alive_mask','frame','callback','deadline_frame',
-        'call_reservations')]+[('ms',c.c_uint64),('deadline_ms',c.c_uint64)]
+        'manual','isolated','own_player','enemy_mask','alive_mask')]+[('priority',u32*16)]+[(name,u32) for name in (
+        'frame','callback','deadline_frame','call_reservations','reserved')]+[
+        ('ms',c.c_uint64),('deadline_ms',c.c_uint64)]
 class Shared(c.Structure):
     _fields_=[('magic',u32),('version',u32),('size',u32),('binding',Binding)]+[(name,u32) for name in ('request','ack','phase','active','error','heartbeat','kind','gate','frames','wall_ms','result','stop','lease_held','hook_held','last_frame','cleanup_verified','journal_records')]+[('gates',GateStatus*2)]+[(name,u32) for name in ('requested_mask','applied_mask','flag_deadline','flag_phase','flag_attempted','callback_serial','not_after_frame')]+[('focus',FocusStatus)]
 class Audit(c.Structure):
@@ -92,15 +93,15 @@ class Probe:
         self.stopped=threading.Event();self.heartbeat=None;self.command_lock=threading.RLock();self.receipts={}
         self.session_path=plain_local(session);self.session_raw=self.session_path.read_bytes();self.session=json.loads(self.session_raw)
         self.build=plain_local(build)
-        from host_runtime.native7_qualification import admit_sdk
+        from host_runtime.native_runtime import admit_sdk
         # Admission independently verifies the pinned complete inventory and
         # build before attachment, and returns that same verified manifest.
         self.manifest=admit_sdk(self.build,self.session);verify_layout(self.manifest)
-        if Path(__file__).resolve()!=self.build.parent.parent/'app/native-ai/strategic-portable-runtime-v7/client.py':raise ValueError('native7_packaged_sdk_required')
-        if self.manifest['compile_only'] or not self.manifest['admission_ready']:raise ValueError('native7_offline_candidate_cannot_attach')
-        self.paths=Native7Paths.current();self.output=plain_local(output,existing=False)
+        if Path(__file__).resolve()!=self.build.parent.parent/'app/native-ai/strategic-portable-runtime-v7/client.py':raise ValueError('native_packaged_sdk_required')
+        if self.manifest['compile_only'] or not self.manifest['admission_ready']:raise ValueError('native_offline_candidate_cannot_attach')
+        self.paths=NativePaths.current();self.output=plain_local(output,existing=False)
         if self.output.exists() or not self.output.is_relative_to(self.paths.reports):raise ValueError('fresh_owned_manager_report_required')
-        if self.output!=self.paths.report(self.session['session_id']):raise ValueError('native7_exact_session_output_required')
+        if self.output!=self.paths.report(self.session['session_id']):raise ValueError('native_exact_session_output_required')
         self.paths.ensure()
         self.output.mkdir();self.log=(self.output/'commands.jsonl').open('x',encoding='utf8')
         self.kernel=c.WinDLL('kernel32',use_last_error=True);k=self.kernel
@@ -110,7 +111,7 @@ class Probe:
         k.GetProcessTimes.argtypes=[w.HANDLE,*[c.POINTER(w.FILETIME)]*4]
         try:
             self.memory=Memory(self.session['pid'],self.session)
-            if plain_local(self.memory.path)!=plain_local(self.session['game']):raise ValueError('native7_actual_game_image_changed')
+            if plain_local(self.memory.path)!=plain_local(self.session['game']):raise ValueError('native_actual_game_image_changed')
             if policy_modules(self.memory):raise ValueError('previous_native_epoch_no_same_pid_reattach')
             if self.session['mod_sha256']!=self.manifest['package_sha256'] or sha(self.session['mod_big'])!=self.manifest['package_sha256']:raise ValueError('actual_deployment_required')
             people=[];manager=self.memory.u32(0xcdd1a0)
@@ -161,8 +162,6 @@ class Probe:
             # caches too. Leave a bounded admission window for first-use IO;
             # heartbeat/intent expiry and the STOP barrier remain unchanged.
             deadline=time.monotonic()+30
-            from host_runtime.native7_readonly_return import record_helper_identity
-            record_helper_identity(self)  # durable even if Host dies before attach ACK
             while s.phase==0 and self.host.poll() is None and time.monotonic()<deadline:time.sleep(.02)
             if s.phase!=1 or s.error or not s.lease_held or not s.hook_held:
                 self.event('attach_not_acknowledged',host_returncode=self.host.poll(),native=self.status())
@@ -179,7 +178,7 @@ class Probe:
             return self._command(operation,gate,frames,wall_ms,mask=mask,command_id=command_id,not_after_frame=not_after_frame)
     def _command(self,operation,gate,frames=60,wall_ms=10000,*,mask=0,command_id=None,not_after_frame=None):
         kinds={'pause':1,'enable':2,'release':3,'reconcile':4,'flags':6,'focus':7,'focus_release':8}
-        allowed_gates=(4,5) if operation=='focus' else (0,) if operation=='focus_release' else (0,1)
+        allowed_gates=tuple(range(16)) if operation=='focus' else (0,) if operation=='focus_release' else (0,1)
         if operation not in kinds or type(gate) is not int or gate not in allowed_gates or type(frames) is not int or not 1<=frames<=1800 or type(wall_ms) is not int or not 1<=wall_ms<=120000:raise ValueError('manager_high_level_request_invalid')
         if operation=='focus' and (frames>900 or wall_ms>60000):raise ValueError('enemy_focus_bound_invalid')
         if type(mask) is not int or mask<0 or mask>2047 or operation!='flags' and mask:raise ValueError('unified_flag_mask_invalid')
@@ -199,7 +198,6 @@ class Probe:
         if self.unknown:raise ValueError('unknown_never_retry')
         absolute_frame=not_after_frame or self.memory.u32(self.state.binding.game+0x50)+frames
         if absolute_frame>0xffffffff:raise ValueError('unified_absolute_frame_overflow')
-        verify(self.build)
         if self.session_path.read_bytes()!=self.session_raw or bytes(self.state.binding)!=self.binding:raise ValueError('manager_bound_inputs_changed')
         s=self.state
         # A callback may be sampling the same transport. Wait for a quiescent
@@ -223,7 +221,7 @@ class Probe:
         if unknown:raise ValueError('manager_delivery_or_result_unknown')
         return status
     def apply(self,actions,duration_frames,command_id=None,*,not_after_frame=None):
-        from host_runtime.native7_runtime_contract import FLAG_ACTIONS
+        from host_runtime.native_runtime_contract import FLAG_ACTIONS
         if type(actions) is not list or len(actions)>3 or len(set(actions))!=len(actions) or any(type(a) is not str or a not in FLAG_ACTIONS for a in actions):raise ValueError('unified_high_level_actions_required')
         mask=sum(1<<self.manifest['actions'].index(a) for a in actions)
         return self.command('flags',0,duration_frames,min(120000,max(1,duration_frames*1000//15)),mask=mask,command_id=command_id,not_after_frame=not_after_frame)
@@ -261,8 +259,8 @@ class Probe:
                 review.update(host_process_ended=True,host_returncode=host_returncode)
                 journal=self.paths.journal(self.session['session_id'])
                 journal_raw=journal.read_bytes()
-                from host_runtime.native7_journal import verified
-                if not verified(journal_raw,review['native']):raise ValueError('native7_independent_journal_not_verified')
+                from host_runtime.native_journal import verified
+                if not verified(journal_raw,review['native']):raise ValueError('native_independent_journal_not_verified')
                 if self.state.journal_records:
                     rows=read_journal(journal,self.binding)
                     if len(rows)!=self.state.journal_records:raise ValueError('manager_native_durable_journal_count_mismatch')
@@ -363,13 +361,10 @@ class Probe:
             flags = inspect_flags(read, self.manifest['flags'])
             if [row['name'] for row in flags['flags']] != self.manifest['flags'] or any((row['present'] and row['value'] is not False for row in flags['flags'])):
                 raise ValueError('manager_unexpected_flag_intent')
-            from host_runtime.native7_focus_observation import sample as sample_focus
+            from host_runtime.native_focus_observation import sample as sample_focus,at_baseline
             focus=sample_focus(read,b)
             owned=status['focus']
-            if (focus['enumeration_lock'] or focus['manual'] or focus['isolated']
-                    or focus['priority_p4']!=int(bool(focus['alive_mask']&1))
-                    or focus['priority_p5']!=int(bool(focus['alive_mask']&2))
-                    or owned['phase'] not in (0,4) or owned['baseline_captured'] not in (0,1)
+            if (not at_baseline(focus) or owned['phase'] not in (0,4) or owned['baseline_captured'] not in (0,1)
                     or owned['baseline_captured'] and (owned['phase']!=4 or owned['selector']!=focus['selector']
                         or owned['baseline_scheme']!=focus['automatic_scheme'] or owned['deadline_frame']
                         or owned['deadline_ms'] or status['callback_serial']<=owned['callback'])):

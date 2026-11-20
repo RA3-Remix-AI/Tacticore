@@ -1,5 +1,14 @@
 """Bounded high-level role meanings; these constants grant no native capability."""
-from .macro_base_defense_scope import defense_catalog_override
+GOAL='original_native_defense_of_own_infrastructure'
+
+
+def defense_catalog_override():
+    return dict(deploydefense=dict(domain='deployment',exclusive_with_other_construction_or_production=True,
+        target_region='region_8_3',goal=GOAL,target_policy='original_native_friendly_land_structure',
+        region_semantics='eastern_home_base_anchor_not_a_specific_structure_or_move_destination',
+        maximum_duration_seconds=60,native_ai_selects_structure_and_operates_group=True,
+        legacy_action_name_is_not_mission_purpose=False,arrival_and_mission_success_guaranteed=False))
+
 
 HOME_REGION='region_8_3'
 ROLE_GOALS={
@@ -25,7 +34,7 @@ def group_role_catalog_overrides():
     return result
 
 
-def native6_group_role_catalog_overrides(home_region):
+def home_group_role_catalog_overrides(home_region):
     from .contracts import ContractError
     from .scenario import is_region
 
@@ -40,10 +49,10 @@ def native6_group_role_catalog_overrides(home_region):
     return result
 
 
-def native6_strategic_catalog_overrides(home_region):
+def home_strategic_catalog_overrides(home_region):
     from native_unified_contract_v5 import additional_catalog
 
-    result = native6_group_role_catalog_overrides(home_region)
+    result = home_group_role_catalog_overrides(home_region)
     result['expand'] = dict(additional_catalog(('expand',))['expand'],
                             native_expansion_interval_seconds=240)
     return result

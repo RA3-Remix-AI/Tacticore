@@ -81,7 +81,7 @@ def register_session_source(store,root,session,production=None,persistent=None,*
                 if not replace_stopped:raise ContractError('session_registration_conflict')
                 for row in rows:
                     status=backend._status(row)
-                    from .strategic_unified_unknown_return_v5 import unresolved_ownership
+                    from .native_lifecycle import unresolved_ownership
                     if (status.get('state') not in ('stopped','completed','fault','result_candidate') or status.get('native_release_verified') is not True
                         or unresolved_ownership(backend,row,status)):
                         raise ContractError('run_state_conflict')

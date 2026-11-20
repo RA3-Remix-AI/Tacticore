@@ -168,13 +168,13 @@ class ReleaseFoundationTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, 'path_or_digest'):
                 verify_inventory(root)
 
-    def test_preflight_reports_actual_native5_relocation_blockers(self):
+    def test_preflight_reports_the_pending_release_but_a_portable_native_runtime(self):
         report = preflight(REPO)
         codes = {r['code'] for r in report['blockers']}
         self.assertFalse(report['ready'])
-        self.assertTrue({'native_game_path_machine_bound', 'native_profile_machine_bound',
-                         'native_sdk_repository_writes', 'qualification_developer_archive_required',
-                         'portable_native_contract_pending', 'release_runtime_missing'} <= codes)
+        self.assertTrue({'portable_native_contract_pending', 'release_runtime_missing'} <= codes)
+        self.assertFalse({'native_game_path_machine_bound', 'native_profile_machine_bound',
+                          'native_sdk_repository_writes', 'release_source_missing'} & codes)
 
     def test_complete_python_inventory_is_not_a_game_release(self):
         root, _ = self.inventory_fixture()
@@ -182,11 +182,11 @@ class ReleaseFoundationTests(unittest.TestCase):
         self.assertFalse(report['ready'])
         self.assertIn('strategic_native_payload_missing', {r['code'] for r in report['blockers']})
 
-    def test_native6_payload_and_self_reported_pass_bits_do_not_grant_release(self):
+    def test_native_payload_and_self_reported_pass_bits_do_not_grant_release(self):
         root, manifest = self.inventory_fixture()
-        payload = {'native/strategic6/StrategicCommanderV6.dll': b'fixture',
-                   'native/strategic6/manager_host.exe': b'fixture',
-                   'native/strategic6/build-manifest.json': b'{"game_qualified":true}'}
+        payload = {'native/strategic7/StrategicCommanderV7.dll': b'fixture',
+                   'native/strategic7/manager_host.exe': b'fixture',
+                   'native/strategic7/build-manifest.json': b'{"game_qualified":true}'}
         for name, raw in payload.items():
             path = root / name
             path.parent.mkdir(parents=True, exist_ok=True)
@@ -196,7 +196,7 @@ class ReleaseFoundationTests(unittest.TestCase):
         report = preflight(REPO, root)
         codes = {row['code'] for row in report['blockers']}
         self.assertFalse(report['ready'])
-        self.assertIn('native6_offline_candidate_not_qualified', codes)
+        self.assertIn('native_candidate_not_accepted', codes)
         self.assertNotIn('strategic_native_payload_missing', codes)
 
     def test_legacy_packager_requires_explicit_research_opt_in_before_writing(self):

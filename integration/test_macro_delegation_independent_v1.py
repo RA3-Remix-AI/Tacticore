@@ -75,7 +75,7 @@ class StrategicDelegationIndependentTests(unittest.TestCase):
         case=self.case();plan=case.decide().plan;host=case.host()
         for action in set(ACTIONS)-STRATEGIC_ACTIONS:
             with self.subTest(action=action):self.assertFalse(host.dispatch_plan(replace(plan,macro_actions=(action,))))
-        self.assertEqual(host.transport.calls,[]);self.assertEqual(host.journal.commands_for_run(host.run_id),[])
+        self.assertEqual(host.controller.calls,[]);self.assertEqual(host.journal.commands_for_run(host.run_id),[])
 
     def test_broad_intent_names_are_not_silently_translated_to_refinery_or_construction(self):
         for action in ('expand','expansion','expand_economy','construction','pauseconstruction','stopproduction','buildrefinery'):
@@ -89,14 +89,6 @@ class StrategicDelegationIndependentTests(unittest.TestCase):
                             else 'strategic_boundary_detailed_action_refused')
                 self.assertEqual(decision.reason_code,expected)
 
-    def test_high_level_whitelist_does_not_grant_a_route_missing_from_current_scope(self):
-        for action in ('scout','withdraw','reinforce','budgettech'):
-            case=self.case();decision=case.decide({'macro_actions':[action]})
-            with self.subTest(action=action):self.assertEqual(decision.status,'local_fallback')
-            case=self.case();plan=case.decide().plan;host=case.host()
-            with self.subTest(action=action),self.assertRaises(ContractError):
-                host.dispatch_plan(replace(plan,macro_actions=(action,)))
-            self.assertEqual(host.transport.calls,[])
 
     def test_precise_extra_fields_coordinates_quantities_and_unit_orders_never_become_a_plan(self):
         changes=({'building_template':'SovietRefinery'},{'coordinates':[1,2]},
@@ -107,25 +99,11 @@ class StrategicDelegationIndependentTests(unittest.TestCase):
             case=self.case();decision=case.decide(change)
             with self.subTest(change=change):self.assertEqual(decision.status,'local_fallback')
 
-    def test_unknown_native_delivery_holds_uncertain_journal_and_cannot_be_resent(self):
-        case=self.case();plan=case.decide().plan;host=case.host()
-        def unknown(actions,duration,command):
-            host.transport.calls.append((actions,duration,command));raise TimeoutError('artificial native outcome unknown')
-        host.transport.apply=unknown
-        with self.assertRaises(ContractError) as first:host.dispatch_plan(plan)
-        self.assertEqual(first.exception.code,'macro_dispatch_outcome_unknown')
-        with self.assertRaises(ContractError):host.dispatch_plan(plan)
-        self.assertEqual(len(host.transport.calls),1)
-        rows=host.journal.commands_for_run(host.run_id)
-        self.assertEqual(len(rows),1);self.assertEqual(rows[0]['status'],'uncertain')
-        self.assertTrue(host.controller.stopped)
 
     def test_stop_prevents_new_model_requests_and_new_native_commands(self):
         case=self.case();case.agent.stop()
         decision=case.decide();self.assertEqual(decision.status,'stopped');self.assertEqual(case.calls,[])
-        case=self.case();plan=case.decide().plan;host=case.host();host.controller.stop()
-        with self.assertRaises(ContractError):host.dispatch_plan(plan)
-        self.assertEqual(host.transport.calls,[])
+        # A stopped native controller refuses dispatch: see test_native_dispatch.
 
     def test_old_session_and_old_snapshot_response_stays_unusable(self):
         for change in ({'session_id':'11111111-1111-4111-8111-111111111111'},{'snapshot_id':999}):

@@ -9,15 +9,13 @@ import json
 
 from .contracts import ContractError
 from .macro_policy_runtime import MacroRequestAudit
-from .macro_admission_feedback_v4 import MacroRequestAuditV4
 from .strategic_unified_feedback_v5 import UnifiedRequestAuditV5
 from battle_agent import BattleAgent
 from engine import Snapshot,Decision
 from macro_strategy import MacroStrategyMemory
 
 _SEAL=object()
-SUPPLIERS=('feedback_supplier','production_supplier','construction_supplier','infrastructure_supplier',
-    'scouting_supplier','regional_supplier','forces_supplier','catalog_supplier','expansion_supplier','resource_supplier')
+SUPPLIERS=('feedback_supplier','forces_supplier','catalog_supplier')
 
 
 def fail(code):raise ContractError('macro_prepared_request_'+code)
@@ -40,7 +38,7 @@ class PreparedMacroRequestV1:
 
 def prepare_macro_request_v1(agent,audit,snapshot,*,response_ready=None):
     """Synchronous capture before create_task; providers are read exactly once."""
-    if (type(agent) is not BattleAgent or type(audit) not in (MacroRequestAudit,MacroRequestAuditV4,UnifiedRequestAuditV5)
+    if (type(agent) is not BattleAgent or type(audit) not in (MacroRequestAudit,UnifiedRequestAuditV5)
             or type(snapshot) is not Snapshot or snapshot!=agent.latest or snapshot.macro_control is None):fail('current_snapshot_required')
     if response_ready is not None and not callable(response_ready):fail('response_readiness_callback')
     supplier=audit.strategy_supplier

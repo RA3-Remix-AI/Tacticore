@@ -3,33 +3,35 @@
 Only the native file picker supplies input paths. Nothing here opens Game
 memory, calls a provider or grants an execution capability. A real session is
 created later by the existing discover/prepare broker and live admission.
+
+The installed runtime is verified file-by-file against its pinned manifest at
+setup, at status and before each game launch. When the runtime changes, setup
+is refreshed only while no game runs; earlier runs are then archived as
+finished history (their native state ended with their game process).
 """
-from dataclasses import asdict,fields
+from dataclasses import fields
 import json
 import os
 from pathlib import Path
 import shutil
+import sqlite3
 import subprocess
 import uuid
 
 from .contracts import ContractError,identifier,object_fields
-from .native6_paths import known_folder,LOCAL_APP_DATA,DOCUMENTS,plain_local
-from .native_portable_runtime import protocol
-NATIVE_PROTOCOL=protocol()
-if NATIVE_PROTOCOL==7:
-    from .native7_qualification import current,create,load,COMMANDER
-    from .native7_runtime_contract import GAME_SHA,PACKAGE_SHA,read,sha
-else:
-    from .native6_qualification import current,create,load,COMMANDER
-    from .native6_runtime_contract import GAME_SHA,PACKAGE_SHA,read,sha
-from .session_discovery import DiscoveryPolicy,TrustedFiles,TERMINAL
+from .native_paths import known_folder,LOCAL_APP_DATA,DOCUMENTS,plain_local
+from .native_runtime import PACKAGE_REPORT,REGISTRY,create,current,load,runtime_root,trusted_pin
+from .native_runtime_contract import GAME_SHA,PACKAGE_SHA,PROTOCOL,read,sha
+from .session_discovery import DiscoveryPolicy,TrustedFiles
 from . import beta_launch
-from .beta_setup_upgrade import no_game,require_indexes,returned,preserve,replace_policy
 
 VERSION='0.1.0-beta.1'
-KIND=f'native{NATIVE_PROTOCOL}_installed_discovery_v1'
+KIND='native_installed_discovery_v2'
+ARCHIVE='history-archive.json'
+LAUNCH_INDEX='desktop-launch-index.sqlite3'
 
-def descriptor_path(state,pin):return state/'sessions'/(f'native{NATIVE_PROTOCOL}-trial-'+pin+'.json')
+
+def descriptor_path(state,pin):return state/'sessions'/('native-runtime-'+pin+'.json')
 def launcher_path(state,policy):return state/('game-launch-'+policy['policy_id']+'.json')
 
 
@@ -43,47 +45,43 @@ def locations():
     return home,state,mods,legacy
 
 
-def quiet(state,*,require_process_exit=False,legacy=False):
-    """Check every recorded run with existing independent return contracts.
-
-    Never erase a ledger to make a new namespace look idle. Unknown return is
-    a blocker. The old and beta states are both checked before source changes.
-    """
-    state=plain_local(state,existing=False).resolve()
-    if not state.exists():return
-    plain_local(state)
-    if not any((state/name).exists() for name in ('desktop-launch-index.sqlite3','host-runtime.sqlite3')):return
-    from .session_discovery_native import run_records
-    from .beta_history import open_history
-    backend=open_history(state)
-    try:
-        for row in run_records(backend):
-            if row.state not in TERMINAL or not row.native_release_verified or row.unresolved_count:
-                raise ContractError('beta_existing_run_unreleased')
-        if require_process_exit:
-            from .native5_helper_identity_v1 import process_identity
-            from .session_discovery_native import require_creation
-            from .session_discovery_native import Win32ReadOnly
-            current_games=set(Win32ReadOnly().process_ids('RA3_1.12.game'))
-            for row in backend._db.execute('SELECT * FROM launches').fetchall():
-                binding=json.loads(row['binding_json'])
-                game_pid=binding['game_process_id']
-                if game_pid not in current_games:continue
-                try:actual=process_identity(game_pid)
-                except OSError as error:
-                    if getattr(error,'winerror',None)==87:continue
-                    raise ContractError('beta_process_exit_unknown') from None
-                if actual['alive']:
-                    try:require_creation(binding['game_process_start'],actual['process_creation_filetime'])
-                    except ContractError:continue  # a different OS incarnation
-                    raise ContractError('beta_exit_game_before_update')
-    finally:backend.close()
+def no_game():
+    """Setup never changes while a Red Alert 3 process runs."""
+    from .session_discovery_native import Win32ReadOnly
+    api=Win32ReadOnly()
+    if any(api.process_ids(name) for name in ('RA3_1.12.game','RA3.exe')):
+        raise ContractError('beta_game_already_running')
 
 
-def guard_states(*,require_process_exit=False):
-    home,state,mods,legacy=locations()
-    quiet(legacy/'desktop-runtime',require_process_exit=require_process_exit,legacy=True)
-    quiet(state,require_process_exit=require_process_exit)
+def archived_through(state):
+    """Highest launch-index row archived as finished history (0 if none)."""
+    path=Path(state)/ARCHIVE
+    if not path.is_file():return 0
+    value=read(path)
+    if type(value) is not dict or type(value.get('archived_through_rowid')) is not int:
+        raise ContractError('run_history_unverifiable')
+    return value['archived_through_rowid']
+
+
+def archive_history(state):
+    """Mark every recorded launch as finished history. Caller ensured no game runs."""
+    index=Path(state)/LAUNCH_INDEX
+    highest=0
+    if index.is_file():
+        connection=sqlite3.connect(index.as_uri()+'?mode=ro',uri=True)
+        try:
+            row=connection.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='launches'").fetchone()
+            if row is not None:highest=connection.execute('SELECT coalesce(max(rowid),0) FROM launches').fetchone()[0]
+        finally:connection.close()
+    highest=max(highest,archived_through(state))
+    replace_file(Path(state)/ARCHIVE,(json.dumps(dict(schema_version=1,archived_through_rowid=highest))+'\n').encode())
+    return highest
+
+
+def replace_file(path,raw):
+    temporary=path.with_name(path.name+'.'+uuid.uuid4().hex+'.tmp')
+    with temporary.open('xb') as stream:stream.write(raw);stream.flush();os.fsync(stream.fileno())
+    os.replace(temporary,path)
 
 
 def exact_file(path,raw):
@@ -96,20 +94,21 @@ def exact_file(path,raw):
         if path.read_bytes()!=raw:raise ContractError('beta_owned_file_conflict')
 
 
+def current_scope():
+    from .session_discovery_native import SCOPE
+    return dict(SCOPE,native_epoch=PROTOCOL)
+
+
 def prepare(game,mod):
-    root,pin,inventory,build,cap=current()
+    root,pin,inventory,build=current()
     game,mod=plain_local(game),plain_local(mod)
     if game.name.lower()!='ra3_1.12.game' or sha(game)!=GAME_SHA:raise ContractError('beta_game_unsupported')
     if mod.suffix.lower()!='.big' or sha(mod)!=PACKAGE_SHA:raise ContractError('beta_mod_unsupported')
     beta_launch.base_config(game)
     home,state,mods,legacy=locations()
-    from .session_discovery_native import SCOPE,NAME
+    from .session_discovery_native import NAME,read_object
     target=state/NAME
-    from .session_discovery_native import read_object
-    old,old_sha=read_object(target) if target.exists() else (None,None)
-    indexes_existed=all((state/name).is_file() for name in ('desktop-launch-index.sqlite3','host-runtime.sqlite3'))
-    if old is not None and old.get('runtime_manifest_sha256')!=pin:require_indexes(state)
-    guard_states()
+    old=read_object(target)[0] if target.exists() else None
     no_game()
     for folder in (home,state,mods,state/'sessions'):
         plain_local(folder,existing=False);folder.mkdir(parents=True,exist_ok=True);plain_local(folder)
@@ -127,44 +126,41 @@ def prepare(game,mod):
     config=mods/'TFCommander_1.0.SkuDef'
     exact_file(config,b'mod-game 1.12\nadd-big TFCommander.big\n')
     descriptor=descriptor_path(state,pin)
-    if descriptor.exists():
-        load(descriptor)
+    if descriptor.exists():load(descriptor)
     else:create(descriptor)
-    values=dict(game=game,mod_config=config,mod_big=destination,registry=root/'qualification/registry.json',
-        macro_bundle=descriptor,package_report=root/'qualification/package.json')
+    values=dict(game=game,mod_config=config,mod_big=destination,registry=root/REGISTRY,
+        macro_bundle=descriptor,package_report=root/PACKAGE_REPORT)
     pins={}
     for key,path in values.items():
         pins[key]=str(path);pins['mod_sha256' if key=='mod_big' else key+'_sha256']=sha(path)
     record=dict(schema_version=2,kind=KIND,policy_id=str(uuid.uuid4()),session_root=str(state/'sessions'),
-        runtime_manifest_sha256=pin,files=pins,scope=dict(SCOPE,native_epoch=NATIVE_PROTOCOL))
-    if old is not None and {k:v for k,v in old.items() if k!='policy_id'}=={k:v for k,v in record.items() if k!='policy_id'}:
+        runtime_manifest_sha256=pin,files=pins,scope=current_scope())
+    comparable=lambda value:{k:v for k,v in value.items() if k!='policy_id'}
+    if old is not None and comparable(old)==comparable(record):
         record=old
-        exact_file(launcher_path(state,record),(json.dumps(beta_launch.record(game,config,pin,record['policy_id']),sort_keys=True)+'\n').encode())
     elif old is not None:
-        if not indexes_existed:raise ContractError('beta_setup_changed_requires_migration')
-        # Keep both original ledgers locked while independently returned
-        # history is replayed and setup metadata switches. No record changes.
-        with returned(state) as history:
-            preserve(state,target,old,old_sha,history=history)
-            exact_file(launcher_path(state,record),(json.dumps(beta_launch.record(game,config,pin,record['policy_id']),sort_keys=True)+'\n').encode())
-            replace_policy(target,(json.dumps(record,sort_keys=True)+'\n').encode(),old_sha)
+        # The runtime or the selections changed while no game runs: earlier
+        # launches become finished history, then the new policy replaces the old.
+        archive_history(state)
     else:
         from .desktop_session_registry import register_root
         register_root(state/'sessions',state)
-        exact_file(launcher_path(state,record),(json.dumps(beta_launch.record(game,config,pin,record['policy_id']),sort_keys=True)+'\n').encode())
-        exact_file(target,(json.dumps(record,sort_keys=True)+'\n').encode())
+    launch=(json.dumps(beta_launch.record(game,config,pin,record['policy_id']),sort_keys=True)+'\n').encode()
+    exact_file(launcher_path(state,record),launch)
+    if old is None:exact_file(target,(json.dumps(record,sort_keys=True)+'\n').encode())
+    elif record is not old:replace_file(target,(json.dumps(record,sort_keys=True)+'\n').encode())
     return dict(schema_version=1,prepared=True,version=VERSION,game_verified=True,mod_verified=True,
         requires_live_discovery=True,host_started=False,native_commands_issued=0,model_requests=0)
 
 
 def load_policy(state,record):
-    root,pin,inventory,build,cap=current()
+    """The installed policy; file hashes are re-checked, the runtime is not re-scanned."""
     home,expected,mods,legacy=locations()
     if Path(state)!=expected:raise ContractError('discovery_policy_invalid')
     object_fields(record,{'schema_version','kind','policy_id','session_root','runtime_manifest_sha256','files','scope'})
-    from .session_discovery_native import SCOPE,validate_mod_file
+    root=runtime_root();pin=trusted_pin()
     if (type(record['schema_version']) is not int or record['schema_version']!=2 or record['kind']!=KIND
-            or record['runtime_manifest_sha256']!=pin or record['scope']!=dict(SCOPE,native_epoch=NATIVE_PROTOCOL)
+            or record['runtime_manifest_sha256']!=pin or record['scope']!=current_scope()
             or Path(record['session_root'])!=expected/'sessions'):raise ContractError('discovery_policy_invalid')
     identifier(record['policy_id'])
     object_fields(record['files'],{field.name for field in fields(TrustedFiles)})
@@ -178,9 +174,9 @@ def load_policy(state,record):
         if sha(getattr(files,key))!=getattr(files,digest):raise ContractError('discovery_source_changed')
     if (files.game.name.lower()!='ra3_1.12.game' or files.game_sha256!=GAME_SHA or files.mod_sha256!=PACKAGE_SHA
             or files.mod_big!=mods/'TFCommander.big' or files.mod_config!=mods/'TFCommander_1.0.SkuDef'
-            or files.registry!=root/'qualification/registry.json' or files.package_report!=root/'qualification/package.json'
+            or files.registry!=root/REGISTRY or files.package_report!=root/PACKAGE_REPORT
             or files.macro_bundle!=descriptor_path(expected,pin)):raise ContractError('discovery_policy_invalid')
-    load(files.macro_bundle,_verified=(root,pin,inventory,build,cap))
+    from .session_discovery_native import validate_mod_file
     validate_mod_file(files.mod_config,files.mod_big)
     if read(launcher_path(state,record))!=beta_launch.record(files.game,files.mod_config,pin,record['policy_id']):
         raise ContractError('beta_game_launcher_changed')
@@ -192,32 +188,30 @@ def status():
     from .session_discovery_native import NAME
     target=state/NAME
     if not target.exists():return dict(schema_version=1,prepared=False,version=VERSION)
-    old=read(target);_,pin,_,_,_=current()
-    from .session_discovery_native import SCOPE,PREVIOUS_SCOPE
-    # A policy from before live scenario derivation is refreshed like a new runtime.
-    previous_scope=dict(PREVIOUS_SCOPE,native_epoch=NATIVE_PROTOCOL)
-    setup_changed=old.get('runtime_manifest_sha256')!=pin or old.get('scope')==previous_scope
+    old=read(target)
+    current()  # the installed runtime, every file against the pinned manifest
+    pin=trusted_pin()
+    setup_changed=(old.get('kind')!=KIND or old.get('runtime_manifest_sha256')!=pin
+                   or old.get('scope')!=current_scope())
     if setup_changed:
-        if old.get('files',{}).get('mod_sha256')!=PACKAGE_SHA:
+        files=old.get('files') if type(old.get('files')) is dict else {}
+        if files.get('mod_sha256')!=PACKAGE_SHA:
             return dict(schema_version=1,prepared=False,version=VERSION,reason_code='beta_mod_update_required')
-        known_scopes=(dict(SCOPE,native_epoch=NATIVE_PROTOCOL),previous_scope)
-        if (type(old.get('schema_version')) is not int or old['schema_version']!=2 or old.get('kind')!=KIND
-                or old.get('scope') not in known_scopes or Path(old['session_root'])!=state/'sessions'):
+        if type(files.get('game')) is not str or type(files.get('mod_big')) is not str:
             raise ContractError('beta_setup_changed_requires_migration')
-        # The previous native picker's selections retain their authorization.
-        # The fresh factory still checks exact Game/Mod/base hashes and can
-        # switch metadata only when both original Host ledgers are empty.
-        prepare(Path(old['files']['game']),Path(old['files']['mod_big']))
+        # The previous native picker's selections retain their authorization;
+        # prepare re-checks the exact Game/Mod hashes and requires no game.
+        prepare(Path(files['game']),Path(files['mod_big']))
     load_policy(state,read(target))
     return dict(schema_version=1,prepared=True,version=VERSION,game_verified=True,mod_verified=True,
         requires_live_discovery=True,host_started=False,setup_changed=setup_changed)
 
 
 def launch():
-    guard_states();home,state,mods,legacy=locations()
-    from .session_discovery_native import NAME,Win32ReadOnly
+    no_game();home,state,mods,legacy=locations()
+    from .session_discovery_native import NAME
+    current()  # the installed runtime, every file against the pinned manifest
     _,policy=load_policy(state,read(state/NAME))
-    no_game()
     game=policy.files.game
     if sha(game)!=GAME_SHA or sha(policy.files.mod_big)!=PACKAGE_SHA:
         raise ContractError('beta_game_launcher_changed')
@@ -242,13 +236,14 @@ def main():
         elif operation=='prepare':object_fields(request,{'operation','game','mod'});result=prepare(request['game'],request['mod'])
         elif operation=='launch':object_fields(request,{'operation'});result=launch()
         elif operation=='guard':
-            object_fields(request,{'operation'});guard_states(require_process_exit=True);no_game();result={'quiet':True}
+            # Before an application update: no game, hence no native state.
+            object_fields(request,{'operation'});no_game();result={'quiet':True}
         else:raise ContractError('operation_unsupported')
         print(json.dumps(dict(ok=True,result=result)))
         return 0
     except ContractError as error:
         print(json.dumps(dict(ok=False,error=dict(code=error.code))));return 2
-    except (OSError,ValueError,KeyError,TypeError):
+    except (OSError,ValueError,KeyError,TypeError,sqlite3.Error):
         print(json.dumps(dict(ok=False,error=dict(code='beta_setup_unavailable'))));return 2
 
 

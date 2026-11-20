@@ -1,16 +1,14 @@
 """Fixed-policy Win32 discovery. No game launch, injection, process write or model call.
 
-Only the explicit native CLI installs policy paths. WebView requests can select
+Only beta_setup installs policy paths. WebView requests can select
 an opaque broker candidate; a candidate still needs the normal live admission.
 Importing this module, registering a policy and constructing the factory do not
 read a game process. Native reads occur only in the adapter's discover/probe calls.
 """
 from __future__ import annotations
 
-import argparse
 import ctypes as c
 from ctypes import wintypes as w
-from dataclasses import asdict, fields
 from datetime import datetime, timedelta, timezone
 import hashlib
 import json
@@ -18,30 +16,22 @@ import os
 from pathlib import Path, PureWindowsPath
 import re
 from types import SimpleNamespace
-import uuid
 
-from .contracts import ContractError, SessionBinding, canonical_json, identifier, object_fields, sha256
-from .desktop_session_registry import load_root, register_root, register_session_source
+from .contracts import ContractError, SessionBinding, canonical_json
+from .desktop_session_registry import load_root, register_session_source
 from .macro_bundle import load_bundle
 from .macro_policy_runtime import COMMANDER
-from .scenario import (MODEL_FACTION, MODEL_PLAYER_ID, MatchScenario, derive_scenario, own_base_point,
-                       start_by_vote)
-from .session_discovery import (DISCOVERY_EPOCHS, DiscoveryPolicy, MatchObservation, ProcessIdentity, RunRecord,
-                                SessionDiscovery, TrustedFiles, TERMINAL, _digest, _local_path)
+from .scenario import MODEL_FACTION, MODEL_PLAYER_ID, derive_scenario, own_base_point, start_by_vote
+from .native_runtime_contract import PROTOCOL
+from .session_discovery import MatchObservation, ProcessIdentity, RunRecord, SessionDiscovery, _local_path
 
 ROOT = Path(__file__).resolve().parents[2]
 NAME = 'session-discovery-policy.json'
 KIND = 'trusted_macro_session_discovery_policy'
-GAME_SHA = 'ec230c6ae1eaee30b0b4fa6ba29d417c974ecae46d6715dfbe786a815935c165'
 PINS = {0x8d5727: bytes.fromhex('89beb0080000'), 0x844a3f: bytes.fromhex('898690000000')}
 # The commander seat only. Map, participants, teams and regions are derived
 # live for each candidate (host_runtime.scenario).
 SCOPE = dict(commander_id=COMMANDER, faction=MODEL_FACTION, player_id=MODEL_PLAYER_ID, candidate_ttl_seconds=90)
-# Scope of policies written before the scenario was derived live. Recognised
-# only so an installed setup can be refreshed to SCOPE.
-PREVIOUS_SCOPE = dict(commander_id=COMMANDER, origin_region='region_8_3', map_id='map_mp_2_black1b',
-                      display_map='TemplePrime', faction='Soviet', player_id=3, opponent_player_id=4,
-                      observer_player_id=2, candidate_ttl_seconds=90)
 
 
 def fail(code):
@@ -73,31 +63,9 @@ def read_object(path, maximum=1024*1024):
 
 
 def read_macro_bundle(path):
-    """Bounded metadata only; capability admission still uses load_bundle."""
-    value,digest=read_object(path,2*1024*1024)
-    version=value.get('schema_version')
-    if type(version) is int and version==15:
-        from .native7_qualification import load
-        return load(path)[0],digest
-    if type(version) is int and version==14:
-        from .native6_qualification import load
-        return load(path)[0],digest
-    if type(version) is int and version==13:
-        from .strategic_unified_bundle_v5 import header
-        header(value)
-        return value,digest
-    if type(version) is int and version==12:
-        from . import macro_catalog_bundle_v12 as catalog
-        if set(value)!=catalog.FIELDS or value.get('kind')!=catalog.KIND:fail('discovery_policy_invalid')
-        # Explicit schema12 descriptors, never a generic old-schema upgrade.
-        catalog._header(value)
-        return value,digest
-    if type(version) is not int or version not in (1,2,3,4,5,6,7,8,9,10,11):fail('discovery_policy_invalid')
-    if (version in (10,11) and value.get('kind')!=('verified_macro_fixed_consumer_bootstrap' if version==11
-            else 'verified_macro_expansion_bootstrap')):fail('discovery_policy_invalid')
-    maximum=2*1024*1024 if version in (10,11) else 65536 if version==9 else 49152 if version==8 else 32768
-    if Path(path).stat().st_size>maximum:fail('discovery_policy_invalid')
-    return value,digest
+    """The runtime descriptor; scope admission still uses load_bundle."""
+    _,digest=read_object(path,16384)
+    return load_bundle(path)[0],digest
 
 
 def creation_start(ticks):
@@ -153,108 +121,12 @@ def validate_mod_file(config, big):
         fail('discovery_policy_invalid')
 
 
-def source_fields(session_path, bundle_path, root, *, qualify):
-    session_path, bundle_path, root = (_local_path(session_path), _local_path(bundle_path),
-                                       _local_path(root,directory=True))
-    if not all(path.is_relative_to(root) for path in (session_path,bundle_path)):
-        fail('discovery_policy_invalid')
-    session, session_digest = read_object(session_path)
-    scenario = session.get('scenario')
-    try:
-        selected = MatchScenario.from_session(scenario)
-    except ContractError:
-        fail('discovery_policy_invalid')
-    if (scenario.get('commander_id')!=COMMANDER or selected.model_player_id!=MODEL_PLAYER_ID
-            or Path(session.get('run_directory',''))!=session_path.parent):
-        fail('discovery_policy_invalid')
-    identifier(session.get('session_id'))
-    require_creation(session.get('start_time'),session.get('process_creation_filetime'))
-    if type(session.get('pid')) is not int or session['pid']<=0:
-        fail('discovery_policy_invalid')
-    paths = {key:_local_path(session.get(key,'')) for key in ('game','mod_config','mod_big','registry')}
-    paths['macro_bundle']=bundle_path
-    paths['package_report']=_local_path(session.get('macro_package_report',''))
-    if paths['game'].name.lower()!='ra3_1.12.game' or _digest(paths['game'])!=GAME_SHA:
-        fail('discovery_policy_invalid')
-    validate_mod_file(paths['mod_config'],paths['mod_big'])
-    if _digest(paths['mod_big'])!=session.get('mod_sha256'):
-        fail('discovery_source_changed')
-    registry,_ = read_object(paths['registry'])
-    if registry.get('compiled_ids_verified') is not True or registry.get('package_sha256')!=session['mod_sha256']:
-        fail('discovery_policy_invalid')
-    commanders=[row for row in registry.get('commanders',[]) if isinstance(row,dict) and row.get('id')==COMMANDER]
-    if len(commanders)!=1 or not any(isinstance(row,dict) and row.get('side')=='Soviet'
-                                    for row in commanders[0].get('assets',[])):
-        fail('discovery_policy_invalid')
-    package,_=read_object(paths['package_report'])
-    if (package.get('compiled') is not True or package.get('big_sha256')!=session['mod_sha256']
-            or package.get('commander_id')!=COMMANDER):
-        fail('discovery_policy_invalid')
-    assets=[row for row in commanders[0].get('assets',[]) if isinstance(row,dict) and row.get('side')=='Soviet']
-    if len(assets)!=1:
-        fail('discovery_policy_invalid')
-    compiled=[row for row in package.get('assets',[]) if isinstance(row,dict)
-              and row.get('name')=='AIPersonalityDefinition:'+str(assets[0].get('asset_id'))]
-    try:
-        if (len(compiled)!=1 or assets[0].get('asset_id')!=package.get('personality')
-                or int(compiled[0]['instance_id'],0)!=int(assets[0]['instance_id'],0)):
-            fail('discovery_policy_invalid')
-    except (ValueError,TypeError,KeyError):
-        fail('discovery_policy_invalid')
-    bundle,_=read_macro_bundle(bundle_path)
-    manifest_path=_local_path(Path(bundle.get('build',''))/'build-manifest.json')
-    expected=bundle.get('pins',{}).get(str(manifest_path))
-    if _digest(manifest_path)!=expected:
-        fail('discovery_source_changed')
-    manifest,_=read_object(manifest_path)
-    epoch=native_epoch(manifest)
-    if type(epoch) is not int or epoch<=0 or manifest.get('package_sha256')!=session['mod_sha256']:
-        fail('discovery_policy_invalid')
-    if epoch not in DISCOVERY_EPOCHS:fail('session_scope_unsupported')
-    if qualify:
-        _, scope=load_bundle(bundle_path,session)
-        if (getattr(scope,'required_origin_region',None)!=selected.own_region
-                or scope.package_sha256!=session['mod_sha256']):
-            fail('session_scope_unsupported')
-    values={}
-    for key,path in paths.items():
-        values[key]=path
-        values['mod_sha256' if key=='mod_big' else key+'_sha256']=_digest(path)
-    return session, session_digest, TrustedFiles(**values), epoch
-
-
-def policy_record(session_path, bundle_path, state_dir, session_root):
-    _local_path(state_dir,directory=True)
-    _,digest,files,epoch=source_fields(session_path,bundle_path,session_root,qualify=True)
-    record=dict(schema_version=1,kind=KIND,policy_id=str(uuid.uuid4()),session_root=str(session_root),
-                source_session=str(session_path),source_session_sha256=digest,
-                files={key:str(value) if isinstance(value,Path) else value for key,value in asdict(files).items()},
-                scope=dict(SCOPE,native_epoch=epoch))
-    return record
-
-
 def load_policy(state_dir):
+    """The installed discovery policy written by beta_setup."""
     path=_local_path(Path(state_dir)/NAME)
     record,_=read_object(path,16384)
-    if type(record.get('schema_version')) is int and record['schema_version']==2:
-        from .beta_setup import load_policy as installed_policy
-        return installed_policy(state_dir,record)
-    object_fields(record,{'schema_version','kind','policy_id','session_root','source_session',
-                          'source_session_sha256','files','scope'})
-    if record['schema_version']!=1 or type(record['schema_version']) is not int or record['kind']!=KIND:
-        fail('discovery_policy_invalid')
-    identifier(record['policy_id']);sha256(record['source_session_sha256'])
-    object_fields(record['files'],{field.name for field in fields(TrustedFiles)})
-    object_fields(record['scope'],set(SCOPE)|{'native_epoch'})
-    if any(record['scope'].get(key)!=value or type(record['scope'].get(key)) is not type(value) for key,value in SCOPE.items()):
-        fail('discovery_policy_invalid')
-    _,digest,files,epoch=source_fields(Path(record['source_session']),Path(record['files']['macro_bundle']),
-                                      Path(record['session_root']),qualify=False)
-    expected={key:str(value) if isinstance(value,Path) else value for key,value in asdict(files).items()}
-    if record['files']!=expected or record['source_session_sha256']!=digest or record['scope']['native_epoch']!=epoch:
-        fail('discovery_source_changed')
-    policy=DiscoveryPolicy(files,Path(record['session_root']),Path(state_dir),**record['scope'])
-    return record,policy
+    from .beta_setup import load_policy as installed_policy
+    return installed_policy(state_dir,record)
 
 
 class PROCESSENTRY32W(c.Structure):
@@ -484,116 +356,42 @@ class NativeAdapter:
             if memory is not None:memory.close()
 
 
-def native_epoch(manifest):
-    from .native7_runtime_contract import FIELD_KIND as NATIVE7_FIELD_KIND
-    if (manifest.get('kind')==NATIVE7_FIELD_KIND and type(manifest.get('protocol_version')) is int
-            and manifest['protocol_version']==7 and manifest.get('admission_ready') is True and manifest.get('compile_only') is False):return 7
-    from .native6_runtime_contract import FIELD_KIND
-    if (manifest.get('kind')==FIELD_KIND and type(manifest.get('protocol_version')) is int
-            and manifest['protocol_version']==6 and manifest.get('admission_ready') is True and manifest.get('compile_only') is False):return 6
-    if (manifest.get('kind')=='strategic_unified_transport_v5_candidate' and type(manifest.get('protocol_version')) is int
-            and manifest['protocol_version']==5 and manifest.get('admission_ready') is True and manifest.get('compile_only') is False):
-        # Fixed protocol identity for history; never permits same-PID reattach.
-        return 5
-    return manifest.get('epoch')
-
-def frozen_manifest(row,session,binding):
-    if (Path(row['output_path'])/'native7-context.json').exists():
-        from .native7_history import context
-        return context(row,session,binding)[1]
-    if (Path(row['output_path'])/'native6-context.json').exists():
-        from .native6_history import context
-        return context(row,session,binding)[1]
-    output=_local_path(Path(row['output_path']),directory=True)
-    source_root=_local_path(output/'source',directory=True)
-    record,_=read_object(_local_path(output/'sources.json'))
-    sources=record.get('sources')
-    if record.get('kind')!='pre_execution_macro_host_sources' or not isinstance(sources,list) or len(sources)<3:
-        fail('run_history_unverifiable')
-    for index,source in enumerate(sources[:3]):
-        if (not isinstance(source,dict) or set(source)!={'path','copy','sha256'}
-                or not isinstance(source['copy'],str) or Path(source['copy']).name!=source['copy']
-                or not Path(source['path']).is_absolute() or source['copy']!=str(index)+'-'+Path(source['path']).name):
-            fail('run_history_unverifiable')
-        sha256(source['sha256'])
-        if _digest(_local_path(source_root/source['copy']))!=source['sha256']:
-            fail('run_history_unverifiable')
-    if (Path(sources[0]['path']).name!='macro_host.py' or Path(sources[1]['path'])!=Path(row['session_path'])
-            or sources[1]['sha256']!=_digest(Path(row['session_path']))):
-        fail('run_history_unverifiable')
-    bundle,_=read_macro_bundle(output/'source'/sources[2]['copy'])
-    if type(bundle.get('schema_version')) is int and bundle['schema_version']==12:
-        from .macro_catalog_bundle_v12 import KIND as CATALOG_KIND
-        if bundle.get('kind')!=CATALOG_KIND:fail('run_history_unverifiable')
-        base=_local_path(Path(bundle['base_bundle']));base_rows=[r for r in sources if Path(r['path']).resolve()==base]
-        if (len(base_rows)!=1 or base_rows[0]['sha256']!=bundle['pins'].get(str(base))
-                or _digest(base)!=base_rows[0]['sha256']):fail('run_history_unverifiable')
-        archived,_=read_object(source_root/base_rows[0]['copy'],2*1024*1024)
-        if (type(archived.get('schema_version')) is not int or archived['schema_version']!=11
-                or archived.get('kind')!='verified_macro_fixed_consumer_bootstrap'):fail('run_history_unverifiable')
-    elif not isinstance(bundle.get('kind'),str) or not bundle['kind'].startswith('verified_macro_') or not bundle['kind'].endswith('_bootstrap'):
-        fail('run_history_unverifiable')
-    manifest_path=_local_path(Path(bundle.get('build',''))/'build-manifest.json')
-    if _digest(manifest_path)!=bundle.get('pins',{}).get(str(manifest_path)):
-        fail('run_history_unverifiable')
-    manifest,_=read_object(manifest_path)
-    epoch=native_epoch(manifest)
-    if type(epoch) is not int or epoch<=0 or manifest.get('package_sha256')!=binding.mod_sha256:
-        fail('run_history_unverifiable')
-    return manifest
-
-
-def frozen_epoch(row,session,binding):return native_epoch(frozen_manifest(row,session,binding))
-
-
 def run_records(backend):
+    """One RunRecord per launch, from the backend's own status projection.
+
+    Archived launches (from before the last runtime change, when no game was
+    running) are finished history: they never block a new match.
+    """
     try:
         result=[]
         for row in backend._db.execute('SELECT * FROM launches ORDER BY rowid').fetchall():
             binding=SessionBinding.from_dict(json.loads(row['binding_json']))
-            session,_=read_object(_local_path(Path(row['session_path'])))
-            ticks=session.get('process_creation_filetime')
-            if (session.get('session_id')!=binding.session_id or session.get('pid')!=binding.game_process_id or type(session.get('pid')) is not int
-                    or session.get('start_time')!=binding.game_process_start or session.get('mod_sha256')!=binding.mod_sha256):
-                fail('run_history_unverifiable')
             status=backend._status(row)
             if status.get('run_id')!=row['run_id'] or status.get('session_id')!=binding.session_id:
                 fail('run_history_unverifiable')
-            metadata={};start=None
-            if hasattr(backend.journal,'get_command') and 'request_id' in row.keys():
-                start=backend.journal.get_command(row['run_id'],row['request_id'])
-            if start is not None and status.get('no_native_execution_started') is True:
-                receipt=start.get('receipt')or{}
-                if (start.get('operation')!='host_start' or start.get('status')!='cancelled'
-                        or receipt.get('reason_code')!='host_launch_cancelled_before_dispatch'
-                        or receipt.get('host_spawn_attempted') is not False or receipt.get('native_delivery_attempted') is not False
-                        or len(backend.journal.commands_for_run(row['run_id']))!=1
-                        or backend.journal.unresolved(row['run_id'])):fail('run_history_unverifiable')
-                epoch=None
-                metadata=dict(history_protocol='trusted_never_dispatched_host_v1',original_process_start=binding.game_process_start,
-                    history_review_sha256=hashlib.sha256(canonical_json(dict(binding=binding.public(),start=start,session=session)).encode()).hexdigest())
-                if ticks is not None:require_creation(binding.game_process_start,ticks)
-            elif start is not None and (start.get('payload')or{}).get('capabilities',{}).get('native_macro') is not True:
-                from .session_history_review import validate_review,PROTOCOL
-                _,review_sha=validate_review(backend,row,binding,session)
-                epoch=None;metadata=dict(history_protocol=PROTOCOL,history_review_sha256=review_sha,
-                    original_process_start=binding.game_process_start)
-                if ticks is not None:require_creation(binding.game_process_start,ticks)
-            else:
-                require_creation(binding.game_process_start,ticks)
-                epoch=frozen_epoch(row,session,binding)
-            unresolved=backend.journal.unresolved(row['run_id']);ownership_count=len(unresolved)
-            # Native5's complete return can settle control ownership while its
-            # original delivery records remain uncertain. It grants no effect
-            # or retry and never qualifies another use of the same process.
-            if epoch in (5,6,7) and status.get('native_release_verified') is True and unresolved:
-                from .strategic_unified_unknown_return_v5 import covered_unknown_ownership
+            if status.get('history_archived') is True:
+                result.append(RunRecord(row['run_id'],status['state'],True,0,binding.game_process_id,None,None,
+                                        native_delivery_attempted=False,
+                                        history_protocol='archived_before_runtime_change'))
+                continue
+            session,_=read_object(_local_path(Path(row['session_path'])))
+            ticks=session.get('process_creation_filetime')
+            if (session.get('session_id')!=binding.session_id or session.get('pid')!=binding.game_process_id
+                    or type(session.get('pid')) is not int or session.get('start_time')!=binding.game_process_start
+                    or session.get('mod_sha256')!=binding.mod_sha256):
+                fail('run_history_unverifiable')
+            require_creation(binding.game_process_start,ticks)
+            released=status.get('native_release_verified') is True
+            unresolved=backend.journal.unresolved(row['run_id'])
+            if released and unresolved:
+                # Uncertain deliveries before a verified return are settled:
+                # the native settings were read back restored. Never retried.
+                from .native_lifecycle import unknown_before_stop
                 stop=backend.journal.get_command(row['run_id'],'macro-stop')
-                if covered_unknown_ownership(unresolved,backend.journal.commands_for_run(row['run_id']),stop):
-                    ownership_count=0;metadata['historical_unknown_count']=len(unresolved)
-            result.append(RunRecord(row['run_id'],status['state'],status.get('native_release_verified') is True,
-                                    ownership_count,binding.game_process_id,ticks,epoch,
-                                    native_delivery_attempted=status.get('no_native_execution_started') is not True,**metadata))
+                if unknown_before_stop(backend.journal,row['run_id'],stop) is not None:unresolved=[]
+            result.append(RunRecord(row['run_id'],status['state'],released,len(unresolved),binding.game_process_id,
+                                    ticks,PROTOCOL,
+                                    native_delivery_attempted=status.get('no_native_execution_started') is not True))
         return result
     except ContractError:
         fail('run_history_unverifiable')
@@ -627,55 +425,3 @@ def create_discovery(backend):
         return RefusedDiscovery(error.code if error.code in allowed else 'discovery_policy_invalid')
     except Exception:
         return RefusedDiscovery('discovery_policy_invalid')
-
-
-def register_policy(session,bundle,state_dir,session_root,*,replace_stopped=False):
-    session,bundle,state_dir,session_root=map(Path,(session,bundle,state_dir,session_root))
-    record=policy_record(session,bundle,state_dir,session_root)
-    path=state_dir/NAME
-    if path.exists() or path.is_symlink():
-        try:
-            old,_=read_object(_local_path(path),16384)
-            identifier(old.get('policy_id'))
-        except ContractError:
-            if not replace_stopped:raise
-            old=None
-        comparable=lambda value:{key:item for key,item in value.items() if key!='policy_id'}
-        if old is not None and comparable(old)==comparable(record):
-            return dict(schema_version=1,registered=True,policy_id=old['policy_id'],policy_sha256=_digest(path),
-                        game_access=False,model_calls=0,credentials_accessed=False,restart_required=True)
-        if not replace_stopped:fail('session_registration_conflict')
-        from .desktop_backend import DesktopBackend
-        # Status/release inspection uses only the explicit state-dir index and
-        # bound host identities. No protected connection Library is opened.
-        backend=DesktopBackend(SimpleNamespace(state_dir=state_dir))
-        try:
-            for row in run_records(backend):
-                if row.state not in TERMINAL or not row.native_release_verified or row.unresolved_count:
-                    fail('run_state_conflict')
-        finally:backend.close()
-    register_root(session_root,state_dir)
-    from .desktop_backend import _atomic
-    _atomic(path,record)
-    return dict(schema_version=1,registered=True,policy_id=record['policy_id'],policy_sha256=_digest(path),
-                game_access=False,model_calls=0,credentials_accessed=False,restart_required=True)
-
-
-def main(argv=None):
-    parser=argparse.ArgumentParser(description=__doc__)
-    for name in ('session','macro-bundle','state-dir','session-root'):
-        parser.add_argument('--'+name,type=Path,required=True)
-    parser.add_argument('--replace-stopped',action='store_true')
-    args=parser.parse_args(argv)
-    try:
-        result=register_policy(args.session,args.macro_bundle,args.state_dir,args.session_root,
-                               replace_stopped=args.replace_stopped)
-        print(json.dumps(result,ensure_ascii=True));return 0
-    except ContractError as error:
-        code=error.code if re.fullmatch(r'[a-z][a-z0-9_]{0,79}',error.code) else 'session_discovery_policy_registration_failed'
-        print(json.dumps(dict(registered=False,reason_code=code)));return 2
-    except (OSError,ValueError,TypeError,KeyError):
-        print(json.dumps(dict(registered=False,reason_code='session_discovery_policy_registration_failed')));return 2
-
-
-if __name__=='__main__':raise SystemExit(main())
