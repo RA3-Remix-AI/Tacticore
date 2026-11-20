@@ -17,7 +17,10 @@ SECRET = "PRIVATE-ENDPOINT-RAW-RESPONSE-KEY"
 
 class Diagnostics(unittest.IsolatedAsyncioTestCase):
     async def test_success_recomputes_safe_shapes_instead_of_backend_raw_diagnostics(self):
-        ctx = context()
+        from fixtures import binding
+        from test_macro_policy import macro_snapshot
+
+        ctx = macro_snapshot(["budgeteconomy"]).model_context(binding())
 
         class Backend:
             last_diagnostics = {"untrusted": SECRET}
