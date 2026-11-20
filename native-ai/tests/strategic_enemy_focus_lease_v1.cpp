@@ -1,6 +1,10 @@
+// Offline core test, no Game access. Build and run from the repository root:
+//   clang++ -std=c++17 -Wall -Wextra -Werror native-ai/tests/strategic_enemy_focus_lease_v1.cpp -o /tmp/focus
+//   /tmp/focus
 #include "../strategic_enemy_focus_lease_v1.h"
 #include <assert.h>
 #include <stdio.h>
+#include <initializer_list>
 #include <vector>
 
 namespace focus = ra3_enemy_focus_v1;
@@ -19,16 +23,27 @@ struct Environment : focus::Environment {
     bool change_identity_on_attempt = false;
     bool change_selector_on_attempt = false;
 
-    Environment() {
+    // Default: own player 3 against allied native enemies 4 and 5 (the old 1v2).
+    explicit Environment(uint32_t own = 3, uint32_t enemies = (1u << 4) | (1u << 5), uint32_t allies = 0) {
         value.selector = 0x10000;
         value.automatic_scheme = 2;
-        value.priority[0] = value.priority[1] = 1;
-        value.opponent_alive[0] = value.opponent_alive[1] = true;
+        value.own_player = own;
+        value.enemy_mask = enemies;
+        value.alive_mask = enemies | allies | (1u << own);
+        automatic();
         value.binding_matches = true;
         value.frame = 100;
         value.callback = 10;
         value.ms = 1000;
     }
+
+    // What native automatic selection does: every living enemy at priority 1.
+    void automatic() {
+        for (uint32_t i = 0; i < focus::MAX_PLAYERS; ++i)
+            value.priority[i] = (focus::focusable(value) >> i) & 1u;
+    }
+
+    void eliminate(uint32_t player) { value.alive_mask &= ~(1u << player); }
 
     void advance() {
         ++value.frame;
@@ -46,19 +61,20 @@ struct Environment : focus::Environment {
         if (row.call_reservations) {
             if (expire_on_attempt) value.frame = row.deadline_frame;
             if (change_identity_on_attempt) value.binding_matches = false;
-            if (change_selector_on_attempt) value.priority[1] = 9;
+            if (change_selector_on_attempt) value.priority[5] = 9;
         }
         return audit_returns;
     }
 
     bool set_priority(uint32_t selector, uint32_t player, uint32_t priority) override {
-        assert(selector == value.selector && (player == 4 || player == 5) && priority == 10);
+        assert(selector == value.selector && player < focus::MAX_PLAYERS && priority == 10);
+        assert(focus::focusable(value) & (1u << player));
         assert(!journal.empty() && journal.back().phase == focus::Phase::ApplyUnknown);
         assert(journal.back().call_reservations == calls + automatic_calls + 1);
         ++calls;
         if (set_mutates) {
             value.manual = 1;
-            value.priority[player - 4] = priority;
+            value.priority[player] = priority;
         }
         return set_returns;
     }
@@ -70,8 +86,7 @@ struct Environment : focus::Environment {
         ++automatic_calls;
         if (restore_mutates) {
             value.manual = value.isolated = 0;
-            value.priority[0] = uint32_t(value.opponent_alive[0]);
-            value.priority[1] = uint32_t(value.opponent_alive[1]);
+            automatic();
         }
         return restore_returns;
     }
@@ -89,7 +104,7 @@ static void adoption_renewal_retarget_and_stop() {
     env.advance();
     assert(lease.request(3, 5, 990, 30000) == focus::Result::Adopted);
     assert(env.calls == 2 && env.automatic_calls == 1);
-    assert(env.value.priority[0] == 1 && env.value.priority[1] == 10);
+    assert(env.value.priority[4] == 1 && env.value.priority[5] == 10);
     assert(lease.service(true) == focus::Result::Restored);
     assert(env.automatic_calls == 2 && !lease.independently_eligible_for_return());
     env.advance();
@@ -182,7 +197,7 @@ static void invalid_requests_cannot_mutate() {
         if (i == 5) env.value.paused = true;
         if (i == 6) env.value.enumeration_lock = 1;
         if (i == 7) env.value.binding_matches = false;
-        if (i == 8) env.value.opponent_alive[0] = false;
+        if (i == 8) env.eliminate(4);
         if (i == 9) env.value.manual = 1;
         if (i == 10) env.value.automatic_scheme = 1;
         assert(lease.request(1, target, deadline, wall) == focus::Result::Rejected);
@@ -232,14 +247,14 @@ static void changed_state_on_stop_requires_reconciliation() {
     Environment env;
     focus::Lease lease(env);
     assert(lease.request(1, 4, 900, 30000) == focus::Result::Adopted);
-    env.value.priority[1] = 9;
+    env.value.priority[5] = 9;
     assert(lease.service(true) == focus::Result::Unknown);
     assert(env.automatic_calls == 0);
     assert(lease.service(true) == focus::Result::Waiting);
     env.advance();
     assert(lease.service(true) == focus::Result::Waiting);
     assert(lease.phase() == focus::Phase::RestoreOnly);
-    env.value.priority[1] = 8;
+    env.value.priority[5] = 8;
     assert(lease.service(true) == focus::Result::Unknown);
     assert(env.automatic_calls == 0);
     assert(lease.service(true) == focus::Result::Waiting);
@@ -255,8 +270,8 @@ static void public_elimination_restores_then_allows_the_surviving_enemy() {
             Environment env;
             focus::Lease lease(env);
             assert(lease.request(1, 4, 900, 30000) == focus::Result::Adopted);
-            env.value.opponent_alive[eliminated] = false;
-            if (removed) env.value.priority[eliminated] = 0;
+            env.eliminate(4 + eliminated);
+            if (removed) env.value.priority[4 + eliminated] = 0;
             assert(lease.service(false) == focus::Result::Restored);
             assert(env.automatic_calls == 1 && lease.phase() == focus::Phase::BaselineObserved);
             env.advance();
@@ -266,6 +281,142 @@ static void public_elimination_restores_then_allows_the_surviving_enemy() {
             assert(env.calls == 2 && lease.target_player() == survivor);
         }
     }
+}
+
+static uint32_t mask(std::initializer_list<uint32_t> players) {
+    uint32_t value = 0;
+    for (uint32_t player : players) value |= 1u << player;
+    return value;
+}
+
+static void one_versus_one_has_a_single_focusable_enemy() {
+    Environment env(3, mask({4}));
+    focus::Lease lease(env);
+    assert(lease.request(1, 5, 900, 30000) == focus::Result::Rejected);
+    assert(lease.request(2, 4, 900, 30000) == focus::Result::Adopted);
+    assert(env.calls == 1 && env.value.priority[4] == 10 && env.value.priority[5] == 0);
+    assert(lease.service(true) == focus::Result::Restored);
+    env.advance();
+    assert(lease.independently_eligible_for_return());
+}
+
+static void arbitrary_enemy_ids_with_an_allied_human() {
+    // Own seat 3, enemies 0, 7 and 12, an allied human at 5 (never in the selector).
+    Environment env(3, mask({0, 7, 12}), mask({5}));
+    focus::Lease lease(env);
+    assert(env.value.priority[5] == 0 && env.value.priority[0] == 1 && env.value.priority[12] == 1);
+    assert(lease.request(1, 7, 900, 30000) == focus::Result::Adopted);
+    assert(env.calls == 1 && lease.target_player() == 7);
+    assert(env.value.priority[7] == 10 && env.value.priority[0] == 1 && env.value.priority[12] == 1);
+    env.advance();
+    assert(lease.service(false) == focus::Result::Adopted);
+    env.advance();
+    assert(lease.request(2, 12, 950, 30000) == focus::Result::Adopted);
+    assert(env.calls == 2 && env.automatic_calls == 1 && lease.target_player() == 12);
+    assert(env.value.priority[12] == 10 && env.value.priority[7] == 1 && env.value.priority[5] == 0);
+    assert(lease.service(true) == focus::Result::Restored);
+    assert(env.automatic_calls == 2 && lease.phase() == focus::Phase::BaselineObserved);
+    for (uint32_t i = 0; i < focus::MAX_PLAYERS; ++i)
+        assert(env.value.priority[i] == uint32_t(i == 0 || i == 7 || i == 12));
+    env.advance();
+    assert(lease.independently_eligible_for_return());
+}
+
+static void allies_dead_and_out_of_range_targets_are_rejected() {
+    const uint32_t targets[] = {5, 3, 9, 16, 31, 0xffffffffu, 7};
+    for (unsigned i = 0; i < sizeof(targets) / sizeof(targets[0]); ++i) {
+        Environment env(3, mask({0, 7, 12}), mask({5}));
+        if (i == 6) env.eliminate(7);
+        env.automatic();
+        focus::Lease lease(env);
+        assert(lease.request(1, targets[i], 900, 30000) == focus::Result::Rejected);
+        assert(env.calls == 0 && env.automatic_calls == 0 && env.journal.empty());
+        assert(lease.phase() == focus::Phase::Empty);
+    }
+}
+
+static void foreign_entries_and_changed_hostility_fail_sampling() {
+    for (unsigned variant = 0; variant < 4; ++variant) {
+        Environment env(3, mask({0, 7, 12}), mask({5}));
+        focus::Lease lease(env);
+        if (variant == 0) {
+            // A selector entry for the allied human: never a baseline.
+            env.value.priority[5] = 1;
+            assert(lease.request(1, 7, 900, 30000) == focus::Result::Rejected);
+            assert(env.journal.empty() && env.calls == 0);
+            continue;
+        }
+        if (variant == 1) {
+            // The own player can never be hostile to itself.
+            env.value.enemy_mask |= 1u << 3;
+            assert(lease.request(1, 7, 900, 30000) == focus::Result::Rejected);
+            assert(env.journal.empty() && env.calls == 0);
+            continue;
+        }
+        assert(lease.request(1, 7, 900, 30000) == focus::Result::Adopted);
+        const unsigned writes = env.calls + env.automatic_calls;
+        env.advance();
+        if (variant == 2) env.value.priority[5] = 1;       // foreign entry while held
+        if (variant == 3) env.value.enemy_mask |= 1u << 5; // hostility changed while held
+        assert(lease.service(false) == focus::Result::Waiting);
+        assert(lease.request(2, 12, 950, 30000) == focus::Result::Rejected);
+        assert(lease.service(true) == focus::Result::Waiting);
+        assert(env.calls + env.automatic_calls == writes && lease.phase() == focus::Phase::Held);
+        assert(!lease.independently_eligible_for_return());
+        // Back to the bound hostile set: the stop restores exactly once.
+        env.value.priority[5] = 0;
+        env.value.enemy_mask = mask({0, 7, 12});
+        env.advance();
+        assert(lease.service(true) == focus::Result::Restored);
+        assert(env.automatic_calls == 1 && env.calls == 1);
+    }
+}
+
+static void elimination_of_one_of_three_enemies_restores() {
+    for (unsigned target_dies = 0; target_dies < 2; ++target_dies) {
+        for (unsigned removed = 0; removed < 2; ++removed) {
+            Environment env(3, mask({0, 7, 12}), mask({5}));
+            focus::Lease lease(env);
+            assert(lease.request(1, 7, 900, 30000) == focus::Result::Adopted);
+            const uint32_t dead = target_dies ? 7 : 12;
+            env.advance();
+            env.eliminate(dead);
+            if (removed) env.value.priority[dead] = 0;
+            assert(lease.service(false) == focus::Result::Restored);
+            assert(env.automatic_calls == 1 && lease.phase() == focus::Phase::BaselineObserved);
+            assert(env.value.priority[dead] == 0 && env.value.priority[0] == 1);
+            env.advance();
+            assert(lease.independently_eligible_for_return());
+            assert(lease.request(2, dead, 950, 30000) == focus::Result::Rejected);
+            assert(lease.request(3, 0, 950, 30000) == focus::Result::Adopted);
+            assert(env.calls == 2 && lease.target_player() == 0);
+        }
+    }
+    // A defeated enemy coming back is not an elimination; it needs reconciliation.
+    Environment env(3, mask({0, 7, 12}));
+    env.eliminate(12);
+    env.automatic();
+    focus::Lease lease(env);
+    assert(lease.request(1, 7, 900, 30000) == focus::Result::Adopted);
+    env.advance();
+    env.value.alive_mask |= 1u << 12;
+    assert(lease.service(false) == focus::Result::Unknown);
+    assert(env.automatic_calls == 0);
+}
+
+static void own_player_other_than_three() {
+    Environment env(6, mask({1, 2}), mask({3}));
+    focus::Lease lease(env);
+    assert(lease.request(1, 3, 900, 30000) == focus::Result::Rejected);
+    assert(lease.request(2, 6, 900, 30000) == focus::Result::Rejected);
+    assert(lease.request(3, 2, 900, 30000) == focus::Result::Adopted);
+    assert(env.value.priority[2] == 10 && env.value.priority[1] == 1);
+    env.advance();
+    assert(lease.request(4, 1, 950, 30000) == focus::Result::Adopted);
+    assert(lease.service(true) == focus::Result::Restored);
+    env.advance();
+    assert(lease.independently_eligible_for_return());
+    assert(env.calls == 2 && env.automatic_calls == 2);
 }
 
 int main() {
@@ -279,5 +430,11 @@ int main() {
     finite_expiry_pause_cleanup_and_regression();
     changed_state_on_stop_requires_reconciliation();
     public_elimination_restores_then_allows_the_surviving_enemy();
+    one_versus_one_has_a_single_focusable_enemy();
+    arbitrary_enemy_ids_with_an_allied_human();
+    allies_dead_and_out_of_range_targets_are_rejected();
+    foreign_entries_and_changed_hostility_fail_sampling();
+    elimination_of_one_of_three_enemies_restores();
+    own_player_other_than_three();
     puts("enemy focus lease offline tests passed; Game access=0; native calls=0");
 }

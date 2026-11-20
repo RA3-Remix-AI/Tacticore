@@ -9,6 +9,10 @@
 // core transitions only. Native admission and independent return are separate.
 namespace ra3_enemy_focus_v1 {
 
+// Player ids are the native player-list indexes 0..15. Any number of enemies
+// and allies (human or AI) may be present; only mutual enemies are focusable.
+const uint32_t MAX_PLAYERS = 16;
+
 enum class Phase : uint32_t {
     Empty = 0,
     Held = 1,
@@ -33,14 +37,20 @@ struct Snapshot {
     uint32_t manual;
     uint32_t isolated;
     uint32_t enumeration_lock;
-    uint32_t priority[2]; // Public participants P4 and P5, absent entries are 0.
-    bool opponent_alive[2];
+    uint32_t own_player;            // From the bound owner; informational.
+    uint32_t enemy_mask;            // Bit i: player id i and the own player are mutual enemies.
+    uint32_t alive_mask;            // Bit i: participant i is present and not defeated.
+    uint32_t priority[MAX_PLAYERS]; // Selector priority per player id, absent entries are 0.
     bool binding_matches;
     bool paused;
     uint32_t frame;
     uint32_t callback;
     uint64_t ms;
 };
+
+inline uint32_t focusable(const Snapshot& value) { return value.enemy_mask & value.alive_mask; }
+
+inline uint32_t bit(uint32_t player) { return player < MAX_PLAYERS ? 1u << player : 0u; }
 
 struct Audit {
     uint32_t request;
@@ -85,12 +95,12 @@ public:
         if (phase_ != Phase::Empty && phase_ != Phase::BaselineObserved && phase_ != Phase::Held)
             return Result::Rejected;
         if (request == 0 || request > 2048 || request <= request_ ||
-            (target != 4 && target != 5) || wall_ms == 0 || wall_ms > 60000)
+            target >= MAX_PLAYERS || wall_ms == 0 || wall_ms > 60000)
             return Result::Rejected;
 
         Snapshot before = {};
         if (!sample(before) || before.paused || before.enumeration_lock ||
-            !before.opponent_alive[target - 4] || not_after_frame <= before.frame ||
+            !(focusable(before) & bit(target)) || not_after_frame <= before.frame ||
             not_after_frame - before.frame > 900 || before.ms > UINT64_MAX - wall_ms)
             return Result::Rejected;
         if (phase_ == Phase::Held ? !held(before) : !baseline(before))
@@ -98,10 +108,11 @@ public:
 
         // Capture only an automatic native baseline. Another manual owner is
         // never overwritten or claimed. Initial qualification covers Medium's
-        // native Flat scheme, with public P4/P5 participants only.
+        // native Flat scheme. The hostile set is fixed with the baseline.
         if (!selector_) {
             selector_ = before.selector;
             baseline_scheme_ = before.automatic_scheme;
+            enemy_mask_ = before.enemy_mask;
         }
         const bool renew = phase_ == Phase::Held && target == target_;
         const bool retarget = phase_ == Phase::Held && target != target_;
@@ -152,7 +163,7 @@ public:
             return Result::Unknown;
         }
         if (phase_ == Phase::RestoreOnly || stopping || value.frame >= deadline_frame_ ||
-            value.ms >= deadline_ms_ || !value.opponent_alive[target_ - 4])
+            value.ms >= deadline_ms_ || !(focusable(value) & bit(target_)))
             return restore(value);
         return Result::Adopted;
     }
@@ -170,6 +181,7 @@ private:
     Phase phase_ = Phase::Empty;
     uint32_t selector_ = 0;
     uint32_t baseline_scheme_ = 2;
+    uint32_t enemy_mask_ = 0;
     uint32_t request_ = 0;
     uint32_t target_ = 0;
     uint32_t deadline_frame_ = 0;
@@ -189,30 +201,40 @@ private:
             value.manual > 1 || value.isolated > 1 || !value.frame || !value.callback ||
             value.frame < last_frame_ || value.callback < last_callback_ || value.ms < last_ms_)
             return false;
-        if (value.priority[0] > 10 || value.priority[1] > 10) return false;
+        if (value.own_player >= MAX_PLAYERS || (value.enemy_mask & bit(value.own_player)) ||
+            (value.enemy_mask >> MAX_PLAYERS) || (value.alive_mask >> MAX_PLAYERS) ||
+            (selector_ && value.enemy_mask != enemy_mask_))
+            return false;
+        for (uint32_t i = 0; i < MAX_PLAYERS; ++i) {
+            if (value.priority[i] > 10) return false;
+            if (value.priority[i] && !(value.enemy_mask & bit(i))) return false;
+        }
         last_frame_ = value.frame;
         last_callback_ = value.callback;
         last_ms_ = value.ms;
         return true;
     }
 
+    // Native automatic selection lists every living enemy with priority 1.
+    static bool automatic_priorities(const Snapshot& value, uint32_t except) {
+        const uint32_t expected = focusable(value);
+        for (uint32_t i = 0; i < MAX_PLAYERS; ++i) {
+            if (i != except && value.priority[i] != ((expected >> i) & 1u)) return false;
+        }
+        return true;
+    }
+
     bool baseline(const Snapshot& value) const {
         return value.automatic_scheme == baseline_scheme_ && !value.manual && !value.isolated &&
-               value.priority[0] == uint32_t(value.opponent_alive[0]) &&
-               value.priority[1] == uint32_t(value.opponent_alive[1]);
+               automatic_priorities(value, MAX_PLAYERS);
     }
 
     bool held(const Snapshot& value) const {
-        const unsigned target = target_ - 4;
-        const unsigned other = 1 - target;
-        return value.manual == 1 && value.isolated == 0 &&
-               value.priority[target] == 10 &&
-               value.priority[other] == uint32_t(value.opponent_alive[other]);
+        return target_ < MAX_PLAYERS && value.manual == 1 && value.isolated == 0 &&
+               value.priority[target_] == 10 && automatic_priorities(value, target_);
     }
 
-    static uint32_t alive_mask(const Snapshot& value) {
-        return uint32_t(value.opponent_alive[0]) | (uint32_t(value.opponent_alive[1]) << 1);
-    }
+    static uint32_t alive_mask(const Snapshot& value) { return focusable(value); }
 
     bool known_public_elimination(const Snapshot& value) const {
         const uint32_t current = alive_mask(value);
@@ -222,12 +244,12 @@ private:
         // Native may remove a defeated public participant's entry before or
         // after this callback. Either representation ends this preference and
         // restores automatic selection, allowing a later model reassessment.
-        for (unsigned index = 0; index < 2; ++index) {
-            const uint32_t expected = index == target_ - 4 ? 10 : 1;
-            if (value.opponent_alive[index]) {
+        for (uint32_t index = 0; index < MAX_PLAYERS; ++index) {
+            const uint32_t expected = index == target_ ? 10 : 1;
+            if (current & bit(index)) {
                 if (value.priority[index] != expected) return false;
             } else if (value.priority[index] != 0 &&
-                       (!(held_alive_mask_ & (1u << index)) || value.priority[index] != expected)) {
+                       (!(held_alive_mask_ & bit(index)) || value.priority[index] != expected)) {
                 return false;
             }
         }
@@ -256,7 +278,7 @@ private:
         ++attempts_;
         if (!audit(value) || !sample(value) || value.enumeration_lock ||
             !same_selector_state(expected, value)) return false;
-        return restoring || (!value.paused && value.opponent_alive[target_ - 4] &&
+        return restoring || (!value.paused && (focusable(value) & bit(target_)) &&
                              value.frame < deadline_frame_ && value.ms < deadline_ms_);
     }
 
@@ -284,11 +306,14 @@ private:
     }
 
     static bool same_selector_state(const Snapshot& a, const Snapshot& b) {
-        return a.selector == b.selector && a.automatic_scheme == b.automatic_scheme &&
-               a.manual == b.manual && a.isolated == b.isolated &&
-               a.priority[0] == b.priority[0] && a.priority[1] == b.priority[1] &&
-               a.opponent_alive[0] == b.opponent_alive[0] &&
-               a.opponent_alive[1] == b.opponent_alive[1];
+        if (a.selector != b.selector || a.automatic_scheme != b.automatic_scheme ||
+            a.manual != b.manual || a.isolated != b.isolated ||
+            a.enemy_mask != b.enemy_mask || a.alive_mask != b.alive_mask)
+            return false;
+        for (uint32_t i = 0; i < MAX_PLAYERS; ++i) {
+            if (a.priority[i] != b.priority[i]) return false;
+        }
+        return true;
     }
 
     Result reconcile() {
