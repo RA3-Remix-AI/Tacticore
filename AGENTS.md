@@ -9,7 +9,8 @@ AI 自主决策并赢下对局；RA3 1.12（Remix 037）上可以任意换地图
 当前计划与设计，先读这三份：
 - [分层决策实施计划](docs/commander-layered-decision-plan-20261120.md)
 - [指挥官角色与战术设计](docs/commander-characters-tactics-20261120.md)
-- [Windows 实机执行文档](docs/codex-windows-execution-20261120.md)：本轮要执行的任务清单
+- [Windows 实机执行文档](docs/codex-windows-execution-20261120.md)：第 1 轮任务清单
+- [第 2 轮：单位直接控制](docs/codex-windows-execution-round2-20261120.md)：第 1 轮的 T0–T4 通过后才开始
 
 ## 做事方式
 
@@ -28,6 +29,7 @@ AI 自主决策并赢下对局；RA3 1.12（Remix 037）上可以任意换地图
 - 为一项验证再写一层审计，或为审计再写复核。
 - 在文档里写长篇的范围声明、免责条款和证据链。文档只写：做了什么、结果如何、下一步。
 - 把一次实机运行的全部产物提交进 git。运行证据放 Release 附件或本机目录，仓库里只保留结论和必要的小文件。
+- 作弊：召唤单位、加钱、全科技、免费建造、去迷雾、无敌、秒杀、收编等（Ra3-Copilot 里有这些功能，一律不用）。交给模型和控制器的敌方信息只能来自己方合法视野。
 
 ## 必须保留的保护
 

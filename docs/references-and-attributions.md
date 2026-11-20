@@ -18,6 +18,8 @@
 | `unit-codes/tools/sage_hash.py` | [native-ai/stage_commanders.py](../native-ai/stage_commanders.py) | 生成指挥官实验资源所需的 SAGE 哈希 |
 | `ra3-copilot/tools/precheck_aob.py` 等研究工具 | [native-ai/pe_xrefs.py](../native-ai/pe_xrefs.py)、[native-ai/extract_symbols.py](../native-ai/extract_symbols.py)、[visibility/capability.py](../visibility/capability.py)、[tactical/analyze_hit_stack.py](../tactical/analyze_hit_stack.py) | PE 地址转换、特征检查与离线分析 |
 
+2026-11-20：Ra3-Copilot 作者（负责人的同事）已同意本项目使用其代码；在上游补上 LICENSE 文件前，以该同意为依据。直接复制进本仓库的代码放在 `native-ai/third_party/ra3-copilot/`，保留来源提交号，并附上上游 LICENSE。弈核不使用其作弊类功能（召唤、加钱、全科技、免费建造、去迷雾、无敌、秒杀、收编）。
+
 这些路径依赖本机 `reference/Ra3-Copilot/`，该目录由 [.gitignore](../.gitignore) 排除。普通克隆不包含完整上游源码，运行相应研究脚本需另行准备其依赖。上游目录来自其他 Mod 的研究语境，不能当作 Remix 037 的权威单位表；偏移与候选匹配也不能替代目标游戏版本的实机验证。
 
 ### MinHook
