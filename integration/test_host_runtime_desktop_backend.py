@@ -315,7 +315,7 @@ class DesktopBackendTests(unittest.TestCase):
                 return [dict(row,payload=dict(row['payload'],capabilities=dict(native_transport_protocol=7))) for row in rows]
             return rows
         with patch.object(self.backend.journal,'commands_for_run',side_effect=commands),\
-                patch('host_runtime.strategic_stop_gate_v1.StrategicStopGateV1.publish_stop') as publish:
+                patch('host_runtime.stop_gate.StopGate.publish_stop') as publish:
             self.backend.run_stop(dict(run_id=run_id,session_id=SESSION),str(uuid.uuid4()))
         publish.assert_called_once()
 

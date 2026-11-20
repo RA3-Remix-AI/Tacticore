@@ -1,7 +1,7 @@
 """Read-only client projection; never grants an entry or dispatches work."""
 from copy import deepcopy
 from .contracts import ContractError
-from .macro_delegation_boundary_v1 import KIND as BOUNDARY, STRATEGIC_ACTIONS, validate_policy
+from .delegation_boundary import KIND as BOUNDARY, STRATEGIC_ACTIONS, validate_policy
 
 KIND = 'commander_strategic_client_record_v1'
 UNCONNECTED = ('native_construction_pause', 'native_production_pause', 'resource_expansion')
@@ -42,7 +42,7 @@ def project(status, capabilities):
         try:
             validate_policy(plan)
             raw = plan['macro_actions']
-            from .strategic_contract_v5 import split_intents,split_native7_intents
+            from .strategic_contract import split_intents,split_native7_intents
             try:
                 if status.get('native_transport_protocol')==7:split_native7_intents(raw)
                 else:split_intents(raw)

@@ -94,7 +94,7 @@ def project_event(event, expected=None, binding=None, strategy_evidence=None):
     if known:
         result["facts"] = project_fields(event["payload"])
         if event['event_type']=='macro_unified_feedback':
-            from .strategic_unified_feedback_v5 import project_unified_feedback
+            from .strategic_feedback import project_unified_feedback
             try:result['facts']=project_unified_feedback(event['payload'])
             except ContractError:result.update(facts={},payload_projected=False,projection_reason_code='unified_feedback_invalid')
             return result

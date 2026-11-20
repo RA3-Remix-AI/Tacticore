@@ -14,11 +14,11 @@ from unittest.mock import patch
 
 from host_runtime.contracts import ContractError,SessionBinding
 from host_runtime.desktop_backend import _atomic
-from host_runtime.strategic_stop_gate_v1 import StrategicStopGateV1
+from host_runtime.stop_gate import StopGate
 
 
 def batch_worker(folder,run,binding,entered,resume,queue):
-    gate=StrategicStopGateV1(run,SessionBinding.from_dict(binding),folder)
+    gate=StopGate(run,SessionBinding.from_dict(binding),folder)
     with gate.admit():
         queue.put(('child_one',time.monotonic_ns()));entered.set()
         if not resume.wait(10):raise RuntimeError('fixture resume timeout')
@@ -28,7 +28,7 @@ def batch_worker(folder,run,binding,entered,resume,queue):
 
 
 def stop_worker(folder,run,binding,attempted,committed,queue):
-    gate=StrategicStopGateV1(run,SessionBinding.from_dict(binding),folder)
+    gate=StopGate(run,SessionBinding.from_dict(binding),folder)
     attempted.set();gate.publish_stop(_atomic)
     queue.put(('stop_committed',time.monotonic_ns()));committed.set()
 
@@ -40,7 +40,7 @@ class StopGate(unittest.TestCase):
         self.output=Path(self.temp.name);self.run=str(uuid.uuid4())
         self.binding=SessionBinding(1,str(uuid.uuid4()),3,str(uuid.uuid4()),123,
             '2026-10-30T00:00:00+00:00',str(uuid.uuid4()),'a'*64,'b'*64)
-        self.gate=StrategicStopGateV1(self.run,self.binding,self.output)
+        self.gate=StopGate(self.run,self.binding,self.output)
 
     def test_real_crossprocess_stop_cannot_commit_between_admitted_children(self):
         context=mp.get_context('spawn');entered=context.Event();resume=context.Event()
@@ -139,8 +139,8 @@ class StopGate(unittest.TestCase):
                 row=dict(run_id=run,binding_json=json.dumps(self.binding.public()),session_path=str(session),output_path=str(output),request_id=start)
                 backend._launch=lambda _:row;backend._cancel_reserved_launch=lambda *a:False
                 backend._status=lambda _:dict(state='synthetic_status')
-                original=StrategicStopGateV1.publish_stop
-                with patch.object(StrategicStopGateV1,'publish_stop',autospec=True,side_effect=original) as publish:
+                original=StopGate.publish_stop
+                with patch.object(StopGate,'publish_stop',autospec=True,side_effect=original) as publish:
                     backend.run_stop(dict(run_id=run,session_id=self.binding.session_id),stop)
                     self.assertEqual(publish.call_count,int(protocol==5))
                 value=json.loads((output/'stop.json').read_bytes())

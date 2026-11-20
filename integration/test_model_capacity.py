@@ -9,7 +9,7 @@ import unittest
 from host_runtime.model_capacity import check_model_capacity
 from host_runtime.profiles import normalize_profile
 from host_runtime.macro_group_role_contract import group_role_catalog_overrides
-from test_strategic_unified_wire_v5 import Wire,SOURCE,ROOT,WIRE_ARCHIVE_AVAILABLE
+from test_strategic_wire import Wire,SOURCE,ROOT,WIRE_ARCHIVE_AVAILABLE
 
 
 # Guard only archive-backed cases: the isolated pure import stays portable.
@@ -18,7 +18,7 @@ class Capacity(unittest.TestCase):
         from fixtures import binding,snapshot
         from engine import Snapshot
         from macro_policy import ACTIONS
-        from host_runtime.strategic_contract_v5 import FLAG_ACTIONS,GATE_ACTIONS
+        from host_runtime.strategic_contract import FLAG_ACTIONS,GATE_ACTIONS
         from host_runtime.model_capacity import _capacity_envelope
         from host_runtime.macro_forces import NAMED_BUILDINGS
         identity=binding();raw=snapshot()

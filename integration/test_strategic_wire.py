@@ -15,8 +15,8 @@ from macro_policy import restore_public_defaults
 from test_macro_group_role_wire import offline_adapter
 from tacticore_agent_runtime.factory import NetworkBackend
 from http_adapter import system_prompt
-from host_runtime.strategic_unified_feedback_v5 import UnifiedRequestAuditV5
-from host_runtime.macro_prepared_request_v1 import prepare_macro_request_v1
+from host_runtime.strategic_feedback import StrategicRequestAudit
+from host_runtime.prepared_request import prepare_macro_request_v1
 
 ROOT=Path(__file__).resolve().parents[1]
 SOURCE=ROOT/'acceptance/runs/desktop-bcd88e90-e31e-4f87-94c1-9f2ec32da025/battle-host'
@@ -67,7 +67,7 @@ class Wire(unittest.TestCase):
         class Backend:
             max_input_bytes=16384
             def input_size(self,context):return max(adapter.input_size(context),sdk.input_size(context))
-        audit=UnifiedRequestAuditV5(Backend(),lambda *a,**k:None,feedback_supplier=lambda:feedback,
+        audit=StrategicRequestAudit(Backend(),lambda *a,**k:None,feedback_supplier=lambda:feedback,
             unified_supplier=lambda:unified,strategy_supplier=memory.context,strategic_only=True)
         return agent,audit,adapter,sdk,unified
     def test_second_round_and_four_domain_pressure_fit_both_real_encoders(self):

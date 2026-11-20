@@ -11,11 +11,11 @@ from unittest.mock import patch,AsyncMock
 
 ROOT=Path(__file__).resolve().parents[1]
 sys.path[:0]=[str(ROOT/'strategy'),str(ROOT/'integration'),str(ROOT/'native-ai'),str(ROOT)]
-import test_macro_delegation_boundary_v1 as base
+import test_delegation_boundary as base
 from host_runtime.contracts import ContractError
 from host_runtime.macro_policy_runtime import MacroRequestAudit,COMMANDER
-from host_runtime.macro_prepared_request_v1 import prepare_macro_request_v1,decide_prepared_macro_request_v1
-from host_runtime.macro_delegation_boundary_v1 import KIND,STRATEGIC_ACTIONS
+from host_runtime.prepared_request import prepare_macro_request_v1,decide_prepared_macro_request_v1
+from host_runtime.delegation_boundary import KIND,STRATEGIC_ACTIONS
 from macro_policy import ACTIONS
 from macro_strategy import MacroStrategyMemory
 from http_adapter import macro_system_prompt,ChatAdapter,AdapterError

@@ -18,12 +18,12 @@ sys.path[:0]=[str(_ROOT/'strategy'),str(_ROOT/'agent_runtime/src')]
 
 from engine import Snapshot
 from macro_policy import project_strategy_defaults,ACTIONS
-from .strategic_contract_v5 import FLAG_ACTIONS,GATE_ACTIONS,FOCUS_ACTIONS,RAID_ACTION,INDEPENDENT_DEVELOPMENT_CONTRACT
+from .strategic_contract import FLAG_ACTIONS,GATE_ACTIONS,FOCUS_ACTIONS,RAID_ACTION,INDEPENDENT_DEVELOPMENT_CONTRACT
 from http_adapter import system_prompt,ChatAdapter
 from tacticore_agent_runtime.factory import NetworkBackend
 from host_runtime.profiles import EffectiveProfile
-from host_runtime.macro_delegation_boundary_v1 import restrict_context
-from host_runtime.strategic_unified_feedback_v5 import compact_model_catalog
+from host_runtime.delegation_boundary import restrict_context
+from host_runtime.strategic_feedback import compact_model_catalog
 
 LIMIT=16384
 MEMORY_RESERVE=1536

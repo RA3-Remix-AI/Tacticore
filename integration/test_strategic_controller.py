@@ -14,8 +14,8 @@ import uuid
 
 from host_runtime.contracts import ContractError
 from host_runtime.journal import CommandJournal
-from host_runtime.strategic_unified_controller_v5 import UnifiedStrategicControllerV5
-from host_runtime.strategic_unified_feedback_v5 import project_unified_feedback
+from host_runtime.strategic_controller import StrategicController
+from host_runtime.strategic_feedback import project_unified_feedback
 from strategy.native_unified_contract_v5 import FLAG_ACTIONS,GATE_ACTIONS
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -57,7 +57,7 @@ class Dispatch(unittest.TestCase):
             manager=lambda gate,enabled,frames,ident,**kwargs:call('manager',gate,enabled,frames,ident,**kwargs),
             apply=lambda actions,frames,ident,**kwargs:call('flags',None,None,frames,ident,actions=actions,**kwargs))
         scope=SimpleNamespace(available_actions=FLAG_ACTIONS+tuple(GATE_ACTIONS),action_flags=dict(zip(FLAG_ACTIONS,FLAG_ACTIONS)))
-        self.controller=UnifiedStrategicControllerV5(transport,self.journal,self.run,scope,self.session,'a'*64,lambda *a,**k:None)
+        self.controller=StrategicController(transport,self.journal,self.run,scope,self.session,'a'*64,lambda *a,**k:None)
     def plan(self,actions):
         p=SimpleNamespace(plan_id=str(uuid.uuid4()),origin='model',session_id=self.session,
             commander_id='57e668b4-4d89-43bd-bc92-0dd436f046ef',player_id=3,
@@ -82,7 +82,7 @@ class Dispatch(unittest.TestCase):
         scope=SimpleNamespace(available_actions=self.flag_actions+tuple(GATE_ACTIONS),
             action_flags=dict(zip(self.flag_actions,FLAG_ACTIONS)))
         previous=self.controller
-        self.controller=UnifiedStrategicControllerV5(previous.transport,self.journal,self.run,scope,
+        self.controller=StrategicController(previous.transport,self.journal,self.run,scope,
             self.session,'a'*64,lambda *a,**k:None)
         receipt=self.controller.dispatch(self.plan(['attackenemy']),101,effective_hash='a'*64)
         self.assertEqual(self.native['applied_mask'],1<<7)

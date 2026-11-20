@@ -84,8 +84,8 @@ class RuntimeSemanticsTests(unittest.TestCase):
 
     def renewal_controller(self,plan,receipt,at=110):
         from host_runtime.native_runtime import NativeScope
-        from host_runtime.strategic_unified_controller_v5 import UnifiedStrategicControllerV5
-        controller=UnifiedStrategicControllerV5.__new__(UnifiedStrategicControllerV5)
+        from host_runtime.strategic_controller import StrategicController
+        controller=StrategicController.__new__(StrategicController)
         controller.scope=NativeScope.__new__(NativeScope)
         controller.stopped=False;controller.delivery_unknown=False
         controller.current_plan=plan.plan_id;controller.current_actions=tuple(plan.macro_actions)

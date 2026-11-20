@@ -57,7 +57,7 @@ def check(checks,registration,profile,host_id,state_dir,library_path,limits):
     binding=SessionBinding(1,session['session_id'],3,profile['profile_id'],session['pid'],session['start_time'],host_id,
         digest(session['game']),session['mod_sha256'])
     summary['player_name']=profile['name']
-    from .macro_delegation_boundary_v1 import strategic_actions
+    from .delegation_boundary import strategic_actions
     capabilities=dict(control_mode='macro_native',native_macro=True,
         available_macro_actions=list(strategic_actions(scope.available_actions)),
         supported_units=[],supported_foci=['native_baseline'],tactics_supported=False,runtime_tactical_supported=False,

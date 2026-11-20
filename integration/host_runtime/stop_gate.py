@@ -19,7 +19,7 @@ import uuid
 from .contracts import ContractError
 
 
-class StrategicStopGateV1:
+class StopGate:
     def __init__(self,run_id,binding,output):
         self.run_id=str(uuid.UUID(run_id));self.session_id=binding.session_id
         self.binding_hash=binding.binding_hash;self.path=Path(output)/'stop.json'

@@ -5,10 +5,10 @@ from contextlib import nullcontext
 
 from .contracts import ContractError
 from .macro_policy_runtime import COMMANDER,PRESETS,ratios_match,compact_account_shares
-from .macro_delegation_boundary_v1 import validate_policy
-from .strategic_contract_v5 import split_native7_intents,GATE_ACTIONS,FOCUS_ACTIONS
+from .delegation_boundary import validate_policy
+from .strategic_contract import split_native7_intents,GATE_ACTIONS,FOCUS_ACTIONS
 
-class UnifiedStrategicControllerV5:
+class StrategicController:
     def __init__(self,transport,journal,run_id,scope,session_id,effective_hash,event):
         self.transport=transport;self.journal=journal;self.run_id=run_id;self.scope=scope
         self.flag_actions=tuple(scope.action_flags)

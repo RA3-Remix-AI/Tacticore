@@ -503,7 +503,7 @@ class DesktopBackend:
             admission = self.checks.check(registration, profile, host_id, self.state_dir, self.store.library_path, self.limits)
             if isinstance(admission, Admission) and admission.capabilities.get('native_macro') is True:
                 from dataclasses import replace
-                from .macro_strategic_client_v1 import preflight_capabilities
+                from .strategic_client import preflight_capabilities
                 admission=replace(admission,capabilities=preflight_capabilities(admission.capabilities))
             if not isinstance(admission, Admission):raise ContractError("session_not_ready")
             channel = admission.binding.public(); channel.pop("host_id")
@@ -561,7 +561,7 @@ class DesktopBackend:
             admission = self.checks.check(registration, profile, ready["host_id"], self.state_dir, self.store.library_path, self.limits)
             if isinstance(admission, Admission) and admission.capabilities.get('native_macro') is True:
                 from dataclasses import replace
-                from .macro_strategic_client_v1 import preflight_capabilities
+                from .strategic_client import preflight_capabilities
                 admission=replace(admission,capabilities=preflight_capabilities(admission.capabilities))
         except ContractError as error:
             if error.code in {"session_unavailable", "session_mismatch", "session_not_ready", "run_already_active",
@@ -798,7 +798,7 @@ class DesktopBackend:
                 # Identity was checked above. This read-only record exposes
                 # strategic authority and missing intents without inheriting
                 # historical precision grants or changing dispatch/release.
-                from .macro_strategic_client_v1 import project as project_strategic_client
+                from .strategic_client import project as project_strategic_client
                 try:
                     result['strategic_client']=project_strategic_client(status, result.get('capabilities', {}))
                 except ContractError:
@@ -813,7 +813,7 @@ class DesktopBackend:
                         # strategy state or erase the independent run status.
                         result['macro_strategy_unavailable']=True
                 if status.get('macro_unified_feedback') is not None:
-                    from .strategic_unified_feedback_v5 import project_unified_feedback
+                    from .strategic_feedback import project_unified_feedback
                     try:result['macro_unified_feedback']=project_unified_feedback(status['macro_unified_feedback'])
                     except ContractError:result['macro_unified_feedback_unavailable']=True
                 feedback=status.get('macro_feedback') or {}
@@ -912,8 +912,8 @@ class DesktopBackend:
                 unified=any(type(r['payload'].get('capabilities',{}).get('native_transport_protocol')) is int
                     and r['payload']['capabilities']['native_transport_protocol'] in (5,6,7) for r in starts)
                 if unified:
-                    from .strategic_stop_gate_v1 import StrategicStopGateV1
-                    StrategicStopGateV1(row['run_id'],binding,Path(row['output_path'])).publish_stop(_atomic)
+                    from .stop_gate import StopGate
+                    StopGate(row['run_id'],binding,Path(row['output_path'])).publish_stop(_atomic)
                 else:_atomic(Path(row['output_path'])/'stop.json',dict(session_id=binding.session_id))
                 self.journal.record_outcome(row["run_id"], request_id, "completed", dict(reason_code="host_stop_requested",
                     native_release_verified=False))

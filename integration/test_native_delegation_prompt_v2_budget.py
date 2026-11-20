@@ -13,7 +13,7 @@ from host_runtime.macro_group_role_contract import group_role_catalog_overrides
 from host_runtime.native_runtime import NativeScope
 from host_runtime.native_runtime_contract import PACKAGE_SHA, FLAGS
 from host_runtime.profiles import normalize_profile
-from host_runtime.strategic_contract_v5 import FLAG_ACTIONS
+from host_runtime.strategic_contract import FLAG_ACTIONS
 from engine import Snapshot
 from macro_policy import ACTIONS, public_descriptions
 import prompt_versions

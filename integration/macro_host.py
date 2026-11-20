@@ -32,8 +32,8 @@ from prompt_versions import PROMPT_VERSIONS,active_prompt_version,select_prompt_
 from macro_strategy import MacroStrategyMemory
 from host_runtime.native_runtime import NativeScope
 from host_runtime.native_runtime_contract import FIELD_KIND,PROTOCOL
-from host_runtime.strategic_unified_controller_v5 import UnifiedStrategicControllerV5
-from host_runtime.strategic_unified_feedback_v5 import UnifiedRequestAuditV5,UnifiedStrategyRuntimeV5
+from host_runtime.strategic_controller import StrategicController
+from host_runtime.strategic_feedback import StrategicRequestAudit,StrategicRuntime
 
 LIMITS=dict(production_queue_observed=False,idle_producers_observed=False,
     queue_and_idle_numbers='unobserved_lower_bounds',own_roles_coverage='audited_templates_only',
@@ -176,7 +176,7 @@ class MacroHost:
         actions=()
         if game_seconds>=scope.minimum_model_game_seconds and not self.latest['paused']:
             actions=self.controller.available_actions(game_seconds)
-        from host_runtime.macro_delegation_boundary_v1 import strategic_actions
+        from host_runtime.delegation_boundary import strategic_actions
         actions=strategic_actions(actions)
         self.latest['macro_control']=dict(mode='macro_native',available_actions=list(actions),
             production_counts={action:list(counts) for action,counts in scope.production_counts.items()
@@ -199,7 +199,7 @@ class MacroHost:
         return True
 
     def observe_current(self,*,coherent_native=False):
-        from host_runtime.macro_delegation_boundary_v1 import restrict_snapshot
+        from host_runtime.delegation_boundary import restrict_snapshot
         self.latest=restrict_snapshot(self.latest)
         # Archive every successful lawful startup view immediately. Keep an
         # isolated copy to prime the agent later with the real original IDs.
@@ -302,7 +302,7 @@ class MacroHost:
         if not self.observe_post_native_view():return None
         if self.latest['paused']:return None
         if not request_telemetry_ready(audited,self.latest,self.event):return None
-        from host_runtime.macro_prepared_request_v1 import prepare_macro_request_v1
+        from host_runtime.prepared_request import prepare_macro_request_v1
         ready=self.response_observation_ready
         try:return prepare_macro_request_v1(self.agent,audited,self.agent.latest,response_ready=ready)
         except (ContractError,StrategyContractError) as error:
@@ -317,7 +317,7 @@ class MacroHost:
         # Retain only decisions deferred before any controller invocation.
         # Unknown native outcomes never enter this retry path.
         self.pending_dispatch=None
-        from host_runtime.macro_delegation_boundary_v1 import validate_policy
+        from host_runtime.delegation_boundary import validate_policy
         try:validate_policy(plan)
         except ContractError as error:
             self.event('macro_plan_not_dispatched',plan_id=plan.plan_id,reason_code=error.code)
@@ -367,7 +367,7 @@ class MacroHost:
         return True
 
     def create_controller(self):
-        return UnifiedStrategicControllerV5(self.transport,self.journal,self.run_id,self.sampler.scope,
+        return StrategicController(self.transport,self.journal,self.run_id,self.sampler.scope,
             self.binding.session_id,self.expected_hash,self.event)
 
     def finish_transport(self):
@@ -464,8 +464,8 @@ class MacroHost:
             _atomic(self.output/'participants.json',self.sampler.participants)
             self.application=apply_commander_draft(load_profile(self.args.library,self.binding.commander_id),self.draft)
             if self.application.effective.effective_hash!=self.expected_hash:raise ContractError('effective_profile_changed')
-            from host_runtime.strategic_stop_gate_v1 import StrategicStopGateV1
-            self.stop_gate=StrategicStopGateV1(self.run_id,self.binding,self.output)
+            from host_runtime.stop_gate import StopGate
+            self.stop_gate=StopGate(self.run_id,self.binding,self.output)
             model_input_limit=scope.maximum_model_input_bytes
             self.backend=create_applied_backend(self.application,event_sink=lambda kind,payload:self.event(kind,**payload),
                 request_admission=self.stop_gate.admit,backend='pydantic',timeout=28,max_tokens=8192,
@@ -479,13 +479,13 @@ class MacroHost:
             if getattr(self.args,'strategy_mode','declared')=='declared':
                 memory=MacroStrategyMemory(session_id=self.binding.session_id,commander_id=self.binding.commander_id,
                     player_id=3,profile_revision=self.expected_revision,effective_hash=self.expected_hash)
-                self.strategy_runtime=UnifiedStrategyRuntimeV5(memory,self.event)
+                self.strategy_runtime=StrategicRuntime(memory,self.event)
             self.prime_startup_snapshots()
             self.check_model_capacity(scope)
             with self.stop_gate.admit('native_constructor') as admission:
                 self.attach_transport(admission)
             self.controller=self.create_controller()
-            audited=UnifiedRequestAuditV5(self.backend,self.event,
+            audited=StrategicRequestAudit(self.backend,self.event,
                 feedback_supplier=lambda:getattr(self,'last_feedback',None),
                 forces_supplier=lambda:getattr(self,'last_forces',None),
                 catalog_supplier=scope.model_catalog_overrides,
@@ -547,7 +547,7 @@ class MacroHost:
                     if self.strategy_runtime is not None:
                         prepared=self.prepare_model_request(audited)
                         if prepared is not None:
-                            from host_runtime.macro_prepared_request_v1 import decide_prepared_macro_request_v1
+                            from host_runtime.prepared_request import decide_prepared_macro_request_v1
                             self.pending=asyncio.create_task(decide_prepared_macro_request_v1(self.agent,
                                 self.agent.latest,prepared))
                             last_request=time.monotonic()

@@ -7,7 +7,7 @@ import copy
 import re
 
 from .contracts import ContractError
-from .strategic_contract_v5 import FOCUS_ACTIONS
+from .strategic_contract import FOCUS_ACTIONS
 
 KIND = 'native_ai_details_v1'
 STRATEGIC_ACTIONS = frozenset({

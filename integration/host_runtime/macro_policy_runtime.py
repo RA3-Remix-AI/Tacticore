@@ -102,7 +102,7 @@ class MacroRequestAudit:
 
     def _prepare_strategy(self,context):
         if self.strategic_only:
-            from .macro_delegation_boundary_v1 import restrict_context
+            from .delegation_boundary import restrict_context
             context=restrict_context(context)
         if self.strategy_supplier is None:return context
         from macro_strategy import StrategyError
@@ -163,7 +163,7 @@ class MacroRequestAudit:
         result=await self.backend(context)
         if self.strategic_only:
             from engine import parse_model_json,ContractError as StrategyContractError
-            from .macro_delegation_boundary_v1 import validate_policy
+            from .delegation_boundary import validate_policy
             try:validate_policy(parse_model_json(result) if isinstance(result,(str,bytes)) else result)
             except ContractError as error:raise StrategyContractError(error.code) from None
         if self.strategy_supplier is not None:
@@ -190,7 +190,7 @@ def strategic_catalogs(overrides,context):
     if not is_region(home):return ()
     catalogs=(home_group_role_catalog_overrides(home),home_strategic_catalog_overrides(home))
     from .native_runtime import NativeScope
-    from .strategic_contract_v5 import INDEPENDENT_DEVELOPMENT_CONTRACT
+    from .strategic_contract import INDEPENDENT_DEVELOPMENT_CONTRACT
     if context.get('macro_intent_contract')==INDEPENDENT_DEVELOPMENT_CONTRACT:
         focus_targets=tuple(sorted(row['target_player_id'] for row in overrides.values()
             if type(row) is dict and row.get('domain')=='enemy_focus' and type(row.get('target_player_id')) is int))

@@ -5,7 +5,7 @@ from pathlib import Path
 import unittest
 import tempfile
 
-from host_runtime.macro_prepared_request_v1 import prepare_macro_request_v1,decide_prepared_macro_request_v1,encoded
+from host_runtime.prepared_request import prepare_macro_request_v1,decide_prepared_macro_request_v1,encoded
 
 
 class ResponseObservationTests(unittest.IsolatedAsyncioTestCase):

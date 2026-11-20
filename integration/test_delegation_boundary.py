@@ -21,7 +21,7 @@ from macro_host import MacroHost
 from host_runtime.contracts import ContractError, SessionBinding
 from host_runtime.journal import CommandJournal
 from host_runtime.macro_policy_runtime import MacroRequestAudit, COMMANDER
-from host_runtime.macro_delegation_boundary_v1 import (
+from host_runtime.delegation_boundary import (
     KIND, STRATEGIC_ACTIONS, restrict_snapshot, restrict_context, validate_policy,
 )
 
@@ -281,7 +281,7 @@ class RoutingTests(unittest.TestCase):
         self.assertEqual(host.latest['macro_control']['production_counts'],{})
 
     def test_async_prepared_request_preserves_boundary_and_validates_response(self):
-        from host_runtime.macro_prepared_request_v1 import prepare_macro_request_v1,decide_prepared_macro_request_v1
+        from host_runtime.prepared_request import prepare_macro_request_v1,decide_prepared_macro_request_v1
         self.agent.observe(self.view)
         outer=self
         class Model:

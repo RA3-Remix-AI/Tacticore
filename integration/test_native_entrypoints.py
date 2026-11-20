@@ -7,7 +7,7 @@ from host_runtime.contracts import ContractError
 from host_runtime.native_presence import query_macro_objects
 from host_runtime.native_runtime import NativeScope
 from host_runtime.native_runtime_contract import PACKAGE_SHA,FLAG_ACTIONS,FLAGS,FIELD_KIND
-from host_runtime.strategic_unified_controller_v5 import UnifiedStrategicControllerV5
+from host_runtime.strategic_controller import StrategicController
 from macro_host import MacroHost,native_transport_config
 
 
@@ -30,8 +30,8 @@ class NativeEntrypoints(unittest.TestCase):
         from battle_agent import BattleAgent
         from macro_strategy import MacroStrategyMemory
         from macro_policy import ACTIONS
-        from host_runtime.strategic_unified_feedback_v5 import UnifiedRequestAuditV5
-        from host_runtime.macro_prepared_request_v1 import prepare_macro_request_v1,encoded
+        from host_runtime.strategic_feedback import StrategicRequestAudit
+        from host_runtime.prepared_request import prepare_macro_request_v1,encoded
         identity=binding();engine=StrategyEngine(identity)
         agent=BattleAgent(engine,context_budget_bytes=32768)
         raw=snapshot(macro_control=dict(mode='macro_native',available_actions=list(scope.available_actions),
@@ -50,7 +50,7 @@ class NativeEntrypoints(unittest.TestCase):
             preference_active=True,active_native_task_observed=False,movement_observed=False,
             component_state_adopted=False,state_already_satisfied=False,mission_success_verified=False,
             exclusive_attribution_verified=False) for action in actions]
-        audit=UnifiedRequestAuditV5(Backend(),lambda *args,**kwargs:None,strategic_only=True,
+        audit=StrategicRequestAudit(Backend(),lambda *args,**kwargs:None,strategic_only=True,
             feedback_supplier=lambda:dict(status='native_delegation_observed',selected_policy=None,actions=[],
                 observed_frame=1500,native_effect_verified=False),catalog_supplier=scope.model_catalog_overrides,
             unified_supplier=lambda:dict(source='bound_native_strategy_v7',observed_frame=1500,
@@ -134,7 +134,7 @@ class NativeEntrypoints(unittest.TestCase):
         manifest=dict(kind=FIELD_KIND,protocol_version=7,package_sha256=PACKAGE_SHA,
             admission_ready=True,compile_only=False,flags=list(FLAGS))
         self.assertEqual(native_transport_config(scope,manifest)['protocol_version'],7)
-        controller=UnifiedStrategicControllerV5.__new__(UnifiedStrategicControllerV5)
+        controller=StrategicController.__new__(StrategicController)
         controller.scope=scope;controller.stopped=False
         host=MacroHost.__new__(MacroHost)
         host.sampler=SimpleNamespace(scope=scope);host.controller=controller
@@ -212,7 +212,7 @@ class ScenarioScopes(unittest.TestCase):
 
     def test_strategic_catalog_audit_rebuilds_from_the_named_home_region(self):
         from host_runtime.macro_policy_runtime import strategic_catalogs
-        from host_runtime.strategic_contract_v5 import INDEPENDENT_DEVELOPMENT_CONTRACT
+        from host_runtime.strategic_contract import INDEPENDENT_DEVELOPMENT_CONTRACT
         scope=NativeScope(PACKAGE_SHA,tuple(zip(FLAG_ACTIONS,FLAGS)),(),(),required_origin_region='region_0_12')
         overrides=scope.model_catalog_overrides()
         context=dict(macro_intent_contract=INDEPENDENT_DEVELOPMENT_CONTRACT)

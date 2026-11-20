@@ -17,7 +17,7 @@ from .native_paths import plain_local
 from .native_runtime_contract import (BUILD_DIR, FIELD_KIND, FLAG_ACTIONS, FLAGS, PACKAGE_SHA, PROTOCOL,
                                       _verified_build, read, sha, verify_inventory)
 from .scenario import MODEL_PLAYER_ID, MatchScenario
-from .strategic_contract_v5 import FOCUS_ACTIONS as FOCUS_GRAMMAR, GATE_ACTIONS, focus_actions_for
+from .strategic_contract import FOCUS_ACTIONS as FOCUS_GRAMMAR, GATE_ACTIONS, focus_actions_for
 
 KIND = 'native_runtime_descriptor'
 DESCRIPTOR_VERSION = 16
@@ -109,7 +109,7 @@ class NativeScope:
 
     @property
     def intent_contract(self):
-        from .strategic_contract_v5 import INDEPENDENT_DEVELOPMENT_CONTRACT
+        from .strategic_contract import INDEPENDENT_DEVELOPMENT_CONTRACT
         return INDEPENDENT_DEVELOPMENT_CONTRACT
 
     @property

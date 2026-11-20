@@ -2,9 +2,9 @@
 from .contracts import ContractError
 from .macro_policy_runtime import MacroRequestAudit
 from .macro_strategy_runtime import MacroStrategyRuntime
-from .strategic_contract_v5 import FLAG_ACTIONS,GATE_ACTIONS,STRATEGIC_ACTIONS,FOCUS_ACTIONS
+from .strategic_contract import FLAG_ACTIONS,GATE_ACTIONS,STRATEGIC_ACTIONS,FOCUS_ACTIONS
 
-class UnifiedRequestAuditV5(MacroRequestAudit):
+class StrategicRequestAudit(MacroRequestAudit):
     def __init__(self,*args,unified_supplier,**kwargs):
         super().__init__(*args,**kwargs);self.unified_supplier=unified_supplier
     def _prepare_strategy(self,context):
@@ -71,7 +71,7 @@ def project_unified_feedback(value,*,game_seconds=None):
             raise ContractError('unified_feedback_fifth_row_requires_continuing_native_expansion')
         return dict(source=value['source'],observed_frame=value['observed_frame'],details_owner='native_ai',observations=rows)
 
-class UnifiedStrategyRuntimeV5(MacroStrategyRuntime):
+class StrategicRuntime(MacroStrategyRuntime):
     def observe(self,controller,native,game_seconds,*,budget_feedback=None):
         if type(native) is not dict:return
         feedback=controller.unified_feedback()

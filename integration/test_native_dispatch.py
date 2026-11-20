@@ -8,9 +8,9 @@ import unittest
 from host_runtime.contracts import ContractError
 from host_runtime.native_runtime import NativeScope
 from host_runtime.native_runtime_contract import FLAG_ACTIONS,FLAGS,PACKAGE_SHA
-from host_runtime.strategic_contract_v5 import split_intents,split_native7_intents
-from host_runtime.strategic_unified_controller_v5 import UnifiedStrategicControllerV5
-from host_runtime.strategic_unified_feedback_v5 import project_unified_feedback
+from host_runtime.strategic_contract import split_intents,split_native7_intents
+from host_runtime.strategic_controller import StrategicController
+from host_runtime.strategic_feedback import project_unified_feedback
 from macro_policy import validate_actions
 import test_strategic_controller as existing_fixture
 
@@ -53,7 +53,7 @@ class NativeDispatch(unittest.TestCase):
             return dict(seq=state['ack'],native=copy.deepcopy(state),native_gate_acknowledged=True,native_effect_verified=False)
         transport.focus=focus
         scope=NativeScope(PACKAGE_SHA,tuple(zip(FLAG_ACTIONS,FLAGS)),(),(),opponent_player_ids=self.enemies)
-        self.controller=UnifiedStrategicControllerV5(transport,self.fixture.journal,self.fixture.run,scope,
+        self.controller=StrategicController(transport,self.fixture.journal,self.fixture.run,scope,
             self.fixture.session,'a'*64,lambda *args,**kwargs:None)
 
     def observe(self,sample):

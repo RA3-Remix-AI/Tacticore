@@ -9,7 +9,7 @@ import json
 
 from .contracts import ContractError
 from .macro_policy_runtime import MacroRequestAudit
-from .strategic_unified_feedback_v5 import UnifiedRequestAuditV5
+from .strategic_feedback import StrategicRequestAudit
 from battle_agent import BattleAgent
 from engine import Snapshot,Decision
 from macro_strategy import MacroStrategyMemory
@@ -22,7 +22,7 @@ def fail(code):raise ContractError('macro_prepared_request_'+code)
 def encoded(value):return json.dumps(value,ensure_ascii=False,allow_nan=False,separators=(',',':')).encode('utf8')
 
 
-class PreparedMacroRequestV1:
+class PreparedMacroRequest:
     def __init__(self,snapshot,measure,sender,parent,sequence,seal,response_ready=None):
         if seal is not _SEAL:fail('trusted_capture_required')
         self.snapshot=snapshot;self.measure=measure;self.sender=sender;self.parent=parent
@@ -38,7 +38,7 @@ class PreparedMacroRequestV1:
 
 def prepare_macro_request_v1(agent,audit,snapshot,*,response_ready=None):
     """Synchronous capture before create_task; providers are read exactly once."""
-    if (type(agent) is not BattleAgent or type(audit) not in (MacroRequestAudit,UnifiedRequestAuditV5)
+    if (type(agent) is not BattleAgent or type(audit) not in (MacroRequestAudit,StrategicRequestAudit)
             or type(snapshot) is not Snapshot or snapshot!=agent.latest or snapshot.macro_control is None):fail('current_snapshot_required')
     if response_ready is not None and not callable(response_ready):fail('response_readiness_callback')
     supplier=audit.strategy_supplier
@@ -49,7 +49,7 @@ def prepare_macro_request_v1(agent,audit,snapshot,*,response_ready=None):
         strategy=deepcopy(memory).context
     else:strategy=None
     providers={}
-    for name in (*SUPPLIERS,*(('unified_supplier',) if type(audit) is UnifiedRequestAuditV5 else ())):
+    for name in (*SUPPLIERS,*(('unified_supplier',) if type(audit) is StrategicRequestAudit else ())):
         supplier=getattr(audit,name)
         if supplier is None:providers[name]=None;continue
         value=deepcopy(supplier())
@@ -78,11 +78,11 @@ def prepare_macro_request_v1(agent,audit,snapshot,*,response_ready=None):
         if encoded(context)!=base_bytes:fail('captured_context_changed')
         return json.loads(prepared_bytes)
     sender.prepare=exact_prepared
-    return PreparedMacroRequestV1(snapshot,measure,sender,audit,sequence,_SEAL,response_ready)
+    return PreparedMacroRequest(snapshot,measure,sender,audit,sequence,_SEAL,response_ready)
 
 
 async def decide_prepared_macro_request_v1(agent,snapshot,prepared):
     """A task delayed before starting cannot regress the agent's observation."""
-    if type(prepared) is not PreparedMacroRequestV1 or prepared.snapshot!=snapshot:fail('snapshot_binding')
+    if type(prepared) is not PreparedMacroRequest or prepared.snapshot!=snapshot:fail('snapshot_binding')
     if agent.latest!=snapshot:return Decision('deferred','macro_prepared_request_snapshot_superseded',None)
     return await agent.decide(snapshot,prepared,response_ready=prepared.response_ready)

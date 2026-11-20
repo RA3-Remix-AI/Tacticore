@@ -4,13 +4,13 @@ from types import SimpleNamespace
 import unittest
 
 from host_runtime.native_runtime import NativeScope
-from host_runtime.strategic_unified_controller_v5 import UnifiedStrategicControllerV5
+from host_runtime.strategic_controller import StrategicController
 
 
 class NativeRenewal(unittest.TestCase):
     def setUp(self):
         self.plan=SimpleNamespace(macro_actions=('budgetarmy','advanceproduction'),macro_production=None)
-        self.controller=UnifiedStrategicControllerV5.__new__(UnifiedStrategicControllerV5)
+        self.controller=StrategicController.__new__(StrategicController)
         self.controller.scope=NativeScope.__new__(NativeScope)
         self.controller.stopped=False
         self.controller.delivery_unknown=False
