@@ -145,6 +145,8 @@ class AppliedBackend:
         self._transport_receipt = None
         self._last_failure_diagnostics = None
         self._last_response_diagnostics = None
+        # Last parsed model response, kept in memory for the run's decision log.
+        self.last_response = None
         self._emit("commander_model_backend_constructed", "backend_constructed")
 
     def _emit(self, event_type, stage, **facts):
@@ -184,6 +186,7 @@ class AppliedBackend:
             if admission is not None:context_fields['admission_id']=admission['admission_id']
             self._last_failure_diagnostics = None
             self._last_response_diagnostics = None
+            self.last_response = None
             self._emit("commander_model_call_started", "call_started", call_sequence=sequence, **context_fields)
         try:
             result = await operation()
@@ -198,6 +201,7 @@ class AppliedBackend:
                        backend_diagnostics=self._last_failure_diagnostics, **context_fields)
             raise
         self._responses_returned += 1
+        self.last_response = result
         # Recompute from the local parsed object and actual request; do not
         # trust a backend's arbitrary diagnostic payload or export raw values.
         try:

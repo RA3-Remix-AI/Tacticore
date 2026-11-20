@@ -14,7 +14,11 @@ from .profile_store import ProfileStore
 
 MAX_LINE_BYTES = 65536
 OPERATIONS = frozenset({"profiles.list", "profiles.get", "profiles.save", "connections.list", "session.inspect", "session.discover", "session.prepare",
-                        "run.resume", "run.check", "run.start", "run.status", "run.stop", "diagnostics.export"})
+                        "run.resume", "run.check", "run.start", "run.status", "run.stop", "diagnostics.export",
+                        "run.decisions"})
+# run.decisions paging bounds (see DesktopBackend.run_decisions).
+DECISIONS_MAX_LIMIT = 200
+DECISIONS_MAX_SEQ = 2**31 - 1
 BACKEND_ERROR_CODES = frozenset({"adapter_unavailable", "session_unavailable", "session_changed", "session_mismatch",
     "session_not_ready", "readiness_expired", "readiness_invalid", "profile_revision_conflict", "effective_profile_changed",
     "capability_unavailable", "credentials_unavailable", "run_not_found", "run_already_active", "run_state_conflict",
@@ -26,7 +30,7 @@ BACKEND_ERROR_CODES = frozenset({"adapter_unavailable", "session_unavailable", "
     "macro_runtime_same_epoch_reattach_unsupported", "session_root_invalid", "session_root_conflict",
     "session_registration_conflict", "session_registration_changed", "macro_bundle_not_qualified",
     "model_context_capacity_exceeded_shorten_style", "model_context_capacity_provider_unavailable",
-    "model_context_capacity_contract_invalid"})
+    "model_context_capacity_contract_invalid", "decisions_unavailable"})
 
 
 class HostBackend(Protocol):
@@ -39,12 +43,14 @@ class HostBackend(Protocol):
     def run_status(self, args: Mapping, request_id: str) -> dict: ...
     def run_stop(self, args: Mapping, request_id: str) -> dict: ...
     def diagnostics_export(self, args: Mapping, request_id: str) -> dict: ...
+    def run_decisions(self, args: Mapping, request_id: str) -> dict: ...
 
 
 class UnavailableBackend:
     def _refuse(self, *_):
         raise ContractError("adapter_unavailable")
-    session_inspect = session_discover = session_prepare = run_resume = run_check = run_start = run_status = run_stop = diagnostics_export = _refuse
+    session_inspect = session_discover = session_prepare = run_resume = run_check = run_start = run_status = _refuse
+    run_stop = diagnostics_export = run_decisions = _refuse
 
 
 def _result_safe(value, depth=0):
@@ -127,6 +133,14 @@ class BridgeService:
             profile = self._profile(value)
             method = self.backend.run_check if operation == "run.check" else self.backend.run_start
             return self._invoke_backend(method, profile, value, request_id)
+        if operation == "run.decisions":
+            value = object_fields(args, {"run_id"}, {"since_seq", "limit"})
+            identifier(value["run_id"])
+            if "since_seq" in value:
+                integer(value["since_seq"], 0, DECISIONS_MAX_SEQ, "invalid_since_seq")
+            if "limit" in value:
+                integer(value["limit"], 1, DECISIONS_MAX_LIMIT, "invalid_limit")
+            return self._invoke_backend(self.backend.run_decisions, value, request_id)
         if operation == "run.stop":
             value = object_fields(args, {"run_id", "session_id"})
             identifier(value["run_id"]); identifier(value["session_id"])

@@ -44,6 +44,9 @@ INTEGRATION = ROOT / "integration"
 # Leave time for the visible UI and a second complete live admission. The
 # actual dispatch still rechecks expiry, session, profile and caller identity.
 READINESS_MS = 90_000
+# run.decisions pages must fit one 64 KiB bridge line with its envelope.
+DECISIONS_PAGE_LIMIT = 100
+DECISIONS_PAGE_BYTES = 48_000
 
 
 def _module(name, directory=INTEGRATION):
@@ -913,6 +916,22 @@ class DesktopBackend:
     def run_status(self, args, request_id):
         return self._status(self._launch(args["run_id"]))
 
+    def run_decisions(self, args, request_id):
+        """Read-only page of the run's decisions.jsonl for the decision timeline UI.
+
+        Returns decisions with seq > since_seq (default 0), bounded to fit one
+        bridge line. Never touches the game, the journal or the host process.
+        """
+        row = self._launch(args["run_id"])
+        from .decision_log import decisions_page
+        try:
+            page = decisions_page(Path(row["output_path"]), since_seq=args.get("since_seq", 0),
+                                  max_records=args.get("limit", DECISIONS_PAGE_LIMIT),
+                                  max_bytes=DECISIONS_PAGE_BYTES)
+        except (OSError, ValueError):
+            raise ContractError("decisions_unavailable") from None
+        return dict(page, run_id=row["run_id"])
+
     def run_stop(self, args, request_id):
         row = self._launch(args["run_id"])
         binding = SessionBinding.from_dict(json.loads(row["binding_json"]))
@@ -958,7 +977,8 @@ class DesktopBackend:
                      ("host_log", run_dir / "host.log", self.state_dir)]
             files.extend((name, output / filename, output) for name, filename in (
                 ("host_status", "host-status.json"), ("host_events", "host-events.jsonl"), ("plans", "plans.jsonl"),
-                ("jobs", "jobs.json"),('macro_feedback','macro-feedback.jsonl'),('macro_release','macro-release.json'),
+                ("jobs", "jobs.json"),('macro_feedback','macro-feedback.jsonl'),('decisions','decisions.jsonl'),
+                ('macro_release','macro-release.json'),
                 ('strategic_admission','strategic-admission.jsonl'),('strategic_stop','stop.json'),
                 ('native_no_attachment','native-no-attachment.json')))
             files.extend((name, output / filename, output) for name, filename in (
