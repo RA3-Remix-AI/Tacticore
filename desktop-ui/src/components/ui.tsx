@@ -7,7 +7,7 @@ import {
   ShieldChevron,
   X,
 } from "@phosphor-icons/react";
-import type { Doctrine } from "../state/settings";
+import type { Doctrine } from "../state/preferences";
 export const doctrineIcons = {
   assault: Crosshair,
   defense: ShieldChevron,

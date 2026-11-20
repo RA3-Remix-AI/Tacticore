@@ -2,7 +2,7 @@
 import {invoke} from '@tauri-apps/api/core';
 import {HostError} from './nativeRpc';
 export type ConnectionConfigOperation = 'connections.configuration' | 'connections.configure' | 'connections.recover'
-  | 'connections.cleanup_retired' | 'connections.bootstrap';
+  | 'connections.cleanup_retired' | 'connections.bootstrap' | 'connections.test';
 export interface ConnectionConfiguration {
   schema_version: 1; ready: boolean; config_fingerprint: string | null;
   connections: {id: string; name: string; provider: 'OpenAI' | 'DeepSeek' | '自定义'; endpoint: string; model: string;
@@ -70,18 +70,71 @@ export function createConnectionConfigRpc(call: (command: string, args: {request
 }
 export const connectionConfigRpc = createConnectionConfigRpc();
 const errors: Record<string, string> = {
-  connection_setup_required: '尚未建立本机连接配置，可使用下方初始化按钮。',
-  connection_setup_existing_source: '已有本机配置来源，当前不会覆盖；请重新查询并核对配置。',
-  connection_config_changed: '配置已在另一处更新，请重新载入后再保存。',
-  connection_config_run_unreleased: '当前运行尚未确认归还，请先停止并核验后修改连接。',
-  connection_config_recovery_required: '上次配置更新尚未核验，请查询并核对未完成的保存。',
-  connection_credential_reentry_required: '更改提供方或接口时，需要重新输入该接口的密钥，或选择停用密钥。',
-  invalid_connection_endpoint: '请填写 HTTPS 接口根地址；本机服务可使用 HTTP。地址不能含用户名、密码、查询参数或补全路径。',
-  connection_credential_invalid: '密钥不能为空，也不能含空格或换行。',
-  delivery_unknown: '保存结果未知，请重新查询配置；不会自动重复保存。',
-  request_id_conflict: '操作标识与已有保存不一致，请重新载入配置。',
+  connection_setup_required: '还没有初始化模型设置，请点击下方的「开始设置」。',
+  connection_setup_existing_source: '本机已有模型设置，不会被覆盖。请点击「重新读取」。',
+  connection_config_changed: '设置在别处被修改了，请重新读取后再保存。',
+  connection_config_run_unreleased: '弈核 AI 正在使用游戏。请先停止它，再修改模型设置。',
+  connection_config_recovery_required: '上次保存还没有完成，请点击「处理未完成的保存」。',
+  connection_credential_reentry_required: '更换了服务商或接口地址，请重新填写 API Key，或选择清除已保存的 Key。',
+  invalid_connection_endpoint: '接口地址需要以 https:// 开头（本机服务可以用 http://），不能包含用户名、密码或参数。',
+  connection_credential_invalid: 'API Key 不能为空，也不能包含空格或换行。',
+  delivery_unknown: '无法确认是否保存成功，请点击「重新读取」查看；不会自动重复保存。',
+  request_id_conflict: '这次保存和之前的记录冲突，请重新读取后再试。',
 };
 export function connectionConfigError(error: unknown): string {
   return error instanceof HostError && Object.hasOwn(errors, error.code) ? errors[error.code]
-    : '本机连接配置操作未完成，请保留现场并重新查询。';
+    : '模型设置操作没有完成，请点击「重新读取」后再试。';
+}
+
+/**
+ * Optional backend operation `connections.test` (args `{connection_id}`): one
+ * real request with the saved key, performed by the host. The key never
+ * reaches the WebView. Older backends answer operation_unsupported.
+ */
+export interface ConnectionTestResult {reachable: boolean; latency_ms: number | null; reason_code: string | null}
+export type ConnectionTestOutcome =
+  | {state: 'ok'; result: ConnectionTestResult}
+  | {state: 'unsupported'}
+  | {state: 'failed'; code: string};
+
+export function parseConnectionTest(value: unknown): ConnectionTestResult | null {
+  if (!object(value) || typeof value.reachable !== 'boolean') return null;
+  const latency = typeof value.latency_ms === 'number' && Number.isFinite(value.latency_ms) ? value.latency_ms : null;
+  const reason = typeof value.reason_code === 'string' && /^[a-z][a-z0-9_]{0,79}$/.test(value.reason_code) ? value.reason_code : null;
+  return {reachable: value.reachable, latency_ms: latency, reason_code: reason};
+}
+
+export async function testConnection(rpc: ConnectionConfigRpc, connectionId: string): Promise<ConnectionTestOutcome> {
+  try {
+    const result = parseConnectionTest(await rpc('connections.test', {connection_id: connectionId}));
+    return result ? {state: 'ok', result} : {state: 'failed', code: 'connection_test_response_invalid'};
+  } catch (error) {
+    const code = error instanceof HostError ? error.code : 'delivery_unknown';
+    // An older native layer rejects the unknown operation before delivery.
+    return code === 'operation_unsupported' || code === 'request_invalid' ? {state: 'unsupported'} : {state: 'failed', code};
+  }
+}
+
+const testReasons: Record<string, string> = {
+  authentication_failed: 'API Key 无效或没有权限。',
+  model_not_found: '服务商找不到这个模型名称。',
+  endpoint_unreachable: '连不上接口地址，请检查网络和地址。',
+  rate_limited: '请求太频繁或额度不足。',
+  timeout: '等待响应超时。',
+  credentials_unavailable: '还没有保存 API Key。',
+};
+
+export function connectionTestText(outcome: ConnectionTestOutcome): {text: string; ok: boolean} {
+  if (outcome.state === 'unsupported') {
+    return {ok: false, text: '当前版本还不能在这里测试连接。开始对局后，模型是否正常会显示在决策记录里。'};
+  }
+  if (outcome.state === 'failed') {
+    return {ok: false, text: outcome.code === 'delivery_unknown'
+      ? '无法确认测试结果，请稍后再试。' : `测试没有完成（${outcome.code}）。`};
+  }
+  const {result} = outcome;
+  if (result.reachable) {
+    return {ok: true, text: `连接正常${result.latency_ms === null ? '' : `，响应用时 ${Math.round(result.latency_ms)} ms`}。`};
+  }
+  return {ok: false, text: `连接失败：${testReasons[result.reason_code ?? ''] ?? (result.reason_code ?? '原因未知')}`};
 }

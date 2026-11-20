@@ -1,0 +1,106 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {createElement} from 'react';
+import {renderToStaticMarkup} from 'react-dom/server';
+import {MatchCard, ScenarioDetails, candidateView} from '../src/ui/MatchCard.tsx';
+import {DecisionFeed} from '../src/ui/DecisionFeed.tsx';
+import {ReviewPage} from '../src/ui/ReviewPage.tsx';
+import {ModeStep} from '../src/ui/ModeStep.tsx';
+import {decisionFixtureRecords} from '../src/runtime/decisionFixtures.ts';
+import {scenarioView, parseScenario} from '../src/runtime/scenario.ts';
+import {connectionTestText, parseConnectionTest, testConnection} from '../src/runtime/connectionConfigRpcV1.ts';
+import {HostError} from '../src/runtime/nativeRpc.ts';
+import type {DiscoveredSession} from '../src/runtime/openingStart.ts';
+
+const runId = '44444444-4444-4444-8444-444444444444';
+const base: DiscoveredSession = {candidate_id: 'c1', display_name: '旧显示名', map: '旧版地图', faction: 'Soviet', player_id: 3,
+  expires_in_seconds: 30, requires_preflight: true};
+const scenario = {map_id: 'm', display_map: '海岛要塞', mode: 'human_vs_ai', model_player_id: 2,
+  players: [{player_id: 1, kind: 'human', team: 1, difficulty: null, faction: 'Allies'},
+    {player_id: 2, kind: 'model_ai', team: 2, difficulty: null, faction: 'Empire'}]};
+const noop = () => {};
+
+test('match card renders the scenario contract with teams and the model seat', () => {
+  const html = renderToStaticMarkup(createElement(MatchCard, {candidates: [{...base, scenario}], selectedId: 'c1', onSelect: noop,
+    bound: null, mode: 'human_vs_ai', disabled: false}));
+  assert.match(html, /海岛要塞/);
+  assert.match(html, /对战：你对抗弈核 AI/);
+  assert.match(html, /队伍 1/);
+  assert.match(html, /class="is-model"/);
+  assert.match(html, /升阳帝国/);
+  assert.doesNotMatch(html, /native-warning/, 'matching mode shows no mismatch notice');
+});
+
+test('match card tolerates an older backend without scenario and warns on mode mismatch', () => {
+  const legacy = renderToStaticMarkup(createElement(MatchCard, {candidates: [base], selectedId: '', onSelect: noop,
+    bound: null, mode: 'ai_vs_native', disabled: false}));
+  assert.match(legacy, /旧版地图/);
+  assert.match(legacy, /对局详情暂不可用/);
+  assert.match(legacy, /弈核 AI 控制玩家 3（苏联）/);
+  const mismatch = renderToStaticMarkup(createElement(MatchCard, {candidates: [{...base, scenario}], selectedId: '', onSelect: noop,
+    bound: null, mode: 'ai_vs_native', disabled: false}));
+  assert.match(mismatch, /和你选择的「观战：弈核 AI 对战电脑」不同/);
+  const many = renderToStaticMarkup(createElement(MatchCard, {candidates: [base, {...base, candidate_id: 'c2', scenario}],
+    selectedId: 'c2', onSelect: noop, bound: null, mode: null, disabled: false}));
+  assert.match(many, /找到 2 个对局/);
+  assert.equal((many.match(/role="radio"/g) ?? []).length, 2);
+  assert.match(many, /aria-checked="true"/);
+  const empty = renderToStaticMarkup(createElement(MatchCard, {candidates: [], selectedId: '', onSelect: noop, bound: null, mode: null, disabled: false}));
+  assert.match(empty, /还没有找到对局/);
+  assert.equal(candidateView({...base, scenario: 'junk'}).known, false);
+});
+
+test('decision feed shows the strategy, translated intents, badges and the mock marker', () => {
+  const records = decisionFixtureRecords(runId);
+  const html = renderToStaticMarkup(createElement(DecisionFeed, {records, state: 'ok', live: true, mock: true}));
+  assert.match(html, /总攻/);
+  assert.match(html, /集中对付玩家 4/);
+  assert.match(html, /未采纳/);
+  assert.match(html, /结果未知/);
+  assert.match(html, /示例数据/);
+  assert.ok(html.indexOf('10:40') < html.indexOf('00:22'), 'live feed lists newest first');
+  const unavailable = renderToStaticMarkup(createElement(DecisionFeed, {records: [], state: 'unavailable', live: true, mock: false}));
+  assert.match(unavailable, /还没有提供决策记录/);
+  assert.match(unavailable, /AI 还没有做出决定/);
+});
+
+test('review page shows result, counts and latency', () => {
+  const html = renderToStaticMarkup(createElement(ReviewPage, {hasRun: true, live: false, records: decisionFixtureRecords(runId),
+    state: 'ok', mock: false, scenario: scenarioView(parseScenario(scenario)), onRefresh: noop, busy: false}));
+  assert.match(html, /胜利/);
+  assert.match(html, /11:42/);
+  assert.match(html, /决策次数/);
+  assert.match(html, /<strong>9<\/strong><small>决策次数/);
+  assert.match(html, /<strong>1<\/strong><small>未采纳/);
+  assert.match(html, /平均响应/);
+  assert.ok(html.indexOf('00:22') < html.indexOf('10:40'), 'review lists chronologically');
+  const none = renderToStaticMarkup(createElement(ReviewPage, {hasRun: false, live: false, records: [], state: 'idle', mock: false,
+    scenario: null, onRefresh: noop, busy: false}));
+  assert.match(none, /还没有可以复盘的对局/);
+});
+
+test('mode step renders three modes and instructions for the selected one', () => {
+  const html = renderToStaticMarkup(createElement(ModeStep, {mode: 'human_with_ai', onChange: noop}));
+  assert.equal((html.match(/role="radio"/g) ?? []).length, 3);
+  assert.match(html, /和 AI 并肩作战/);
+  assert.match(html, /相同的队伍/);
+  assert.doesNotMatch(html, /TemplePrime|Infinity|P3|出生位置/);
+  const details = renderToStaticMarkup(createElement(ScenarioDetails, {view: scenarioView(null, {map: 'X'})}));
+  assert.match(details, /X/);
+});
+
+test('connection test parses results and degrades on older backends', async () => {
+  assert.deepEqual(parseConnectionTest({reachable: true, latency_ms: 812.4, reason_code: null}), {reachable: true, latency_ms: 812.4, reason_code: null});
+  assert.equal(parseConnectionTest({reachable: 'yes'}), null);
+  assert.deepEqual(parseConnectionTest({reachable: false, latency_ms: 'x', reason_code: 'Bad Code'}), {reachable: false, latency_ms: null, reason_code: null});
+  const ok = await testConnection(async () => ({reachable: true, latency_ms: 900, reason_code: null}) as never, 'id');
+  assert.equal(connectionTestText(ok).text, '连接正常，响应用时 900 ms。');
+  const failed = await testConnection(async () => ({reachable: false, latency_ms: null, reason_code: 'authentication_failed'}) as never, 'id');
+  assert.equal(connectionTestText(failed).ok, false);
+  assert.match(connectionTestText(failed).text, /API Key 无效/);
+  const old = await testConnection(async () => { throw new HostError('operation_unsupported', 'id'); }, 'id');
+  assert.deepEqual(old, {state: 'unsupported'});
+  assert.match(connectionTestText(old).text, /还不能在这里测试/);
+  const unknown = await testConnection(async () => { throw new HostError('delivery_unknown', 'id'); }, 'id');
+  assert.match(connectionTestText(unknown).text, /无法确认/);
+});

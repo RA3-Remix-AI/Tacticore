@@ -43,5 +43,5 @@ test('pending recovery has no selectable connection and cannot masquerade as rea
 });
 test('unknown errors remain generic and reentry rules are explained without secret references', () => {
   assert.doesNotMatch(connectionConfigError(new HostError(key, id)), /FAKE/);
-  assert.match(connectionConfigError(new HostError('connection_credential_reentry_required', id)), /重新输入/);
+  assert.match(connectionConfigError(new HostError('connection_credential_reentry_required', id)), /重新填写 API Key/);
 });

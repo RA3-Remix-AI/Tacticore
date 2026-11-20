@@ -5,6 +5,7 @@ import React from 'react';
 import {createRoot} from 'react-dom/client';
 import NativeApp from '../src/NativeApp';
 import {preferencePresets} from '../src/state/preferences';
+import {rawDecisionFixtures} from '../src/runtime/decisionFixtures';
 import '../src/styles.css';
 
 const params = new URLSearchParams(location.search);
@@ -21,7 +22,11 @@ let releaseCheck:(()=>void)|undefined;
 let connection={id:connectionId,name:'本机模型连接',provider:'OpenAI',endpoint:'https://api.example.com/v1',model:firstUse?'':'preview-model',remember_key:!firstUse,credential_configured:!firstUse,credential_check:firstUse?'not_stored':'stored_not_read'};
 let draft={schema_version:1,profile_id:profileId,name:'铁锤',revision:1,connection_id:connectionId,model:'',doctrine:preset.doctrine,custom_traits:'优先保持经济稳定，观察敌情后再推进。',preferences:preset.values};
 const profile=()=>({profile_id:profileId,name:draft.name,revision:draft.revision,connection_id:connectionId,model:draft.model||connection.model,draft,state:'library',validation:{ok:Boolean(draft.model||connection.model),reason_code:(draft.model||connection.model)?'':'credentials_unavailable'},effective:{effective_hash:'b'.repeat(64),traits:draft.custom_traits,traits_bytes:new TextEncoder().encode(draft.custom_traits).length,axis_support:{}}});
-const session={id:sessionId,map:'TemplePrime',player_name:'P3',faction:'Soviet'};
+const session={id:sessionId,map:'示例地图',player_name:'铁锤',faction:'Soviet'};
+const scenario={map_id:'preview_map',display_map:'示例地图',mode:params.get('scenario_mode')??'human_with_ai',model_player_id:2,
+ players:[{player_id:1,kind:'human',team:1,difficulty:null,faction:'Allies'},{player_id:2,kind:'model_ai',team:1,difficulty:'medium',faction:'Soviet'},
+  {player_id:3,kind:'native_ai',team:2,difficulty:'brutal',faction:'Empire'}]};
+const decisionStart=Date.now();
 const capabilities={control_mode:'macro',native_macro:true,available_macro_actions:['scout','regroup','withdraw','deployattack','deploydefense','expand']};
 function makeRun(id:string){return {run_id:id,session_id:sessionId,profile_id:profileId,profile_revision:draft.revision,effective_hash:'b'.repeat(64),state:'running',native_release_verified:false,session,capabilities,latest_snapshot:{game_time_seconds:185,resources:{credits:3400}},metrics:{requests:7,accepted:6},
   strategic_client:{schema_version:1,kind:'commander_strategic_client_record_v1',boundary:'strategic_only',
@@ -47,7 +52,7 @@ previewStyle.textContent='body{padding-top:var(--preview-toolbar-height,40px)} #
 document.head.append(previewStyle);
 new ResizeObserver(()=>document.documentElement.style.setProperty('--preview-toolbar-height',bar.offsetHeight+'px')).observe(bar);
 bar.append('交互预览 · 全部为模拟数据，不连接游戏或模型');
-for(const [label,query] of [['已配置',''],['首次使用','?first_use=1'],['运行中','?active_run=1'],['等待模型','?active_run=1&call_result=waiting'],['调用失败','?active_run=1&call_result=failed'],['配置待恢复','?mode=pending&active_run=1']]){const a=document.createElement('a');a.textContent=label;a.href=location.pathname+query;a.style.color='inherit';bar.append(a);}
+for(const [label,query] of [['已配置',''],['首次使用','?first_use=1'],['旧版后台（无对局详情/决策）','?legacy_scenario=1&no_decisions=1'],['运行中','?active_run=1'],['等待模型','?active_run=1&call_result=waiting'],['调用失败','?active_run=1&call_result=failed'],['配置待恢复','?mode=pending&active_run=1']]){const a=document.createElement('a');a.textContent=label;a.href=location.pathname+query;a.style.color='inherit';bar.append(a);}
 for(const [label,value] of [['模拟配置待恢复','pending'],['模拟配置正常','ready']]){const b=document.createElement('button');b.textContent=label;b.onclick=()=>{mode=value;};bar.append(b);}
 for(const [label,action] of [
  ['延迟下一次检查',()=>{holdCheck=true;}],
@@ -87,7 +92,7 @@ Object.defineProperty(window,'__TAURI_INTERNALS__',{configurable:true,value:{inv
   if(operation==='profiles.save'){draft={...draft,...request.args.draft,revision:draft.revision+1};return ok({profile:profile(),state:'saved',host_applied:false});}
   if(operation==='connections.list')return ok({connections:[connection]});
   if(operation==='session.inspect')return ok({session:inspected?session:null});
-  if(operation==='session.discover')return ok({candidates:[{candidate_id:'preview-candidate',display_name:'TemplePrime · 苏军 P3',session}],issues:[]});
+  if(operation==='session.discover')return ok({candidates:[{candidate_id:'55555555-5555-4555-8555-555555555556',display_name:'示例地图',map:'示例地图',faction:'Soviet',player_id:2,expires_in_seconds:60,requires_preflight:true,...(params.has('legacy_scenario')?{}:{scenario})}],issues:[],state:'select_session',native_execution_started:false});
   if(operation==='session.prepare'){inspected=true;return ok({registered:true,requires_preflight:true,session});}
   if(operation==='run.check'){
    const result=mode==='ready'?{ready:true,session_id:sessionId,ready_token:'preview-only',expires_at:Date.now()+60000,session,capabilities}:{ready:false,reason_code:'session_not_ready'};
@@ -101,9 +106,19 @@ Object.defineProperty(window,'__TAURI_INTERNALS__',{configurable:true,value:{inv
   }
   if(operation==='run.stop'){if(run)run={...run,state:'stopping'};return run?ok(run):fail('run_not_found');}
   if(operation==='diagnostics.export')return fail('diagnostics_unavailable');
+  if(operation==='run.decisions'){
+   if(params.has('no_decisions'))return fail('operation_unsupported');
+   const released=run?.native_release_verified===true;
+   const visible=released?Infinity:2+Math.floor((Date.now()-decisionStart)/4000);
+   const since=request.args.since_seq??-1;
+   const rows=rawDecisionFixtures(request.args.run_id).filter((row,index)=>(row.kind==='match_end'?released:index<visible&&Number(row.seq)>since));
+   return ok({records:rows});
+  }
  }
  return fail('preview_operation_unavailable');
 }}});
 // Fixture storage remains isolated from normal app origins and tabs.
 localStorage.removeItem('tacticore.desktop.native.last-run.v1');
+if(firstUse)localStorage.removeItem('tacticore.desktop.setup.v1');
+else localStorage.setItem('tacticore.desktop.setup.v1',JSON.stringify({completed:true,mode:'human_with_ai'}));
 createRoot(document.getElementById('root')!).render(<NativeApp/>);

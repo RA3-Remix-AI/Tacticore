@@ -20,26 +20,33 @@ simulate a successful diagnostic download.
 
 Interaction checks:
 
-1. First use: select both game inputs, prepare, initialize a model connection,
-   then navigate to operations. No start is submitted by configuration alone.
-2. Edit commander text, switch workspaces and return. The draft survives and
-   starting remains blocked until it is saved.
-3. Discover, prepare, check and start. Exactly one start is submitted; the stop
-   action remains reachable while browsing every workspace.
-4. Stop enters `stopping` before a subsequent status query proves release. New
-   starts and configuration edits remain blocked until that proof arrives.
-5. Simulate pending configuration, then requery on the connections page. Old
-   readiness is revoked; recovering does not automatically restart or reuse it.
-6. Switch workspaces repeatedly. The configuration panel stays mounted, and
-   navigation does not requery configuration or reset its draft.
-7. Use the waiting-model and failed-call scenarios, then open operations. The
-   latest call is shown independently from the earlier model-consumption receipt;
-   failure does not guess an authentication cause or submit a retry.
-8. In the active-run scenario, operations shows the scout intent, native task
-   activity and pending reevaluation. Movement never claims mission completion.
-   Stop, wait for release, then prepare another session: old records stay historical.
-9. Check preparation at narrow and wide window sizes. The complete supported
-   lobby settings are readable, including the difference between P3 and spawn 2.
+1. First use (`?first_use=1`): the three-step wizard (游戏与 Mod, 模型与 API Key,
+   对局模式) cannot finish until each step is done. No start is submitted by
+   configuration alone. "稍后再说" skips to the main screen.
+2. Settings → AI 风格: edit the style, switch pages and return. The draft survives
+   and Start stays blocked ("去保存") until it is saved.
+3. 对局: 查找对局 shows the match card (map, mode, teams, model seat), then a
+   single 开始 prepares, checks and starts. Exactly one start is submitted; 停止 AI
+   stays in the top bar on every page while the run holds the game.
+4. Stop enters "停止中" before a later status query proves release. New starts
+   and configuration edits stay blocked until that proof arrives.
+5. Simulate pending configuration, then 重新读取 in 模型与 API Key. Old readiness
+   is revoked; recovering does not restart or reuse it.
+6. Switch pages repeatedly. The setup panels stay mounted; navigation does not
+   requery configuration or reset the draft.
+7. Waiting-model and failed-call scenarios: 详细信息与诊断 shows the latest call
+   without guessing an authentication cause or retrying.
+8. Active run: the decision feed fills in over time (mock records from
+   `src/runtime/decisionFixtures.ts`). After stop and release, 复盘 shows the
+   result, counts and the full timeline.
+9. "旧版后台" scenario: candidates without `scenario` and an unsupported
+   `run.decisions` degrade to the legacy map line and a plain notice.
+10. Narrow and wide windows: lobby instructions for each mode are readable and
+    never name a fixed map, seat or start position.
+
+The Playwright scripts `configuration-gate-parent-v1.mjs` and
+`connection-query-notice-v1.mjs` target the pre-beta.4 labels and Windows-only
+paths; they need updating before they can be rerun against this UI.
 
 These checks validate React interactions and presentation only. Windows file
 dialogs, DPAPI, packaged native RPC, installation and live-game return must be

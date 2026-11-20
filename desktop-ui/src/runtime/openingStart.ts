@@ -30,7 +30,8 @@ export async function startAtOpening<T extends OpeningReady>(options:{
   throw new HostError('opening_wait_expired','opening-wait');
 }
 
-export type DiscoveredSession={candidate_id:string;display_name:string;map:string;faction:string;player_id:number;expires_in_seconds:number;requires_preflight:boolean};
+/** `scenario` is the optional match-scenario contract; parse it with parseScenario(). */
+export type DiscoveredSession={candidate_id:string;display_name:string;map:string;faction:string;player_id:number;expires_in_seconds:number;requires_preflight:boolean;scenario?:unknown};
 export type SessionDiscoveryResult={candidates:DiscoveredSession[];issues:string[];state:string;native_execution_started:false};
 
 /** Prepare an opaque, supported session before admission; never starts a host. */

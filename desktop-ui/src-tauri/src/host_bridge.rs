@@ -11,6 +11,8 @@ const MAX_LINE: usize = 65536;
 const OPERATIONS: &[&str] = &[
     "profiles.list", "profiles.get", "profiles.save", "connections.list", "session.inspect", "session.discover", "session.prepare",
     "run.resume", "run.check", "run.start", "run.status", "run.stop", "diagnostics.export",
+    // Read-only decision records of one run (backend method run_decisions).
+    "run.decisions",
 ];
 const CONTROL_OPERATIONS: &[&str] = &["run.resume", "run.status", "run.stop", "diagnostics.export"];
 
@@ -229,6 +231,12 @@ fn validate(request: &Value) -> Result<(), String> {
         Some("session.discover" | "run.resume") if !args.is_empty() => return Err("request_invalid".into()),
         Some("run.status" | "diagnostics.export") if args.len()!=1 || !public_id(args.get("run_id")) => return Err("request_invalid".into()),
         Some("run.stop") if args.len()!=2 || !public_id(args.get("run_id")) || !public_id(args.get("session_id")) => return Err("request_invalid".into()),
+        Some("run.decisions") => {
+            // Only {run_id} or {run_id, since_seq}; since_seq is a non-negative integer cursor.
+            let since_valid = match args.get("since_seq") { None => true, Some(value) => value.as_u64().is_some() };
+            let expected = if args.contains_key("since_seq") {2} else {1};
+            if args.len()!=expected || !public_id(args.get("run_id")) || !since_valid { return Err("request_invalid".into()); }
+        },
         Some("session.prepare") => {
             let id = args.get("candidate_id").and_then(Value::as_str).ok_or("request_invalid")?;
             if args.len() != 1 || id.len() != 36 || !id.bytes().enumerate().all(|(i,b)| {
@@ -343,7 +351,8 @@ fn configuration_source_at(home: PathBuf) -> Result<RuntimeSource, String> {
 
 fn validate_configuration(request:&Value)->Result<(),String> {
     let object=request.as_object().ok_or("request_invalid")?;
-    let operations=["connections.configuration","connections.configure","connections.recover","connections.cleanup_retired","connections.bootstrap"];
+    // connections.test: one host-side request with the saved key; the key never crosses this channel.
+    let operations=["connections.configuration","connections.configure","connections.recover","connections.cleanup_retired","connections.bootstrap","connections.test"];
     if object.len()!=4 || request.get("schema_version")!=Some(&Value::from(1))
       || !request.get("args").is_some_and(Value::is_object)
       || !request.get("operation").and_then(Value::as_str).is_some_and(|v|operations.contains(&v))
@@ -351,6 +360,10 @@ fn validate_configuration(request:&Value)->Result<(),String> {
     let id=request.get("request_id").and_then(Value::as_str).ok_or("request_invalid")?;
     if id.len()!=36 || !id.bytes().enumerate().all(|(i,b)|if [8,13,18,23].contains(&i){b==b'-'}else{b.is_ascii_hexdigit()&&!b.is_ascii_uppercase()}) {
         return Err("request_invalid".into());
+    }
+    if request.get("operation").and_then(Value::as_str)==Some("connections.test") {
+        let args=request.get("args").and_then(Value::as_object).ok_or("request_invalid")?;
+        if args.len()!=1 || !public_id(args.get("connection_id")) {return Err("request_invalid".into());}
     }
     Ok(())
 }
@@ -422,6 +435,37 @@ mod tests {
             let mut invalid=request.clone();invalid["args"]["pid"]=Value::from(123);
             assert!(validate(&invalid).is_err());
         }
+    }
+
+    #[test]
+    fn decisions_accept_run_id_and_optional_cursor_only() {
+        let run="45b37922-a953-4d54-bc3b-4a34804c1c56";
+        let request = serde_json::json!({"schema_version":1,"request_id":run,"operation":"run.decisions","args":{"run_id":run}});
+        assert!(validate(&request).is_ok());
+        let mut cursor=request.clone();cursor["args"]["since_seq"]=Value::from(12);
+        assert!(validate(&cursor).is_ok());
+        for bad in [Value::from(-1), Value::from(1.5), Value::from("3"), Value::Null] {
+            let mut invalid=request.clone();invalid["args"]["since_seq"]=bad;
+            assert!(validate(&invalid).is_err());
+        }
+        let mut invalid=request.clone();invalid["args"]["path"]=Value::from("C:/private");
+        assert!(validate(&invalid).is_err());
+        let mut invalid=request.clone();invalid["args"]["run_id"]=Value::from("arbitrary");
+        assert!(validate(&invalid).is_err());
+        assert!(!CONTROL_OPERATIONS.contains(&"run.decisions"));
+    }
+
+    #[test]
+    fn connection_test_names_a_saved_connection_only() {
+        let mut request=serde_json::json!({"schema_version":1,"request_id":"11111111-1111-4111-8111-111111111111",
+            "operation":"connections.test","args":{"connection_id":"22222222-2222-4222-8222-222222222222"}});
+        assert!(validate_configuration(&request).is_ok());
+        request["args"]["api_key"]=Value::from("x");
+        assert!(validate_configuration(&request).is_err());
+        request["args"]=serde_json::json!({"connection_id":"not-an-id"});
+        assert!(validate_configuration(&request).is_err());
+        let game=serde_json::json!({"schema_version":1,"request_id":"11111111-1111-4111-8111-111111111111","operation":"connections.test","args":{}});
+        assert!(validate(&game).is_err());
     }
 
     #[test]

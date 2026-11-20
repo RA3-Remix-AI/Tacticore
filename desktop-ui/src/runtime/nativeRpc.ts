@@ -2,7 +2,8 @@ import { invoke, isTauri } from '@tauri-apps/api/core';
 
 export const nativeAvailable = () => isTauri();
 export type HostOperation = 'profiles.list' | 'profiles.get' | 'profiles.save' | 'connections.list'
-  | 'session.inspect' | 'session.discover' | 'session.prepare' | 'run.resume' | 'run.check' | 'run.start' | 'run.status' | 'run.stop' | 'diagnostics.export';
+  | 'session.inspect' | 'session.discover' | 'session.prepare' | 'run.resume' | 'run.check' | 'run.start' | 'run.status' | 'run.stop' | 'diagnostics.export'
+  | 'run.decisions';
 export class HostError extends Error {
   constructor(public readonly code: string, public readonly requestId: string) { super(code); }
 }

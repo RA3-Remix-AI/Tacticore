@@ -1,4 +1,7 @@
-import type { Commander, Doctrine } from "./settings";
+/** Backend personality for a style preset. */
+export type Doctrine = "assault" | "defense" | "maneuver";
+/** The parts of a commander profile that define its style. */
+export type StyleSubject = { doctrine: Doctrine; preferences?: CommanderPreferences };
 
 export type PreferenceLevel = 1 | 2 | 3 | 4 | 5;
 export type PreferenceKey =
@@ -194,7 +197,7 @@ export function publicPreferences(
 }
 
 export function profilePreferences(
-  profile: Pick<Commander, "doctrine" | "preferences">,
+  profile: StyleSubject,
 ): CommanderPreferences {
   if (profile.preferences && !validatePreferences(profile.preferences))
     return publicPreferences(profile.preferences);
@@ -205,7 +208,7 @@ export function profilePreferences(
 }
 
 export function commanderStyleName(
-  profile: Pick<Commander, "doctrine" | "preferences">,
+  profile: StyleSubject,
 ): string {
   const preferences = profilePreferences(profile);
   return (
@@ -215,7 +218,7 @@ export function commanderStyleName(
 }
 
 export function preferenceSummary(
-  profile: Pick<Commander, "doctrine" | "preferences">,
+  profile: StyleSubject,
 ): string {
   const preferences = profilePreferences(profile);
   return preferenceAxes
@@ -224,7 +227,7 @@ export function preferenceSummary(
 }
 
 export function commanderPreview(
-  profile: Pick<Commander, "doctrine" | "preferences">,
+  profile: StyleSubject,
 ) {
   const preferences = profilePreferences(profile);
   return [
@@ -249,21 +252,4 @@ export function commanderPreview(
             : "复核情报、资源与任务反馈，决定继续推进或收队整补。",
     },
   ];
-}
-
-export function commanderPlan(profile: Commander) {
-  const personality = ({ assault: 0, defense: 1, maneuver: 2 } as const)[
-    profile.doctrine
-  ];
-  return {
-    schemaVersion: 1,
-    scope: "local_preference_draft",
-    commanderName: profile.name,
-    personality,
-    personalityName: ["assault", "fortifier", "raider"][personality],
-    preferences: profilePreferences(profile),
-    generatedTraits: preferenceSummary(profile),
-    customTraits: profile.traits,
-    appliedToHost: false,
-  };
 }
