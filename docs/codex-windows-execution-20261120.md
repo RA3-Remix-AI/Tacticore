@@ -104,6 +104,23 @@
 
 **完成标准**：两局都跑通，停止后能确认交还，第二局能正常开。
 
+### T4b 分层决策（铁锤）
+
+T4 的对局默认就是分层模式。用同一批运行目录检查下面几点，主要看 `battle-host/decisions.jsonl` 和 `battle-host/host-events.jsonl`：
+
+1. **开局前**：`run_start` 里有 `decision_mode=layered`、`commander`、`opening_variant` 和 `opening_variant_name`。第一条 `layered_layer_requested` 是总指挥，带 `prematch=true`，发生在游戏时间第 30 秒之前。
+2. **开局期间**：在 `layered_opening_handover` 之前，除了开局前那一次，没有别的模型调用。交接原因是 `scouting_report` 或 `opening_timeout`（最晚第 180 秒）。
+3. **交接之后**：三层都有 `layered_layer_requested`。间隔大约是：战术 15 秒、经济 50 秒、总指挥 90 秒。同一层不会同时有两个在途请求。
+4. **合成结果**：每次 `layered_composition` 之后，要么有 `plan_applied`，要么有带原因的 `macro_plan_not_dispatched`。下发的 `macro_actions` 里最多一个军事动作、一个 `focusenemy<id>`。
+5. **骚扰时限**：开局下发 `raideconomy` 后，最晚约 75 秒内会改成 `scout`，或者出现停止事件。
+6. **不重发**：出现一次“送达结果未知”之后，不再有新的 `layered_composition`。
+7. **单层对照**：用 `--decision-mode single`（或环境变量 `TACTICORE_DECISION_MODE=single`）跑一局，行为应和 Beta 3 的单次调用一致，记录里 `decision_mode=single`。
+8. **指挥官不可用**：UI 选堡垒或幽灵时，检查对局返回 `commander_unavailable`。Beta 3 留下的旧配置显示为铁锤，保存后能正常开局。
+9. **请求大小**：记下每层模型调用的 `latency_ms` 和 `input_bytes`，确认都不超过 16 KiB。
+10. **停止**：两个参谋同时有请求在途时点“停止 AI”，确认停止生效，原生 AI 设置正常恢复。
+
+**完成标准**：1–10 都符合。不符合的逐条报告，附上对应的日志片段。
+
 ### T5 敌人优先攻击
 
 在 3c（1 对 2）和 3d（带人类盟友）中：
@@ -116,16 +133,20 @@
 
 1. 用 computer use 写一个开局脚本，放在 `benchmark/eval/` 下，按配置设置大厅（地图、席位、对手、难度、初始资金 10000、关闭宝箱），开局后启动客户端的查找与开始，对局结束后退出游戏，再开下一局。
 2. 每局结束后，用 `benchmark/eval/record_result.py` 写入结果标签。纯原生对照组没有宿主，也要用它记录结果。
-3. 先跑一组小样本：同一张 2 人图、对手中等难度，**纯原生 10 局 + 弈核 10 局**。
-4. 运行评估：`python benchmark\eval\evaluate.py --runs-root <结果目录> --out reports\eval-20261120`。
+3. 先跑一组小样本：同一张 2 人图、对手中等难度，三组各 10 局：
+   - 纯原生；
+   - 弈核单层（`single`）；
+   - 弈核分层（`layered`，铁锤）。
+4. 运行评估：`python benchmark\eval\evaluate.py --runs-root <结果目录> --out reports\eval-20261120`（`reports/` 已不进 git，报告留在本机）。
 
-**完成标准**：脚本能无人值守连续跑完 20 局；评估报告生成。报告里的胜率、过程指标原样贴回来，不做解读。
+**完成标准**：脚本能无人值守连续跑完 30 局；评估报告生成。报告里的胜率、过程指标原样贴回来，不做解读。
 
 ## 本轮不做的事
 
 - 不做单位直接控制（借出/交还）的实现。等本轮跑通后单独安排。
 - 不做盟军、升阳指挥官。
-- 不改模型提示词和决策逻辑。发现决策明显不合理，写进报告的“建议”一节，附上对应的 `decisions.jsonl` 片段。
+- 不改模型提示词和决策逻辑，也不调整性格参数的换算规则（`integration/host_runtime/personality_rules.py`）。发现决策明显不合理，写进报告的“建议”一节，附上对应的 `decisions.jsonl` 片段。
+- 开局方案里战熊侦察、恐怖机器人骚扰、协议选点等步骤目前“仅记录，尚未执行”，这是预期结果，不是缺陷。
 - 不为通过某项检查而放宽或修改判定标准。
 
 ## 出问题时收集什么
