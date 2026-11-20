@@ -1,4 +1,7 @@
-"""Read-only review of one actual host run; never loads credentials or game APIs."""
+"""Read-only review of one actual host run; never loads credentials or game APIs.
+
+Retired: superseded by decisions.jsonl and benchmark/eval/ for win-rate evaluation.
+"""
 from __future__ import annotations
 import argparse
 from collections import Counter

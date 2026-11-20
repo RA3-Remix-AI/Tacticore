@@ -1,4 +1,7 @@
-"""Evidence-aware benchmark aggregation. No game control or model calls."""
+"""Evidence-aware benchmark aggregation. No game control or model calls.
+
+Retired: personality comparison only; win-rate evaluation lives in benchmark/eval/.
+"""
 from __future__ import annotations
 import argparse
 import hashlib
