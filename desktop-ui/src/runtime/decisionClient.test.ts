@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {createDecisionClient, DECISIONS_OPERATION} from './decisionClient';
 import {HostError} from './nativeRpc';
 import {decisionSource, decisionFlagKey} from './features';
-import {isMatchEnd} from './decisions';
+import {isDecision, isMatchEnd, isRunStart} from './decisions';
 
 const runId = '44444444-4444-4444-8444-444444444444';
 
@@ -41,7 +41,7 @@ test('mock source reveals fixtures progressively and never calls the backend', a
   assert.equal(first.state === 'ok' && first.records.length, 2);
   now += 3000;
   const later = await fetch(runId, 2);
-  assert.ok(later.state === 'ok' && later.records.every(row => isMatchEnd(row) || row.seq > 2));
+  assert.ok(later.state === 'ok' && later.records.every(row => !isDecision(row) || row.seq > 2));
   const complete = await fetch(runId, undefined, true);
   assert.ok(complete.state === 'ok' && complete.records.some(isMatchEnd));
 });
@@ -87,4 +87,22 @@ test('host match_end players keyed by id become a list', async () => {
   const end = page.records.find(isMatchEnd);
   assert.equal(end?.result, 'defeat');
   assert.equal(end?.players.length, 1);
+});
+
+test('host page run (run_start) becomes the first record with commander, mode and opening variant', async () => {
+  const fetch = createDecisionClient({source: 'backend', rpc: async () => ({
+    run: {kind: 'run_start', schema_version: 1, commander: {id: 'hammer', name: '铁锤'}, decision_mode: 'layered',
+      opening_variant: 'bear_scout_terror_raid'},
+    decisions: [{kind: 'decision', schema_version: 1, seq: 1, layer: 'opening', final: false}],
+    match_end: null, has_more: false})});
+  const page = await fetch(runId);
+  assert.ok(page.state === 'ok');
+  const start = page.records[0];
+  assert.ok(isRunStart(start));
+  assert.equal(start.decision_mode, 'layered');
+  assert.equal(start.opening_variant, 'bear_scout_terror_raid');
+  assert.equal(start.commander?.id, 'hammer');
+  const older = createDecisionClient({source: 'backend', rpc: async () => ({run: null, decisions: [], has_more: false})});
+  const empty = await older(runId);
+  assert.ok(empty.state === 'ok' && empty.records.length === 0);
 });

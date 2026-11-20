@@ -114,7 +114,7 @@ Object.defineProperty(window,'__TAURI_INTERNALS__',{configurable:true,value:{inv
    const released=run?.native_release_verified===true;
    const visible=released?Infinity:2+Math.floor((Date.now()-decisionStart)/4000);
    const since=request.args.since_seq??-1;
-   const rows=rawDecisionFixtures(request.args.run_id).filter((row,index)=>((row.kind==='match_end'?released:index<visible&&Number(row.seq)>since));
+   const rows=rawDecisionFixtures(request.args.run_id).filter((row,index)=>(row.kind==='run_start'||(row.kind==='match_end'?released:index<visible&&Number(row.seq)>since)));
    return ok({records:rows});
   }
  }

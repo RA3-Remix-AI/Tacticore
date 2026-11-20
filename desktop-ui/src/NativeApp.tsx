@@ -546,7 +546,8 @@ export default function NativeApp() {
                 <Button onClick={() => openSettings('mode')}>更换模式</Button>
               </details>}
             </div>
-            <DecisionFeed records={feedForRun.records} state={feedForRun.state} live={locked} mock={source === 'mock'} />
+            <DecisionFeed records={feedForRun.records} state={feedForRun.state} live={locked} mock={source === 'mock'}
+              commander={activeCommander} />
           </div>
           {details}
         </div>
