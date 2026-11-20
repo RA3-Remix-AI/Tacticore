@@ -34,7 +34,8 @@ class ParticipantTests(unittest.TestCase):
         with self.assertRaises(ValueError):self.verify()
 
 
-class OneVsTwoParticipantTests(unittest.TestCase):
+class GeneralParticipantTests(unittest.TestCase):
+    """Any seats and teams; the model seat and native opponents keep their identity checks."""
     def setUp(self):
         ParticipantTests.setUp(self)
         self.words[0x1044] = 0x5000
@@ -43,38 +44,70 @@ class OneVsTwoParticipantTests(unittest.TestCase):
         self.relations = {(3, 4): 'enemy', (4, 3): 'enemy', (3, 5): 'enemy',
                           (5, 3): 'enemy', (4, 5): 'ally', (5, 4): 'ally'}
 
-    def verify_allied_pair(self):
+    def verify(self):
         def relation(memory, address, target):
-            return self.relations[(self.identities[address]['player_index'], target)]
+            index = 2 if address == 0x2000 else self.identities[address]['player_index']
+            return self.relations[(index, target)]
         with patch.object(module, 'inspect_player', side_effect=lambda read, address: self.identities[address]), \
                 patch.object(module, 'read_player_relation', side_effect=relation):
-            return module.verify_ai_combatants(self.memory, self.state, self.registry, 3, (4, 5), 2,
-                                               opponents_allied=True)
+            return module.verify_participants(self.memory, self.state, self.registry, 3)
 
-    def test_allied_pair_and_observer_verified(self):
-        result = self.verify_allied_pair()
-        self.assertEqual(result['opponent_player_ids'], [4, 5])
-        self.assertTrue(result['opponents_allied_verified'])
+    def add_human(self, relation):
+        self.state['victory_conditions']['participants'].append({'player_index': 2, 'player': '0x2000'})
+        other = 'ally' if relation == 'enemy' else 'enemy'
+        self.relations.update({(3, 2): relation, (2, 3): relation, (2, 4): other, (4, 2): other,
+                               (2, 5): other, (5, 2): other})
 
-    def test_free_for_all_is_not_one_vs_two(self):
-        self.relations[(4, 5)] = 'enemy'
-        with self.assertRaises(ValueError):
-            self.verify_allied_pair()
+    def kinds(self, result):
+        return {row['player_id']: (row['kind'], row['relation']) for row in result['participants']}
 
-    def test_one_way_alliance_is_rejected(self):
-        self.relations[(5, 4)] = 'neutral'
-        with self.assertRaises(ValueError):
-            self.verify_allied_pair()
+    def test_ai_versus_two_allied_natives(self):
+        result = self.verify()
+        self.assertEqual(self.kinds(result), {3: ('model_ai', 'self'), 4: ('native_ai', 'enemy'),
+                                              5: ('native_ai', 'enemy')})
+        self.assertEqual(result['alliances'], [[4, 5]])
 
-    def test_second_opponent_must_be_enemy_in_both_directions(self):
+    def test_free_for_all_has_no_enemy_alliance(self):
+        self.relations[(4, 5)] = self.relations[(5, 4)] = 'enemy'
+        self.assertEqual(self.verify()['alliances'], [])
+
+    def test_human_teammate_is_a_combatant(self):
+        self.add_human('ally')
+        self.assertEqual(self.kinds(self.verify())[2], ('human', 'ally'))
+
+    def test_human_opponent_is_a_combatant(self):
+        self.add_human('enemy')
+        self.assertEqual(self.kinds(self.verify())[2], ('human', 'enemy'))
+
+    def test_one_way_relation_is_rejected(self):
         self.relations[(5, 3)] = 'ally'
         with self.assertRaises(ValueError):
-            self.verify_allied_pair()
+            self.verify()
 
-    def test_second_opponent_cannot_be_another_model_commander(self):
+    def test_neutral_combatant_is_rejected(self):
+        self.relations[(3, 5)] = self.relations[(5, 3)] = 'neutral'
+        with self.assertRaises(ValueError):
+            self.verify()
+
+    def test_second_native_cannot_be_another_model_commander(self):
         self.identities[0x5000]['instance_id'] = '0x1234'
         with self.assertRaises(ValueError):
-            self.verify_allied_pair()
+            self.verify()
+
+    def test_model_seat_must_run_the_registered_personality(self):
+        self.identities[0x3000]['instance_id'] = '0x9999'
+        with self.assertRaises(ValueError):
+            self.verify()
+
+    def test_model_seat_cannot_be_human(self):
+        self.words.update({0x3000: 0xc5bce0, 0x3020: 3, 0x3090: 0})
+        with self.assertRaises(ValueError):
+            self.verify()
+
+    def test_all_allies_means_no_enemy(self):
+        self.relations.update({(3, 4): 'ally', (4, 3): 'ally', (3, 5): 'ally', (5, 3): 'ally'})
+        with self.assertRaises(ValueError):
+            self.verify()
 
 
 class OneVsTwoResultTests(unittest.TestCase):
@@ -111,6 +144,13 @@ class OneVsTwoResultTests(unittest.TestCase):
     def test_observer_or_unused_slot_does_not_end_the_match(self):
         self.state['result_records'][5]['defeat_frame'] = 100
         self.assertFalse(self.result()['terminal'])
+
+    def test_allied_human_is_part_of_the_admitted_match(self):
+        self.state['victory_conditions']['participants'].append({'player_index': 2, 'manager_index': 3})
+        result = module.controlled_match_result(self.state, 3, (4, 5), participant_ids=(2, 3, 4, 5))
+        self.assertIn('2', result['players'])
+        with self.assertRaises(ValueError):
+            self.result()
 
     def test_duplicate_result_mapping_is_rejected(self):
         self.state['victory_conditions']['participants'][2]['manager_index'] = 1
