@@ -31,6 +31,9 @@ CRITICAL_EVENTS = frozenset({"base_under_attack", "major_loss"})
 ROLES = frozenset({"anti_air", "anti_armor", "infantry", "naval", "air", "armor", "economy","structure"})
 _ID = re.compile(r"[A-Za-z0-9][A-Za-z0-9_.-]{0,63}\Z")
 _REGION = re.compile(r"[a-z][a-z0-9_]{0,47}\Z")
+# Optional model rationale: recorded for people, never used for execution.
+REASONING_MAX_CHARS = 300
+REASONING_MAX_INPUT_CHARS = 4000
 
 
 class ContractError(ValueError):
@@ -288,9 +291,13 @@ class Plan:
     macro_actions: tuple[str,...] = ()
     macro_production: ProductionQuantity | None = None
     macro_strategy: dict | None = None
+    # Human-readable rationale only. It is excluded from public() so plan
+    # identity, journals and dispatch checks never depend on free text.
+    reasoning: str | None = None
 
     def public(self) -> dict:
         result = asdict(self)
+        result.pop("reasoning")
         result["budget"] = dict(self.budget)
         result["tactical_tasks"]=[task.public() for task in self.tactical_tasks]
         result['macro_actions']=list(self.macro_actions)
@@ -306,6 +313,7 @@ def validate_policy(raw: Any, request: Snapshot, latest: Snapshot, binding: Bind
     if isinstance(raw,dict) and 'macro_actions' in raw:expected.add('macro_actions')
     if isinstance(raw,dict) and 'macro_production' in raw:expected.add('macro_production')
     if isinstance(raw,dict) and 'macro_strategy' in raw:expected.add('macro_strategy')
+    if isinstance(raw,dict) and 'reasoning' in raw:expected.add('reasoning')
     d = _keys(raw,expected,"policy_fields")
     if type(d["schema_version"]) is not int or d["schema_version"] != 1:
         raise ContractError("schema_version")
@@ -369,7 +377,24 @@ def validate_policy(raw: Any, request: Snapshot, latest: Snapshot, binding: Bind
     if any(set(task.formation_ids)&set(scoped) and not paid_pair(task) for task in tactical):raise ContractError("paid_pair_scope")
     if sum(task.force_fraction for task in tactical if not paid_pair(task))>1-budget["reserve"]+1e-6:raise ContractError("tactical_force_total")
     runtime=validate_runtime_intent(d.get('runtime_task'),request,latest)
-    return Plan(str(uuid.uuid4()), binding.commander_id, binding.session_id, binding.player_id, request.snapshot_id, based, based + duration, stance, focus, economy, tech, values, target, reason, "model",tactical,runtime,macro,production,declaration)
+    reasoning=normalize_reasoning(d.get('reasoning'))
+    return Plan(str(uuid.uuid4()), binding.commander_id, binding.session_id, binding.player_id, request.snapshot_id, based, based + duration, stance, focus, economy, tech, values, target, reason, "model",tactical,runtime,macro,production,declaration,reasoning)
+
+
+def normalize_reasoning(value: Any) -> str | None:
+    """Return the optional rationale as one trimmed line of at most 300 characters.
+
+    A missing or null rationale stays None. Over-long text is shortened rather
+    than rejected, because the rationale never changes what is executed.
+    """
+    if value is None:
+        return None
+    if not isinstance(value, str) or len(value) > REASONING_MAX_INPUT_CHARS:
+        raise ContractError("reasoning")
+    text = " ".join(value.split())
+    if len(text) > REASONING_MAX_CHARS:
+        text = text[:REASONING_MAX_CHARS - 1].rstrip() + "…"
+    return text or None
 
 
 class Audit:

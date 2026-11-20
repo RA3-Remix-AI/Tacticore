@@ -16,6 +16,7 @@ ROOT=Path(__file__).resolve().parents[1]
 sys.path[:0]=[str(ROOT),str(ROOT/'integration'),str(ROOT/'strategy')]
 from host_runtime.application import apply_commander_draft,load_commander_draft,create_applied_backend
 from host_runtime.contracts import ContractError,SessionBinding
+from host_runtime.decision_log import DecisionLogWriter,run_config_from_scenario
 from host_runtime.desktop_backend import NativeHostSpawner,_atomic
 from host_runtime.journal import CommandJournal
 from host_runtime.profile_store import ProfileStore
@@ -33,6 +34,7 @@ from host_runtime.macro_regions import MacroRegionalController
 from engine import Binding,StrategyEngine,ContractError as StrategyContractError
 from battle_agent import BattleAgent
 from http_adapter import load_profile
+from prompt_versions import PROMPT_VERSIONS,active_prompt_version,select_prompt_version
 from macro_strategy import MacroStrategyMemory
 from host_runtime.macro_strategy_runtime import MacroStrategyRuntime
 from host_runtime.macro_expansion_scope import ExpansionScope
@@ -178,6 +180,20 @@ class MacroHost:
                 or starts[0]['payload'].get('capabilities',{}).get('native_macro') is not True):
             raise ContractError('macro_host_launch_binding')
         self.check_profile()
+        self.decision_log=self.open_decision_log()
+
+    def open_decision_log(self):
+        """One human-readable decisions.jsonl per run; see host_runtime.decision_log."""
+        config=run_config_from_scenario(self.session.get('scenario'))
+        teams={key:config[key] for key in ('mode','enemy_player_ids','ally_player_ids','human_player_ids')}
+        log=DecisionLogWriter(self.output,self.run_id,prompt_version=active_prompt_version(),
+            provider=self.profile.get('provider'),model=self.profile.get('effective',{}).get('model'),
+            map_id=config['map_id'],opponent_difficulty=config['opponent_difficulty'],
+            player_id=config['model_player_id'] if config['model_player_id'] is not None else 3,
+            opponent_player_ids=config['enemy_player_ids'],run_facts=teams,
+            response_supplier=lambda:getattr(self.backend,'last_response',None))
+        log.start()
+        return log
 
     def check_profile(self):
         current=self.store.get_profile(self.binding.commander_id)['profile']
@@ -202,6 +218,8 @@ class MacroHost:
             game_frame=int(self.latest['game_time_seconds']*15) if self.latest else None,monotonic_ns=time.monotonic_ns())
         with (self.output/'host-events.jsonl').open('a',encoding='utf8') as stream:
             stream.write(json.dumps(dict(kind=kind,**value),ensure_ascii=False,allow_nan=False)+'\n')
+        decision_log=getattr(self,'decision_log',None)
+        if decision_log is not None:decision_log.observe_event(kind,value)
 
     def publish(self):
         if getattr(self,'strategy_runtime',None) is not None:
@@ -1007,6 +1025,7 @@ class MacroHost:
                 if self.pending is not None and self.pending.done():
                     result=await self.pending;self.pending=None
                     self.event('decision',status=result.status,reason_code=result.reason_code)
+                    if getattr(self,'decision_log',None) is not None:self.decision_log.decided(result)
                     if result.status=='accepted':
                         if self.stopping():self.reason='user_stop';break
                         self.check_profile()
@@ -1051,7 +1070,12 @@ class MacroHost:
                 if getattr(self,'strategy_runtime',None) is not None:self.strategy_runtime.memory.stop()
             if self.sampler:self.sampler.close()
             if self.phase not in ('fault','result_candidate'):self.phase='stopped'
-            self.publish();self.event('host_stopped',reason_code=self.reason)
+            self.publish()
+            if getattr(self,'decision_log',None) is not None:
+                self.decision_log.finish(match_result=getattr(self.sampler,'match_result',None),
+                    game_time_s=self.latest.get('game_time_seconds') if isinstance(self.latest,dict) else None,
+                    reason_code=self.reason)
+            self.event('host_stopped',reason_code=self.reason)
             locks=getattr(self,'product_source_locks',None)
             if locks is not None:
                 # On uncertain Native return retain source handles and the
@@ -1072,8 +1096,11 @@ def main():
     for name in ('session','macro-bundle','library','commander-draft','profile-state-dir','binding','ledger'):
         parser.add_argument('--'+name,type=Path,required=True)
     parser.add_argument('--strategy-mode',choices=('declared','legacy'),default='declared')
+    parser.add_argument('--prompt-version',choices=PROMPT_VERSIONS,default=None,
+        help='Strategic prompt version; default from TACTICORE_PROMPT_VERSION, else v2')
     parser.add_argument('--run-id',required=True);parser.add_argument('--max-wall-seconds',type=int,default=None)
     args=parser.parse_args()
+    if args.prompt_version is not None:select_prompt_version(args.prompt_version)
     try:
         host=MacroHost(args);print(json.dumps(asyncio.run(host.run())));return 0 if host.phase!='fault' else 1
     except Exception as error:

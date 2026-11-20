@@ -1,5 +1,7 @@
 """Offline source attribution of bounded assertions; no game, credentials or model IO.
 
+Retired: does not measure wins; win-rate evaluation lives in benchmark/eval/.
+
 This validates correlation and provenance declarations, not the truth of a game
 observation. Even recorded assertions with file hashes remain externally unverified.
 """

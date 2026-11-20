@@ -1,6 +1,6 @@
 """Native-owned existing-run control pipe, independent of library/credentials.
 
-Only resume/status/stop/diagnostics are admitted. This module cannot initialize
+Only resume/status/stop/diagnostics and the read-only decision log are admitted. This module cannot initialize
 a library, prepare a session, check admission, spawn a Host, or call a model.
 The native launcher alone supplies its fixed per-user desktop-runtime path.
 """
@@ -13,7 +13,7 @@ from .bridge_service import BridgeService, serve
 from .contracts import ContractError
 from .desktop_backend import DesktopBackend, NativeHostSpawner
 
-CONTROL_OPERATIONS = frozenset({'run.resume', 'run.status', 'run.stop', 'diagnostics.export'})
+CONTROL_OPERATIONS = frozenset({'run.resume', 'run.status', 'run.stop', 'diagnostics.export', 'run.decisions'})
 
 
 @dataclass(frozen=True)
@@ -82,6 +82,9 @@ class ExistingRunControlV1:
 
     def diagnostics_export(self, args, request_id):
         return self._run('diagnostics_export', args, request_id)
+
+    def run_decisions(self, args, request_id):
+        return self._run('run_decisions', args, request_id)
 
 
 class ControlOnlyServiceV1(BridgeService):
