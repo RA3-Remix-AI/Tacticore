@@ -262,8 +262,9 @@ def macro_system_prompt(profile: Profile,context:dict) -> str:
         budget=dict(economy=.35,army=.4,tech=0,reserve=.25),objective_region=None,reason_code='balanced_default',
         macro_actions=[],macro_production=None,tactical_tasks=[],runtime_task=None)
     if context.get('native_delegation',{}).get('kind')=='native_ai_details_v1':
-        from native_delegation_prompt_v1 import prompt
-        return prompt(profile,context,example,allowed,preferences)
+        # v2 is the default; TACTICORE_PROMPT_VERSION=v1 keeps the original text.
+        from prompt_versions import delegation_prompt
+        return delegation_prompt()(profile,context,example,allowed,preferences)
     if isinstance(context.get('macro_strategy'),dict):
         from macro_strategy import STRATEGY_DECLARATION_SCHEMA
         from macro_policy import strategic_default_prompt
@@ -431,8 +432,10 @@ def structure_diagnostics(policy,context):
         expected={'schema_version','commander_id','session_id','player_id','snapshot_id','based_on_game_time_seconds',
             'valid_for_game_seconds','stance','production_focus','economy_policy','tech_policy','budget','objective_region',
             'reason_code','macro_actions','macro_production','tactical_tasks','runtime_task','macro_strategy'}
-        diagnostics['macro_policy_shape']={'fields_match':set(policy)==expected,
-            'missing_fields':sorted(expected-set(policy)),'extra_field_count':len(set(policy)-expected)}
+        # The optional human rationale is neither required nor an unknown field.
+        present=set(policy)-{'reasoning'}
+        diagnostics['macro_policy_shape']={'fields_match':present==expected,
+            'missing_fields':sorted(expected-present),'extra_field_count':len(present-expected)}
         declared=policy.get('macro_strategy')
         diagnostics['macro_strategy']={'present':'macro_strategy' in policy,'type':kind(declared),
             'fields_match':type(declared) is dict and set(declared)==set(DECLARATION_FIELDS),
