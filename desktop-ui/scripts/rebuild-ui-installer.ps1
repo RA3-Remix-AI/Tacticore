@@ -22,7 +22,7 @@ $rustcVersion = (& $rustcExecutable -V)
 if ($LASTEXITCODE -ne 0) { throw 'Rust compiler version query failed.' }
 # This lane is only for a UI rebuild. Detect additions as well as edits: the
 # frozen inventory alone cannot detect a newly added, unpackaged source file.
-& git -C $repo diff --exit-code $baseSource HEAD -- integration strategy production native-ai tactical visibility agent_runtime probe.py acceptance/capture_macro_before_attach_v5.py
+& git -C $repo diff --exit-code $baseSource HEAD -- integration strategy production native-ai tactical visibility agent_runtime probe.py
 if ($LASTEXITCODE -ne 0) { throw 'Companion sources differ from the accepted base; stage a new runtime instead.' }
 foreach ($directory in @($release,$target,$scratch)) {
     if (Test-Path -LiteralPath $directory) { throw "Fresh directory required: $directory" }

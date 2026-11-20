@@ -164,7 +164,7 @@ def copy_application(repo, destination):
     # Build from the reviewed Git inventory, never a recursive collection of
     # local Python files (which could include a user's scratch credentials).
     names = subprocess.check_output(['git', '-C', str(repo), 'ls-files', '-z', '--', *APPLICATION_SOURCES,
-        'probe.py','acceptance/capture_macro_before_attach_v5.py']).decode('utf-8').split('\0')
+        'probe.py']).decode('utf-8').split('\0')
     files = {}
     for name in sorted(filter(None, names)):
         relative = PurePosixPath(name)
