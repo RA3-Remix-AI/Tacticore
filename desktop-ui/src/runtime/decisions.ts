@@ -131,17 +131,32 @@ function parseDecision(v: Record<string, unknown>): DecisionRecord | null {
 
 function parseMatchEnd(v: Record<string, unknown>): MatchEndRecord {
   const result = v.result === 'victory' || v.result === 'defeat' ? v.result : 'unknown';
-  return {kind: 'match_end', seq: num(v.seq), result, duration_s: num(v.duration_s),
-    players: Array.isArray(v.players) ? v.players.slice(0, 16) : []};
+  // The host writes players as {"<player_id>": {...}}; older fixtures use an array.
+  const players = Array.isArray(v.players)
+    ? v.players
+    : object(v.players)
+      ? Object.entries(v.players).map(([id, row]) => (object(row) ? {player_id: Number(id), ...row} : {player_id: Number(id)}))
+      : [];
+  return {kind: 'match_end', seq: num(v.seq), result, duration_s: num(v.duration_s), players: players.slice(0, 16)};
+}
+
+/** Rows of a run.decisions page: `{decisions, match_end}` from the host, or `{records}` from fixtures. */
+function pageRows(value: unknown): unknown[] {
+  if (!object(value)) return [];
+  if (Array.isArray(value.records)) return value.records;
+  const rows: unknown[] = Array.isArray(value.decisions) ? [...value.decisions] : [];
+  if (object(value.match_end)) rows.push({...value.match_end, kind: 'match_end'});
+  return rows;
 }
 
 /** Tolerant parser: drops malformed rows instead of failing the whole feed. */
 export function parseDecisionRecords(value: unknown): DecisionStreamRecord[] {
-  const rows = object(value) && Array.isArray(value.records) ? value.records : [];
+  const rows = pageRows(value);
   const parsed: DecisionStreamRecord[] = [];
   for (const row of rows.slice(0, 5000)) {
     if (!object(row)) continue;
     if (row.kind === 'match_end') parsed.push(parseMatchEnd(row));
+    else if (row.kind !== undefined && row.kind !== null && row.kind !== 'decision') continue;
     else if (row.schema_version === 1 || row.schema_version === undefined || row.schema_version === null) {
       const decision = parseDecision(row);
       if (decision) parsed.push(decision);

@@ -53,3 +53,38 @@ test('feature flag defaults to backend and accepts env or storage opt-in', () =>
   assert.equal(decisionSource({}, {getItem: () => { throw new Error('blocked'); }}), 'backend');
   assert.equal(decisionSource({VITE_TACTICORE_DECISIONS: 'other'}, {getItem: () => 'backend'}), 'backend');
 });
+
+test('host pages: reads decisions + match_end, follows has_more and re-reads the open decision', async () => {
+  const calls: object[] = [];
+  const pages: Record<string, object> = {
+    '0': {decisions: [{kind: 'decision', schema_version: 1, seq: 1, final: true}], match_end: null,
+      has_more: true, next_since_seq: 1, open_seq: 2},
+    '1': {decisions: [{kind: 'decision', schema_version: 1, seq: 2, final: false}], match_end: null,
+      has_more: false, next_since_seq: 2, open_seq: 2},
+  };
+  const fetch = createDecisionClient({source: 'backend', rpc: async (_operation, args) => {
+    calls.push(args);
+    const since = String((args as {since_seq?: number}).since_seq ?? 0);
+    return pages[since] ?? {decisions: [], match_end: {kind: 'match_end', result: 'victory', duration_s: 900,
+      players: {'3': {outcome: 'victory', role: 'self'}}}, has_more: false, next_since_seq: 2, open_seq: null};
+  }});
+  const first = await fetch(runId);
+  assert.ok(first.state === 'ok');
+  assert.deepEqual(first.records.map(row => ('seq' in row ? row.seq : null)), [1, 2]);
+  // Seq 2 is still open, so the next poll re-reads from 1 rather than from 2.
+  await fetch(runId, 2);
+  assert.deepEqual(calls[2], {run_id: runId, since_seq: 1});
+  const review = await fetch(runId, undefined, true);
+  assert.ok(review.state === 'ok');
+});
+
+test('host match_end players keyed by id become a list', async () => {
+  const fetch = createDecisionClient({source: 'backend', rpc: async () => ({decisions: [],
+    match_end: {kind: 'match_end', result: 'defeat', duration_s: 600, players: {'3': {outcome: 'defeat'}}},
+    has_more: false})});
+  const page = await fetch(runId);
+  assert.ok(page.state === 'ok');
+  const end = page.records.find(isMatchEnd);
+  assert.equal(end?.result, 'defeat');
+  assert.equal(end?.players.length, 1);
+});
