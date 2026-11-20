@@ -3,7 +3,8 @@ import {Button} from '../components/ui';
 import {reviewStats, type DecisionStreamRecord} from '../runtime/decisions';
 import type {ScenarioView} from '../runtime/scenario';
 import {ScenarioDetails} from './MatchCard';
-import {DecisionList, type FeedState} from './DecisionFeed';
+import {LayeredTimeline, type FeedState} from './DecisionFeed';
+import {CommanderAvatar} from './CommanderAvatar';
 
 const resultIcon = {victory: Trophy, defeat: SmileySad, unknown: Question} as const;
 
@@ -27,6 +28,7 @@ export function ReviewPage({hasRun, live, records, state, mock, scenario, onRefr
   }
   const stats = reviewStats(records);
   const Icon = resultIcon[stats.result];
+  const layered = stats.layers.length > 0;
   return <div className="tc-review">
     <section className={`native-panel tc-review-head result-${stats.result}`}>
       <Icon size={44} weight="duotone" aria-hidden="true" />
@@ -46,8 +48,27 @@ export function ReviewPage({hasRun, live, records, state, mock, scenario, onRefr
       <Stat label="结果未知" value={stats.unknown} tone={stats.unknown ? 'warn' : undefined} />
       <Stat label="已过期" value={stats.expired} />
       <Stat label="平均响应" value={stats.averageLatencyMs === null ? '—' : `${(stats.averageLatencyMs / 1000).toFixed(1)} 秒`} />
+      {layered && <Stat label="被丢弃的意图" value={stats.dropped} tone={stats.dropped ? 'warn' : undefined} />}
+      {layered && <Stat label="含仅记录项的决策" value={stats.recordedOnly} />}
     </section>
     <div className="tc-review-grid">
+      {(stats.run.commander || stats.run.decisionMode || layered) && <section className="native-panel tc-run-info">
+        <p className="eyebrow">指挥</p>
+        {stats.run.commander && <div className="tc-feed-commander">
+          <CommanderAvatar commander={stats.run.commander} size={40} />
+          <span><strong>{stats.run.commander.name}</strong>
+            {stats.run.commander.full_name && <small> · {stats.run.commander.full_name}</small>}</span>
+        </div>}
+        <dl>
+          <dt>决策方式</dt><dd>{stats.run.decisionMode ?? '未记录'}</dd>
+          <dt>开局方案</dt><dd>{stats.run.openingVariant ?? '未记录'}</dd>
+        </dl>
+        {layered && <ol className="tc-top-intents" aria-label="各层决策次数">
+          {stats.layers.map(row => <li key={row.layer}>
+            <span className={`tc-layer layer-${row.layer}`}>{row.label}</span><strong>{row.count}</strong>
+          </li>)}
+        </ol>}
+      </section>}
       {scenario && <section className="native-panel"><p className="eyebrow">对局</p><ScenarioDetails view={scenario} /></section>}
       <section className="native-panel">
         <p className="eyebrow">最常用的决定</p>
@@ -59,7 +80,9 @@ export function ReviewPage({hasRun, live, records, state, mock, scenario, onRefr
     </div>
     <section className="native-panel">
       <p className="eyebrow">决策时间线</p>
-      {records.length ? <DecisionList records={records} newestFirst={false} /> : <p className="native-muted">没有决策记录。</p>}
+      {stats.decisions
+        ? <LayeredTimeline records={records} newestFirst={false} />
+        : <p className="native-muted">没有决策记录。</p>}
     </section>
   </div>;
 }

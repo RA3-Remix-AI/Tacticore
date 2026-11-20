@@ -23,7 +23,7 @@ Interaction checks:
 1. First use (`?first_use=1`): the three-step wizard (游戏与 Mod, 模型与 API Key,
    对局模式) cannot finish until each step is done. No start is submitted by
    configuration alone. "稍后再说" skips to the main screen.
-2. Settings → AI 风格: edit the style, switch pages and return. The draft survives
+2. Settings → 指挥官: change a personality value, switch pages and return. The draft survives
    and Start stays blocked ("去保存") until it is saved.
 3. 对局: 查找对局 shows the match card (map, mode, teams, model seat), then a
    single 开始 prepares, checks and starts. Exactly one start is submitted; 停止 AI

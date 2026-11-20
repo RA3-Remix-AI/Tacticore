@@ -5,7 +5,13 @@ from .profile_store import _endpoint
 
 MAX_REQUEST_BYTES = 16384
 OPERATIONS = frozenset(
-    {"connections.configuration", "connections.configure", "connections.recover", "connections.cleanup_retired"}
+    {
+        "connections.configuration",
+        "connections.configure",
+        "connections.recover",
+        "connections.cleanup_retired",
+        "connections.test",
+    }
 )
 
 

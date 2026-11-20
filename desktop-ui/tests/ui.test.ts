@@ -6,6 +6,10 @@ import {MatchCard, ScenarioDetails, candidateView} from '../src/ui/MatchCard.tsx
 import {DecisionFeed} from '../src/ui/DecisionFeed.tsx';
 import {ReviewPage} from '../src/ui/ReviewPage.tsx';
 import {ModeStep} from '../src/ui/ModeStep.tsx';
+import {StylePanel} from '../src/ui/StylePanel.tsx';
+import {builtInCommanders, mergeCommanders} from '../src/runtime/commanders.ts';
+import {parseDecisionRecords} from '../src/runtime/decisions.ts';
+import type {Draft, Profile} from '../src/runtime/hostTypes.ts';
 import {decisionFixtureRecords} from '../src/runtime/decisionFixtures.ts';
 import {scenarioView, parseScenario} from '../src/runtime/scenario.ts';
 import {connectionTestText, parseConnectionTest, testConnection} from '../src/runtime/connectionConfigRpcV1.ts';
@@ -53,12 +57,12 @@ test('match card tolerates an older backend without scenario and warns on mode m
 test('decision feed shows the strategy, translated intents, badges and the mock marker', () => {
   const records = decisionFixtureRecords(runId);
   const html = renderToStaticMarkup(createElement(DecisionFeed, {records, state: 'ok', live: true, mock: true}));
-  assert.match(html, /总攻/);
+  assert.match(html, /集中突破北侧，目标敌方建造厂/);
   assert.match(html, /集中对付玩家 4/);
   assert.match(html, /未采纳/);
   assert.match(html, /结果未知/);
   assert.match(html, /示例数据/);
-  assert.ok(html.indexOf('10:40') < html.indexOf('00:22'), 'live feed lists newest first');
+  assert.ok(html.indexOf('06:10') < html.indexOf('00:05'), 'live feed lists newest first');
   const unavailable = renderToStaticMarkup(createElement(DecisionFeed, {records: [], state: 'unavailable', live: true, mock: false}));
   assert.match(unavailable, /还没有提供决策记录/);
   assert.match(unavailable, /AI 还没有做出决定/);
@@ -68,12 +72,19 @@ test('review page shows result, counts and latency', () => {
   const html = renderToStaticMarkup(createElement(ReviewPage, {hasRun: true, live: false, records: decisionFixtureRecords(runId),
     state: 'ok', mock: false, scenario: scenarioView(parseScenario(scenario)), onRefresh: noop, busy: false}));
   assert.match(html, /胜利/);
-  assert.match(html, /11:42/);
+  assert.match(html, /07:32/);
   assert.match(html, /决策次数/);
-  assert.match(html, /<strong>9<\/strong><small>决策次数/);
+  assert.match(html, /<strong>11<\/strong><small>决策次数/);
   assert.match(html, /<strong>1<\/strong><small>未采纳/);
+  assert.match(html, /<strong>2<\/strong><small>被丢弃的意图/);
+  assert.match(html, /<strong>3<\/strong><small>含仅记录项的决策/);
   assert.match(html, /平均响应/);
-  assert.ok(html.indexOf('00:22') < html.indexOf('10:40'), 'review lists chronologically');
+  assert.match(html, /分层决策（总指挥 \+ 参谋）/);
+  assert.match(html, /bear_scout_terror_raid/);
+  assert.match(html, /维克托·莫罗佐夫/);
+  assert.match(html, /总指挥<\/span><strong>3<\/strong>/);
+  assert.match(html, /战术参谋<\/span><strong>5<\/strong>/);
+  assert.ok(html.indexOf('00:05') < html.indexOf('06:10'), 'review lists chronologically');
   const none = renderToStaticMarkup(createElement(ReviewPage, {hasRun: false, live: false, records: [], state: 'idle', mock: false,
     scenario: null, onRefresh: noop, busy: false}));
   assert.match(none, /还没有可以复盘的对局/);
@@ -103,4 +114,79 @@ test('connection test parses results and degrades on older backends', async () =
   assert.match(connectionTestText(old).text, /还不能在这里测试/);
   const unknown = await testConnection(async () => { throw new HostError('delivery_unknown', 'id'); }, 'id');
   assert.match(connectionTestText(unknown).text, /无法确认/);
+});
+
+test('layered feed: directive banner, layer labels, chips, commander portrait, dropped and record-only lines', () => {
+  const html = renderToStaticMarkup(createElement(DecisionFeed, {records: decisionFixtureRecords(runId), state: 'ok',
+    live: true, mock: true}));
+  assert.match(html, /当前方针/);
+  assert.match(html, /全力出击/);
+  assert.match(html, /主攻 玩家 4/);
+  assert.match(html, /军队 80%/);
+  assert.match(html, /class="tc-override">不扩张</);
+  assert.match(html, /class="tc-override">暂停科技</);
+  for (const label of ['总指挥', '经济参谋', '战术参谋', '开局']) {
+    assert.match(html, new RegExp(`class="tc-layer layer-[a-z]+">${label}<`), label);
+    assert.match(html, new RegExp(`aria-pressed="false" class="tc-chip layer-[a-z]+">${label}`), label);
+  }
+  assert.match(html, /aria-pressed="true" class="tc-chip layer-all">全部/);
+  assert.match(html, /hammer-portrait\.webp/);
+  assert.match(html, /class="tc-dropped">未采纳：扩张经济（与总指挥方针冲突：不扩张）</);
+  assert.match(html, /class="tc-dropped">未采纳：组织进攻（总指挥否决）</);
+  assert.match(html, /class="tc-recorded-only">仅记录，尚未执行：产能目标、科技时机</);
+  assert.match(html, /没有采纳的动作/, 'a fully vetoed record does not look executed');
+  // Opening-only feed: no directive yet, so the plain strategy block is shown.
+  const opening = renderToStaticMarkup(createElement(DecisionFeed, {records: decisionFixtureRecords(runId).slice(0, 2),
+    state: 'ok', live: true, mock: false, commander: {name: '铁锤', portrait: '/commanders/hammer-portrait.webp'}}));
+  assert.doesNotMatch(opening, /当前方针/);
+  assert.match(opening, /战熊探路/);
+});
+
+test('older single-layer records show no layer chips or labels', () => {
+  const records = parseDecisionRecords({records: [{schema_version: 1, seq: 1, game_time_s: 30,
+    decision: {intents: ['scout'], objective: '侦察', reasoning: null, valid_for_s: 60},
+    outcome: {status: 'applied', reason_code: null, native_accepted: true, observed_effects: []}}]});
+  const html = renderToStaticMarkup(createElement(DecisionFeed, {records, state: 'ok', live: true, mock: false}));
+  assert.doesNotMatch(html, /tc-layer-chips|tc-layer |当前方针|tc-dropped|tc-recorded-only/);
+  assert.match(html, /侦察敌情/);
+});
+
+const draftBase: Draft = {schema_version: 1, profile_id: 'p1', name: '默认', revision: 3, connection_id: 'c1', model: ''};
+const profileOf = (draft: Draft): Profile => ({profile_id: 'p1', name: '默认', revision: 3, model: '',
+  connection_id: 'c1', draft, state: 'saved', validation: {ok: true, reason_code: ''}, effective: null});
+const styleProps = (draft: Draft, supported = true) => ({
+  profiles: [profileOf(draft)], selected: 'p1', profile: profileOf(draft), draft, dirty: false, disabled: false,
+  commanders: mergeCommanders(undefined), supported, onChoose: noop, onEdit: noop, onSave: noop, onReload: noop,
+});
+const hammerPersonality = () => ({...builtInCommanders[0].personality});
+
+test('commander page: three commanders, unavailable ones marked and disabled, Hammer preset values', () => {
+  const draft: Draft = {...draftBase, commander_id: 'hammer', personality: hammerPersonality(), voice_note: ''};
+  const html = renderToStaticMarkup(createElement(StylePanel, styleProps(draft)));
+  for (const name of ['铁锤', '堡垒', '幽灵', '维克托·莫罗佐夫', '伊芙琳·卡特', '神崎凛']) assert.match(html, new RegExp(name));
+  assert.equal((html.match(/即将推出/g) ?? []).length, 2);
+  assert.match(html, /class="tc-commander-card is-soon" aria-pressed="false" disabled=""/);
+  assert.match(html, /class="tc-commander-card " aria-pressed="true"/);
+  assert.match(html, /铁锤预设/);
+  assert.equal((html.match(/type="range"/g) ?? []).length, 9);
+  assert.match(html, /name="punish" value="5"/);
+  assert.match(html, /识破诱饵/);
+  assert.match(html, /0 \/ 300 字节/);
+  assert.match(html, /hammer\.webp/);
+});
+
+test('commander page: custom personality, over-long voice note and an older backend', () => {
+  const custom: Draft = {...draftBase, commander_id: 'custom',
+    personality: {...builtInCommanders[0].personality, risk: 5}, voice_note: '铁'.repeat(101)};
+  const html = renderToStaticMarkup(createElement(StylePanel, {...styleProps(custom), dirty: true}));
+  assert.match(html, /性格 · <span class="tc-preset-name">自定义/);
+  assert.doesNotMatch(html, /aria-pressed="true"/);
+  assert.match(html, /303 \/ 300 字节/);
+  assert.match(html, /tc-byte-counter is-over/);
+  assert.match(html, /口吻说明太长了/);
+  assert.match(html, /<button[^>]*disabled=""[^>]*>保存<\/button>/, 'save is blocked while the note is too long');
+  const legacyDraft: Draft = {...draftBase, doctrine: 'assault', custom_traits: ''};
+  const legacy = renderToStaticMarkup(createElement(StylePanel, styleProps(legacyDraft, false)));
+  assert.match(legacy, /当前后台版本还不支持指挥官设置/);
+  assert.match(legacy, /铁锤预设/, 'an older backend shows Hammer as the default');
 });

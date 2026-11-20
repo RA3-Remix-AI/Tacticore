@@ -2,27 +2,8 @@ import { useEffect, useRef, type ReactNode } from "react";
 import {
   ArrowUpRight,
   CircleNotch,
-  Crosshair,
-  Compass,
-  ShieldChevron,
   X,
 } from "@phosphor-icons/react";
-import type { Doctrine } from "../state/preferences";
-export const doctrineIcons = {
-  assault: Crosshair,
-  defense: ShieldChevron,
-  maneuver: Compass,
-};
-export function CommanderIcon({
-  doctrine,
-  size = 28,
-}: {
-  doctrine: Doctrine;
-  size?: number;
-}) {
-  const Icon = doctrineIcons[doctrine];
-  return <Icon size={size} weight="duotone" aria-hidden="true" />;
-}
 export function Button({
   children,
   kind = "",

@@ -83,7 +83,7 @@ export function matchControl(input: ControlInput): ControlView {
       '打开模型设置', 'open_model', 'primary');
   }
   if (input.profileIssue === 'dirty') {
-    return view('setup', '需要保存', 'AI 风格有未保存的修改', '保存后才能开始新的对局。', '去保存', 'open_style', 'primary');
+    return view('setup', '需要保存', '指挥官设置有未保存的修改', '保存后才能开始新的对局。', '去保存', 'open_style', 'primary');
   }
   if (input.profileIssue === 'invalid') {
     return view('setup', '需要设置', 'AI 设置不完整', '通常是还没有填写模型名称。', '完善模型设置', 'open_model', 'primary');
