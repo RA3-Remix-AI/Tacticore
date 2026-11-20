@@ -43,7 +43,7 @@
    ```
    构建会核对 `manager_host.exe --layout`。`client.py` 里的 ctypes 结构必须对得上：Shared 4736 字节、Journal 4656 字节、Focus 144 字节。
 4. 原生离线测试：用同一工具链编译并运行 `native-ai\tests\native_locked_inputs.cpp`、`native_wake_schedule.cpp`、`strategic_enemy_focus_lease_v1.cpp`。
-5. 桌面：在 `desktop-ui` 里运行 `.\scripts\build-windows.ps1 -NativeTests`（等同 `cargo test`），然后正式构建安装包。
+5. 桌面：在 `desktop-ui` 里运行 `.\scripts\build-windows.ps1 -NativeTests`（等同 `cargo test`），然后正式构建安装包。`cargo test` 里应包含 `connection_test_names_a_saved_connection_only`。
 
 **完成标准**：生成安装包；原生测试和 `cargo test` 通过。
 **如果编译器哈希对不上**：报“阻塞”，写明你手上的编译器版本和哈希。不要修改 `COMPILER_SHA`。
@@ -56,9 +56,19 @@
    - 状态显示环境已变化，需要重新准备；
    - 旧的运行记录被归档，不会阻塞查找新对局；
    - 向导里没有内部术语（例如“归还”“准入”“epoch”“资格”）。
-4. “测试连接”按钮：本轮后端如果还没实现，会显示“当前版本还不能在这里测试”，这是预期结果。
+4. “测试连接”：
+   - 正确的 Key 应显示“连接正常”和响应时间；
+   - 错误的 Key 应显示“API Key 无效”；
+   - 错误的模型名：记下服务商返回的 HTTP 状态码，以及客户端显示的原因；
+   - 如果显示 `connection_test_runtime_unavailable`，说明打包的 Python 里缺 `pydantic_ai` 或 `httpx2`，这是打包问题，要报告。
+5. 设置 →“指挥官”：
+   - 三张头像和铁锤大图都能显示，没有被打包或 CSP（`img-src 'self'`）拦住；
+   - 堡垒、幽灵显示“即将推出”，不能选；
+   - 选铁锤并保存，重启客户端后仍是铁锤；改任意一个性格参数会变成“自定义”，保存后能读回；
+   - 口吻说明超过 300 字节时，保存按钮不可用；
+   - 顶栏显示当前指挥官的头像和名字。
 
-**完成标准**：向导走通，能进入主屏，配置重开客户端后仍在。
+**完成标准**：向导走通，能进入主屏，配置和指挥官选择在重开客户端后仍在，测试连接结果正确。
 
 ### T3 查找对局与任意地图
 
