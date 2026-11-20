@@ -4,7 +4,7 @@
 import React from 'react';
 import {createRoot} from 'react-dom/client';
 import NativeApp from '../src/NativeApp';
-import {preferencePresets} from '../src/state/preferences';
+import {builtInCommanders} from '../src/runtime/commanders';
 import {rawDecisionFixtures} from '../src/runtime/decisionFixtures';
 import '../src/styles.css';
 
@@ -15,13 +15,16 @@ const connectionId='22222222-2222-4222-8222-222222222222';
 const sessionId='33333333-3333-4333-8333-333333333333';
 const runId='44444444-4444-4444-8444-444444444444';
 const ref={configuration_request_id:'55555555-5555-4555-8555-555555555555',expected_config_fingerprint:'a'.repeat(64)};
-const preset=preferencePresets[1];
+const legacyBackend=params.has('legacy_scenario');
 let initialized=!firstUse, mode=params.get('mode')??'ready', prepared=!firstUse, gameSelected=!firstUse, modSelected=!firstUse;
 let inspected=false, stops=0, holdCheck=false;
 let releaseCheck:(()=>void)|undefined;
 let connection={id:connectionId,name:'本机模型连接',provider:'OpenAI',endpoint:'https://api.example.com/v1',model:firstUse?'':'preview-model',remember_key:!firstUse,credential_configured:!firstUse,credential_check:firstUse?'not_stored':'stored_not_read'};
-let draft={schema_version:1,profile_id:profileId,name:'铁锤',revision:1,connection_id:connectionId,model:'',doctrine:preset.doctrine,custom_traits:'优先保持经济稳定，观察敌情后再推进。',preferences:preset.values};
-const profile=()=>({profile_id:profileId,name:draft.name,revision:draft.revision,connection_id:connectionId,model:draft.model||connection.model,draft,state:'library',validation:{ok:Boolean(draft.model||connection.model),reason_code:(draft.model||connection.model)?'':'credentials_unavailable'},effective:{effective_hash:'b'.repeat(64),traits:draft.custom_traits,traits_bytes:new TextEncoder().encode(draft.custom_traits).length,axis_support:{}}});
+let draft:Record<string,unknown>&{name:string;revision:number;model:string}=legacyBackend
+ ?{schema_version:1,profile_id:profileId,name:'铁锤',revision:1,connection_id:connectionId,model:'',doctrine:'assault',custom_traits:''}
+ :{schema_version:1,profile_id:profileId,name:'铁锤',revision:1,connection_id:connectionId,model:'',commander_id:'hammer',personality:{...builtInCommanders[0].personality},voice_note:'说话简短。'};
+const traits=()=>String(draft.voice_note??draft.custom_traits??'');
+const profile=()=>({profile_id:profileId,name:draft.name,revision:draft.revision,connection_id:connectionId,model:draft.model||connection.model,draft,state:'library',validation:{ok:Boolean(draft.model||connection.model),reason_code:(draft.model||connection.model)?'':'credentials_unavailable'},effective:{effective_hash:'b'.repeat(64),traits:traits(),traits_bytes:new TextEncoder().encode(traits()).length,axis_support:{}}});
 const session={id:sessionId,map:'示例地图',player_name:'铁锤',faction:'Soviet'};
 const scenario={map_id:'preview_map',display_map:'示例地图',mode:params.get('scenario_mode')??'human_with_ai',model_player_id:2,
  players:[{player_id:1,kind:'human',team:1,difficulty:null,faction:'Allies'},{player_id:2,kind:'model_ai',team:1,difficulty:'medium',faction:'Soviet'},
@@ -88,7 +91,7 @@ Object.defineProperty(window,'__TAURI_INTERNALS__',{configurable:true,value:{inv
  if(command==='host_request'){
   if(operation==='run.resume')return ok({run,observation_only:true,other_unreleased_runs:0});
   if(!initialized)return fail('runtime_library_unregistered');
-  if(operation==='profiles.list')return ok({profiles:[profile()]});
+  if(operation==='profiles.list')return ok(legacyBackend?{profiles:[profile()]}:{profiles:[profile()],commanders:builtInCommanders.map(({id,name,full_name,faction,available})=>({id,name,full_name,faction,available}))});
   if(operation==='profiles.save'){draft={...draft,...request.args.draft,revision:draft.revision+1};return ok({profile:profile(),state:'saved',host_applied:false});}
   if(operation==='connections.list')return ok({connections:[connection]});
   if(operation==='session.inspect')return ok({session:inspected?session:null});
@@ -111,7 +114,7 @@ Object.defineProperty(window,'__TAURI_INTERNALS__',{configurable:true,value:{inv
    const released=run?.native_release_verified===true;
    const visible=released?Infinity:2+Math.floor((Date.now()-decisionStart)/4000);
    const since=request.args.since_seq??-1;
-   const rows=rawDecisionFixtures(request.args.run_id).filter((row,index)=>(row.kind==='match_end'?released:index<visible&&Number(row.seq)>since));
+   const rows=rawDecisionFixtures(request.args.run_id).filter((row,index)=>((row.kind==='match_end'?released:index<visible&&Number(row.seq)>since));
    return ok({records:rows});
   }
  }

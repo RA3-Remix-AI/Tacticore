@@ -27,7 +27,7 @@ export function SetupFlow({variant, tab, onTab, input, onFinish, game, model, mo
       {variant === 'settings' && <button type="button" aria-current={tab === 'style' ? 'step' : undefined}
         className="tc-stepper-item" onClick={() => onTab('style')}>
         <span className="tc-stepper-number">+</span>
-        <span><strong>AI 风格</strong><small>可选的打法偏好</small></span>
+        <span><strong>指挥官</strong><small>人物与性格</small></span>
       </button>}
     </nav>
     <div hidden={tab !== 'game'}>{game}</div>

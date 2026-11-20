@@ -6,6 +6,9 @@ import {MatchCard, ScenarioDetails, candidateView} from '../src/ui/MatchCard.tsx
 import {DecisionFeed} from '../src/ui/DecisionFeed.tsx';
 import {ReviewPage} from '../src/ui/ReviewPage.tsx';
 import {ModeStep} from '../src/ui/ModeStep.tsx';
+import {StylePanel} from '../src/ui/StylePanel.tsx';
+import {builtInCommanders, mergeCommanders} from '../src/runtime/commanders.ts';
+import type {Draft, Profile} from '../src/runtime/hostTypes.ts';
 import {decisionFixtureRecords} from '../src/runtime/decisionFixtures.ts';
 import {scenarioView, parseScenario} from '../src/runtime/scenario.ts';
 import {connectionTestText, parseConnectionTest, testConnection} from '../src/runtime/connectionConfigRpcV1.ts';
@@ -103,4 +106,41 @@ test('connection test parses results and degrades on older backends', async () =
   assert.match(connectionTestText(old).text, /还不能在这里测试/);
   const unknown = await testConnection(async () => { throw new HostError('delivery_unknown', 'id'); }, 'id');
   assert.match(connectionTestText(unknown).text, /无法确认/);
+});
+
+const draftBase: Draft = {schema_version: 1, profile_id: 'p1', name: '默认', revision: 3, connection_id: 'c1', model: ''};
+const profileOf = (draft: Draft): Profile => ({profile_id: 'p1', name: '默认', revision: 3, model: '', connection_id: 'c1',
+  draft, state: 'saved', validation: {ok: true, reason_code: ''}, effective: null});
+const styleProps = (draft: Draft, supported = true) => ({profiles: [profileOf(draft)], selected: 'p1', profile: profileOf(draft),
+  draft, dirty: false, disabled: false, commanders: mergeCommanders(undefined), supported,
+  onChoose: noop, onEdit: noop, onSave: noop, onReload: noop});
+
+test('commander page: three commanders, unavailable ones marked and disabled, Hammer preset values', () => {
+  const draft: Draft = {...draftBase, commander_id: 'hammer', personality: {...builtInCommanders[0].personality}, voice_note: ''};
+  const html = renderToStaticMarkup(createElement(StylePanel, styleProps(draft)));
+  for (const name of ['铁锤', '堡垒', '幽灵', '维克托·莫罗佐夫', '伊芙琳·卡特', '神崎凛']) assert.match(html, new RegExp(name));
+  assert.equal((html.match(/即将推出/g) ?? []).length, 2);
+  assert.match(html, /class="tc-commander-card is-soon" aria-pressed="false" disabled=""/);
+  assert.match(html, /class="tc-commander-card " aria-pressed="true"/);
+  assert.match(html, /铁锤预设/);
+  assert.equal((html.match(/type="range"/g) ?? []).length, 9);
+  assert.match(html, /name="punish" value="5"/);
+  assert.match(html, /识破诱饵/);
+  assert.match(html, /0 \/ 300 字节/);
+  assert.match(html, /hammer\.webp/);
+});
+
+test('commander page: custom personality, over-long voice note and an older backend', () => {
+  const custom: Draft = {...draftBase, commander_id: 'custom',
+    personality: {...builtInCommanders[0].personality, risk: 5}, voice_note: '铁'.repeat(101)};
+  const html = renderToStaticMarkup(createElement(StylePanel, {...styleProps(custom), dirty: true}));
+  assert.match(html, /性格 · <span class="tc-preset-name">自定义/);
+  assert.doesNotMatch(html, /aria-pressed="true"/);
+  assert.match(html, /303 \/ 300 字节/);
+  assert.match(html, /tc-byte-counter is-over/);
+  assert.match(html, /口吻说明太长了/);
+  assert.match(html, /<button[^>]*disabled=""[^>]*>保存<\/button>/, 'save is blocked while the note is too long');
+  const legacy = renderToStaticMarkup(createElement(StylePanel, styleProps({...draftBase, doctrine: 'assault', custom_traits: ''}, false)));
+  assert.match(legacy, /当前后台版本还不支持指挥官设置/);
+  assert.match(legacy, /铁锤预设/, 'an older backend shows Hammer as the default');
 });

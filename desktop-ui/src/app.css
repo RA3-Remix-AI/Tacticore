@@ -134,6 +134,53 @@
 .tc-effects { margin: 6px 0 0; padding-left: 18px; font-size: 12px; color: var(--green); line-height: 1.7; }
 .tc-model-line { display: block; margin-top: 6px; font-size: 11px; color: #6f7863; }
 
+/* ---------- commander page ---------- */
+.tc-avatar { width: 32px; height: 32px; object-fit: cover; object-position: top; border: 1px solid #5e5233; flex: none; }
+.tc-avatar.is-empty { display: inline-grid; place-items: center; font-size: 12px; color: var(--gold); background: var(--panel-raised); }
+.tc-feed-commander, .tc-topbar-commander { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; color: var(--bright); }
+.tc-commanders { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 20px 0; }
+.tc-commander-card {
+  display: flex; gap: 12px; align-items: flex-start; text-align: left; padding: 12px;
+  border: 1px solid var(--line); background: #10140f; color: var(--muted);
+}
+.tc-commander-card img { width: 72px; height: 90px; object-fit: cover; flex: none; border: 1px solid var(--line-soft); }
+.tc-commander-text { display: grid; gap: 4px; font-size: 11px; line-height: 1.6; min-width: 0; }
+.tc-commander-text strong { color: var(--bright); font-size: 14px; }
+.tc-commander-text strong small { font-size: 10px; letter-spacing: .12em; color: var(--muted); font-weight: 400; }
+.tc-commander-text em { font-style: normal; color: #c4c9b3; }
+.tc-commander-card[aria-pressed="true"] { border-color: var(--gold); background: #c9ab7014; }
+.tc-commander-card:hover:not(:disabled) { border-color: #8e835a; }
+.tc-commander-card.is-soon { opacity: .62; cursor: not-allowed; }
+.tc-commander-card.is-soon img { filter: grayscale(.7); }
+.tc-soon { justify-self: start; font-size: 10px; padding: 1px 6px; border: 1px solid #5e5233; color: var(--gold); }
+.tc-commander-hero {
+  display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: 18px; align-items: center;
+  margin: 0 0 20px; border: 1px solid var(--line-soft); background: #11160f;
+}
+.tc-commander-hero img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; display: block; }
+.tc-commander-hero > div { padding: 12px 16px 12px 0; }
+.tc-commander-hero h3 { margin: 4px 0 8px; font-size: 16px; color: var(--bright); }
+.tc-commander-hero p { font-size: 12px; line-height: 1.8; margin: 0 0 6px; }
+.tc-custom-note { margin: 0 0 20px; }
+.tc-personality { margin: 0 0 20px; border: 0; padding: 0; }
+.tc-personality legend { font-size: 13px; margin-bottom: 12px; color: var(--bright); }
+.tc-preset-name { color: var(--gold); }
+.tc-personality-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px 18px; }
+.tc-personality-grid label { display: grid; gap: 6px; font-size: 12px; }
+.tc-personality-grid label > span { display: flex; justify-content: space-between; color: var(--bright); }
+.tc-personality-grid label strong { color: var(--gold); font-variant-numeric: tabular-nums; font-weight: 500; }
+.tc-personality-grid input[type="range"] { padding: 0; border: 0; background: none; accent-color: var(--gold); }
+.tc-personality-grid small { color: var(--muted); font-size: 11px; line-height: 1.6; }
+.tc-byte-counter { display: block; text-align: right; font-size: 11px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.tc-byte-counter.is-over { color: #e49a85; }
+@media (max-width: 1080px) {
+  .tc-commanders, .tc-personality-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 680px) {
+  .tc-commanders, .tc-personality-grid, .tc-commander-hero { grid-template-columns: 1fr; }
+  .tc-commander-hero > div { padding: 0 14px 14px; }
+}
+
 /* ---------- review ---------- */
 .tc-review { display: grid; gap: 20px; }
 .tc-review.is-empty h2 { margin-bottom: 8px; }
