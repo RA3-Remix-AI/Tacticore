@@ -179,6 +179,15 @@ class WriterTests(unittest.TestCase):
         records = read_decisions(self.dir)
         self.assertEqual([(r['outcome']['status'], r['outcome']['native_accepted']) for r in records],
                          [('rejected', False), ('unknown', None)])
+        self.assertEqual(records[1]['outcome']['reason_code'], 'macro_dispatch_outcome_unknown')
+
+    def test_user_stop_before_dispatch_is_a_known_non_delivery(self):
+        self.request(context())
+        self.log.decided(Decision('accepted', 'valid_policy', plan()))
+        self.log.finish(match_result=None, game_time_s=130.0, reason_code='user_stop')
+        record = read_decisions(self.dir)[0]
+        self.assertEqual((record['outcome']['status'], record['outcome']['reason_code']),
+                         ('rejected', 'host_stopped_before_dispatch'))
 
     def test_finish_writes_match_end_once_and_stops_writing(self):
         result = dict(terminal=True, controlled_outcome='victory', remaining_opponents=0,

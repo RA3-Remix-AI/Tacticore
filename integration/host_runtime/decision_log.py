@@ -40,6 +40,8 @@ EXPIRED_REASONS = frozenset({
 })
 # Reason codes that mean "delivery to the native AI is not known either way".
 UNKNOWN_REASONS = frozenset({'macro_dispatch_outcome_unknown'})
+# Host stop reasons that occur only between loop iterations, never mid-dispatch.
+ORDERLY_STOP_REASONS = frozenset({'user_stop', 'host_time_limit'})
 
 
 # ---------------------------------------------------------------------------
@@ -342,7 +344,6 @@ class DecisionLogWriter:
         self._seq = 0
         self._cycle = None
         self._active = None
-        self._last_situation = None
         self.errors = 0
         self.finished = False
 
@@ -400,7 +401,6 @@ class DecisionLogWriter:
         game_time = _seconds(context.get('game_time_seconds')) if isinstance(context, dict) else None
         self._close_cycle('not_dispatched', 'decision_not_observed')
         self._close_active(situation, game_time)
-        self._last_situation = situation
         self._cycle = dict(game_time_s=game_time, wall_time=_now_iso(), situation=situation,
                            input_bytes=_count(facts.get('context_bytes')), output_bytes=None,
                            call_started=None, latency_ms=None, error=None, response=None,
@@ -560,10 +560,12 @@ class DecisionLogWriter:
 
     def _finish(self, match_result, game_time_s, reason_code):
         reason = _short(reason_code, 80)
-        if reason in UNKNOWN_REASONS:
-            self._close_cycle(reason, reason, status_for_accepted='unknown')
+        if reason in ORDERLY_STOP_REASONS:
+            # The loop stops between iterations, so a pending plan was never sent.
+            self._close_cycle('host_stopped_before_dispatch', 'host_stopped_during_model_call')
         else:
-            self._close_cycle('host_stopped_before_dispatch', 'host_stopped_during_model_call',
+            # A fault may interrupt a dispatch: delivery is not known either way.
+            self._close_cycle(reason or 'host_stopped', 'host_stopped_during_model_call',
                               status_for_accepted='unknown')
         self._active = None
         self._write(match_end_record(self.run_id, match_result, game_time_s=game_time_s,
