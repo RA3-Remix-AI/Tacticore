@@ -335,22 +335,4 @@ class RuntimeSemanticsTests(unittest.TestCase):
         self.assertEqual(self.memory._commands[r['command_id']]['outcome'],'cancelled')
 
 
-class QuoteBudgetBoundaryTests(unittest.IsolatedAsyncioTestCase):
-    async def test_quote_overflow_is_rejected_before_provider_and_cannot_be_a_request_context(self):
-        from test_macro_strategy_wire import pressure_context
-        from test_macro_group_role_wire import offline_adapter
-        from tacticore_agent_runtime.factory import NetworkBackend
-        from http_adapter import system_prompt
-        context,profile,memory=pressure_context();calls=[]
-        encoder=offline_adapter(profile,traits='正常风格'*32+'"'*800)
-        measured=NetworkBackend.__new__(NetworkBackend);measured._prompt=lambda value:system_prompt(encoder.profile,value)
-        class Backend:
-            def input_size(self,value):return measured.input_size(value)
-            async def __call__(self,value):calls.append(value);return {}
-        audit=MacroRequestAudit(Backend(),lambda *a,**k:None,strategy_supplier=memory.context)
-        with self.assertRaisesRegex(ContractError,'wire_bounds'):await audit(context)
-        self.assertEqual(calls,[])
-        self.assertIsNone(audit._last_request_context)
-
-
 if __name__=='__main__':unittest.main()

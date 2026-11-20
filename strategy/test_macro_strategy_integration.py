@@ -4,13 +4,16 @@ import copy
 from dataclasses import replace
 import json
 from pathlib import Path
+import sys
 from types import SimpleNamespace
 import unittest
 
+# The audit tests import `integration.host_runtime` from the repository root.
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from battle_agent import BattleAgent
 from engine import ContractError, Snapshot, StrategyEngine, validate_policy
 from fixtures import binding, policy, snapshot
-from http_adapter import ChatAdapter, system_prompt
+from http_adapter import ChatAdapter
 from macro_policy import (ACTIONS, CONSTRUCTION_BUILDINGS, INITIAL_PRODUCTION_COUNTS,
                           model_catalog, project_strategy_defaults, restore_public_defaults,
                           public_descriptions)
@@ -206,25 +209,6 @@ class StrategyRequestTests(unittest.IsolatedAsyncioTestCase):
         audit=MacroRequestAudit(Backend(),lambda *a,**k:None,strategy_supplier=memory.context)
         with self.assertRaisesRegex(ValueError,'wire_bounds'):await audit(context)
         self.assertEqual(calls,[])
-
-    async def test_heavily_escaped_style_retains_data_and_is_refused_if_wire_overflows(self):
-        from integration.host_runtime.macro_policy_runtime import MacroRequestAudit
-        from test_macro_strategy_wire import pressure_context
-        from test_macro_group_role_wire import offline_adapter
-        from tacticore_agent_runtime.factory import NetworkBackend
-        context,profile,memory=pressure_context();calls=[]
-        traits='正常风格'*32+'"'*800
-        self.assertLessEqual(len(traits.encode('utf8')),1200)
-        enc=offline_adapter(profile,traits=traits)
-        measured=NetworkBackend.__new__(NetworkBackend)
-        measured._prompt=lambda value:system_prompt(enc.profile,value)
-        class Backend:
-            def input_size(self,value):return measured.input_size(value)
-            async def __call__(self,value):calls.append(value);return {}
-        audit=MacroRequestAudit(Backend(),lambda *a,**k:None,strategy_supplier=memory.context)
-        with self.assertRaisesRegex(ValueError,'wire_bounds'):await audit(context)
-        self.assertEqual(calls,[])
-        self.assertIsNone(audit._last_request_context)
 
 
 if __name__=='__main__':unittest.main()

@@ -28,7 +28,7 @@
 
 ## 游戏与原始证据
 
-- [阶段状态](../acceptance/stage-report.md)、[视野与战术验收](../acceptance/vision-tactics-status.md)：按日期与构建阅读实际能力范围。
+- 阶段状态与视野／战术验收记录在本机 `acceptance/` 目录，不随源码分发。
 - [战术模块](../tactical/README.md)、[视野](../visibility/README.md)、[生产](../production/README.md)、[持续生产](../production/persistent/README.md)。
 - [基准与对照](../benchmark/README.md)：场景与实验说明。
 

@@ -112,26 +112,6 @@ class Scene17(unittest.TestCase):
   m=Memory();self.assertEqual(len(R.exact_read(m,0x10000,ctypes.sizeof(L.Header))),ctypes.sizeof(L.Header));self.assertTrue(all(n<=0x2000 for n in m.sizes))
   with patch.object(m,'read',return_value=b''):
    with self.assertRaises(ValueError):R.exact_read(m,0x10000,4)
- def test_real_historical_auditor_keeps_exact_terminal_reset_without_changing_raw(self):
-  # Reuse historical actual payload bytes as a SOFTWARE fixture only. Namespace
-  # and arm-reader metadata below are explicitly adapted; this is not Source17.
-  folder=ROOT/'tactical/mission-formation-v17';q=module('test_scene17_original_history',folder/'reserve_controller_audit.py')
-  path=ROOT/'acceptance/runs/20261026-082848-commander/paid-pair16-v2-01-controller.json';before=path.read_bytes();r=json.loads(before.decode('utf-8-sig'))
-  r['native'].update(magic=0x4d463137,version=17,phase=4,error=31,active=0,restore_mask=131071,count=len(r['events']));r['host_exit']=9
-  r['events'][-1].update(kind=4,frame=0,native_error=31,seq=len(r['events']))
-  r['producer_readonly_at_arm'].update(protocol='mf17_running_producer_readonly_at_arm_v1',reader_sha256=R.sha(folder/'producer_binding.py'))
-  frozen=json.dumps(r,sort_keys=True);facts=q.historical_borrow_facts(r)
-  self.assertTrue(facts['clock']['verified']);self.assertEqual([a['object_id'] for a in facts['claims']],[801,804]);self.assertFalse(facts['ready']['verified'])
-  for flag in ('scene_closed_verified','control_release_verified','return_verified','physical_retreat_verified','completed'):self.assertIs(facts[flag],False)
-  self.assertFalse(q.live_facts(r)['verified']);self.assertEqual(json.dumps(r,sort_keys=True),frozen);self.assertEqual(path.read_bytes(),before)
-  for change in ('middle_reset','other_terminal','twice_terminal','host','count'):
-   bad=copy.deepcopy(r)
-   if change=='middle_reset':bad['events'][100]['frame']=0
-   if change=='other_terminal':bad['events'][-1]['native_error']=32
-   if change=='twice_terminal':bad['events'][-2]['kind']=4
-   if change=='host':bad['host_exit']=0
-   if change=='count':bad['native']['count']-=1
-   with self.subTest(change=change):self.assertFalse(q.historical_borrow_facts(bad)['verified'])
  def test_transition_wait_and_failed_attempt_sibling_preserve_original(self):
   record,report,profile=self.fixture();start=record['process_start_filetime'];reader_sha=R.sha
   class Memory:

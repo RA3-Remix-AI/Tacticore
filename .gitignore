@@ -47,10 +47,6 @@ secrets*.json
 /integration/model-connection-test*/
 /strategy/runtime*/
 /benchmark/runtime*/
-/acceptance/active-session.json
-/acceptance/model-probe*/
-/acceptance/runs/**/battle-host/
-/acceptance/runs/**/settlement-watch/
 **/snapshots/
 **/observations/
 
@@ -70,3 +66,14 @@ target/
 # Removed WinForms client: keep local historical build leftovers out of the new UI.
 /desktop/
 /agent_runtime/build/
+
+# Run evidence stays on local disk or in Release attachments, not in git.
+# Only the two published Beta release notes under reports/ remain tracked.
+/acceptance/
+/reports/*
+!/reports/windows-v0.1.0-beta.1/
+/reports/windows-v0.1.0-beta.1/*
+!/reports/windows-v0.1.0-beta.1/README.md
+!/reports/windows-v0.1.0-beta.3/
+/reports/windows-v0.1.0-beta.3/*
+!/reports/windows-v0.1.0-beta.3/README.md

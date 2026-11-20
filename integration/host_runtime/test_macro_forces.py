@@ -141,21 +141,6 @@ class ForceObservationTests(unittest.TestCase):
         value['regions'][0]['mobile']=8000
         with self.assertRaisesRegex(ContractError,'consistency'):compact_forces(value,100.)
 
-    def test_actual_frozen_roster_reports_five_flak_units_without_unit_ids(self):
-        safety=json.loads((ROOT/'reports/macro-visibility-4a65c9b6-derived-20261028-v1/template-safety.json').read_text())
-        path=ROOT/'reports/macro-desktop-f12886bd-6242-497a-9fdd-87a4862102e7/policy-probe.jsonl'
-        with path.open(encoding='utf-8') as stream:
-            for line in stream:
-                row=json.loads(line);census=row.get('observation',{}).get('construction_feedback')
-                if row['kind']=='macro_observation' and census and census['frame']==3543:break
-            else:self.fail('frozen own roster missing')
-        value=compact_forces(observe_forces(census,safety),3543/15)
-        self.assertEqual(value['named_unit_counts']['flak_trooper'],5)
-        self.assertEqual(value['named_unit_counts']['conscript'],0)
-        self.assertEqual(value['named_unit_counts']['hammer_tank'],0)
-        self.assertFalse(value['recruitability_verified'])
-        self.assertLess(len(json.dumps(value)),2048)
-
     def test_provider_receives_current_presence_and_defers_stale_observation(self):
         from .macro_policy_runtime import MacroRequestAudit
         facts=observe_forces(*self.fixture())

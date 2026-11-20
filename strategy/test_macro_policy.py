@@ -1,8 +1,3 @@
-import copy
-import ast
-import hashlib
-import json
-from pathlib import Path
 from dataclasses import replace
 from types import SimpleNamespace
 import unittest
@@ -67,31 +62,6 @@ class MacroContractTests(unittest.TestCase):
         for request,actions in [(Snapshot.from_dict(snapshot()),[]),(macro_snapshot(['deployattack']),['deployattack'])]:
             raw=policy(request.model_context(binding()),stance='pressure',objective_region=None,macro_actions=actions)
             with self.assertRaisesRegex(ContractError,'objective_required'):validate_policy(raw,request,request,binding(),20)
-
-    def test_actual_scout_feedback_fits_wire_budget_without_duplicating_user_catalog(self):
-        import http_adapter
-        root=Path(__file__).resolve().parents[1];host=root/'acceptance/runs/20261028-073337-macro-probe/battle-host'
-        events=[json.loads(l) for l in (host/'host-events.jsonl').read_text(encoding='utf8').splitlines()]
-        context=copy.deepcopy([r['context'] for r in events if r['kind']=='model_macro_request_context'][-1])
-        context['macro_scouting_feedback']=json.loads((host/'host-status.json').read_text())['macro_scouting_feedback']
-        profile=json.loads((host/'profile.json').read_text())['effective']
-        public=SimpleNamespace(traits=profile['traits'],personality=profile['personality'])
-        source=next(r for r in json.loads((host/'sources.json').read_text())['sources'] if Path(r['path']).name=='http_adapter.py')
-        frozen=host/'source'/source['copy'];raw=frozen.read_bytes()
-        self.assertEqual(hashlib.sha256(raw).hexdigest(),source['sha256'])
-        function=next(n for n in ast.parse(raw).body if isinstance(n,ast.FunctionDef) and n.name=='macro_system_prompt')
-        namespace={name:getattr(http_adapter,name) for name in ('Profile','STANCES','ECONOMY','TECH','REASONS')};namespace['json']=json
-        exec(compile(ast.Module(body=[function],type_ignores=[]),str(frozen),'exec'),namespace)
-        def wire(prompt):
-            return len(json.dumps({'messages':[dict(role='system',content=prompt),dict(role='user',content=json.dumps(
-                context,ensure_ascii=False,allow_nan=False,separators=(',',':')))]},ensure_ascii=False).encode())+1024
-        self.assertGreater(wire(namespace['macro_system_prompt'](public,context)),16384)
-        self.assertLess(wire(http_adapter.macro_system_prompt(public,context)),16384)
-        public.traits='风格偏好'*100
-        self.assertEqual(len(public.traits.encode()),1200)
-        self.assertLess(wire(http_adapter.macro_system_prompt(public,context)),16384)
-        self.assertTrue(context['macro_scouting_feedback']['native_execution_observed'])
-        self.assertNotIn('\nMacro catalog:',http_adapter.macro_system_prompt(public,context))
 
     def test_macro_snapshot_roundtrip_and_public_catalog(self):
         request=macro_snapshot();self.assertEqual(Snapshot.from_dict(request.to_dict()),request)
