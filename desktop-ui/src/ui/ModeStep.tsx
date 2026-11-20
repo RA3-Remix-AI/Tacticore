@@ -1,12 +1,16 @@
 import {Binoculars, Handshake, Sword} from '@phosphor-icons/react';
-import {lobbyInstructions, playModes, type PlayMode} from '../runtime/playMode';
+import {lobbyInstructions, modeNote, playModes, type PlayMode} from '../runtime/playMode';
 
 const icons = {ai_vs_native: Binoculars, human_with_ai: Handshake, human_vs_ai: Sword} as const;
 
 export function LobbyInstructions({mode}: {mode: PlayMode}) {
-  return <ol className="tc-lobby-steps">
-    {lobbyInstructions(mode).map(line => <li key={line}>{line}</li>)}
-  </ol>;
+  const note = modeNote(mode);
+  return <>
+    <ol className="tc-lobby-steps">
+      {lobbyInstructions(mode).map(line => <li key={line}>{line}</li>)}
+    </ol>
+    {note && <p className="native-muted">{note}</p>}
+  </>;
 }
 
 /** Step 3: choose how to play, with lobby setup generated from the choice. */

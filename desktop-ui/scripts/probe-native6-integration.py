@@ -32,8 +32,21 @@ os.environ['TACTICORE_RUNTIME_MANIFEST_SHA256']=pin
 _,_,inventory,build,cap=q.current()
 assert cap['formal_games']==0 and not cap['product_acceptance_verified']
 trial=pathlib.Path(sys.argv[1])/'trial.json';q.create(trial)
-session=dict(mod_sha256=q.PACKAGE_SHA,registry=str(root/'qualification/registry.json'),scenario=dict(
-    commander_id=q.COMMANDER,map_id=q.MAP_ID,computer_player_index=3,opponent_player_index=4,participant_count=2,observer_player_index=2))
+# Scenarios are derived at runtime for any map (host_runtime.scenario); there is
+# no per-map table. Two synthetic layouts on an arbitrary map id cover both
+# compiled-home cases: the model starting at Player_2_Start (regroup/withdraw
+# offered) and starting elsewhere (regroup/withdraw withheld).
+from host_runtime.scenario import derive_scenario
+PROBE_STARTS=[dict(name='Player_1_Start',xyz=[700.,700.,0.]),dict(name='Player_2_Start',xyz=[3800.,700.,0.])]
+def probe_scenario(own_point):
+    return derive_scenario(map_id='probe_any_map',model_player_id=3,
+        participants=[dict(player_id=3,kind='model_ai',relation='self'),dict(player_id=4,kind='native_ai',relation='enemy')],
+        alliances=(),own_point=own_point,starts=PROBE_STARTS,observer_player_ids=(2,))
+HOME_START=probe_scenario((3700.,800.));OTHER_START=probe_scenario((800.,800.))
+assert HOME_START.own_start_waypoint=='Player_2_Start' and HOME_START.withheld_actions==()
+assert OTHER_START.own_start_waypoint=='Player_1_Start' and OTHER_START.withheld_actions==('regroup','withdraw')
+session=dict(mod_sha256=q.PACKAGE_SHA,registry=str(root/'qualification/registry.json'),
+    scenario=HOME_START.to_session_dict(q.COMMANDER))
 from host_runtime.macro_bundle import load_bundle
 bundle,scope=load_bundle(trial,session)
 assert type(scope) is q.Native6Scope and len(scope.available_actions)==14 and not scope.production_counts
@@ -64,13 +77,12 @@ async def normal_model_entries():
     import uuid
     from engine import Binding, StrategyEngine
     from macro_strategy import MacroStrategyMemory, StrategyError
-    from host_runtime.native6_scenarios import TEMPLE_PRIME, INFINITY_ISLE
     from host_runtime.strategic_unified_feedback_v5 import UnifiedRequestAuditV5
     from host_runtime.macro_prepared_request_v1 import prepare_macro_request_v1, decide_prepared_macro_request_v1
     total=0
-    for scenario in (TEMPLE_PRIME, INFINITY_ISLE):
+    for scenario in (HOME_START, OTHER_START):
         scenario_session=json.loads(json.dumps(session))
-        scenario_session['scenario'].update(map_id=scenario.map_id,origin_region=scenario.own_region,faction='Soviet')
+        scenario_session['scenario']=json.loads(json.dumps(scenario.to_session_dict(q.COMMANDER)))
         _,selected_scope=load_bundle(trial,scenario_session)
         for provider in ('OpenAI','DeepSeek'):
             calls=[]
@@ -120,9 +132,14 @@ async def normal_model_entries():
             from macro_policy import restore_public_defaults
             public=restore_public_defaults(backend.sent)
             assert set(public['macro_policy_catalog'])==set(selected_scope.available_actions)
+            expected_regions=dict(scenario.regional_action_regions)
             for action in ('deploydefense','regroup','withdraw','reinforce'):
-                assert public['macro_policy_catalog'][action]['target_region']==scenario.own_region
-            assert public['macro_policy_catalog']['deployattack']['target_region']==scenario.opposing_start_region
+                if action in scenario.withheld_actions:
+                    assert action not in selected_scope.regional_action_regions
+                elif action in public['macro_policy_catalog']:
+                    assert public['macro_policy_catalog'][action]['target_region']==scenario.own_region
+            if 'deployattack' in expected_regions:
+                assert public['macro_policy_catalog']['deployattack']['target_region']==expected_regions['deployattack']
             assert audit.request_context_for(decision.plan)==backend.sent
             assert len(calls)==1 and network.metrics['attempts']==1 and agent.engine.metrics['requests']==1
             request=audit.request_context_for(decision.plan)
@@ -192,7 +209,7 @@ for module in tuple(sys.modules.values()):
 print(json.dumps(dict(qualification=True,scope_actions=14,host_config=True,constructor_denied_before_native_io=True,
     sdk_layout=True,imports_confined=True,mock_provider_requests=count,normal_model_entry_requests=normal_count*2,
     rejected_declaration_feedback_roundtrips=normal_count,
-    normal_entry_maps=['TemplePrime','InfinityIsle'],budget_limit=16384,capacity_order_invariant=True)))
+    normal_entry_starts=['Player_2_Start','Player_1_Start'],budget_limit=16384,capacity_order_invariant=True)))
 '''
 
 

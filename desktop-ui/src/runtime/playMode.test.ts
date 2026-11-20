@@ -1,6 +1,6 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {lobbyInstructions, loadSetupPreferences, modeMismatch, playModes, saveSetupPreferences, setupPreferencesKey} from './playMode';
+import {lobbyInstructions, loadSetupPreferences, modeMismatch, modeNote, playModes, saveSetupPreferences, setupPreferencesKey} from './playMode';
 import {canFinishWizard, firstIncompleteStep, nextStep, previousStep, showWizard, wizardSteps, type WizardInput} from './wizard';
 
 const pinned = /TemplePrime|Infinity\s*Isle|InfinityIsle|P3|P4|出生位置|10000|宝箱/i;
@@ -17,6 +17,13 @@ test('lobby instructions exist for each mode and never pin a map, seat or start 
   assert.ok(lobbyInstructions('human_with_ai').some(line => line.includes('相同的队伍')));
   assert.ok(lobbyInstructions('human_vs_ai').some(line => line.includes('不同的队伍')));
   assert.ok(!lobbyInstructions('human_with_ai').some(line => line.includes('观察者')), 'playing modes never ask for observer');
+  for (const mode of playModes) {
+    // Real runtime limits: model seat is lobby slot 2 and Soviet; start 2 is a recommendation.
+    assert.ok(lobbyInstructions(mode.id).some(line => line.includes('第 2 个位置') && line.includes('苏联')), mode.id);
+    assert.ok(lobbyInstructions(mode.id).some(line => line.startsWith('建议') && line.includes('2 号出生点')), mode.id);
+  }
+  assert.equal(modeNote('ai_vs_native'), null);
+  assert.match(modeNote('human_vs_ai')!, /部分指令/);
 });
 
 test('mode mismatch is a gentle notice only when the lobby differs', () => {

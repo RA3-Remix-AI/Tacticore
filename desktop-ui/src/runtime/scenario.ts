@@ -20,6 +20,10 @@ export interface MatchScenario {
   mode: ScenarioMode;
   model_player_id: number | null;
   players: ScenarioPlayer[];
+  /** Difficulty comes from the lobby and is not read from memory today; shown only when verified. */
+  difficulty_verified: boolean;
+  own_start_waypoint: string | null;
+  observer_player_ids: number[];
 }
 
 const object = (v: unknown): v is Record<string, unknown> => typeof v === 'object' && v !== null && !Array.isArray(v);
@@ -51,6 +55,10 @@ export function parseScenario(value: unknown): MatchScenario | null {
     mode: modes.includes(String(value.mode)) ? value.mode as ScenarioMode : 'other',
     model_player_id: int(value.model_player_id),
     players,
+    difficulty_verified: value.difficulty_verified === true,
+    own_start_waypoint: text(value.own_start_waypoint, 40),
+    observer_player_ids: Array.isArray(value.observer_player_ids)
+      ? value.observer_player_ids.flatMap(row => (int(row) === null ? [] : [row as number])).slice(0, 8) : [],
   };
 }
 
@@ -92,13 +100,15 @@ export interface ScenarioView {
   mode: ScenarioMode | null;
   teams: TeamGroup[];
   summary: string;
+  /** Plain notes about limits of this layout (observers, start position). */
+  notes: string[];
 }
 
-function playerRow(player: ScenarioPlayer, modelId: number | null): PlayerRow {
+function playerRow(player: ScenarioPlayer, modelId: number | null, difficultyVerified: boolean): PlayerRow {
   const isModel = player.kind === 'model_ai' || player.player_id === modelId;
   const detail = [
     factionLabel(player.faction),
-    player.kind === 'native_ai' && player.difficulty ? difficultyLabels[player.difficulty] : null,
+    player.kind === 'native_ai' && difficultyVerified && player.difficulty ? difficultyLabels[player.difficulty] : null,
   ].filter(Boolean).join(' · ');
   return {
     key: `p${player.player_id}`,
@@ -123,6 +133,7 @@ export function scenarioView(
       modeLabel: '对局详情暂不可用',
       mode: null,
       teams: [],
+      notes: [],
       summary: fallback.player_id !== undefined && fallback.player_id !== null
         ? `弈核 AI 控制玩家 ${fallback.player_id}${faction ? `（${faction}）` : ''}`
         : '当前版本没有提供完整的席位信息',
@@ -132,7 +143,7 @@ export function scenarioView(
   for (const player of [...scenario.players].sort((a, b) => (a.team ?? 99) - (b.team ?? 99) || a.player_id - b.player_id)) {
     const key = player.team === null ? `solo-${player.player_id}` : `team-${player.team}`;
     const group = groups.get(key) ?? {key, label: player.team === null ? '无队伍' : `队伍 ${player.team}`, players: []};
-    group.players.push(playerRow(player, scenario.model_player_id));
+    group.players.push(playerRow(player, scenario.model_player_id, scenario.difficulty_verified));
     groups.set(key, group);
   }
   const count = (kind: PlayerKind) => scenario.players.filter(row => row.kind === kind).length;
@@ -147,6 +158,11 @@ export function scenarioView(
     modeLabel: modeLabels[scenario.mode],
     mode: scenario.mode,
     teams: [...groups.values()],
+    notes: [
+      ...(scenario.observer_player_ids.length ? [`观察者：${scenario.observer_player_ids.map(id => `玩家 ${id}`).join('、')}`] : []),
+      ...(scenario.own_start_waypoint && scenario.own_start_waypoint !== 'Player_2_Start'
+        ? ['弈核电脑不在 2 号出生点：这局「集结部队」「撤退回防」不可用。'] : []),
+    ],
     summary: parts.length ? parts.join('，') : '席位信息为空',
   };
 }

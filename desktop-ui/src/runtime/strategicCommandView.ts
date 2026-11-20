@@ -1,14 +1,24 @@
 /** Read-only display of the explicit strategic boundary. Never issues commands. */
+import {actionLabel} from './decisions';
 export const strategicActionLabels = {
   budgeteconomy: '经济投入优先（预算偏好）', budgetarmy: '军备投入优先（预算偏好）', budgettech: '科技投入优先（预算偏好）',
   scout: '额外侦察意图', deployattack: '进攻调度意图', attackenemy: '进攻意图（原生选择敌方目标）', deploydefense: '防守调度意图',
   regroup: '集结意图', withdraw: '撤退意图', reinforce: '增援意图',
   expand: '原生扩张意图', pauseconstruction: '暂缓原生建造调度', advanceconstruction: '推进原生建造调度',
   pauseproduction: '暂缓原生生产调度', advanceproduction: '推进原生生产调度',
-  focusenemy4: '优先对付敌方 P4', focusenemy5: '优先对付敌方 P5',
   raideconomy: '扰乱敌方采矿',
 } as const;
-export type StrategicAction = keyof typeof strategicActionLabels;
+/** `focusenemy<id>` names any enemy player id, derived from the actual match. */
+export type FocusAction = `focusenemy${number}`;
+export type StrategicAction = keyof typeof strategicActionLabels | FocusAction;
+const focusPattern = /^focusenemy([0-9]|1[0-5])$/;
+export const isFocusAction = (a: string): a is FocusAction => focusPattern.test(a);
+export const isStrategicAction = (a: unknown): a is StrategicAction =>
+  typeof a === 'string' && (Object.hasOwn(strategicActionLabels, a) || isFocusAction(a));
+/** Same focus wording as the decision feed (decisions.ts actionLabel). */
+export function strategicActionLabel(a: StrategicAction): string {
+  return isFocusAction(a) ? actionLabel(a) : strategicActionLabels[a as keyof typeof strategicActionLabels];
+}
 export interface StrategicClientRecord {
   schema_version: 1; kind: 'commander_strategic_client_record_v1';
   boundary: 'strategic_only' | 'historical_precision' | 'unverified';
@@ -29,9 +39,8 @@ const keys = ['schema_version', 'kind', 'boundary', 'available_actions', 'curren
   'native_acceptance_proves_success', 'extra_preferences_clear_is_global_stop'].sort().join(',');
 const missingFor = (offered: readonly string[]) => missing.filter((_,i)=>!offered.includes(['pauseconstruction','pauseproduction','expand'][i]));
 const gates = ['pauseconstruction','advanceconstruction','pauseproduction','advanceproduction'];
-const focusActions = ['focusenemy4','focusenemy5'];
 const actions = (v: unknown): v is StrategicAction[] => Array.isArray(v) && v.length <= 16
-  && v.every(a => typeof a === 'string' && Object.hasOwn(strategicActionLabels, a)) && new Set(v).size === v.length;
+  && v.every(isStrategicAction) && new Set(v).size === v.length;
 function record(v: unknown): v is StrategicClientRecord {
   if (!object(v) || Object.keys(v).sort().join(',') !== keys || v.schema_version !== 1
     || v.kind !== 'commander_strategic_client_record_v1' || !member(v.boundary, ['strategic_only', 'historical_precision', 'unverified'])
@@ -46,12 +55,12 @@ function record(v: unknown): v is StrategicClientRecord {
     && v.current_intent_state === 'awaiting' && v.budget_adoption === 'unavailable' && v.budget_policy === null;
   if ((v.current_intent_state === 'reported') !== (v.current_actions !== null)) return false;
   const offered = v.available_actions;
-  const maximumDomains = offered.some(a => focusActions.includes(a)) ? 5 : 4;
+  const maximumDomains = offered.some(isFocusAction) ? 5 : 4;
   if (v.current_actions !== null && (v.current_actions.length > maximumDomains
     || v.current_actions.some(a => !offered.includes(a))
     || v.current_actions.filter(a => budgets.includes(a as typeof budgets[number])).length > 1
-    || v.current_actions.filter(a => !budgets.includes(a as typeof budgets[number])&&!gates.includes(a)&&!focusActions.includes(a)).length > 1
-    || v.current_actions.filter(a => focusActions.includes(a)).length > 1
+    || v.current_actions.filter(a => !budgets.includes(a as typeof budgets[number])&&!gates.includes(a)&&!isFocusAction(a)).length > 1
+    || v.current_actions.filter(isFocusAction).length > 1
     || v.current_actions.filter(a => ['pauseconstruction','advanceconstruction'].includes(a)).length > 1
     || v.current_actions.filter(a => ['pauseproduction','advanceproduction'].includes(a)).length > 1)) return false;
   if (['adopted', 'pending'].includes(v.budget_adoption) && v.budget_policy === null) return false;
@@ -74,14 +83,14 @@ export function strategicCommandView(value: unknown): StrategicCommandView {
     boundary: value.boundary === 'historical_precision' ? '历史研究记录，未按当前战略边界验收' : empty.boundary};
   const current = value.current_intent_state === 'invalid' ? '本条记录不符合高层边界，未展示为有效指挥。'
     : value.current_actions === null ? '等待模型提出高层意图。'
-      : value.current_actions.length ? value.current_actions.map(a => strategicActionLabels[a]).join('、')
+      : value.current_actions.length ? value.current_actions.map(strategicActionLabel).join('、')
         : '未追加高层偏好；原生 AI 继续自主运作。';
   const budgetState = {adopted: '已观测原生采用预算偏好；战略效果仍待核验。', pending: '已记录预算偏好，等待原生采用证据。',
     clearing: '正在核对额外预算偏好的撤销；这不会停止全部原生工作。', not_observed: '本次预算采样未见额外预算偏好；其他原生任务仍需单独观察。',
     unavailable: '等待有效的原生预算观测。'};
   return {available: true, uncertain: value.current_intent_state === 'invalid', historical: false,
     boundary: '指挥官判断高层意图，原生 AI 决定执行细节',
-    capabilities: value.available_actions.map(a => strategicActionLabels[a]).join('、') || '当前没有已接通的额外高层入口',
+    capabilities: value.available_actions.map(strategicActionLabel).join('、') || '当前没有已接通的额外高层入口',
     current, budget: budgetState[value.budget_adoption], unconnected: value.unconnected_intents.map(name=>unconnected[missing.indexOf(name)]), nativeDetails, evidence};
 }
 

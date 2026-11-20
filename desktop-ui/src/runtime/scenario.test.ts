@@ -24,9 +24,21 @@ test('scenario parses and groups players by team with the model seat highlighted
   assert.deepEqual(team1.players.map(row => [row.seat, row.role, row.isModel]), [['玩家 1', '玩家', false], ['玩家 3', '弈核 AI', true]]);
   assert.equal(team1.players[0].detail, '升阳帝国');
   assert.equal(team1.players[1].detail, '苏联', 'difficulty is only shown for native computers');
-  assert.equal(team2.players[0].detail, '盟军 · 凶残');
-  assert.equal(solo.players[0].detail, '简单');
+  assert.equal(team2.players[0].detail, '盟军', 'an unverified lobby difficulty is never shown as fact');
+  assert.equal(solo.players[0].detail, '');
   assert.equal(view.summary, '1 名玩家，1 个弈核 AI，2 个电脑');
+  assert.deepEqual(view.notes, []);
+  const verified = scenarioView(parseScenario({...withAi, difficulty_verified: true}));
+  assert.equal(verified.teams[1].players[0].detail, '盟军 · 凶残');
+  assert.equal(verified.teams[2].players[0].detail, '简单');
+});
+
+test('backend extras: observers and a start away from position 2 become plain notes', () => {
+  const view = scenarioView(parseScenario({...withAi, teams: {'1': [1, 3]}, own_region: 'region_1_1', enemy_regions: [],
+    enemy_regions_exact: false, own_start_waypoint: 'Player_3_Start', observer_player_ids: [2, 'x'], difficulty_verified: false}));
+  assert.deepEqual(view.notes, ['观察者：玩家 2', '弈核电脑不在 2 号出生点：这局「集结部队」「撤退回防」不可用。']);
+  const home = scenarioView(parseScenario({...withAi, own_start_waypoint: 'Player_2_Start'}));
+  assert.deepEqual(home.notes, []);
 });
 
 test('malformed scenario fields degrade instead of failing', () => {

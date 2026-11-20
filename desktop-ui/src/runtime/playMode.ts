@@ -31,37 +31,52 @@ export const playModes: {id: PlayMode; title: string; tagline: string; descripti
 /** The seat the model controls: a computer player using the compatible mod's commander AI. */
 export const MODEL_SEAT_HINT = '兼容 Mod 提供的弈核指挥电脑';
 
+/**
+ * Current runtime limits (backend: host_runtime/scenario.py): the model seat is
+ * lobby slot 2 (player index 3) and Soviet; regroup/withdraw need it to start at
+ * the map's start position 2. AI-only matches support one native opponent, or
+ * two allied ones in slots 3 and 4.
+ */
+const modelSeat = (team: string) => `在大厅第 2 个位置添加${MODEL_SEAT_HINT}，阵营选「苏联」${team}。`;
+const startHint = '建议让弈核电脑使用地图的 2 号出生点；在其他出生点，「集结部队」「撤退回防」两个指令不可用。';
+
 export function lobbyInstructions(mode: PlayMode): string[] {
-  const common = [
-    '在游戏中进入「遭遇战」，选择任意一张 1.12 地图。',
-  ];
+  const first = '在游戏中进入「遭遇战」，选择任意一张 1.12 地图。';
   const finish = '开始游戏，然后回到本窗口点击「查找对局」。';
   switch (mode) {
     case 'ai_vs_native':
       return [
-        ...common,
+        first,
         '把你自己的位置设为「观察者」。',
-        `添加一个电脑席位，选择${MODEL_SEAT_HINT}；阵营随意。`,
-        '再添加至少一个普通电脑作为对手，难度随意，并放在和弈核 AI 不同的队伍。',
+        modelSeat(''),
+        '在第 3 个位置添加一个普通电脑作为对手，放在另一支队伍；想打 1 对 2，再在第 4 个位置添加一个电脑，和第 3 位同队。',
+        startHint,
         finish,
       ];
     case 'human_with_ai':
       return [
-        ...common,
+        first,
         '你自己占一个玩家位置，选择喜欢的阵营。',
-        `添加一个电脑席位，选择${MODEL_SEAT_HINT}，并设为和你相同的队伍。`,
+        modelSeat('，并设为和你相同的队伍'),
         '添加对手（普通电脑或其他玩家），放在另一支队伍。',
+        startHint,
         finish,
       ];
     case 'human_vs_ai':
       return [
-        ...common,
+        first,
         '你自己占一个玩家位置，选择喜欢的阵营。',
-        `添加一个电脑席位，选择${MODEL_SEAT_HINT}，并设为和你不同的队伍。`,
+        modelSeat('，并设为和你不同的队伍'),
         '需要的话，可以再添加普通电脑作为任意一方的队友。',
+        startHint,
         finish,
       ];
   }
+}
+
+/** Shown under the instructions for modes where a person fights. */
+export function modeNote(mode: PlayMode): string | null {
+  return mode === 'ai_vs_native' ? null : '有玩家参战时使用较早的运行方式，部分指令（例如集中对付某个敌人）可能不可用。';
 }
 
 /** A gentle notice when the discovered lobby does not match what the player picked. */

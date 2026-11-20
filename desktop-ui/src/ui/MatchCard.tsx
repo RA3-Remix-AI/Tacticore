@@ -33,6 +33,7 @@ export function ScenarioDetails({view}: {view: ScenarioView}) {
         </div>)}
       </div>
       : <p className="native-muted">{view.summary}</p>}
+    {view.notes.map(note => <p className="native-muted" key={note}>{note}</p>)}
   </div>;
 }
 

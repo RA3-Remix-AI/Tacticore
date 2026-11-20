@@ -28,10 +28,22 @@ test('enemy focus is a separate high-level preference beside native attack', () 
   value.current_actions = ['attackenemy', 'budgetarmy', 'focusenemy5'];
   const view = strategicCommandView(value);
   assert.equal(view.available, true);
-  assert.match(view.current, /优先对付敌方 P5/);
+  assert.match(view.current, /集中对付玩家 5/);
   assert.match(view.evidence, /不等于战略成功/);
   value.current_actions = ['focusenemy4', 'focusenemy5'];
   assert.equal(strategicCommandView(value).available, false);
+});
+test('enemy focus accepts any derived player id and rejects malformed ids', () => {
+  const value = sample();
+  value.available_actions.push('attackenemy', 'focusenemy2', 'focusenemy7', 'focusenemy15');
+  value.current_actions = ['focusenemy7'];
+  const view = strategicCommandView(value);
+  assert.equal(view.available, true);
+  assert.equal(view.current, '集中对付玩家 7');
+  assert.match(view.capabilities, /集中对付玩家 2、集中对付玩家 7、集中对付玩家 15/);
+  for (const bad of ['focusenemy16', 'focusenemy', 'focusenemy04', 'focusenemyx', 'focusenemy-1']) {
+    assert.equal(strategicCommandView({...sample(), available_actions: [...sample().available_actions, bad]}).available, false, bad);
+  }
 });
 test('budget priority never masquerades as expansion or a global pause', () => {
   const value = sample(); value.current_actions = ['budgeteconomy'];
