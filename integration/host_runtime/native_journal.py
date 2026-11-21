@@ -219,6 +219,10 @@ def verified(raw, native):
             or not 0 <= native["journal_records"] <= 4096
         ):
             return False
-        return len(decode(raw, native["binding"])) == native["journal_records"]
+        records = decode(raw, native["binding"])
+        focus = native.get("focus")
+        return len(records) == native["journal_records"] and not (
+            focus is not None and focus["phase"] == 0 and any(row["kind"] == 3 for row in records)
+        )
     except (KeyError, TypeError, ValueError, OverflowError, struct.error, UnicodeError):
         return False

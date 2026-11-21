@@ -85,6 +85,8 @@ class NativeJournal(unittest.TestCase):
         self.assertEqual(rows[0]["focus"]["priority"][4], 10)
         native = dict(magic=codec.MAGIC, version=7, size=codec.SHARED_SIZE, journal_records=2, binding=binding())
         self.assertTrue(codec.verified(raw, native))
+        self.assertFalse(codec.verified(raw, native | {"focus": {"phase": 0}}))
+        self.assertTrue(codec.verified(raw, native | {"focus": {"phase": 4}}))
         native["journal_records"] = 1
         self.assertFalse(codec.verified(raw, native))
 

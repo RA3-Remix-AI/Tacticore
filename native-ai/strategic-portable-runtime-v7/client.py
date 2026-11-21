@@ -26,6 +26,25 @@ from build import verify, sha
 from host_runtime.native_paths import NativePaths, plain_local
 
 
+class _FocusReleaseMismatch(ValueError):
+    def __init__(self, observed, expected_priority, ownership, frame):
+        super().__init__("native_enemy_focus_baseline_not_restored")
+        self.details = dict(
+            frame=frame,
+            automatic_scheme=observed["automatic_scheme"],
+            manual=observed["manual"],
+            isolated=observed["isolated"],
+            enumeration_lock=observed["enumeration_lock"],
+            enemy_mask=observed["enemy_mask"],
+            alive_mask=observed["alive_mask"],
+            observed_priority=observed["priority"],
+            expected_priority=expected_priority,
+            phase=ownership["phase"],
+            baseline_captured=ownership["baseline_captured"],
+            call_reservations=ownership["call_reservations"],
+        )
+
+
 class Memory(_Memory):
     def __init__(self, *args, **kwargs):
         self.handle = None
@@ -654,14 +673,35 @@ class Probe:
             self.state.stop = 1
             deadline = time.monotonic() + 8
             while self.state.phase not in (2, 4) and time.monotonic() < deadline:
-                time.sleep(0.05)
-            self.event("stop_observed", native=self.status(), unknown_apply=self.unknown)
+                time.sleep(0.01)
             # Keep mapping and heartbeat alive on unresolved restoration.
-            if self.state.phase not in (2, 4):
+            phase = self.state.phase
+            if phase not in (2, 4):
+                self.event("stop_observed", native=self.status(), unknown_apply=self.unknown)
                 raise ValueError("manager_cleanup_unresolved_lease_retained")
+
+            # A natural result shortly precedes destruction of the player objects.
+            # Sample the returned native state before flushing logs or waiting for
+            # the helper process. Keep both checks as prerequisites to publication.
+            review = None
+            try:
+                if phase == 2:
+                    review = self.independent_release()
+            except (OSError, RuntimeError, ValueError) as error:
+                code = str(error)
+                if not re.fullmatch(r"[a-z][a-z0-9_]{0,99}", code):
+                    code = "independent_release_read_failed"
+                if code != getattr(self, "last_release_read_failure", None):
+                    details = {"focus": error.details} if isinstance(error, _FocusReleaseMismatch) else {}
+                    self.event(
+                        "independent_release_read_failed", reason_code=code, error_type=type(error).__name__, **details
+                    )
+                    self.last_release_read_failure = code
+                raise
+            finally:
+                self.event("stop_observed", native=self.status(), unknown_apply=self.unknown)
             host_returncode = self.host.wait(timeout=5)
-            if self.state.phase == 2:
-                review = self.independent_release()
+            if review is not None:
                 review.update(host_process_ended=True, host_returncode=host_returncode)
                 journal = self.paths.journal(self.session["session_id"])
                 journal_raw = journal.read_bytes()
@@ -841,13 +881,16 @@ class Probe:
                 (row["present"] and row["value"] is not False for row in flags["flags"])
             ):
                 raise ValueError("manager_unexpected_flag_intent")
-            from host_runtime.native_focus_observation import sample as sample_focus, at_baseline
+            from host_runtime.native_focus_observation import (
+                automatic_priority,
+                returned_to_automatic,
+                sample as sample_focus,
+            )
 
             focus = sample_focus(read, b)
             owned = status["focus"]
             if (
-                not at_baseline(focus)
-                or owned["phase"] not in (0, 4)
+                not returned_to_automatic(focus, owned)
                 or owned["baseline_captured"] not in (0, 1)
                 or owned["baseline_captured"]
                 and (
@@ -859,7 +902,7 @@ class Probe:
                     or status["callback_serial"] <= owned["callback"]
                 )
             ):
-                raise ValueError("native_enemy_focus_baseline_not_restored")
+                raise _FocusReleaseMismatch(focus, automatic_priority(focus), owned, frame)
             semaphore = k.OpenSemaphoreW(1, False, "Local\\RA3MacroPolicyLease_" + str(b["pid"]))
             info = Info()
             size = w.ULONG()

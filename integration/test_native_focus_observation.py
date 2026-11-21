@@ -138,6 +138,26 @@ class FocusObservation(unittest.TestCase):
         self.assertTrue(focus.at_baseline(value))
         self.assertFalse(focus.holds(value, 5))
 
+    def test_last_defeated_enemy_may_remain_only_in_an_untouched_automatic_selector(self):
+        value = self.sample(*world(others={4: "enemy"}, selector=[(1, 4)], defeated=(4,)))
+        untouched = dict(phase=0, baseline_captured=0, call_reservations=0, selector=0, deadline_frame=0, deadline_ms=0)
+        self.assertFalse(focus.at_baseline(value))
+        self.assertTrue(focus.returned_to_automatic(value, untouched))
+        for changed in (dict(phase=4), dict(baseline_captured=1), dict(call_reservations=1), dict(deadline_frame=1)):
+            with self.subTest(ownership=changed):
+                self.assertFalse(focus.returned_to_automatic(value, untouched | changed))
+        for changed in (
+            dict(manual=1),
+            dict(isolated=1),
+            dict(enumeration_lock=1),
+            dict(alive_mask=(1 << 3) | (1 << 5), enemy_mask=(1 << 4) | (1 << 5)),
+            dict(alive_mask=0),
+            dict(priority=[0, 0, 0, 0, 10] + [0] * 11),
+            dict(priority=[0, 1, 0, 0, 1] + [0] * 11),
+        ):
+            with self.subTest(observed=changed):
+                self.assertFalse(focus.returned_to_automatic(value | changed, untouched))
+
     def test_neutral_or_one_sided_relations_and_foreign_entries_fail(self):
         with self.assertRaisesRegex(ValueError, "mutual_relation"):
             self.sample(*world(others={4: "enemy", 5: "neutral"}))

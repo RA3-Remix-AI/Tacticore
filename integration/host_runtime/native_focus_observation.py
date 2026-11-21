@@ -155,6 +155,43 @@ def at_baseline(sample):
     )
 
 
+def returned_to_automatic(sample, ownership):
+    """Check the selector after stop without confusing stock teardown with an override."""
+    if ownership["phase"] not in (0, 4):
+        return False
+    if at_baseline(sample):
+        return True
+
+    # The last opponent can be marked defeated before the stock selector has
+    # dropped its weight-1 entry. Only an untouched automatic selector can pass
+    # in that window. A selector we acquired still needs its exact baseline.
+    if (
+        ownership["phase"] != 0
+        or ownership["baseline_captured"] != 0
+        or ownership["call_reservations"] != 0
+        or ownership["selector"] != 0
+        or ownership["deadline_frame"] != 0
+        or ownership["deadline_ms"] != 0
+        or sample["automatic_scheme"] != 2
+        or sample["manual"] != 0
+        or sample["isolated"] != 0
+        or sample["enumeration_lock"] != 0
+    ):
+        return False
+    enemies, alive = sample["enemy_mask"], sample["alive_mask"]
+    own = 1 << sample["own_player_id"]
+    weights = sample["priority"]
+    return (
+        0 < enemies < 1 << MAX_PLAYERS
+        and not enemies & (alive | own)
+        and bool(alive & own)
+        and len(weights) == MAX_PLAYERS
+        and all(
+            type(weight) is int and 0 <= weight <= ((enemies >> player) & 1) for player, weight in enumerate(weights)
+        )
+    )
+
+
 def holds(sample, target):
     """The own selector currently prefers ``target`` and nothing else changed."""
     expected = automatic_priority(sample)

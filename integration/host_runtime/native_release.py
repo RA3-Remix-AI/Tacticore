@@ -12,7 +12,7 @@ import json
 from pathlib import Path
 import uuid
 
-from .native_focus_observation import at_baseline
+from .native_focus_observation import returned_to_automatic
 from .native_journal import SHARED_SIZE, VERSION, verified as journal_verified
 
 KIND = "native_release_v2"
@@ -40,7 +40,7 @@ def restored(proof, *, pid, ticks, session_id):
             and native["flag_deadline"] == 0
         )
         gates = all(gate["phase"] in (0, 4) for gate in native["gates"])
-        focus = native["focus"]["phase"] in (0, 4) and at_baseline(proof["enemy_focus"])
+        focus = returned_to_automatic(proof["enemy_focus"], native["focus"])
         return (
             proof.get("native_release_verified") is True
             and proof.get("host_process_ended") is True

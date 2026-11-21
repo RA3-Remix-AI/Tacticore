@@ -118,6 +118,33 @@ class Restored(unittest.TestCase):
             (folder / "native-journal.bin").write_bytes(b"x")
             self.assertFalse(release.verified_final(final, path, session, binding))
 
+    def test_unowned_terminal_focus_must_agree_with_the_durable_journal(self):
+        value = proof()
+        value["enemy_focus"].update(alive_mask=1 << 3, own_player_id=3, automatic_scheme=2)
+        value["native"]["focus"] = dict(
+            phase=0, baseline_captured=0, call_reservations=0, selector=0, deadline_frame=0, deadline_ms=0
+        )
+        self.assertTrue(self.check(value))
+        journal_binding = value["native"]["binding"]
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "independent-release.json"
+            session = dict(process_creation_filetime=TICKS)
+            binding = SimpleNamespace(session_id=SESSION, game_process_id=4321)
+            final = dict(native_release_contract=release.KIND, cleanup_verified=True, session_id=SESSION, pid=4321)
+            with patch.object(journal_fixture, "binding", return_value=journal_binding):
+                unexpected_focus = journal_fixture.record(1, 10, 4)
+            for raw, count, expected in ((b"", 0, True), (unexpected_focus, 1, False)):
+                with self.subTest(expected=expected):
+                    value["native"]["journal_records"] = count
+                    evidence = json.dumps(value).encode()
+                    path.write_bytes(evidence)
+                    path.with_name("native-journal.bin").write_bytes(raw)
+                    final.update(
+                        independent_release_sha256=hashlib.sha256(evidence).hexdigest(),
+                        native_journal_sha256=hashlib.sha256(raw).hexdigest(),
+                    )
+                    self.assertEqual(release.verified_final(final, path, session, binding), expected)
+
 
 class HostFinish(unittest.TestCase):
     def setUp(self):
