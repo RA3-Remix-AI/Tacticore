@@ -87,8 +87,11 @@ struct Channel {
 };
 struct Request {uint64_t id;Gate gate;uint32_t frames,wall_ms;bool desired_enabled;Result result;};
 
+// Retain each gate receipt for the full transport request sequence.
+static constexpr int32_t MAX_TRANSPORT_REQUEST = 2048;
+
 class Candidate {
- Environment& env;const Binding binding;Channel channels[2];Request receipts[128];uint32_t used,last_frame;uint64_t last_ms;
+ Environment& env;const Binding binding;Channel channels[2];Request receipts[MAX_TRANSPORT_REQUEST];uint32_t used,last_frame;uint64_t last_ms;
  bool stop_latched;
  static bool pointer(uint32_t p,uint32_t n=4){return !(p&3)&&p>=0x10000&&p<=0x7ffe0000-n;}
  bool word(uint32_t p,uint32_t& out){return pointer(p)&&env.read(p,&out,4);}
@@ -189,7 +192,7 @@ private:
  Result request_state(Gate gate,uint64_t id,uint32_t frames,uint32_t wall_ms,bool desired){
   if(index(gate)>1||!id||!frames||frames>1800||!wall_ms||wall_ms>120000)return Result::Rejected;
   for(unsigned i=0;i<used;i++)if(receipts[i].id==id){Request& r=receipts[i];return r.gate==gate&&r.frames==frames&&r.wall_ms==wall_ms&&r.desired_enabled==desired?r.result:Result::Rejected;}
-  if(stop_latched||used==128||(used&&id<=receipts[used-1].id))return Result::Rejected;
+  if(stop_latched||used==MAX_TRANSPORT_REQUEST||(used&&id<=receipts[used-1].id))return Result::Rejected;
   for(unsigned i=0;i<used;i++)if(receipts[i].result==Result::Unknown)return Result::Rejected;
   for(unsigned i=0;i<2;i++)if(channels[i].phase==Phase::ApplyUnknown||channels[i].phase==Phase::RestoreUnknown||channels[i].phase==Phase::Blocked)return Result::Rejected;
   Channel& c=channels[index(gate)];if(c.phase!=Phase::Empty&&c.phase!=Phase::BaselineObserved&&c.phase!=Phase::Held)return Result::Rejected;

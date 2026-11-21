@@ -193,7 +193,7 @@ static void tick(){
   uint32_t kind=p->kind,gate=p->gate,frames=p->frames,wall=p->wall_ms;
   // kind 7: gate is the target player id; the focus lease checks enmity and liveness.
   const bool valid_gate=kind==7?gate<16:kind==8?gate==0:gate<=1;
-  if(request!=p->ack+1||request<1||request>2048||p->request!=request||!valid_gate||kind<1||kind>8){p->error=35;stopping=true;p->phase=5;}
+  if(request!=p->ack+1||request<1||request>g::MAX_TRANSPORT_REQUEST||p->request!=request||!valid_gate||kind<1||kind>8){p->error=35;stopping=true;p->phase=5;}
   else {
    g::Result result=g::Result::Rejected;
    bool paused=word(binding.game+0x15c)!=0;

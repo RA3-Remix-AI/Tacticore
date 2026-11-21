@@ -33,7 +33,7 @@ from host_runtime.native_runtime_contract import (
 )
 
 COMPILER_SHA = "4f77a5812d96094f6ec565235ab9c2c6acfc7e77b4dc6cea07bf98f3985a7560"
-REVIEWED_HEADER_SHA = "496258307efa49da49babfec511b84440ba268d432b30266feee7a735b76af09"
+REVIEWED_HEADER_SHA = "068c684a365b92d60d5c07b8cd89828dc8d82f40aa2b42ccc3921a26d1660841"
 SOURCES = ("native.cpp", "host.cpp", "shared.h", "flags.h", "flag_api.h", "portable_paths.h", "enemy_focus_api.h")
 
 
