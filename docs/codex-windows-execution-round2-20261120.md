@@ -27,27 +27,46 @@
 
 ## 任务清单
 
+### 准备：Ra3-Copilot
+
+1. 克隆 Ra3-Copilot 并切到固定提交 `d8abf9ecb0306f8b4a0b87a6cafa07ffd3dbcbd2`（仓库外的目录即可，本轮不复制进仓库）。
+2. 用它的 `ra3-copilot\build.bat` 构建（需要 VS2022 BuildTools x86 和 Windows SDK 10.0.22621），R1 只用 `injector.exe` 和 `ra3copilot.dll` 注入。
+3. **不要用它的启动器 `Ra3Copilot.exe` 的“战役扩展和全科技模式”**：它会改写游戏数据包。F12 面板里的功能一个都不点。
+
+注意：Ra3-Copilot 的地址表来自另一份游戏文件（SHA `518ef272…`），弈核绑定的是 `ec230c6a…`。不过弈核自己的符号表 `native-ai/native-symbols.json` 里，移动函数在我们这份文件上也是 `0x6EFF70`，和它的零售版一致，所以布局大概率相同。R0 就是确认这一点。
+
 ### R0 离线预检（不进游戏）
 
-1. 对你机器上的游戏文件运行：`python <Ra3-Copilot>\ra3-copilot\tools\precheck_aob.py --game "<ra3_1.12.game 路径>"`。
-2. 记下是零售版还是 Steam 版，以及攻击、移动函数和对象枚举用到的地址是否全部匹配。
-3. 核对这个游戏文件的 SHA-256 是否等于 `integration/host_runtime/native_runtime_contract.py` 里的 `GAME_SHA`。
+运行：
 
-**完成标准**：地址全部匹配，且游戏文件就是弈核绑定的那个版本。任何一项不匹配，就报“阻塞”，不要改地址去凑。
+```
+python -X utf8 native-ai\unit_control_precheck.py --game "<游戏目录>\Data\RA3_1.12.game" --copilot "<Ra3-Copilot 目录>"
+```
+
+它检查：游戏文件 SHA 是否等于弈核绑定的 `GAME_SHA`；是否零售版布局；移动函数入口字节；攻击函数入口是否像函数开头；对象枚举用的 Thing 虚表形状。地址统一在 `native-ai/unit_control_addresses.py`。它还会顺带跑 Ra3-Copilot 自己的 `precheck_aob.py`，结果只作参考（那 30 处是它的面板功能，我们不用），但能看出 Ra3-Copilot 能不能在这份文件上正常加载。
+
+**完成标准**：输出 `"verdict": "PASS"`。把整段 JSON 原样贴进报告，尤其是 `attack_object.bytes`，我会把这 24 字节固定进地址表。`BLOCKED` 就停下报告，不要改地址去凑。
 
 ### R1 覆盖实验（最关键，决定后面怎么做）
 
 问题：我们给**原生 AI 名下**的单位下命令，原生 AI 多久会把命令覆盖掉？
 
-1. 开一局普通遭遇战：弈核 AI 席位（大厅第 2 位、苏军），不启动弈核客户端。
-2. 运行 Ra3-Copilot，用它的 HTTP 接口给弈核 AI 名下的单位下移动命令（`/order?unit=...&act=move&...`）。分三种情况各试 5 次：
-   - 空闲的单位；
-   - 正在执行原生进攻任务的单位；
-   - 矿车附近防守的单位。
-3. 每次记录：单位是否开始执行；多少秒后被原生 AI 改回去（或者一直没被改）；最终停在哪里。
-4. 再对攻击命令（`act=attack`，目标是视野内的敌方单位）重复一次。
+1. 开一局普通遭遇战：无限岛，弈核 AI 席位设置和第 1 轮一样（大厅第 2 位、苏军），对手中等。**不启动弈核客户端。**
+2. 进局后用 `injector.exe` 注入 Ra3-Copilot，确认 `curl http://127.0.0.1:17832/ping` 返回 `pong`。
+3. 用 `python -X utf8 benchmark\r1_override.py units --owner <N>` 找到弈核 AI 席位的单位。`<N>` 是 Ra3-Copilot 报告的归属序号，先用 `/snapshot` 确认是哪个序号对应弈核 AI 席位，不要默认是 3。
+4. 分三种情况，每种移动和攻击各 5 次：
+   - `idle`：基地里空闲的单位；
+   - `attacking`：正在执行原生进攻任务的单位；
+   - `defending`：矿车附近防守的单位。
 
-**完成标准**：得到一张表：情况 × 命令类型 → 被覆盖的比例和平均时间。不做解读，原样报告。
+   移动：`python -X utf8 benchmark\r1_override.py trial --owner <N> --unit <thing> --situation idle --act move`（默认往 +x 方向 400，可用 `--dx/--dy` 或 `--x/--y` 指定，目标点要可通行）。
+
+   攻击：加 `--act attack --target <敌方 thing>`。目标必须是弈核 AI 当时视野内能看到的敌方单位。
+
+   每次记录 60 秒轨迹，追加到 `r1-trials.jsonl`。
+5. 跑完后 `python -X utf8 benchmark\r1_override.py summary` 生成表格。
+
+**完成标准**：把 `summary` 表格和 `r1-trials.jsonl` 附在报告里。脚本的判定是启发式的（离目标越来越远并持续 1.5 秒算被覆盖），有明显误判的单次，在报告里标出来即可，不要改脚本去凑。
 
 **下一步怎么走由这张表决定**：
 - 很少被覆盖：直接进入 R2。
