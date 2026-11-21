@@ -21,6 +21,22 @@
   MessageBox MB_OK|MB_ICONEXCLAMATION "Stop the commander, wait for independent return, then exit the game before updating. Unverified history blocks installation. No application files were replaced."
   Abort
   tacticore_install_clear:
+!ifdef TACTICORE_GUARD_BINARY
+  ; A runtime must contain exactly the files in its manifest. Keep the old
+  ; directory as a backup so obsolete files cannot survive inside the new one.
+  IfFileExists "$INSTDIR\runtime\*.*" 0 tacticore_runtime_ready
+  ClearErrors
+  GetTempFileName $2 "$INSTDIR"
+  IfErrors tacticore_runtime_archive_failed
+  Delete "$2"
+  IfErrors tacticore_runtime_archive_failed
+  Rename "$INSTDIR\runtime" "$2-runtime-previous"
+  IfErrors tacticore_runtime_archive_failed tacticore_runtime_ready
+  tacticore_runtime_archive_failed:
+  MessageBox MB_OK|MB_ICONEXCLAMATION "The previous runtime could not be moved. Close Tacticore and try again."
+  Abort
+  tacticore_runtime_ready:
+!endif
   SetOutPath "$INSTDIR"
 !macroend
 

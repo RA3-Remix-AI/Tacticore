@@ -41,7 +41,11 @@ if (-not $SkipTests) {
     $oldRequired = $env:TACTICORE_REQUIRE_FRAMEWORK
     Push-Location $repo
     try {
-        $env:PYTHONPATH = (Join-Path $PSScriptRoot 'src') + ';' + (Join-Path $repo 'strategy')
+        $env:PYTHONPATH = @(
+            (Join-Path $PSScriptRoot 'src')
+            (Join-Path $repo 'strategy')
+            (Join-Path $repo 'integration')
+        ) -join ';'
         $env:PYTHONDONTWRITEBYTECODE = '1'
         $env:PYDANTIC_AI_NO_BANNER = '1'
         $env:TACTICORE_REQUIRE_FRAMEWORK = '1'
