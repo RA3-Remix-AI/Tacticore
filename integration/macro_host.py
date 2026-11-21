@@ -206,13 +206,13 @@ class MacroHost:
     def event(self, kind, **facts):
         if kind.endswith("_prepared") and facts.get("plan_id") and facts.get("command_id"):
             self.prepared_macro_commands[facts["plan_id"]] = facts["command_id"]
-        value = dict(
-            session_id=self.binding.session_id,
-            player_id=3,
-            commander_id=self.binding.commander_id,
-            wall_seconds=round(time.monotonic() - self.started, 3),
+        value = {
             **facts,
-        )
+            "session_id": self.binding.session_id,
+            "player_id": 3,
+            "commander_id": self.binding.commander_id,
+            "wall_seconds": round(time.monotonic() - self.started, 3),
+        }
         self.journal.append_event(
             self.run_id,
             kind,
@@ -556,16 +556,12 @@ class MacroHost:
 
     def layered_context(self):
         """The lawful prepared context the layers read; None when no coherent view exists yet."""
-        from host_runtime.delegation_boundary import restrict_context
-
         try:
             current = self.agent.context(self.agent.latest.model_context(self.agent.engine.binding), commit=False)
-        except Exception:
-            return None
-        try:
             return self.strategy_audit.prepare(current)
-        except Exception:
-            return restrict_context(current)
+        except (ContractError, StrategyContractError) as error:
+            self.event("macro_decision_deferred", reason_code=str(error), stage="layered_observation")
+            return None
 
     def create_layered(self, model_input_limit):
         """Layered mode: the composer stands where the model backend stood in the request audit."""
@@ -866,6 +862,14 @@ class MacroHost:
                         self.check_profile()
                         if self.backend.observation()["real_network_verified"]:
                             self.dispatch_plan(result.plan)
+                        elif self.layered is not None:
+                            self.event(
+                                "macro_plan_not_dispatched",
+                                plan_id=result.plan.plan_id,
+                                reason_code="model_network_unverified",
+                            )
+                    elif self.layered is not None:
+                        self.event("macro_plan_not_dispatched", reason_code=result.reason_code)
                 deferred = getattr(self, "pending_dispatch", None)
                 if deferred is not None:
                     if self.stopping():
@@ -879,8 +883,9 @@ class MacroHost:
                 if self.layered is not None:
                     # Layer calls are not gated by the native minimum time: the pre-match
                     # commander call happens at once. Only composed dispatch waits.
-                    self.layered.tick(self.layered_context(), now, model_allowed=not self.latest["paused"])
-                    due = self.layered.wants_composition(now)
+                    context = self.layered_context()
+                    self.layered.tick(context, now, model_allowed=context is not None and not self.latest["paused"])
+                    due = context is not None and self.layered.wants_composition(now)
                 else:
                     due = time.monotonic() - last_request >= 12
                 ready = (

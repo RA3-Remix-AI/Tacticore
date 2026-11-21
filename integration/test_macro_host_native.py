@@ -6,6 +6,7 @@ Artificial controller/transport; no Game, native call or provider request.
 import json
 from pathlib import Path
 import tempfile
+import time
 from types import SimpleNamespace
 import unittest
 import uuid
@@ -161,6 +162,57 @@ class HostResult(unittest.TestCase):
 
 
 class HostControl(unittest.TestCase):
+    def test_layer_world_waits_for_the_audit_instead_of_reading_missing_census_as_zero(self):
+        host = MacroHost.__new__(MacroHost)
+        raw = {"game_time_seconds": 285.9}
+        prepared = dict(raw, own_forces={"economic_unit_presence_counts": {"ore_collector": 3}})
+        host.agent = SimpleNamespace(
+            context=lambda request, commit: raw,
+            latest=SimpleNamespace(model_context=lambda binding: {}),
+            engine=SimpleNamespace(binding=None),
+        )
+        events = []
+        host.event = lambda kind, **facts: events.append((kind, facts))
+
+        def stale(_raw):
+            raise ContractError("unified_current_feedback_invalid_or_stale")
+
+        host.strategy_audit = SimpleNamespace(prepare=stale)
+        self.assertIsNone(host.layered_context())
+        self.assertEqual(
+            events,
+            [
+                (
+                    "macro_decision_deferred",
+                    {
+                        "reason_code": "unified_current_feedback_invalid_or_stale",
+                        "stage": "layered_observation",
+                    },
+                ),
+            ],
+        )
+        host.strategy_audit.prepare = lambda _raw: prepared
+        self.assertIs(host.layered_context(), prepared)
+
+    def test_model_backend_events_preserve_the_host_binding(self):
+        with tempfile.TemporaryDirectory() as output:
+            host = MacroHost.__new__(MacroHost)
+            host.output = Path(output)
+            host.started = time.monotonic()
+            host.latest = None
+            host.run_id = "run"
+            host.binding = SimpleNamespace(session_id="session", commander_id="commander")
+            events = []
+            host.journal = SimpleNamespace(append_event=lambda *args, **kwargs: events.append(args))
+
+            host.event("commander_model_backend_constructed", commander_id="profile", stage="backend_constructed")
+
+            event = json.loads((host.output / "host-events.jsonl").read_text(encoding="utf8"))
+            self.assertEqual(event["commander_id"], "commander")
+            self.assertEqual(event["session_id"], "session")
+            self.assertEqual(event["stage"], "backend_constructed")
+            self.assertEqual(events[0][2]["commander_id"], "commander")
+
     def test_offered_actions_follow_the_scope_the_controller_and_pause(self):
         host = MacroHost.__new__(MacroHost)
         host.strategic_only = True

@@ -685,7 +685,7 @@ def structure_diagnostics(policy, context):
         )
 
     diagnostics = {"json_object": isinstance(policy, dict)}
-    if not isinstance(policy, dict):
+    if not isinstance(policy, dict) or context.get("decision_layer") is not None:
         return diagnostics
     for name, allowed in [
         ("stance", STANCES),

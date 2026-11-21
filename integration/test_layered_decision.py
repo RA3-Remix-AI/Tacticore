@@ -455,6 +455,28 @@ class OpeningTests(unittest.TestCase):
 
 
 class SchedulerTests(unittest.IsolatedAsyncioTestCase):
+    async def test_unavailable_view_does_not_schedule_or_invent_economic_losses(self):
+        backend = FakeBackend()
+        subject = decider(backend=backend)
+        await settle(subject, context(at=2.0, collectors=3), 2.0)
+        seen = context(at=60.0, collectors=3, enemy_groups=[group("region_2_2", "structure", seen=60.0)])
+        await settle(subject, seen, 60.0)
+        count = len(backend.calls)
+        subject.tick(None, 151.0, model_allowed=False)
+        await asyncio.sleep(0)
+        self.assertEqual(len(backend.calls), count)
+        self.assertEqual(subject.world.ore_collectors, 3)
+
+        await settle(subject, context(at=152.0, collectors=3), 152.0)
+        self.assertGreater(len(backend.calls), count)
+        self.assertFalse(
+            any(row["kind"] in ("ore_collector_lost", "expansion_changed") for row in subject.recent_events)
+        )
+
+        await settle(subject, context(at=158.0, collectors=0), 158.0)
+        losses = [row["lost"] for row in subject.recent_events if row["kind"] == "ore_collector_lost"]
+        self.assertEqual(losses, [3])
+
     async def test_prematch_commander_then_opening_then_layers_on_cadence(self):
         backend = FakeBackend(replies=dict(commander=dict(directive(), opening_variant="hammer_fast_expand")))
         backend.replies.update(economy=ECONOMY, tactical=TACTICAL)

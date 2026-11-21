@@ -60,6 +60,47 @@ def example(prompt):
 
 
 class NativePromptBudgetTests(unittest.IsolatedAsyncioTestCase):
+    async def test_layered_sdk_response_does_not_need_single_policy_fields(self):
+        async def transport(request):
+            prompt = json.loads(request.content)["messages"][0]["content"]
+            return httpx2.Response(
+                200,
+                json={
+                    "id": "offline-layered",
+                    "object": "chat.completion",
+                    "created": 1,
+                    "model": "fixture-model",
+                    "choices": [
+                        {
+                            "index": 0,
+                            "finish_reason": "stop",
+                            "message": {"role": "assistant", "content": json.dumps(example(prompt))},
+                        }
+                    ],
+                },
+            )
+
+        backend = NetworkBackend(
+            profile(),
+            timeout=4,
+            max_tokens=2048,
+            max_input_bytes=16384,
+            max_inflight=1,
+            module=pydantic_backend,
+            transport=httpx2.MockTransport(transport),
+        )
+        for layer in ("commander", "economy", "tactical"):
+            with self.subTest(layer=layer):
+                value = {
+                    "commander_id": COMMANDER,
+                    "player_id": 3,
+                    "decision_layer": layer,
+                    "options": {"enemies": [4]},
+                }
+                result = await backend.run(PolicyRequest(value))
+                self.assertEqual(result, example(system_prompt(profile(), value)))
+                self.assertEqual(backend.last_diagnostics, {"json_object": True})
+
     def test_strategic_example_explains_observation_based_finite_lifetime(self):
         text = system_prompt(profile(), context())
         self.assertEqual(example(text)["valid_for_game_seconds"], 60)
