@@ -134,40 +134,43 @@ def main(argv=None):
         "--visually-confirmed", action="store_true", help="the result was checked on the game end screen"
     )
     args = parser.parse_args(argv)
-    args.run_dir.mkdir(parents=True, exist_ok=True)
-    tag = write_tag(
-        args.run_dir,
-        arm=args.arm,
-        map_id=args.map_id,
-        opponent_difficulty=args.opponent_difficulty,
-        prompt_version=args.prompt_version,
-        model=args.model,
-        label=args.label,
-    )
-    print(json.dumps(dict(tag=tag), ensure_ascii=False))
-    if args.native_state is None and args.result is None:
-        return 0
+    end = None
     try:
-        if args.native_state is not None:
-            opponents = tuple(int(value) for value in args.opponents.split(",") if value.strip())
-            result, seconds = result_from_native_state(args.native_state, player_id=args.player, opponent_ids=opponents)
-            source = "native_result_slots"
-        else:
-            result, seconds, source = manual_result(args.result, player_id=args.player), None, "manual_entry"
-        end = record_match_end(
+        args.run_dir.mkdir(parents=True, exist_ok=True)
+        if args.native_state is not None or args.result is not None:
+            if args.native_state is not None:
+                opponents = tuple(int(value) for value in args.opponents.split(",") if value.strip())
+                result, seconds = result_from_native_state(
+                    args.native_state, player_id=args.player, opponent_ids=opponents
+                )
+                source = "native_result_slots"
+            else:
+                result, seconds, source = manual_result(args.result, player_id=args.player), None, "manual_entry"
+            end = record_match_end(
+                args.run_dir,
+                result,
+                duration_s=args.duration_s or seconds,
+                source=source,
+                visually_confirmed=args.visually_confirmed,
+                map_id=args.map_id,
+                opponent_difficulty=args.opponent_difficulty,
+                player_id=args.player,
+            )
+        tag = write_tag(
             args.run_dir,
-            result,
-            duration_s=args.duration_s or seconds,
-            source=source,
-            visually_confirmed=args.visually_confirmed,
+            arm=args.arm,
             map_id=args.map_id,
             opponent_difficulty=args.opponent_difficulty,
-            player_id=args.player,
+            prompt_version=args.prompt_version,
+            model=args.model,
+            label=args.label,
         )
     except (OSError, ValueError) as error:
         print("error: " + str(error), file=sys.stderr)
         return 2
-    print(json.dumps(dict(match_end=end), ensure_ascii=False))
+    print(json.dumps(dict(tag=tag), ensure_ascii=False))
+    if end is not None:
+        print(json.dumps(dict(match_end=end), ensure_ascii=False))
     return 0
 
 

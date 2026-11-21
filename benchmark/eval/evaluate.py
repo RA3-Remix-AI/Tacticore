@@ -30,7 +30,7 @@ from host_runtime.decision_log import decision_log_path, read_run_log  # noqa: E
 
 TAG_FILE = "eval-tag.json"
 ARMS = ("baseline_native", "model")
-CONFIG_KEYS = ("arm", "prompt_version", "model", "map", "opponent_difficulty")
+CONFIG_KEYS = ("arm", "prompt_version", "model", "map", "opponent_difficulty", "decision_mode")
 OUTCOME_STATUSES = ("applied", "rejected", "expired", "unknown")
 Z_95 = 1.959963984540054
 
@@ -127,6 +127,7 @@ def load_config(run_dir, run_start):
     if config["arm"] == "baseline_native":
         config["prompt_version"] = None
         config["model"] = None
+    config["decision_mode"] = run_start.get("decision_mode") if config["arm"] == "model" else None
     return config
 
 
@@ -298,7 +299,10 @@ def _num(value, digits=0):
 def _label(config):
     if config["arm"] == "baseline_native":
         return "原生AI基线"
-    return "模型 " + str(config.get("model")) + " / 提示 " + str(config.get("prompt_version"))
+    label = "模型 " + str(config.get("model")) + " / 提示 " + str(config.get("prompt_version"))
+    if config.get("decision_mode"):
+        label += " / " + str(config["decision_mode"])
+    return label
 
 
 def render_markdown(report):

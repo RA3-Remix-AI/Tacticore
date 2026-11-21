@@ -25,7 +25,9 @@ from engine import Decision  # noqa: E402
 MAP = "map_mp_2_feasel6"
 
 
-def model_run(root, name, result, *, rejected=0, applied=2, duration=600.0, prompt="v2", latency=2.0):
+def model_run(
+    root, name, result, *, rejected=0, applied=2, duration=600.0, prompt="v2", latency=2.0, decision_mode="single"
+):
     """A host-like run: battle-host/decisions.jsonl written by the real writer."""
     output = Path(root) / name / "battle-host"
     output.mkdir(parents=True)
@@ -38,6 +40,7 @@ def model_run(root, name, result, *, rejected=0, applied=2, duration=600.0, prom
         model="m1",
         map_id=MAP,
         opponent_difficulty="brutal",
+        decision_mode=decision_mode,
         monotonic=lambda: clock[0],
     )
     writer.start()
@@ -146,6 +149,19 @@ class HarnessTests(unittest.TestCase):
         self.assertEqual(comparison["verdict"], "model_better")
         self.assertLess(comparison["fisher_p_value"], 0.001)
 
+    def test_single_and_layered_compare_separately_to_the_same_baseline(self):
+        runs = [
+            model_run(self.root, "single", "defeat"),
+            model_run(self.root, "layered", "victory", decision_mode="layered"),
+            baseline_run(self.root, "native", "defeat"),
+        ]
+        report = evaluate.evaluate(runs)
+        self.assertEqual(len(report["groups"]), 3)
+        comparisons = {row["model_config"]["decision_mode"]: row for row in report["comparisons"]}
+        self.assertEqual(comparisons["single"]["model_win_rate"], 0)
+        self.assertEqual(comparisons["layered"]["model_win_rate"], 1)
+        self.assertTrue(all(row["baseline_available"] for row in comparisons.values()))
+
     def test_tag_overrides_and_missing_arm_is_refused(self):
         run = model_run(self.root, "tagged", "victory")
         record_result.write_tag(
@@ -200,6 +216,8 @@ class RecordResultTests(unittest.TestCase):
         end = read_run_log(run)["match_end"]
         self.assertEqual((end["result"], end["duration_s"], end["result_source"]), ("defeat", 812, "manual_entry"))
         self.assertTrue(end["visually_confirmed"])
+        tag_path = run / record_result.TAG_FILE
+        original_tag = tag_path.read_bytes()
         with redirect_stdout(io.StringIO()), redirect_stderr(io.StringIO()):
             again = record_result.main(
                 [
@@ -209,12 +227,14 @@ class RecordResultTests(unittest.TestCase):
                     "--map",
                     MAP,
                     "--opponent-difficulty",
-                    "brutal",
+                    "medium",
                     "--result",
                     "victory",
                 ]
             )
         self.assertEqual(again, 2)
+        self.assertEqual(tag_path.read_bytes(), original_tag)
+        self.assertEqual(read_run_log(run)["match_end"], end)
 
     def test_native_state_result_uses_the_participant_mapping(self):
         state = dict(

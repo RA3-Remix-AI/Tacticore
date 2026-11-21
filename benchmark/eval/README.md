@@ -8,7 +8,16 @@
 | --- | --- |
 | `evaluate.py` | 汇总多个已完成对局目录，按配置输出胜率（Wilson 95%区间）、中位时长、决策数、拒绝/未知率、模型延迟，并与原生基线做Fisher精确检验。输出Markdown与JSON。 |
 | `record_result.py` | 给对局目录写配置标签 `eval-tag.json`；对没有宿主日志的原生基线对局，补写只含 `run_start` + `match_end` 的 `decisions.jsonl`。 |
+| `cua_skirmish.js` | 在 Codex Computer Use 中按已确认的屏幕启动、配置无限岛双人局及启用弈核自动发现。 |
 | `test_evaluate.py` | 离线单元测试。 |
+
+## Windows 开局脚本
+
+把 `cua_skirmish.js` 加载到 Codex Computer Use 的 JavaScript 会话，传入已绑定的 Red Alert 3 和弈核窗口来创建 `createSkirmishControls({game, client})`。脚本使用已验证的游戏 2557×1440 和客户端 1363×931 窗口。
+
+先从游戏与 Mod 设置页调用 `launchFromGameSettings()`。在游戏主菜单调用 `gameStep('openSkirmishMenu')`，确认出现遭遇战后调用 `gameStep('enterSkirmish')`。需要时分别选择无限岛、关闭额外席位并指定出生点，按 `cua_skirmish.js` 中的屏幕步骤核对结果。在大厅确认观战席、两名中等电脑、席位与队伍、10000 初始资金和关闭宝箱。
+
+模型组通过 `openMatchPage()` 打开对局页，再调用 `armModelFromMatchPage()`。若该按钮的无障碍节点没有坐标，传入最新截图上按钮的位置。单层组需在启动客户端时配置 `TACTICORE_DECISION_MODE=single`。原生组直接跳过这一步。回到可见的游戏大厅并确认配置后，调用 `gameStep('startVerifiedLobby')`。结算后核对游戏画面和运行日志并记录结果。模型组独立确认归还，原生组确认无指挥宿主，然后用 `leaveVerifiedSettlement({resultConfirmed: true, controlReturned: true})` 从统计页返回主菜单。确认主菜单已显示后，调用 `gameStep('exitFromMainMenu')` 并核对游戏进程退出。
 
 ## 数据来源：decisions.jsonl
 
@@ -32,7 +41,7 @@
 
 - `arm`：`baseline_native`（原生AI独自作战）或 `model`（模型指挥）。
 - 模型对局缺少标签时，从日志的 `run_start` 推断 `arm=model`、提示版本、模型和地图；原生基线对局必须有标签。
-- 同一配置 = (arm, prompt_version, model, map, opponent_difficulty) 全部相同。比较时，模型配置只与**同地图同难度**的基线配对。
+- 同一配置由 `arm`、`prompt_version`、`model`、`map`、`opponent_difficulty` 和 `decision_mode` 共同确定。决策模式以 `run_start` 为准，旧日志缺少该字段时单独汇总。模型配置与**同地图同难度**的基线配对。
 
 ## 操作步骤：同一地图/难度跑 N 局原生 vs N 局模型
 
